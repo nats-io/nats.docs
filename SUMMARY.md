@@ -84,4 +84,4 @@
   * [Explore NATS Pub/Sub](developer/tutorials/pubsub.md)
   * [Explore NATS Request/Reply](developer/tutorials/reqreply.md)
   * [Explore NATS Queueing](developer/tutorials/queues.md)
-
+  * [Benchmarking NATS](developer/tutorials/benchmarking.md)
