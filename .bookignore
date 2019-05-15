@@ -1,0 +1,9 @@
+
+_book/
+_examples/
+tools/
+
+Makefile
+building_the_book.md
+.gitignore
+.bookignore
