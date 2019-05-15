@@ -4,6 +4,10 @@
     "author": "The NATS Maintainers",
     "plugins" : [ "prism", "-highlight", "include-html"],
     "pluginsConfig": {
-        
+        "prism": {
+          "lang": {
+            "ascii": "markup"
+          }
+        }
       }
 }
