@@ -7,26 +7,31 @@
 * [NATS Server](nats_server/README.md)
   * [Installing](nats_server/installation.md)
   * [Running](nats_server/running.md)
+    * [Window Service](nats_server/windows_srv.md)
   * [Clients](nats_server/clients.md)
   * [Flags](nats_server/flags.md)
-  * [Configuration File](nats_server/configuration.md)
+  * [Configuration](nats_server/configuration.md)
     * [Authentication](nats_server/authentication.md)
     * [Authorization](nats_server/authorization.md)
     * [Clustering](nats_server/clustering.md)
     * [TLS Security](nats_server/tls.md)
     * [Logging](nats_server/logging.md)
     * [Monitoring](nats_server/monitoring.md)
-    * [Signals](nats_server/signals.md)
-    * [Window Service](nats_server/windows_srv.md)
-    * [Upgrading a Cluster](nats_server/upgrading.md)
+
+## Managing NATS Server
+* [Upgrading a Cluster](nats_admin/upgrading_cluster.md)
+* [Slow Consumers](nats_admin/slow_consumers.md)
+* [Signals](nats_admin/signals.md)
+
 
 ## Containerization
-  * [NATS.docker](nats_docker/README.md)
+* [NATS.docker](nats_docker/README.md)
   * [Tutorial](nats_docker/tutorial.md)
 
 ## NATS Tools
-  * [NATS Top](nats_tools/nats_top/README.md)
-    * [Tutorial](nats_tools/nats_top/tutorial.md)
+* [NATS Top](nats_tools/nats_top/README.md)
+  * [Tutorial](nats_tools/nats_top/tutorial.md)
+* [Benchmarking](nats_tools/natsbench.md)
 
 ## Developing With NATS
 
@@ -85,3 +90,11 @@
   * [Explore NATS Request/Reply](developer/tutorials/reqreply.md)
   * [Explore NATS Queueing](developer/tutorials/queues.md)
   * [Benchmarking NATS](developer/tutorials/benchmarking.md)
+
+## NATS Protocol
+* [Protocol Demo](nats_protocol/nats-protocol-demo.md)
+* [Client Protocol](nats_protocol/nats-protocol.md)
+  * [Developing a Client](nats_protocol/nats-client-dev.md)
+* [NATS Cluster Protocol](nats_protocol/nats-server-protocol.md)
+
+

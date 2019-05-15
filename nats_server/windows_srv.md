@@ -25,3 +25,5 @@ The above commands will default to controlling the `nats-server` service. If the
 ```batch
 nats-server.exe -sl stop=<service name>
 ```
+
+For a complete list of signals, see [process signaling](/nats_admin/signals.md).

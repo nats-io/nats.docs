@@ -23,7 +23,7 @@ The configuration flags revolve around:
 | `-m`, `--http_port` | HTTP port for monitoring dashboard (exclusive of `--https_port`). |
 | `-ms`, `--https_port` | HTTPS port monitoring for monitoring dashboard (exclusive of `--http_port`). |
 | `-c`, `--config` | Path to NATS server configuration file. |
-| `-sl`, `--signal` | Send a signal to nats-server process. See [process signaling](signals.md). |
+| `-sl`, `--signal` | Send a signal to nats-server process. See [process signaling](/nats_admin/signals.md). |
 | `--client_advertise` | Client HostPort to advertise to other servers. |
 | `-t` | Test configuration and exit |
 

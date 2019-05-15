@@ -32,3 +32,5 @@ If you are running your NATS server in a docker container:
 [1] 2019/05/13 14:55:11.982492 [INF] Listening for route connections on 0.0.0.0:6222
 ...
 ```
+
+More information on [containerized NATS is available here](/nats_docker/README.md).
