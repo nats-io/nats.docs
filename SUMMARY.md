@@ -5,7 +5,6 @@
 ## Administering NATS
 
 * [NATS Server](nats_server/README.md)
-* [NATS Server](nats_server/README.md)
   * [Installing](nats_server/installation.md)
   * [Running](nats_server/running.md)
   * [Clients](nats_server/clients.md)
