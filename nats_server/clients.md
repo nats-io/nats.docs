@@ -13,7 +13,7 @@ If you have a client library installed you can try using a bundled client. Other
 
 ### Or download a zip file
 
-You can pre-built binaries from the [go-nats-examples repo](https://github.com/nats-io/go-nats-examples/releases/tag/0.0.50)
+You can install pre-built binaries from the [go-nats-examples repo](https://github.com/nats-io/go-nats-examples/releases/tag/0.0.50)
 
 
 ### Testing your setup

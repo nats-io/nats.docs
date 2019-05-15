@@ -5,9 +5,23 @@
 ## Administering NATS
 
 * [NATS Server](nats_server/README.md)
+* [NATS Server](nats_server/README.md)
   * [Installing](nats_server/installation.md)
   * [Running](nats_server/running.md)
   * [Clients](nats_server/clients.md)
+  * [Flags](nats_server/flags.md)
+  * [Configuration File](nats_server/configuration.md)
+    * [Authentication](nats_server/authentication.md)
+    * [Authorization](nats_server/authorization.md)
+    * [Clustering](nats_server/clustering.md)
+    * [TLS Security](nats_server/tls.md)
+    * [Logging](nats_server/logging.md)
+    * [Monitoring](nats_server/monitoring.md)
+      * [Statistics](nats_server/natstop.md)
+        * [NATS Top Tutorial](nats_server/nats_top_tutorial.md)
+    * [Signals](nats_server/signals.md)
+    * [Window Service](nats_server/windows_srv.md)
+    * [Upgrading a Cluster](nats_server/upgrading.md)
 
 ## Developing With NATS
 
@@ -65,3 +79,4 @@
   * [Explore NATS Pub/Sub](developer/tutorials/pubsub.md)
   * [Explore NATS Request/Reply](developer/tutorials/reqreply.md)
   * [Explore NATS Queueing](developer/tutorials/queues.md)
+
