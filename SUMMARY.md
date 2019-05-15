@@ -2,9 +2,8 @@
 
 * [Introduction](README.md)
 
-## Administering NATS
-
-* [NATS Server](nats_server/README.md)
+## NATS Server
+* [Basics](nats_server/README.md)
   * [Installing](nats_server/installation.md)
   * [Running](nats_server/running.md)
     * [Window Service](nats_server/windows_srv.md)
@@ -18,20 +17,26 @@
     * [Logging](nats_server/logging.md)
     * [Monitoring](nats_server/monitoring.md)
 
-## Managing NATS Server
-* [Upgrading a Cluster](nats_admin/upgrading_cluster.md)
-* [Slow Consumers](nats_admin/slow_consumers.md)
-* [Signals](nats_admin/signals.md)
+### Managing A NATS Server
+  * [Upgrading a Cluster](nats_admin/upgrading_cluster.md)
+  * [Slow Consumers](nats_admin/slow_consumers.md)
+  * [Signals](nats_admin/signals.md)
 
-
-## Containerization
-* [NATS.docker](nats_docker/README.md)
-  * [Tutorial](nats_docker/tutorial.md)
-
-## NATS Tools
+### NATS Tools
 * [NATS Top](nats_tools/nats_top/README.md)
   * [Tutorial](nats_tools/nats_top/tutorial.md)
 * [Benchmarking](nats_tools/natsbench.md)
+
+### NATS Containerization
+* [NATS.docker](nats_docker/README.md)
+  * [Tutorial](nats_docker/tutorial.md)
+
+## NATS Streaming Server
+* [Basics](nats_streaming/nats-streaming-intro.md)
+* [Installing](nats_streaming/nats-streaming-install.md)
+  * [Securing](nats_streaming/nats-streaming-tls.md)
+* [Protocol](nats_streaming/nats-streaming-protocol.md)
+* [Docker Swarm](nats_streaming/nats-streaming-swarm.md)
 
 ## Developing With NATS
 
