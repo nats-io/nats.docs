@@ -16,11 +16,17 @@
     * [TLS Security](nats_server/tls.md)
     * [Logging](nats_server/logging.md)
     * [Monitoring](nats_server/monitoring.md)
-      * [Statistics](nats_server/natstop.md)
-        * [NATS Top Tutorial](nats_server/nats_top_tutorial.md)
     * [Signals](nats_server/signals.md)
     * [Window Service](nats_server/windows_srv.md)
     * [Upgrading a Cluster](nats_server/upgrading.md)
+
+## Containerization
+  * [NATS.docker](nats_docker/README.md)
+  * [Tutorial](nats_docker/tutorial.md)
+
+## NATS Tools
+  * [NATS Top](nats_tools/nats_top/README.md)
+    * [Tutorial](nats_tools/nats_top/tutorial.md)
 
 ## Developing With NATS
 
