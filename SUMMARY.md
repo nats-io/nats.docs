@@ -9,3 +9,5 @@
 		* [Configuration File](nats_server/configuration.md)
 		* [Signals](nats_server/signals.md)
 		* [Window Service](nats_server/windows_srv.md)
+* [Developing with NATS](developer/README.md)
+  * [Connecting](developer/connecting.md)

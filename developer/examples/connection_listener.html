@@ -1,0 +1,178 @@
+
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="connection_listener_go" name="connection_listener" class="tab" checked>
+	
+	<label for="connection_listener_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="connection_listener_java" name="connection_listener" class="tab">
+	
+	<label for="connection_listener_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="connection_listener_js" name="connection_listener" class="tab">
+	
+	<label for="connection_listener_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="connection_listener_py" name="connection_listener" class="tab">
+	
+	<label for="connection_listener_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="connection_listener_ruby" name="connection_listener" class="tab">
+	
+	<label for="connection_listener_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="connection_listener_ts" name="connection_listener" class="tab">
+	
+	<label for="connection_listener_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="connection_listener_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/notapplicable.txt#L5-14"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">// There is not a single listener for connection events in the NATS Go Client.
+// Instead, you can set individual event handlers using:
+
+DisconnectHandler(cb ConnHandler)
+ReconnectHandler(cb ConnHandler)
+ClosedHandler(cb ConnHandler)
+DiscoveredServersHandler(cb ConnHandler)
+ErrorHandler(cb ErrHandler)
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connection_listener_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/SetConnectionListener.java#L8-33"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java">class MyConnectionListener implements ConnectionListener {
+    public void connectionEvent(Connection natsConnection, Events event) {
+        System.out.println(&#34;Connection event - &#34;&#43;event);
+    }
+}
+
+public class SetConnectionListener {
+    public static void main(String[] args) {
+
+        try {
+            Options options = new Options.Builder().
+                                        server(&#34;nats://demo.nats.io:4222&#34;).
+                                        connectionListener(new MyConnectionListener()). // Set the listener
+                                        build();
+            Connection nc = Nats.connect(options);
+
+            // Do something with the connection
+
+            nc.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connection_listener_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/event_samples.js#L11-41"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = NATS.connect(&#34;nats://demo.nats.io:4222&#34;);
+
+nc.on(&#39;error&#39;, (err) =&gt; {
+    t.log(&#39;error&#39;, err);
+});
+
+nc.on(&#39;connect&#39;, () =&gt; {
+    t.log(&#39;client connected&#39;);
+});
+
+nc.on(&#39;disconnect&#39;, () =&gt; {
+    t.log(&#39;client disconnected&#39;);
+});
+
+nc.on(&#39;reconnecting&#39;, () =&gt; {
+    t.log(&#39;client reconnecting&#39;);
+});
+
+nc.on(&#39;reconnect&#39;, () =&gt; {
+    t.log(&#39;client reconnected&#39;);
+});
+
+nc.on(&#39;close&#39;, () =&gt; {
+    t.log(&#39;client closed&#39;);
+});
+
+nc.on(&#39;permission_error&#39;, (err) =&gt; {
+    t.log(&#39;permission_error&#39;, err);
+});
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connection_listener_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/notapplicable.txt#L17-42"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python"># Asyncio NATS client can be defined a number of event callbacks
+async def disconnected_cb():
+    print(&#34;Got disconnected!&#34;)
+
+async def reconnected_cb():
+    # See who we are connected to on reconnect.
+    print(&#34;Got reconnected to {url}&#34;.format(url=nc.connected_url.netloc))
+
+async def error_cb(e):
+    print(&#34;There was an error: {}&#34;.format(e))
+
+async def closed_cb():
+    print(&#34;Connection is closed&#34;)
+
+# Setup callbacks to be notified on disconnects and reconnects
+options[&#34;disconnected_cb&#34;] = disconnected_cb
+options[&#34;reconnected_cb&#34;] = reconnected_cb
+
+# Setup callbacks to be notified when there is an error
+# or connection is closed.
+options[&#34;error_cb&#34;] = error_cb
+options[&#34;closed_cb&#34;] = closed_cb
+
+await nc.connect(**options)
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connection_listener_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/notapplicable.txt#L29-44"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby"># There is not a single listener for connection events in the Ruby NATS Client.
+# Instead, you can set individual event handlers using:
+
+NATS.on_disconnect do
+end
+
+NATS.on_reconnect do
+end
+
+NATS.on_close do
+end
+
+NATS.on_error do
+end
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connection_listener_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/event_samples.ts#L7-27"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// connect will happen once - the first connect
+nc.on(&#39;connect&#39;, (nc) =&gt; {
+    // nc is the connection that connected
+    t.log(&#39;client connected&#39;);
+});
+
+nc.on(&#39;disconnect&#39;, (url) =&gt; {
+    // nc is the connection that reconnected
+    t.log(&#39;disconnected from&#39;, url);
+});
+
+nc.on(&#39;reconnecting&#39;, (url) =&gt; {
+    t.log(&#39;reconnecting to&#39;, url);
+});
+
+nc.on(&#39;reconnect&#39;, (nc, url) =&gt; {
+    // nc is the connection that reconnected
+    t.log(&#39;reconnected to&#39;, url);
+});
+</code></pre>
+	</div>
+	
+</div>

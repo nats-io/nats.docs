@@ -1,0 +1,118 @@
+
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="reconnect_no_random_go" name="reconnect_no_random" class="tab" checked>
+	
+	<label for="reconnect_no_random_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="reconnect_no_random_java" name="reconnect_no_random" class="tab">
+	
+	<label for="reconnect_no_random_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="reconnect_no_random_js" name="reconnect_no_random" class="tab">
+	
+	<label for="reconnect_no_random_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="reconnect_no_random_py" name="reconnect_no_random" class="tab">
+	
+	<label for="reconnect_no_random_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="reconnect_no_random_ruby" name="reconnect_no_random" class="tab">
+	
+	<label for="reconnect_no_random_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="reconnect_no_random_ts" name="reconnect_no_random" class="tab">
+	
+	<label for="reconnect_no_random_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="reconnect_no_random_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/reconnect_no_random/main.go#L11-25"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">servers := []string{&#34;nats://localhost:1222&#34;,
+	&#34;nats://localhost:1223&#34;,
+	&#34;nats://localhost:1224&#34;,
+}
+
+nc, err := nats.Connect(strings.Join(servers, &#34;,&#34;), nats.DontRandomize())
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+// Do something with the connection
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_no_random_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/ReconnectNoRandom.java#L11-21"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java">Options options = new Options.Builder().
+                            server(&#34;nats://demo.nats.io:4222&#34;).
+                            noRandomize(). // Disable reconnect shuffle
+                            build();
+Connection nc = Nats.connect(options);
+
+// Do something with the connection
+
+nc.close();
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_no_random_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/reconnect_samples.js#L6-13"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = NATS.connect({
+    noRandomize: false,
+    servers: [&#34;nats://127.0.0.1:4443&#34;,
+        &#34;nats://demo.nats.io:4222&#34;
+    ]
+});
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_no_random_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/reconnect_no_random.py#L5-20"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc = NATS()
+await nc.connect(
+   servers=[
+      &#34;nats://demo.nats.io:1222&#34;,
+      &#34;nats://demo.nats.io:1223&#34;,
+      &#34;nats://demo.nats.io:1224&#34;
+      ],
+   dont_randomize=True,
+   )
+
+# Do something with the connection
+
+await nc.close()
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_no_random_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/reconnect_no_random.rb#L1-10"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby">require &#39;nats/client&#39;
+
+NATS.start(servers: [&#34;nats://127.0.0.1:1222&#34;, &#34;nats://127.0.0.1:1223&#34;, &#34;nats://127.0.0.1:1224&#34;], dont_randomize_servers: true) do |nc|
+   # Do something with the connection
+
+   # Close the connection
+   nc.close
+end
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_no_random_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/reconnect_samples.ts#L6-15"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// will throw an exception if connection fails
+let nc = await connect({
+    noRandomize: false,
+    servers: [&#34;nats://127.0.0.1:4443&#34;,
+        &#34;nats://demo.nats.io:4222&#34;
+    ]
+});
+nc.close();
+</code></pre>
+	</div>
+	
+</div>

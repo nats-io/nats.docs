@@ -1,0 +1,166 @@
+
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="drain_sub_go" name="drain_sub" class="tab" checked>
+	
+	<label for="drain_sub_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="drain_sub_java" name="drain_sub" class="tab">
+	
+	<label for="drain_sub_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="drain_sub_js" name="drain_sub" class="tab">
+	
+	<label for="drain_sub_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="drain_sub_py" name="drain_sub" class="tab">
+	
+	<label for="drain_sub_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="drain_sub_ruby" name="drain_sub" class="tab">
+	
+	<label for="drain_sub_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="drain_sub_ts" name="drain_sub" class="tab">
+	
+	<label for="drain_sub_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="drain_sub_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/drain_sub/main.go#L13-67"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">
+	nc, err := nats.Connect(&#34;demo.nats.io&#34;)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer nc.Close()
+
+	done := sync.WaitGroup{}
+	done.Add(1)
+
+	count := 0
+	errCh := make(chan error, 1)
+
+	msgAfterDrain := &#34;not this one&#34;
+
+	// This callback will process each message slowly
+	sub, err := nc.Subscribe(&#34;updates&#34;, func(m *nats.Msg) {
+		if string(m.Data) == msgAfterDrain {
+			errCh &lt;- fmt.Errorf(&#34;Should not have received this message&#34;)
+			return
+		}
+		time.Sleep(100 * time.Millisecond)
+		count&#43;&#43;
+		if count == 2 {
+			done.Done()
+		}
+	})
+
+	// Send 2 messages
+	for i := 0; i &lt; 2; i&#43;&#43; {
+		nc.Publish(&#34;updates&#34;, []byte(&#34;hello&#34;))
+	}
+
+	// Call Drain on the subscription. It unsubscribes but
+	// wait for all pending messages to be processed.
+	if err := sub.Drain(); err != nil {
+		log.Fatal(err)
+	}
+
+	// Send one more message, this message should not be received
+	nc.Publish(&#34;updates&#34;, []byte(msgAfterDrain))
+
+	// Wait for the subscription to have processed the 2 messages.
+	done.Wait()
+
+	// Now check that the 3rd message was not received
+	select {
+	case e := &lt;-errCh:
+		log.Fatal(e)
+	case &lt;-time.After(200 * time.Millisecond):
+		// OK!
+	}
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="drain_sub_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/DrainSub.java#L16-43"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java">Connection nc = Nats.connect(&#34;nats://demo.nats.io:4222&#34;);
+
+// Use a latch to wait for a message to arrive
+CountDownLatch latch = new CountDownLatch(1);
+
+// Create a dispatcher and inline message handler
+Dispatcher d = nc.createDispatcher((msg) -&gt; {
+    String str = new String(msg.getData(), StandardCharsets.UTF_8);
+    System.out.println(str);
+    latch.countDown();
+});
+
+// Subscribe
+d.subscribe(&#34;updates&#34;);
+
+// Wait for a message to come in
+latch.await();
+
+// Messages that have arrived will be processed
+CompletableFuture&lt;Boolean&gt; drained = d.drain(Duration.ofSeconds(10));
+
+// Wait for the drain to complete
+drained.get();
+
+// Close the connection
+nc.close();
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="drain_sub_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/subscriber_samples.js#L232-234"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// Drain subscription is not supported.
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="drain_sub_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/drain_sub.py#L1-24"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">import asyncio
+from nats.aio.client import Client as NATS
+
+async def example(loop):
+    nc = NATS()
+
+    await nc.connect(&#34;nats://127.0.0.1:4222&#34;, loop=loop)
+
+    async def handler(msg):
+        print(&#34;[Received] &#34;, msg)
+        await nc.publish(msg.reply, b&#39;I can help&#39;)
+
+        # Can check whether client is in draining state
+        if nc.is_draining:
+            print(&#34;Connection is draining&#34;)
+
+    sid = await nc.subscribe(&#34;help&#34;, &#34;workers&#34;, cb=handler)
+    await nc.flush()
+
+    # Gracefully unsubscribe the subscription
+    await nc.drain(sid)
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="drain_sub_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/notapplicable.txt#L9-11"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby"># There is currently no API to drain a single subscription, the whole connection can be drained though via NATS.drain
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="drain_sub_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/subscriber_samples.ts#L208-212"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let sub = await nc.subscribe(&#39;updates&#39;, (err, msg) =&gt; {
+    t.log(&#39;worker got message&#39;, msg.data);
+}, {queue: &#34;workers&#34;});
+</code></pre>
+	</div>
+	
+</div>
