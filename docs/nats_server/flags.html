@@ -4,11 +4,11 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Flags · GitBook</title>
+        <title>Flags · NATS</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
-        
+        <meta name="author" content="The NATS Maintainers">
         
         
     
@@ -184,6 +184,128 @@
             
 
             
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.1.5.1" data-path="authentication.html">
+            
+                <a href="authentication.html">
+            
+                    
+                    Authentication
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.5.2" data-path="authorization.html">
+            
+                <a href="authorization.html">
+            
+                    
+                    Authorization
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.5.3" data-path="clustering.html">
+            
+                <a href="clustering.html">
+            
+                    
+                    Clustering
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.5.4" data-path="tls.html">
+            
+                <a href="tls.html">
+            
+                    
+                    TLS Security
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.5.5" data-path="logging.html">
+            
+                <a href="logging.html">
+            
+                    
+                    Logging
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.5.6" data-path="monitoring.html">
+            
+                <a href="monitoring.html">
+            
+                    
+                    Monitoring
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.1.5.6.1" data-path="natstop.html">
+            
+                <a href="natstop.html">
+            
+                    
+                    Statistics
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.1.5.6.1.1" data-path="nats_top_tutorial.html">
+            
+                <a href="nats_top_tutorial.html">
+            
+                    
+                    NATS Top Tutorial
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
         </li>
     
         <li class="chapter " data-level="1.1.1.6" data-path="signals.html">
@@ -205,6 +327,19 @@
             
                     
                     Window Service
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.8" data-path="upgrading.html">
+            
+                <a href="upgrading.html">
+            
+                    
+                    Upgrading a Cluster
             
                 </a>
             
@@ -321,7 +456,7 @@
 <tbody>
 <tr>
 <td style="text-align:left"><code>-a</code>, <code>--addr</code></td>
-<td style="text-align:left">Host address to bind to (default: 0.0.0.0) - all interfaces.</td>
+<td style="text-align:left">Host address to bind to (default: <code>0.0.0.0</code> - all interfaces).</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>-p</code>, <code>--port</code></td>
@@ -357,7 +492,33 @@
 </tr>
 </tbody>
 </table>
+<h3 id="authentication-options">Authentication Options</h3>
+<p>The following options control very simple authentication:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Flag</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>--user</code></td>
+<td style="text-align:left">Required <em>username</em> for connections.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--pass</code></td>
+<td style="text-align:left">Required <em>password</em> for connections.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>--auth</code></td>
+<td style="text-align:left">Required <em>authorization token</em> for connections.</td>
+</tr>
+</tbody>
+</table>
+<p>You can read more about <a href="authentication.html">autentication configuration here</a>.</p>
 <h3 id="logging-options">Logging Options</h3>
+<p>The following flags are available on the server to configure logging:</p>
 <table>
 <thead>
 <tr>
@@ -396,29 +557,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="authorization-options">Authorization Options</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Flag</th>
-<th style="text-align:left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>--user</code></td>
-<td style="text-align:left">Required <em>username</em> for connections.</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>--pass</code></td>
-<td style="text-align:left">Required <em>password</em> for connections.</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>--auth</code></td>
-<td style="text-align:left">Required <em>authorization token</em> for connections.</td>
-</tr>
-</tbody>
-</table>
+<p>You can read more about <a href="logging.html">logging configuration here</a>.</p>
 <h3 id="tls-options">TLS Options</h3>
 <table>
 <thead>
@@ -451,6 +590,7 @@
 </tbody>
 </table>
 <h3 id="cluster-options">Cluster Options</h3>
+<p>The following flags are available on the server to configure clustering:</p>
 <table>
 <thead>
 <tr>
@@ -481,6 +621,7 @@
 </tr>
 </tbody>
 </table>
+<p>You can read more about <a href="clustering.html">clustering configuration here</a>.</p>
 <h3 id="common-options">Common Options</h3>
 <table>
 <thead>
@@ -547,7 +688,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Flags","level":"1.1.1.4","depth":3,"next":{"title":"Configuration File","level":"1.1.1.5","depth":3,"path":"nats_server/configuration.md","ref":"nats_server/configuration.md","articles":[]},"previous":{"title":"Clients","level":"1.1.1.3","depth":3,"path":"nats_server/clients.md","ref":"nats_server/clients.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["prism","-highlight","include-html"],"pluginsConfig":{"prism":{},"include-html":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"nats_server/flags.md","mtime":"2019-05-13T21:14:44.370Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-15T15:16:11.909Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Flags","level":"1.1.1.4","depth":3,"next":{"title":"Configuration File","level":"1.1.1.5","depth":3,"path":"nats_server/configuration.md","ref":"nats_server/configuration.md","articles":[{"title":"Authentication","level":"1.1.1.5.1","depth":4,"path":"nats_server/authentication.md","ref":"nats_server/authentication.md","articles":[]},{"title":"Authorization","level":"1.1.1.5.2","depth":4,"path":"nats_server/authorization.md","ref":"nats_server/authorization.md","articles":[]},{"title":"Clustering","level":"1.1.1.5.3","depth":4,"path":"nats_server/clustering.md","ref":"nats_server/clustering.md","articles":[]},{"title":"TLS Security","level":"1.1.1.5.4","depth":4,"path":"nats_server/tls.md","ref":"nats_server/tls.md","articles":[]},{"title":"Logging","level":"1.1.1.5.5","depth":4,"path":"nats_server/logging.md","ref":"nats_server/logging.md","articles":[]},{"title":"Monitoring","level":"1.1.1.5.6","depth":4,"path":"nats_server/monitoring.md","ref":"nats_server/monitoring.md","articles":[{"title":"Statistics","level":"1.1.1.5.6.1","depth":5,"path":"nats_server/natstop.md","ref":"nats_server/natstop.md","articles":[{"title":"NATS Top Tutorial","level":"1.1.1.5.6.1.1","depth":6,"path":"nats_server/nats_top_tutorial.md","ref":"nats_server/nats_top_tutorial.md","articles":[]}]}]}]},"previous":{"title":"Clients","level":"1.1.1.3","depth":3,"path":"nats_server/clients.md","ref":"nats_server/clients.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"include-html":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/flags.md","mtime":"2019-05-15T18:41:01.921Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-15T19:18:57.723Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

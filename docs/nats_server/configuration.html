@@ -4,11 +4,11 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Configuration File · GitBook</title>
+        <title>Configuration File · NATS</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
-        
+        <meta name="author" content="The NATS Maintainers">
         
         
     
@@ -58,7 +58,7 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="signals.html" />
+    <link rel="next" href="authentication.html" />
     
     
     <link rel="prev" href="flags.html" />
@@ -184,6 +184,128 @@
             
 
             
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.1.5.1" data-path="authentication.html">
+            
+                <a href="authentication.html">
+            
+                    
+                    Authentication
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.5.2" data-path="authorization.html">
+            
+                <a href="authorization.html">
+            
+                    
+                    Authorization
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.5.3" data-path="clustering.html">
+            
+                <a href="clustering.html">
+            
+                    
+                    Clustering
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.5.4" data-path="tls.html">
+            
+                <a href="tls.html">
+            
+                    
+                    TLS Security
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.5.5" data-path="logging.html">
+            
+                <a href="logging.html">
+            
+                    
+                    Logging
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.5.6" data-path="monitoring.html">
+            
+                <a href="monitoring.html">
+            
+                    
+                    Monitoring
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.1.5.6.1" data-path="natstop.html">
+            
+                <a href="natstop.html">
+            
+                    
+                    Statistics
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.1.5.6.1.1" data-path="nats_top_tutorial.html">
+            
+                <a href="nats_top_tutorial.html">
+            
+                    
+                    NATS Top Tutorial
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
         </li>
     
         <li class="chapter " data-level="1.1.1.6" data-path="signals.html">
@@ -205,6 +327,19 @@
             
                     
                     Window Service
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.8" data-path="upgrading.html">
+            
+                <a href="upgrading.html">
+            
+                    
+                    Upgrading a Cluster
             
                 </a>
             
@@ -303,8 +438,8 @@
 <p>The NATS server products provide a flexible configuration format that combines the best of traditional formats and newer styles such as JSON and YAML.</p>
 <p>The config file supports the following syntax:</p>
 <ul>
-<li>Lines or options can be commented with <code>#</code> and <code>//</code></li>
-<li>Value assignment can use:<ul>
+<li>Lines can be commented with <code>#</code> and <code>//</code></li>
+<li>Values can be assigned to properties with:<ul>
 <li>Equals sign: <code>foo = 2</code></li>
 <li>Colon: <code>foo: 2</code></li>
 <li>Whitespace: <code>foo 2</code></li>
@@ -321,7 +456,7 @@
 <ul>
 <li>Are block scoped</li>
 <li>Are referenced with a <code>$</code> prefix.</li>
-<li>Can be resolved from the environment</li>
+<li>Can be resolved from the environment variables having the same name</li>
 </ul>
 <blockquote>
 <p>If the environment variable value begins with a number you may have trouble resolving it depending on the server version you are running.</p>
@@ -334,7 +469,8 @@ authorization {
     token: $TOKEN
 }
 </code></pre><p>A similar configuration, but this time, the value is in the environment:</p>
-<pre class="language-"><code>authorization {
+<pre class="language-"><code># TOKEN should be defined in the environment
+authorization {
     token: $TOKEN
 }
 </code></pre><p>export TOKEN=&quot;hello&quot;; nats-server -c /config/file</p>
@@ -370,7 +506,7 @@ authorization {
                 </a>
                 
                 
-                <a href="signals.html" class="navigation navigation-next " aria-label="Next page: Signals">
+                <a href="authentication.html" class="navigation navigation-next " aria-label="Next page: Authentication">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -381,7 +517,7 @@ authorization {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Configuration File","level":"1.1.1.5","depth":3,"next":{"title":"Signals","level":"1.1.1.6","depth":3,"path":"nats_server/signals.md","ref":"nats_server/signals.md","articles":[]},"previous":{"title":"Flags","level":"1.1.1.4","depth":3,"path":"nats_server/flags.md","ref":"nats_server/flags.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["prism","-highlight","include-html"],"pluginsConfig":{"prism":{},"include-html":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"nats_server/configuration.md","mtime":"2019-05-13T21:46:03.611Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-15T15:16:11.909Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Configuration File","level":"1.1.1.5","depth":3,"next":{"title":"Authentication","level":"1.1.1.5.1","depth":4,"path":"nats_server/authentication.md","ref":"nats_server/authentication.md","articles":[]},"previous":{"title":"Flags","level":"1.1.1.4","depth":3,"path":"nats_server/flags.md","ref":"nats_server/flags.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"include-html":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/configuration.md","mtime":"2019-05-15T18:30:54.693Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-15T19:18:57.723Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
