@@ -17,7 +17,7 @@ The configuration flags revolve around:
 
 | Flag | Description |
 | :-------------------- | :-------- |
-| `-a`, `--addr` | Host address to bind to (default: 0.0.0.0) - all interfaces. |
+| `-a`, `--addr` | Host address to bind to (default: `0.0.0.0` - all interfaces). |
 | `-p`, `--port` | NATS client port (default: 4222). |
 | `-P`, `--pid` | File to store the process ID (PID). |
 | `-m`, `--http_port` | HTTP port for monitoring dashboard (exclusive of `--https_port`). |
@@ -29,7 +29,23 @@ The configuration flags revolve around:
 
 
 
+### Authentication Options
+
+The following options control very simple authentication:
+
+| Flag | Description |
+| :-------------------- | :-------- |
+| `--user` | Required _username_ for connections. |
+| `--pass` | Required _password_ for connections. |
+| `--auth` | Required _authorization token_ for connections. |
+
+You can read more about [autentication configuration here](authentication.md).
+
+
 ### Logging Options
+
+The following flags are available on the server to configure logging:
+
 | Flag | Description |
 | :-------------------- | :-------- |
 | `-l`, `--log` | File to redirect log output |
@@ -40,14 +56,7 @@ The configuration flags revolve around:
 | `-V`, `--trace` | Enable protocol trace log messages |
 | `-DV` | Enable both debug and protocol trace messages |
 
-
-### Authorization Options
-
-| Flag | Description |
-| :-------------------- | :-------- |
-| `--user` | Required _username_ for connections. |
-| `--pass` | Required _password_ for connections. |
-| `--auth` | Required _authorization token_ for connections. |
+You can read more about [logging configuration here](logging.md).
 
 
 ### TLS Options
@@ -63,6 +72,9 @@ The configuration flags revolve around:
 
 ### Cluster Options
 
+The following flags are available on the server to configure clustering:
+
+
 | Flag | Description |
 | :-------------------- | :-------- |
 | `--routes` | Comma separated list of cluster URLs to solicit and connect |
@@ -70,6 +82,9 @@ The configuration flags revolve around:
 | `--no_advertise` | Do not advertise known cluster information to clients |
 | `--cluster_advertise` | Cluster URL to advertise to other servers |
 | `--connect_retries` | For implicit routes, number of connect retries |
+
+You can read more about [clustering configuration here](clustering.md).
+
 
 ### Common Options
 

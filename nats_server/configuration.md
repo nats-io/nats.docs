@@ -4,8 +4,8 @@ The NATS server products provide a flexible configuration format that combines t
 
 The config file supports the following syntax:
 
-- Lines or options can be commented with `#` and `//`
-- Value assignment can use:
+- Lines can be commented with `#` and `//`
+- Values can be assigned to properties with:
 	- Equals sign: `foo = 2`
 	- Colon: `foo: 2`
 	- Whitespace: `foo 2`
@@ -21,7 +21,7 @@ Server configurations can specify variables. Variables allow you to reference a 
 Variables:
 - Are block scoped
 - Are referenced with a `$` prefix.
-- Can be resolved from the environment
+- Can be resolved from the environment variables having the same name
 
 > If the environment variable value begins with a number you may have trouble resolving it depending on the server version you are running.
 
@@ -39,6 +39,7 @@ authorization {
 A similar configuration, but this time, the value is in the environment:
 
 ```
+# TOKEN should be defined in the environment
 authorization {
 	token: $TOKEN
 }

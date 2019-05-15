@@ -1,0 +1,186 @@
+
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="publish_with_reply_go" name="publish_with_reply" class="tab" checked>
+	
+	<label for="publish_with_reply_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="publish_with_reply_java" name="publish_with_reply" class="tab">
+	
+	<label for="publish_with_reply_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="publish_with_reply_js" name="publish_with_reply" class="tab">
+	
+	<label for="publish_with_reply_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="publish_with_reply_py" name="publish_with_reply" class="tab">
+	
+	<label for="publish_with_reply_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="publish_with_reply_ruby" name="publish_with_reply" class="tab">
+	
+	<label for="publish_with_reply_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="publish_with_reply_ts" name="publish_with_reply" class="tab">
+	
+	<label for="publish_with_reply_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="publish_with_reply_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/publish_with_reply/main.go#L11-43"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;demo.nats.io&#34;)
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+// Create a unique subject name
+uniqueReplyTo := nats.NewInbox()
+
+// Listen for a single response
+sub, err := nc.SubscribeSync(uniqueReplyTo)
+if err != nil {
+	log.Fatal(err)
+}
+
+// Send the request
+if err := nc.PublishRequest(&#34;time&#34;, uniqueReplyTo, nil); err != nil {
+	log.Fatal(err)
+}
+
+// Read the reply
+msg, err := sub.NextMsg(time.Second)
+if err != nil {
+	log.Fatal(err)
+}
+
+// Use the response
+log.Printf(&#34;Reply: %s&#34;, msg.Data)
+
+// Close the connection
+nc.Close()
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="publish_with_reply_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/PublishWithReply.java#L16-37"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java">Connection nc = Nats.connect(&#34;nats://demo.nats.io:4222&#34;);
+
+// Create a unique subject name
+String uniqueReplyTo = NUID.nextGlobal();
+
+// Listen for a single response
+Subscription sub = nc.subscribe(uniqueReplyTo);
+sub.unsubscribe(1);
+
+// Send the request
+nc.publish(&#34;time&#34;, uniqueReplyTo, null);
+
+// Read the reply
+Message msg = sub.nextMessage(Duration.ofSeconds(1));
+
+// Use the response
+System.out.println(new String(msg.getData(), StandardCharsets.UTF_8));
+
+// Close the connection
+nc.close();
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="publish_with_reply_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/publisher_samples.js#L41-57"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// set up a subscription to process the request
+nc.subscribe(&#39;time&#39;, (msg, reply) =&gt; {
+    if(reply) {
+        nc.publish(reply, new Date().toLocaleTimeString());
+    }
+});
+
+// create a subscription subject that the responding send replies to
+let inbox = NATS.createInbox();
+nc.subscribe(inbox, {max: 1}, (msg) =&gt; {
+    t.log(&#39;the time is&#39;, msg);
+    nc.close();
+});
+
+nc.publish(&#39;time&#39;, &#34;&#34;, inbox);
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="publish_with_reply_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/publish_with_reply.py#L8-27"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc = NATS()
+
+future = asyncio.Future()
+
+async def sub(msg):
+  nonlocal future
+  future.set_result(msg)
+
+await nc.connect(servers=[&#34;nats://demo.nats.io:4222&#34;])
+await nc.subscribe(&#34;time&#34;, cb=sub)
+
+unique_reply_to = new_inbox()
+await nc.publish_request(&#34;time&#34;, unique_reply_to, b&#39;&#39;)
+
+# Use the response
+msg = await asyncio.wait_for(future, 1)
+print(&#34;Reply:&#34;, msg)
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="publish_with_reply_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/publish_with_reply.rb#L1-22"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby">require &#39;nats/client&#39;
+require &#39;fiber&#39;
+
+NATS.start(servers:[&#34;nats://127.0.0.1:4222&#34;]) do |nc|
+  Fiber.new do
+    f = Fiber.current
+
+    nc.subscribe(&#34;time&#34;) do |msg, reply|
+      f.resume msg
+    end
+
+    nc.publish(&#34;time&#34;, &#39;example&#39;, NATS.create_inbox)
+
+    # Use the response
+    msg = Fiber.yield
+    puts &#34;Reply: #{msg}&#34;
+
+  end.resume
+end
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="publish_with_reply_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/publisher_samples.ts#L41-64"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// set up a subscription to process the request
+await nc.subscribe(&#39;time&#39;, (err, msg) =&gt; {
+    if (err) {
+        // this example is running inside of a promise
+        reject();
+        return;
+    }
+    if (msg.reply) {
+        nc.publish(msg.reply, new Date().toLocaleTimeString());
+    }
+});
+
+// create a subscription subject that the responding send replies to
+let inbox = createInbox();
+await nc.subscribe(inbox, (err, msg) =&gt; {
+    t.log(&#39;the time is&#39;, msg.data);
+    // this example is running inside of a promise
+    nc.close();
+    resolve();
+}, {max: 1});
+
+nc.publish(&#39;time&#39;, &#34;&#34;, inbox);
+</code></pre>
+	</div>
+	
+</div>

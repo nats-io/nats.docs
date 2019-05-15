@@ -1,0 +1,17 @@
+{{$n := .Name}}
+<div class="tab-wrap">
+  	{{range .Languages}}
+	{{if .First}}
+	<input type="radio" id="{{$n}}_{{.Language}}" name="{{$n}}" class="tab" checked>
+	{{else}}
+	<input type="radio" id="{{$n}}_{{.Language}}" name="{{$n}}" class="tab">
+	{{end}}
+	<label for="{{$n}}_{{.Language}}" class="api-lang" data-language="{{.Language}}">{{.FormalName}}</label>
+	{{end}}
+
+  	{{range .Languages}}
+	<div class="tab__content">
+	<pre id="{{$n}}_{{.Language}}_content"><a class="toolbar-icons pull-right" target="_blank" href="{{.RepoURL}}"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="{{.SyntaxClass}}">{{.Content}}</code></pre>
+	</div>
+	{{end}}
+</div>

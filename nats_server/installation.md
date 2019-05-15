@@ -19,7 +19,7 @@ Via Docker:
 > docker pull nats-server:latest
 ```
 
-### Installing directly Release Build
+### Installing A Release Build
 
 You can find the latest release of nats-server [here](https://github.com/nats-io/nats-server/releases/latest).
 
@@ -41,13 +41,13 @@ Archive:  nats-server.zip
 
 ### Installing from the source
 
-If you have go installed, installing the binary is very easy:
+If you have go installed, installing the binary is easy:
 
 ```
 > go get github.com/nats-io/nats-server
 ```
 
-This mechanism will always install the latest build on [master](https://github.com/nats-io/nats-server), which almost certainly will not be a released version. If you are a developer and want to play with the the latest, this is the easiest way of obtaining it. 
+This mechanism will install a build of [master](https://github.com/nats-io/nats-server), which almost certainly will not be a released version. If you are a developer and want to play with the the latest, this is the easiest way of obtaining it. 
 
 
 ## Testing Your Installation

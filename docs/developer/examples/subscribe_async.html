@@ -1,0 +1,140 @@
+
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="subscribe_async_go" name="subscribe_async" class="tab" checked>
+	
+	<label for="subscribe_async_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="subscribe_async_java" name="subscribe_async" class="tab">
+	
+	<label for="subscribe_async_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="subscribe_async_js" name="subscribe_async" class="tab">
+	
+	<label for="subscribe_async_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="subscribe_async_py" name="subscribe_async" class="tab">
+	
+	<label for="subscribe_async_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="subscribe_async_ruby" name="subscribe_async" class="tab">
+	
+	<label for="subscribe_async_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="subscribe_async_ts" name="subscribe_async" class="tab">
+	
+	<label for="subscribe_async_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="subscribe_async_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/subscribe_async/main.go#L11-34"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;demo.nats.io&#34;)
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+// Use a WaitGroup to wait for a message to arrive
+wg := sync.WaitGroup{}
+wg.Add(1)
+
+// Subscribe
+if _, err := nc.Subscribe(&#34;updates&#34;, func(m *nats.Msg) {
+	wg.Done()
+}); err != nil {
+	log.Fatal(err)
+}
+
+// Wait for a message to come in
+wg.Wait()
+
+// Close the connection
+nc.Close()
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="subscribe_async_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/SubscribeAsync.java#L14-35"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java">Connection nc = Nats.connect(&#34;nats://demo.nats.io:4222&#34;);
+
+// Use a latch to wait for a message to arrive
+CountDownLatch latch = new CountDownLatch(1);
+
+// Create a dispatcher and inline message handler
+Dispatcher d = nc.createDispatcher((msg) -&gt; {
+    String str = new String(msg.getData(), StandardCharsets.UTF_8);
+    System.out.println(str);
+    latch.countDown();
+});
+
+// Subscribe
+d.subscribe(&#34;updates&#34;);
+
+// Wait for a message to come in
+latch.await(); 
+
+// Close the connection
+nc.close();
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="subscribe_async_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/subscriber_samples.js#L9-13"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">nc.subscribe(&#34;updates&#34;, (msg) =&gt; {
+    t.log(msg);
+});
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="subscribe_async_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/subscribe_async.py#L6-24"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc = NATS()
+
+await nc.connect(servers=[&#34;nats://demo.nats.io:4222&#34;])
+
+future = asyncio.Future()
+
+async def cb(msg):
+  nonlocal future
+  future.set_result(msg)
+
+await nc.subscribe(&#34;updates&#34;, cb=cb)
+await nc.publish(&#34;updates&#34;, b&#39;All is Well&#39;)
+await nc.flush()
+
+# Wait for message to come in
+msg = await asyncio.wait_for(future, 1)
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="subscribe_async_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/subscribe_async.rb#L1-13"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby">require &#39;nats/client&#39;
+
+NATS.start(servers:[&#34;nats://127.0.0.1:4222&#34;]) do |nc|
+  nc.subscribe(&#34;updates&#34;) do |msg|
+    puts msg
+    nc.close
+  end
+
+  nc.publish(&#34;updates&#34;, &#34;All is Well&#34;)
+end
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="subscribe_async_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/subscriber_samples.ts#L9-17"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">nc.subscribe(&#34;updates&#34;, (err, msg) =&gt; {
+    if(err) {
+        console.log(&#39;error&#39;, err);
+    } else {
+        t.log(msg.data);
+    }
+});
+</code></pre>
+	</div>
+	
+</div>

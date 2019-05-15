@@ -1,0 +1,185 @@
+
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="drain_conn_go" name="drain_conn" class="tab" checked>
+	
+	<label for="drain_conn_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="drain_conn_java" name="drain_conn" class="tab">
+	
+	<label for="drain_conn_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="drain_conn_py" name="drain_conn" class="tab">
+	
+	<label for="drain_conn_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="drain_conn_ruby" name="drain_conn" class="tab">
+	
+	<label for="drain_conn_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="drain_conn_ts" name="drain_conn" class="tab">
+	
+	<label for="drain_conn_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="drain_conn_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/drain_conn/main.go#L12-61"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">wg := sync.WaitGroup{}
+wg.Add(1)
+
+errCh := make(chan error, 1)
+
+// To simulate a timeout, you would set the DrainTimeout()
+// to a value less than the time spent in the message callback,
+// so say: nats.DrainTimeout(10*time.Millisecond).
+
+nc, err := nats.Connect(&#34;demo.nats.io&#34;,
+	nats.DrainTimeout(10*time.Second),
+	nats.ErrorHandler(func(_ *nats.Conn, _ *nats.Subscription, err error) {
+		errCh &lt;- err
+	}),
+	nats.ClosedHandler(func(_ *nats.Conn) {
+		wg.Done()
+	}))
+if err != nil {
+	log.Fatal(err)
+}
+
+// Subscribe, but add some delay while processing.
+if _, err := nc.Subscribe(&#34;foo&#34;, func(_ *nats.Msg) {
+	time.Sleep(200 * time.Millisecond)
+}); err != nil {
+	log.Fatal(err)
+}
+
+// Publish a message
+if err := nc.Publish(&#34;foo&#34;, []byte(&#34;hello&#34;)); err != nil {
+	log.Fatal(err)
+}
+
+// Drain the connection, which will close it when done.
+if err := nc.Drain(); err != nil {
+	log.Fatal(err)
+}
+
+// Wait for the connection to be closed.
+wg.Wait()
+
+// Check if there was an error
+select {
+case e := &lt;-errCh:
+	log.Fatal(e)
+default:
+}
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="drain_conn_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/DrainConn.java#L16-40"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java">Connection nc = Nats.connect(&#34;nats://demo.nats.io:4222&#34;);
+
+// Use a latch to wait for a message to arrive
+CountDownLatch latch = new CountDownLatch(1);
+
+// Create a dispatcher and inline message handler
+Dispatcher d = nc.createDispatcher((msg) -&gt; {
+    String str = new String(msg.getData(), StandardCharsets.UTF_8);
+    System.out.println(str);
+    latch.countDown();
+});
+
+// Subscribe
+d.subscribe(&#34;updates&#34;);
+
+// Wait for a message to come in
+latch.await();
+
+// Drain the connection, which will close it
+CompletableFuture&lt;Boolean&gt; drained = nc.drain(Duration.ofSeconds(10));
+
+// Wait for the drain to complete
+drained.get();
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="drain_conn_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/drain_conn.py#L1-34"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">import asyncio
+from nats.aio.client import Client as NATS
+
+async def example(loop):
+    nc = NATS()
+
+    await nc.connect(&#34;nats://127.0.0.1:4222&#34;, loop=loop)
+
+    async def handler(msg):
+        print(&#34;[Received] &#34;, msg)
+        await nc.publish(msg.reply, b&#39;I can help&#39;)
+
+        # Can check whether client is in draining state
+        if nc.is_draining:
+            print(&#34;Connection is draining&#34;)
+
+    await nc.subscribe(&#34;help&#34;, &#34;workers&#34;, cb=handler)
+    await nc.flush()
+
+    requests = []
+    for i in range(0, 10):
+        request = nc.request(&#34;help&#34;, b&#39;help!&#39;, timeout=1)
+        requests.append(request)
+
+    # Wait for all the responses
+    responses = []
+    responses = await asyncio.gather(*requests)
+
+    # Gracefully close the connection.
+    await nc.drain()
+
+    print(&#34;Received {} responses&#34;.format(len(responses)))
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="drain_conn_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/drain_conn.rb#L3-26"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby">NATS.start(drain_timeout: 1) do |nc|
+  NATS.subscribe(&#39;foo&#39;, queue: &#34;workers&#34;) do |msg, reply, sub|
+    nc.publish(reply, &#34;ACK:#{msg}&#34;)
+  end
+
+  NATS.subscribe(&#39;bar&#39;, queue: &#34;workers&#34;) do |msg, reply, sub|
+    nc.publish(reply, &#34;ACK:#{msg}&#34;)
+  end
+
+  NATS.subscribe(&#39;quux&#39;, queue: &#34;workers&#34;) do |msg, reply, sub|
+    nc.publish(reply, &#34;ACK:#{msg}&#34;)
+  end
+
+  EM.add_timer(2) do
+    next if NATS.draining?
+
+    # Drain gracefully closes the connection.
+    NATS.drain do
+      puts &#34;Done draining. Connection is closed.&#34;
+    end
+  end
+end
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="drain_conn_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/connection_samples.ts#L73-83"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let sub = await nc.subscribe(&#39;updates&#39;, (err, msg) =&gt; {
+    t.log(&#39;worker got message&#39;, msg.data);
+}, {queue: &#34;workers&#34;});
+// [end drain_sub]
+nc.flush();
+
+await nc.drain();
+// client must close when the connection drain resolves
+nc.close();
+</code></pre>
+	</div>
+	
+</div>

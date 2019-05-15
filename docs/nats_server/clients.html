@@ -17,7 +17,7 @@
     
             
                 
-                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-prism/prism.css">
                 
             
                 
@@ -47,6 +47,7 @@
     
 
         
+
     
     
     <meta name="HandheldFriendly" content="true"/>
@@ -57,13 +58,18 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
+    <link rel="next" href="flags.html" />
+    
     
     <link rel="prev" href="running.html" />
     
 
+<link rel="stylesheet" href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css">
+
     </head>
     <body>
         
+
 <div class="book">
     <div class="book-summary">
         
@@ -154,8 +160,92 @@
             
         </li>
     
+        <li class="chapter " data-level="1.1.1.4" data-path="flags.html">
+            
+                <a href="flags.html">
+            
+                    
+                    Flags
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.5" data-path="configuration.html">
+            
+                <a href="configuration.html">
+            
+                    
+                    Configuration File
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.6" data-path="signals.html">
+            
+                <a href="signals.html">
+            
+                    
+                    Signals
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.7" data-path="windows_srv.html">
+            
+                <a href="windows_srv.html">
+            
+                    
+                    Window Service
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../developer/">
+            
+                <a href="../developer/">
+            
+                    
+                    Developing with NATS
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../developer/connecting.html">
+            
+                <a href="../developer/connecting.html">
+            
+                    
+                    Connecting
+            
+                </a>
+            
+
             
         </li>
     
@@ -213,20 +303,20 @@
 <p>The nats-server doesn&apos;t come bundled with any clients. But most client libraries come with tools that allow you to publish, subscribe, send requests and reply messages.</p>
 <p>If you have a client library installed you can try using a bundled client. Otherwise you can easily install some clients.</p>
 <h3 id="if-you-have-go-installed">If you have Go installed:</h3>
-<pre><code>&gt; go get https://github.com/nats-io/go-nats-examples/tools/nats-pub
+<pre class="language-"><code>&gt; go get https://github.com/nats-io/go-nats-examples/tools/nats-pub
 &gt; go get https://github.com/nats-io/go-nats-examples/tools/nats-sub
 </code></pre><h3 id="or-download-a-zip-file">Or download a zip file</h3>
 <p>You can pre-built binaries from the <a href="https://github.com/nats-io/go-nats-examples/releases/tag/0.0.50" target="_blank">go-nats-examples repo</a></p>
 <h3 id="testing-your-setup">Testing your setup</h3>
 <p>First <a href="running.html">start a nats-server</a>. Then you can on two different terminal windows:</p>
 <p>Start a subscriber:</p>
-<pre><code>&gt; nats-sub &quot;&gt;&quot;
+<pre class="language-"><code>&gt; nats-sub &quot;&gt;&quot;
 Listening on [&gt;]
 </code></pre><p>Publish your first message:</p>
-<pre><code>&gt; nats-pub hello world
+<pre class="language-"><code>&gt; nats-pub hello world
 Published [hello] : &apos;world&apos;
 </code></pre><p>On the subscriber window you should see:</p>
-<pre><code>[#1] Received on [hello]: &apos;world&apos;
+<pre class="language-"><code>[#1] Received on [hello]: &apos;world&apos;
 </code></pre>
                                 
                                 </section>
@@ -254,10 +344,14 @@ Published [hello] : &apos;world&apos;
 
             
                 
-                <a href="running.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Running">
+                <a href="running.html" class="navigation navigation-prev " aria-label="Previous page: Running">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
+                
+                <a href="flags.html" class="navigation navigation-next " aria-label="Next page: Flags">
+                    <i class="fa fa-angle-right"></i>
+                </a>
                 
             
         
@@ -266,10 +360,396 @@ Published [hello] : &apos;world&apos;
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Clients","level":"1.1.1.3","depth":3,"previous":{"title":"Running","level":"1.1.1.2","depth":3,"path":"nats_server/running.md","ref":"nats_server/running.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"nats_server/clients.md","mtime":"2019-05-13T22:01:38.527Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-13T22:02:53.861Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Clients","level":"1.1.1.3","depth":3,"next":{"title":"Flags","level":"1.1.1.4","depth":3,"path":"nats_server/flags.md","ref":"nats_server/flags.md","articles":[]},"previous":{"title":"Running","level":"1.1.1.2","depth":3,"path":"nats_server/running.md","ref":"nats_server/running.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["prism","-highlight","include-html"],"pluginsConfig":{"prism":{},"include-html":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"nats_server/clients.md","mtime":"2019-05-13T15:08:53.940Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-15T15:16:11.909Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
+
+<!-- Viz Support -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/viz.js"> </script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/lite.render.js"> </script>
+
+<!-- Site code -->
+<script>
+    function flash(elem, text, speed) {
+        if (!elem) {
+            return;
+        }
+        var s = elem.style;
+        elem.textContent = text;
+        s.display = 'block';
+        s.opacity = 1;
+        (function fade() {
+            (s.opacity -= .1) < .1 ? s.display = "none" : setTimeout(fade, speed)
+        })();
+    }
+
+    function copyToClipboard(text, el) {
+        var copyTest = document.queryCommandSupported('copy');
+        var elOriginalText = el.getAttribute('data-original-title');
+
+        if (copyTest === true) {
+            var copyTextArea = document.createElement("textarea");
+            copyTextArea.value = text;
+            document.body.appendChild(copyTextArea);
+            copyTextArea.select();
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'Copied!' : 'Whoops, not copied!';
+                var parent = el.parentNode.parentNode;
+                var msgElem = parent.querySelector(".copy-msg");
+                flash(msgElem, msg, 100);
+            } catch (err) {
+                console.log('Oops, unable to copy', err);
+            }
+            document.body.removeChild(copyTextArea);
+            el.setAttribute('data-original-title', elOriginalText);
+        } else {
+            // Fallback if browser doesn't support .execCommand('copy')
+            window.prompt("Copy to clipboard: Ctrl+C or Command+C, Enter", text);
+        }
+    }
+
+    function processGraphVizSections(elements) {
+        var elements = document.querySelectorAll("[data-viz]");
+        var viz = new Viz();
+        Array.prototype.forEach.call(elements, function (x) {
+            var engine = x.getAttribute("data-viz");
+            var image = viz.renderImageElement(x.innerText, {
+                format: "png",
+                engine: engine
+            }).then(function (element) {
+                x.parentNode.insertBefore(element, x);
+            });
+        });
+
+
+    };
+
+    function updateLanguageParameter(value) {
+        const param = "lang";
+
+        if (window.location.href.indexOf("?") >= 0) {
+            const regExp = new RegExp(param + "(.+?)(&|$)", "g");
+            const newUrl = window.location.href.replace(regExp, param + "=" + encodeURIComponent(value) + "$2");
+            window.history.pushState("", "", newUrl);
+        } else {
+            const newUrl = window.location.href + "?" + param + "=" + encodeURIComponent(value);
+            window.history.pushState("", "", newUrl);
+        }
+    }
+
+    function getLanguageParameter() {
+        var match = RegExp('[?&]lang=([^&]*)').exec(window.location.search);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
+
+    function docReady() {
+        window.gitbook.events.bind("page.change", function () {
+            pageChanged();
+        });
+    }
+
+    function pageChanged() {
+        document.querySelectorAll('.js-copy').forEach(elem => {
+            elem.addEventListener("click", function () {
+                var el = this;
+                var parent = this.parentNode.parentNode;
+                var code = parent.querySelector('code');
+                var text = code.textContent || code.innerText;
+                copyToClipboard(text, el);
+            })
+        });
+
+        document.querySelectorAll('.api-lang').forEach(elem => {
+            elem.addEventListener("click", function () {
+                var curLang = sessionStorage.getItem('nats-api-language');
+                var lang = this.getAttribute('data-language');
+
+                // Stop the infinite loop
+                if (curLang == lang) {
+                    return;
+                }
+
+                sessionStorage.setItem('nats-api-language', lang); // So we only do this 1x
+
+                updateLanguageParameter(lang)
+
+                document.querySelectorAll('.api-lang[data-language=' + lang + ']').forEach(elem => {
+                    elem.click();
+                });
+            })
+        });
+
+        if (sessionStorage) {
+            var curLang = sessionStorage.getItem('nats-api-language');
+            var queryLang = getLanguageParameter();
+            var lang = curLang;
+
+            if (queryLang) { // query takes precedent
+                lang = queryLang
+            }
+
+            if (lang) {
+                document.querySelectorAll('.api-lang[data-language=' + lang + ']').forEach(elem => {
+                    elem.click();
+                });
+            }
+        }
+
+        setTimeout(function () {
+            processGraphVizSections();
+        }, 1);
+    }
+
+
+    if (document.readyState != 'loading') docReady();
+    else if (document.addEventListener) document.addEventListener('DOMContentLoaded', docReady);
+    else document.attachEvent('onreadystatechange', function () {
+        if (document.readyState == 'complete') docReady();
+    });
+</script>
+
+<!-- Github Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- Styles -->
+<style>
+    div.graphviz {
+        background: transparent;
+        border: 0;
+        padding-top: 15px;
+        padding-right: 15px;
+        padding-bottom: 15px;
+        padding-left: 15px;
+    }
+
+    code[data-viz] {
+        display: none;
+    }
+
+    .tab-wrap {
+        transition: 0.3s box-shadow ease;
+        border-radius: 6px;
+        max-width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        position: relative;
+        list-style: none;
+        background-color: #fff;
+        margin: 10px 0;
+        /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);*/
+    }
+
+    .tab-wrap:hover {
+        box-shadow: 0 12px 23px rgba(0, 0, 0, 0.23), 0 10px 10px rgba(0, 0, 0, 0.19);
+    }
+
+    .tab {
+        display: none;
+    }
+
+    /* Using scss these would be generated, we have to manually create enough for all tabs, start with 8 */
+    .tab:checked:nth-of-type(1)~.tab__content:nth-of-type(1) {
+        opacity: 1;
+        transition: 0.5s opacity ease-in, 0.8s -webkit-transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease, 0.8s -webkit-transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(2)~.tab__content:nth-of-type(2) {
+        opacity: 1;
+        transition: 0.5s opacity ease-in, 0.8s -webkit-transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease, 0.8s -webkit-transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(3)~.tab__content:nth-of-type(3) {
+        opacity: 1;
+        transition: 0.5s opacity ease-in, 0.8s -webkit-transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease, 0.8s -webkit-transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(4)~.tab__content:nth-of-type(4) {
+        opacity: 1;
+        transition: 0.5s opacity ease-in, 0.8s -webkit-transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease, 0.8s -webkit-transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(5)~.tab__content:nth-of-type(5) {
+        opacity: 1;
+        transition: 0.5s opacity ease-in, 0.8s -webkit-transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease, 0.8s -webkit-transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(6)~.tab__content:nth-of-type(6) {
+        opacity: 1;
+        transition: 0.5s opacity ease-in, 0.8s -webkit-transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease, 0.8s -webkit-transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(7)~.tab__content:nth-of-type(7) {
+        opacity: 1;
+        transition: 0.5s opacity ease-in, 0.8s -webkit-transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease, 0.8s -webkit-transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(8)~.tab__content:nth-of-type(8) {
+        opacity: 1;
+        transition: 0.5s opacity ease-in, 0.8s -webkit-transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease, 0.8s -webkit-transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:first-of-type:not(:last-of-type)+label {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .tab:not(:first-of-type):not(:last-of-type)+label {
+        border-radius: 0;
+    }
+
+    .tab:last-of-type:not(:first-of-type)+label {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .tab:checked+label {
+        background-color: #fff;
+        box-shadow: 0 -1px 0 #fff inset;
+        cursor: default;
+        font-weight: bold;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+    }
+
+    .tab:checked+label:hover {
+        box-shadow: 0 -1px 0 #fff inset;
+        background-color: #fff;
+    }
+
+    .tab+label {
+        box-shadow: 0 -1px 0 #eee inset;
+        border-radius: 6px 6px 0 0;
+        cursor: pointer;
+        display: block;
+        text-decoration: none;
+        color: #27aae1;
+        flex-grow: 3;
+        text-align: center;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        text-align: center;
+        transition: 0.3s background-color ease, 0.3s box-shadow ease;
+        height: 50px;
+        box-sizing: border-box;
+        padding: 15px;
+    }
+
+    .tab+label:hover {
+        background-color: #f9f9f9;
+        box-shadow: 0 1px 0 #f4f4f4 inset;
+    }
+
+    .tab__content {
+        padding: 2px 2px;
+        background-color: transparent;
+        position: absolute;
+        width: 100%;
+        z-index: -1;
+        opacity: 0;
+        left: 0;
+        -webkit-transform: translateY(-3px);
+        transform: translateY(-3px);
+        border-radius: 6px;
+    }
+
+    .tab__content pre {
+        margin-bottom: 0px !important;
+    }
+
+    .toolbar-icons {
+        display: inline-block;
+        position: relative;
+        padding-left: 4px;
+    }
+
+    a.toolbar-icons {
+        text-decoration: none;
+    }
+
+    .toolbar-icons .mdi {
+        color: #4183c4;
+    }
+
+    .copy-msg {
+        color: #4183c4;
+    }
+
+    .pull-right {
+        float: right !important;
+    }
+
+    .pull-left {
+        float: left !important;
+    }
+</style>
 
         
     <script src="../gitbook/gitbook.js"></script>

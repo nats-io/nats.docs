@@ -1,0 +1,1904 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Connecting · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-prism/prism.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="./" />
+    
+
+<link rel="stylesheet" href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css">
+
+    </head>
+    <body>
+        
+
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.1" data-path="../nats_server/">
+            
+                <a href="../nats_server/">
+            
+                    
+                    NATS Server
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.1.1" data-path="../nats_server/installation.html">
+            
+                <a href="../nats_server/installation.html">
+            
+                    
+                    Installing
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.2" data-path="../nats_server/running.html">
+            
+                <a href="../nats_server/running.html">
+            
+                    
+                    Running
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.3" data-path="../nats_server/clients.html">
+            
+                <a href="../nats_server/clients.html">
+            
+                    
+                    Clients
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.4" data-path="../nats_server/flags.html">
+            
+                <a href="../nats_server/flags.html">
+            
+                    
+                    Flags
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.5" data-path="../nats_server/configuration.html">
+            
+                <a href="../nats_server/configuration.html">
+            
+                    
+                    Configuration File
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.6" data-path="../nats_server/signals.html">
+            
+                <a href="../nats_server/signals.html">
+            
+                    
+                    Signals
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.7" data-path="../nats_server/windows_srv.html">
+            
+                <a href="../nats_server/windows_srv.html">
+            
+                    
+                    Window Service
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Developing with NATS
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.2.1" data-path="connecting.html">
+            
+                <a href="connecting.html">
+            
+                    
+                    Connecting
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Connecting</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="connecting-to-nats">Connecting to NATS</h1>
+<p>Most client libraries provide several ways to connect to the NATS server, gnatsd. The server itself is identified by a standard URL with the <code>nats</code> protocol. Throughout these examples we will rely on a test server, provided by <a href="https://nats.io" target="_blank">nats.io</a>, at <code>nats://demo.nats.io:4222</code>, where <code>4222</code> is the default port for NATS. </p>
+<h2 id="connecting-to-a-specific-server">Connecting to a Specific Server</h2>
+<p>For example, to connect to the demo server with a URL:</p>
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="connect_url_go" name="connect_url" class="tab" checked>
+	
+	<label for="connect_url_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="connect_url_java" name="connect_url" class="tab">
+	
+	<label for="connect_url_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="connect_url_js" name="connect_url" class="tab">
+	
+	<label for="connect_url_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="connect_url_py" name="connect_url" class="tab">
+	
+	<label for="connect_url_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="connect_url_ruby" name="connect_url" class="tab">
+	
+	<label for="connect_url_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="connect_url_ts" name="connect_url" class="tab">
+	
+	<label for="connect_url_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="connect_url_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/connect_url/main.go#L10-23"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go"><span class="token comment">// If connecting to the default port, the URL can be simplified</span>
+<span class="token comment">// to just the hostname/IP.</span>
+<span class="token comment">// That is, the connect below is equivalent to:</span>
+<span class="token comment">// nats.Connect(&quot;nats://demo.nats.io:4222&quot;)</span>
+nc<span class="token punctuation">,</span> err <span class="token operator">:=</span> nats<span class="token punctuation">.</span><span class="token function">Connect</span><span class="token punctuation">(</span><span class="token string">&quot;demo.nats.io&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+	log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">defer</span> nc<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_url_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/ConnectToServerURL.java#L10-16"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java"><span class="token class-name">Connection</span> nc <span class="token operator">=</span> <span class="token class-name">Nats</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_url_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/connection_samples.js#L45-56"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token constant">NATS</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+nc<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">&apos;connect&apos;</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">c</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Do something with the connection</span>
+    <span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// When done close it</span>
+    nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+nc<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">&apos;error&apos;</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">failed</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_url_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/connect_url.py#L5-13"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc <span class="token operator">=</span> NATS<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>servers<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Do something with the connection</span>
+
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_url_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/connect_url.rb#L1-10"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby"><span class="token keyword">require</span> <span class="token string">&apos;nats/client&apos;</span>
+
+<span class="token constant">NATS</span><span class="token punctuation">.</span>start<span class="token punctuation">(</span>servers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token operator">|</span>nc<span class="token operator">|</span>
+   <span class="token comment"># Do something with the connection</span>
+
+   <span class="token comment"># Close the connection</span>
+   nc<span class="token punctuation">.</span>close
+<span class="token keyword">end</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_url_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/connection_samples.ts#L40-47"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token comment">// will throw an exception if connection fails</span>
+    <span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">connect</span><span class="token punctuation">(</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// Do something with the connection</span>
+
+    <span class="token comment">// Close the connection</span>
+    nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+</div>
+<h2 id="connecting-to-the-default-server">Connecting to the Default Server</h2>
+<p>Some libraries also provide a special way to connect to a <em>default</em> url, which is general <code>nats://localhost:4222</code>:</p>
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="connect_default_go" name="connect_default" class="tab" checked>
+	
+	<label for="connect_default_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="connect_default_java" name="connect_default" class="tab">
+	
+	<label for="connect_default_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="connect_default_js" name="connect_default" class="tab">
+	
+	<label for="connect_default_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="connect_default_py" name="connect_default" class="tab">
+	
+	<label for="connect_default_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="connect_default_ruby" name="connect_default" class="tab">
+	
+	<label for="connect_default_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="connect_default_ts" name="connect_default" class="tab">
+	
+	<label for="connect_default_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="connect_default_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/connect_default/main.go#L10-19"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc<span class="token punctuation">,</span> err <span class="token operator">:=</span> nats<span class="token punctuation">.</span><span class="token function">Connect</span><span class="token punctuation">(</span>nats<span class="token punctuation">.</span>DefaultURL<span class="token punctuation">)</span>
+<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+	log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">defer</span> nc<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_default_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/ConnectToDefaultServer.java#L10-16"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java"><span class="token class-name">Connection</span> nc <span class="token operator">=</span> <span class="token class-name">Nats</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_default_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/connection_samples.js#L22-33"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token constant">NATS</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+nc<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">&apos;connect&apos;</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">c</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Do something with the connection</span>
+    <span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// When done close it</span>
+    nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+nc<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">&apos;error&apos;</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">failed</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_default_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/connect_default.py#L5-13"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc <span class="token operator">=</span> NATS<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Do something with the connection</span>
+
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_default_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/connect_default.rb#L1-10"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby"><span class="token keyword">require</span> <span class="token string">&apos;nats/client&apos;</span>
+
+<span class="token constant">NATS</span><span class="token punctuation">.</span>start <span class="token keyword">do</span> <span class="token operator">|</span>nc<span class="token operator">|</span>
+   <span class="token comment"># Do something with the connection</span>
+
+   <span class="token comment"># Close the connection</span>
+   nc<span class="token punctuation">.</span>close
+<span class="token keyword">end</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_default_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/connection_samples.ts#L16-34"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token comment">// will throw an exception if connection fails</span>
+<span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Do something with the connection</span>
+
+<span class="token comment">// When done close it</span>
+nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+<span class="token comment">// alternatively, you can use the Promise pattern</span>
+<span class="token keyword">let</span> nc1<span class="token punctuation">:</span> Client<span class="token punctuation">;</span>
+<span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">c</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        nc1 <span class="token operator">=</span> c<span class="token punctuation">;</span>
+        <span class="token comment">// Do something with the connection</span>
+        nc1<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// add a .catch/.finally</span>
+</code></pre>
+	</div>
+	
+</div>
+<h2 id="setting-a-connect-timeout">Setting a Connect Timeout</h2>
+<p>Each library has its own, language preferred way, to pass connection options. For example, to set the maximum time to connect to a server to 10 seconds:</p>
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="connect_options_go" name="connect_options" class="tab" checked>
+	
+	<label for="connect_options_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="connect_options_java" name="connect_options" class="tab">
+	
+	<label for="connect_options_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="connect_options_js" name="connect_options" class="tab">
+	
+	<label for="connect_options_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="connect_options_py" name="connect_options" class="tab">
+	
+	<label for="connect_options_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="connect_options_ruby" name="connect_options" class="tab">
+	
+	<label for="connect_options_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="connect_options_ts" name="connect_options" class="tab">
+	
+	<label for="connect_options_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="connect_options_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/connect_options/main.go#L11-20"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc<span class="token punctuation">,</span> err <span class="token operator">:=</span> nats<span class="token punctuation">.</span><span class="token function">Connect</span><span class="token punctuation">(</span>nats<span class="token punctuation">.</span>DefaultURL<span class="token punctuation">,</span> nats<span class="token punctuation">.</span><span class="token function">Timeout</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token operator">*</span>time<span class="token punctuation">.</span>Second<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+	log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">defer</span> nc<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_options_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/ConnectWithOptions.java#L13-23"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java"><span class="token class-name">Options</span> options <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Options</span><span class="token punctuation">.</span><span class="token class-name">Builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">server</span><span class="token punctuation">(</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">connectionTimeout</span><span class="token punctuation">(</span><span class="token class-name">Duration</span><span class="token punctuation">.</span><span class="token function">ofSeconds</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span> <span class="token comment">// Set timeout</span>
+                            <span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Connection</span> nc <span class="token operator">=</span> <span class="token class-name">Nats</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_options_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/options_samples.js#L121-123"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token comment">// connection timeout is not supported on node-nats</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_options_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/connect_options.py#L5-13"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc <span class="token operator">=</span> NATS<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>connect_timeout<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Do something with the connection</span>
+
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_options_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/connect_options.rb#L1-14"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby"><span class="token comment"># There is currently no connect timeout as part of the Ruby NATS client API, but you can use a timer to mimic it.</span>
+<span class="token keyword">require</span> <span class="token string">&apos;nats/client&apos;</span>
+
+timer <span class="token operator">=</span> <span class="token constant">EM</span><span class="token punctuation">.</span>add_timer<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span> <span class="token keyword">do</span>
+  <span class="token constant">NATS</span><span class="token punctuation">.</span>connect <span class="token keyword">do</span> <span class="token operator">|</span>nc<span class="token operator">|</span>
+    <span class="token comment"># Do something with the connection</span>
+
+    <span class="token comment"># Close the connection</span>
+    nc<span class="token punctuation">.</span>close
+  <span class="token keyword">end</span>
+<span class="token keyword">end</span>
+<span class="token constant">EM</span><span class="token punctuation">.</span>cancel_timer<span class="token punctuation">(</span>timer<span class="token punctuation">)</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_options_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/options_samples.ts#L89-95"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    url<span class="token punctuation">:</span> <span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">,</span>
+    timeout<span class="token punctuation">:</span> <span class="token number">1000</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+</code></pre>
+	</div>
+	
+</div>
+<p>The available options are discussed more below, in other pages, and in the documentation for your client library.</p>
+<h2 id="connecting-to-a-cluster">Connecting to a Cluster</h2>
+<p>When connecting to a cluster, there are a few things to think about.</p>
+<ul>
+<li>Passing a URL for each cluster member (semi-optional)</li>
+<li>The connection algorithm</li>
+<li>The reconnect algorithm (discussed later)</li>
+<li>Server provided URLs</li>
+</ul>
+<p>When a client connects to the server, the server may provide a list of URLs for additional known servers. This allows a client to connect to one server and still have other servers available during reconnect. However, the initial connection cannot depend on these additional servers. Rather, the additional connection will try to connect to each of the URLs provided in the connect call and will fail if it is unable to connect to any of them. <em>Note, failure behavior is library dependent, please check the documentation for your client library on information about what happens if the connect fails.</em></p>
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="connect_multiple_go" name="connect_multiple" class="tab" checked>
+	
+	<label for="connect_multiple_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="connect_multiple_java" name="connect_multiple" class="tab">
+	
+	<label for="connect_multiple_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="connect_multiple_js" name="connect_multiple" class="tab">
+	
+	<label for="connect_multiple_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="connect_multiple_py" name="connect_multiple" class="tab">
+	
+	<label for="connect_multiple_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="connect_multiple_ruby" name="connect_multiple" class="tab">
+	
+	<label for="connect_multiple_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="connect_multiple_ts" name="connect_multiple" class="tab">
+	
+	<label for="connect_multiple_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="connect_multiple_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/connect_multiple/main.go#L11-25"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">servers <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span><span class="token string">&quot;nats://localhost:1222&quot;</span><span class="token punctuation">,</span>
+	<span class="token string">&quot;nats://localhost:1223&quot;</span><span class="token punctuation">,</span>
+	<span class="token string">&quot;nats://localhost:1224&quot;</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+
+nc<span class="token punctuation">,</span> err <span class="token operator">:=</span> nats<span class="token punctuation">.</span><span class="token function">Connect</span><span class="token punctuation">(</span>strings<span class="token punctuation">.</span><span class="token function">Join</span><span class="token punctuation">(</span>servers<span class="token punctuation">,</span> <span class="token string">&quot;,&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+	log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">defer</span> nc<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_multiple_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/ConnectToMultipleServers.java#L11-22"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java"><span class="token class-name">Options</span> options <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Options</span><span class="token punctuation">.</span><span class="token class-name">Builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">server</span><span class="token punctuation">(</span><span class="token string">&quot;nats://localhost:1222&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">server</span><span class="token punctuation">(</span><span class="token string">&quot;nats://localhost:1223&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">server</span><span class="token punctuation">(</span><span class="token string">&quot;nats://localhost:1224&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Connection</span> nc <span class="token operator">=</span> <span class="token class-name">Nats</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_multiple_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/connection_samples.js#L67-84"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token constant">NATS</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    servers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;nats://localhost:4222&quot;</span>
+    <span class="token punctuation">]</span><span class="token punctuation">}</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+nc<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">&apos;connect&apos;</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">c</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Do something with the connection</span>
+    <span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// When done close it</span>
+    nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+nc<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">&apos;error&apos;</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">failed</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_multiple_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/connect_multiple.py#L5-17"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc <span class="token operator">=</span> NATS<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>servers<span class="token operator">=</span><span class="token punctuation">[</span>
+   <span class="token string">&quot;nats://127.0.0.1:1222&quot;</span><span class="token punctuation">,</span>
+   <span class="token string">&quot;nats://127.0.0.1:1223&quot;</span><span class="token punctuation">,</span>
+   <span class="token string">&quot;nats://127.0.0.1:1224&quot;</span>
+   <span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Do something with the connection</span>
+
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_multiple_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/connect_multiple.rb#L1-10"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby"><span class="token keyword">require</span> <span class="token string">&apos;nats/client&apos;</span>
+
+<span class="token constant">NATS</span><span class="token punctuation">.</span>start<span class="token punctuation">(</span>servers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;nats://127.0.0.1:1222&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;nats://127.0.0.1:1223&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;nats://127.0.0.1:1224&quot;</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token operator">|</span>nc<span class="token operator">|</span>
+   <span class="token comment"># Do something with the connection</span>
+
+   <span class="token comment"># Close the connection</span>
+   nc<span class="token punctuation">.</span>close
+<span class="token keyword">end</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_multiple_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/connection_samples.ts#L53-65"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token comment">// will throw an exception if connection fails</span>
+<span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        servers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+            <span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">,</span>
+            <span class="token string">&quot;nats://localhost:4222&quot;</span>
+        <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Do something with the connection</span>
+
+<span class="token comment">// When done close it</span>
+nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+</div>
+<h2 id="reconnecting">Reconnecting</h2>
+<p>Most, if not all, of the client libraries will reconnect to the server if they are disconnected due to a network problem. The reconnect logic can differ by library, so check your client libraries. In general, the client will try to connect to all of the servers it knows about, either through the URLs provided in <code>connect</code> or the URLs provided by its most recent server. The library may have several options to help control reconnect behavior.</p>
+<h3 id="disable-reconnect">Disable Reconnect</h3>
+<p>For example, you can disable reconnect:</p>
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="reconnect_none_go" name="reconnect_none" class="tab" checked>
+	
+	<label for="reconnect_none_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="reconnect_none_java" name="reconnect_none" class="tab">
+	
+	<label for="reconnect_none_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="reconnect_none_js" name="reconnect_none" class="tab">
+	
+	<label for="reconnect_none_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="reconnect_none_py" name="reconnect_none" class="tab">
+	
+	<label for="reconnect_none_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="reconnect_none_ruby" name="reconnect_none" class="tab">
+	
+	<label for="reconnect_none_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="reconnect_none_ts" name="reconnect_none" class="tab">
+	
+	<label for="reconnect_none_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="reconnect_none_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/reconnect_none/main.go#L10-20"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go"><span class="token comment">// Disable reconnect attempts</span>
+nc<span class="token punctuation">,</span> err <span class="token operator">:=</span> nats<span class="token punctuation">.</span><span class="token function">Connect</span><span class="token punctuation">(</span><span class="token string">&quot;demo.nats.io&quot;</span><span class="token punctuation">,</span> nats<span class="token punctuation">.</span><span class="token function">NoReconnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+	log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">defer</span> nc<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_none_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/ReconnectNone.java#L11-21"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java"><span class="token class-name">Options</span> options <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Options</span><span class="token punctuation">.</span><span class="token class-name">Builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">server</span><span class="token punctuation">(</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">noReconnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span> <span class="token comment">// Disable reconnect attempts</span>
+                            <span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Connection</span> nc <span class="token operator">=</span> <span class="token class-name">Nats</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_none_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/reconnect_samples.js#L25-30"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token constant">NATS</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    reconnect<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    servers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_none_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/reconnect_none.py#L5-20"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc <span class="token operator">=</span> NATS<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>
+   servers<span class="token operator">=</span><span class="token punctuation">[</span>
+      <span class="token string">&quot;nats://demo.nats.io:1222&quot;</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;nats://demo.nats.io:1223&quot;</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;nats://demo.nats.io:1224&quot;</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+   allow_reconnect<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">,</span>
+   <span class="token punctuation">)</span>
+
+<span class="token comment"># Do something with the connection</span>
+
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_none_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/reconnect_none.rb#L1-10"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby"><span class="token keyword">require</span> <span class="token string">&apos;nats/client&apos;</span>
+
+<span class="token constant">NATS</span><span class="token punctuation">.</span>start<span class="token punctuation">(</span>servers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;nats://127.0.0.1:1222&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;nats://127.0.0.1:1223&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;nats://127.0.0.1:1224&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span> reconnect<span class="token punctuation">:</span> <span class="token keyword">false</span><span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token operator">|</span>nc<span class="token operator">|</span>
+   <span class="token comment"># Do something with the connection</span>
+
+   <span class="token comment"># Close the connection</span>
+   nc<span class="token punctuation">.</span>close
+<span class="token keyword">end</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_none_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/reconnect_samples.ts#L20-27"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token comment">// will throw an exception if connection fails</span>
+<span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    reconnect<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    servers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+</div>
+<h3 id="set-the-number-of-reconnect-attempts">Set the Number of Reconnect Attempts</h3>
+<p>Applications can set the maximum reconnect attempts. Generally, this will limit the actual number of attempts total, but check your library documentation. For example, in Java, if the client knows about 3 servers and the maximum reconnects is set to 2, it will not try all of the servers. On the other hand, if the maximum is set to 6 it will try all of the servers twice before considering the reconnect a failure and closing.</p>
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="reconnect_10x_go" name="reconnect_10x" class="tab" checked>
+	
+	<label for="reconnect_10x_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="reconnect_10x_java" name="reconnect_10x" class="tab">
+	
+	<label for="reconnect_10x_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="reconnect_10x_js" name="reconnect_10x" class="tab">
+	
+	<label for="reconnect_10x_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="reconnect_10x_py" name="reconnect_10x" class="tab">
+	
+	<label for="reconnect_10x_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="reconnect_10x_ruby" name="reconnect_10x" class="tab">
+	
+	<label for="reconnect_10x_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="reconnect_10x_ts" name="reconnect_10x" class="tab">
+	
+	<label for="reconnect_10x_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="reconnect_10x_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/reconnect_10x/main.go#L10-20"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go"><span class="token comment">// Set max reconnects attempts</span>
+nc<span class="token punctuation">,</span> err <span class="token operator">:=</span> nats<span class="token punctuation">.</span><span class="token function">Connect</span><span class="token punctuation">(</span><span class="token string">&quot;demo.nats.io&quot;</span><span class="token punctuation">,</span> nats<span class="token punctuation">.</span><span class="token function">MaxReconnects</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+	log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">defer</span> nc<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_10x_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/ReconnectTenTimes.java#L11-21"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java"><span class="token class-name">Options</span> options <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Options</span><span class="token punctuation">.</span><span class="token class-name">Builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">server</span><span class="token punctuation">(</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">maxReconnects</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">.</span> <span class="token comment">// Set max reconnect attempts</span>
+                            <span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Connection</span> nc <span class="token operator">=</span> <span class="token class-name">Nats</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_10x_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/reconnect_samples.js#L58-63"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token constant">NATS</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    maxReconnectAttempts<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
+    servers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_10x_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/reconnect_10x.py#L5-16"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc <span class="token operator">=</span> NATS<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>
+   servers<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+   max_reconnect_attempts<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">,</span>
+   <span class="token punctuation">)</span>
+
+<span class="token comment"># Do something with the connection</span>
+
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_10x_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/reconnect_10x.rb#L1-10"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby"><span class="token keyword">require</span> <span class="token string">&apos;nats/client&apos;</span>
+
+<span class="token constant">NATS</span><span class="token punctuation">.</span>start<span class="token punctuation">(</span>servers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;nats://127.0.0.1:1222&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;nats://127.0.0.1:1223&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;nats://127.0.0.1:1224&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span> max_reconnect_attempts<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token operator">|</span>nc<span class="token operator">|</span>
+   <span class="token comment"># Do something with the connection</span>
+
+   <span class="token comment"># Close the connection</span>
+   nc<span class="token punctuation">.</span>close
+<span class="token keyword">end</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_10x_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/reconnect_samples.ts#L45-52"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token comment">// will throw an exception if connection fails</span>
+<span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    maxReconnectAttempts<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
+    servers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+</div>
+<h3 id="pausing-between-reconnect-attempts">Pausing Between Reconnect Attempts</h3>
+<p>It doesn&#x2019;t make much sense to try to connect to the same server over and over. To prevent this sort of thrashing, and wasted reconnect attempts, libraries provide a wait setting. This setting will pause the reconnect logic if the same server is being tried multiple times. In the previous example, if you have 3 servers and 6 attempts, the Java library would loop over the three servers. If none were connectable, it will then try all three again. However, the Java client doesn&#x2019;t wait between each attempt, only when trying the same server again, so in that example the library may never wait. If on the other hand, you only provide a single server URL and 6 attempts, the library will wait between each attempt.</p>
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="reconnect_10s_go" name="reconnect_10s" class="tab" checked>
+	
+	<label for="reconnect_10s_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="reconnect_10s_java" name="reconnect_10s" class="tab">
+	
+	<label for="reconnect_10s_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="reconnect_10s_js" name="reconnect_10s" class="tab">
+	
+	<label for="reconnect_10s_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="reconnect_10s_py" name="reconnect_10s" class="tab">
+	
+	<label for="reconnect_10s_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="reconnect_10s_ruby" name="reconnect_10s" class="tab">
+	
+	<label for="reconnect_10s_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="reconnect_10s_ts" name="reconnect_10s" class="tab">
+	
+	<label for="reconnect_10s_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="reconnect_10s_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/reconnect_10s/main.go#L11-21"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go"><span class="token comment">// Set reconnect interval to 10 seconds</span>
+nc<span class="token punctuation">,</span> err <span class="token operator">:=</span> nats<span class="token punctuation">.</span><span class="token function">Connect</span><span class="token punctuation">(</span><span class="token string">&quot;demo.nats.io&quot;</span><span class="token punctuation">,</span> nats<span class="token punctuation">.</span><span class="token function">ReconnectWait</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token operator">*</span>time<span class="token punctuation">.</span>Second<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+	log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">defer</span> nc<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_10s_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/ReconnectTenSeconds.java#L13-23"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java"><span class="token class-name">Options</span> options <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Options</span><span class="token punctuation">.</span><span class="token class-name">Builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">server</span><span class="token punctuation">(</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">reconnectWait</span><span class="token punctuation">(</span><span class="token class-name">Duration</span><span class="token punctuation">.</span><span class="token function">ofSeconds</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>  <span class="token comment">// Set Reconnect Wait</span>
+                            <span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Connection</span> nc <span class="token operator">=</span> <span class="token class-name">Nats</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_10s_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/reconnect_samples.js#L42-47"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token constant">NATS</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    reconnectTimeWait<span class="token punctuation">:</span> <span class="token number">10</span> <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">,</span> <span class="token comment">//10s</span>
+    servers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_10s_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/reconnect_10s.py#L5-16"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc <span class="token operator">=</span> NATS<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>
+   servers<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+   reconnect_time_wait<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">,</span>
+   <span class="token punctuation">)</span>
+
+<span class="token comment"># Do something with the connection</span>
+
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_10s_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/reconnect_10s.rb#L1-10"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby"><span class="token keyword">require</span> <span class="token string">&apos;nats/client&apos;</span>
+
+<span class="token constant">NATS</span><span class="token punctuation">.</span>start<span class="token punctuation">(</span>servers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;nats://127.0.0.1:1222&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;nats://127.0.0.1:1223&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;nats://127.0.0.1:1224&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span> reconnect_time_wait<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token operator">|</span>nc<span class="token operator">|</span>
+   <span class="token comment"># Do something with the connection</span>
+
+   <span class="token comment"># Close the connection</span>
+   nc<span class="token punctuation">.</span>close
+<span class="token keyword">end</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_10s_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/reconnect_samples.ts#L33-40"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token comment">// will throw an exception if connection fails</span>
+<span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    reconnectTimeWait<span class="token punctuation">:</span> <span class="token number">10</span><span class="token operator">*</span><span class="token number">1000</span><span class="token punctuation">,</span> <span class="token comment">//10s</span>
+    servers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+</div>
+<h3 id="avoiding-the-thundering-herd">Avoiding the Thundering Herd</h3>
+<p>When a server goes down, there is a possible anti-pattern called the <em>Thundering Herd</em> where all of the clients try to reconnect immediately creating a denial of service attack. In order to prevent this, most NATS client libraries randomize the servers they attempt to connect to. This setting has no effect if only a single server is used, but in the case of a cluster, randomization, or shuffling, will ensure that no one server bears the brunt of the client reconnect attempts.</p>
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="reconnect_no_random_go" name="reconnect_no_random" class="tab" checked>
+	
+	<label for="reconnect_no_random_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="reconnect_no_random_java" name="reconnect_no_random" class="tab">
+	
+	<label for="reconnect_no_random_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="reconnect_no_random_js" name="reconnect_no_random" class="tab">
+	
+	<label for="reconnect_no_random_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="reconnect_no_random_py" name="reconnect_no_random" class="tab">
+	
+	<label for="reconnect_no_random_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="reconnect_no_random_ruby" name="reconnect_no_random" class="tab">
+	
+	<label for="reconnect_no_random_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="reconnect_no_random_ts" name="reconnect_no_random" class="tab">
+	
+	<label for="reconnect_no_random_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="reconnect_no_random_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/reconnect_no_random/main.go#L11-25"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">servers <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span><span class="token string">&quot;nats://localhost:1222&quot;</span><span class="token punctuation">,</span>
+	<span class="token string">&quot;nats://localhost:1223&quot;</span><span class="token punctuation">,</span>
+	<span class="token string">&quot;nats://localhost:1224&quot;</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+
+nc<span class="token punctuation">,</span> err <span class="token operator">:=</span> nats<span class="token punctuation">.</span><span class="token function">Connect</span><span class="token punctuation">(</span>strings<span class="token punctuation">.</span><span class="token function">Join</span><span class="token punctuation">(</span>servers<span class="token punctuation">,</span> <span class="token string">&quot;,&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span> nats<span class="token punctuation">.</span><span class="token function">DontRandomize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+	log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">defer</span> nc<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_no_random_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/ReconnectNoRandom.java#L11-21"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java"><span class="token class-name">Options</span> options <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Options</span><span class="token punctuation">.</span><span class="token class-name">Builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">server</span><span class="token punctuation">(</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">noRandomize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span> <span class="token comment">// Disable reconnect shuffle</span>
+                            <span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Connection</span> nc <span class="token operator">=</span> <span class="token class-name">Nats</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_no_random_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/reconnect_samples.js#L6-13"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token constant">NATS</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    noRandomize<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    servers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;nats://127.0.0.1:4443&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;nats://demo.nats.io:4222&quot;</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_no_random_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/reconnect_no_random.py#L5-20"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc <span class="token operator">=</span> NATS<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>
+   servers<span class="token operator">=</span><span class="token punctuation">[</span>
+      <span class="token string">&quot;nats://demo.nats.io:1222&quot;</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;nats://demo.nats.io:1223&quot;</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;nats://demo.nats.io:1224&quot;</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+   dont_randomize<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
+   <span class="token punctuation">)</span>
+
+<span class="token comment"># Do something with the connection</span>
+
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_no_random_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/reconnect_no_random.rb#L1-10"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby"><span class="token keyword">require</span> <span class="token string">&apos;nats/client&apos;</span>
+
+<span class="token constant">NATS</span><span class="token punctuation">.</span>start<span class="token punctuation">(</span>servers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;nats://127.0.0.1:1222&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;nats://127.0.0.1:1223&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;nats://127.0.0.1:1224&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dont_randomize_servers<span class="token punctuation">:</span> <span class="token keyword">true</span><span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token operator">|</span>nc<span class="token operator">|</span>
+   <span class="token comment"># Do something with the connection</span>
+
+   <span class="token comment"># Close the connection</span>
+   nc<span class="token punctuation">.</span>close
+<span class="token keyword">end</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_no_random_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/reconnect_samples.ts#L6-15"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token comment">// will throw an exception if connection fails</span>
+<span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    noRandomize<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    servers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;nats://127.0.0.1:4443&quot;</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;nats://demo.nats.io:4222&quot;</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+</div>
+<h3 id="listening-for-reconnect-events">Listening for Reconnect Events</h3>
+<p>Because reconnect is primarily under the covers many libraries provide an event listener you can use to be notified of reconnect events. This event can be especially important for applications sending a lot of messages.</p>
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="reconnect_event_go" name="reconnect_event" class="tab" checked>
+	
+	<label for="reconnect_event_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="reconnect_event_java" name="reconnect_event" class="tab">
+	
+	<label for="reconnect_event_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="reconnect_event_js" name="reconnect_event" class="tab">
+	
+	<label for="reconnect_event_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="reconnect_event_py" name="reconnect_event" class="tab">
+	
+	<label for="reconnect_event_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="reconnect_event_ruby" name="reconnect_event" class="tab">
+	
+	<label for="reconnect_event_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="reconnect_event_ts" name="reconnect_event" class="tab">
+	
+	<label for="reconnect_event_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="reconnect_event_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/reconnect_event/main.go#L10-28"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go"><span class="token comment">// Connection event handlers are invoked asynchronously</span>
+<span class="token comment">// and the state of the connection may have changed when</span>
+<span class="token comment">// the callback is invoked.</span>
+nc<span class="token punctuation">,</span> err <span class="token operator">:=</span> nats<span class="token punctuation">.</span><span class="token function">Connect</span><span class="token punctuation">(</span><span class="token string">&quot;demo.nats.io&quot;</span><span class="token punctuation">,</span>
+	nats<span class="token punctuation">.</span><span class="token function">DisconnectHandler</span><span class="token punctuation">(</span><span class="token keyword">func</span><span class="token punctuation">(</span>nc <span class="token operator">*</span>nats<span class="token punctuation">.</span>Conn<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token comment">// handle disconnect event</span>
+	<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+	nats<span class="token punctuation">.</span><span class="token function">ReconnectHandler</span><span class="token punctuation">(</span><span class="token keyword">func</span><span class="token punctuation">(</span>nc <span class="token operator">*</span>nats<span class="token punctuation">.</span>Conn<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token comment">// handle reconnect event</span>
+	<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+	log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">defer</span> nc<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_event_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/ReconnectEvents.java#L12-28"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java"><span class="token class-name">Options</span> options <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Options</span><span class="token punctuation">.</span><span class="token class-name">Builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">server</span><span class="token punctuation">(</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">connectionListener</span><span class="token punctuation">(</span><span class="token punctuation">(</span>conn<span class="token punctuation">,</span> type<span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token punctuation">{</span>
+                                <span class="token keyword">if</span> <span class="token punctuation">(</span>type <span class="token operator">==</span> <span class="token class-name">Events</span><span class="token punctuation">.</span>RECONNECTED<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                                    <span class="token comment">// handle reconnected</span>
+                                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>type <span class="token operator">==</span> <span class="token class-name">Events</span><span class="token punctuation">.</span>DISCONNECTED<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                                    <span class="token comment">// handle disconnected, wait for reconnect</span>
+                                <span class="token punctuation">}</span>
+                            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Connection</span> nc <span class="token operator">=</span> <span class="token class-name">Nats</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_event_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/reconnect_samples.js#L74-83"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token constant">NATS</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    maxReconnectAttempts<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
+    servers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+nc<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">&apos;reconnect&apos;</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">c</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&apos;reconnected&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_event_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/reconnect_event.py#L6-25"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc <span class="token operator">=</span> NATS<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">disconnected_cb</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+   <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;Got disconnected!&quot;</span><span class="token punctuation">)</span>
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">reconnected_cb</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+   <span class="token comment"># See who we are connected to on reconnect.</span>
+   <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;Got reconnected to {url}&quot;</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>url<span class="token operator">=</span>nc<span class="token punctuation">.</span>connected_url<span class="token punctuation">.</span>netloc<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>
+   servers<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+   reconnect_time_wait<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">,</span>
+   reconnected_cb<span class="token operator">=</span>reconnected_cb<span class="token punctuation">,</span>
+   disconnected_cb<span class="token operator">=</span>disconnected_cb<span class="token punctuation">,</span>
+   <span class="token punctuation">)</span>
+
+<span class="token comment"># Do something with the connection.</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_event_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/reconnect_event.rb#L1-14"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby"><span class="token keyword">require</span> <span class="token string">&apos;nats/client&apos;</span>
+
+<span class="token constant">NATS</span><span class="token punctuation">.</span>start<span class="token punctuation">(</span>servers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;nats://127.0.0.1:1222&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;nats://127.0.0.1:1223&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;nats://127.0.0.1:1224&quot;</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token operator">|</span>nc<span class="token operator">|</span>
+   <span class="token comment"># Do something with the connection</span>
+   nc<span class="token punctuation">.</span>on_reconnect <span class="token keyword">do</span>
+    puts <span class="token string">&quot;Got reconnected to <span class="token interpolation"><span class="token delimiter tag">#{</span>nc<span class="token punctuation">.</span>connected_server<span class="token delimiter tag">}</span></span>&quot;</span>
+  <span class="token keyword">end</span>
+
+  nc<span class="token punctuation">.</span>on_disconnect <span class="token keyword">do</span> <span class="token operator">|</span>reason<span class="token operator">|</span>
+    puts <span class="token string">&quot;Got disconnected! <span class="token interpolation"><span class="token delimiter tag">#{</span>reason<span class="token delimiter tag">}</span></span>&quot;</span>
+  <span class="token keyword">end</span>
+<span class="token keyword">end</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_event_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/reconnect_samples.ts#L57-70"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token comment">// will throw an exception if connection fails</span>
+<span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    maxReconnectAttempts<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
+    servers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// first argument is the connection (same as nc in this case)</span>
+<span class="token comment">// second argument is the url of the server where the client</span>
+<span class="token comment">// connected</span>
+nc<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">&apos;reconnect&apos;</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">conn<span class="token punctuation">,</span> server</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&apos;reconnected to&apos;</span><span class="token punctuation">,</span> server<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+</div>
+<h3 id="buffering-messages-during-reconnect-attempts">Buffering Messages During Reconnect Attempts</h3>
+<p>There is another setting that comes in to play during reconnection. This setting controls how much memory the client library will hold in the form of outgoing messages while it is disconnected. During a short reconnect, the client will generally allow applications to publish messages but because the server is offline, will be cached in the client. The library will then send those messages on reconnect. When the maximum reconnect buffer is reached, messages will no longer be publishable by the client.</p>
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="reconnect_5mb_go" name="reconnect_5mb" class="tab" checked>
+	
+	<label for="reconnect_5mb_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="reconnect_5mb_java" name="reconnect_5mb" class="tab">
+	
+	<label for="reconnect_5mb_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="reconnect_5mb_js" name="reconnect_5mb" class="tab">
+	
+	<label for="reconnect_5mb_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="reconnect_5mb_py" name="reconnect_5mb" class="tab">
+	
+	<label for="reconnect_5mb_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="reconnect_5mb_ruby" name="reconnect_5mb" class="tab">
+	
+	<label for="reconnect_5mb_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="reconnect_5mb_ts" name="reconnect_5mb" class="tab">
+	
+	<label for="reconnect_5mb_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="reconnect_5mb_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/reconnect_5mb/main.go#L10-20"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go"><span class="token comment">// Set reconnect buffer size in bytes (5 MB)</span>
+nc<span class="token punctuation">,</span> err <span class="token operator">:=</span> nats<span class="token punctuation">.</span><span class="token function">Connect</span><span class="token punctuation">(</span><span class="token string">&quot;demo.nats.io&quot;</span><span class="token punctuation">,</span> nats<span class="token punctuation">.</span><span class="token function">ReconnectBufSize</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token operator">*</span><span class="token number">1024</span><span class="token operator">*</span><span class="token number">1024</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+	log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">defer</span> nc<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_5mb_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/ReconnectFiveMB.java#L11-21"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java"><span class="token class-name">Options</span> options <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Options</span><span class="token punctuation">.</span><span class="token class-name">Builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">server</span><span class="token punctuation">(</span><span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+                            <span class="token function">reconnectBufferSize</span><span class="token punctuation">(</span><span class="token number">5</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span><span class="token punctuation">)</span><span class="token punctuation">.</span>  <span class="token comment">// Set buffer in bytes</span>
+                            <span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Connection</span> nc <span class="token operator">=</span> <span class="token class-name">Nats</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Do something with the connection</span>
+
+nc<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_5mb_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/reconnect_samples.js#L94-96"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token comment">// Reconnect buffer size is not configurable on node-nats</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_5mb_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/notapplicable.txt#L1-3"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python"><span class="token comment"># Asyncio NATS client currentply does not implement a reconnect buffer</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_5mb_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/notapplicable.txt#L1-3"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby"><span class="token comment"># There is currently no reconnect pending buffer as part of the Ruby NATS client.</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_5mb_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/reconnect_samples.ts#L76-78"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token comment">// Reconnect buffer size is not configurable on ts-nats</span>
+</code></pre>
+	</div>
+	
+</div>
+<blockquote>
+<p><em>As mentioned throughout this document, each client library may behave slightly differently. Please check the documentation for the library you are using.</em></p>
+</blockquote>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="./" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Developing with NATS">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Connecting","level":"1.2.1","depth":2,"previous":{"title":"Developing with NATS","level":"1.2","depth":1,"path":"developer/README.md","ref":"developer/README.md","articles":[{"title":"Connecting","level":"1.2.1","depth":2,"path":"developer/connecting.md","ref":"developer/connecting.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["prism","-highlight","include-html"],"pluginsConfig":{"prism":{},"include-html":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"developer/connecting.md","mtime":"2019-05-15T15:14:27.337Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-15T15:16:11.909Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+<!-- Viz Support -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/viz.js"> </script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/lite.render.js"> </script>
+
+<!-- Site code -->
+<script>
+    function flash(elem, text, speed) {
+        if (!elem) {
+            return;
+        }
+        var s = elem.style;
+        elem.textContent = text;
+        s.display = 'block';
+        s.opacity = 1;
+        (function fade() {
+            (s.opacity -= .1) < .1 ? s.display = "none" : setTimeout(fade, speed)
+        })();
+    }
+
+    function copyToClipboard(text, el) {
+        var copyTest = document.queryCommandSupported('copy');
+        var elOriginalText = el.getAttribute('data-original-title');
+
+        if (copyTest === true) {
+            var copyTextArea = document.createElement("textarea");
+            copyTextArea.value = text;
+            document.body.appendChild(copyTextArea);
+            copyTextArea.select();
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'Copied!' : 'Whoops, not copied!';
+                var parent = el.parentNode.parentNode;
+                var msgElem = parent.querySelector(".copy-msg");
+                flash(msgElem, msg, 100);
+            } catch (err) {
+                console.log('Oops, unable to copy', err);
+            }
+            document.body.removeChild(copyTextArea);
+            el.setAttribute('data-original-title', elOriginalText);
+        } else {
+            // Fallback if browser doesn't support .execCommand('copy')
+            window.prompt("Copy to clipboard: Ctrl+C or Command+C, Enter", text);
+        }
+    }
+
+    function processGraphVizSections(elements) {
+        var elements = document.querySelectorAll("[data-viz]");
+        var viz = new Viz();
+        Array.prototype.forEach.call(elements, function (x) {
+            var engine = x.getAttribute("data-viz");
+            var image = viz.renderImageElement(x.innerText, {
+                format: "png",
+                engine: engine
+            }).then(function (element) {
+                x.parentNode.insertBefore(element, x);
+            });
+        });
+
+
+    };
+
+    function updateLanguageParameter(value) {
+        const param = "lang";
+
+        if (window.location.href.indexOf("?") >= 0) {
+            const regExp = new RegExp(param + "(.+?)(&|$)", "g");
+            const newUrl = window.location.href.replace(regExp, param + "=" + encodeURIComponent(value) + "$2");
+            window.history.pushState("", "", newUrl);
+        } else {
+            const newUrl = window.location.href + "?" + param + "=" + encodeURIComponent(value);
+            window.history.pushState("", "", newUrl);
+        }
+    }
+
+    function getLanguageParameter() {
+        var match = RegExp('[?&]lang=([^&]*)').exec(window.location.search);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
+
+    function docReady() {
+        window.gitbook.events.bind("page.change", function () {
+            pageChanged();
+        });
+    }
+
+    function pageChanged() {
+        document.querySelectorAll('.js-copy').forEach(elem => {
+            elem.addEventListener("click", function () {
+                var el = this;
+                var parent = this.parentNode.parentNode;
+                var code = parent.querySelector('code');
+                var text = code.textContent || code.innerText;
+                copyToClipboard(text, el);
+            })
+        });
+
+        document.querySelectorAll('.api-lang').forEach(elem => {
+            elem.addEventListener("click", function () {
+                var curLang = sessionStorage.getItem('nats-api-language');
+                var lang = this.getAttribute('data-language');
+
+                // Stop the infinite loop
+                if (curLang == lang) {
+                    return;
+                }
+
+                sessionStorage.setItem('nats-api-language', lang); // So we only do this 1x
+
+                updateLanguageParameter(lang)
+
+                document.querySelectorAll('.api-lang[data-language=' + lang + ']').forEach(elem => {
+                    elem.click();
+                });
+            })
+        });
+
+        if (sessionStorage) {
+            var curLang = sessionStorage.getItem('nats-api-language');
+            var queryLang = getLanguageParameter();
+            var lang = curLang;
+
+            if (queryLang) { // query takes precedent
+                lang = queryLang
+            }
+
+            if (lang) {
+                document.querySelectorAll('.api-lang[data-language=' + lang + ']').forEach(elem => {
+                    elem.click();
+                });
+            }
+        }
+
+        setTimeout(function () {
+            processGraphVizSections();
+        }, 1);
+    }
+
+
+    if (document.readyState != 'loading') docReady();
+    else if (document.addEventListener) document.addEventListener('DOMContentLoaded', docReady);
+    else document.attachEvent('onreadystatechange', function () {
+        if (document.readyState == 'complete') docReady();
+    });
+</script>
+
+<!-- Github Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- Styles -->
+<style>
+    div.graphviz {
+        background: transparent;
+        border: 0;
+        padding-top: 15px;
+        padding-right: 15px;
+        padding-bottom: 15px;
+        padding-left: 15px;
+    }
+
+    code[data-viz] {
+        display: none;
+    }
+
+    .tab-wrap {
+        transition: 0.3s box-shadow ease;
+        border-radius: 6px;
+        max-width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        position: relative;
+        list-style: none;
+        background-color: #fff;
+        margin: 10px 0;
+        /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);*/
+    }
+
+    .tab-wrap:hover {
+        box-shadow: 0 12px 23px rgba(0, 0, 0, 0.23), 0 10px 10px rgba(0, 0, 0, 0.19);
+    }
+
+    .tab {
+        display: none;
+    }
+
+    /* Using scss these would be generated, we have to manually create enough for all tabs, start with 8 */
+    .tab:checked:nth-of-type(1)~.tab__content:nth-of-type(1) {
+        opacity: 1;
+        transition: 0.5s opacity ease-in, 0.8s -webkit-transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease, 0.8s -webkit-transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(2)~.tab__content:nth-of-type(2) {
+        opacity: 1;
+        transition: 0.5s opacity ease-in, 0.8s -webkit-transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease, 0.8s -webkit-transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(3)~.tab__content:nth-of-type(3) {
+        opacity: 1;
+        transition: 0.5s opacity ease-in, 0.8s -webkit-transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease, 0.8s -webkit-transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(4)~.tab__content:nth-of-type(4) {
+        opacity: 1;
+        transition: 0.5s opacity ease-in, 0.8s -webkit-transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease, 0.8s -webkit-transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(5)~.tab__content:nth-of-type(5) {
+        opacity: 1;
+        transition: 0.5s opacity ease-in, 0.8s -webkit-transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease, 0.8s -webkit-transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(6)~.tab__content:nth-of-type(6) {
+        opacity: 1;
+        transition: 0.5s opacity ease-in, 0.8s -webkit-transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease, 0.8s -webkit-transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(7)~.tab__content:nth-of-type(7) {
+        opacity: 1;
+        transition: 0.5s opacity ease-in, 0.8s -webkit-transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease, 0.8s -webkit-transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:checked:nth-of-type(8)~.tab__content:nth-of-type(8) {
+        opacity: 1;
+        transition: 0.5s opacity ease-in, 0.8s -webkit-transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease;
+        transition: 0.5s opacity ease-in, 0.8s transform ease, 0.8s -webkit-transform ease;
+        position: relative;
+        top: 0;
+        z-index: 100;
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+        text-shadow: 0 0 0;
+    }
+
+    .tab:first-of-type:not(:last-of-type)+label {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .tab:not(:first-of-type):not(:last-of-type)+label {
+        border-radius: 0;
+    }
+
+    .tab:last-of-type:not(:first-of-type)+label {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .tab:checked+label {
+        background-color: #fff;
+        box-shadow: 0 -1px 0 #fff inset;
+        cursor: default;
+        font-weight: bold;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+    }
+
+    .tab:checked+label:hover {
+        box-shadow: 0 -1px 0 #fff inset;
+        background-color: #fff;
+    }
+
+    .tab+label {
+        box-shadow: 0 -1px 0 #eee inset;
+        border-radius: 6px 6px 0 0;
+        cursor: pointer;
+        display: block;
+        text-decoration: none;
+        color: #27aae1;
+        flex-grow: 3;
+        text-align: center;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        text-align: center;
+        transition: 0.3s background-color ease, 0.3s box-shadow ease;
+        height: 50px;
+        box-sizing: border-box;
+        padding: 15px;
+    }
+
+    .tab+label:hover {
+        background-color: #f9f9f9;
+        box-shadow: 0 1px 0 #f4f4f4 inset;
+    }
+
+    .tab__content {
+        padding: 2px 2px;
+        background-color: transparent;
+        position: absolute;
+        width: 100%;
+        z-index: -1;
+        opacity: 0;
+        left: 0;
+        -webkit-transform: translateY(-3px);
+        transform: translateY(-3px);
+        border-radius: 6px;
+    }
+
+    .tab__content pre {
+        margin-bottom: 0px !important;
+    }
+
+    .toolbar-icons {
+        display: inline-block;
+        position: relative;
+        padding-left: 4px;
+    }
+
+    a.toolbar-icons {
+        text-decoration: none;
+    }
+
+    .toolbar-icons .mdi {
+        color: #4183c4;
+    }
+
+    .copy-msg {
+        color: #4183c4;
+    }
+
+    .pull-right {
+        float: right !important;
+    }
+
+    .pull-left {
+        float: left !important;
+    }
+</style>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
