@@ -1,0 +1,112 @@
+
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="connect_verbose_go" name="connect_verbose" class="tab" checked>
+	
+	<label for="connect_verbose_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="connect_verbose_java" name="connect_verbose" class="tab">
+	
+	<label for="connect_verbose_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="connect_verbose_js" name="connect_verbose" class="tab">
+	
+	<label for="connect_verbose_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="connect_verbose_py" name="connect_verbose" class="tab">
+	
+	<label for="connect_verbose_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="connect_verbose_ruby" name="connect_verbose" class="tab">
+	
+	<label for="connect_verbose_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="connect_verbose_ts" name="connect_verbose" class="tab">
+	
+	<label for="connect_verbose_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="connect_verbose_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/connect_verbose/main.go#L10-23"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">opts := nats.GetDefaultOptions()
+opts.Url = &#34;demo.nats.io&#34;
+// Turn on Verbose
+opts.Verbose = true
+nc, err := opts.Connect()
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+// Do something with the connection
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_verbose_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/ConnectVerbose.java#L11-21"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java">Options options = new Options.Builder().
+                            server(&#34;nats://demo.nats.io:4222&#34;).
+                            verbose(). // Turn on verbose
+                            build();
+Connection nc = Nats.connect(options);
+
+// Do something with the connection
+
+nc.close();
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_verbose_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/options_samples.js#L56-62"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = NATS.connect({
+    url: &#34;nats://demo.nats.io:4222&#34;,
+    verbose: true
+});
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_verbose_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/connect_verbose.py#L6-13"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc = NATS()
+
+await nc.connect(servers=[&#34;nats://demo.nats.io:4222&#34;], verbose=True)
+
+# Do something with the connection.
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_verbose_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/connect_verbose.rb#L1-15"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby">require &#39;nats/client&#39;
+
+NATS.start(verbose: true) do |nc|
+   nc.on_reconnect do
+    puts &#34;Got reconnected to #{nc.connected_server}&#34;
+  end
+
+  nc.on_disconnect do |reason|
+    puts &#34;Got disconnected! #{reason}&#34;
+  end
+
+  nc.close
+end
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_verbose_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/options_samples.ts#L42-50"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// will throw an exception if connection fails
+let nc = await connect({
+    url: &#34;nats://demo.nats.io:4222&#34;,
+    verbose: true
+});
+
+nc.close();
+</code></pre>
+	</div>
+	
+</div>

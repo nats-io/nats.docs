@@ -1,4 +1,7 @@
 {
+    "title" : "NATS",
+    "description": "Administrative, developer and conceptual documentation for the NATS messaging system.",
+    "author": "The NATS Maintainers",
     "plugins" : [ "prism", "-highlight", "include-html"],
     "pluginsConfig": {
         

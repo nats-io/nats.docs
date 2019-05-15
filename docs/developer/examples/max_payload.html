@@ -1,0 +1,115 @@
+
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="max_payload_go" name="max_payload" class="tab" checked>
+	
+	<label for="max_payload_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="max_payload_java" name="max_payload" class="tab">
+	
+	<label for="max_payload_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="max_payload_js" name="max_payload" class="tab">
+	
+	<label for="max_payload_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="max_payload_py" name="max_payload" class="tab">
+	
+	<label for="max_payload_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="max_payload_ruby" name="max_payload" class="tab">
+	
+	<label for="max_payload_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="max_payload_ts" name="max_payload" class="tab">
+	
+	<label for="max_payload_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="max_payload_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/max_payload/main.go#L10-22"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;demo.nats.io&#34;)
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+mp := nc.MaxPayload()
+log.Printf(&#34;Maximum payload is %v bytes&#34;, mp)
+
+// Do something with the max payload
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="max_payload_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/GetMaxPayload.java#L10-17"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java">Connection nc = Nats.connect(&#34;nats://demo.nats.io:4222&#34;);
+
+long max = nc.getMaxPayload();
+// Do something with the max payload
+
+nc.close();
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="max_payload_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/event_samples.js#L128-139"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = NATS.connect(&#34;nats://demo.nats.io:4222&#34;);
+
+// on node you *must* register an error listener. If not registered
+// the library emits an &#39;error&#39; event, the node process will exit.
+nc.on(&#39;error&#39;, (err) =&gt; {
+    t.log(&#39;client got an error:&#39;, err);
+});
+nc.on(&#39;connect&#39;, () =&gt; {
+   t.log(nc.info.max_payload);
+});
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="max_payload_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/max_payload.py#L6-15"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc = NATS()
+
+await nc.connect(servers=[&#34;nats://demo.nats.io:4222&#34;])
+
+print(&#34;Maximum payload is %d bytes&#34; % nc.max_payload)
+
+# Do something with the max payload.
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="max_payload_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/max_payload.rb#L1-16"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby">require &#39;nats/client&#39;
+
+NATS.start(max_outstanding_pings: 5) do |nc|
+   nc.on_reconnect do
+    puts &#34;Got reconnected to #{nc.connected_server}&#34;
+  end
+
+  nc.on_disconnect do |reason|
+    puts &#34;Got disconnected! #{reason}&#34;
+  end
+
+  # Do something with the max_payload
+  puts &#34;Maximum Payload is #{nc.server_info[:max_payload]} bytes&#34;
+end
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="max_payload_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/event_samples.ts#L76-83"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// connect will happen once - the first connect
+nc.on(&#39;connect&#39;, (nc: Client, url: string, options: ServerInfo) =&gt; {
+    // nc is the connection that connected
+    t.log(&#39;client connected to&#39;, url);
+    t.log(&#39;max_payload&#39;, options.max_payload);
+});
+</code></pre>
+	</div>
+	
+</div>

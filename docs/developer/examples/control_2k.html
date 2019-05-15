@@ -1,0 +1,79 @@
+
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="control_2k_go" name="control_2k" class="tab" checked>
+	
+	<label for="control_2k_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="control_2k_java" name="control_2k" class="tab">
+	
+	<label for="control_2k_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="control_2k_js" name="control_2k" class="tab">
+	
+	<label for="control_2k_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="control_2k_py" name="control_2k" class="tab">
+	
+	<label for="control_2k_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="control_2k_ruby" name="control_2k" class="tab">
+	
+	<label for="control_2k_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="control_2k_ts" name="control_2k" class="tab">
+	
+	<label for="control_2k_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="control_2k_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/notapplicable.txt#L1-3"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">// This does not apply to the NATS Go Client
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="control_2k_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/ConnectControl2k.java#L11-21"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java">Options options = new Options.Builder().
+                            server(&#34;nats://demo.nats.io:4222&#34;).
+                            maxControlLine(2 * 1024). // Set the max control line to 2k
+                            build();
+Connection nc = Nats.connect(options);
+
+// Do something with the connection
+
+nc.close();
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="control_2k_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/options_samples.js#L90-97"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// set this option before creating a connection
+NATS.MAX_CONTROL_LINE_SIZE = 1024*2;
+let nc = NATS.connect({
+    url: &#34;nats://demo.nats.io:4222&#34;
+});
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="control_2k_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/notapplicable.txt#L5-7"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python"># Asyncio NATS client does not allow custom control lines
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="control_2k_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/notapplicable.txt#L5-7"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby"># There is no need to customize this in the Ruby NATS client.
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="control_2k_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/options_samples.ts#L68-70"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// control line size is not configurable on ts-nats
+</code></pre>
+	</div>
+	
+</div>

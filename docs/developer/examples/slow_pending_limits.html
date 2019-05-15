@@ -1,0 +1,121 @@
+
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="slow_pending_limits_go" name="slow_pending_limits" class="tab" checked>
+	
+	<label for="slow_pending_limits_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="slow_pending_limits_java" name="slow_pending_limits" class="tab">
+	
+	<label for="slow_pending_limits_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="slow_pending_limits_js" name="slow_pending_limits" class="tab">
+	
+	<label for="slow_pending_limits_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="slow_pending_limits_py" name="slow_pending_limits" class="tab">
+	
+	<label for="slow_pending_limits_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="slow_pending_limits_ruby" name="slow_pending_limits" class="tab">
+	
+	<label for="slow_pending_limits_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="slow_pending_limits_ts" name="slow_pending_limits" class="tab">
+	
+	<label for="slow_pending_limits_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="slow_pending_limits_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/sub_pending_limits/main.go#L10-37"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;demo.nats.io&#34;)
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+// Subscribe
+sub1, err := nc.Subscribe(&#34;updates&#34;, func(m *nats.Msg) {})
+if err != nil {
+	log.Fatal(err)
+}
+
+// Set limits of 1000 messages or 5MB, whichever comes first
+sub1.SetPendingLimits(1000, 5*1024*1024)
+
+// Subscribe
+sub2, err := nc.Subscribe(&#34;updates&#34;, func(m *nats.Msg) {})
+if err != nil {
+	log.Fatal(err)
+}
+
+// Set no limits for this subscription
+sub2.SetPendingLimits(-1, -1)
+
+// Close the connection
+nc.Close()
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="slow_pending_limits_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/SetPendingLimits.java#L12-32"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java">Connection nc = Nats.connect(&#34;nats://demo.nats.io:4222&#34;);
+
+Dispatcher d = nc.createDispatcher((msg) -&gt; {
+    // do something
+});
+
+d.subscribe(&#34;updates&#34;);
+
+d.setPendingLimits(1_000, 5 * 1024 * 1024); // Set limits on a dispatcher
+
+// Subscribe
+Subscription sub = nc.subscribe(&#34;updates&#34;);
+
+sub.setPendingLimits(1_000, 5 * 1024 * 1024); // Set limits on a subscription
+
+// Do something
+
+// Close the connection
+nc.close();
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="slow_pending_limits_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/options_samples.js#L107-109"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// slow pending limits are not configurable on node-nats
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="slow_pending_limits_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/sub_pending_limits.py#L6-20"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc = NATS()
+
+await nc.connect(servers=[&#34;nats://demo.nats.io:4222&#34;])
+
+future = asyncio.Future()
+
+async def cb(msg):
+  nonlocal future
+  future.set_result(msg)
+
+# Set limits of 1000 messages or 5MB
+await nc.subscribe(&#34;updates&#34;, cb=cb, pending_bytes_limit=5*1024*1024, pending_msgs_limit=1000)
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="slow_pending_limits_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/notapplicable.txt#L17-19"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby"># The Ruby NATS client currently does not have option to customize slow consumer limits per sub.
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="slow_pending_limits_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/options_samples.ts#L75-77"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// slow pending limits are not configurable on ts-nats
+</code></pre>
+	</div>
+	
+</div>
