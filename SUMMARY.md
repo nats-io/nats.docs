@@ -94,12 +94,10 @@
   * [Explore NATS Pub/Sub](developer/tutorials/pubsub.md)
   * [Explore NATS Request/Reply](developer/tutorials/reqreply.md)
   * [Explore NATS Queueing](developer/tutorials/queues.md)
-  * [Benchmarking NATS](developer/tutorials/benchmarking.md)
+  * [Advanced Connect and Custom Dialer in Go](developer/tutorials/custom_dialer.md)
 
 ## NATS Protocol
 * [Protocol Demo](nats_protocol/nats-protocol-demo.md)
 * [Client Protocol](nats_protocol/nats-protocol.md)
   * [Developing a Client](nats_protocol/nats-client-dev.md)
 * [NATS Cluster Protocol](nats_protocol/nats-server-protocol.md)
-
-
