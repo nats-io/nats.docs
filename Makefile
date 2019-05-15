@@ -1,5 +1,5 @@
 build: init examples
-	gitbook build . docs
+	gitbook build . _docs
 	
 init:
 	gitbook install

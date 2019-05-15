@@ -1,7 +1,8 @@
 
 _book/
+_docs/
 _examples/
-tools/
+_tools/
 
 Makefile
 building_the_book.md
