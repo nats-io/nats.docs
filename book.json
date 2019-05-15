@@ -6,7 +6,7 @@
       "prism", 
       "-highlight", 
       "include-html",
-      "collapsible-menu"
+      "toggle-chapters"
     ],
     "pluginsConfig": {
         "prism": {
