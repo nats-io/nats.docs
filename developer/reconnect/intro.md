@@ -1,0 +1,3 @@
+# Reconnecting
+
+Most, if not all, of the client libraries will reconnect to the server if they are disconnected due to a network problem. The reconnect logic can differ by library, so check your client libraries. In general, the client will try to connect to all of the servers it knows about, either through the URLs provided in `connect` or the URLs provided by its most recent server. The library may have several options to help control reconnect behavior.
