@@ -1,0 +1,106 @@
+
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="reconnect_10x_go" name="reconnect_10x" class="tab" checked>
+	
+	<label for="reconnect_10x_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="reconnect_10x_java" name="reconnect_10x" class="tab">
+	
+	<label for="reconnect_10x_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="reconnect_10x_js" name="reconnect_10x" class="tab">
+	
+	<label for="reconnect_10x_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="reconnect_10x_py" name="reconnect_10x" class="tab">
+	
+	<label for="reconnect_10x_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="reconnect_10x_ruby" name="reconnect_10x" class="tab">
+	
+	<label for="reconnect_10x_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="reconnect_10x_ts" name="reconnect_10x" class="tab">
+	
+	<label for="reconnect_10x_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="reconnect_10x_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/reconnect_10x/main.go#L10-20"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">// Set max reconnects attempts
+nc, err := nats.Connect(&#34;demo.nats.io&#34;, nats.MaxReconnects(10))
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+// Do something with the connection
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_10x_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/ReconnectTenTimes.java#L11-21"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java">Options options = new Options.Builder().
+                            server(&#34;nats://demo.nats.io:4222&#34;).
+                            maxReconnects(10). // Set max reconnect attempts
+                            build();
+Connection nc = Nats.connect(options);
+
+// Do something with the connection
+
+nc.close();
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_10x_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/reconnect_samples.js#L58-63"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = NATS.connect({
+    maxReconnectAttempts: 10,
+    servers: [&#34;nats://demo.nats.io:4222&#34;]
+});
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_10x_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/reconnect_10x.py#L5-16"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc = NATS()
+await nc.connect(
+   servers=[&#34;nats://demo.nats.io:4222&#34;],
+   max_reconnect_attempts=10,
+   )
+
+# Do something with the connection
+
+await nc.close()
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_10x_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/reconnect_10x.rb#L1-10"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby">require &#39;nats/client&#39;
+
+NATS.start(servers: [&#34;nats://127.0.0.1:1222&#34;, &#34;nats://127.0.0.1:1223&#34;, &#34;nats://127.0.0.1:1224&#34;], max_reconnect_attempts: 10) do |nc|
+   # Do something with the connection
+
+   # Close the connection
+   nc.close
+end
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="reconnect_10x_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/reconnect_samples.ts#L45-52"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// will throw an exception if connection fails
+let nc = await connect({
+    maxReconnectAttempts: 10,
+    servers: [&#34;nats://demo.nats.io:4222&#34;]
+});
+nc.close();
+</code></pre>
+	</div>
+	
+</div>

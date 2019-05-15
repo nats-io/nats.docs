@@ -1,0 +1,191 @@
+
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="connect_tls_url_go" name="connect_tls_url" class="tab" checked>
+	
+	<label for="connect_tls_url_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="connect_tls_url_java" name="connect_tls_url" class="tab">
+	
+	<label for="connect_tls_url_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="connect_tls_url_js" name="connect_tls_url" class="tab">
+	
+	<label for="connect_tls_url_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="connect_tls_url_py" name="connect_tls_url" class="tab">
+	
+	<label for="connect_tls_url_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="connect_tls_url_ruby" name="connect_tls_url" class="tab">
+	
+	<label for="connect_tls_url_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="connect_tls_url_ts" name="connect_tls_url" class="tab">
+	
+	<label for="connect_tls_url_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="connect_tls_url_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/connect_tls_url/main.go#L10-21"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;localhost&#34;,
+	nats.Secure(),
+	nats.RootCAs(&#34;resources/certs/ca.pem&#34;)) // May need this if server is using self-signed certificate
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+// Do something with the connection
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_tls_url_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/ConnectTLSURL.java#L18-80"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java">class SSLUtils2 {
+    public static String KEYSTORE_PATH = &#34;src/main/resources/keystore.jks&#34;;
+    public static String TRUSTSTORE_PATH = &#34;src/main/resources/cacerts&#34;;
+    public static String STORE_PASSWORD = &#34;password&#34;;
+    public static String KEY_PASSWORD = &#34;password&#34;;
+    public static String ALGORITHM = &#34;SunX509&#34;;
+
+    public static KeyStore loadKeystore(String path) throws Exception {
+        KeyStore store = KeyStore.getInstance(&#34;JKS&#34;);
+        BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));
+
+        try {
+            store.load(in, STORE_PASSWORD.toCharArray());
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+        }
+
+        return store;
+    }
+
+    public static KeyManager[] createTestKeyManagers() throws Exception {
+        KeyStore store = loadKeystore(KEYSTORE_PATH);
+        KeyManagerFactory factory = KeyManagerFactory.getInstance(ALGORITHM);
+        factory.init(store, KEY_PASSWORD.toCharArray());
+        return factory.getKeyManagers();
+    }
+
+    public static TrustManager[] createTestTrustManagers() throws Exception {
+        KeyStore store = loadKeystore(TRUSTSTORE_PATH);
+        TrustManagerFactory factory = TrustManagerFactory.getInstance(ALGORITHM);
+        factory.init(store);
+        return factory.getTrustManagers();
+    }
+
+    public static SSLContext createSSLContext() throws Exception {
+        SSLContext ctx = SSLContext.getInstance(Options.DEFAULT_SSL_PROTOCOL);
+        ctx.init(createTestKeyManagers(), createTestTrustManagers(), new SecureRandom());
+        return ctx;
+    }
+}
+
+public class ConnectTLSURL {
+    public static void main(String[] args) {
+
+        try {
+            SSLContext.setDefault(SSLUtils2.createSSLContext()); // Set the default context
+            Options options = new Options.Builder().
+                                server(&#34;tls://localhost:4222&#34;). // Use the TLS protocol
+                                build();
+            Connection nc = Nats.connect(options);
+            
+            // Do something with the connection
+
+            nc.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_tls_url_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/tls_samples.js#L26-31"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = NATS.connect({
+    url: &#34;tls://demo.nats.io:4443&#34;,
+    tls: true
+});
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_tls_url_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/connect_tls_url.py#L1-37"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">import asyncio
+import ssl
+import certifi
+from nats.aio.client import Client as NATS
+from nats.aio.errors import ErrTimeout
+
+async def run(loop):
+    nc = NATS()
+
+    # If using Python 3.7 in OS X and getting SSL errors, run first:
+    #
+    # /Applications/Python\ 3.7/Install\ Certificates.command
+    #
+    # Setting the tls as the scheme will use same defaults as `ssl.create_default_context()`
+    #
+    await nc.connect(&#34;tls://demo.nats.io:4443&#34;, loop=loop)
+
+    async def message_handler(msg):
+        subject = msg.subject
+        reply = msg.reply
+        data = msg.data.decode()
+        print(&#34;Received a message on &#39;{subject} {reply}&#39;: {data}&#34;.format(
+            subject=subject, reply=reply, data=data))
+
+    # Simple publisher and async subscriber via coroutine.
+    sid = await nc.subscribe(&#34;foo&#34;, cb=message_handler)
+    await nc.flush()
+
+    # Stop receiving after 2 messages.
+    await nc.auto_unsubscribe(sid, 2)
+    await nc.publish(&#34;foo&#34;, b&#39;Hello&#39;)
+    await nc.publish(&#34;foo&#34;, b&#39;World&#39;)
+    await nc.publish(&#34;foo&#34;, b&#39;!!!!!&#39;)
+    await asyncio.sleep(1, loop=loop)
+    await nc.close()
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_tls_url_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/connect_tls_url.rb#L3-19"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby">EM.run do
+
+  # In order to use TLS with the Ruby NATS client, use the :tls option
+  # when customizing the connection with an empty block.
+  options = {
+    :servers =&gt; [
+      &#39;nats://demo.nats.io:4443&#39;,
+    ],
+    :tls =&gt; {}
+  }
+
+  NATS.connect(options) do |nc|
+    puts :connected
+  end
+end
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_tls_url_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/tls_samples.ts#L26-33"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// will throw an exception if connection fails
+let nc = await connect({
+    url: &#34;tls://demo.nats.io:4443&#34;
+});
+
+nc.close();
+</code></pre>
+	</div>
+	
+</div>

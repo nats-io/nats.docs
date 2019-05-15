@@ -1,0 +1,213 @@
+
+<div class="tab-wrap">
+  	
+	
+	<input type="radio" id="connect_tls_go" name="connect_tls" class="tab" checked>
+	
+	<label for="connect_tls_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="connect_tls_java" name="connect_tls" class="tab">
+	
+	<label for="connect_tls_java" class="api-lang" data-language="java">Java</label>
+	
+	
+	<input type="radio" id="connect_tls_js" name="connect_tls" class="tab">
+	
+	<label for="connect_tls_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="connect_tls_py" name="connect_tls" class="tab">
+	
+	<label for="connect_tls_py" class="api-lang" data-language="py">Python</label>
+	
+	
+	<input type="radio" id="connect_tls_ruby" name="connect_tls" class="tab">
+	
+	<label for="connect_tls_ruby" class="api-lang" data-language="ruby">Ruby</label>
+	
+	
+	<input type="radio" id="connect_tls_ts" name="connect_tls" class="tab">
+	
+	<label for="connect_tls_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
+
+  	
+	<div class="tab__content">
+	<pre id="connect_tls_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/connect_tls/main.go#L10-21"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;localhost&#34;,
+	nats.ClientCert(&#34;resources/certs/cert.pem&#34;, &#34;resources/certs/key.pem&#34;),
+	nats.RootCAs(&#34;resources/certs/ca.pem&#34;))
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+// Do something with the connection
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_tls_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/ConnectTLS.java#L18-81"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java">class SSLUtils {
+    public static String KEYSTORE_PATH = &#34;src/main/resources/keystore.jks&#34;;
+    public static String TRUSTSTORE_PATH = &#34;src/main/resources/cacerts&#34;;
+    public static String STORE_PASSWORD = &#34;password&#34;;
+    public static String KEY_PASSWORD = &#34;password&#34;;
+    public static String ALGORITHM = &#34;SunX509&#34;;
+
+    public static KeyStore loadKeystore(String path) throws Exception {
+        KeyStore store = KeyStore.getInstance(&#34;JKS&#34;);
+        BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));
+
+        try {
+            store.load(in, STORE_PASSWORD.toCharArray());
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+        }
+
+        return store;
+    }
+
+    public static KeyManager[] createTestKeyManagers() throws Exception {
+        KeyStore store = loadKeystore(KEYSTORE_PATH);
+        KeyManagerFactory factory = KeyManagerFactory.getInstance(ALGORITHM);
+        factory.init(store, KEY_PASSWORD.toCharArray());
+        return factory.getKeyManagers();
+    }
+
+    public static TrustManager[] createTestTrustManagers() throws Exception {
+        KeyStore store = loadKeystore(TRUSTSTORE_PATH);
+        TrustManagerFactory factory = TrustManagerFactory.getInstance(ALGORITHM);
+        factory.init(store);
+        return factory.getTrustManagers();
+    }
+
+    public static SSLContext createSSLContext() throws Exception {
+        SSLContext ctx = SSLContext.getInstance(Options.DEFAULT_SSL_PROTOCOL);
+        ctx.init(createTestKeyManagers(), createTestTrustManagers(), new SecureRandom());
+        return ctx;
+    }
+}
+
+public class ConnectTLS {
+    public static void main(String[] args) {
+
+        try {
+            SSLContext ctx = SSLUtils.createSSLContext();
+            Options options = new Options.Builder().
+                                server(&#34;nats://localhost:4222&#34;).
+                                sslContext(ctx). // Set the SSL context
+                                build();
+            Connection nc = Nats.connect(options);
+            
+            // Do something with the connection
+
+            nc.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_tls_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/tls_samples.js#L44-56"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let caCert = fs.readFileSync(caCertPath);
+let clientCert = fs.readFileSync(clientCertPath);
+let clientKey = fs.readFileSync(clientKeyPath);
+let nc = NATS.connect({
+    url: url,
+    tls: {
+        ca: [caCert],
+        key: [clientKey],
+        cert: [clientCert]
+    }
+});
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_tls_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/connect_tls.py#L7-20"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc = NATS()
+
+ssl_ctx = ssl.create_default_context(purpose=ssl.Purpose.SERVER_AUTH)
+ssl_ctx.load_verify_locations(&#39;ca.pem&#39;)
+ssl_ctx.load_cert_chain(certfile=&#39;client-cert.pem&#39;,
+                        keyfile=&#39;client-key.pem&#39;)
+await nc.connect(io_loop=loop, tls=ssl_ctx)
+
+await nc.connect(servers=[&#34;nats://demo.nats.io:4222&#34;], tls=ssl_ctx)
+
+# Do something with the connection.
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_tls_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/connect_tls.rb#L3-51"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby">EM.run do
+
+  options = {
+    :servers =&gt; [
+      &#39;nats://localhost:4222&#39;,
+    ],
+    :tls =&gt; {
+      :private_key_file =&gt; &#39;./spec/configs/certs/key.pem&#39;,
+      :cert_chain_file  =&gt; &#39;./spec/configs/certs/server.pem&#39;
+    }
+  }
+
+  NATS.connect(options) do |nc|
+    puts &#34;#{Time.now.to_f} - Connected to NATS at #{nc.connected_server}&#34;
+
+    nc.subscribe(&#34;hello&#34;) do |msg|
+      puts &#34;#{Time.now.to_f} - Received: #{msg}&#34;
+    end
+
+    nc.flush do
+      nc.publish(&#34;hello&#34;, &#34;world&#34;)
+    end
+
+    EM.add_periodic_timer(0.1) do
+      next unless nc.connected?
+      nc.publish(&#34;hello&#34;, &#34;hello&#34;)
+    end
+
+    # Set default callbacks
+    nc.on_error do |e|
+      puts &#34;#{Time.now.to_f } - Error: #{e}&#34;
+    end
+
+    nc.on_disconnect do |reason|
+      puts &#34;#{Time.now.to_f} - Disconnected: #{reason}&#34;
+    end
+
+    nc.on_reconnect do |nc|
+      puts &#34;#{Time.now.to_f} - Reconnected to NATS server at #{nc.connected_server}&#34;
+    end
+
+    nc.on_close do
+      puts &#34;#{Time.now.to_f} - Connection to NATS closed&#34;
+      EM.stop
+    end
+  end
+end
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_tls_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/tls_samples.ts#L40-52"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let caCert = readFileSync(caCertPath);
+let clientCert = readFileSync(clientCertPath);
+let clientKey = readFileSync(clientKeyPath);
+let nc = await connect({
+    url: url,
+    tls: {
+        ca: [caCert],
+        key: [clientKey],
+        cert: [clientCert]
+    }
+});
+</code></pre>
+	</div>
+	
+</div>

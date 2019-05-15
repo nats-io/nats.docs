@@ -1,0 +1,6 @@
+{
+    "plugins" : [ "prism", "-highlight", "include-html"],
+    "pluginsConfig": {
+        
+      }
+}

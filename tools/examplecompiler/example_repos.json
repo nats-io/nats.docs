@@ -1,0 +1,42 @@
+[{
+	"LanguageName": "java",
+	"FormalName":   "Java",
+	"RepoURL":      "https://github.com/nats-io/java-nats-examples.git",
+	"Extensions":   [".java", ".txt"],
+	"SyntaxClass":  "language-java"
+},
+{
+	"LanguageName": "go",
+	"FormalName":   "Go",
+	"RepoURL":      "https://github.com/nats-io/go-nats-examples.git",
+	"Extensions":   [".go", ".txt"],
+	"SyntaxClass":  "language-go"
+},
+{
+	"LanguageName": "ts",
+	"FormalName":   "TypeScript",
+	"RepoURL":      "https://github.com/nats-io/ts-nats-examples.git",
+	"Extensions":   [".ts", ".txt"],
+	"SyntaxClass":  "language-javascript"
+},
+{
+	"LanguageName": "js",
+	"FormalName":   "JavaScript",
+	"RepoURL":      "https://github.com/nats-io/node-nats-examples.git",
+	"Extensions":   [".js", ".txt"],
+	"SyntaxClass":  "language-javascript"
+},
+{
+	"LanguageName": "py",
+	"FormalName":   "Python",
+	"RepoURL":      "https://github.com/nats-io/asyncio-nats-examples.git",
+	"Extensions":   [".py", ".txt"],
+	"SyntaxClass":  "language-python"
+},
+{
+	"LanguageName": "ruby",
+	"FormalName":   "Ruby",
+	"RepoURL":      "https://github.com/nats-io/ruby-nats-examples.git",
+	"Extensions":   [".rb", ".txt"],
+	"SyntaxClass":  "language-ruby"
+}]
