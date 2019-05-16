@@ -1,6 +1,8 @@
 # NATS Messaging Concepts
 
-NATS messaging involves the electronic exchange of data among computer applications and provides a layer between the application and the underlying physical network. Application data is encoded as a message and sent by a publisher. The message is received, decoded, and processed by one or more subscribers. A subscriber can process a NATS message synchronously or asynchronously, depending on the client library used.
+NATS messaging involves the electronic exchange of data among computer applications and provides a layer between the application and the underlying physical network. Application data is encoded as a message and sent by a publisher. The message is received, decoded, and processed by one or more subscribers.
+
+By providing a central, easily discovered broker, NATS makes it easy for programs to communicate across different environments, languages, and systems. All clients have to do is connect to the broker, subscribe or publish to a subject and process messages. With this simple design, NATS lets programs share common message-handling code, isolate resources and interdependencies, and scale by easily handling an increase in message volume.
 
 <div class="graphviz"><code data-viz="dot">
 graph nats {
@@ -17,8 +19,4 @@ graph nats {
 }
 </code></div>
 
-Asynchronous processing uses a callback message handler to process messages. When a message arrives, the registered callback handler receives control to process the message. The client or the consuming application is not blocked from performing other work while it is waiting for a message. Asynchronous processing lets you create multi-threaded dispatching designs.
-
-Synchronous processing requires that application code explicitly call a method to process an incoming message. Typically the message request is a blocking call that suspends processing until a message becomes available and if no message is available, the period for which the message processing call blocks, would be set by the client. Synchronous processing is typically used by a server whose purpose is to wait for and process incoming request messages and to send replies to the requesting application.
-
-NATS makes it easy for programs to communicate across different environments, languages, and systems because all a client has to do is parse the message. NATS lets programs share common message-handling code, isolate resources and interdependencies, and scale by easily handling an increase in message volume.
+NATS core offers an **at most once** quality of service. If a subscriber is not listening on the subject (no subject match), or is not active when the message is sent, the message is not received. This is the same level of guarantee that TCP/IP provides. By default, NATS is a fire-and-forget messaging system. If you need higher levels of service, you can either use NATS Streaming, or build the additional reliability into your client(s) yourself.

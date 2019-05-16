@@ -1,6 +1,6 @@
-# Request Reply
+# Request-Reply and Scatter-Gather
 
-NATS supports two flavors of request reply messaging: point-to-point or one-to-many. Point-to-point involves the fastest or first to respond. In a one-to-many exchange, you can set a limit on the number of responses the requestor may receive or use a timeout to limit on the speed of the response.
+NATS supports two flavors of request reply messaging: point-to-point or one-to-many. Point-to-point involves the fastest or first to respond. In a one-to-many exchange, you can set a limit on the number of responses the requestor may receive or use a timeout to limit on the speed of the response. One-to-many request reply is sometimes called *scatter gather*.
 
 In a request-response exchange the publish request operation publishes a message with a reply subject expecting a response on that reply subject. Many libraries allow you to use a function that will automatically wait for a response with a timeout. You can also handle that waiting process yourself.
 

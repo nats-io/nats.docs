@@ -54,11 +54,15 @@
 
 ## Developing With NATS
 
+* [Intro](developer/README.md)
+
 * [Concepts](developer/concepts/intro.md)
+  * [Subject-Based Messaging](developer/concepts/subjects.md)
   * [Publish-Subscribe](developer/concepts/pubsub.md)
   * [Request-Reply](developer/concepts/reqreply.md)
-  * [Using Queues to Share Work](developer/concepts/queue.md)
-  * [Subject-Based Messaging](developer/concepts/subjects.md)
+  * [Queue Groups](developer/concepts/queue.md)
+  * [Acknowledgements](developer/concepts/acks.md)
+  * [Sequence Numbers](developer/concepts/seq_num.md)
 
 * [Connecting](developer/connecting/intro.md)
   * [Connecting to the Default Server](developer/connecting/default_server.md)
@@ -80,6 +84,8 @@
 * [Securing Connections](developer/security/intro.md)
   * [Authenticating with a User and Password](developer/security/userpass.md)
   * [Authenticating with a Token](developer/security/token.md)
+  * [Authenticating with an NKey](developer/security/nkey.md)
+  * [Authenticating with a Credentials File](developer/security/creds.md)
   * [Encrypting Connections with TLS](developer/security/tls.md)
 
 * [Receiving Messages](developer/receiving/intro.md)
