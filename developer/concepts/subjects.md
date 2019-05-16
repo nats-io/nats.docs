@@ -73,3 +73,7 @@ digraph g {
   subject -> sub3 [label="msg"];
 }
 </code></div>
+
+### Monitoring and Wire Taps
+
+Subject to your security configuration, wildcards can be used for monitoring by creating something sometimes called a *wire tap*. In the simplest case you can create a subscriber for `>`. This application will receive all messages, again subject to security settings, sent on your NATS cluster.

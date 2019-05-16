@@ -4,6 +4,8 @@ NATS provides a load balancing feature called queue subscriptions. Using queue s
 
 To create a queue subscription, subscribers register a queue name. All subscribers with the same queue name form the queue group. As messages on the registered subject are published, one member of the group is chosen randomly to receive the message. Although queue groups have multiple subscribers, each message is consumed by only one.
 
+One of the great features of NATS is that queue groups are defined by the subscribers, not on the server. Applications can create new queue groups without any server change.
+
 Queue subscribers are ideal for auto scaling as you can add or remove them anytime, without any configuration changes or restarting the server or clients.
 
 <div class="graphviz"><code data-viz="dot">

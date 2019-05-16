@@ -46,10 +46,12 @@
 ## Developing With NATS
 
 * [Concepts](developer/concepts/intro.md)
+  * [Subject-Based Messaging](developer/concepts/subjects.md)
   * [Publish-Subscribe](developer/concepts/pubsub.md)
   * [Request-Reply](developer/concepts/reqreply.md)
-  * [Using Queues to Share Work](developer/concepts/queue.md)
-  * [Subject-Based Messaging](developer/concepts/subjects.md)
+  * [Queue Groups](developer/concepts/queue.md)
+  * [Acknowledgements](developer/concepts/acks.md)
+  * [Sequence Numbers](developer/concepts/seq_num.md)
 
 * [Connecting](developer/connecting/intro.md)
   * [Connecting to the Default Server](developer/connecting/default_server.md)
