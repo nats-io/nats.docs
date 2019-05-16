@@ -3,19 +3,20 @@
 * [Introduction](README.md)
 
 ## NATS Server
-* [Basics](nats_server/README.md)
-  * [Installing](nats_server/installation.md)
-  * [Running](nats_server/running.md)
-    * [Window Service](nats_server/windows_srv.md)
-  * [Clients](nats_server/clients.md)
-  * [Flags](nats_server/flags.md)
-  * [Configuration](nats_server/configuration.md)
-    * [Authentication](nats_server/authentication.md)
-    * [Authorization](nats_server/authorization.md)
-    * [Clustering](nats_server/clustering.md)
+* [Installing](nats_server/installation.md)
+* [Running](nats_server/running.md)
+  * [Window Service](nats_server/windows_srv.md)
+* [Clients](nats_server/clients.md)
+* [Flags](nats_server/flags.md)
+* [Configuration](nats_server/configuration.md)
+  * [Securing NATS](nats_server/securing_nats.md)
     * [TLS Security](nats_server/tls.md)
-    * [Logging](nats_server/logging.md)
-    * [Monitoring](nats_server/monitoring.md)
+    * [Authentication](nats_server/authentication.md)
+      * [TLS Authentication](nats_server/tls_auth.md)
+    * [Authorization](nats_server/authorization.md)
+  * [Clustering](nats_server/clustering.md)
+  * [Logging](nats_server/logging.md)
+  * [Monitoring](nats_server/monitoring.md)
 
 ### Managing A NATS Server
   * [Upgrading a Cluster](nats_admin/upgrading_cluster.md)
@@ -23,6 +24,7 @@
   * [Signals](nats_admin/signals.md)
 
 ### NATS Tools
+* [mkpasswd](nats_tools/mkpasswd.md)
 * [NATS Top](nats_tools/nats_top/README.md)
   * [Tutorial](nats_tools/nats_top/tutorial.md)
 * [Benchmarking](nats_tools/natsbench.md)

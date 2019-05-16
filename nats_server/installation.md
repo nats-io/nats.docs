@@ -52,7 +52,7 @@ This mechanism will install a build of [master](https://github.com/nats-io/nats-
 
 ## Testing Your Installation
 
-To test your installation (provided the install locations are visible by your shell):
+To test your installation (provided the executable is visible to your shell):
 
 ```
 > nats-server
