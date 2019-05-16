@@ -45,6 +45,8 @@
 
 ## Developing With NATS
 
+* [Intro](developer/README.md)
+
 * [Concepts](developer/concepts/intro.md)
   * [Subject-Based Messaging](developer/concepts/subjects.md)
   * [Publish-Subscribe](developer/concepts/pubsub.md)
