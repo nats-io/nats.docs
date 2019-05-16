@@ -2,12 +2,29 @@
 <div class="tab-wrap">
   	
 	
-	<input type="radio" id="connect_creds_java" name="connect_creds" class="tab" checked>
+	<input type="radio" id="connect_creds_go" name="connect_creds" class="tab" checked>
+	
+	<label for="connect_creds_go" class="api-lang" data-language="go">Go</label>
+	
+	
+	<input type="radio" id="connect_creds_java" name="connect_creds" class="tab">
 	
 	<label for="connect_creds_java" class="api-lang" data-language="java">Java</label>
 	
 
   	
+	<div class="tab__content">
+	<pre id="connect_creds_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/connect_creds/main.go#L10-19"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;localhost&#34;, nats.UserCredentials(&#34;path_to_creds_file&#34;))
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+// Do something with the connection
+
+</code></pre>
+	</div>
+	
 	<div class="tab__content">
 	<pre id="connect_creds_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/ConnectCreds.java#L11-21"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java">Options options = new Options.Builder().
             server(&#34;nats://localhost:4222&#34;).
