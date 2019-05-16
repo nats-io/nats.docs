@@ -1,6 +1,6 @@
 # NATS Messaging Concepts
 
-NATS messaging involves the electronic exchange of data among computer applications and provides a layer between the application and the underlying physical network. Application data is encoded as a message and sent by a publisher. The message is received, decoded, and processed by one or more subscribers. A subscriber can process a NATS message synchronously or asynchronously, depending on the client library used. 
+NATS messaging involves the electronic exchange of data among computer applications and provides a layer between the application and the underlying physical network. Application data is encoded as a message and sent by a publisher. The message is received, decoded, and processed by one or more subscribers. A subscriber can process a NATS message synchronously or asynchronously, depending on the client library used.
 
 <div class="graphviz"><code data-viz="dot">
 graph nats {

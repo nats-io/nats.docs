@@ -73,12 +73,6 @@
   * [Authenticating with a Token](developer/security/token.md)
   * [Encrypting Connections with TLS](developer/security/tls.md)
 
-* [Sending Messages](developer/sending/intro.md)
-  * [Including a Reply Subject](developer/sending/replyto.md)
-  * [Request-Reply Semantics](developer/sending/request_reply.md)
-  * [Caches, Flush and Ping](developer/sending/caches.md)
-  * [Sending Structured Data](developer/sending/structure.md)
-
 * [Receiving Messages](developer/receiving/intro.md)
   * [Synchronous Subscriptions](developer/receiving/sync.md)
   * [Asynchronous Subscriptions](developer/receiving/async.md)
@@ -90,10 +84,15 @@
   * [Draining Messages Before Disconnect](developer/receiving/drain.md)
   * [Structured Data](developer/receiving/structure.md)
 
-* [Advanced Topics](developer/advanced/intro.md)
-  * [Getting the Connection Status](developer/advanced/server_status.md)
-  * [Listen for Connection Events](developer/advanced/events.md)
-  * [Slow Consumers](developer/advanced/slow.md)
+* [Sending Messages](developer/sending/intro.md)
+  * [Including a Reply Subject](developer/sending/replyto.md)
+  * [Request-Reply Semantics](developer/sending/request_reply.md)
+  * [Caches, Flush and Ping](developer/sending/caches.md)
+  * [Sending Structured Data](developer/sending/structure.md)
+
+* [Monitoring the Connection](developer/events/intro.md)
+  * [Listen for Connection Events](developer/events/events.md)
+  * [Slow Consumers](developer/events/slow.md)
 
 * [Tutorials](developer/tutorials/intro.md)
   * [Explore NATS Pub/Sub](developer/tutorials/pubsub.md)
