@@ -12,26 +12,32 @@ If you have [go installed](https://golang.org/doc/install), you can easily insta
 > go get github.com/nats-server/util/mkpasswd
 ```
 
-Alternatively, you can 
+Alternatively, you can: 
 
 ```
 > git clone git@github.com:nats-io/nats-server
 > cd nats-server/util/mkpasswd
-> go build mkpasswd.go
-> ./mkpasswd
+> go install mkpasswd.go
+```
+
+## Generating bcrypted passwords
+With `mkpasswd` installed:
+```
+> mkpasswd
 pass: #IclkRPHUpsTmACWzmIGXr
 bcrypt hash: $2a$11$3kIDaCxw.Glsl1.u5nKa6eUnNDLV5HV9tIuUp7EHhMt6Nm9myW1aS
 ```
 
 If you already have a password selected, you can supply the `-p` flag on the command line, enter your desired password, and a `bcrypt` hash will be generated for it:
+
 ```
-> ./mkpasswd -p
+> mkpasswd -p
 Enter Password: *******
 Reenter Password: ******
 bcrypt hash: $2a$11$3kIDaCxw.Glsl1.u5nKa6eUnNDLV5HV9tIuUp7EHhMt6Nm9myW1aS
 ```
 
-Add the hash into the server configuration file's authorization section.
+To use the password on the server, add the hash into the server configuration file's authorization section.
 
 ```
   authorization {
@@ -39,3 +45,5 @@ Add the hash into the server configuration file's authorization section.
     password: $2a$11$3kIDaCxw.Glsl1.u5nKa6eUnNDLV5HV9tIuUp7EHhMt6Nm9myW1aS
   }
 ```
+
+Note the client will still have to provide the plain text version of the password, the server however will only store the hash to verify that the password is correct when supplied.

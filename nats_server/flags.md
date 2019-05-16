@@ -35,11 +35,11 @@ The following options control very simple authentication:
 
 | Flag | Description |
 | :-------------------- | :-------- |
-| `--user` | Required _username_ for connections. |
-| `--pass` | Required _password_ for connections. |
-| `--auth` | Required _authorization token_ for connections. |
+| `--user` | Required _username_ for connections (exclusive of `--token`). |
+| `--pass` | Required _password_ for connections (exclusive of `--token`). |
+| `--auth` | Required _authorization token_ for connections (exclusive of `--user` and `--password`). |
 
-You can read more about [autentication configuration here](authentication.md).
+See [token authentication](tokens.md), and [username/password](username_password.md) for more information.
 
 
 ### Logging Options
