@@ -1,6 +1,10 @@
 # Draining Connections and Subscriptions
 
-A new feature in the NATS client libraries is the ability to drain connections or subscriptions. Closing a connection, or unsubscribing from a subscription are generally considered immediate requests. Which means the library will halt messages in any pending queue or cache for subscribers. When you drain a subscription or connection, it will process any cached/pending messages before closing.
+A new feature being added across the NATS client libraries is the ability to drain connections or subscriptions. Closing a connection, or unsubscribing from a subscription are generally considered immediate requests. When you close or unsubscribe the library will halt messages in any pending queue or cache for subscribers. When you drain a subscription or connection, it will process any cached/pending messages before closing.
+
+Drain provides clients that use queue subscriptions with a way to bring down applications without losing any messages. A client can bring up a new queue member, drain and shut down the old queue member, all without losing messages sent to the old client. Without drain, there is the possibility of lost messages due to queue timing.
+
+The libraries can provide drain on a connection or on a subscriber, or both.
 
 For a connection the process is essentially:
 
@@ -9,9 +13,9 @@ For a connection the process is essentially:
   3. Flush any remaining messages
   4. Close
 
-!INCLUDE "../../_examples/drain_conn.html"
+As an example of draining a connection:
 
-Drain provides clients that use queue subscriptions with a way to bring down applications without losing any messages. A client can bring up a new queue member, drain and shut down the old queue member, all without losing messages sent to the old client. Without drain, there is the possibility of lost messages due to queue timing.
+!INCLUDE "../../_examples/drain_conn.html"
 
 The mechanics of drain for a subscription are simpler:
 

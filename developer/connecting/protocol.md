@@ -4,7 +4,7 @@ The protocol between the client and the server is fairly simple and relies on a 
 
 ## Set the Maximum Control Line Size
 
-Some clients will try to limit the control line size on themselves to prevent an error from the server. These clients may or may not allow you to set the size being used, but if they do, the size should be set to match the server configuration.
+Some clients will try to limit the control line size internally to prevent an error from the server. These clients may or may not allow you to set the size being used, but if they do, the size should be set to match the server configuration.
 
 For example, to set the maximum control line size to 2k:
 

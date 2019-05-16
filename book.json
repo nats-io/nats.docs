@@ -11,7 +11,8 @@
     "pluginsConfig": {
         "prism": {
           "lang": {
-            "ascii": "markup"
+            "ascii": "markup",
+            "text": "markup"
           }
         }
       }

@@ -1,6 +1,8 @@
 # Wildcards
 
-There is no special code to subscribe with a wildcard subject. The main technique that may come in to play is to use the subject provided with the incoming message to determine what to do with the message.
+There is no special code to subscribe with a wildcard subject. Wildcards are a normal part of the subject name.
+
+However, there is a common technique that may come in to play when you use wildcards. This technique is to use the subject provided with the incoming message to determine what to do with the message.
 
 For example, you can subscribe using `*` and then act based on the actual subject.
 
