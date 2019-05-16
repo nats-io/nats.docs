@@ -15,6 +15,9 @@
       * [Tokens](nats_server/tokens.md)
       * [Username/Password](nats_server/username_password.md)
       * [TLS Authentication](nats_server/tls_mutual_auth.md)
+      * [NKeys](nats_server/nkey_auth.md)
+      * [Accounts](nats_server/jwt_auth.md)
+      * [Authentication Timeout](nats_server/auth_timeout.md)
     * [Authorization](nats_server/authorization.md)
   * [Clustering](nats_server/clustering.md)
     * [TLS Authentication](nats_server/cluster_tls.md)
@@ -28,6 +31,12 @@
 
 ### NATS Tools
 * [mkpasswd](nats_tools/mkpasswd.md)
+* [nk](nats_tools/nk.md)
+* [nsc](nats_tools/nsc/README.md)
+  * [Basics](nats_tools/nsc/nsc.md)
+  * [Streams](nats_tools/nsc/streams.md)
+  * [Services](nats_tools/nsc/services.md)
+  * [Signing Keys](nats_tools/nsc/signing_keys.md)
 * [NATS Top](nats_tools/nats_top/README.md)
   * [Tutorial](nats_tools/nats_top/tutorial.md)
 * [Benchmarking](nats_tools/natsbench.md)

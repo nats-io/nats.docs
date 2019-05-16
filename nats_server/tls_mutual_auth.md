@@ -90,3 +90,7 @@ authorization {
   ]
 }
 ```
+
+## TLS Timeout
+
+[TLS timeout](/nats_server/tls.md#tls-timeout) is described here.
