@@ -75,6 +75,8 @@
 * [Securing Connections](developer/security/intro.md)
   * [Authenticating with a User and Password](developer/security/userpass.md)
   * [Authenticating with a Token](developer/security/token.md)
+  * [Authenticating with an NKey](developer/security/nkey.md)
+  * [Authenticating with a Credentials File](developer/security/creds.md)
   * [Encrypting Connections with TLS](developer/security/tls.md)
 
 * [Receiving Messages](developer/receiving/intro.md)
