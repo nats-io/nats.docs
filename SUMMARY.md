@@ -45,7 +45,7 @@
 
 ## Developing With NATS
 
-* [Intro](developer/README.md)
+* [Introduction](developer/README.md)
 
 * [Concepts](developer/concepts/intro.md)
   * [Subject-Based Messaging](developer/concepts/subjects.md)
@@ -105,6 +105,16 @@
   * [Explore NATS Request/Reply](developer/tutorials/reqreply.md)
   * [Explore NATS Queueing](developer/tutorials/queues.md)
   * [Advanced Connect and Custom Dialer in Go](developer/tutorials/custom_dialer.md)
+
+## Developing With NATS Streaming
+
+* [Introduction](developer/streaming/README.md)
+* [Connecting to NATS Streaming](developer/streaming/connecting.md)
+* [Publishing to a Channel](developer/streaming/publishing.md)
+* [Receiving Messages from a Channel](developer/streaming/receiving.md)
+* [Durable Subscriptions](developer/streaming/durables.md)
+* [Queue Subscriptions](developer/streaming/queues.md)
+* [Acknowledgements](developer/streaming/acks.md)
 
 ## NATS Protocol
 * [Protocol Demo](nats_protocol/nats-protocol-demo.md)
