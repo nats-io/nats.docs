@@ -23,7 +23,7 @@ When the server starts it will print some information including where the server
 If you are running your NATS server in a docker container:
 
 ```
-> docker run -p 4222:4222 -ti nats-server:latest
+> docker run -p 4222:4222 -ti nats:latest
 [1] 2019/05/13 14:55:11.981434 [INF] Starting nats-server version 2.0.0
 ...
 [1] 2019/05/13 14:55:11.981545 [INF] Starting http monitor on 0.0.0.0:8222

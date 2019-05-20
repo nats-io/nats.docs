@@ -15,26 +15,48 @@
       * [Tokens](nats_server/tokens.md)
       * [Username/Password](nats_server/username_password.md)
       * [TLS Authentication](nats_server/tls_mutual_auth.md)
+      * [NKeys](nats_server/nkey_auth.md)
+      * [Accounts](nats_server/jwt_auth.md)
+      * [Authentication Timeout](nats_server/auth_timeout.md)
     * [Authorization](nats_server/authorization.md)
   * [Clustering](nats_server/clustering.md)
+    * [Configuration](nats_server/cluster_config.md)
     * [TLS Authentication](nats_server/cluster_tls.md)
+  * [Gateways](gateways/README.md)
+    * [Configuration](gateways/gateway.md)
+  * [Leafnodes](leafnodes/README.md)
+    * [Configuration](leafnodes/leafnode_conf.md)
   * [Logging](nats_server/logging.md)
   * [Monitoring](nats_server/monitoring.md)
 
-### Managing A NATS Server
+### Managing A NATS Server  
   * [Upgrading a Cluster](nats_admin/upgrading_cluster.md)
   * [Slow Consumers](nats_admin/slow_consumers.md)
   * [Signals](nats_admin/signals.md)
+  * [System Accounts](sys_accounts/README.md)
+    * [Configuration](sys_accounts/sys_accounts.md)    
 
 ### NATS Tools
-* [mkpasswd](nats_tools/mkpasswd.md)
-* [NATS Top](nats_tools/nats_top/README.md)
-  * [Tutorial](nats_tools/nats_top/tutorial.md)
-* [Benchmarking](nats_tools/natsbench.md)
+* [Tools](nats_tools/README.md)
+  * [mkpasswd](nats_tools/mkpasswd.md)
+  * [nk](nats_tools/nk.md)
+  * [nsc](nats_tools/nsc/README.md)
+    * [Basics](nats_tools/nsc/nsc.md)
+    * [Streams](nats_tools/nsc/streams.md)
+    * [Services](nats_tools/nsc/services.md)
+    * [Signing Keys](nats_tools/nsc/signing_keys.md)
+  * [nats-account-server](nats_tools/nas/README.md)
+    * [Basics](nats_tools/nas/nas_conf.md)
+    * [Inspecting JWTs](nats_tools/nas/inspecting_jwts.md)
+    * [Memory Resolver](nats_tools/nas/mem_resolver.md)
+  * [nats-top](nats_tools/nats_top/README.md)
+    * [Tutorial](nats_tools/nats_top/tutorial.md)
+  * [nats-bench](nats_tools/natsbench.md)
 
 ### NATS Containerization
 * [NATS.docker](nats_docker/README.md)
   * [Tutorial](nats_docker/tutorial.md)
+  * [Docker Swarm](nats_docker/docker_swarm.md)
 
 ## NATS Streaming Server
 * [Basics](nats_streaming/nats-streaming-intro.md)

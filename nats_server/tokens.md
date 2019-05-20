@@ -42,7 +42,7 @@ authorization {
 }
 ```
 
-The client will still require the clear-text password to connect:
+The client will still require the clear-text token to connect:
 
 ```
 nats-sub -s nats://dag0HTXl4RGg7dXdaJwbC8@localhost:4222 ">"

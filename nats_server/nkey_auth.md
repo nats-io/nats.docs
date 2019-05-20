@@ -1,18 +1,13 @@
 ## NKey Authentication
 
-NATS 2.0 introduces a new highly secure public-key signature system based on [Ed25519](https://ed25519.cr.yp.to/).
+NKeys are a new highly secure public-key signature system based on [Ed25519](https://ed25519.cr.yp.to/).
 
 With NKeys the server can verify identities without ever storing secrets on the server. The authentication system works by requiring a connecting client to provide its public key and digitally sign a challenge with its private key. The server generates a random challenge with every connection request, making it immune to playback attacks. The generated signature is validated against the provided public key, thus proving the identity of the client. If the public key is known to the server, authentication succeeds.
 
 > NKey is an awesome replacement for token authentication, because a connecting client will have to prove it controls the private key for the authorized public key.
 
-### Installing nk
+To generate nkeys, you'll need the [`nk` tool](/nats_tools/nk.md).
 
-To get started with NKeys, you’ll need the `nk` tool from https://github.com/nats-io/nkeys/nk repository. If you have _go_ installed, enter the following at a command prompt:
-
-```bash
-> go get github.com/nats-io/nk
-```
 
 ### Generating NKeys and Configuring the Server
 
@@ -26,9 +21,9 @@ UDXU4RCSJNZOIQHZNWXHXORDPRTGNJAHAHFRGZNEEJCPQTT2M7NLCNF4
 
 The first output line starts with the letter `S` for _Seed_. The second letter `U` stands for _User_.  Seeds are private keys; you should treat them as secrets and guard them with care.
 
-The second line starts with the letter `U` for _User_, and is a public key which can be safely shared. 
+The second line starts with the letter `U` for _User_, and is a public key which can be safely shared.
 
-To use nkey authentication add a user and set the `nkey` property to the public key of the user you want to authenticate:
+To use nkey authentication, add a user and set the `nkey` property to the public key of the user you want to authenticate:
 
 ```text
 authorization: {

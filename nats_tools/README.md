@@ -1,5 +1,10 @@
 ## NATS Tools
 
-The NATS Ecosystem has many tools, some interesting tools include:
+The NATS Ecosystem has many tools to support server configuration, enhance monitoring or tune performance:
 
-- [NATS TOP (statistics)](nats_top/README.md)
+- [mkpasswd](nats_tools/mkpasswd.md) - Generates or bcrypts passwords
+- [nk](nats_tools/nk.md) - Generate NKeys
+- [nsc](nats_tools/nsc/README.md) - Configure Operators, Accounts and Users
+- [nats account server](nats_tools/nas/README.md) - Serve Account JWTs
+- [nats top](nats_tools/nats_top/README.md) - Monitor NATS Server
+- [nats-bench](nats_tools/natsbench.md) - Benchmark NATS Server
