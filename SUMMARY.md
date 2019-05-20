@@ -54,6 +54,7 @@
 ### NATS Containerization
 * [NATS.docker](nats_docker/README.md)
   * [Tutorial](nats_docker/tutorial.md)
+  * [Docker Swarm](nats_docker/docker_swarm.md)
 
 ## NATS Streaming Server
 * [Basics](nats_streaming/nats-streaming-intro.md)
