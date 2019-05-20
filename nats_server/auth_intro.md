@@ -9,7 +9,7 @@ The NATS server provides various ways of authenticating clients:
 - [JWTs with Challenge](jwt_auth.md)
 
 Authentication deals with allowing a NATS client to connect to the server.
-With the exception of JWT authentication, authentication and authorization is configured in the `authorization` section of the configuration.
+Except for JWT authentication, authentication and authorization are configured in the `authorization` section of the configuration.
 
 ## Authorization Map
 

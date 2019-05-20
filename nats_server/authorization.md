@@ -1,9 +1,9 @@
 ## Authorization
 
 
-The NATS server supports authorization using subject-level permissions on a per-user basis. Permission-based authorization is available withmulti-user authentication via the `users` list.
+The NATS server supports authorization using subject-level permissions on a per-user basis. Permission-based authorization is available with multi-user authentication via the `users` list.
 
-Each permission specifies the subjects the user can publish to and subscribe to. The parser is generous at understanding what the intent is, so both arrays and singletons are processed. For more complex configuation you can specify a `permission` object which explicetly allows or denies subjects. The specified subjects can specify wildcards. Permissions can make use of [variables](configuration.md#variables).
+Each permission specifies the subjects the user can publish to and subscribe to. The parser is generous at understanding what the intent is, so both arrays and singletons are processed. For more complex configuration, you can specify a `permission` object which explicitly allows or denies subjects. The specified subjects can specify wildcards. Permissions can make use of [variables](configuration.md#variables).
 
 You configure authorization by creating a `permissions` entry in the `authorization` object.
 
@@ -18,7 +18,7 @@ The `permissions` map specify subjects that can be subscribed to or published by
 
 ### Permission Map
 
-The `permission` map provides additional properties for configuring a `permissions` map. Instead of providing a list of subjects that are allowed, the `permission` map allows you to explicitely list subjects you want to`allow` or `deny`:
+The `permission` map provides additional properties for configuring a `permissions` map. Instead of providing a list of subjects that are allowed, the `permission` map allows you to explicitly list subjects you want to`allow` or `deny`:
 
 | Property | Description |
 | :------  | :---- |
@@ -27,7 +27,7 @@ The `permission` map provides additional properties for configuring a `permissio
 
 
 
-**Important Note** NATS Authorizations are whitelist only, meaning in order to not break request/reply patterns you need to add rules as above with Alice and Bob for the `_INBOX.>` pattern. If an unauthorized client publishes or attempts to subscribe to a subject that has not been whitelisted, the action fails and is logged at the server, and an error message is returned to the client.
+**Important Note** NATS Authorizations are whitelist only, meaning to not break request/reply patterns you need to add rules as above with Alice and Bob for the `_INBOX.>` pattern. If an unauthorized client publishes or attempts to subscribe to a subject that has not been whitelisted, the action fails and is logged at the server, and an error message is returned to the client.
 
 ### Example
 
@@ -66,8 +66,8 @@ authorization {
 
 - _client_ is a `REQUESTOR` and can publish requests on subjects `req.a` or `req.b`, and subscribe to anything that is a response (`_INBOX.>`).
 
-- _service_ is a `RESPONDER` to `req.a` and `req.b` requests, so it needs to be able to subscribe to the request subjects and respond to client's that are able to publish requests to `req.a` and `req.b`. The reply subject subject is an inbox. Typically inboxes start with the prefix `_INBOX.` followed by a generated string. The `_INBOX.>` subject matches all subjects that start with `_INBOX.`.
+- _service_ is a `RESPONDER` to `req.a` and `req.b` requests, so it needs to be able to subscribe to the request subjects and respond to client's that can publish requests to `req.a` and `req.b`. The reply subject is an inbox. Typically inboxes start with the prefix `_INBOX.` followed by a generated string. The `_INBOX.>` subject matches all subjects that begin with `_INBOX.`.
 
 - _other_ has no permissions granted and therefore inherits the default permission set. You set the inherited default permissions by assigning them to the `default_permissions` entry inside of the authorization configuration block.
 
-> Note that in the above example, any client with permissions to subscribe to `_INBOX.>` is able to receive _all_ responses published. More sensitive installations will want to add or subset the prefix to further limit what a client can subscribe to. Alternatively [_Accounts_](jwt_auth.md) allow complete isolation limiting what members of an account can see.
+> Note that in the above example, any client with permissions to subscribe to `_INBOX.>` can receive _all_ responses published. More sensitive installations will want to add or subset the prefix to further limit subjects that a client can subscribe. Alternatively, [_Accounts_](jwt_auth.md) allow complete isolation limiting what members of an account can see.

@@ -1,12 +1,12 @@
 # Username and Password
 
-You can authenticate one or more clients using username and passwords. This enables you to have greater control on the management and issuing of credential secrets.
+You can authenticate one or more clients using username and passwords; this enables you to have greater control over the management and issuing of credential secrets.
 
 For a single user:
 ```
 authorization: {
-	user: a,
-	password: b
+    user: a,
+    password: b
 }
 ```
 
@@ -19,10 +19,10 @@ You can also specify a single username/password by:
 For multiple users:
 ```
 authorization: {
-	users: [
-		{user: a, password: b},
-		{user: b, password: a}
-	]
+    users: [
+        {user: a, password: b},
+        {user: b, password: a}
+    ]
 }
 ```
 
@@ -39,16 +39,16 @@ And on the configuration file:
 
 ```
 authorization: {
-	users: [
-		{user: a, password: "$2a$11$V1qrpBt8/SLfEBr4NJq4T.2mg8chx8.MTblUiTBOLV3MKDeAy.f7u"},
-		...	
-	]
+    users: [
+        {user: a, password: "$2a$11$V1qrpBt8/SLfEBr4NJq4T.2mg8chx8.MTblUiTBOLV3MKDeAy.f7u"},
+        ...    
+    ]
 }
 ```
 
 ## Reloading a Configuration
 
-As you add/remove passwords from the server configuration file, you'll want your changes to take effect. To reload without restarting the server and disconnecting clients, simply do:
+As you add/remove passwords from the server configuration file, you'll want your changes to take effect. To reload without restarting the server and disconnecting clients, do:
 
 ```
 > nats-server --signal reload

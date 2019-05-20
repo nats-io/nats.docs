@@ -1,6 +1,6 @@
 ## NATS Server Installation
 
-NATS philosophy is simplicity. Installation is just decompression a zip file and copying the binary to an appropiate directory; you can also use your favorite package manager.
+NATS philosophy is simplicity. Installation is just decompressing a zip file and copying the binary to an appropriate directory; you can also use your favorite package manager.
 
 ### Installing via a Package Manager
 
@@ -23,7 +23,7 @@ Via Docker:
 
 You can find the latest release of nats-server [here](https://github.com/nats-io/nats-server/releases/latest).
 
-Simply download the zip file matching your systems architecture, and unzip. For this example, assuming version 2.0.0 of the server, and a Linux AMD64:
+Download the zip file matching your systems architecture, and unzip. For this example, assuming version 2.0.0 of the server, and a Linux AMD64:
 
 ```
 > curl -L https://github.com/nats-io/nats-server/releases/download/v2.0.0/nats-server-v2.0.0-linux-amd64.zip -o nats-server.zip
@@ -47,7 +47,7 @@ If you have go installed, installing the binary is easy:
 > go get github.com/nats-io/nats-server
 ```
 
-This mechanism will install a build of [master](https://github.com/nats-io/nats-server), which almost certainly will not be a released version. If you are a developer and want to play with the the latest, this is the easiest way of obtaining it. 
+This mechanism will install a build of [master](https://github.com/nats-io/nats-server), which almost certainly will not be a released version. If you are a developer and want to play with the latest, this is the easiest way of obtaining it. 
 
 
 ## Testing Your Installation
@@ -62,3 +62,4 @@ To test your installation (provided the executable is visible to your shell):
 [41634] 2019/05/13 09:42:11.746249 [INF] Server id is NBNYNR4ZNTH4N2UQKSAAKBAFLDV3PZO4OUYONSUIQASTQT7BT4ZF6WX7
 [41634] 2019/05/13 09:42:11.746252 [INF] Server is ready
 ```
+

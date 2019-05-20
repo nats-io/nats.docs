@@ -1,7 +1,7 @@
 ## Flags
 
 
-The NATS server has many flags to customize its behaviour without having to write a configuration file.
+The NATS server has many flags to customize its behavior without having to write a configuration file.
 
 The configuration flags revolve around:
 
@@ -31,7 +31,7 @@ The configuration flags revolve around:
 
 ### Authentication Options
 
-The following options control very simple authentication:
+The following options control straightforward authentication:
 
 | Flag | Description |
 | :-------------------- | :-------- |
@@ -77,7 +77,7 @@ The following flags are available on the server to configure clustering:
 
 | Flag | Description |
 | :-------------------- | :-------- |
-| `--routes` | Comma separated list of cluster URLs to solicit and connect |
+| `--routes` | Comma-separated list of cluster URLs to solicit and connect |
 | `--cluster` | Cluster URL for clustering requests |
 | `--no_advertise` | Do not advertise known cluster information to clients |
 | `--cluster_advertise` | Cluster URL to advertise to other servers |

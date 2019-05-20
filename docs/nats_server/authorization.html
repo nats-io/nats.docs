@@ -1857,8 +1857,8 @@
                                 <section class="normal markdown-section">
                                 
                                 <h2 id="authorization">Authorization</h2>
-<p>The NATS server supports authorization using subject-level permissions on a per-user basis. Permission-based authorization is available withmulti-user authentication via the <code>users</code> list.</p>
-<p>Each permission specifies the subjects the user can publish to and subscribe to. The parser is generous at understanding what the intent is, so both arrays and singletons are processed. For more complex configuation you can specify a <code>permission</code> object which explicetly allows or denies subjects. The specified subjects can specify wildcards. Permissions can make use of <a href="configuration.html#variables">variables</a>.</p>
+<p>The NATS server supports authorization using subject-level permissions on a per-user basis. Permission-based authorization is available with multi-user authentication via the <code>users</code> list.</p>
+<p>Each permission specifies the subjects the user can publish to and subscribe to. The parser is generous at understanding what the intent is, so both arrays and singletons are processed. For more complex configuration, you can specify a <code>permission</code> object which explicitly allows or denies subjects. The specified subjects can specify wildcards. Permissions can make use of <a href="configuration.html#variables">variables</a>.</p>
 <p>You configure authorization by creating a <code>permissions</code> entry in the <code>authorization</code> object.</p>
 <h3 id="permissions-configuration-map">Permissions Configuration Map</h3>
 <p>The <code>permissions</code> map specify subjects that can be subscribed to or published by the specified client.</p>
@@ -1881,7 +1881,7 @@
 </tbody>
 </table>
 <h3 id="permission-map">Permission Map</h3>
-<p>The <code>permission</code> map provides additional properties for configuring a <code>permissions</code> map. Instead of providing a list of subjects that are allowed, the <code>permission</code> map allows you to explicitely list subjects you want to<code>allow</code> or <code>deny</code>:</p>
+<p>The <code>permission</code> map provides additional properties for configuring a <code>permissions</code> map. Instead of providing a list of subjects that are allowed, the <code>permission</code> map allows you to explicitly list subjects you want to<code>allow</code> or <code>deny</code>:</p>
 <table>
 <thead>
 <tr>
@@ -1900,7 +1900,7 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Important Note</strong> NATS Authorizations are whitelist only, meaning in order to not break request/reply patterns you need to add rules as above with Alice and Bob for the <code>_INBOX.&gt;</code> pattern. If an unauthorized client publishes or attempts to subscribe to a subject that has not been whitelisted, the action fails and is logged at the server, and an error message is returned to the client.</p>
+<p><strong>Important Note</strong> NATS Authorizations are whitelist only, meaning to not break request/reply patterns you need to add rules as above with Alice and Bob for the <code>_INBOX.&gt;</code> pattern. If an unauthorized client publishes or attempts to subscribe to a subject that has not been whitelisted, the action fails and is logged at the server, and an error message is returned to the client.</p>
 <h3 id="example">Example</h3>
 <p>Here is an example authorization configuration that uses <em>variables</em> which defines four users, three of whom are assigned explicit permissions.</p>
 <pre class="language-"><code class="lang-ascii">authorization {
@@ -1936,13 +1936,13 @@
 </li>
 <li><p><em>client</em> is a <code>REQUESTOR</code> and can publish requests on subjects <code>req.a</code> or <code>req.b</code>, and subscribe to anything that is a response (<code>_INBOX.&gt;</code>).</p>
 </li>
-<li><p><em>service</em> is a <code>RESPONDER</code> to <code>req.a</code> and <code>req.b</code> requests, so it needs to be able to subscribe to the request subjects and respond to client&apos;s that are able to publish requests to <code>req.a</code> and <code>req.b</code>. The reply subject subject is an inbox. Typically inboxes start with the prefix <code>_INBOX.</code> followed by a generated string. The <code>_INBOX.&gt;</code> subject matches all subjects that start with <code>_INBOX.</code>.</p>
+<li><p><em>service</em> is a <code>RESPONDER</code> to <code>req.a</code> and <code>req.b</code> requests, so it needs to be able to subscribe to the request subjects and respond to client&apos;s that can publish requests to <code>req.a</code> and <code>req.b</code>. The reply subject is an inbox. Typically inboxes start with the prefix <code>_INBOX.</code> followed by a generated string. The <code>_INBOX.&gt;</code> subject matches all subjects that begin with <code>_INBOX.</code>.</p>
 </li>
 <li><p><em>other</em> has no permissions granted and therefore inherits the default permission set. You set the inherited default permissions by assigning them to the <code>default_permissions</code> entry inside of the authorization configuration block.</p>
 </li>
 </ul>
 <blockquote>
-<p>Note that in the above example, any client with permissions to subscribe to <code>_INBOX.&gt;</code> is able to receive <em>all</em> responses published. More sensitive installations will want to add or subset the prefix to further limit what a client can subscribe to. Alternatively <a href="jwt_auth.html"><em>Accounts</em></a> allow complete isolation limiting what members of an account can see.</p>
+<p>Note that in the above example, any client with permissions to subscribe to <code>_INBOX.&gt;</code> can receive <em>all</em> responses published. More sensitive installations will want to add or subset the prefix to further limit subjects that a client can subscribe. Alternatively, <a href="jwt_auth.html"><em>Accounts</em></a> allow complete isolation limiting what members of an account can see.</p>
 </blockquote>
 
                                 
@@ -1987,7 +1987,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Authorization","level":"2.5.1.3","depth":3,"next":{"title":"Clustering","level":"2.5.2","depth":2,"path":"nats_server/clustering.md","ref":"nats_server/clustering.md","articles":[{"title":"Configuration","level":"2.5.2.1","depth":3,"path":"nats_server/cluster_config.md","ref":"nats_server/cluster_config.md","articles":[]},{"title":"TLS Authentication","level":"2.5.2.2","depth":3,"path":"nats_server/cluster_tls.md","ref":"nats_server/cluster_tls.md","articles":[]}]},"previous":{"title":"Authentication Timeout","level":"2.5.1.2.6","depth":4,"path":"nats_server/auth_timeout.md","ref":"nats_server/auth_timeout.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/authorization.md","mtime":"2019-05-20T19:15:37.408Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-20T22:00:46.477Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Authorization","level":"2.5.1.3","depth":3,"next":{"title":"Clustering","level":"2.5.2","depth":2,"path":"nats_server/clustering.md","ref":"nats_server/clustering.md","articles":[{"title":"Configuration","level":"2.5.2.1","depth":3,"path":"nats_server/cluster_config.md","ref":"nats_server/cluster_config.md","articles":[]},{"title":"TLS Authentication","level":"2.5.2.2","depth":3,"path":"nats_server/cluster_tls.md","ref":"nats_server/cluster_tls.md","articles":[]}]},"previous":{"title":"Authentication Timeout","level":"2.5.1.2.6","depth":4,"path":"nats_server/auth_timeout.md","ref":"nats_server/auth_timeout.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/authorization.md","mtime":"2019-05-20T22:23:39.782Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-20T22:49:57.562Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

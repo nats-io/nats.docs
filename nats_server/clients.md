@@ -2,7 +2,7 @@
 
 The nats-server doesn't come bundled with any clients. But most client libraries come with tools that allow you to publish, subscribe, send requests and reply messages.
 
-If you have a client library installed you can try using a bundled client. Otherwise you can easily install some clients.
+If you have a client library installed, you can try using a bundled client. Otherwise, you can easily install some clients.
 
 ### If you have Go installed:
 
@@ -29,13 +29,13 @@ Open a terminal and [start a nats-server](running.md):
 ```
 
 
-On another terminal start session start a subscriber:
+On another terminal session start a subscriber:
 ```
 > nats-sub ">"
 Listening on [>]
 ```
 
-Note that when the client connected, the server didn't log anything interesting because server output is fairly quiet unless something interesting happens.
+Note that when the client connected, the server didn't log anything interesting because server output is relatively quiet unless something interesting happens.
 
 To make the server output more lively, you can specify the `-V` flag to enable logging of server protocol tracing messages. Go ahead and `<ctrl>+c` the process running the server, and restart the server with the `-V` flag:
 
@@ -51,7 +51,7 @@ To make the server output more lively, you can specify the `-V` flag to enable l
 [29785] 2019/05/16 08:46:13.467206 [TRC] 127.0.0.1:49805 - cid:1 - ->> [PONG]
 ```
 
-If you had created a subscriber, you should notice output on the subscriber telling you that it diesconnected, and reconnected. The server output above is more interesting. You can see the subscriber send a `CONNECT` protocol message, and a `PING` which was responded to by the server with a `PONG`.
+If you had created a subscriber, you should notice output on the subscriber telling you that it disconnected, and reconnected. The server output above is more interesting. You can see the subscriber send a `CONNECT` protocol message and a `PING` which was responded to by the server with a `PONG`.
 
 > You  can learn more about the [NATS protocol here](/nats_protocol/nats-protocol.md), but more intersting than the protocol description is [an interactive demo](/nats_protocol/nats-protocol-demo.md).
 
@@ -69,7 +69,7 @@ On the subscriber window you should see:
 
 ### Testing Against a Remote Server
 
-If the NATS server was running in a different machine or a different port, you'll have to specify that to the client by specifying a _NATS URL_. NATS urls take the form of: `nats://<server>:<port>` and `tls://<server>:<port>`. URLs with a `tls` protocol sport a secured TLS connection.
+If the NATS server were running in a different machine or a different port, you'd have to specify that to the client by specifying a _NATS URL_. NATS URLs take the form of: `nats://<server>:<port>` and `tls://<server>:<port>`. URLs with a `tls` protocol sport a secured TLS connection.
 
 ```
 > nats-sub -s nats://server:port ">"

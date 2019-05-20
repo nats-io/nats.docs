@@ -2,7 +2,7 @@
 
 The nats-server has many command line options. To get started, you don't have to specify anything.
 In the absence of any flags, the NATS server will start listening for NATS client connections on port 4222.
-By default, security is not enabled.
+By default, security is disabled.
 
 ### Standalone
 

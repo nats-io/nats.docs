@@ -1857,13 +1857,13 @@
                                 <section class="normal markdown-section">
                                 
                                 <h2 id="client-tls-mutual-authentication">Client TLS Mutual Authentication</h2>
-<p>The server can require TLS certificates from a client. When required, you can use the certificates to:</p>
+<p>The server can require TLS certificates from a client. When needed, you can use the certificates to:</p>
 <ul>
 <li>Validate the client certificate matches a known or trusted CA</li>
 <li>Extract information from a trusted certificate to provide authentication</li>
 </ul>
 <h3 id="validating-a-client-certificate">Validating a Client Certificate</h3>
-<p>The server can verify a client certificate using CA certificate. To require verification, simply add the option <code>verify</code> the TLS configuration section as follows:</p>
+<p>The server can verify a client certificate using a CA certificate. To require verification, add the option <code>verify</code> the TLS configuration section as follows:</p>
 <pre class="language-"><code>tls {
   cert_file: &quot;./configs/certs/server-cert.pem&quot;
   key_file:  &quot;./configs/certs/server-key.pem&quot;
@@ -1873,10 +1873,10 @@
 </code></pre><p>Or via the command line:</p>
 <pre class="language-"><code class="lang-sh"><span class="token operator">&gt;</span> ./nats-server --tlsverify --tlscert<span class="token operator">=</span>./test/configs/certs/server-cert.pem --tlskey<span class="token operator">=</span>./test/configs/certs/server-key.pem --tlscacert<span class="token operator">=</span>./test/configs/certs/ca.pem
 </code></pre>
-<p>This option simply verifies the client&apos;s certificate has been signed by the CA specified in the <code>ca_file</code> option. </p>
+<p>This option verifies the client&apos;s certificate is signed by the CA specified in the <code>ca_file</code> option. </p>
 <h2 id="mapping-client-certificates-to-a-user">Mapping Client Certificates To A User</h2>
-<p>In addition to verifying that a client certificate was issued by a specified CA, you can use information encoded in the certificate to authenticate a client. The client wouldn&apos;t have to provide or track usernames or passwords.</p>
-<p>To have TLS Mutual Authentication map certificate attributes to the users identity use <code>verify_and_map</code> as shown as follows:</p>
+<p>In addition to verifying that a specified CA issued a client certificate, you can use information encoded in the certificate to authenticate a client. The client wouldn&apos;t have to provide or track usernames or passwords.</p>
+<p>To have TLS Mutual Authentication map certificate attributes to the user&apos;s identity use <code>verify_and_map</code> as shown as follows:</p>
 <pre class="language-"><code>tls {
   cert_file: &quot;./configs/certs/server-cert.pem&quot;
   key_file:  &quot;./configs/certs/server-key.pem&quot;
@@ -1964,7 +1964,7 @@ Certificate:
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"TLS Authentication","level":"2.5.1.2.3","depth":4,"next":{"title":"NKeys","level":"2.5.1.2.4","depth":4,"path":"nats_server/nkey_auth.md","ref":"nats_server/nkey_auth.md","articles":[]},"previous":{"title":"Username/Password","level":"2.5.1.2.2","depth":4,"path":"nats_server/username_password.md","ref":"nats_server/username_password.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/tls_mutual_auth.md","mtime":"2019-05-20T13:48:38.838Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-20T22:00:46.477Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"TLS Authentication","level":"2.5.1.2.3","depth":4,"next":{"title":"NKeys","level":"2.5.1.2.4","depth":4,"path":"nats_server/nkey_auth.md","ref":"nats_server/nkey_auth.md","articles":[]},"previous":{"title":"Username/Password","level":"2.5.1.2.2","depth":4,"path":"nats_server/username_password.md","ref":"nats_server/username_password.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/tls_mutual_auth.md","mtime":"2019-05-20T22:46:32.178Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-20T22:49:57.562Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

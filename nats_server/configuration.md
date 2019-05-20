@@ -6,9 +6,9 @@ The NATS configuration file supports the following syntax:
 
 - Lines can be commented with `#` and `//`
 - Values can be assigned to properties with:
-	- Equals sign: `foo = 2`
-	- Colon: `foo: 2`
-	- Whitespace: `foo 2`
+    - Equals sign: `foo = 2`
+    - Colon: `foo: 2`
+    - Whitespace: `foo 2`
 - Arrays are enclosed in brackets: `["a", "b", "c"]`
 - Maps are enclosed in braces: `{foo: 2}`
 - Maps can be assigned with no key separator
@@ -20,14 +20,14 @@ The configuration parser is very forgiving, as you have seen:
 - values can be a primitive, or a list, or a map
 - strings and numbers typically do the right thing
 
-String values that start with a number _can_ create issues. To force such values as strings, simply quote them.
+String values that start with a digit _can_ create issues. To force such values as strings, quote them.
 
 *BAD Config*: 
 ```
 listen: 127.0.0.1:4222
 authorization: {
-	# BAD!
-	token: 3secret
+    # BAD!
+    token: 3secret
 }
 ```
 
@@ -35,7 +35,7 @@ Fixed Config:
 ```
 listen: 127.0.0.1:4222
 authorization: {
-	token: "3secret"
+    token: "3secret"
 }
 ```
 
@@ -44,7 +44,7 @@ authorization: {
 Server configurations can specify variables. Variables allow you to reference a value from one or more sections in the configuration. 
 
 Variables:
-- Are block scoped
+- Are block-scoped
 - Are referenced with a `$` prefix.
 - Can be resolved from environment variables having the same name
 
@@ -57,16 +57,16 @@ TOKEN: "secret"
 
 # Reference the variable
 authorization {
-	token: $TOKEN
+    token: $TOKEN
 }
 ```
 
 A similar configuration, but this time, the value is in the environment:
 
 ```
-# TOKEN should be defined in the environment
+# TOKEN is defined in the environment
 authorization {
-	token: $TOKEN
+    token: $TOKEN
 }
 ```
 
@@ -89,7 +89,7 @@ include ./auth.conf
 auth.conf:
 ```
 authorization: {
-	token: "f0oBar"
+    token: "f0oBar"
 }
 ```
 
@@ -129,7 +129,3 @@ A server can reload most configuration changes without requiring a server restar
 ```
 > nats-server --signal reload
 ```
-
-
-
-

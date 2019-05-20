@@ -1,13 +1,13 @@
 ## Client TLS Mutual Authentication
 
-The server can require TLS certificates from a client. When required, you can use the certificates to:
+The server can require TLS certificates from a client. When needed, you can use the certificates to:
 
 - Validate the client certificate matches a known or trusted CA
 - Extract information from a trusted certificate to provide authentication
 
 ### Validating a Client Certificate
 
-The server can verify a client certificate using CA certificate. To require verification, simply add the option `verify` the TLS configuration section as follows:
+The server can verify a client certificate using a CA certificate. To require verification, add the option `verify` the TLS configuration section as follows:
 
 ```
 tls {
@@ -24,13 +24,13 @@ Or via the command line:
 > ./nats-server --tlsverify --tlscert=./test/configs/certs/server-cert.pem --tlskey=./test/configs/certs/server-key.pem --tlscacert=./test/configs/certs/ca.pem
 ```
 
-This option simply verifies the client's certificate has been signed by the CA specified in the `ca_file` option. 
+This option verifies the client's certificate is signed by the CA specified in the `ca_file` option. 
 
 ## Mapping Client Certificates To A User
 
-In addition to verifying that a client certificate was issued by a specified CA, you can use information encoded in the certificate to authenticate a client. The client wouldn't have to provide or track usernames or passwords.
+In addition to verifying that a specified CA issued a client certificate, you can use information encoded in the certificate to authenticate a client. The client wouldn't have to provide or track usernames or passwords.
 
-To have TLS Mutual Authentication map certificate attributes to the users identity use `verify_and_map` as shown as follows:
+To have TLS Mutual Authentication map certificate attributes to the user's identity use `verify_and_map` as shown as follows:
 
 ```
 tls {

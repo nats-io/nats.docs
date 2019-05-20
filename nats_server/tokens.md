@@ -1,12 +1,12 @@
 # Token Authentication
 
-Token authentication is a string that if provided by a client, allows it to connect. It is the simplest authentication provided by the NATS server. 
+Token authentication is a string that if provided by a client, allows it to connect. It is the most straightforward authentication provided by the NATS server. 
 
 
-To use token authentication, you can just specify an `authorization` section with the `token` property set:
+To use token authentication, you can specify an `authorization` section with the `token` property set:
 ```
 authorization {
-	token: "s3cr3t"
+    token: "s3cr3t"
 }
 ```
 Token authentication can be used in the authorization section for clients and clusters.
@@ -24,7 +24,7 @@ Listening on [>]
 
 ## Bcrypted Tokens
 
-Tokens can be bcrypted enabling an additional layer of security, as the clear-text version of the token would not be persisted on server configuration file.
+Tokens can be bcrypted enabling an additional layer of security, as the clear-text version of the token would not be persisted on the server configuration file.
 
 You can generate bcrypted tokens and passwords using the [`mkpasswd`](/nats_tools/mkpasswd.md) tool:
 
@@ -38,7 +38,7 @@ bcrypt hash: $2a$11$PWIFAL8RsWyGI3jVZtO9Nu8.6jOxzxfZo7c/W0eLk017hjgUKWrhy
 Here's a simple configuration file:
 ```
 authorization {
-	token: "$2a$11$PWIFAL8RsWyGI3jVZtO9Nu8.6jOxzxfZo7c/W0eLk017hjgUKWrhy"
+    token: "$2a$11$PWIFAL8RsWyGI3jVZtO9Nu8.6jOxzxfZo7c/W0eLk017hjgUKWrhy"
 }
 ```
 

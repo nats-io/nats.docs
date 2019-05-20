@@ -1857,7 +1857,7 @@
                                 <section class="normal markdown-section">
                                 
                                 <h2 id="nats-server-installation">NATS Server Installation</h2>
-<p>NATS philosophy is simplicity. Installation is just decompression a zip file and copying the binary to an appropiate directory; you can also use your favorite package manager.</p>
+<p>NATS philosophy is simplicity. Installation is just decompressing a zip file and copying the binary to an appropriate directory; you can also use your favorite package manager.</p>
 <h3 id="installing-via-a-package-manager">Installing via a Package Manager</h3>
 <p>On Windows:</p>
 <pre class="language-"><code>&gt; choco install nats-server
@@ -1867,7 +1867,7 @@
 <pre class="language-"><code>&gt; docker pull nats-server:latest
 </code></pre><h3 id="installing-a-release-build">Installing A Release Build</h3>
 <p>You can find the latest release of nats-server <a href="https://github.com/nats-io/nats-server/releases/latest" target="_blank">here</a>.</p>
-<p>Simply download the zip file matching your systems architecture, and unzip. For this example, assuming version 2.0.0 of the server, and a Linux AMD64:</p>
+<p>Download the zip file matching your systems architecture, and unzip. For this example, assuming version 2.0.0 of the server, and a Linux AMD64:</p>
 <pre class="language-"><code>&gt; curl -L https://github.com/nats-io/nats-server/releases/download/v2.0.0/nats-server-v2.0.0-linux-amd64.zip -o nats-server.zip
 
 &gt; unzip nats-server.zip -d nats-server
@@ -1881,7 +1881,7 @@ Archive:  nats-server.zip
 </code></pre><h3 id="installing-from-the-source">Installing from the source</h3>
 <p>If you have go installed, installing the binary is easy:</p>
 <pre class="language-"><code>&gt; go get github.com/nats-io/nats-server
-</code></pre><p>This mechanism will install a build of <a href="https://github.com/nats-io/nats-server" target="_blank">master</a>, which almost certainly will not be a released version. If you are a developer and want to play with the the latest, this is the easiest way of obtaining it. </p>
+</code></pre><p>This mechanism will install a build of <a href="https://github.com/nats-io/nats-server" target="_blank">master</a>, which almost certainly will not be a released version. If you are a developer and want to play with the latest, this is the easiest way of obtaining it. </p>
 <h2 id="testing-your-installation">Testing Your Installation</h2>
 <p>To test your installation (provided the executable is visible to your shell):</p>
 <pre class="language-"><code>&gt; nats-server
@@ -1933,7 +1933,7 @@ Archive:  nats-server.zip
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Installing","level":"2.1","depth":1,"next":{"title":"Running","level":"2.2","depth":1,"path":"nats_server/running.md","ref":"nats_server/running.md","articles":[{"title":"Window Service","level":"2.2.1","depth":2,"path":"nats_server/windows_srv.md","ref":"nats_server/windows_srv.md","articles":[]}]},"previous":{"title":"What's New in 2.0","level":"1.2","depth":1,"path":"whats_new/whats_new_20.md","ref":"whats_new/whats_new_20.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/installation.md","mtime":"2019-05-16T13:32:42.055Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-20T22:00:46.477Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Installing","level":"2.1","depth":1,"next":{"title":"Running","level":"2.2","depth":1,"path":"nats_server/running.md","ref":"nats_server/running.md","articles":[{"title":"Window Service","level":"2.2.1","depth":2,"path":"nats_server/windows_srv.md","ref":"nats_server/windows_srv.md","articles":[]}]},"previous":{"title":"What's New in 2.0","level":"1.2","depth":1,"path":"whats_new/whats_new_20.md","ref":"whats_new/whats_new_20.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/installation.md","mtime":"2019-05-20T22:31:14.159Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-20T22:49:57.562Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
