@@ -41,6 +41,21 @@ A `user` configuration map specifies credentials and permissions options for a s
 
 The `permissions` map specify subjects that can be subscribed to or published by the specified client.
 
+| Property | Description |
+| :------  | :---- |
+| `publish` | subject or list of subjects or permission map the client can publish |
+| `subscribe` | subject or list of subjects or permission map the client can publish |
+
+### Permission Map
+
+The `permission` map provides additional properties for configuring subject permissions:
+
+| Property | Description |
+| :------  | :---- |
+| `allow` | List of subject names that are allowed to the client |
+| `deny` | List of subjects that are denied to the client |
+
+
 
 
 
