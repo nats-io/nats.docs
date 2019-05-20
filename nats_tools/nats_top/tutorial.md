@@ -1,11 +1,11 @@
 ## NATS TOP Tutorial
 
-You can use [nats-top](natstop.md) to monitor in realtime NATS server connections and message statistics.
+You can use [nats-top](https://github.com/nats-io/nats-top) to monitor in realtime NATS server connections and message statistics.
 
 #### Prerequisites
 
-- [Set up your Go environment](/documentation/additional_documentation/go-install/)
-- [Installed the NATS server](/documentation/managing_the_server/installing/)
+- [Set up your Go environment](https://golang.org/doc/install)
+- [Installed the NATS server](/nats_server/installation.md)
 
 #### 1. Install nats-top
 
@@ -48,7 +48,7 @@ Connections: 0
 
 Run some NATS client programs and exchange messages.
 
-For the best experience, you will want to run multiple subscribers, at least 2 or 3. Refer to the [example pub-sub clients](/documentation/additional_documentation/nats-pub-sub).
+For the best experience, you will want to run multiple subscribers, at least 2 or 3. Refer to the [example pub-sub clients](/nats_server/clients.md).
 
 #### 5. Check nats-top for statistics
 

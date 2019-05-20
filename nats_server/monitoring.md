@@ -6,7 +6,7 @@ The NATS monitoring endpoints support JSONP and CORS, making it easy to create s
 
 ## Enabling monitoring
 
-To enable the monitoring server, start the NATS server with the monitoring flag `-m` and the monitoring port, or turn it on in the [configuration file](/documentation/managing_the_server/configuration).
+To enable the monitoring server, start the NATS server with the monitoring flag `-m` and the monitoring port, or turn it on in the [configuration file](configuration.md#configuration-properties).
 
     -m, --http_port PORT             HTTP PORT for monitoring
     -ms,--https_port PORT            Use HTTPS PORT for monitoring

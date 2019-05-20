@@ -8,7 +8,7 @@ With NKeys the server can verify identity without ever storing secrets on the se
 
 ### Installing nk
 
-To get started with NKeys, you’ll need the `nk` tool from https://github.com/nats-io/nkeys/nk repository. If you have _go_ installed, enter the following at a command prompt:
+To get started with NKeys, you’ll need the `nk` tool from https://github.com/nats-io/nkeys/tree/master/nk repository. If you have _go_ installed, enter the following at a command prompt:
 
 ```bash
 > go get github.com/nats-io/nk
