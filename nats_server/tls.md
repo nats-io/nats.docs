@@ -3,12 +3,17 @@
 The NATS server uses modern TLS semantics to encrypt client, route and monitoring connections.
 Server configuration revolves around a `tls` map, which has the following properties:
 
-- `cert_file` - the server's certificate
-- `key_file` - the server's key file
-- `ca_file` - a certificate file providing the trust chain for the certificate authority (CA). Used to validate client certificates.
-- `timeout` - max seconds to allow for a TLS connection upgrade (default is 2 seconds)
-- `verify` - set to `true` if you want to verify client certs against the `ca_file` certificate.
-
+| Property | Description |
+| :------  | :---- |
+| `ca_file` | TLS certificate authority file. |
+| `cert_file` | TLS certificate file. |
+| `cipher_suites` | When set, only the specified TLS cipher suites will be allowed. Values must match golang version used to build the server.  |
+| `curve_preferences` | List of TLS cypher curves to use in order. |
+| `insecure` | Skip certificate verfication. |
+| `key_file` | TLS certificate key file. |
+| `timeout` | TLS handshake timeout in fractional seconds. |
+| `verify_and_map` | If `true`, require and verify client certificates and map certificate values for authentication purposes. |
+| `verify` | If `true`, require and verify client certificates. |
 
 The simplest configuration:
 ```

@@ -97,6 +97,30 @@ authorization: {
 > nats-server -c server.conf
 ```
 
+### Configuration Properties
+
+| Property | Description |
+| :------  | :---- |
+| [`authorization`](auth_intro.md) | configuration map for client authentication/authorization |
+| [`cluster`](cluster_config.md) | configuration map for clustering configuration |
+| `debug` | if `true` enable debug log messages |
+| [`gateway`](/gateways/gateway.md) | Gateway configuration map |
+| `host` | host for client connections |
+| [`http_port`](monitoring.md) | http port for server monitoring |
+| [`https_port`](monitoring.md) | https port for server monitoring |
+| [`leafnode`](/leafnodes/leafnode_conf.md) | Leafnode configuration map |
+| `listen`   | host/port for client connections |
+| `max_connections` | Maximum number of active client connections |
+| `max_control_line` | Maximum length of a protocol line (including subject length) |
+| `max_payload` | Maximum number of bytes in a message payload |
+| `max_subscriptions` | Maximum numbers of subscriptions for a client connection |
+| [`operator`](/nats_tools/nsc/nsc.md#nats-server-configuration) | path to an operator JWT |
+| `port` | port for client connections |
+| [`resolver`](/nats_tools/nsc/nsc.md#nats-server-configuration)  | Resolver type `MEMORY` or `URL` for account JWTs |
+| [`tls`](tls.md#tls-configuration) | configuration map for tls for client and http monitoring |
+| `trace` | if `true` enable protocol trace log messages |
+| `write_deadline` | Maximum number of seconds the server will block when writing a to a client (slow consumer) |
+
 
 ### Configuration Reloading
 

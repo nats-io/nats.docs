@@ -69,7 +69,7 @@ Listening on [>]
 | `name` | Name for this cluster, all gateways belonging to the same cluster, should specify the same name. |
 | `port` | Port where the gateway will listen for incomming gateway connections. |
 | `reject_unknown` | If `true`, gateway will reject connections from gateways that are not configured in `gateways`. |
-| `tls` | TLS configuration block (same as other nats-server `tls` configuration). |
+| `tls` | TLS configuration block (same as other [nats-server `tls` configuration](/nats_server/tls.md#tls-configuration)). |
 
 
 
@@ -83,18 +83,3 @@ The `gateways` configuration block is a list of gateway entries with the followi
 | `url` | Hostport `<host>:<port>` describing where the remote gateway can be reached. If multiple IPs are returned, one is randomly selected. |
 | `urls` | A list of `url` |
 
-
-
-### `TLS` Configuration Block
-
-| Property | Description |
-| :------  | :---- |
-| `ca_file` | TLS certificate authority file. |
-| `cert_file` | TLS certificate file. |
-| `cipher_suites` | When set, only the specified TLS cipher suites will be allowed. Values must match golang version used to build the server.  |
-| `curve_preferences` | List of TLS cypher curves to use in order. |
-| `insecure` | Skip certificate verfication. |
-| `key_file` | TLS certificate key file. |
-| `timeout` | TLS handshake timeout in fractional seconds. |
-| `verify_and_map` | If `true`, require and verify client certificates and use values map certificate values for authentication purposes. |
-| `verify` | If `true`, require and verify client certificates. |
