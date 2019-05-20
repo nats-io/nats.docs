@@ -11,7 +11,7 @@ The NATS server provides various ways of authenticating clients:
 Authentication deals with allowing a NATS client to connect to the server.
 With the exception of JWT authentication, authentication and authorization configuration is in the `authorization` block of the configuration.
 
-## Authorization Block
+## Authorization Map
 
 The `authorization` block provides _authentication_ configuration as well as _authorization_:
 
