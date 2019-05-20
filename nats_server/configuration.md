@@ -9,8 +9,8 @@ The NATS configuration file supports the following syntax:
 	- Equals sign: `foo = 2`
 	- Colon: `foo: 2`
 	- Whitespace: `foo 2`
-- Arrays are enclosed in brackets: `[...]`
-- Maps are enclosed in braces: `{...}`
+- Arrays are enclosed in brackets: `["a", "b", "c"]`
+- Maps are enclosed in braces: `{foo: 2}`
 - Maps can be assigned with no key separator
 - Semicolons can be used as terminators
 
@@ -46,7 +46,7 @@ Server configurations can specify variables. Variables allow you to reference a 
 Variables:
 - Are block scoped
 - Are referenced with a `$` prefix.
-- Can be resolved from the environment variables having the same name
+- Can be resolved from environment variables having the same name
 
 > If the environment variable value begins with a number you may have trouble resolving it depending on the server version you are running.
 

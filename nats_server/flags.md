@@ -1,7 +1,7 @@
 ## Flags
 
 
-The NATS server has many flags to customize it's behaviour without having to write a configuration file.
+The NATS server has many flags to customize its behaviour without having to write a configuration file.
 
 The configuration flags revolve around:
 

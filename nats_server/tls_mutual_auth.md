@@ -26,7 +26,7 @@ Or via the command line:
 
 This option simply verifies the client's certificate has been signed by the CA specified in the `ca_file` option. 
 
-## Mapping Client Certificates To An User
+## Mapping Client Certificates To A User
 
 In addition to verifying that a client certificate was issued by a specified CA, you can use information encoded in the certificate to authenticate a client. The client wouldn't have to provide or track usernames or passwords.
 

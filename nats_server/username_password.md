@@ -37,13 +37,14 @@ bcrypt hash: $2a$11$V1qrpBt8/SLfEBr4NJq4T.2mg8chx8.MTblUiTBOLV3MKDeAy.f7u
 ```
 And on the configuration file:
 
+```
 authorization: {
 	users: [
 		{user: a, password: "$2a$11$V1qrpBt8/SLfEBr4NJq4T.2mg8chx8.MTblUiTBOLV3MKDeAy.f7u"},
 		...	
 	]
 }
-
+```
 
 ## Reloading a Configuration
 
