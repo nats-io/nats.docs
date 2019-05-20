@@ -1,4 +1,4 @@
-## System Account Tutorial
+## System Events Tutorial
 
 The following is a short tutorial on how you can activate a system account to:
 

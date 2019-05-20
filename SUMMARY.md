@@ -34,7 +34,7 @@
   * [Slow Consumers](nats_admin/slow_consumers.md)
   * [Signals](nats_admin/signals.md)
   * [System Accounts](sys_accounts/README.md)
-    * [Configuration](sys_accounts/sysaccounts.md)    
+    * [Configuration](sys_accounts/sys_accounts.md)    
 
 ### NATS Tools
 * [Tools](nats_tools/README.md)
