@@ -49,7 +49,7 @@ When a NATS server routes to a specified URL, it will advertise its own cluster 
 
 **Note:** when using the `-routes` option, you must also specify a `-cluster` option.
 
-Clustering can also be configured using the server [config file](/documentation/managing_the_server/configuration).
+Clustering can also be configured using the server [config file](cluster_config.md).
 
 ## Three Server Cluster Example
 

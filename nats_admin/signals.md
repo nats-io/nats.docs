@@ -39,4 +39,4 @@ nats-server --signal stop=<pid>
 nats-server --signal stop=/path/to/pidfile
 ```
 
-See the [Windows Service](windows_srv.md) section for information on signaling the NATS server on Windows.
+See the [Windows Service](/nats_server/windows_srv.md) section for information on signaling the NATS server on Windows.

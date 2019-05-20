@@ -20,7 +20,7 @@ The following methods may also be used. _Please note that these methods may not 
 
 #### Go
 
-Make sure [your Go environment is set up](/documentation/tutorials/go-install/)
+Make sure [your Go environment is set up](https://golang.org/doc/install)
 
 ```sh
 % go get github.com/nats-io/nats-streaming-server

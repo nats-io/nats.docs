@@ -69,7 +69,7 @@ By default, the operator JWT can be found in `~/.nsc/nats/<operator_name>/<opera
 
 #### Nats-Account-Server
 
-To vend the credentials to the nats-server, we'll use a [nats-account-server](/nats_tools/nas/nas.md). Let's start a nats-account-server to serve the JWT credentials:
+To vend the credentials to the nats-server, we'll use a [nats-account-server](/nats_tools/nas/README.md). Let's start a nats-account-server to serve the JWT credentials:
 ```text
 > nats-account-server -nsc ~/.nsc/nats/SAOP
 ```

@@ -1,6 +1,6 @@
 ## System Events
 
-NATS servers leverage [Account](nats_server/jwt_auth.md) support and generate events such as:
+NATS servers leverage [Account](/nats_server/jwt_auth.md) support and generate events such as:
 
 - account connect/disconnect
 - authentication errors
