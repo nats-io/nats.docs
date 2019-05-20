@@ -9,3 +9,7 @@ serve:
 
 examples:
 	go run _tools/examplecompiler/main.go -o _examples -r _tools/examplecompiler/example_repos.json -t _tools/examplecompiler/example_template.tmp
+
+deploy: init examples
+	rm -rf docs
+	gitbook build . docs
