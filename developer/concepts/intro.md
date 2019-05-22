@@ -2,7 +2,7 @@
 
 NATS messaging involves the electronic exchange of data among computer applications and provides a layer between the application and the underlying physical network. Application data is encoded as a message and sent by a publisher. The message is received, decoded, and processed by one or more subscribers.
 
-By providing a central, easily discovered broker, NATS makes it easy for programs to communicate across different environments, languages, and systems. All clients have to do is connect to the broker, subscribe or publish to a subject and process messages. With this simple design, NATS lets programs share common message-handling code, isolate resources and interdependencies, and scale by easily handling an increase in message volume.
+By providing a scalable service via a single URL, NATS makes it easy for programs to communicate across different environments, languages, and systems. All clients have to do is connect to the broker, subscribe or publish to a subject and process messages. With this simple design, NATS lets programs share common message-handling code, isolate resources and interdependencies, and scale by easily handling an increase in message volume.
 
 <div class="graphviz"><code data-viz="dot">
 graph nats {
