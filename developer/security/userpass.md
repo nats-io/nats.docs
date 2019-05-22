@@ -3,10 +3,10 @@
 For this example, start the server using:
 
 ```sh
-> gnatsd --user myname --pass password
+> nats-server --user myname --pass password
 ```
 
-You can encrypt passwords to pass to `gnatsd` using a simple tool provided by the server:
+You can encrypt passwords to pass to `nats-server` using a simple tool provided by the server:
 
 ```sh
 > go run mkpasswd.go -p
@@ -20,7 +20,7 @@ The code uses localhost:4222 so that you can start the server on your machine to
 
 ## Connecting with a User/Password
 
-When logging in with a password `gnatsd` will take either a plain text password or an encrypted password.
+When logging in with a password `nats-server` will take either a plain text password or an encrypted password.
 
 !INCLUDE "../../_examples/connect_userpass.html"
 

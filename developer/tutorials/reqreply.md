@@ -9,7 +9,7 @@ Go and the NATS server should be installed.
 ## 1. Start the NATS server
 
 ```sh
-% gnatsd
+% nats-server
 ```
 
 ## 2. Start two terminal sessions

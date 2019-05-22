@@ -1,6 +1,6 @@
 # Turning Off Echo'd Messages
 
-By default the server will echo messages. This means that if a publisher on a connection sends a message to a subject any subscribers on that same connection may receive the message. Turning off echo is a fairly new feature for the NATS server, but some of the clients already support it.
+By default the server will echo messages. This means that if a publisher on a connection sends a message to a subject any subscribers on that same connection will receive the message. Turning off echo is a fairly new feature for the NATS server, but some of the clients already support it.
 
 <div class="graphviz"><code data-viz="dot">
 digraph {
