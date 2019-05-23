@@ -1,12 +1,21 @@
 # Introduction
 
-## Why Messaging is Important
+## The Importance of Messaging
 
-Developing and deploying applications that communicate in distributed systems is complex and difficult.  A communication infrastructure should provide features to make this easier, including multiple messaging patterns bundled into one technology, location transparency, the decoupling of data producers and consumers, and asynchronous communications to build event driven applications.
+Developing and deploying applications that communicate in distributed systems
+can be complex and difficult.  A communication infrastructure should provide
+features to make this easier, including multiple messaging patterns bundled
+into one technology, location transparency, the decoupling of data producers
+and consumers, and asynchronous communications to build event driven
+applications.  This can drive services/micro-services based workloads and take
+the place of things like a service mesh, and also drive observability, all
+from the same technology.
 
 ### Distributed Computing Needs of Today
 
-A modern messaging system needs to support multiple communication patterns, be secure by default, support multiple qualities of service, and provide secure multi-tenancy for shared infrastructure. A modern system needs to include:
+A modern messaging system needs to support multiple communication patterns, be
+secure by default, support multiple qualities of service, and provide secure
+multi-tenancy for a truly shared infrastructure. A modern system needs to include:
 
 * Secure by default communications for microservices, edge platforms and devices
 * Secure multi-tenancy in a single distributed communication technology
@@ -18,23 +27,24 @@ A modern messaging system needs to support multiple communication patterns, be s
 
 ## NATS
 
-NATS was built to meet the distributed computing needs of today. NATS is
-simple and secure messaging made for developers and operators who want to
-spend more time developing modern applications than worrying about a
-distributed communication system.
+NATS was built to meet the distributed computing needs of today and tomorrow.
+NATS is simple and secure messaging made for developers and operators who want
+to spend more time developing modern applications and services than worrying
+about a distributed communication system.
 
 * Easy to use for developers and operators
 * High-Performance
 * Always on and available
 * Extremely lightweight
 * At Most Once (NATS) or At Least Once Delivery (NATS Streaming)
-* Common Messaging Pattern Support (Services, Streams, Load Balancing)
+* Common Messaging Pattern Support (Scalable Services, Event/Data Streams)
 * Client support for over 30 different programming languages
 * Cloud Native, a CNCF project with Kubernetes and Prometheus integrations
 
 ### Use Cases
 
-NATS can run anywhere, from devices, to edge computers, to cloud.  Use cases NATS include:
+NATS can run anywhere, from large servers and cloud instances, through edge
+gateways and even IoT devices.  Use cases NATS include:
 
 * Cloud Messaging
   * Services (microservices, service mesh)

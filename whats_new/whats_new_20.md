@@ -16,9 +16,9 @@ as they scale upward.  Problems arise around service discovery, connectivity,
 scaling for volume, and application onboarding and updates.
 Disaster recovery is difficult, especially as systems have evolved to
 operate in silos defined by technology rather than business needs.
-As complexity increases, systems become expensive to operate.  The become
-fragile making it difficult to deploy services and applications hindering
-innovation.
+As complexity increases, systems become expensive to operate in terms of time
+and money.  They become fragile making it difficult to deploy services and
+applications hindering innovation, time to value, and total cost of ownership.
 
 We decided to:
 
@@ -28,7 +28,7 @@ can operate at global scale with simple configuration and a resilient
 and cloud-native architecture.
 * __Decrease Time to Value__:  As systems scale, _time to value_ increases.
 Operations resist change due to risk in touching a complex and fragile
-system.  Providing isolation contexts can mitigate this.
+system.  Providing isolation contexts can help mitigate this.
 * __Support manageable large scale deployments__:  No data silos defined by
 software, instead easily managed though software to provide exactly what the
 business needs.  We wanted to provide easy to configure disaster recovery.
@@ -47,9 +47,10 @@ business driven use cases, where data silos are created by design, not software
 limitations.  When a client connects, it specifies an account or will default
 to authentication with a global account.
 
-At least some applications need to share data outside of their account.
+At least some services need to share data outside of their account.
 Data can be securely shared between accounts with secure services and
-streams, where only mutual agreement between account owners permit data flow.
+streams. Only mutual agreement between account owners permit data flow,
+and the import account has complete control over its own subject space.
 
 This means within an account, limitations may be set and subjects can be used
 without worry of collisions with other groups or organizations.  Development
@@ -62,16 +63,16 @@ autonomy reducing time to value with faster, more agile development practices.
 
 ### Service and Streams
 
-Services and streams are mechanisms to share data between accounts.
+Services and streams are mechanisms to share messages between accounts.
 
-Think of a service as a RPC endpoint into an account.  Behind that account
+Think of a service as an RPC endpoint into an account.  Behind that account
 there might be many microservices working in concert to handle requests, but
 from outside the account there simply one subject exposed.
 
 __Services__ definition to share an endpoint:
 
 * Export a service to allow other accounts to import
-* Import a service to allow requests to be sent and securely and seamlessly to
+* Import a service to allow requests to be sent securely and seamlessly to
 another account
 
 Use cases include most applications - anything that accepts a request and returns
@@ -132,9 +133,9 @@ for seamless rolling upgrades and scaling up or down.
 
 ### Superclusters
 
-Conceptually, superclusters are clusters of NATS server clusters.  Create
+Conceptually, superclusters are clusters of NATS clusters.  Create
 superclusters to deploy a truly global NATS network.  Superclusters use
-a novel spline based technology with a unique apporoach to toplology, keeping
+a novel spline based technology with a unique apporoach to topology, keeping
 one hop semantics and optimizing WAN traffic through optimistic sends with
 interest graph pruning.  Superclusters provide transparent, intelligent support
 for geo-distributed queue subscribers.
@@ -157,7 +158,7 @@ clients in US-EAST will begin using services in EU-WEST.
 
 Once the Eastern US services have reconnected to US-EAST, those services
 will immediately begin servicing the Eastern US clients since they're local to
-the NATS cluster.  This is automatic and entirely transparent to the client. 
+the NATS cluster.  This is automatic and entirely transparent to the client.
 There is no extra configuration in NATS servers.
 
 This is __zero configuration disaster recovery__.
@@ -167,9 +168,11 @@ This is __zero configuration disaster recovery__.
 Leaf nodes are a NATS servers running in a special configuration, allowing
 hub and spoke topologies to extend superclusters.
 
-Leaf can bridge separate security domains. e.g. IoT, mobile, web.  They are
-ideal for edge computing, IoT hubs, or data centers that need to be connected
-to a global NATS deployment.
+Leaf nodes can also bridge separate security domains. e.g. IoT, mobile, web.
+They are ideal for edge computing, IoT hubs, or data centers that need to be
+connected to a global NATS deployment.  Local applications that communicate
+using the loopback interface with physical VM or Container security can
+leverage leaf nodes as well.
 
 Leaf nodes:
 
@@ -189,9 +192,10 @@ within a NATS deployment.
 * An __Operator__ provides the root of trust for the system, may represent
 a company or enterprise
   * Creates __Accounts__ for account administrators. An account represents
-an organization with a secure context within the NATS deployment, for example
-an IT system monitoring group, a set of microservices, a regional IoT
-deployment.  Account creation would likely be managed by a central group.
+an organization, business unit, or service offering with a secure context
+within the NATS deployment, for example an IT system monitoring group, a
+set of microservices, or a regional IoT deployment.  Account creation
+would likely be managed by a central group.
 * __Accounts__ define limits and may securely expose services and streams.
   * Account managers create __Users__ with permissions
 * __Users__ have specific credentials and permissions.
@@ -203,7 +207,9 @@ create a hierarchy of Operators, Accounts, and Users creating a scalable
 and flexible distributed security mechanism.
 
 * __Operators__ are represented by a self signed JWT and is the only thing that
-is required to be configured in the server.
+is required to be configured in the server.  This JWT is usually signed by a
+master key that is kept offline. The JWT will contain valid signing keys that
+can be revoked with the master updating this JWT.
   * Operators will sign __Account__ JWTs with various signing keys.
   * __Accounts__ sign __User__ JWTs, again with various signing keys.
 * Clients or leaf nodes present __User__ credentials and a signed nonce when connecting.
