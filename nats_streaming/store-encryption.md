@@ -23,11 +23,8 @@ Note that only message payload is encrypted, all other data stored by NATS Strea
 
 When running in clustering mode (see below), the server uses RAFT, which uses its own log files. Those will be encrypted too.
 
-Starting a server with `encrypt` against a datastore that was not encrypted may result in failures when it comes to decrypt a message, which may not happen immediately upon startup. Instead,
-it will happen when attempting to deliver messages to consumers. However, when possible, the server will detect if the data was not encrypted and return the data without attempting to decrypt it.
-The server will also detect which cipher was used to encrypt the data and use the proper cipher to decrypt, even if this is not the currently selected cipher.
+Starting a server with `encrypt` against a datastore that was not encrypted may result in failures when it comes to decrypt a message, which may not happen immediately upon startup. Instead, it will happen when attempting to deliver messages to consumers. However, when possible, the server will detect if the data was not encrypted and return the data without attempting to decrypt it. The server will also detect which cipher was used to encrypt the data and use the proper cipher to decrypt, even if this is not the currently selected cipher.
 
 If the data is encrypted with a key and the server is restarted with a different key, the server will fail to decrypt messages when attempting to load them from the store.
 
-Performance considerations: As expected, encryption is likely to decrease performance, but by how much is hard to define. In some performance tests on a MacbookPro 2.8 GHz Intel Core i7 with SSD, we have
-observed as little as 1% decrease to more than 30%. In addition to CPU cycles required for encryption, the encrypted payload is bigger, which result in more data being stored or read.
+Performance considerations: As expected, encryption is likely to decrease performance, but by how much is hard to define. In some performance tests on a MacbookPro 2.8 GHz Intel Core i7 with SSD, we have observed as little as 1% decrease to more than 30%. In addition to CPU cycles required for encryption, the encrypted payload is bigger, which result in more data being stored or read.
