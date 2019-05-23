@@ -44,7 +44,7 @@ about a distributed communication system.
 ### Use Cases
 
 NATS can run anywhere, from large servers and cloud instances, through edge
-gateways and even IoT devices.  Use cases NATS include:
+gateways and even IoT devices.  Use cases for NATS include:
 
 * Cloud Messaging
   * Services (microservices, service mesh)
