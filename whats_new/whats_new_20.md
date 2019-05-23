@@ -18,7 +18,8 @@ Disaster recovery is difficult, especially as systems have evolved to
 operate in silos defined by technology rather than business needs.
 As complexity increases, systems become expensive to operate in terms of time
 and money.  They become fragile making it difficult to deploy services and
-applications hindering innovation, time to value, and total cost of ownership.
+applications hindering innovation, increasing time to value and total cost
+of ownership.
 
 We decided to:
 
