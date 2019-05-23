@@ -31,7 +31,7 @@ Then get the default options and override some of them:
   s, err := stand.RunServerWithOpts(opts, nil)
 ```
 
-However, since the NATS Streaming Server project vendors NATS Server (that it uses as the communication layer with its clients and other servers in the cluster, there are some limitations.
+However, since the NATS Streaming Server project vendors NATS Server that is uses as the communication layer with its clients and other servers in the cluster, there are some limitations.
 
 If you were to import `github.com/nats-io/nats-server/server`, instantiate a NATS `Options` structure, configure it and pass it to the second argument of `RunServerWithOpts`, you would get a compiler error. For instance doing this does not work:
 
@@ -67,7 +67,7 @@ To workaround this issue, the NATS Streaming Server package provides a function 
 
 That will work.
 
-But, if you want to do advanced NATS configuration that requires types or interfaces that belong to the NATS Server package, then this approach won't work. In this case you need to run the NATS Server indepently and have the NATS Streaming Server connects to it. Here is how:
+But, if you want to do advanced NATS configuration that requires types or interfaces that belong to the NATS Server package, then this approach won't work. In this case, you need to run the NATS Server independently and have the NATS Streaming Server connect to it.
 
 ```
   // This configure the NATS Server using natsd package
@@ -108,4 +108,4 @@ But, if you want to do advanced NATS configuration that requires types or interf
   }
 ```
 
-The above seem involved, but it really only if you use very advanced NATS Server options.
+The above process may seem involved, but only if you use very advanced NATS Server options.

@@ -1,6 +1,6 @@
 # Writing your own client library
 
-You can find a list of all supported client libraries [here](https://nats.io/download/). There is also links to community contributed clients.
+You can find a list of all supported client libraries [here](https://nats.io/download/). There are also links to community contributed clients.
 
 In the event you would want to write your own NATS Streaming library, you could have a look at existing libraries to understand the flow. But you need to use [Google Protocol Buffers](https://developers.google.com/protocol-buffers/) to exchange protocols between the client and the server.
 
