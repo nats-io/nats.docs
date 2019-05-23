@@ -9,7 +9,7 @@ Subscriptions come in several forms:
 * Queue
 * Queue/Durable
 
-For more details on the various types, check the [concept](/nats_streaming/channels/subscriptions/subscriptions.md) section.
+For more details on the various types, check the [concepts](/nats_streaming/channels/subscriptions/subscriptions.md) section.
 
 ***Note: message callbacks are invoked serially, one message at a time. If your application does not care about processing ordering and would prefer the messages to be dispatched concurrently, it is the application responsibility to move them to some internal queue to be picked up by threads/go routines.***
 
