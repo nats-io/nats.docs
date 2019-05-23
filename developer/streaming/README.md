@@ -1,45 +1,46 @@
 # NATS Streaming
 
-## Deciding to use Persistence
+## Deciding to Use At-Least-Once Delivery
 
-The decision to use persistence through NATS streaming is important. It will
-affect your deployment, usage, performance, and total cost of ownership.
-Persistence is the facet of messaging with the highest cost in terms
-of compute and storage. The NATS Maintainers highly recommend a strategy
-of defaulting to core NATS, using a request/reply service patterns to
-guaratee delivery, and using streaming only when necessary.  This ultimately
-results in a more stable distributed system.  Entire systems such as Cloud
+The decision to use the at least once delivery through NATS streaming is
+important. It will affect your deployment, usage, performance, and total
+cost of ownership.
+
+In modern systems applications can expose services or produce and consume data
+streams. At a high level, if observability is required, applications need to
+consume messages in the future, need to come consume at their own pace, or
+need all messages, then at-least-once semantics (NATS streaming) makes sense. If
+observation needs to be realtime and the most recent message is the most important,
+the use _At-Most-Once_ delivery semantics with core NATS.
+
+Just be aware that using an a least once guarantee is the facet of messaging with the highest cost in terms of compute and storage. The NATS Maintainers highly recommend
+a strategy of defaulting to core NATS using a service pattern (request/reply)
+to guarantee delivery at the application level and using streaming only when necessary.  This ultimately results in a more stable distributed system.  Entire systems such as Cloud
 Foundry have been built upon core NATS with no messaging persistence involved.
-
-Modern well designed applications are smaller, hold little state, and should
-be easily scalable in cloud-native ecosystems - good candidates for core NATS.
-This is a paradigm shift from traditional distributed system design.  In
-highly scalable systems there are many cases where non-persistent applications
-thrive, and persistence backed applications fail or become bottlenecks due to
-the unnecessary use of persistence.
 
 ### When to use NATS Streaming
 
 NATS streaming is ideal when:
 
 * A historical record of a stream is required.  This is when a replay of data
-is required by a consumer
+is required by a consumer.
 * The last message produced on a stream is required for initialization and
 the producer may be offline.
 * A-priori knowledge of consumers is not available, but consumers must receive
-messages.
+messages.  This is often a false assumption.
 * Data producers and consumers are highly decoupled.  They may be online at
-different times and consumer must receive messages.
+different times and consumers must receive messages.
 * The data in messages being sent have a lifespan beyond that of the
 intended application lifespan.
+* Applications need to consume data at their own pace.
 
 Note that no assumptions should ever be made of who will receive and process
 data in the future, or for what purpose.
 
 ### When to use Core NATS
 
-Using core NATS is ideal for messaging patterns where there is a
-tolerance for message loss or when applications themselves handle
+Using core NATS is ideal for the fast request path for scalable services
+where there is tolerance for message loss or when applications themselves handle
 message delivery guarantees.
 
 These include:
@@ -58,7 +59,7 @@ or expires quickly.
 are expected to be live.  The request/reply pattern works well here or
 consumers can send an application level acknowledgement.
 
-We're finding that core NATS is sufficient for most use cases.  Also note
+We've found that core NATS is sufficient for most use cases.  Also note
 that nothing precludes the use of both core NATS and NATS streaming side
 by side, leveraging the strengths of each to build a highly resilient
 distributed system.
