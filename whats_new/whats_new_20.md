@@ -67,7 +67,7 @@ Services and streams are mechanisms to share messages between accounts.
 
 Think of a service as an RPC endpoint into an account.  Behind that account
 there might be many microservices working in concert to handle requests, but
-from outside the account there simply one subject exposed.
+from outside the account there is simply one subject exposed.
 
 __Services__ definition to share an endpoint:
 
