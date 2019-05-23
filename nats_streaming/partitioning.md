@@ -98,7 +98,7 @@ host1$ nats-streaming-server -store file -dir /nss/datastore/foodata -sc foo.con
 
 host2$ nats-streaming-server -store file -dir /nss/datastore/foodata -sc foo.conf -ft_group_name foo -cluster nats://host2:6222 -routes nats://host1:6222,nats://host1:6223
 ```
-Notice that each server on each note points to each other (the `-routes` parameter). The reason why we also point to `6223` will be explained later. They both listen for routes connections on their host's `6222` port.
+Notice that each server on each node points to each other (the `-routes` parameter). The reason why we also point to `6223` will be explained later. They both listen for routes connections on their host's `6222` port.
 
 We now start the FT pair for `bar`. Since we are running from the same machines (we don't have to), we need to use a different port:
 ```
@@ -106,7 +106,7 @@ host1$ nats-streaming-server -store file -dir /nss/datastore/bardata -sc bar.con
 
 host2$ nats-streaming-server -store file -dir /nss/datastore/bardata -sc bar.conf -ft_group_name bar -p 4223 -cluster nats://host2:6223 -routes nats://host1:6222,nats://host1:6223
 ```
-You will notice that the `-routes` parameter points to both `6222` and `6223`, this is so that both partitions belong to the same cluster and be view as "one" by a Streaming application connecting to this cluster. Effectively, we have created a full mesh of 4 NATS servers that can all communicate with each other. Two of these servers are backups for servers running on the same FT group.
+You will notice that the `-routes` parameter points to both `6222` and `6223`, this is so that both partitions belong to the same cluster and be viewed as "one" by a Streaming application connecting to this cluster. Effectively, we have created a full mesh of 4 NATS servers that can all communicate with each other. Two of these servers are backups for servers running on the same FT group.
 
 ## Applications behavior
 
@@ -114,6 +114,6 @@ When an application connects, it specifies a cluster ID. If several servers are 
 
 A published message will be received by only the server that has that channel defined. If no server is handling this channel, no specific error is returned, instead the publish call will timeout. Same goes for message acknowledgements. Only the server handling the subscription on this channel should receive those.
 
-However, other client requests (such as connection and subscription requests) are received by all servers. For connections, all servers handle them and the client library will receive a response from all servers in the cluster, but use the first one that it received.
+However, other client requests (such as connection and subscription requests) are received by all servers. For connections, all servers handle them and the client library will receive a response from all servers in the cluster, but will use the first one that it received.
 
-For subscriptions, a server receiving the request for a channel that it does not handle will simply ignore the request. Again, if no server handle this channel, the client's subscription request will simply time out.
+For subscriptions, a server receiving the request for a channel that it does not handle will simply ignore the request. Again, if no server handles this channel, the client's subscription request will simply time out.
