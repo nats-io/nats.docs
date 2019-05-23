@@ -21,8 +21,7 @@ nats-streaming-server -store file -dir store-d -clustered -nats_server nats://lo
 The equivalent clustering configurations can be specified in a configuration file under the `cluster` group. See the [Configuring](#configuring) section for more information.
 
 Here is an example of a cluster of 3 nodes using the following configuration files. The nodes are running on `host1`, `host2` and `host3` respectively.
-
-<b>NOTE</b> If you have an existing NATS cluster and want to run NATS Streaming Cluster on top of that, see details at the end of this section.
+**NOTE** If you have an existing NATS cluster and want to run NATS Streaming Cluster on top of that, see details at the end of this section.
 
 On `host1`, this configuration indicates that the server will accept client connections on port 4222. It will accept route connections on port 6222. It creates 2 routes, to `host2` and `host3` cluster port.
 
