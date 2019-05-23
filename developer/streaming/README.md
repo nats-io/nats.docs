@@ -1,16 +1,14 @@
 # NATS Streaming
 
-Where NATS provides at most once quality of service, streaming adds at least once. Streaming is implemented as a request-reply service on top of NATS. Streaming messages are encoded as protocol buffers, the streaming clients use NATS to talk to the streaming server. The streaming server organizes messages in channels and stores them in files and databases. ACKs are used to insure delivery in both directions.
+Where NATS provides at most once quality of service, streaming adds at least once. Streaming is implemented as a request-reply service on top of NATS. Streaming messages are encoded as protocol buffers, the streaming clients use NATS to talk to the streaming server. The streaming server organizes messages in channels and stores them in files or databases. ACKs are used to insure delivery in both directions.
 
-> Sometimes the maintainers will refer to NATS as "nats core" and streaming as "stan" or "streaming."
+> Sometimes the maintainers will refer to NATS as "nats core" and streaming as "stan" or "streaming".
 
 Messages to the streaming service are opaque byte arrays, just as they are with NATS. However, the streaming server protocol uses protocol buffers to wrap these byte arrays. So if you listen to the NATS traffic the messages will appear as protocol buffers, while the actual data sent and received will simply be byte arrays.
 
 NATS streaming uses the concept of a channel to represent an ordered collection of messages. Clients send to and receive from channels instead of subjects. The subjects used by the streaming libraries and server are managed internally. Channels do not currently support wildcard. Channels aren’t raw subjects. Streaming isn’t raw NATS. The streaming libraries hide some of the differences.
 
-Think of channels as a ring buffer. Messages are added until the configured limit is reached. Old messages are removed to make room for new ones. Old messages can expire, based on configuration. Subscriptions don’t affect channel content. Subscriptions are like a cursor on the ring buffer.
-
-![ring buffer](../resources/ring_buffer.png)
+Think of channels as a First In First Out (FIFO) queue. Messages are added until the configured limit is reached. Old messages are removed to make room for new ones. Old messages can expire, based on configuration. Subscriptions don’t affect channel content, that is, when a message is acknowledged, it is not removed from the channel.
 
 Positions in the channel are specified in multiple ways:
 
@@ -19,8 +17,6 @@ Positions in the channel are specified in multiple ways:
 * Time delta (converted to time on client)
 
 New subscriptions can also specify last received to indicate they only want new messages. Sequence numbers are persistent, when message #1 goes away the oldest message is message #2. Trying to go to a position before the oldest message will be moved to the oldest message.
-
-![starting positions](../resources/start_positions.png)
 
 ## Subscription Types
 

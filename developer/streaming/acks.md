@@ -14,7 +14,7 @@ sub, err := sc.Subscribe("foo",
   }, stan.SetManualAckMode(), stan.AckWait(aw))
 ```
 
-## Max In Flight
+# Max In Flight
 
 Subscribers can set max in flight to rate limit incoming messages. The server will send at most “max in flight” messages before receiving an acknowledgement. Setting max in flight to 1 insures every message is processed in order.
 
