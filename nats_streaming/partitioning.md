@@ -26,7 +26,7 @@ store_limits: {
 }
 ```
 
-When partitioning is enabled, multiple servers with the same cluster ID can coexist on the same NATS network, each server handling its own set of channels. ***Note however that in this mode, state is not replicated as it is in Clustering mode. The only communication between servers is to report if a given channel is handled in more than one serve.r***
+When partitioning is enabled, multiple servers with the same cluster ID can coexist on the same NATS network, each server handling its own set of channels. ***Note however that in this mode, state is not replicated as it is in Clustering mode. The only communication between servers is to report if a given channel is handled in more than one server.***
 
 ## Wildcards
 
