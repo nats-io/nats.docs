@@ -1,6 +1,6 @@
 # Windows Service
 
-The NATS Streaming Server supports running as a Windows service. There is currently no installer and instead users should use `sc.exe` to install the service:
+The NATS Streaming Server supports running as a Windows service. There is currently no installer and instead users should use `sc.exe` to install the service.
 
 Here is how to create and start a NATS Streaming Server named `nats-streaming-server`. Note that the server flags should be passed in when creating the service.
 ```sh
