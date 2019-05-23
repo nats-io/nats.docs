@@ -7,7 +7,7 @@ Monitoring options
 -m, --http_port PORT             HTTP PORT for monitoring
 -ms,--https_port PORT            Use HTTPS PORT for monitoring (requires TLS cert and key)
 ```
-To enable monitoring via the configuration file, use `http: "host:port"` or `https: "host:port"` (there is no explicit configuration flag for the monitoring interface).
+To enable monitoring via the configuration file, use `http: "host:port"` or `https: "host:port"`. There is no explicit configuration flag for the monitoring interface.
 
 For example, after running this:
 ```
