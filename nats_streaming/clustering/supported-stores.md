@@ -6,4 +6,4 @@ The NATS Streaming stores server meta information, messages and subscriptions to
 
 However, in clustered mode, we use RAFT for leader election. The raft layer uses its own stores which are currently necessarily file based. The location of the RAFT stores defaults to the current directory under a sub-directory named after the cluster ID, or you can configure it using `--cluster_log_path`.
 
-This means that even if you select an SQL Store, there will still be a need for storing data on the file system.
+This means that even if you select a SQL Store, there will still be a need for storing data on the file system.
