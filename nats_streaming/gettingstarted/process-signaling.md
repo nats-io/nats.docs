@@ -8,7 +8,7 @@ On Unix systems, the NATS Streaming Server responds to the following signals:
 | SIGINT, SIGTERM | Stops the server gracefully           |
 | SIGUSR1         | Reopens the log file for log rotation |
 
-The `nats-streaming-server` binary can be used to send these signals to running NATS Streaming Servers using the `-sl` flag:
+The `nats-streaming-server` binary can be used to send these signals to run NATS Streaming Servers using the `-sl` flag:
 
 ```sh
 # Reopen log file for log rotation
