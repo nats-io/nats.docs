@@ -30,10 +30,10 @@ and cloud-native architecture.
 Operations resist change due to risk in touching a complex and fragile
 system.  Providing isolation contexts can help mitigate this.
 * __Support manageable large scale deployments__:  No data silos defined by
-software, instead easily managed though software to provide exactly what the
+software, instead easily managed through software to provide exactly what the
 business needs.  We wanted to provide easy to configure disaster recovery.
 * __Decentralize security__:  Provide security supporting one
-technology end-to-end where organizations may self-manage will make it
+technology end-to-end where organizations may self-manage making it
 easier to support a massive number of endpoints.
 
 To achieve this, we added a number of new features that are transparent
