@@ -3,15 +3,15 @@
 * [Introduction](README.md)
 * [What's New in 2.0](whats_new/whats_new_20.md)
 
-# Concepts
+## Concepts
 
-  * [Introduction](developer/concepts/intro.md)
-  * [Subject-Based Messaging](developer/concepts/subjects.md)
-  * [Publish-Subscribe](developer/concepts/pubsub.md)
-  * [Request-Reply](developer/concepts/reqreply.md)
-  * [Queue Groups](developer/concepts/queue.md)
-  * [Acknowledgements](developer/concepts/acks.md)
-  * [Sequence Numbers](developer/concepts/seq_num.md)
+* [What is NATS](developer/concepts/intro.md)
+* [Subject-Based Messaging](developer/concepts/subjects.md)
+* [Publish-Subscribe](developer/concepts/pubsub.md)
+* [Request-Reply](developer/concepts/reqreply.md)
+* [Queue Groups](developer/concepts/queue.md)
+* [Acknowledgements](developer/concepts/acks.md)
+* [Sequence Numbers](developer/concepts/seq_num.md)
 
 ## Developing With NATS
 
@@ -122,6 +122,32 @@
   * [Tutorial](nats_tools/nats_top/tutorial.md)
 * [nats-bench](nats_tools/natsbench.md)
 
+## NATS Streaming Concepts
+
+* [Introduction](nats_streaming/intro.md)
+  * [Relation to NATS](nats_streaming/relation-to-nats.md)
+* [Client Connections](nats_streaming/client-connections.md)
+* [Channels](nats_streaming/channels/channels.md)
+  * [Message Log](nats_streaming/channels/message-log.md)
+  * [Subscriptions](nats_streaming/channels/subscriptions/subscriptions.md)
+    * [Regular](nats_streaming/channels/subscriptions/regular.md)
+    * [Durable](nats_streaming/channels/subscriptions/durable.md)
+    * [Queue Group](nats_streaming/channels/subscriptions/queue-group.md)
+    * [Redelivery](nats_streaming/channels/subscriptions/redelivery.md)
+* [Store Interface](nats_streaming/store-interface.md)
+* [Store Encryption](nats_streaming/store-encryption.md)
+* [Clustering](nats_streaming/clustering/clustering.md)
+  * [Supported Stores](nats_streaming/clustering/supported-stores.md)
+  * [Configuration](nats_streaming/clustering/configuration.md)
+  * [Auto Configuration](nats_streaming/clustering/auto-configuration.md)
+  * [Containers](nats_streaming/clustering/containers.md)
+* [Fault Tolerance](nats_streaming/fault-tolerance/ft.md)
+  * [Active Server](nats_streaming/fault-tolerance/active-server.md)
+  * [Standby Servers](nats_streaming/fault-tolerance/standby-server.md)
+  * [Shared State](nats_streaming/fault-tolerance/shared-state.md)
+  * [Failover](nats_streaming/fault-tolerance/failover.md)
+* [Partitioning](nats_streaming/partitioning.md)
+
 ## Developing With NATS Streaming
 
 * [Introduction](developer/streaming/README.md)
@@ -131,47 +157,21 @@
 * [Durable Subscriptions](developer/streaming/durables.md)
 * [Queue Subscriptions](developer/streaming/queues.md)
 * [Acknowledgements](developer/streaming/acks.md)
-* [Embedding NATS Streaming Server](developer/streaming/embedding.md)
-* [Writing your own client library](developer/streaming/protocol.md)
+* [The Streaming Protocol](developer/streaming/protocol.md)
 
 ## NATS Streaming Server
 
-* [Concepts](nats_streaming/intro.md)
-  * [Relation to NATS](nats_streaming/relation-to-nats.md)
-  * [Client Connections](nats_streaming/client-connections.md)
-  * [Channels](nats_streaming/channels/channels.md)
-    * [Message Log](nats_streaming/channels/message-log.md)
-    * [Subscriptions](nats_streaming/channels/subscriptions/subscriptions.md)
-      * [Regular](nats_streaming/channels/subscriptions/regular.md)
-      * [Durable](nats_streaming/channels/subscriptions/durable.md)
-      * [Queue Group](nats_streaming/channels/subscriptions/queue-group.md)
-      * [Redelivery](nats_streaming/channels/subscriptions/redelivery.md)
-  * [Store Interface](nats_streaming/store-interface.md)
-  * [Store Encryption](nats_streaming/store-encryption.md)
-  * [Clustering](nats_streaming/clustering/clustering.md)
-    * [Supported Stores](nats_streaming/clustering/supported-stores.md)
-    * [Configuration](nats_streaming/clustering/configuration.md)
-    * [Auto Configuration](nats_streaming/clustering/auto-configuration.md)
-    * [Containers](nats_streaming/clustering/containers.md)
-  * [Fault Tolerance](nats_streaming/fault-tolerance/ft.md)
-    * [Active Server](nats_streaming/fault-tolerance/active-server.md)
-    * [Standby Servers](nats_streaming/fault-tolerance/standby-server.md)
-    * [Shared State](nats_streaming/fault-tolerance/shared-state.md)
-    * [Failover](nats_streaming/fault-tolerance/failover.md)
-  * [Partitioning](nats_streaming/partitioning.md)
-  * [Monitoring](nats_streaming/monitoring/monitoring.md)
-    * [Enabling](nats_streaming/monitoring/enabling.md)
-    * [Endpoints](nats_streaming/monitoring/endpoints.md)
-
-* [Getting started](nats_streaming/gettingstarted/intro.md)
-  * [Installing](nats_streaming/gettingstarted/install.md)
-  * [Running](nats_streaming/gettingstarted/run.md)
-  * [Configuring](nats_streaming/gettingstarted/configuring.md)
-  * [Securing](nats_streaming/gettingstarted/tls.md)
-  * [Process Signaling](nats_streaming/gettingstarted/process-signaling.md)
-  * [Windows Service](nats_streaming/gettingstarted/windows-service.md)
-  
+* [Installing](nats_streaming/gettingstarted/install.md)
+* [Running](nats_streaming/gettingstarted/run.md)
+* [Configuring](nats_streaming/gettingstarted/configuring.md)
+* [Securing](nats_streaming/gettingstarted/tls.md)
+* [Process Signaling](nats_streaming/gettingstarted/process-signaling.md)
+* [Windows Service](nats_streaming/gettingstarted/windows-service.md)
+* [Embedding NATS Streaming Server](developer/streaming/embedding.md)
 * [Docker Swarm](nats_streaming/swarm.md)
+* [Monitoring](nats_streaming/monitoring/monitoring.md)
+  * [Enabling](nats_streaming/monitoring/enabling.md)
+  * [Endpoints](nats_streaming/monitoring/endpoints.md)
 
 ## NATS Protocol
 
