@@ -1,63 +1,220 @@
 # What's New in NATS 2.0
 
-NATS 2.0 is the largest feature release since the original code base for the server was released. It includes features for security, multi-tenancy, larger networks, and secure sharing, allowing a new way of thinking about NATS as a globally shared utility and as a new and innovative way to solve on-premise communications for modern systems design.
+NATS 2.0 is the largest feature release since the original code base for the
+server was released. NATS 2.0 was created to allow a new way of thinking about
+NATS as a shared utility, solving problems at scale through distributed
+security, multi-tenancy, larger networks, and secure sharing of data.
 
-## Multi-Tenancy and Accounts
+## Rationale
 
-Ever since NATS was originally designed, it has always been considered to be single tenant. Even when we added support for multiple users, the subject space was still a shared space, and care had to be taken when designing subject spaces so as to not interfere with other applications and services on the NATS systems.
-As a matter of fact, designing the subject space, and most importantly the prefixes based on organization, or business unit or business function/service, was encouraged as an early exercise. However, even with the best intentions, large NATS systems became overly complex and managing and understanding the subject space was challenging at large scale.  Even as we introduced authorization primitives to control which subjects users could publish or subscribe to, the challenge still remained.
-NATS 2.0 introduces accounts. Accounts can be viewed as containers for a subject space. Instead of there being a global subject space that was bound to a server, NATS 2.0 now recognizes accounts, including the default global account $G that defines which data structures the server will utilize to match publishers to subscribers. These subject spaces are isolated and by default, no messages cross from one account to another. This allows multiple groups or organizations to use a simplified subject space that in the past, could have overlapped with others in a larger installation. It also allows for a single NATS infrastructure to be utilized by different users without the need to maintain many silos of NATS servers and clusters.
-An account binds the subject space data structures, a sublist, and its associated caches, to a list of users. A client application is not aware of this account binding and this was by design to preserve existing clients and the simplicity of the NATS philosophy. When connected to a NATS server, the user is authenticated and validated, and the configuration tells the server which account to bind to the user. The messages then flow as normal, as published messages are matched to subscribers.
+NATS 2.0 was created to address problems in large scale distributed computing.
 
-## Streams and Services - Account Sharing
+It is difficult at best to combine identity management end-to-end
+(or end-to-edge), with data sharing, while adhering to policy and compliance.
+Current distributed systems increase significantly in operational complexity
+as they scale upward.  Problems arise around service discovery, connectivity,
+scaling for volume, and application onboarding and updates.
+Disaster recovery is difficult, especially as systems have evolved to
+operate in silos defined by technology rather than business needs.
+As complexity increases, systems become expensive to operate in terms of time
+and money.  They become fragile making it difficult to deploy services and
+applications hindering innovation, increasing time to value and total cost
+of ownership.
 
-With the introduction of secure multi-tenancy in NATS 2.0, the desire for accounts expanded beyond just isolation. The NATS core team felt that this could possibly be used to simplify and ease the use of NATS when being utilized for many applications and services that want to communicate over certain subjects. Think of this as the microservices equivalent for NATS applications. In NATS 2.0 we define two abstract concepts that form the basis of sharing messages across accounts; Streams and Services. Streams are published messages defined by a subject, which could include a wildcard. Services are listening endpoints bound to subscribers that usually receive requests and return responses.
+We decided to:
 
-Both Streams and Services can be exported by an account owner for subsequent import by other accounts. There are two very important aspects of export and import that make account sharing even more powerful. First, exports can be public, meaning anyone can import, or then can require authorization. An account that wants to import the stream or service must have permission from the exporting account owner for the messages to flow between accounts. Second, the account owner always controls their own subject space. To this end, when importing, the account owner can pick and choose where the import will show up in their own subject space. This is a very powerful concept that allows some tremendous opportunities.
+* __Reduce total cost of ownership__:  Users want reduced TCO for their
+distributed systems.  This is addressed by an easy to use technology that
+can operate at global scale with simple configuration and a resilient
+and cloud-native architecture.
+* __Decrease Time to Value__:  As systems scale, _time to value_ increases.
+Operations resist change due to risk in touching a complex and fragile
+system.  Providing isolation contexts can help mitigate this.
+* __Support manageable large scale deployments__:  No data silos defined by
+software, instead easily managed through software to provide exactly what the
+business needs.  We wanted to provide easy to configure disaster recovery.
+* __Decentralize security__:  Provide security supporting one
+technology end-to-end where organizations may self-manage making it
+easier to support a massive number of endpoints.
 
-For instance, in NGS, a commercial offering from Synadia, the power of accounts and sharing is utilized by providing a service imported to all new users of the system allowing them to get their current usage. As users connect and disconnect from the system, the usage servers in NGS gather the events from the system account and calculate the real-time usage information for each account. There is also a usage demo account that can export a single service with a wildcard, __<ngs.usage.*>__ Anyone on the demo account can send a request to **ngs.usage.ACCOUNT_PUB_NKEY** with the body of the message being duration, e.g. 1h, 2d, etc. and receive the usage for that time period for the account. Although the usage is available in NGS, no one actually has access to the demo account since that would mean anyone on the system could get the usage for any known account just by the account’s public key. Which would not be desirable. The export on __<ngs.usage.*>__ requires authorization, so no one can just blindly import the usage data. When a new account registers on the NGS system, the system will get a signed authorization token for the ability to import ONLY their account usage, e.g. **<ngs.usage.DEREKS_ACCOUNT>**. Moreover, the new account owner is allowed to specify where the import is placed, and in this case, we place it on **<ngs.usage>**. Thus for every account, the account can send a simple request to **<ngs.usage>** and receive their own, and only their own, account usage. All accounts look exactly the same. And in this example we utilized three (3) accounts to essentially have secure domains, or DMZs, to provide the security and control what we want to achieve.
+To achieve this, we added a number of new features that are transparent
+to existing clients with 100% backward client compatablity.
 
-Under the covers, the NGS system does several things to pull this off. For streams, the import that is present, will be checked when the importing account does a subscription. If any of the import is covered by the subscription, the system will create a secure shadow subscription on the exporting account subject space for the exported subject. This will map message sent to the original export subject (or a subset scope if it contains wildcards) into the import account. Services are a bit trickier, in essence, you are importing and mapping a subject that the import account can publish to. In our example above with **<ngs.usage>**, this is exactly what happens. When a new account publishes a message to **<ngs.usage>** the system can map that message into the exporting account’s subject space. But only doing this would be insufficient, since most of the time the published message is a request, meaning it has a reply subject and expects a response. The system needs to ensure that the response can also cross the account boundary in a secure and meaningful way. NATS 2.0 goes further and anonymizes the reply subject such that the responder has no way of knowing the requestor (unless the body of the message has a clue). NATS knows the requestor is guaranteed to be authorized, but there is no other way to understand or track the requestor. The system sets up ephemeral state to map the random and anonymous reply subject back into the importing account and with the correct reply subject.
-We believe as time goes on, accounts and more specifically account sharing of streams and services, will be the most influential feature we introduced in the NATS 2.0 release. It will change the way people architect system on technologies like NATS. It will allow systems to scale but maintain simplicity and security in a way that was not possible before.
+## Accounts
 
-## Security and Authentication
+Accounts are securely isolated communication contexts that allow multi-tenancy
+spanning a NATS deployment.  Accounts allow users to bifurcate technology from
+business driven use cases, where data silos are created by design, not software
+limitations.  When a client connects, it specifies an account or will default
+to authentication with a global account.
 
-Prior to NATS 2.0, NATS allowed multi-user deployments and supported username and password. As NATS evolved we supported bcrypt-based password and encouraged NATS users to utilize the tool provided to avoid having any plaintext passwords in their configuration files. However, this still felt insufficient. For NATS 2.0 we wanted to have a system that never had any access whatsoever to private keys, etc. The most common way to do this is via public key technologies. There are ways to prove one’s identity without ever sharing the private key from a public/private key pair. The team chose [Ed25519](https://ed25519.cr.yp.to/index.html) as its key algorithm for NATS 2.0. We may add others in the future, but our selection was specific in that Ed25519 can only be used to sign, and has very few branches in its code, providing a higher level of resistance to side-channel attacks like Spectre and Meltdown. NATS has an encoding of these keys making them easily distinguishable and selectable from a copy/paste perspective.
+At least some services need to share data outside of their account.
+Data can be securely shared between accounts with secure services and
+streams. Only mutual agreement between account owners permit data flow,
+and the import account has complete control over its own subject space.
 
-The NATS 2.0 server upon client connect will pass a nonce field in the INFO. Clients use this nonce and their private key to sign the nonce. Servers are configured with authorized users’ public keys only. They can use the public key to validate that the client has the private key that corresponds to the public key. This combined with TLS provides a powerful way to secure and manage NATS clients and users without ever having access to a client’s private key.
+This means within an account, limitations may be set and subjects can be used
+without worry of collisions with other groups or organizations.  Development
+groups choose any subjects without affecting the rest of the system, and open
+up accounts to export or import only the services and streams they need.
 
-In addition for NATS 2.0, we also allow the system to extract a user identity from an x.509 client certificate. So for those who require client certificates and have the management and system infrastructure in place for client-side certificates, you will no longer have to duplicate identity to map to authorization primitives in NATS 2.0.
+Accounts are easy, secure, and cost effective.  There is one NATS deployment
+to manage, but organizations and development teams can self manage with more
+autonomy reducing time to value with faster, more agile development practices.
 
-## Network Topologies (Rewrite for Routes and Introduction of Gateways)
+### Service and Streams
 
-With the introduction of accounts, the existing clustering protocol for NATS needed to be rewritten. The protocol had some inefficiencies we wanted to correct for quite some time, and the need to introduce account scoping into the clustering protocol gave us an opportunity to correct some of these wrongs. Each message traveling between servers now had to designate which account it was bound to, or the account under which it was published. This allows remote servers to then match the account and subsequently match subscribers from that account for any given message.
+Services and streams are mechanisms to share messages between accounts.
 
-Two inefficiencies that existed in the original protocol were handling of duplicates in the interest graph, and message delivery across a route in the presence of both normal subscribers and queue-based subscribers. Subscriptions (the interest graph) were always sent across a route to the other side even if the subjects were the same. The other side was smart enough not to send the message more than once for a given subject, however, the interest graph traffic could get very chatty even under normal behaviors. We also would send the message again between servers for every queue group that existed for a given message. This has served us well to date, but the team wanted to be able to update and improve this.
+Think of a service as an RPC endpoint into an account.  Behind that account
+there might be many microservices working in concert to handle requests, but
+from outside the account there is simply one subject exposed.
 
-In NATS 2.0 we have greatly reduced the interest graph traffic for duplicative subjects and there are more optimizations we can make without needing to change the protocol. We also only send a message once regardless of the interest being represented by normal and queue-based subscribers. The way these two features work is fairly straightforward. For interest propagation, we keep a suppression map that uses reference counts to only send interest for a given subject once, when it goes from 0->1, and when it goes from 1->0. All other changes on the local cluster simply increment or decrement the count in the map. For sending a message only once in the face of any interest, we force the protocol for clusters to require an affirmative list of queue groups to which the receiving server can possibly deliver the message. This allows the distributed queues to work correctly without requiring the “directed” message sends between servers.
+__Services__ definition to share an endpoint:
 
-Also in NATS 2.0 we introduced a new connection type called gateways. Gateways allow multiple NATS clusters to be connected together into a supercluster. The team was faced with many challenges in the design of gateways. We wanted the abstract to look fully connected, but we did not want an explosion of connections at large scale. We were also concerned with interest graph traffic that would need to propagate globally when all changes were actually local to a cluster.
+* Export a service to allow other accounts to import
+* Import a service to allow requests to be sent securely and seamlessly to
+another account
 
-Gateways can either be inbound or outbound, but not both. Every server in an origin cluster has exactly one outbound connection where it can send messages to the remote cluster. In addition, they may have zero or more inbound connections for which they send interest and receive messages themselves from the remote cluster. This forms a type of full mesh but with much fewer connections per server, and of course avoids any SPOF scenarios where only one server would be selected to perform communications between the clusters.
+Use cases include most applications - anything that accepts a request and returns
+a response.
 
-In addition, outbound connections can be in one of two states, optimistic mode or full knowledge. In full knowledge, all interest graph changes need to be propagated globally for every 0->1 or 1->0 change. This could result in quite a bit of wasted control messages being sent and received. The team designed a way to have a connection in optimistic send mode to start. In this mode, a message will be sent over if we have no information at all about the message’s subject. If the remote side truly did not have any interest, it can asynchronously send a message indicating so, either for the subject itself, or the whole account. Obviously, this has some edge cases where we are sending more messages (both data and control) then we were saving. So a connection can change its state and move to full knowledge, meaning it wants to know all interest and it will not send a message unless it has knowledge that it should do so. We are continually tweaking this algorithm, but extremely excited about the power it has to create large superclusters. Synadia uses this technology in its NGS offering.
+__Stream__ definitions allow continuous data flow between accounts:
 
-Gateways and SuperClusters support distributed queue subscriptions just like today. However, we have added selection criteria that will favor queue subscribers in a local cluster to the publisher, and only cross a gateway connection if no local cluster queue subscribers for a given group are available. We feel this is a powerful feature on top of what distributed queues give us already with transparent horizontal scalability. Combined with the recently introduced drain capabilities, allowing queue subscribers to exit a group without dropping any messages, this is an extremely powerful way to design scalable service endpoints for modern systems.  This also provides zero configuration and high availability failover across multiple locations - entirely transparent to clients..
+* Export a stream to allow egress
+* Import a stream to allow ingress
 
-## System Account
+Use cases include Observability, Metrics, and Data analytics.  Any application
+or endpoint reading a stream of data.
 
-With NATS 2.0, NATS servers can now send and receive messages themselves. Prior to 2.0, NATS could only send and receive messages on behalf of connected clients. NATS servers now can generate events on things like connect and disconnect events and can receive messages and respond to requests. This is exciting for the team as we can now enable many things that were only possible before with protocol changes. In addition, internal messaging is bound to an account just like all users are in NATS 2.0. So all of the security, sharing of stream and services and mapping of subject spaces applies equally to system accounts as it does to any other user and account. Synadia’s NGS system uses system accounts to enforce limits globally and generate events that allow us to track usage. It also allows push-based updates in our decentrally managed system, described below.
+Note that services and streams operate with __zero__ client configuration or
+API changes.  Services may even move between accounts, entirely transparent
+to end clients.
 
-## Decentralized Management
+### System Accounts
 
-As systems get larger, management through config files only becomes challenging and brittle. With the introduction of accounts and superclusters, we wanted to encourage large, shared NATS clusters that could power large organizations, even entire companies and possibly even a global utility. Config file-based management would not suffice.
+The system account publishes system messages under established subject patterns.
+These are internal NATS system messages that may be useful to operators.
 
-In NATS 2.0 the system can be configured to be completely de-centrally managed. In addition to Nkeys (Ed25519) keys, we introduce JWTs (only signed by Nkeys) into our system and a hierarchy that would utilize a root of trust. In NATS 2.0, the system understands operators, accounts and users. Each one is represented by a JWT. The operator JWT is self-signed and is the only thing required to be configured for each server. Account owners have JWTs signed by an operator and then generate user JWTs which are self-contained in terms of identity and authorization.
+Server initiated events and data include:
 
-When a server receives a client connect request, the client presents its user JWT (signed by an account) and a signed nonce, generated by its private key. The server validates the user JWT, checks the signature and if all are valid, will then use a resolver to pull the account JWT based on the public key in the user JWT. It will then validate the account JWT and finally check that the account JWT was signed by a signing key owned by the operator for which the server was configured.
+* Client connection events
+* Account connection status
+* Authentication errors
+* Leaf node connection events
+* Server stats summary
 
-This allows a very scalable, yet very secure mechanism to allow rapid change of permissions, authentication, limits, etc. to a global shared NATS system.
+Tools and clients with proper privileges can request:
 
-## LeafNodes - The best of both worlds
+* Service statistics
+* Server discovery and metrics
 
-We are also introducing leaf nodes. A leaf node is a NATS server or small NATS cluster, running in a designated mode, that will connect to another cluster/supercluster. It will securely and transparently bind to an account on the remote cluster, and bridge communications between local clients and those on the remote cluster. This allows existing clients and systems to integrate with NATS 2.0 systems with increased security, accounts, and sharing all with no changes to an existing NATS application. For instance, we could run a leaf node server that allows existing applications with their own authorization to communicate with new clients that are secured by accounts and nkeys and utilize accounts for communication isolation and the sharing as the systems interfaces. With NATS 2.0 and a local leaf node server (a normal NATS 2.0 server) you could import streams and services and have them accessed by current applications with their own authentication (or none if physical security is in place). This means you can transparently use NGS, our global utility, and combine that with on-premise servers and clusters. You could securely and transparently use NGS to connect different regions or access meaningful streams and services as they become available on NGS.  Leaf nodes utilizing accounts effectively create a DMZ between a local or private NATS deployment and NGS or external NATS clusters or superclusters.
+Account servers will also publish messages when an account changes.
+
+With this information and system metadata you can build useful
+monitoring and anomaly detection tools.
+
+## Global Deployments
+
+NATS 2.0 supports global deployments, allowing for global topologies that
+optimize for WANs while extend to the edge or devices.
+
+### Self healing
+
+While self healing features have been part of NATS 1.X releases, we
+ensured they continue to work in global deployments.  These include:
+
+* Client and server connections automatically reconnect
+* Auto-Discovery where servers exchange server topology changes with each
+other and with clients, in real time with zero configuration changes and
+zero downtime while being entirely transparent to clients.  Clients can
+failover to servers they were not originally configured with.
+* NATS server clusters dynamically adjust to new or removed servers allowing
+for seamless rolling upgrades and scaling up or down.
+
+### Superclusters
+
+Conceptually, superclusters are clusters of NATS clusters.  Create
+superclusters to deploy a truly global NATS network.  Superclusters use
+a novel spline based technology with a unique apporoach to topology, keeping
+one hop semantics and optimizing WAN traffic through optimistic sends with
+interest graph pruning.  Superclusters provide transparent, intelligent support
+for geo-distributed queue subscribers.
+
+### Disaster Recovery
+
+Superclusters inherently support disaster recovery.  With geo-distributed queue
+subscribers, local clients are preferred, then an RTT is used to find the lowest
+latency NATS cluster containing a matching queue subscriber in the supercluster.
+
+What does this mean?
+
+Let's say you have a set of load balanced services in US East Coast
+(US-EAST), another set in the EU (EU-WEST), and a supercluster consisting
+of a NATS cluster in US-EAST connected to a NATS cluster in EU-WEST. Clients
+in the US would connect to a US-EAST, and services connected to that cluster
+would service those clients.  Clients in Europe would automatically use
+services connected to EU-WEST.  If the services in US-EAST disconnect,
+clients in US-EAST will begin using services in EU-WEST.
+
+Once the Eastern US services have reconnected to US-EAST, those services
+will immediately begin servicing the Eastern US clients since they're local to
+the NATS cluster.  This is automatic and entirely transparent to the client.
+There is no extra configuration in NATS servers.
+
+This is __zero configuration disaster recovery__.
+
+### Leaf Nodes
+
+Leaf nodes are a NATS servers running in a special configuration, allowing
+hub and spoke topologies to extend superclusters.
+
+Leaf nodes can also bridge separate security domains. e.g. IoT, mobile, web.
+They are ideal for edge computing, IoT hubs, or data centers that need to be
+connected to a global NATS deployment.  Local applications that communicate
+using the loopback interface with physical VM or Container security can
+leverage leaf nodes as well.
+
+Leaf nodes:
+
+* Transparently and securely bind to a remote NATS account
+* Securely bridge specific local data to a wider NATS deployment
+* Are 100% transparent to clients which remain simple, lightweight, and easy to develop
+* Allow for a local security scheme while using new NATS security features globally
+* Can create a DMZ between a local NATS deployment and external NATS cluster or supercluster.
+
+## Decentralized Security
+
+### Operators, Accounts, and Users
+
+NATS 2.0 Security consists of defining Operators, Accounts, and Users
+within a NATS deployment.
+
+* An __Operator__ provides the root of trust for the system, may represent
+a company or enterprise
+  * Creates __Accounts__ for account administrators. An account represents
+an organization, business unit, or service offering with a secure context
+within the NATS deployment, for example an IT system monitoring group, a
+set of microservices, or a regional IoT deployment.  Account creation
+would likely be managed by a central group.
+* __Accounts__ define limits and may securely expose services and streams.
+  * Account managers create __Users__ with permissions
+* __Users__ have specific credentials and permissions.
+
+### Trust Chain
+
+PKI (NKeys encoded [Ed25519](https://ed25519.cr.yp.to/)) and signed JWTs
+create a hierarchy of Operators, Accounts, and Users creating a scalable
+and flexible distributed security mechanism.
+
+* __Operators__ are represented by a self signed JWT and is the only thing that
+is required to be configured in the server.  This JWT is usually signed by a
+master key that is kept offline. The JWT will contain valid signing keys that
+can be revoked with the master updating this JWT.
+  * Operators will sign __Account__ JWTs with various signing keys.
+  * __Accounts__ sign __User__ JWTs, again with various signing keys.
+* Clients or leaf nodes present __User__ credentials and a signed nonce when connecting.
+  * The server uses resolvers to obtain JWTs and verify the client trust chain.
+
+This allows for rapid change of permissions, authentication and limits, to a
+the secure multi-tenant NATS system.
