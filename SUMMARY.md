@@ -3,17 +3,19 @@
 * [Introduction](README.md)
 * [What's New in 2.0](whats_new/whats_new_20.md)
 
-## Developing With NATS
+# Concepts
 
-* [Introduction](developer/README.md)
-
-* [Concepts](developer/concepts/intro.md)
+  * [Introduction](developer/concepts/intro.md)
   * [Subject-Based Messaging](developer/concepts/subjects.md)
   * [Publish-Subscribe](developer/concepts/pubsub.md)
   * [Request-Reply](developer/concepts/reqreply.md)
   * [Queue Groups](developer/concepts/queue.md)
   * [Acknowledgements](developer/concepts/acks.md)
   * [Sequence Numbers](developer/concepts/seq_num.md)
+
+## Developing With NATS
+
+* [Introduction](developer/README.md)
 
 * [Connecting](developer/connecting/intro.md)
   * [Connecting to the Default Server](developer/connecting/default_server.md)
@@ -170,14 +172,6 @@
   * [Windows Service](nats_streaming/gettingstarted/windows-service.md)
   
 * [Docker Swarm](nats_streaming/swarm.md)
-
-## NATS Streaming Server
-
-* [Basics](nats_streaming/nats-streaming-intro.md)
-* [Installing](nats_streaming/nats-streaming-install.md)
-  * [Securing](nats_streaming/nats-streaming-tls.md)
-* [Protocol](nats_streaming/nats-streaming-protocol.md)
-* [Docker Swarm](nats_streaming/nats-streaming-swarm.md)
 
 ## NATS Protocol
 
