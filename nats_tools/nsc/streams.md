@@ -66,7 +66,7 @@ With the required information, we can add an import to the public stream.
 Success! - added stream import "a.b.c.>"
 ```
 
-> Note we did fancy things here: The remote stream publishes messages as `a.b.c.>`, but we changed the prefix to be something else in the importing account’s subject space. We changed it to `abc.>`. Subscribers in our account can listen to `abc.>` to get the messages.
+> Note we did fancy things here: The remote stream publishes messages as `a.b.c.>`, but we changed the prefix to be something else in the importing account’s subject space. We changed it to `abc.>`. Subscribers in our account can listen to `abc.>` to get the messages. The message will be delivered as `abc.a.b.c.>`.
 
 And verifying it:
 

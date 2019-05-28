@@ -1,18 +1,9 @@
 
 ## Accounts
 
-_Accounts_ expand on the [NKEY](nkey_auth.md) authentication foundation and recasts client authentication and authorization from a server configuration to a distributed and delegated authentication and authorization model.
+_Accounts_ expand on [Accounts](accounts.md) and [NKeys](nkey_auth.md) authentication foundation to create a decentralized authentication and authorization model.
 
-With other authentication mechanisms, all clients can publish and subscribe to anything unless explicitly configured otherwise. To protect clients and information, you have to carefully carve the subject space and permission clients.
-
-Each account is *isolated* from other accounts, thus enabling *multi-tenancy* in the server. With accounts, the subject space is not globally shared, greatly simplifying the messaging environment. Instead of devising complicated subject name carving patterns, clients can use short subjects without explicit authorization rules.
-
-Messaging exchange between different accounts is enabled by _exporting_ streams and services from one account and _importing_ them into another. When an export is sensitive, the export can require a constraint that authorization for its import be provided. Thus it is easy to audit exporters and limit importers. Best of all, each account is in full control of what is exported or imported and from whom.
-
-> While the name _account_ implies one or more users, it is much simpler and enlightening to think of one account as a messaging container for one application. Users in the account are simply the minimum number of services that must work together to provide some functionality. 
-> In simpler terms, more accounts with few (even one) clients is a better design topology than a large account with many users with complex authorization configuration.
-
-Accounts leverage [JSON Web Tokens (JWT)](https://jwt.io/) to describe the various entities supported. When a client connects, servers query for account JWTs and validate a trust chain. Users are not directly tracked by the server, but rather verified as belonging to an account. This enables the managing of users without requiring server configuration updates.
+With other authentication mechanisms, configuration for identifying an user or an account is in the server configuration file. JWT authentication leverage [JSON Web Tokens (JWT)](https://jwt.io/) to describe the various entities supported. When a client connects, servers query for account JWTs and validate a trust chain. Users are not directly tracked by the server, but rather verified as belonging to an account. This enables the managing of users without requiring server configuration updates.
 
 Effectively, Accounts provide for a distributed configuration paradigm. Previously each user (or client) needed to be known and authorized a priori in the server’s configuration requiring an administrator to modify and update server configurations. Accounts eliminate these chores.
 
