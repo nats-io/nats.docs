@@ -1,6 +1,8 @@
 ## Leaf Nodes
 
-A _Leaf Node_ is a separate authentication domain. Leaf Nodes leverage [Accounts](../nats_server/jwt_auth.md) and JWT to enable a server to connect to another and filter messages as per the leaf node's account User configuration.
+A _Leaf Node_ allows an extension to a cluter or supercluster that bridges accounts and security domains. This is useful in IoT and Edge scenarios and when the local server trafic should be low RTT and local unless routed to the super cluster.
+
+Leaf Nodes leverage [Accounts](../nats_server/jwt_auth.md) and JWT to enable a server to connect to another and filter messages as per the leaf node's account User configuration.
 
 This effectively means that the leaf node cluster's with the other server at an Account level:
 
