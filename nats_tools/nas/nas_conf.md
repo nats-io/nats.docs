@@ -108,7 +108,8 @@ Let's take a look at the configuration options:
 | `operatorjwtpath` | The path to an operator JWT. Required for non-read-only servers. Only JWTs signed by the operator (or one of it's signing keys) are accepted. |
 | `store` | A `store` configuration block specifying store options. |
 | `systemaccountjwtpath` | Path to an Account JWT that should be returned as the system account. |
-
+| `primary` | URL for the primary, `protocol://host:port`. |
+| `replicationtimeout` | Timeout, in milliseconds, used by the replica when talking to the primary, defaults to `5000`. |
 
 #### `store` Configuration
 
@@ -157,8 +158,3 @@ Let's take a look at the configuration options:
 | `root` | filepath to the CA certificate. |
 | `cert` | filepath to the certificate. |
 | `cert` | filepath to the certificate key. |
-
-
-
-
-
