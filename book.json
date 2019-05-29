@@ -1,19 +1,20 @@
 {
-    "title" : "NATS",
-    "description": "Administrative, developer and conceptual documentation for the NATS messaging system.",
-    "author": "The NATS Maintainers",
-    "plugins" : [
-      "prism", 
-      "-highlight", 
-      "include-html",
-      "toggle-chapters"
-    ],
-    "pluginsConfig": {
-        "prism": {
-          "lang": {
-            "ascii": "markup",
-            "text": "markup"
-          }
-        }
+  "title" : "NATS",
+  "description": "Administrative, developer and conceptual documentation for the NATS messaging system.",
+  "author": "The NATS Maintainers",
+  "plugins" : [
+    "prism",
+    "-highlight",
+    "include-html",
+    "toggle-chapters",
+    "anchors"
+  ],
+  "pluginsConfig": {
+    "prism": {
+      "lang": {
+        "ascii": "markup",
+        "text": "markup"
       }
+    }
+  }
 }
