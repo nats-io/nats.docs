@@ -6,7 +6,7 @@ The [NATS Account Server](https://github.com/nats-io/nats-account-server) is an 
 - an [NSC](../nsc/nsc.md) directory
 - memory (for testing purposes)
 
-The server can operate in a _READ ONLY_ mode where it serves content from a directory, or in notification mode, where it can notify a NATS server that JWT in the store have been modified, updating the NATS server with the updated JWT.
+The server can operate in a _READ ONLY_ mode where it serves content from a directory, or in notification mode, where it can notify a NATS server that a JWT in the store has been modified, updating the NATS server with the updated JWT.
 
 The server supports replica mode, which allows load balancing, fault tolerance and geographic distribution of servers. Replicas are read-only and copy JWTs from the primary based on cache invalidation or NATS notifications.
 
