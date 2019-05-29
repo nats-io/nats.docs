@@ -18,7 +18,7 @@ NATS further restricts JWTs by requiring that JWTs be:
 
 - Digitally signed _always_ and only using [Ed25519](https://ed25519.cr.yp.to/). 
 - NATS adopts the convention that all _Issuer_ and _Subject_ fields in a JWT claim must be a public [NKEY](nkey_auth.md). 
-- It also introduces type requirements into claims, enabling the pairing of specific roles matching those supported by [NKeys](https://github.com/nats-io/nkeys).
+- _Issuer_ and _Subject_ must match specific roles depending on the claim [NKeys](https://github.com/nats-io/nkeys).
 
 #### NKey Roles
 
