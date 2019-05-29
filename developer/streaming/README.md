@@ -1,6 +1,72 @@
 # NATS Streaming
 
-Where NATS provides at most once quality of service, streaming adds at least once. Streaming is implemented as a request-reply service on top of NATS, where streaming messages are encoded as protocol buffers and the streaming clients use NATS to talk to the streaming server. The streaming server organizes messages in channels and stores them in files or databases, using ACKs to ensure delivery in both directions.
+## Deciding to Use At-Least-Once Delivery
+
+The decision to use the at least once delivery through NATS streaming is
+important. It will affect your deployment, usage, performance, and total
+cost of ownership.
+
+In modern systems applications can expose services or produce and consume data
+streams. At a high level, if observability is required, applications need to
+consume messages in the future, need to come consume at their own pace, or
+need all messages, then at-least-once semantics (NATS streaming) makes sense. If
+observation needs to be realtime and the most recent message is the most important,
+the use _At-Most-Once_ delivery semantics with core NATS.
+
+Just be aware that using an a least once guarantee is the facet of messaging with the highest cost in terms of compute and storage. The NATS Maintainers highly recommend
+a strategy of defaulting to core NATS using a service pattern (request/reply)
+to guarantee delivery at the application level and using streaming only when necessary.  This ultimately results in a more stable distributed system.  Entire systems such as Cloud
+Foundry have been built upon core NATS with no messaging persistence involved.
+
+### When to use NATS Streaming
+
+NATS streaming is ideal when:
+
+* A historical record of a stream is required.  This is when a replay of data
+is required by a consumer.
+* The last message produced on a stream is required for initialization and
+the producer may be offline.
+* A-priori knowledge of consumers is not available, but consumers must receive
+messages.  This is often a false assumption.
+* Data producers and consumers are highly decoupled.  They may be online at
+different times and consumers must receive messages.
+* The data in messages being sent have a lifespan beyond that of the
+intended application lifespan.
+* Applications need to consume data at their own pace.
+
+Note that no assumptions should ever be made of who will receive and process
+data in the future, or for what purpose.
+
+### When to use Core NATS
+
+Using core NATS is ideal for the fast request path for scalable services
+where there is tolerance for message loss or when applications themselves handle
+message delivery guarantees.
+
+These include:
+
+* Service patterns where there is a tightly coupled request/reply
+  * A request is made, and the application handles error cases upon timeout
+(resends, errors, etc).  __Relying on a messaging system to resend here is
+considered an anti-pattern.__
+* Where only the last message received is important and new messages will
+be received frequently enough for applications to tolerate a lost message.
+This might be a stock ticker stream, frequent exchange of messages in a
+service control plane, or device telemetry.
+* Message TTL is low, where the value of the data being transmitted degrades
+or expires quickly.
+* The expected consumer set for a message is available a-priori and consumers
+are expected to be live.  The request/reply pattern works well here or
+consumers can send an application level acknowledgement.
+
+We've found that core NATS is sufficient for most use cases.  Also note
+that nothing precludes the use of both core NATS and NATS streaming side
+by side, leveraging the strengths of each to build a highly resilient
+distributed system.
+
+## NATS Streaming Overview
+
+Where NATS provides at most once quality of service, streaming adds at least once. Streaming is implemented as a request-reply service on top of NATS. Streaming messages are encoded as protocol buffers, the streaming clients use NATS to talk to the streaming server. The streaming server organizes messages in channels and stores them in files and databases. ACKs are used to insure delivery in both directions.
 
 > Sometimes the maintainers will refer to NATS as "nats core" and streaming as "stan" or "streaming".
 
