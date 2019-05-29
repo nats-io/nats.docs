@@ -2,7 +2,7 @@
 
 _Accounts_ expand on the authentication foundation. With traditional authentication (except for JWT authentication), all clients can publish and subscribe to anything unless explicitly configured otherwise. To protect clients and information, you have to carve the subject space and permission clients carefully.
 
-_Accounts_ allows grouping of clients, *isolating* them from clients in other accounts, thus enabling *multi-tenancy* in the server. With accounts, the subject space is not globally shared, greatly simplifying the messaging environment. Instead of devising complicated subject name carving patterns, clients can use short subjects without explicit authorization rules.
+_Accounts_ allow the grouping of clients, *isolating* them from clients in other accounts, thus enabling *multi-tenancy* in the server. With accounts, the subject space is not globally shared, greatly simplifying the messaging environment. Instead of devising complicated subject name carving patterns, clients can use short subjects without explicit authorization rules.
 
 Accounts configuration is done in `accounts` map. The contents of an account entry includes:
 
@@ -51,7 +51,7 @@ The `exports` configuration list enable you to define the services and streams t
 
 ### Streams
 
-Streams are messages you application publishes. Importing applications won't be able to make requests from your applications but will be able to consume messages you generate.
+Streams are messages your application publishes. Importing applications won't be able to make requests from your applications but will be able to consume messages you generate.
 
 ### Services 
 
