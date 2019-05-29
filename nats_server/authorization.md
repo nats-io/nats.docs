@@ -27,7 +27,7 @@ The `permission` map provides additional properties for configuring a `permissio
 
 
 
-**Important Note** NATS Authorizations are whitelist only, meaning to not break request/reply patterns you need to add rules as above with Alice and Bob for the `_INBOX.>` pattern. If an unauthorized client publishes or attempts to subscribe to a subject that has not been whitelisted, the action fails and is logged at the server, and an error message is returned to the client.
+**Important Note** NATS Authorizations can be _allow lists_, _deny lists_, or both. It is important to not break request/reply patterns. In some cases (as shown below) you need to add rules as above with Alice and Bob for the `_INBOX.>` pattern. If an unauthorized client publishes or attempts to subscribe to a subject that has not been _allow listed_, the action fails and is logged at the server, and an error message is returned to the client.
 
 ### Example
 
@@ -70,4 +70,4 @@ authorization {
 
 - _other_ has no permissions granted and therefore inherits the default permission set. You set the inherited default permissions by assigning them to the `default_permissions` entry inside of the authorization configuration block.
 
-> Note that in the above example, any client with permissions to subscribe to `_INBOX.>` can receive _all_ responses published. More sensitive installations will want to add or subset the prefix to further limit subjects that a client can subscribe. Alternatively, [_Accounts_](jwt_auth.md) allow complete isolation limiting what members of an account can see.
+> Note that in the above example, any client with permissions to subscribe to `_INBOX.>` can receive _all_ responses published. More sensitive installations will want to add or subset the prefix to further limit subjects that a client can subscribe. Alternatively, [_Accounts_](accounts.md) allow complete isolation limiting what members of an account can see.

@@ -2,6 +2,8 @@
 
 When setting up clusters all servers in the cluster, if using TLS, will both verify the connecting endpoints and the server responses. So certificates are checked in both directions. Certificates can be configured only for the server's cluster identity, keeping client and server certificates separate from cluster formation.
 
+TLS Mutual Authentication *is the recommended way* of securing routes.
+
 ```
 cluster {
   listen: 127.0.0.1:4244

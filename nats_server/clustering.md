@@ -9,34 +9,27 @@ Note that NATS clustered servers have a forwarding limit of one hop. This means 
 
 In addition to a port for listening for clients, `nats-server` can listen on a "cluster" URL (the `-cluster` option). Additional `nats-server` servers can then add that URL to their `-routes` argument to join the cluster. These options can also be specified in a config file, but only the command-line version is shown in this overview for simplicity.
 
-### Running with No Cluster
+## Running a Simple Cluster
+
+Here is a simple cluster running on the same machine:
 
 ```sh
-nats-server -p 4222
-```
-----
+# Server A - the 'seed server'
+> nats-server -p 4222 -cluster nats://0.0.0.0:5222
 
-### Running a Simple Cluster
+# Server B
+> nats-server -p -1 -cluster nats://0.0.0.0:-1 -routes nats://localhost:5222
+# Check the output of the server for the selected client and route ports.
 
-```sh
-# Server A on 10.10.0.1
-nats-server -p 4222 -cluster nats://10.10.0.1:5222
-
-# Server B on 10.10.0.2
-nats-server -p 4222 -cluster nats://10.10.0.2:5222 -routes nats://10.10.0.1:5222
+# Server C
+> nats-server -p -1 -cluster nats://0.0.0.0:-1 -routes nats://localhost:5222
+# Check the output of the server for the selected client and route ports.
 ```
 
-----
+The _seed server_ simply declares its client and clustering port. All other servers delegate to the nats-server to auto-select a port that is not in use for both clients and cluster connections, and route to the seed server. Because the clustering protocol gossips members of the cluster, all servers are able to discover other server servers in the cluster. When a server is discovered, the discovering server will automatically attempt to connect to it in order to form a _full mesh_. Typically only one instance of the server will run per machine, so you can reuse the client port (4222) and the cluster port (5222), and simply the route to the host/port of the seed server.
 
-```sh
-# Server A on 10.10.0.1
-nats-server -p 4222 -cluster nats://10.10.0.1:5222 -routes nats://10.10.0.2:5222
 
-# Server B on 10.10.0.2
-nats-server -p 4222 -cluster nats://10.10.0.2:5222 -routes nats://10.10.0.1:5222
-```
-
-Clients connecting to any server in the cluster will remain connected to the cluster even if the server it originally connected to is taken down, as long as at least a single server remains.
+Similarly, clients connecting to any server in the cluster will discover other servers in the cluster. If the connection to the server is interrupted, the client will attempt to connect to all other known servers.
 
 ## Command Line Options
 
@@ -45,7 +38,7 @@ The following cluster options are supported:
     --routes [rurl-1, rurl-2]     Routes to solicit and connect
     --cluster nats://host:port    Cluster URL for solicited routes
 
-When a NATS server routes to a specified URL, it will advertise its own cluster URL to all other servers in the route route effectively creating a routing mesh to all other servers. 
+When a NATS server routes to a specified URL, it will advertise its own cluster URL to all other servers in the route effectively creating a routing mesh to all other servers. 
 
 **Note:** when using the `-routes` option, you must also specify a `-cluster` option.
 
@@ -56,7 +49,7 @@ Clustering can also be configured using the server [config file](cluster_config.
 The following example demonstrates how to run a cluster of 3 servers on the same host. We will start with the seed server and use the `-D` command line parameter to produce debug information.
 
 ```sh
-nats-server -p 4222 -cluster nats://localhost:4248 -D
+nats-server -p 4222 -cluster nats://localhost:5222 -D
 ```
 
 Alternatively, you could use a configuration file, let's call it `seed.conf`, with a content similar to this:
@@ -68,7 +61,7 @@ listen: 127.0.0.1:4222
 http: 8222
 
 cluster {
-  listen: 127.0.0.1:4248
+  listen: 127.0.0.1:5222
 }
 ```
 
@@ -87,7 +80,7 @@ This will produce an output similar to:
 [75653] 2016/04/26 15:14:47.340825 [INF] server is ready
 ```
 
-It is also possible to specify the hostname and port independently. At least the port is required. If you leave the hostname off it will bind to all the interfaces ('0.0.0.0').
+It is also possible to specify the hostname and port independently. At the minimum, the port is required. If you leave the hostname off it will bind to all the interfaces ('0.0.0.0').
 
 ```ascii
 cluster {
@@ -182,9 +175,9 @@ nats-pub -s "nats://192.168.59.105:7222" hello world
 
 [#1] Received on [hello] : 'world'
 
-# GNATSD on Node C logs:
+# nats-server on Node C logs:
 [1] 2015/06/23 05:20:31.100032 [TRC] 192.168.59.103:7244 - rid:2 - <<- [MSG hello RSID:8:2 5]
 
-# GNATSD on Node A logs:
+# nats-server on Node A logs:
 [1] 2015/06/23 05:20:31.100600 [TRC] 10.0.2.2:51007 - cid:8 - <<- [MSG hello 2 5]
 ```

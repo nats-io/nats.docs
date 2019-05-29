@@ -2,7 +2,7 @@
 
 NKeys are a new, highly secure public-key signature system based on [Ed25519](https://ed25519.cr.yp.to/).
 
-With NKeys the server can verify identities without ever storing secrets on the server. The authentication system works by requiring a connecting client to provide its public key and digitally sign a challenge with its private key. The server generates a random challenge with every connection request, making it immune to playback attacks. The generated signature is validated against the provided public key, thus proving the identity of the client. If the public key is known to the server, authentication succeeds.
+With NKeys the server can verify identities without ever storing or ever seeing private keys. The authentication system works by requiring a connecting client to provide its public key and digitally sign a challenge with its private key. The server generates a random challenge with every connection request, making it immune to playback attacks. The generated signature is validated against the provided public key, thus proving the identity of the client. If the public key is known to the server, authentication succeeds.
 
 > NKey is an excellent replacement for token authentication because a connecting client will have to prove it controls the private key for the authorized public key.
 
