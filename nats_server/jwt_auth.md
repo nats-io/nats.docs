@@ -3,9 +3,9 @@
 
 _Accounts_ expand on [Accounts](accounts.md) and [NKeys](nkey_auth.md) authentication foundation to create a decentralized authentication and authorization model.
 
-With other authentication mechanisms, configuration for identifying an user or an account is in the server configuration file. JWT authentication leverage [JSON Web Tokens (JWT)](https://jwt.io/) to describe the various entities supported. When a client connects, servers query for account JWTs and validate a trust chain. Users are not directly tracked by the server, but rather verified as belonging to an account. This enables the managing of users without requiring server configuration updates.
+With other authentication mechanisms, configuration for identifying a user or an account is in the server configuration file. JWT authentication leverages [JSON Web Tokens (JWT)](https://jwt.io/) to describe the various entities supported. When a client connects, servers query for account JWTs and validate a trust chain. Users are not directly tracked by the server, but rather verified as belonging to an account. This enables the management of users without requiring server configuration updates.
 
-Effectively, Accounts provide for a distributed configuration paradigm. Previously each user (or client) needed to be known and authorized a priori in the server’s configuration requiring an administrator to modify and update server configurations. Accounts eliminate these chores.
+Effectively, accounts provide for a distributed configuration paradigm. Previously each user (or client) needed to be known and authorized a priori in the server’s configuration requiring an administrator to modify and update server configurations. Accounts eliminate these chores.
 
 
 ### JSON Web Tokens
@@ -38,7 +38,7 @@ When a _User_ connects to a server, it presents a JWT issued by its _Account_. T
 
 ### The Authorization Process
 
-From an authorization point of view, the Account provides information on messaging subjects that are imported from other accounts (including any ancillary related authorization) as well as messaging subjects exported to other accounts. Accounts can also bear limits, such as the maximum number of connections they may have. A user JWT can express restrictions on the messaging subjects that it can publish or subscribe to.
+From an authorization point of view, the account provides information on messaging subjects that are imported from other accounts (including any ancillary related authorization) as well as messaging subjects exported to other accounts. Accounts can also bear limits, such as the maximum number of connections they may have. A user JWT can express restrictions on the messaging subjects to which it can publish or subscribe.
 
 When a new user is added to an account, the account configuration need not change, as each user can and should have its own user JWT that can be verified by simply resolving its parent account.
 
@@ -50,7 +50,7 @@ One crucial detail to keep in mind is that while in other systems JWTs are used 
 - the public ID of the entity that issued it
 - capabilities of the entity
 
-Authentication is a public key cryptographic process — a client signs a nonce proving  identity while the trust chain and configuration provides the authorization.
+Authentication is a public key cryptographic process — a client signs a nonce proving identity while the trust chain and configuration provides the authorization.
 
 The server is never aware of private keys but can verify that a signer or issuer indeed matches a specified or known public key.
 
@@ -58,7 +58,7 @@ Lastly, all NATS JWTs (Operators, Accounts, Users and others) are expected to be
 
 ### Sharing Between Accounts
 
-While accounts provide isolation, there are many cases where you want to be able to consume messages produced by one account in another. There are two kinds of shares that an account can _export_:
+While accounts provide isolation, there are many cases where you want to be able to consume messages produced by one account in another. There are two kinds of shares an account can _export_:
 
 - Streams
 - Services
@@ -71,7 +71,7 @@ Streams and Services can be public; Public exports can be imported by any accoun
 
 An importing account can remap the subject where a stream subscriber will receive messages or where a service requestor can make requests. This enables the importing account to simplify their subject space.
 
-Exports and imports from an account are explicit, and they are visible in the account's JWT. For private exports, the import will embed an authorization token or a URL storing the token. Imports and exports make it easy to audit where data is coming or going.
+Exports and imports from an account are explicit, and they are visible in the account's JWT. For private exports, the import will embed an authorization token or a URL storing the token. Imports and exports make it easy to audit where data is coming from or going to.
 
 ### Configuration
 

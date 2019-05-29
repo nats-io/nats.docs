@@ -29,7 +29,7 @@ Here is a simple cluster running on the same machine:
 The _seed server_ simply declares its client and clustering port. All other servers delegate to the nats-server to auto-select a port that is not in use for both clients and cluster connections, and route to the seed server. Because the clustering protocol gossips members of the cluster, all servers are able to discover other server servers in the cluster. When a server is discovered, the discovering server will automatically attempt to connect to it in order to form a _full mesh_. Typically only one instance of the server will run per machine, so you can reuse the client port (4222) and the cluster port (5222), and simply the route to the host/port of the seed server.
 
 
-Similarly, clients connecting to any server in the cluster will discover other servers in cluster. If connection to the server is interrupted, the client will attempt to connect to all other known servers.
+Similarly, clients connecting to any server in the cluster will discover other servers in the cluster. If the connection to the server is interrupted, the client will attempt to connect to all other known servers.
 
 ## Command Line Options
 
@@ -38,7 +38,7 @@ The following cluster options are supported:
     --routes [rurl-1, rurl-2]     Routes to solicit and connect
     --cluster nats://host:port    Cluster URL for solicited routes
 
-When a NATS server routes to a specified URL, it will advertise its own cluster URL to all other servers in the route route effectively creating a routing mesh to all other servers. 
+When a NATS server routes to a specified URL, it will advertise its own cluster URL to all other servers in the route effectively creating a routing mesh to all other servers. 
 
 **Note:** when using the `-routes` option, you must also specify a `-cluster` option.
 
@@ -80,7 +80,7 @@ This will produce an output similar to:
 [75653] 2016/04/26 15:14:47.340825 [INF] server is ready
 ```
 
-It is also possible to specify the hostname and port independently. At least the port is required. If you leave the hostname off it will bind to all the interfaces ('0.0.0.0').
+It is also possible to specify the hostname and port independently. At the minimum, the port is required. If you leave the hostname off it will bind to all the interfaces ('0.0.0.0').
 
 ```ascii
 cluster {

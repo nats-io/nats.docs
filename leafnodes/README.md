@@ -1,17 +1,17 @@
 ## Leaf Nodes
 
-A _Leaf Node_ allows an extension to a cluter or supercluster that bridges accounts and security domains. This is useful in IoT and Edge scenarios and when the local server trafic should be low RTT and local unless routed to the super cluster.
+A _Leaf Node_ allows an extension to a cluter or supercluster that bridges accounts and security domains. This is useful in IoT and edge scenarios and when the local server traffic should be low RTT and local unless routed to the super cluster.
 
-Leaf Nodes leverage [Accounts](../nats_server/jwt_auth.md) and JWT to enable a server to connect to another and filter messages as per the leaf node's account User configuration.
+Leaf Nodes leverage [accounts](../nats_server/jwt_auth.md) and JWTs to enable a server to connect to another and filter messages as per the leaf node's account user configuration.
 
-This effectively means that the leaf node cluster's with the other server at an Account level:
+This effectively means that the leaf node clusters with the other server at an account level:
 
 - Leaf nodes clients authenticate locally (or just connect if authentication is not required)
-- Traffic between the leaf node and the cluster assume the restrictions of the User configuration used to create the leaf connection. 
+- Traffic between the leaf node and the cluster assumes the restrictions of the user configuration used to create the leaf connection. 
 	- Subjects that the user is allowed to publish are exported to the cluster. 
 	- Subjects the user is allowed to subscribe to, are imported into the leaf node.
 
-> Leaf Nodes are an important component as a way to bridge traffic between local nats-servers you control and servers that are managed by a third-party. The Synadia's [NATS Global Service (NGS)](https://www.synadia.com/) allows accounts to use leaf nodes, but gain accessibility to the global network to inexpensively connect geographically distributed servers or small clusters.
+> Leaf Nodes are an important component as a way to bridge traffic between local nNATS Servers you control and servers that are managed by a third-party. Synadia's [NATS Global Service (NGS)](https://www.synadia.com/) allows accounts to use leaf nodes, but gain accessibility to the global network to inexpensively connect geographically distributed servers or small clusters.
 
 [LeafNode Configuration Options](leafnode_conf.md)
 
@@ -201,7 +201,7 @@ Both subscribers will receive the message as expected.
 
 As you can see:
 
-- Messages to and from the leaf node to the server are limitted by the user associated with the leaf node connection.
+- Messages to and from the leaf node to the server are limited by the user associated with the leaf node connection.
 - Messages within the leaf node are as per the server's authentication and authorization configuration
 
 

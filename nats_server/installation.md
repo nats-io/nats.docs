@@ -11,7 +11,7 @@ NATS philosophy is simplicity. Installation is just decompressing a zip file and
 
 ### Installing via Docker
 
-With docker you can install the server easily without scattering binaries and other artifacts on your system. Only pre-requisite is to [install docker](https://docs.docker.com/install).
+With docker you can install the server easily without scattering binaries and other artifacts on your system. The only pre-requisite is to [install docker](https://docs.docker.com/install).
 
 ```
 > docker pull nats:latest
@@ -21,7 +21,7 @@ Status: Image is up to date for nats:latest
 docker.io/library/nats:latest
 ```
 
-To run nats on docker:
+To run NATS on Docker:
 
 ```
 > docker run -p 4222:4222 -ti nats:latest
@@ -38,8 +38,8 @@ More information on [containerized NATS is available here](/nats_docker/README.m
 
 ### Installing on Kubernetes with NATS Operator
 
-Installation via the NATS operator is beyond this tutorial. You can read about the [NATS
-operator](https://github.com/nats-io/nats-operator) here.
+Installation via the NATS Operator is beyond this tutorial. You can read about the [NATS
+Operator](https://github.com/nats-io/nats-operator) here.
 
 
 ### Installing via a Package Manager
@@ -69,7 +69,7 @@ To test your installation (provided the executable is visible to your shell):
 
 You can find the latest release of nats-server [here](https://github.com/nats-io/nats-server/releases/latest).
 
-Download the zip file matching your systems architecture, and unzip. For this example, assuming version 2.0.0 of the server, and a Linux AMD64:
+Download the zip file matching your systems architecture, and unzip. For this example, assuming version 2.0.0 of the server and a Linux AMD64:
 
 ```
 > curl -L https://github.com/nats-io/nats-server/releases/download/v2.0.0/nats-server-v2.0.0-linux-amd64.zip -o nats-server.zip
@@ -87,13 +87,13 @@ Archive:  nats-server.zip
 
 ### Installing from the source
 
-If you have go installed, installing the binary is easy:
+If you have Go installed, installing the binary is easy:
 
 ```
 > go get github.com/nats-io/nats-server
 ```
 
-This mechanism will install a build of [master](https://github.com/nats-io/nats-server), which almost certainly will not be a released version. If you are a developer and want to play with the latest, this is the easiest way of obtaining it. 
+This mechanism will install a build of [master](https://github.com/nats-io/nats-server), which almost certainly will not be a released version. If you are a developer and want to play with the latest, this is the easiest way. 
 
 To test your installation (provided the $GOPATH/bin is set):
 
