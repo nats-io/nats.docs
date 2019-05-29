@@ -1044,9 +1044,9 @@
             
         </li>
     
-        <li class="chapter " data-level="4.5.1.2.5" data-path="../nats_server/jwt_auth.html">
+        <li class="chapter " data-level="4.5.1.2.5" data-path="../nats_server/accounts.html">
             
-                <a href="../nats_server/jwt_auth.html">
+                <a href="../nats_server/accounts.html">
             
                     
                     Accounts
@@ -1057,7 +1057,20 @@
             
         </li>
     
-        <li class="chapter " data-level="4.5.1.2.6" data-path="../nats_server/auth_timeout.html">
+        <li class="chapter " data-level="4.5.1.2.6" data-path="../nats_server/jwt_auth.html">
+            
+                <a href="../nats_server/jwt_auth.html">
+            
+                    
+                    JWTs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5.1.2.7" data-path="../nats_server/auth_timeout.html">
             
                 <a href="../nats_server/auth_timeout.html">
             
@@ -2289,18 +2302,19 @@
                                 <section class="normal markdown-section">
                                 
                                 <h2 id="leaf-nodes"><a name="leaf-nodes" class="plugin-anchor" href="#leaf-nodes"><i class="fa fa-link" aria-hidden="true"></i></a>Leaf Nodes</h2>
-<p>A <em>Leaf Node</em> is a separate authentication domain. Leaf Nodes leverage <a href="../nats_server/jwt_auth.html">Accounts</a> and JWT to enable a server to connect to another and filter messages as per the leaf node&apos;s account User configuration.</p>
-<p>This effectively means that the leaf node cluster&apos;s with the other server at an Account level:</p>
+<p>A <em>Leaf Node</em> allows an extension to a cluter or supercluster that bridges accounts and security domains. This is useful in IoT and edge scenarios and when the local server traffic should be low RTT and local unless routed to the super cluster.</p>
+<p>Leaf Nodes leverage <a href="../nats_server/jwt_auth.html">accounts</a> and JWTs to enable a server to connect to another and filter messages as per the leaf node&apos;s account user configuration.</p>
+<p>This effectively means that the leaf node clusters with the other server at an account level:</p>
 <ul>
 <li>Leaf nodes clients authenticate locally (or just connect if authentication is not required)</li>
-<li>Traffic between the leaf node and the cluster assume the restrictions of the User configuration used to create the leaf connection. <ul>
+<li>Traffic between the leaf node and the cluster assumes the restrictions of the user configuration used to create the leaf connection. <ul>
 <li>Subjects that the user is allowed to publish are exported to the cluster. </li>
 <li>Subjects the user is allowed to subscribe to, are imported into the leaf node.</li>
 </ul>
 </li>
 </ul>
 <blockquote>
-<p>Leaf Nodes are an important component as a way to bridge traffic between local nats-servers you control and servers that are managed by a third-party. The Synadia&apos;s <a href="https://www.synadia.com/" target="_blank">NATS Global Service (NGS)</a> allows accounts to use leaf nodes, but gain accessibility to the global network to inexpensively connect geographically distributed servers or small clusters.</p>
+<p>Leaf Nodes are an important component as a way to bridge traffic between local nNATS Servers you control and servers that are managed by a third-party. Synadia&apos;s <a href="https://www.synadia.com/" target="_blank">NATS Global Service (NGS)</a> allows accounts to use leaf nodes, but gain accessibility to the global network to inexpensively connect geographically distributed servers or small clusters.</p>
 </blockquote>
 <p><a href="leafnode_conf.html">LeafNode Configuration Options</a></p>
 <h3 id="leafnode-configuration-tutorial"><a name="leafnode-configuration-tutorial" class="plugin-anchor" href="#leafnode-configuration-tutorial"><i class="fa fa-link" aria-hidden="true"></i></a>LeafNode Configuration Tutorial</h3>
@@ -2433,7 +2447,7 @@ Published [bar] : &apos;bar&apos;
 </code></pre><p>Both subscribers will receive the message as expected.</p>
 <p>As you can see:</p>
 <ul>
-<li>Messages to and from the leaf node to the server are limitted by the user associated with the leaf node connection.</li>
+<li>Messages to and from the leaf node to the server are limited by the user associated with the leaf node connection.</li>
 <li>Messages within the leaf node are as per the server&apos;s authentication and authorization configuration</li>
 </ul>
 
@@ -2479,7 +2493,7 @@ Published [bar] : &apos;bar&apos;
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Leaf Nodes","level":"4.5.4","depth":2,"next":{"title":"Configuration","level":"4.5.4.1","depth":3,"path":"leafnodes/leafnode_conf.md","ref":"leafnodes/leafnode_conf.md","articles":[]},"previous":{"title":"Configuration","level":"4.5.3.1","depth":3,"path":"gateways/gateway.md","ref":"gateways/gateway.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"leafnodes/README.md","mtime":"2019-05-20T19:31:21.523Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-24T21:09:44.530Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Leaf Nodes","level":"4.5.4","depth":2,"next":{"title":"Configuration","level":"4.5.4.1","depth":3,"path":"leafnodes/leafnode_conf.md","ref":"leafnodes/leafnode_conf.md","articles":[]},"previous":{"title":"Configuration","level":"4.5.3.1","depth":3,"path":"gateways/gateway.md","ref":"gateways/gateway.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"leafnodes/README.md","mtime":"2019-05-29T16:43:54.844Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-29T16:45:48.381Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

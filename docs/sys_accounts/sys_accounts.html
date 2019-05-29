@@ -1044,9 +1044,9 @@
             
         </li>
     
-        <li class="chapter " data-level="4.5.1.2.5" data-path="../nats_server/jwt_auth.html">
+        <li class="chapter " data-level="4.5.1.2.5" data-path="../nats_server/accounts.html">
             
-                <a href="../nats_server/jwt_auth.html">
+                <a href="../nats_server/accounts.html">
             
                     
                     Accounts
@@ -1057,7 +1057,20 @@
             
         </li>
     
-        <li class="chapter " data-level="4.5.1.2.6" data-path="../nats_server/auth_timeout.html">
+        <li class="chapter " data-level="4.5.1.2.6" data-path="../nats_server/jwt_auth.html">
+            
+                <a href="../nats_server/jwt_auth.html">
+            
+                    
+                    JWTs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5.1.2.7" data-path="../nats_server/auth_timeout.html">
             
                 <a href="../nats_server/auth_timeout.html">
             
@@ -2304,6 +2317,7 @@
 <li><code>$SYS.SERVER.ACCOUNT.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>id</span><span class="token punctuation">&gt;</span></span>.CONNS</code> (connections for an account changed)</li>
 <li><code>$SYS.SERVER.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>id</span><span class="token punctuation">&gt;</span></span>.CLIENT.AUTH.ERR</code> (authentication error)</li>
 <li><code>$SYS.ACCOUNT.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>id</span><span class="token punctuation">&gt;</span></span>.LEAFNODE.CONNECT</code> (leaf node connnects)</li>
+<li><code>$SYS.ACCOUNT.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>id</span><span class="token punctuation">&gt;</span></span>.LEAFNODE.DISCONNECT</code> (leaf node disconnects)</li>
 <li><code>$SYS.SERVER.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>id</span><span class="token punctuation">&gt;</span></span>.STATSZ</code> (stats summary)</li>
 </ul>
 <p>In addition other tools with system account privileges, can initiate requests:</p>
@@ -2538,7 +2552,7 @@ Received  [_INBOX.DQD44ugVt0O4Ur3pWIOOD1.WQOBevoq] : &apos;{
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Configuration","level":"4.6.4.1","depth":3,"next":{"title":"NATS and Docker","level":"4.7","depth":1,"path":"nats_docker/README.md","ref":"nats_docker/README.md","articles":[{"title":"Tutorial","level":"4.7.1","depth":2,"path":"nats_docker/tutorial.md","ref":"nats_docker/tutorial.md","articles":[]},{"title":"Docker Swarm","level":"4.7.2","depth":2,"path":"nats_docker/docker_swarm.md","ref":"nats_docker/docker_swarm.md","articles":[]}]},"previous":{"title":"System Accounts","level":"4.6.4","depth":2,"path":"sys_accounts/README.md","ref":"sys_accounts/README.md","articles":[{"title":"Configuration","level":"4.6.4.1","depth":3,"path":"sys_accounts/sys_accounts.md","ref":"sys_accounts/sys_accounts.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"sys_accounts/sys_accounts.md","mtime":"2019-05-22T19:29:21.318Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-24T21:09:44.530Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Configuration","level":"4.6.4.1","depth":3,"next":{"title":"NATS and Docker","level":"4.7","depth":1,"path":"nats_docker/README.md","ref":"nats_docker/README.md","articles":[{"title":"Tutorial","level":"4.7.1","depth":2,"path":"nats_docker/tutorial.md","ref":"nats_docker/tutorial.md","articles":[]},{"title":"Docker Swarm","level":"4.7.2","depth":2,"path":"nats_docker/docker_swarm.md","ref":"nats_docker/docker_swarm.md","articles":[]}]},"previous":{"title":"System Accounts","level":"4.6.4","depth":2,"path":"sys_accounts/README.md","ref":"sys_accounts/README.md","articles":[{"title":"Configuration","level":"4.6.4.1","depth":3,"path":"sys_accounts/sys_accounts.md","ref":"sys_accounts/sys_accounts.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"sys_accounts/sys_accounts.md","mtime":"2019-05-29T16:43:54.857Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-29T16:45:48.381Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

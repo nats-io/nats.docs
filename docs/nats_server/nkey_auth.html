@@ -66,7 +66,7 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="jwt_auth.html" />
+    <link rel="next" href="accounts.html" />
     
     
     <link rel="prev" href="tls_mutual_auth.html" />
@@ -1044,9 +1044,9 @@
             
         </li>
     
-        <li class="chapter " data-level="4.5.1.2.5" data-path="jwt_auth.html">
+        <li class="chapter " data-level="4.5.1.2.5" data-path="accounts.html">
             
-                <a href="jwt_auth.html">
+                <a href="accounts.html">
             
                     
                     Accounts
@@ -1057,7 +1057,20 @@
             
         </li>
     
-        <li class="chapter " data-level="4.5.1.2.6" data-path="auth_timeout.html">
+        <li class="chapter " data-level="4.5.1.2.6" data-path="jwt_auth.html">
+            
+                <a href="jwt_auth.html">
+            
+                    
+                    JWTs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5.1.2.7" data-path="auth_timeout.html">
             
                 <a href="auth_timeout.html">
             
@@ -2290,7 +2303,7 @@
                                 
                                 <h2 id="nkey-authentication"><a name="nkey-authentication" class="plugin-anchor" href="#nkey-authentication"><i class="fa fa-link" aria-hidden="true"></i></a>NKey Authentication</h2>
 <p>NKeys are a new, highly secure public-key signature system based on <a href="https://ed25519.cr.yp.to/" target="_blank">Ed25519</a>.</p>
-<p>With NKeys the server can verify identities without ever storing secrets on the server. The authentication system works by requiring a connecting client to provide its public key and digitally sign a challenge with its private key. The server generates a random challenge with every connection request, making it immune to playback attacks. The generated signature is validated against the provided public key, thus proving the identity of the client. If the public key is known to the server, authentication succeeds.</p>
+<p>With NKeys the server can verify identities without ever storing or ever seeing private keys. The authentication system works by requiring a connecting client to provide its public key and digitally sign a challenge with its private key. The server generates a random challenge with every connection request, making it immune to playback attacks. The generated signature is validated against the provided public key, thus proving the identity of the client. If the public key is known to the server, authentication succeeds.</p>
 <blockquote>
 <p>NKey is an excellent replacement for token authentication because a connecting client will have to prove it controls the private key for the authorized public key.</p>
 </blockquote>
@@ -2367,7 +2380,7 @@ our <a href="https://nats.io/documentation/writing_applications/secure_connectio
                 </a>
                 
                 
-                <a href="jwt_auth.html" class="navigation navigation-next " aria-label="Next page: Accounts">
+                <a href="accounts.html" class="navigation navigation-next " aria-label="Next page: Accounts">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -2378,7 +2391,7 @@ our <a href="https://nats.io/documentation/writing_applications/secure_connectio
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"NKeys","level":"4.5.1.2.4","depth":4,"next":{"title":"Accounts","level":"4.5.1.2.5","depth":4,"path":"nats_server/jwt_auth.md","ref":"nats_server/jwt_auth.md","articles":[]},"previous":{"title":"TLS Authentication","level":"4.5.1.2.3","depth":4,"path":"nats_server/tls_mutual_auth.md","ref":"nats_server/tls_mutual_auth.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/nkey_auth.md","mtime":"2019-05-22T19:29:21.314Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-24T21:09:44.530Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"NKeys","level":"4.5.1.2.4","depth":4,"next":{"title":"Accounts","level":"4.5.1.2.5","depth":4,"path":"nats_server/accounts.md","ref":"nats_server/accounts.md","articles":[]},"previous":{"title":"TLS Authentication","level":"4.5.1.2.3","depth":4,"path":"nats_server/tls_mutual_auth.md","ref":"nats_server/tls_mutual_auth.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/nkey_auth.md","mtime":"2019-05-29T16:43:54.848Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-29T16:45:48.381Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

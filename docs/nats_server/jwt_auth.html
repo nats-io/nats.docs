@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Accounts · NATS</title>
+        <title>JWTs · NATS</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -69,7 +69,7 @@
     <link rel="next" href="auth_timeout.html" />
     
     
-    <link rel="prev" href="nkey_auth.html" />
+    <link rel="prev" href="accounts.html" />
     
 
 <link rel="stylesheet" href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css">
@@ -1044,9 +1044,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="4.5.1.2.5" data-path="jwt_auth.html">
+        <li class="chapter " data-level="4.5.1.2.5" data-path="accounts.html">
             
-                <a href="jwt_auth.html">
+                <a href="accounts.html">
             
                     
                     Accounts
@@ -1057,7 +1057,20 @@
             
         </li>
     
-        <li class="chapter " data-level="4.5.1.2.6" data-path="auth_timeout.html">
+        <li class="chapter active" data-level="4.5.1.2.6" data-path="jwt_auth.html">
+            
+                <a href="jwt_auth.html">
+            
+                    
+                    JWTs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5.1.2.7" data-path="auth_timeout.html">
             
                 <a href="auth_timeout.html">
             
@@ -2273,7 +2286,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Accounts</a>
+        <a href=".." >JWTs</a>
     </h1>
 </div>
 
@@ -2289,16 +2302,9 @@
                                 <section class="normal markdown-section">
                                 
                                 <h2 id="accounts"><a name="accounts" class="plugin-anchor" href="#accounts"><i class="fa fa-link" aria-hidden="true"></i></a>Accounts</h2>
-<p><em>Accounts</em> expand on the <a href="nkey_auth.html">NKEY</a> authentication foundation and recasts client authentication and authorization from a server configuration to a distributed and delegated authentication and authorization model.</p>
-<p>With other authentication mechanisms, all clients can publish and subscribe to anything unless explicitly configured otherwise. To protect clients and information, you have to carefully carve the subject space and permission clients.</p>
-<p>Each account is <em>isolated</em> from other accounts, thus enabling <em>multi-tenancy</em> in the server. With accounts, the subject space is not globally shared, greatly simplifying the messaging environment. Instead of devising complicated subject name carving patterns, clients can use short subjects without explicit authorization rules.</p>
-<p>Messaging exchange between different accounts is enabled by <em>exporting</em> streams and services from one account and <em>importing</em> them into another. When an export is sensitive, the export can require a constraint that authorization for its import be provided. Thus it is easy to audit exporters and limit importers. Best of all, each account is in full control of what is exported or imported and from whom.</p>
-<blockquote>
-<p>While the name <em>account</em> implies one or more users, it is much simpler and enlightening to think of one account as a messaging container for one application. Users in the account are simply the minimum number of services that must work together to provide some functionality. 
-In simpler terms, more accounts with few (even one) clients is a better design topology than a large account with many users with complex authorization configuration.</p>
-</blockquote>
-<p>Accounts leverage <a href="https://jwt.io/" target="_blank">JSON Web Tokens (JWT)</a> to describe the various entities supported. When a client connects, servers query for account JWTs and validate a trust chain. Users are not directly tracked by the server, but rather verified as belonging to an account. This enables the managing of users without requiring server configuration updates.</p>
-<p>Effectively, Accounts provide for a distributed configuration paradigm. Previously each user (or client) needed to be known and authorized a priori in the server&#x2019;s configuration requiring an administrator to modify and update server configurations. Accounts eliminate these chores.</p>
+<p><em>Accounts</em> expand on <a href="accounts.html">Accounts</a> and <a href="nkey_auth.html">NKeys</a> authentication foundation to create a decentralized authentication and authorization model.</p>
+<p>With other authentication mechanisms, configuration for identifying a user or an account is in the server configuration file. JWT authentication leverages <a href="https://jwt.io/" target="_blank">JSON Web Tokens (JWT)</a> to describe the various entities supported. When a client connects, servers query for account JWTs and validate a trust chain. Users are not directly tracked by the server, but rather verified as belonging to an account. This enables the management of users without requiring server configuration updates.</p>
+<p>Effectively, accounts provide for a distributed configuration paradigm. Previously each user (or client) needed to be known and authorized a priori in the server&#x2019;s configuration requiring an administrator to modify and update server configurations. Accounts eliminate these chores.</p>
 <h3 id="json-web-tokens"><a name="json-web-tokens" class="plugin-anchor" href="#json-web-tokens"><i class="fa fa-link" aria-hidden="true"></i></a>JSON Web Tokens</h3>
 <p><a href="https://jwt.io/" target="_blank">JSON Web Tokens (JWT)</a> are an open and industry standard <a href="https://tools.ietf.org/html/rfc7519" target="_blank">RFC7519</a> method for representing claims securely between two parties.</p>
 <p>Claims are a fancy way of asserting information on a <em>subject</em>. In this context, a <em>subject</em> is the entity being described (not a messaging subject). Standard JWT claims are typically digitally signed and verified.</p>
@@ -2306,7 +2312,7 @@ In simpler terms, more accounts with few (even one) clients is a better design t
 <ul>
 <li>Digitally signed <em>always</em> and only using <a href="https://ed25519.cr.yp.to/" target="_blank">Ed25519</a>. </li>
 <li>NATS adopts the convention that all <em>Issuer</em> and <em>Subject</em> fields in a JWT claim must be a public <a href="nkey_auth.html">NKEY</a>. </li>
-<li>It also introduces type requirements into claims, enabling the pairing of specific roles matching those supported by <a href="https://github.com/nats-io/nkeys" target="_blank">NKeys</a>.</li>
+<li><em>Issuer</em> and <em>Subject</em> must match specific roles depending on the claim <a href="https://github.com/nats-io/nkeys" target="_blank">NKeys</a>.</li>
 </ul>
 <h4 id="nkey-roles"><a name="nkey-roles" class="plugin-anchor" href="#nkey-roles"><i class="fa fa-link" aria-hidden="true"></i></a>NKey Roles</h4>
 <p>NKey Roles are:</p>
@@ -2319,7 +2325,7 @@ In simpler terms, more accounts with few (even one) clients is a better design t
 <h3 id="the-authentication-process"><a name="the-authentication-process" class="plugin-anchor" href="#the-authentication-process"><i class="fa fa-link" aria-hidden="true"></i></a>The Authentication Process</h3>
 <p>When a <em>User</em> connects to a server, it presents a JWT issued by its <em>Account</em>. The user proves its identity by signing a server-issued cryptographic challenge with its private key. The signature verification validates that the signature is attributable to the user&apos;s public key. Next, the server retrieves the associated account JWT that issued the user. It verifies the <em>User</em> issuer matches the referenced account. Finally, the server checks that a trusted <em>Operator</em> issued the <em>Account</em>, completing the trust chain verification. </p>
 <h3 id="the-authorization-process"><a name="the-authorization-process" class="plugin-anchor" href="#the-authorization-process"><i class="fa fa-link" aria-hidden="true"></i></a>The Authorization Process</h3>
-<p>From an authorization point of view, the Account provides information on messaging subjects that are imported from other accounts (including any ancillary related authorization) as well as messaging subjects exported to other accounts. Accounts can also bear limits, such as the maximum number of connections they may have. A user JWT can express restrictions on the messaging subjects that it can publish or subscribe to.</p>
+<p>From an authorization point of view, the account provides information on messaging subjects that are imported from other accounts (including any ancillary related authorization) as well as messaging subjects exported to other accounts. Accounts can also bear limits, such as the maximum number of connections they may have. A user JWT can express restrictions on the messaging subjects to which it can publish or subscribe.</p>
 <p>When a new user is added to an account, the account configuration need not change, as each user can and should have its own user JWT that can be verified by simply resolving its parent account.</p>
 <h3 id="jwts-and-privacy"><a name="jwts-and-privacy" class="plugin-anchor" href="#jwts-and-privacy"><i class="fa fa-link" aria-hidden="true"></i></a>JWTs and Privacy</h3>
 <p>One crucial detail to keep in mind is that while in other systems JWTs are used as sessions or proof of authentication, NATS JWTs are only used as configuration describing:</p>
@@ -2328,11 +2334,11 @@ In simpler terms, more accounts with few (even one) clients is a better design t
 <li>the public ID of the entity that issued it</li>
 <li>capabilities of the entity</li>
 </ul>
-<p>Authentication is a public key cryptographic process &#x2014; a client signs a nonce proving  identity while the trust chain and configuration provides the authorization.</p>
+<p>Authentication is a public key cryptographic process &#x2014; a client signs a nonce proving identity while the trust chain and configuration provides the authorization.</p>
 <p>The server is never aware of private keys but can verify that a signer or issuer indeed matches a specified or known public key.</p>
 <p>Lastly, all NATS JWTs (Operators, Accounts, Users and others) are expected to be signed using the <a href="https://ed25519.cr.yp.to/" target="_blank">Ed25519</a> algorithm. If they are not, they are rejected by the system.</p>
 <h3 id="sharing-between-accounts"><a name="sharing-between-accounts" class="plugin-anchor" href="#sharing-between-accounts"><i class="fa fa-link" aria-hidden="true"></i></a>Sharing Between Accounts</h3>
-<p>While accounts provide isolation, there are many cases where you want to be able to consume messages produced by one account in another. There are two kinds of shares that an account can <em>export</em>:</p>
+<p>While accounts provide isolation, there are many cases where you want to be able to consume messages produced by one account in another. There are two kinds of shares an account can <em>export</em>:</p>
 <ul>
 <li>Streams</li>
 <li>Services</li>
@@ -2341,7 +2347,7 @@ In simpler terms, more accounts with few (even one) clients is a better design t
 <p>Services are endpoints exported by a foreign account; Requesters <em>importing</em> the service can publish requests to the <em>exported</em> endpoint. </p>
 <p>Streams and Services can be public; Public exports can be imported by any account. Or they can be private. Private streams and services require an authorization token from the exporting account that authorizes the foreign account to import the stream or service.</p>
 <p>An importing account can remap the subject where a stream subscriber will receive messages or where a service requestor can make requests. This enables the importing account to simplify their subject space.</p>
-<p>Exports and imports from an account are explicit, and they are visible in the account&apos;s JWT. For private exports, the import will embed an authorization token or a URL storing the token. Imports and exports make it easy to audit where data is coming or going.</p>
+<p>Exports and imports from an account are explicit, and they are visible in the account&apos;s JWT. For private exports, the import will embed an authorization token or a URL storing the token. Imports and exports make it easy to audit where data is coming from or going to.</p>
 <h3 id="configuration"><a name="configuration" class="plugin-anchor" href="#configuration"><i class="fa fa-link" aria-hidden="true"></i></a>Configuration</h3>
 <p>Entity JWT configuration is done using the <a href="../nats_tools/nsc/"><code>nsc</code> tool</a>. The basic steps include:</p>
 <ul>
@@ -2377,7 +2383,7 @@ In simpler terms, more accounts with few (even one) clients is a better design t
 
             
                 
-                <a href="nkey_auth.html" class="navigation navigation-prev " aria-label="Previous page: NKeys">
+                <a href="accounts.html" class="navigation navigation-prev " aria-label="Previous page: Accounts">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
@@ -2393,7 +2399,7 @@ In simpler terms, more accounts with few (even one) clients is a better design t
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Accounts","level":"4.5.1.2.5","depth":4,"next":{"title":"Authentication Timeout","level":"4.5.1.2.6","depth":4,"path":"nats_server/auth_timeout.md","ref":"nats_server/auth_timeout.md","articles":[]},"previous":{"title":"NKeys","level":"4.5.1.2.4","depth":4,"path":"nats_server/nkey_auth.md","ref":"nats_server/nkey_auth.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/jwt_auth.md","mtime":"2019-05-22T19:29:21.314Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-24T21:09:44.530Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"JWTs","level":"4.5.1.2.6","depth":4,"next":{"title":"Authentication Timeout","level":"4.5.1.2.7","depth":4,"path":"nats_server/auth_timeout.md","ref":"nats_server/auth_timeout.md","articles":[]},"previous":{"title":"Accounts","level":"4.5.1.2.5","depth":4,"path":"nats_server/accounts.md","ref":"nats_server/accounts.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/jwt_auth.md","mtime":"2019-05-29T16:43:54.848Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-29T16:45:48.381Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
