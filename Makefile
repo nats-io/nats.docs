@@ -14,3 +14,4 @@ examples:
 deploy: init examples
 	rm -rf docs
 	gitbook build . docs
+	cp assets/images/favicon.ico docs/gitbook/images
