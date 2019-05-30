@@ -2391,7 +2391,7 @@ As in the client protocol, the NATS protocol operation names are case insensitiv
 </ul>
 <h4 id="example"><a name="example" class="plugin-anchor" href="#example"><i class="fa fa-link" aria-hidden="true"></i></a>Example</h4>
 <p>Below is an example of an <code>INFO</code> string received by a NATS server, with the <code>ip</code> field.</p>
-<p><code>INFO {&quot;server_id&quot;:&quot;KP19vTlB417XElnv8kKaC5&quot;,&quot;version&quot;:&quot;0.9.4&quot;,&quot;go&quot;:&quot;&quot;,&quot;host&quot;:&quot;localhost&quot;,&quot;port&quot;:5222,&quot;auth_required&quot;:false,&quot;tls_required&quot;:false,&quot;tls_verify&quot;:false,&quot;max_payload&quot;:1048576,&quot;ip&quot;:&quot;nats-route://127.0.0.1:5222/&quot;,&quot;connect_urls&quot;:[&quot;localhost:4222&quot;]}</code></p>
+<p><code>INFO {&quot;server_id&quot;:&quot;KP19vTlB417XElnv8kKaC5&quot;,&quot;version&quot;:&quot;2.0.0&quot;,&quot;go&quot;:&quot;&quot;,&quot;host&quot;:&quot;localhost&quot;,&quot;port&quot;:5222,&quot;auth_required&quot;:false,&quot;tls_required&quot;:false,&quot;tls_verify&quot;:false,&quot;max_payload&quot;:1048576,&quot;ip&quot;:&quot;nats-route://127.0.0.1:5222/&quot;,&quot;connect_urls&quot;:[&quot;localhost:4222&quot;]}</code></p>
 <h2 id="connect"><a name="connect" class="plugin-anchor" href="#connect"><i class="fa fa-link" aria-hidden="true"></i></a><a name="CONNECT"></a>CONNECT</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
 <p>The <code>CONNECT</code> message is analogous to the <code>INFO</code> message. Once the NATS server has established a TCP/IP socket connection with another server, and an <code>INFO</code> message has been received, the server will send a <code>CONNECT</code> message to provide more information about the current connection as well as security information.</p>
@@ -2554,7 +2554,7 @@ As in the client protocol, the NATS protocol operation names are case insensitiv
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"NATS Cluster Protocol","level":"9.3","depth":1,"previous":{"title":"Developing a Client","level":"9.2.1","depth":2,"path":"nats_protocol/nats-client-dev.md","ref":"nats_protocol/nats-client-dev.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_protocol/nats-server-protocol.md","mtime":"2019-05-29T16:43:54.846Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-30T17:42:48.393Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"NATS Cluster Protocol","level":"9.3","depth":1,"previous":{"title":"Developing a Client","level":"9.2.1","depth":2,"path":"nats_protocol/nats-client-dev.md","ref":"nats_protocol/nats-client-dev.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","custom-favicon","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":"assets/images/favicon.ico","custom-favicon":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_protocol/nats-server-protocol.md","mtime":"2019-05-30T21:51:29.872Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-30T22:43:13.918Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
@@ -2645,6 +2645,19 @@ As in the client protocol, the NATS protocol operation names are case insensitiv
     }
 
     function pageChanged() {
+        var logos = document.querySelectorAll(".nats");
+        if (logos && logos.length == 0) {
+            gitbook.toolbar.createButton({
+                icon: 'nats',
+                label: 'NATS Home Page',
+                position: 'right',
+                onClick: function () {
+                    var win = window.open("https://nats.io/", '_blank');
+                    win.focus();
+                }
+            });
+        }
+
         document.querySelectorAll('.js-copy').forEach(elem => {
             elem.addEventListener("click", function () {
                 var el = this;
@@ -2709,6 +2722,14 @@ As in the client protocol, the NATS protocol operation names are case insensitiv
 
 <!-- Styles -->
 <style>
+    .nats {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: url(/assets/images/nats.svg);
+        background-size: 16px 16px;
+    }
+
     div.graphviz {
         background: transparent;
         border: 0;
@@ -2968,10 +2989,6 @@ As in the client protocol, the NATS protocol operation names are case insensitiv
     
         
         <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
-        
-    
-        
-        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
         
     
         

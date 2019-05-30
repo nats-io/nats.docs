@@ -2314,7 +2314,7 @@
 Trying 107.170.221.32...
 Connected to demo.nats.io.
 Escape character is &apos;^]&apos;.
-INFO {&quot;server_id&quot;:&quot;ad29ea9cbb16f2865c177bbd4db446ca&quot;,&quot;version&quot;:&quot;0.6.8&quot;,&quot;go&quot;:&quot;go1.5.1&quot;,&quot;host&quot;:&quot;0.0.0.0&quot;,&quot;port&quot;:4222,&quot;auth_required&quot;:false,&quot;ssl_required&quot;:false,&quot;max_payload&quot;:1048576}
+INFO {&quot;server_id&quot;:&quot;NCXMJZYQEWUDJFLYLSTTE745I2WUNCVG3LJJ3NRKSFJXEG6RGK7753DJ&quot;,&quot;version&quot;:&quot;2.0.0&quot;,&quot;proto&quot;:1,&quot;go&quot;:&quot;go1.11.10&quot;,&quot;host&quot;:&quot;0.0.0.0&quot;,&quot;port&quot;:4222,&quot;max_payload&quot;:1048576,&quot;client_id&quot;:5089}
 </code></pre><p><strong>3. Run the subscriber.</strong></p>
 <p>Subscribe to the wildcard subject <code>foo.*</code> with subject ID of <code>90</code>.</p>
 <pre class="language-"><code>sub foo.* 90
@@ -2330,7 +2330,7 @@ INFO {&quot;server_id&quot;:&quot;ad29ea9cbb16f2865c177bbd4db446ca&quot;,&quot;v
 Trying 107.170.221.32...
 Connected to demo.nats.io.
 Escape character is &apos;^]&apos;.
-INFO {&quot;server_id&quot;:&quot;ad29ea9cbb16f2865c177bbd4db446ca&quot;,&quot;version&quot;:&quot;0.6.8&quot;,&quot;go&quot;:&quot;go1.5.1&quot;,&quot;host&quot;:&quot;0.0.0.0&quot;,&quot;port&quot;:4222,&quot;auth_required&quot;:false,&quot;ssl_required&quot;:false,&quot;max_payload&quot;:1048576}
+INFO {&quot;server_id&quot;:&quot;NCXMJZYQEWUDJFLYLSTTE745I2WUNCVG3LJJ3NRKSFJXEG6RGK7753DJ&quot;,&quot;version&quot;:&quot;2.0.0&quot;,&quot;proto&quot;:1,&quot;go&quot;:&quot;go1.11.10&quot;,&quot;host&quot;:&quot;0.0.0.0&quot;,&quot;port&quot;:4222,&quot;max_payload&quot;:1048576,&quot;client_id&quot;:5089}
 </code></pre><p><strong>6. Publish a message.</strong></p>
 <p>The message includes the command (<code>pub</code>), subject (<code>foo.bar</code>), and length of the payload (<code>5</code>). Press enter and provide the payload (<code>hello</code>), then press enter again.</p>
 <pre class="language-"><code>pub foo.bar 5
@@ -2368,7 +2368,7 @@ hello
 Trying 107.170.221.32...
 Connected to demo.nats.io.
 Escape character is &apos;^]&apos;.
-INFO {&quot;server_id&quot;:&quot;ad29ea9cbb16f2865c177bbd4db446ca&quot;,&quot;version&quot;:&quot;0.6.8&quot;,&quot;go&quot;:&quot;go1.5.1&quot;,&quot;host&quot;:&quot;0.0.0.0&quot;,&quot;port&quot;:4222,&quot;auth_required&quot;:false,&quot;ssl_required&quot;:false,&quot;max_payload&quot;:1048576}
+INFO {&quot;server_id&quot;:&quot;NCXMJZYQEWUDJFLYLSTTE745I2WUNCVG3LJJ3NRKSFJXEG6RGK7753DJ&quot;,&quot;version&quot;:&quot;2.0.0&quot;,&quot;proto&quot;:1,&quot;go&quot;:&quot;go1.11.10&quot;,&quot;host&quot;:&quot;0.0.0.0&quot;,&quot;port&quot;:4222,&quot;max_payload&quot;:1048576,&quot;client_id&quot;:5089}
 
 ping
 PONG
@@ -2415,7 +2415,7 @@ PONG
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Protocol Demo","level":"9.1","depth":1,"next":{"title":"Client Protocol","level":"9.2","depth":1,"path":"nats_protocol/nats-protocol.md","ref":"nats_protocol/nats-protocol.md","articles":[{"title":"Developing a Client","level":"9.2.1","depth":2,"path":"nats_protocol/nats-client-dev.md","ref":"nats_protocol/nats-client-dev.md","articles":[]}]},"previous":{"title":"Endpoints","level":"8.9.2","depth":2,"path":"nats_streaming/monitoring/endpoints.md","ref":"nats_streaming/monitoring/endpoints.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_protocol/nats-protocol-demo.md","mtime":"2019-05-29T16:43:54.846Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-30T17:42:48.393Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Protocol Demo","level":"9.1","depth":1,"next":{"title":"Client Protocol","level":"9.2","depth":1,"path":"nats_protocol/nats-protocol.md","ref":"nats_protocol/nats-protocol.md","articles":[{"title":"Developing a Client","level":"9.2.1","depth":2,"path":"nats_protocol/nats-client-dev.md","ref":"nats_protocol/nats-client-dev.md","articles":[]}]},"previous":{"title":"Endpoints","level":"8.9.2","depth":2,"path":"nats_streaming/monitoring/endpoints.md","ref":"nats_streaming/monitoring/endpoints.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","custom-favicon","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":"assets/images/favicon.ico","custom-favicon":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_protocol/nats-protocol-demo.md","mtime":"2019-05-30T21:51:29.871Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-30T22:43:13.918Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
@@ -2506,6 +2506,19 @@ PONG
     }
 
     function pageChanged() {
+        var logos = document.querySelectorAll(".nats");
+        if (logos && logos.length == 0) {
+            gitbook.toolbar.createButton({
+                icon: 'nats',
+                label: 'NATS Home Page',
+                position: 'right',
+                onClick: function () {
+                    var win = window.open("https://nats.io/", '_blank');
+                    win.focus();
+                }
+            });
+        }
+
         document.querySelectorAll('.js-copy').forEach(elem => {
             elem.addEventListener("click", function () {
                 var el = this;
@@ -2570,6 +2583,14 @@ PONG
 
 <!-- Styles -->
 <style>
+    .nats {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: url(/assets/images/nats.svg);
+        background-size: 16px 16px;
+    }
+
     div.graphviz {
         background: transparent;
         border: 0;
@@ -2829,10 +2850,6 @@ PONG
     
         
         <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
-        
-    
-        
-        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
         
     
         

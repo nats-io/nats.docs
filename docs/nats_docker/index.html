@@ -2528,7 +2528,7 @@ nats-pub -s <span class="token string">&quot;nats://192.168.59.105:7222&quot;</s
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"NATS and Docker","level":"4.7","depth":1,"next":{"title":"Tutorial","level":"4.7.1","depth":2,"path":"nats_docker/tutorial.md","ref":"nats_docker/tutorial.md","articles":[]},"previous":{"title":"Configuration","level":"4.6.4.1","depth":3,"path":"sys_accounts/sys_accounts.md","ref":"sys_accounts/sys_accounts.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_docker/README.md","mtime":"2019-05-30T17:42:13.284Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-30T17:42:48.393Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"NATS and Docker","level":"4.7","depth":1,"next":{"title":"Tutorial","level":"4.7.1","depth":2,"path":"nats_docker/tutorial.md","ref":"nats_docker/tutorial.md","articles":[]},"previous":{"title":"Configuration","level":"4.6.4.1","depth":3,"path":"sys_accounts/sys_accounts.md","ref":"sys_accounts/sys_accounts.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","custom-favicon","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":"assets/images/favicon.ico","custom-favicon":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_docker/README.md","mtime":"2019-05-30T21:51:29.870Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-30T22:43:13.918Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
@@ -2619,6 +2619,19 @@ nats-pub -s <span class="token string">&quot;nats://192.168.59.105:7222&quot;</s
     }
 
     function pageChanged() {
+        var logos = document.querySelectorAll(".nats");
+        if (logos && logos.length == 0) {
+            gitbook.toolbar.createButton({
+                icon: 'nats',
+                label: 'NATS Home Page',
+                position: 'right',
+                onClick: function () {
+                    var win = window.open("https://nats.io/", '_blank');
+                    win.focus();
+                }
+            });
+        }
+
         document.querySelectorAll('.js-copy').forEach(elem => {
             elem.addEventListener("click", function () {
                 var el = this;
@@ -2683,6 +2696,14 @@ nats-pub -s <span class="token string">&quot;nats://192.168.59.105:7222&quot;</s
 
 <!-- Styles -->
 <style>
+    .nats {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: url(/assets/images/nats.svg);
+        background-size: 16px 16px;
+    }
+
     div.graphviz {
         background: transparent;
         border: 0;
@@ -2942,10 +2963,6 @@ nats-pub -s <span class="token string">&quot;nats://192.168.59.105:7222&quot;</s
     
         
         <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
-        
-    
-        
-        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
         
     
         

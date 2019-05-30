@@ -2343,9 +2343,9 @@ Falling behind with 65536 pending messages on subject <span class="token string"
 </code></pre>
 <p>The server will also keep count of the number of slow consumer errors encountered, available through the monitoring <code>varz</code> endpoint in the <code>slow_consumers</code> field.</p>
 <h2 id="handling-slow-consumers"><a name="handling-slow-consumers" class="plugin-anchor" href="#handling-slow-consumers"><i class="fa fa-link" aria-hidden="true"></i></a>Handling slow consumers</h2>
-<p>Apart from using <a href="nats_streaming/intro.md">NATS streaming</a> or optimizing your consuming application, there are a few options available:  scale, meter, or tune NATS to your environment.</p>
+<p>Apart from using <a href="../nats_streaming/intro.html">NATS streaming</a> or optimizing your consuming application, there are a few options available:  scale, meter, or tune NATS to your environment.</p>
 <p><strong>Scaling with queue subscribers</strong></p>
-<p>This is ideal if you do not rely on message order.  Ensure your NATS subscription belongs to a <a href="http://nats.io/documentation/concepts/nats-queueing/" target="_blank">queue group</a>, then scale as required by creating more instances of your service or application.  This is a great approach for microservices - each instance of your microservice will receive a portion of the messages to process, and simply add more instances of your service to scale.  No code changes, configuration changes, or downtime whatsoever.</p>
+<p>This is ideal if you do not rely on message order.  Ensure your NATS subscription belongs to a <a href="../developer/concepts/queue.html">queue group</a>, then scale as required by creating more instances of your service or application.  This is a great approach for microservices - each instance of your microservice will receive a portion of the messages to process, and simply add more instances of your service to scale.  No code changes, configuration changes, or downtime whatsoever.</p>
 <p><strong>Create a subject namespace that can scale</strong></p>
 <p>You can distribute work further through the subject namespace, with some forethought in design.  This approach is useful if you need to preserve message order.  The general idea is to publish to a deep subject namespace, and consume with wildcard subscriptions while giving yourself room to expand and distribute work in the future.</p>
 <p>For a simple example, if you have a service that receives telemetry data from IoT devices located throughout a city, you can publish to a subject namespace like <code>Sensors.North</code>, <code>Sensors.South</code>, <code>Sensors.East</code> and <code>Sensors.West</code>.  Initially, you&apos;ll subscribe to <code>Sensors.&gt;</code> to process everything in one consumer.  As your enterprise grows and data rates exceed what one consumer can handle, you can replace your single consumer with four consuming applications to subscribe to each subject representing a smaller segment of your data.  Note that your publishing applications remain untouched.</p>
@@ -2411,7 +2411,7 @@ Falling behind with 65536 pending messages on subject <span class="token string"
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Slow Consumers","level":"4.6.2","depth":2,"next":{"title":"Signals","level":"4.6.3","depth":2,"path":"nats_admin/signals.md","ref":"nats_admin/signals.md","articles":[]},"previous":{"title":"Upgrading a Cluster","level":"4.6.1","depth":2,"path":"nats_admin/upgrading_cluster.md","ref":"nats_admin/upgrading_cluster.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_admin/slow_consumers.md","mtime":"2019-05-30T17:42:13.284Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-30T17:42:48.393Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Slow Consumers","level":"4.6.2","depth":2,"next":{"title":"Signals","level":"4.6.3","depth":2,"path":"nats_admin/signals.md","ref":"nats_admin/signals.md","articles":[]},"previous":{"title":"Upgrading a Cluster","level":"4.6.1","depth":2,"path":"nats_admin/upgrading_cluster.md","ref":"nats_admin/upgrading_cluster.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","custom-favicon","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":"assets/images/favicon.ico","custom-favicon":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_admin/slow_consumers.md","mtime":"2019-05-30T21:51:29.869Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-30T22:43:13.918Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
@@ -2502,6 +2502,19 @@ Falling behind with 65536 pending messages on subject <span class="token string"
     }
 
     function pageChanged() {
+        var logos = document.querySelectorAll(".nats");
+        if (logos && logos.length == 0) {
+            gitbook.toolbar.createButton({
+                icon: 'nats',
+                label: 'NATS Home Page',
+                position: 'right',
+                onClick: function () {
+                    var win = window.open("https://nats.io/", '_blank');
+                    win.focus();
+                }
+            });
+        }
+
         document.querySelectorAll('.js-copy').forEach(elem => {
             elem.addEventListener("click", function () {
                 var el = this;
@@ -2566,6 +2579,14 @@ Falling behind with 65536 pending messages on subject <span class="token string"
 
 <!-- Styles -->
 <style>
+    .nats {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: url(/assets/images/nats.svg);
+        background-size: 16px 16px;
+    }
+
     div.graphviz {
         background: transparent;
         border: 0;
@@ -2825,10 +2846,6 @@ Falling behind with 65536 pending messages on subject <span class="token string"
     
         
         <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
-        
-    
-        
-        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
         
     
         
