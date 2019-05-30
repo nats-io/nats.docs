@@ -4,7 +4,9 @@
   "author": "The NATS Maintainers",
   "plugins" : [
     "prism",
+    "-sharing",
     "-highlight",
+    "custom-favicon",
     "include-html",
     "toggle-chapters",
     "anchors"
@@ -15,6 +17,7 @@
         "ascii": "markup",
         "text": "markup"
       }
-    }
+    },
+    "favicon": "assets/images/favicon.ico"
   }
 }

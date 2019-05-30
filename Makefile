@@ -1,4 +1,5 @@
 build: init examples
+	rm -rf _.docs
 	gitbook build . _docs
 	
 init:
