@@ -69,7 +69,7 @@ The valid options are as follows:
 
 Below is an example of an `INFO` string received by a NATS server, with the `ip` field.
 
-`INFO {"server_id":"KP19vTlB417XElnv8kKaC5","version":"0.9.4","go":"","host":"localhost","port":5222,"auth_required":false,"tls_required":false,"tls_verify":false,"max_payload":1048576,"ip":"nats-route://127.0.0.1:5222/","connect_urls":["localhost:4222"]}`
+`INFO {"server_id":"KP19vTlB417XElnv8kKaC5","version":"2.0.0","go":"","host":"localhost","port":5222,"auth_required":false,"tls_required":false,"tls_verify":false,"max_payload":1048576,"ip":"nats-route://127.0.0.1:5222/","connect_urls":["localhost:4222"]}`
 
 ## <a name="CONNECT"></a>CONNECT
 
