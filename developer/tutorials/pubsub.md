@@ -49,9 +49,9 @@ Go and the NATS server should be installed.
 When the server starts successfully, you will see the following messages:
 
 ```sh
-[1] 2015/08/12 15:18:22.301550 [INF] Starting nats-server version 0.6.4
-[1] 2015/08/12 15:18:22.301762 [INF] Listening for client connections on 0.0.0.0:4222
-[1] 2015/08/12 15:18:22.301769 [INF] nats-server is ready
+[1] 2019/31/05 15:18:22.301550 [INF] Starting nats-server version 2.0.0
+[1] 2019/31/05 15:18:22.301762 [INF] Listening for client connections on 0.0.0.0:4222
+[1] 2019/31/05 15:18:22.301769 [INF] nats-server is ready
 ```
 
 The NATS server listens for client connections on TCP Port 4222.

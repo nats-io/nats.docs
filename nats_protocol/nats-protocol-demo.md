@@ -23,7 +23,7 @@ $ telnet demo.nats.io 4222
 Trying 107.170.221.32...
 Connected to demo.nats.io.
 Escape character is '^]'.
-INFO {"server_id":"ad29ea9cbb16f2865c177bbd4db446ca","version":"0.6.8","go":"go1.5.1","host":"0.0.0.0","port":4222,"auth_required":false,"ssl_required":false,"max_payload":1048576}
+INFO {"server_id":"NCXMJZYQEWUDJFLYLSTTE745I2WUNCVG3LJJ3NRKSFJXEG6RGK7753DJ","version":"2.0.0","proto":1,"go":"go1.11.10","host":"0.0.0.0","port":4222,"max_payload":1048576,"client_id":5089}
 ```
 
 **3. Run the subscriber.**
@@ -58,9 +58,8 @@ $ telnet demo.nats.io 4222
 Trying 107.170.221.32...
 Connected to demo.nats.io.
 Escape character is '^]'.
-INFO {"server_id":"ad29ea9cbb16f2865c177bbd4db446ca","version":"0.6.8","go":"go1.5.1","host":"0.0.0.0","port":4222,"auth_required":false,"ssl_required":false,"max_payload":1048576}
+INFO {"server_id":"NCXMJZYQEWUDJFLYLSTTE745I2WUNCVG3LJJ3NRKSFJXEG6RGK7753DJ","version":"2.0.0","proto":1,"go":"go1.11.10","host":"0.0.0.0","port":4222,"max_payload":1048576,"client_id":5089}
 ```
-
 **6. Publish a message.**
 
 The message includes the command (`pub`), subject (`foo.bar`), and length of the payload (`5`). Press enter and provide the payload (`hello`), then press enter again.
@@ -140,7 +139,7 @@ $ telnet demo.nats.io 4222
 Trying 107.170.221.32...
 Connected to demo.nats.io.
 Escape character is '^]'.
-INFO {"server_id":"ad29ea9cbb16f2865c177bbd4db446ca","version":"0.6.8","go":"go1.5.1","host":"0.0.0.0","port":4222,"auth_required":false,"ssl_required":false,"max_payload":1048576}
+INFO {"server_id":"NCXMJZYQEWUDJFLYLSTTE745I2WUNCVG3LJJ3NRKSFJXEG6RGK7753DJ","version":"2.0.0","proto":1,"go":"go1.11.10","host":"0.0.0.0","port":4222,"max_payload":1048576,"client_id":5089}
 
 ping
 PONG
