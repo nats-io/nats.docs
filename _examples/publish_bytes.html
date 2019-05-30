@@ -60,10 +60,8 @@ nc.close();
 	</div>
 	
 	<div class="tab__content">
-	<pre id="publish_bytes_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/publisher_samples.js#L8-13"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = NATS.connect({url: &#34;nats://demo.nats.io:4222&#34;, preserveBuffers: true});
-let buf = Buffer.allocUnsafe(12);
-buf.fill(&#34;All is well&#34;);
-nc.publish(&#39;updates&#39;, buf);
+	<pre id="publish_bytes_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/publisher_samples.js#L8-11"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = NATS.connect({url: &#34;nats://demo.nats.io:4222&#34;});
+nc.publish(&#39;updates&#39;, &#34;All is Well&#34;);
 </code></pre>
 	</div>
 	
@@ -87,14 +85,11 @@ end
 	</div>
 	
 	<div class="tab__content">
-	<pre id="publish_bytes_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/publisher_samples.ts#L6-15"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = await connect({
+	<pre id="publish_bytes_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/publisher_samples.ts#L6-12"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = await connect({
     url: &#34;nats://demo.nats.io:4222&#34;,
-    payload: Payload.BINARY
+    payload: Payload.STRING
 });
-
-let buf = Buffer.allocUnsafe(12);
-buf.fill(&#34;All is Well&#34;);
-nc.publish(&#39;updates&#39;, buf);
+nc.publish(&#39;updates&#39;, &#39;All is Well&#39;);
 </code></pre>
 	</div>
 	

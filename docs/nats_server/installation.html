@@ -2301,7 +2301,7 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="nats-server-installation"><a name="nats-server-installation" class="plugin-anchor" href="#nats-server-installation"><i class="fa fa-link" aria-hidden="true"></i></a>NATS Server Installation</h2>
+                                <h1 id="nats-server-installation"><a name="nats-server-installation" class="plugin-anchor" href="#nats-server-installation"><i class="fa fa-link" aria-hidden="true"></i></a>NATS Server Installation</h1>
 <p>NATS philosophy is simplicity. Installation is just decompressing a zip file and copying the binary to an appropriate directory; you can also use your favorite package manager. Here&apos;s a list of different ways you can install or run NATS:</p>
 <ul>
 <li><a href="#installing-via-docker">Docker</a></li>
@@ -2311,7 +2311,7 @@
 <li><a href="installing-from-the-source">Development Build</a></li>
 </ul>
 <h3 id="installing-via-docker"><a name="installing-via-docker" class="plugin-anchor" href="#installing-via-docker"><i class="fa fa-link" aria-hidden="true"></i></a>Installing via Docker</h3>
-<p>With docker you can install the server easily without scattering binaries and other artifacts on your system. The only pre-requisite is to <a href="https://docs.docker.com/install" target="_blank">install docker</a>.</p>
+<p>With Docker you can install the server easily without scattering binaries and other artifacts on your system. The only pre-requisite is to <a href="https://docs.docker.com/install" target="_blank">install docker</a>.</p>
 <pre class="language-"><code>&gt; docker pull nats:latest
 latest: Pulling from library/nats
 Digest: sha256:0c98cdfc4332c0de539a064bfab502a24aae18ef7475ddcc7081331502327354
@@ -2341,7 +2341,7 @@ Operator</a> here.</p>
 ...
 [41634] 2019/05/13 09:42:11.746249 [INF] Server id is NBNYNR4ZNTH4N2UQKSAAKBAFLDV3PZO4OUYONSUIQASTQT7BT4ZF6WX7
 [41634] 2019/05/13 09:42:11.746252 [INF] Server is ready
-</code></pre><h3 id="downloading-a-release-build"><a name="downloading-a-release-build" class="plugin-anchor" href="#downloading-a-release-build"><i class="fa fa-link" aria-hidden="true"></i></a>Downloading A Release Build</h3>
+</code></pre><h3 id="downloading-a-release-build"><a name="downloading-a-release-build" class="plugin-anchor" href="#downloading-a-release-build"><i class="fa fa-link" aria-hidden="true"></i></a>Downloading a Release Build</h3>
 <p>You can find the latest release of nats-server <a href="https://github.com/nats-io/nats-server/releases/latest" target="_blank">here</a>.</p>
 <p>Download the zip file matching your systems architecture, and unzip. For this example, assuming version 2.0.0 of the server and a Linux AMD64:</p>
 <pre class="language-"><code>&gt; curl -L https://github.com/nats-io/nats-server/releases/download/v2.0.0/nats-server-v2.0.0-linux-amd64.zip -o nats-server.zip
@@ -2354,7 +2354,7 @@ Archive:  nats-server.zip
   inflating: nats-server-v2.0.0darwin-amd64/nats-server
 
 &gt; cp nats-server-v2.0.0darwin-amd64/nats-server /usr/local/bin
-</code></pre><h3 id="installing-from-the-source"><a name="installing-from-the-source" class="plugin-anchor" href="#installing-from-the-source"><i class="fa fa-link" aria-hidden="true"></i></a>Installing from the source</h3>
+</code></pre><h3 id="installing-from-the-source"><a name="installing-from-the-source" class="plugin-anchor" href="#installing-from-the-source"><i class="fa fa-link" aria-hidden="true"></i></a>Installing From the Source</h3>
 <p>If you have Go installed, installing the binary is easy:</p>
 <pre class="language-"><code>&gt; go get github.com/nats-io/nats-server
 </code></pre><p>This mechanism will install a build of <a href="https://github.com/nats-io/nats-server" target="_blank">master</a>, which almost certainly will not be a released version. If you are a developer and want to play with the latest, this is the easiest way. </p>
@@ -2408,7 +2408,7 @@ Archive:  nats-server.zip
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Installing","level":"4.1","depth":1,"next":{"title":"Running","level":"4.2","depth":1,"path":"nats_server/running.md","ref":"nats_server/running.md","articles":[{"title":"Window Service","level":"4.2.1","depth":2,"path":"nats_server/windows_srv.md","ref":"nats_server/windows_srv.md","articles":[]}]},"previous":{"title":"Advanced Connect and Custom Dialer in Go","level":"3.8.4","depth":2,"path":"developer/tutorials/custom_dialer.md","ref":"developer/tutorials/custom_dialer.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/installation.md","mtime":"2019-05-29T16:43:54.848Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-29T16:45:48.381Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Installing","level":"4.1","depth":1,"next":{"title":"Running","level":"4.2","depth":1,"path":"nats_server/running.md","ref":"nats_server/running.md","articles":[{"title":"Window Service","level":"4.2.1","depth":2,"path":"nats_server/windows_srv.md","ref":"nats_server/windows_srv.md","articles":[]}]},"previous":{"title":"Advanced Connect and Custom Dialer in Go","level":"3.8.4","depth":2,"path":"developer/tutorials/custom_dialer.md","ref":"developer/tutorials/custom_dialer.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/installation.md","mtime":"2019-05-30T17:42:13.289Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-30T17:42:48.393Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

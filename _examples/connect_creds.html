@@ -11,6 +11,16 @@
 	
 	<label for="connect_creds_java" class="api-lang" data-language="java">Java</label>
 	
+	
+	<input type="radio" id="connect_creds_js" name="connect_creds" class="tab">
+	
+	<label for="connect_creds_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
+	<input type="radio" id="connect_creds_ts" name="connect_creds" class="tab">
+	
+	<label for="connect_creds_ts" class="api-lang" data-language="ts">TypeScript</label>
+	
 
   	
 	<div class="tab__content">
@@ -35,6 +45,22 @@ Connection nc = Nats.connect(options);
 // Do something with the connection
 
 nc.close();
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_creds_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/auth_examples.js#L190-195"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = NATS.connect({
+    url: server.nats,
+    userCreds: testCreds
+});
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_creds_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/auth_examples.ts#L156-161"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = await connect({
+    url: server.nats,
+    userCreds: testCreds
+});
 </code></pre>
 	</div>
 	

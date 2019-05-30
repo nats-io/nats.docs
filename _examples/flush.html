@@ -62,7 +62,7 @@ nc.close();
 	</div>
 	
 	<div class="tab__content">
-	<pre id="flush_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/publisher_samples.js#L93-103"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = NATS.connect({url: &#34;nats://demo.nats.io:4222&#34;});
+	<pre id="flush_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/publisher_samples.js#L91-101"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = NATS.connect({url: &#34;nats://demo.nats.io:4222&#34;});
 let start = Date.now();
 nc.flush(() =&gt; {
     t.log(&#39;round trip completed in&#39;, Date.now() - start, &#39;ms&#39;);
@@ -109,7 +109,7 @@ end
 	</div>
 	
 	<div class="tab__content">
-	<pre id="flush_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/publisher_samples.ts#L90-108"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = await connect({
+	<pre id="flush_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/publisher_samples.ts#L87-105"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = await connect({
     url: &#34;nats://demo.nats.io:4222&#34;
 });
 

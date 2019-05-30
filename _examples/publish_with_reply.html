@@ -93,7 +93,7 @@ nc.close();
 	</div>
 	
 	<div class="tab__content">
-	<pre id="publish_with_reply_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/publisher_samples.js#L41-57"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// set up a subscription to process the request
+	<pre id="publish_with_reply_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/publisher_samples.js#L39-55"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// set up a subscription to process the request
 nc.subscribe(&#39;time&#39;, (msg, reply) =&gt; {
     if(reply) {
         nc.publish(reply, new Date().toLocaleTimeString());
@@ -158,7 +158,7 @@ end
 	</div>
 	
 	<div class="tab__content">
-	<pre id="publish_with_reply_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/publisher_samples.ts#L41-64"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// set up a subscription to process the request
+	<pre id="publish_with_reply_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/publisher_samples.ts#L38-61"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// set up a subscription to process the request
 await nc.subscribe(&#39;time&#39;, (err, msg) =&gt; {
     if (err) {
         // this example is running inside of a promise

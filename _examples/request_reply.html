@@ -69,7 +69,7 @@ nc.close();
 	</div>
 	
 	<div class="tab__content">
-	<pre id="request_reply_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/publisher_samples.js#L77-82"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">nc.requestOne(&#39;time&#39;, (msg) =&gt; {
+	<pre id="request_reply_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/publisher_samples.js#L75-80"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">nc.requestOne(&#39;time&#39;, (msg) =&gt; {
     t.log(&#39;the time is&#39;, msg);
     nc.close();
 });
@@ -116,7 +116,7 @@ end
 	</div>
 	
 	<div class="tab__content">
-	<pre id="request_reply_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/publisher_samples.ts#L81-85"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let msg = await nc.request(&#39;time&#39;, 1000);
+	<pre id="request_reply_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/publisher_samples.ts#L78-82"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let msg = await nc.request(&#39;time&#39;, 1000);
 t.log(&#39;the time is&#39;, msg.data);
 nc.close();
 </code></pre>

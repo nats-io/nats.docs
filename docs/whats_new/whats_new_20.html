@@ -2399,7 +2399,7 @@ monitoring and anomaly detection tools.</p>
 <h2 id="global-deployments"><a name="global-deployments" class="plugin-anchor" href="#global-deployments"><i class="fa fa-link" aria-hidden="true"></i></a>Global Deployments</h2>
 <p>NATS 2.0 supports global deployments, allowing for global topologies that
 optimize for WANs while extend to the edge or devices.</p>
-<h3 id="self-healing"><a name="self-healing" class="plugin-anchor" href="#self-healing"><i class="fa fa-link" aria-hidden="true"></i></a>Self healing</h3>
+<h3 id="self-healing"><a name="self-healing" class="plugin-anchor" href="#self-healing"><i class="fa fa-link" aria-hidden="true"></i></a>Self Healing</h3>
 <p>While self healing features have been part of NATS 1.X releases, we
 ensured they continue to work in global deployments.  These include:</p>
 <ul>
@@ -2414,7 +2414,7 @@ for seamless rolling upgrades and scaling up or down.</li>
 <h3 id="superclusters"><a name="superclusters" class="plugin-anchor" href="#superclusters"><i class="fa fa-link" aria-hidden="true"></i></a>Superclusters</h3>
 <p>Conceptually, superclusters are clusters of NATS clusters.  Create
 superclusters to deploy a truly global NATS network.  Superclusters use
-a novel spline based technology with a unique apporoach to topology, keeping
+a novel spline based technology with a unique approach to topology, keeping
 one hop semantics and optimizing WAN traffic through optimistic sends with
 interest graph pruning.  Superclusters provide transparent, intelligent support
 for geo-distributed queue subscribers.</p>
@@ -2436,7 +2436,7 @@ the NATS cluster.  This is automatic and entirely transparent to the client.
 There is no extra configuration in NATS servers.</p>
 <p>This is <strong>zero configuration disaster recovery</strong>.</p>
 <h3 id="leaf-nodes"><a name="leaf-nodes" class="plugin-anchor" href="#leaf-nodes"><i class="fa fa-link" aria-hidden="true"></i></a>Leaf Nodes</h3>
-<p>Leaf nodes are a NATS servers running in a special configuration, allowing
+<p>Leaf nodes are NATS servers running in a special configuration, allowing
 hub and spoke topologies to extend superclusters.</p>
 <p>Leaf nodes can also bridge separate security domains. e.g. IoT, mobile, web.
 They are ideal for edge computing, IoT hubs, or data centers that need to be
@@ -2534,7 +2534,7 @@ the secure multi-tenant NATS system.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"What's New in 2.0","level":"1.2","depth":1,"next":{"title":"What is NATS","level":"2.1","depth":1,"path":"developer/concepts/intro.md","ref":"developer/concepts/intro.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"whats_new/whats_new_20.md","mtime":"2019-05-29T16:43:54.858Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-29T16:45:48.381Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"What's New in 2.0","level":"1.2","depth":1,"next":{"title":"What is NATS","level":"2.1","depth":1,"path":"developer/concepts/intro.md","ref":"developer/concepts/intro.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"whats_new/whats_new_20.md","mtime":"2019-05-30T17:42:13.295Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-30T17:42:48.393Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

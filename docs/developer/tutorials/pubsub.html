@@ -2316,7 +2316,7 @@ digraph nats_pub_sub {
     pub1 sub1 non_active
   }
 
-  nats-server [shape=&quot;box&quot;, label=&quot;NATS&quot;, width=8];
+  gnatsd [shape=&quot;box&quot;, label=&quot;NATS&quot;, width=8];
 
   sub2 [shape=&quot;box&quot;, label=&quot;SUB\ncom.msg.one&quot;];
   sub3 [shape=&quot;box&quot;, label=&quot;SUB\ncom.msg.two&quot;];
@@ -2327,19 +2327,19 @@ digraph nats_pub_sub {
     sub2 sub3 sub4
   }
 
-  pub1 -&gt; nats-server [penwidth=2];
-  nats-server -&gt; sub1 [penwidth=2];
-  nats-server -&gt; non_active [style=dashed color=red arrowhead=&quot;none&quot;];
+  pub1 -&gt; gnatsd [penwidth=2];
+  gnatsd -&gt; sub1 [penwidth=2];
+  gnatsd -&gt; non_active [style=dashed color=red arrowhead=&quot;none&quot;];
 
-  nats-server -&gt; sub2 [penwidth=2];
-  nats-server -&gt; sub3 [style=dashed color=red arrowhead=&quot;none&quot;];
-  nats-server -&gt; sub4 [penwidth=2];
+  gnatsd -&gt; sub2 [penwidth=2];
+  gnatsd -&gt; sub3 [style=dashed color=red arrowhead=&quot;none&quot;];
+  gnatsd -&gt; sub4 [penwidth=2];
 }
 </code></div>
 
 <h2 id="prerequisites"><a name="prerequisites" class="plugin-anchor" href="#prerequisites"><i class="fa fa-link" aria-hidden="true"></i></a>Prerequisites</h2>
 <p>Go and the NATS server should be installed.</p>
-<h2 id="1-start-the-nats-server"><a name="1-start-the-nats-server" class="plugin-anchor" href="#1-start-the-nats-server"><i class="fa fa-link" aria-hidden="true"></i></a>1. Start the NATS server</h2>
+<h3 id="1-start-the-nats-server"><a name="1-start-the-nats-server" class="plugin-anchor" href="#1-start-the-nats-server"><i class="fa fa-link" aria-hidden="true"></i></a>1. Start the NATS server</h3>
 <pre class="language-"><code class="lang-sh">% nats-server
 </code></pre>
 <p>When the server starts successfully, you will see the following messages:</p>
@@ -2348,12 +2348,12 @@ digraph nats_pub_sub {
 <span class="token punctuation">[</span>1<span class="token punctuation">]</span> 2015/08/12 15:18:22.301769 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> nats-server is ready
 </code></pre>
 <p>The NATS server listens for client connections on TCP Port 4222.</p>
-<h2 id="2-start-a-shell-or-command-prompt-session"><a name="2-start-a-shell-or-command-prompt-session" class="plugin-anchor" href="#2-start-a-shell-or-command-prompt-session"><i class="fa fa-link" aria-hidden="true"></i></a>2. Start a shell or command prompt session</h2>
+<h3 id="2-start-a-shell-or-command-prompt-session"><a name="2-start-a-shell-or-command-prompt-session" class="plugin-anchor" href="#2-start-a-shell-or-command-prompt-session"><i class="fa fa-link" aria-hidden="true"></i></a>2. Start a shell or command prompt session</h3>
 <p>You will use this session to run an example NATS client subscriber program.</p>
-<h2 id="3-cd-to-the-go-client-examples-directory"><a name="3-cd-to-the-go-client-examples-directory" class="plugin-anchor" href="#3-cd-to-the-go-client-examples-directory"><i class="fa fa-link" aria-hidden="true"></i></a>3. CD to the Go client examples directory</h2>
+<h3 id="3-cd-to-the-go-client-examples-directory"><a name="3-cd-to-the-go-client-examples-directory" class="plugin-anchor" href="#3-cd-to-the-go-client-examples-directory"><i class="fa fa-link" aria-hidden="true"></i></a>3. CD to the Go client examples directory</h3>
 <pre class="language-"><code class="lang-sh">% <span class="token function">cd</span> <span class="token variable">$GOPATH</span>/src/github.com/nats-io/nats/examples
 </code></pre>
-<h2 id="4-run-the-client-subscriber-program"><a name="4-run-the-client-subscriber-program" class="plugin-anchor" href="#4-run-the-client-subscriber-program"><i class="fa fa-link" aria-hidden="true"></i></a>4. Run the client subscriber program</h2>
+<h3 id="4-run-the-client-subscriber-program"><a name="4-run-the-client-subscriber-program" class="plugin-anchor" href="#4-run-the-client-subscriber-program"><i class="fa fa-link" aria-hidden="true"></i></a>4. Run the client subscriber program</h3>
 <pre class="language-"><code class="lang-sh">% go run nats-sub.go <span class="token operator">&lt;</span>subject<span class="token operator">&gt;</span>
 </code></pre>
 <p>Where <code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>subject</span><span class="token punctuation">&gt;</span></span></code> is a subject to listen on. A valid subject is a string that is unique in the system.</p>
@@ -2361,12 +2361,12 @@ digraph nats_pub_sub {
 <pre class="language-"><code class="lang-sh">% go run nats-sub.go msg.test
 </code></pre>
 <p>You should see the message: <em>Listening on [msg.test]</em></p>
-<h2 id="5-start-another-shell-or-command-prompt-session"><a name="5-start-another-shell-or-command-prompt-session" class="plugin-anchor" href="#5-start-another-shell-or-command-prompt-session"><i class="fa fa-link" aria-hidden="true"></i></a>5. Start another shell or command prompt session</h2>
+<h3 id="5-start-another-shell-or-command-prompt-session"><a name="5-start-another-shell-or-command-prompt-session" class="plugin-anchor" href="#5-start-another-shell-or-command-prompt-session"><i class="fa fa-link" aria-hidden="true"></i></a>5. Start another shell or command prompt session</h3>
 <p>You will use this session to run a NATS publisher client.</p>
 <h2 id="6-cd-to-the-examples-directory"><a name="6-cd-to-the-examples-directory" class="plugin-anchor" href="#6-cd-to-the-examples-directory"><i class="fa fa-link" aria-hidden="true"></i></a>6. CD to the examples directory</h2>
 <pre class="language-"><code class="lang-sh">% <span class="token function">cd</span> <span class="token variable">$GOPATH</span>/src/github.com/nats-io/nats/examples
 </code></pre>
-<h2 id="7-publish-a-nats-message"><a name="7-publish-a-nats-message" class="plugin-anchor" href="#7-publish-a-nats-message"><i class="fa fa-link" aria-hidden="true"></i></a>7. Publish a NATS message</h2>
+<h3 id="7-publish-a-nats-message"><a name="7-publish-a-nats-message" class="plugin-anchor" href="#7-publish-a-nats-message"><i class="fa fa-link" aria-hidden="true"></i></a>7. Publish a NATS message</h3>
 <pre class="language-"><code class="lang-sh">% go run nats-pub.go <span class="token operator">&lt;</span>subject<span class="token operator">&gt;</span> <span class="token operator">&lt;</span>message<span class="token operator">&gt;</span>
 </code></pre>
 <p>Where <code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>subject</span><span class="token punctuation">&gt;</span></span></code> is the subject name and <code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>message</span><span class="token punctuation">&gt;</span></span></code> is the text to publish.</p>
@@ -2376,41 +2376,41 @@ digraph nats_pub_sub {
 <p>or</p>
 <pre class="language-"><code class="lang-sh">% go run nats-pub.go msg.test <span class="token string">&quot;NATS MESSAGE&quot;</span>
 </code></pre>
-<h2 id="8-verify-message-publication-and-receipt"><a name="8-verify-message-publication-and-receipt" class="plugin-anchor" href="#8-verify-message-publication-and-receipt"><i class="fa fa-link" aria-hidden="true"></i></a>8. Verify message publication and receipt</h2>
+<h3 id="8-verify-message-publication-and-receipt"><a name="8-verify-message-publication-and-receipt" class="plugin-anchor" href="#8-verify-message-publication-and-receipt"><i class="fa fa-link" aria-hidden="true"></i></a>8. Verify message publication and receipt</h3>
 <p>You should see that the publisher sends the message: <em>Published [msg.test] : &apos;NATS MESSAGE&apos;</em></p>
 <p>And that the subscriber receives the message: <em>[#1] Received on [msg.test]: &apos;NATS MESSAGE&apos;</em></p>
 <p>Note that if the receiver does not get the message, check that you are using the same subject name for the publisher and the subscriber.</p>
-<h2 id="9-publish-another-message"><a name="9-publish-another-message" class="plugin-anchor" href="#9-publish-another-message"><i class="fa fa-link" aria-hidden="true"></i></a>9. Publish another message</h2>
+<h3 id="9-publish-another-message"><a name="9-publish-another-message" class="plugin-anchor" href="#9-publish-another-message"><i class="fa fa-link" aria-hidden="true"></i></a>9. Publish another message</h3>
 <pre class="language-"><code class="lang-sh">% go run nats-pub.go msg.test <span class="token string">&quot;NATS MESSAGE 2&quot;</span>
 </code></pre>
 <p>You should see that the subscriber receive message 2. Note that the message count is incremented each time your subscribing client receives a message on that subject:</p>
-<h2 id="10-start-another-shell-or-command-prompt-session"><a name="10-start-another-shell-or-command-prompt-session" class="plugin-anchor" href="#10-start-another-shell-or-command-prompt-session"><i class="fa fa-link" aria-hidden="true"></i></a>10. Start another shell or command prompt session</h2>
+<h3 id="10-start-another-shell-or-command-prompt-session"><a name="10-start-another-shell-or-command-prompt-session" class="plugin-anchor" href="#10-start-another-shell-or-command-prompt-session"><i class="fa fa-link" aria-hidden="true"></i></a>10. Start another shell or command prompt session</h3>
 <p>You will use this session to run a second NATS subscriber.</p>
-<h2 id="11-cd-to-the-examples-directory"><a name="11-cd-to-the-examples-directory" class="plugin-anchor" href="#11-cd-to-the-examples-directory"><i class="fa fa-link" aria-hidden="true"></i></a>11. CD to the examples directory</h2>
+<h3 id="11-cd-to-the-examples-directory"><a name="11-cd-to-the-examples-directory" class="plugin-anchor" href="#11-cd-to-the-examples-directory"><i class="fa fa-link" aria-hidden="true"></i></a>11. CD to the examples directory</h3>
 <pre class="language-"><code class="lang-sh">% <span class="token function">cd</span> <span class="token variable">$GOPATH</span>/src/github.com/nats-io/nats/examples
 </code></pre>
-<h2 id="12-subscribe-to-the-message"><a name="12-subscribe-to-the-message" class="plugin-anchor" href="#12-subscribe-to-the-message"><i class="fa fa-link" aria-hidden="true"></i></a>12. Subscribe to the message</h2>
+<h3 id="12-subscribe-to-the-message"><a name="12-subscribe-to-the-message" class="plugin-anchor" href="#12-subscribe-to-the-message"><i class="fa fa-link" aria-hidden="true"></i></a>12. Subscribe to the message</h3>
 <pre class="language-"><code class="lang-sh">% go run nats-sub.go msg.test
 </code></pre>
-<h2 id="13-publish-another-message-using-the-publisher-client"><a name="13-publish-another-message-using-the-publisher-client" class="plugin-anchor" href="#13-publish-another-message-using-the-publisher-client"><i class="fa fa-link" aria-hidden="true"></i></a>13. Publish another message using the publisher client</h2>
+<h3 id="13-publish-another-message-using-the-publisher-client"><a name="13-publish-another-message-using-the-publisher-client" class="plugin-anchor" href="#13-publish-another-message-using-the-publisher-client"><i class="fa fa-link" aria-hidden="true"></i></a>13. Publish another message using the publisher client</h3>
 <pre class="language-"><code class="lang-sh">% go run nats-pub.go msg.test <span class="token string">&quot;NATS MESSAGE 3&quot;</span>
 </code></pre>
 <p>Verify that both subscribing clients receive the message.</p>
-<h2 id="14-start-another-shell-or-command-prompt-session"><a name="14-start-another-shell-or-command-prompt-session" class="plugin-anchor" href="#14-start-another-shell-or-command-prompt-session"><i class="fa fa-link" aria-hidden="true"></i></a>14. Start another shell or command prompt session</h2>
+<h3 id="14-start-another-shell-or-command-prompt-session"><a name="14-start-another-shell-or-command-prompt-session" class="plugin-anchor" href="#14-start-another-shell-or-command-prompt-session"><i class="fa fa-link" aria-hidden="true"></i></a>14. Start another shell or command prompt session</h3>
 <p>You will use this session to run a third NATS subscriber.</p>
-<h2 id="15-cd-to-the-examples-directory"><a name="15-cd-to-the-examples-directory" class="plugin-anchor" href="#15-cd-to-the-examples-directory"><i class="fa fa-link" aria-hidden="true"></i></a>15. CD to the examples directory</h2>
+<h3 id="15-cd-to-the-examples-directory"><a name="15-cd-to-the-examples-directory" class="plugin-anchor" href="#15-cd-to-the-examples-directory"><i class="fa fa-link" aria-hidden="true"></i></a>15. CD to the examples directory</h3>
 <pre class="language-"><code class="lang-sh">% <span class="token function">cd</span> <span class="token variable">$GOPATH</span>/src/github.com/nats-io/nats/examples
 </code></pre>
-<h2 id="16-subscribe-to-a-different-message"><a name="16-subscribe-to-a-different-message" class="plugin-anchor" href="#16-subscribe-to-a-different-message"><i class="fa fa-link" aria-hidden="true"></i></a>16. Subscribe to a different message</h2>
+<h3 id="16-subscribe-to-a-different-message"><a name="16-subscribe-to-a-different-message" class="plugin-anchor" href="#16-subscribe-to-a-different-message"><i class="fa fa-link" aria-hidden="true"></i></a>16. Subscribe to a different message</h3>
 <pre class="language-"><code class="lang-sh">% go run nats-sub.go msg.test.new
 </code></pre>
 <p>All the but last subscriber receives the message. Why? Because that subscriber is not listening on the message subject used by the publisher.</p>
-<h2 id="17-update-the-last-subscriber-to-use-a-wildcard"><a name="17-update-the-last-subscriber-to-use-a-wildcard" class="plugin-anchor" href="#17-update-the-last-subscriber-to-use-a-wildcard"><i class="fa fa-link" aria-hidden="true"></i></a>17. Update the last subscriber to use a wildcard</h2>
-<p>NATS supports the use of wildcard characters for message subscribers. (You cannot publish a message using a wildcard subject.)</p>
+<h3 id="17-update-the-last-subscriber-to-use-a-wildcard"><a name="17-update-the-last-subscriber-to-use-a-wildcard" class="plugin-anchor" href="#17-update-the-last-subscriber-to-use-a-wildcard"><i class="fa fa-link" aria-hidden="true"></i></a>17. Update the last subscriber to use a wildcard</h3>
+<p>NATS supports the use of wildcard characters for message subscribers. You cannot publish a message using a wildcard subject.</p>
 <p>Change the last subscriber the listen on msg.* and run it:</p>
 <pre class="language-"><code class="lang-sh">% go run nats-sub.go msg.*
 </code></pre>
-<h2 id="18-publish-another-message"><a name="18-publish-another-message" class="plugin-anchor" href="#18-publish-another-message"><i class="fa fa-link" aria-hidden="true"></i></a>18. Publish another message</h2>
+<h3 id="18-publish-another-message"><a name="18-publish-another-message" class="plugin-anchor" href="#18-publish-another-message"><i class="fa fa-link" aria-hidden="true"></i></a>18. Publish another message</h3>
 <p>This time, all three subscribing clients should receive the message.</p>
 
                                 
@@ -2455,7 +2455,7 @@ digraph nats_pub_sub {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Explore NATS Pub/Sub","level":"3.8.1","depth":2,"next":{"title":"Explore NATS Request/Reply","level":"3.8.2","depth":2,"path":"developer/tutorials/reqreply.md","ref":"developer/tutorials/reqreply.md","articles":[]},"previous":{"title":"Tutorials","level":"3.8","depth":1,"path":"developer/tutorials/intro.md","ref":"developer/tutorials/intro.md","articles":[{"title":"Explore NATS Pub/Sub","level":"3.8.1","depth":2,"path":"developer/tutorials/pubsub.md","ref":"developer/tutorials/pubsub.md","articles":[]},{"title":"Explore NATS Request/Reply","level":"3.8.2","depth":2,"path":"developer/tutorials/reqreply.md","ref":"developer/tutorials/reqreply.md","articles":[]},{"title":"Explore NATS Queueing","level":"3.8.3","depth":2,"path":"developer/tutorials/queues.md","ref":"developer/tutorials/queues.md","articles":[]},{"title":"Advanced Connect and Custom Dialer in Go","level":"3.8.4","depth":2,"path":"developer/tutorials/custom_dialer.md","ref":"developer/tutorials/custom_dialer.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"developer/tutorials/pubsub.md","mtime":"2019-05-29T16:43:54.759Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-29T16:45:48.381Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Explore NATS Pub/Sub","level":"3.8.1","depth":2,"next":{"title":"Explore NATS Request/Reply","level":"3.8.2","depth":2,"path":"developer/tutorials/reqreply.md","ref":"developer/tutorials/reqreply.md","articles":[]},"previous":{"title":"Tutorials","level":"3.8","depth":1,"path":"developer/tutorials/intro.md","ref":"developer/tutorials/intro.md","articles":[{"title":"Explore NATS Pub/Sub","level":"3.8.1","depth":2,"path":"developer/tutorials/pubsub.md","ref":"developer/tutorials/pubsub.md","articles":[]},{"title":"Explore NATS Request/Reply","level":"3.8.2","depth":2,"path":"developer/tutorials/reqreply.md","ref":"developer/tutorials/reqreply.md","articles":[]},{"title":"Explore NATS Queueing","level":"3.8.3","depth":2,"path":"developer/tutorials/queues.md","ref":"developer/tutorials/queues.md","articles":[]},{"title":"Advanced Connect and Custom Dialer in Go","level":"3.8.4","depth":2,"path":"developer/tutorials/custom_dialer.md","ref":"developer/tutorials/custom_dialer.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["prism","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"developer/tutorials/pubsub.md","mtime":"2019-05-30T17:42:13.281Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-30T17:42:48.393Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
