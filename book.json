@@ -4,6 +4,7 @@
   "author": "The NATS Maintainers",
   "plugins" : [
     "prism",
+    "-sharing",
     "-highlight",
     "include-html",
     "toggle-chapters",
