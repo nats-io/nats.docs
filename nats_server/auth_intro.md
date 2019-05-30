@@ -21,13 +21,13 @@ The `authorization` block provides _authentication_ configuration as well as _au
 | [`token`](tokens.md) | Specifies a global token that can be used to authenticate to the server (exclusive of user and password) |
 | [`user`](username_password.md) | Specifies a single _global_ user name for clients to the server (exclusive of token) |
 | [`password`](username_password.md) | Specifies a single _global_ password for clients to the server (exclusive of `token`) |
-| `users` | A list of `user` configuration maps |
+| `users` | A list of user configuration maps |
 | `timeout` | Maximum number of seconds to wait for client authentication |
 
 For multiple username and password credentials, specify a `users` list.
 
 
-### User Configuration Map
+## User Configuration Map
 
 A `user` configuration map specifies credentials and permissions options for a single user:
 

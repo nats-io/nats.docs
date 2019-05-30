@@ -1,3 +1,4 @@
+## Docker Swarm
 
 #### Step 1:
 Create an overlay network for the cluster (in this example, `nats-cluster-example`), and instantiate an initial NATS server.

@@ -15,7 +15,7 @@ digraph nats_pub_sub {
     pub1 sub1 non_active
   }
 
-  nats-server [shape="box", label="NATS", width=8];
+  gnatsd [shape="box", label="NATS", width=8];
 
   sub2 [shape="box", label="SUB\ncom.msg.one"];
   sub3 [shape="box", label="SUB\ncom.msg.two"];
@@ -26,13 +26,13 @@ digraph nats_pub_sub {
     sub2 sub3 sub4
   }
 
-  pub1 -> nats-server [penwidth=2];
-  nats-server -> sub1 [penwidth=2];
-  nats-server -> non_active [style=dashed color=red arrowhead="none"];
+  pub1 -> gnatsd [penwidth=2];
+  gnatsd -> sub1 [penwidth=2];
+  gnatsd -> non_active [style=dashed color=red arrowhead="none"];
 
-  nats-server -> sub2 [penwidth=2];
-  nats-server -> sub3 [style=dashed color=red arrowhead="none"];
-  nats-server -> sub4 [penwidth=2];
+  gnatsd -> sub2 [penwidth=2];
+  gnatsd -> sub3 [style=dashed color=red arrowhead="none"];
+  gnatsd -> sub4 [penwidth=2];
 }
 </code></div>
 
@@ -40,7 +40,7 @@ digraph nats_pub_sub {
 
 Go and the NATS server should be installed.
 
-## 1. Start the NATS server
+### 1. Start the NATS server
 
 ```sh
 % nats-server
@@ -56,17 +56,17 @@ When the server starts successfully, you will see the following messages:
 
 The NATS server listens for client connections on TCP Port 4222.
 
-## 2. Start a shell or command prompt session
+### 2. Start a shell or command prompt session
 
 You will use this session to run an example NATS client subscriber program.
 
-## 3. CD to the Go client examples directory
+### 3. CD to the Go client examples directory
 
 ```sh
 % cd $GOPATH/src/github.com/nats-io/nats/examples
 ```
 
-## 4. Run the client subscriber program
+### 4. Run the client subscriber program
 
 ```sh
 % go run nats-sub.go <subject>
@@ -82,7 +82,7 @@ For example:
 
 You should see the message: *Listening on [msg.test]*
 
-## 5. Start another shell or command prompt session
+### 5. Start another shell or command prompt session
 
 You will use this session to run a NATS publisher client.
 
@@ -92,7 +92,7 @@ You will use this session to run a NATS publisher client.
 % cd $GOPATH/src/github.com/nats-io/nats/examples
 ```
 
-## 7. Publish a NATS message
+### 7. Publish a NATS message
 
 ```sh
 % go run nats-pub.go <subject> <message>
@@ -112,7 +112,7 @@ or
 % go run nats-pub.go msg.test "NATS MESSAGE"
 ```
 
-## 8. Verify message publication and receipt
+### 8. Verify message publication and receipt
 
 You should see that the publisher sends the message: *Published [msg.test] : 'NATS MESSAGE'*
 
@@ -120,7 +120,7 @@ And that the subscriber receives the message: *[#1] Received on [msg.test]: 'NAT
 
 Note that if the receiver does not get the message, check that you are using the same subject name for the publisher and the subscriber.
 
-## 9. Publish another message
+### 9. Publish another message
 
 ```sh
 % go run nats-pub.go msg.test "NATS MESSAGE 2"
@@ -128,23 +128,23 @@ Note that if the receiver does not get the message, check that you are using the
 
 You should see that the subscriber receive message 2. Note that the message count is incremented each time your subscribing client receives a message on that subject:
 
-## 10. Start another shell or command prompt session
+### 10. Start another shell or command prompt session
 
 You will use this session to run a second NATS subscriber.
 
-## 11. CD to the examples directory
+### 11. CD to the examples directory
 
 ```sh
 % cd $GOPATH/src/github.com/nats-io/nats/examples
 ```
 
-## 12. Subscribe to the message
+### 12. Subscribe to the message
 
 ```sh
 % go run nats-sub.go msg.test
 ```
 
-## 13. Publish another message using the publisher client
+### 13. Publish another message using the publisher client
 
 ```sh
 % go run nats-pub.go msg.test "NATS MESSAGE 3"
@@ -152,17 +152,17 @@ You will use this session to run a second NATS subscriber.
 
 Verify that both subscribing clients receive the message.
 
-## 14. Start another shell or command prompt session
+### 14. Start another shell or command prompt session
 
 You will use this session to run a third NATS subscriber.
 
-## 15. CD to the examples directory
+### 15. CD to the examples directory
 
 ```sh
 % cd $GOPATH/src/github.com/nats-io/nats/examples
 ```
 
-## 16. Subscribe to a different message
+### 16. Subscribe to a different message
 
 ```sh
 % go run nats-sub.go msg.test.new
@@ -170,9 +170,9 @@ You will use this session to run a third NATS subscriber.
 
 All the but last subscriber receives the message. Why? Because that subscriber is not listening on the message subject used by the publisher.
 
-## 17. Update the last subscriber to use a wildcard
+### 17. Update the last subscriber to use a wildcard
 
-NATS supports the use of wildcard characters for message subscribers. (You cannot publish a message using a wildcard subject.)
+NATS supports the use of wildcard characters for message subscribers. You cannot publish a message using a wildcard subject.
 
 Change the last subscriber the listen on msg.* and run it:
 
@@ -180,6 +180,6 @@ Change the last subscriber the listen on msg.* and run it:
 % go run nats-sub.go msg.*
 ```
 
-## 18. Publish another message
+### 18. Publish another message
 
 This time, all three subscribing clients should receive the message.

@@ -6,23 +6,23 @@ NATS supports request/reply messaging. In this tutorial you explore how to excha
 
 Go and the NATS server should be installed.
 
-## 1. Start the NATS server
+### 1. Start the NATS server
 
 ```sh
 % nats-server
 ```
 
-## 2. Start two terminal sessions
+### 2. Start two terminal sessions
 
 You will use these sessions to run the NATS request and reply clients.
 
-## 3. Change to the examples directory
+### 3. Change to the examples directory
 
 ```sh
 % cd $GOPATH/src/github.com/nats-io/nats/examples
 ```
 
-## 4. In one terminal, run the reply client listener
+### 4. In one terminal, run the reply client listener
 
 ```sh
 % go run nats-rply.go foo "this is my response"
@@ -30,7 +30,7 @@ You will use these sessions to run the NATS request and reply clients.
 
 You should see the message `Receiver is listening`, and that the NATS receiver client is listening on the "help.please" subject. The reply client acts as a receiver, listening for message requests. In NATS, the receiver is a subscriber.
 
-## 5. In the other terminal, run the request client
+### 5. In the other terminal, run the request client
 
 ```sh
 % go run nats-req.go foo "request payload"

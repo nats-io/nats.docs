@@ -1,6 +1,6 @@
-# Username and Password
+## Username and Password
 
-You can authenticate one or more clients using username and passwords; this enables you to have greater control over the management and issuing of credential secrets.
+You can authenticate one or more clients using username and passwords; this enables you to have greater control over the management and issuance of credential secrets.
 
 For a single user:
 ```
@@ -26,7 +26,7 @@ authorization: {
 }
 ```
 
-## Bcrypted Passwords
+### Bcrypted Passwords
 
 Username/password also supports bcrypted passwords using the [`mkpasswd`](/nats_tools/mkpasswd.md) tool. Simply replace the clear text password with the bcrypted entries:
 
@@ -46,7 +46,7 @@ authorization: {
 }
 ```
 
-## Reloading a Configuration
+### Reloading a Configuration
 
 As you add/remove passwords from the server configuration file, you'll want your changes to take effect. To reload without restarting the server and disconnecting clients, do:
 

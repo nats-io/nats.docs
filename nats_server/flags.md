@@ -1,4 +1,4 @@
-## Flags
+# Flags
 
 
 The NATS server has many flags to customize its behavior without having to write a configuration file.

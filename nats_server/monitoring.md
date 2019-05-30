@@ -1,6 +1,6 @@
 ## Monitoring
 
-To monitor the NATS messaging system, `gnatsd` provides a lightweight HTTP server on a dedicated monitoring port. The monitoring server provides several endpoints, including [varz](#/varz), [connz](#/connz), [routez](#/routez), and [subsz](#/subz). All endpoints return a JSON object.
+To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP server on a dedicated monitoring port. The monitoring server provides several endpoints, including [varz](#/varz), [connz](#/connz), [routez](#/routez), and [subsz](#/subz). All endpoints return a JSON object.
 
 The NATS monitoring endpoints support JSONP and CORS, making it easy to create single page monitoring web applications.
 
@@ -14,14 +14,14 @@ To enable the monitoring server, start the NATS server with the monitoring flag 
 Example:
 
 ```sh
-$ gnatsd -m 8222
+$ nats-server -m 8222
 [4528] 2015/08/19 20:09:58.572939 [INF] Starting gnatsd version 0.8.0
 [4528] 2015/08/19 20:09:58.573007 [INF] Starting http monitor on port 8222
 [4528] 2015/08/19 20:09:58.573071 [INF] Listening for client connections on 0.0.0.0:4222
 [4528] 2015/08/19 20:09:58.573090 [INF] gnatsd is ready</td>
 ```
 
-To test, run `gnatsd -m 8222`, then go to <a href="http://localhost:8222/" target="_blank">http://localhost:8222/</a>
+To test, run `nats-server -m 8222`, then go to <a href="http://localhost:8222/" target="_blank">http://localhost:8222/</a>
 
 ## Monitoring endpoints
 
@@ -182,4 +182,4 @@ $.getJSON('http://localhost:8222/connz?callback=?', function(data) {
 
 ## Monitoring Tools
 
-In addition to writing custom monitoring tools, you can nats-server into Prometheus. The [Prometheus NATS Exporter](https://github.com/nats-io/prometheus-nats-exporter) allows you to configure the metrics you want to observe and store in Prometheous. There's a sample [Graphana](https://graphana.com) dashboard that you can use to visualize the server metrics.
+In addition to writing custom monitoring tools, you can nats-server into Prometheus. The [Prometheus NATS Exporter](https://github.com/nats-io/prometheus-nats-exporter) allows you to configure the metrics you want to observe and store in Prometheous. There's a sample [Grafana](https://grafana.com) dashboard that you can use to visualize the server metrics.

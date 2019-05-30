@@ -1,4 +1,4 @@
-## NATS Clients
+# NATS Clients
 
 The nats-server doesn't come bundled with any clients. But most client libraries come with tools that allow you to publish, subscribe, send requests and reply messages.
 

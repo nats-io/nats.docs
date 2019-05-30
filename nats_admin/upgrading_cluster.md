@@ -15,7 +15,7 @@ nats-server -D -p 4222 -cluster nats://localhost:6222 -routes nats://localhost:6
 The command above is starting nats-server with debug output enabled, listening for clients on port 4222, and accepting cluster connections on port 6222. The `-routes` option specifies a list of nats URLs where the server will attempt to connect
 to other servers. These URLs define the cluster ports enabled on the cluster peers.
 
-Keen readers will notice a self-route. Gnatsd will ignore the self-route, but it makes for a single consistent configuration for all servers.
+Keen readers will notice a self-route. The NATS server will ignore the self-route, but it makes for a single consistent configuration for all servers.
 
 You will see the server started, we notice it emits some warnings because it cannot connect to 'localhost:6333'. The message more accurately reads:
 
@@ -36,7 +36,7 @@ nats-sub -s nats://localhost:4222 ">"
 
 Nats-sub is a subscriber sample included with all NATS clients. Nats-sub subscribes to a subject and prints out any messages received. You can find the source code to the go version of nats-sub [here)(https://github.com/nats-io/go-nats/tree/master/examples).  After starting the subscriber you should see a message on 'A' that a new client connected.
 
-We have two servers and a client. Time to simulate our rolling upgrade. But wait, before we upgrade 'A,' let's introduce a new server 'T.'  Server 'T' will join the existing cluster while we perform the upgrade. Its sole purpose is to provide an additional place where clients can go besides 'A.'  and ensure we don't end up with a single server serving all the clients after the upgrade procedure. Clients will randomly select a server when connecting unless a special option is provided that disables that functionality (usually called 'DontRandomize' or 'noRandomize'). You can read more about ["Avoiding the Thundering Herd"](https://www.nats.io/documentation/writing_applications/connecting/).
+We have two servers and a client. Time to simulate our rolling upgrade. But wait, before we upgrade 'A,' let's introduce a new server 'T.'  Server 'T' will join the existing cluster while we perform the upgrade. Its sole purpose is to provide an additional place where clients can go besides 'A.'  and ensure we don't end up with a single server serving all the clients after the upgrade procedure. Clients will randomly select a server when connecting unless a special option is provided that disables that functionality (usually called 'DontRandomize' or 'noRandomize'). You can read more about ["Avoiding the Thundering Herd"](/developer/reconnect/random.md/).
 Suffice it to say that clients redistribute themselves about evenly between all servers in the cluster. In our case 1/2 of the clients on 'A' will jump over to 'B' and the remaining half to 'T.'
 
 Let's start our temporary server:

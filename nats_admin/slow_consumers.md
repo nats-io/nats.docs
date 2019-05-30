@@ -18,7 +18,7 @@ When detected at the client, the application is notified and messages are droppe
 
 ## Slow consumers identified in the client
 
-A [client can detect it is a slow consumer](/documentation/writing_applications/advanced#slow-consumers) on a local connection and notify the application through use of the asynchronous error callback.  It is better to catch a slow consumer locally in the client rather than to allow the server to detect this condition.  This example demonstrates how to define and register an asynchronous error handler that will handle slow consumer errors.
+A [client can detect it is a slow consumer](/developer/events/slow.md) on a local connection and notify the application through use of the asynchronous error callback.  It is better to catch a slow consumer locally in the client rather than to allow the server to detect this condition.  This example demonstrates how to define and register an asynchronous error handler that will handle slow consumer errors.
 
 ```go
 func natsErrHandler(nc *nats.Conn, sub *nats.Subscription, natsErr error) {
@@ -64,7 +64,7 @@ The server will also keep count of the number of slow consumer errors encountere
 
 ## Handling slow consumers
 
-Apart from using [NATS streaming](http://nats.io/doc/streaming/nats-streaming-intro/) or optimizing your consuming application, there are a few options available:  scale, meter, or tune NATS to your environment.
+Apart from using [NATS streaming](nats_streaming/intro.md/) or optimizing your consuming application, there are a few options available:  scale, meter, or tune NATS to your environment.
 
 __Scaling with queue subscribers__
 

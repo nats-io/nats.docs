@@ -119,7 +119,7 @@ monitoring and anomaly detection tools.
 NATS 2.0 supports global deployments, allowing for global topologies that
 optimize for WANs while extend to the edge or devices.
 
-### Self healing
+### Self Healing
 
 While self healing features have been part of NATS 1.X releases, we
 ensured they continue to work in global deployments.  These include:
@@ -136,7 +136,7 @@ for seamless rolling upgrades and scaling up or down.
 
 Conceptually, superclusters are clusters of NATS clusters.  Create
 superclusters to deploy a truly global NATS network.  Superclusters use
-a novel spline based technology with a unique apporoach to topology, keeping
+a novel spline based technology with a unique approach to topology, keeping
 one hop semantics and optimizing WAN traffic through optimistic sends with
 interest graph pruning.  Superclusters provide transparent, intelligent support
 for geo-distributed queue subscribers.
@@ -166,7 +166,7 @@ This is __zero configuration disaster recovery__.
 
 ### Leaf Nodes
 
-Leaf nodes are a NATS servers running in a special configuration, allowing
+Leaf nodes are NATS servers running in a special configuration, allowing
 hub and spoke topologies to extend superclusters.
 
 Leaf nodes can also bridge separate security domains. e.g. IoT, mobile, web.

@@ -43,7 +43,7 @@ accounts: {
 > While the name _account_ implies one or more users, it is much simpler and enlightening to think of one account as a messaging container for one application. Users in the account are simply the minimum number of services that must work together to provide some functionality. 
 > In simpler terms, more accounts with few (even one) clients is a better design topology than a large account with many users with complex authorization configuration.
 
-## Exporting and Importing
+### Exporting and Importing
 
 Messaging exchange between different accounts is enabled by _exporting_ streams and services from one account and _importing_ them into another. Each account controls what is exported and imported.
 
@@ -59,7 +59,7 @@ Services are messages your application can consume and act on, enabling other ac
 
 
 
-## Export Configuration Map
+### Export Configuration Map
 
 The export configuration map binds a subject for use as a `service` or `stream` and optionally defines specific accounts that can import the stream or service. Here are the supported configuration properties:
 
@@ -105,7 +105,7 @@ The _source configuration map_ describes an export from a remote account by spec
 | `subject` | The subject under which the stream or service is made accessible to the importing account |
 
 
-## Import Configuration Map
+### Import Configuration Map
 
 An import enables an account to consume streams published by another account or make requests to services implemented by another account. All imports require a corresponding export on the exporting account. Accounts cannot do self-imports.
 

@@ -7,7 +7,7 @@ When connecting to a cluster, there are a few things to think about.
 * The reconnect algorithm (discussed later)
 * Server provided URLs
 
-When a client library first tries to connect it will use the list of URLS provided to the connection options or function. These URLS are checked, usually in order, and the first successful connection is used.
+When a client library first tries to connect it will use the list of URLs provided to the connection options or function. These URLs are checked, usually in order, and the first successful connection is used.
 
 After a client connects to the server, the server may provide a list of URLs for additional known servers. This allows a client to connect to one server and still have other servers available during reconnect.
 

@@ -1,6 +1,6 @@
 # Developing with NATS
 
-Developing with NATS is a combination of distributed application techniques, common NATS features and library specific syntax. As well as using this book for guidance, some of the libraries contain language-familiar formats of their API. For example, the go library has go doc, and the Java library has javadoc.
+Developing with NATS is a combination of distributed application techniques, common NATS features and library specific syntax. As well as using this book for guidance, some of the libraries contain language-familiar formats of their API. For example, the Go library has godoc, and the Java library has javadoc.
 
 | Library | Doc Link |
 | ------------- | ------------- |
