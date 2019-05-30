@@ -1,4 +1,4 @@
-### Windows Service
+## Windows Service
 
 The NATS server supports running as a Windows service. In fact, this is the recommended way of running NATS on Windows. There is currently no installer; users should use `sc.exe` to install the service:
 

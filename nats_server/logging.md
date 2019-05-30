@@ -64,7 +64,7 @@ logtime: false
 log_file: "/tmp/nats-server.log"
 ```
 
-## Log Rotation with logrotate
+### Log Rotation with logrotate
 
 NATS server does not provide tools to manage log files, but it does include mechanisms that make log rotation simple. We can use this mechanism with [logrotate](https://github.com/logrotate/logrotate); a simple standard Linux utility to rotate logs available on most distributions like Debian, Ubuntu, RedHat (CentOS), etc.
 
@@ -93,4 +93,4 @@ The `/var/run/nats-server.pid` file is where NATS server stores the master proce
 
 ## Some Logging Notes
 
-- The NATS Server, in verbose mode, will log the receipt of `UNSUB` messages, but this does not indicate the subscription is gone, only that the message was received. The `DELSUB` message in the log can be used to determine when the actual subscription removal has taken place.
+- The NATS server, in verbose mode, will log the receipt of `UNSUB` messages, but this does not indicate the subscription is gone, only that the message was received. The `DELSUB` message in the log can be used to determine when the actual subscription removal has taken place.

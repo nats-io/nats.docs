@@ -6,4 +6,4 @@ In general, the client will try to connect to all of the servers it knows about,
 
 The list of servers used during reconnect is library dependent, but generally is constructed from the list of servers passed to the connect function/options and the list of servers provided by the most recent connected server.
 
-One, sometimes important, detail is that the server URLS provided to clients by servers will use addresses, while the URLS provided to the connect function will usually be host names. As a result, it is possible, on reconnect, for the same server to be tried multiple times without the client knowing about the match.
+One, sometimes important, detail is that the server URLs provided to clients by servers will use addresses, while the URLs provided to the connect function will usually be host names. As a result, it is possible, on reconnect, for the same server to be tried multiple times without the client knowing about the match.

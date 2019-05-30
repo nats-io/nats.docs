@@ -3,7 +3,7 @@
 
 The NATS server is provided as a Docker image on [Docker Hub](https://hub.docker.com/_/nats/) that you can run using the Docker daemon. The NATS server Docker image is extremely lightweight, coming in under 10 MB in size.
 
-Synadia actively maintains and supports the NATS server Docker image.
+[Synadia](https://synadia.com) actively maintains and supports the NATS server Docker image.
 
 ### Usage
 

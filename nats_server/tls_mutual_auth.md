@@ -26,7 +26,7 @@ Or via the command line:
 
 This option verifies the client's certificate is signed by the CA specified in the `ca_file` option. 
 
-## Mapping Client Certificates To A User
+### Mapping Client Certificates To A User
 
 In addition to verifying that a specified CA issued a client certificate, you can use information encoded in the certificate to authenticate a client. The client wouldn't have to provide or track usernames or passwords.
 
@@ -91,6 +91,6 @@ authorization {
 }
 ```
 
-## TLS Timeout
+### TLS Timeout
 
 [TLS timeout](/nats_server/tls.md#tls-timeout) is described here.

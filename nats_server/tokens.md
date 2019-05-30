@@ -1,4 +1,4 @@
-# Token Authentication
+## Token Authentication
 
 Token authentication is a string that if provided by a client, allows it to connect. It is the most straightforward authentication provided by the NATS server. 
 
@@ -22,7 +22,7 @@ A client can easily connect by specifying the server URL:
 Listening on [>]
 ```
 
-## Bcrypted Tokens
+### Bcrypted Tokens
 
 Tokens can be bcrypted enabling an additional layer of security, as the clear-text version of the token would not be persisted on the server configuration file.
 

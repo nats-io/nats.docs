@@ -35,3 +35,5 @@
 | `cipher_suites` | When set, only the specified TLS cipher suites will be allowed. Values must match golang version used to build the server.  |
 | `curve_preferences` | List of TLS cypher curves to use in order. |
 | `timeout` | TLS handshake timeout in fractional seconds. |
+
+

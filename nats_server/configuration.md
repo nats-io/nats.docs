@@ -1,4 +1,4 @@
-## Configuration File Format
+# Configuration File Format
 
 While the NATS server has many flags that allow for simple testing of features, the NATS server products provide a flexible configuration format that combines the best of traditional formats and newer styles such as JSON and YAML.
 

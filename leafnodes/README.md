@@ -11,7 +11,7 @@ This effectively means that the leaf node clusters with the other server at an a
 	- Subjects that the user is allowed to publish are exported to the cluster. 
 	- Subjects the user is allowed to subscribe to, are imported into the leaf node.
 
-> Leaf Nodes are an important component as a way to bridge traffic between local nNATS Servers you control and servers that are managed by a third-party. Synadia's [NATS Global Service (NGS)](https://www.synadia.com/) allows accounts to use leaf nodes, but gain accessibility to the global network to inexpensively connect geographically distributed servers or small clusters.
+> Leaf Nodes are an important component as a way to bridge traffic between local NATS servers you control and servers that are managed by a third-party. Synadia's [NATS Global Service (NGS)](https://www.synadia.com/) allows accounts to use leaf nodes, but gain accessibility to the global network to inexpensively connect geographically distributed servers or small clusters.
 
 [LeafNode Configuration Options](leafnode_conf.md)
 

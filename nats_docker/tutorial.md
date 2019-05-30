@@ -1,6 +1,6 @@
 ## NATS Docker Tutorial
 
-In this tutorial you run the [NATS server Docker image](https://hub.docker.com/_/nats/). The Docker image provides an instance of the [NATS Server](/README.md). Synadia actively maintains and supports the gnatsd Docker image. The NATS image is only 6 MB in size.
+In this tutorial you run the [NATS server Docker image](https://hub.docker.com/_/nats/). The Docker image provides an instance of the [NATS Server](/README.md). Synadia actively maintains and supports the nats-server Docker image. The NATS image is only 6 MB in size.
 
 **1. Set up Docker.**
 
@@ -8,7 +8,7 @@ See [Get Started with Docker](http://docs.docker.com/mac/started/) for guidance.
 
 The easiest way to run Docker is to use the [Docker Toolbox](http://docs.docker.com/mac/step_one/).
 
-**2. Run the gnatsd Docker image.**
+**2. Run the nats-server Docker image.**
 
 ```sh
 > docker run -p 4222:4222 -p 8222:8222 -p 6222:6222 --name gnatsd -ti nats:latest

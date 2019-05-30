@@ -1,4 +1,4 @@
-## NATS Server Installation
+# NATS Server Installation
 
 NATS philosophy is simplicity. Installation is just decompressing a zip file and copying the binary to an appropriate directory; you can also use your favorite package manager. Here's a list of different ways you can install or run NATS:
 
@@ -11,7 +11,7 @@ NATS philosophy is simplicity. Installation is just decompressing a zip file and
 
 ### Installing via Docker
 
-With docker you can install the server easily without scattering binaries and other artifacts on your system. The only pre-requisite is to [install docker](https://docs.docker.com/install).
+With Docker you can install the server easily without scattering binaries and other artifacts on your system. The only pre-requisite is to [install docker](https://docs.docker.com/install).
 
 ```
 > docker pull nats:latest
@@ -65,7 +65,7 @@ To test your installation (provided the executable is visible to your shell):
 [41634] 2019/05/13 09:42:11.746252 [INF] Server is ready
 ```
 
-### Downloading A Release Build
+### Downloading a Release Build
 
 You can find the latest release of nats-server [here](https://github.com/nats-io/nats-server/releases/latest).
 
@@ -85,7 +85,7 @@ Archive:  nats-server.zip
 
 ```
 
-### Installing from the source
+### Installing From the Source
 
 If you have Go installed, installing the binary is easy:
 

@@ -19,4 +19,4 @@ graph nats {
 }
 </code></div>
 
-NATS core offers an **at most once** quality of service. If a subscriber is not listening on the subject (no subject match), or is not active when the message is sent, the message is not received. This is the same level of guarantee that TCP/IP provides. By default, NATS is a fire-and-forget messaging system. If you need higher levels of service, you can either use NATS Streaming, or build the additional reliability into your client(s) yourself.
+NATS core offers an **at most once** quality of service. If a subscriber is not listening on the subject (no subject match), or is not active when the message is sent, the message is not received. This is the same level of guarantee that TCP/IP provides. By default, NATS is a fire-and-forget messaging system. If you need higher levels of service, you can either use [NATS Streaming](/docs/nats_streaming/intro.md), or build the additional reliability into your client(s) yourself.
