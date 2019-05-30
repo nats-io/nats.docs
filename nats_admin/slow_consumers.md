@@ -64,11 +64,11 @@ The server will also keep count of the number of slow consumer errors encountere
 
 ## Handling slow consumers
 
-Apart from using [NATS streaming](nats_streaming/intro.md/) or optimizing your consuming application, there are a few options available:  scale, meter, or tune NATS to your environment.
+Apart from using [NATS streaming](/nats_streaming/intro.md/) or optimizing your consuming application, there are a few options available:  scale, meter, or tune NATS to your environment.
 
 __Scaling with queue subscribers__
 
-This is ideal if you do not rely on message order.  Ensure your NATS subscription belongs to a [queue group](http://nats.io/documentation/concepts/nats-queueing/), then scale as required by creating more instances of your service or application.  This is a great approach for microservices - each instance of your microservice will receive a portion of the messages to process, and simply add more instances of your service to scale.  No code changes, configuration changes, or downtime whatsoever.
+This is ideal if you do not rely on message order.  Ensure your NATS subscription belongs to a [queue group](/developer/concepts/queue.md/), then scale as required by creating more instances of your service or application.  This is a great approach for microservices - each instance of your microservice will receive a portion of the messages to process, and simply add more instances of your service to scale.  No code changes, configuration changes, or downtime whatsoever.
 
 __Create a subject namespace that can scale__
 
