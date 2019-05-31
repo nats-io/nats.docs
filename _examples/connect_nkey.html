@@ -17,6 +17,11 @@
 	<label for="connect_nkey_js" class="api-lang" data-language="js">JavaScript</label>
 	
 	
+	<input type="radio" id="connect_nkey_py" name="connect_nkey" class="tab">
+	
+	<label for="connect_nkey_py" class="api-lang" data-language="py">Python</label>
+	
+	
 	<input type="radio" id="connect_nkey_ts" name="connect_nkey" class="tab">
 	
 	<label for="connect_nkey_ts" class="api-lang" data-language="ts">TypeScript</label>
@@ -85,6 +90,24 @@ let nc = NATS.connect({
         return sk.sign(nonce);
     }
 });
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="connect_nkey_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/connect_nkey.py#L5-20"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc = NATS()
+
+async def error_cb(e):
+    print(&#34;Error:&#34;, e)
+
+await nc.connect(&#34;nats://localhost:4222&#34;,
+                 nkeys_seed=&#34;./path/to/nkeys/user.nk&#34;,
+                 error_cb=error_cb,
+                 )
+
+# Do something with the connection
+
+await nc.close()
+
 </code></pre>
 	</div>
 	

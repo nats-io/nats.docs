@@ -2348,6 +2348,11 @@
 	<label for="connect_nkey_js" class="api-lang" data-language="js">JavaScript</label>
 	
 	
+	<input type="radio" id="connect_nkey_py" name="connect_nkey" class="tab">
+	
+	<label for="connect_nkey_py" class="api-lang" data-language="py">Python</label>
+	
+	
 	<input type="radio" id="connect_nkey_ts" name="connect_nkey" class="tab">
 	
 	<label for="connect_nkey_ts" class="api-lang" data-language="ts">TypeScript</label>
@@ -2420,6 +2425,24 @@ nc<span class="token punctuation">.</span><span class="token function">close</sp
 	</div>
 	
 	<div class="tab__content">
+	<pre id="connect_nkey_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/connect_nkey.py#L5-20"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc <span class="token operator">=</span> NATS<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">error_cb</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;Error:&quot;</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span>
+
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">&quot;nats://localhost:4222&quot;</span><span class="token punctuation">,</span>
+                 nkeys_seed<span class="token operator">=</span><span class="token string">&quot;./path/to/nkeys/user.nk&quot;</span><span class="token punctuation">,</span>
+                 error_cb<span class="token operator">=</span>error_cb<span class="token punctuation">,</span>
+                 <span class="token punctuation">)</span>
+
+<span class="token comment"># Do something with the connection</span>
+
+<span class="token keyword">await</span> nc<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
 	<pre id="connect_nkey_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/auth_examples.ts#L89-101"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token comment">// seed should be stored in a file and treated like a secret</span>
 <span class="token keyword">const</span> seed <span class="token operator">=</span> <span class="token string">&apos;SUAEL6GG2L2HIF7DUGZJGMRUFKXELGGYFMHF76UO2AYBG3K4YLWR3FKC2Q&apos;</span><span class="token punctuation">;</span>
 
@@ -2477,7 +2500,7 @@ nc<span class="token punctuation">.</span><span class="token function">close</sp
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Authenticating with an NKey","level":"3.4.3","depth":2,"next":{"title":"Authenticating with a Credentials File","level":"3.4.4","depth":2,"path":"developer/security/creds.md","ref":"developer/security/creds.md","articles":[]},"previous":{"title":"Authenticating with a Token","level":"3.4.2","depth":2,"path":"developer/security/token.md","ref":"developer/security/token.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"anchors":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"developer/security/nkey.md","mtime":"2019-05-31T18:06:28.937Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-31T18:29:35.398Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Authenticating with an NKey","level":"3.4.3","depth":2,"next":{"title":"Authenticating with a Credentials File","level":"3.4.4","depth":2,"path":"developer/security/creds.md","ref":"developer/security/creds.md","articles":[]},"previous":{"title":"Authenticating with a Token","level":"3.4.2","depth":2,"path":"developer/security/token.md","ref":"developer/security/token.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"anchors":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"developer/security/nkey.md","mtime":"2019-05-31T18:06:28.937Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-31T22:29:00.140Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
@@ -2890,6 +2913,15 @@ nc<span class="token punctuation">.</span><span class="token function">close</sp
         float: left !important;
     }
 </style>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111730698-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+
+ gtag('config', 'UA-111730698-1');
+</script>
 
         
     <script src="../../gitbook/gitbook.js"></script>
