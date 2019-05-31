@@ -74,11 +74,14 @@ nc.close();
 	</div>
 	
 	<div class="tab__content">
-	<pre id="connect_nkey_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/auth_examples.js#L122-131"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = NATS.connect({
+	<pre id="connect_nkey_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/auth_examples.js#L119-131"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// seed should be stored in a file and treated like a secret
+const seed = &#39;SUAEL6GG2L2HIF7DUGZJGMRUFKXELGGYFMHF76UO2AYBG3K4YLWR3FKC2Q&#39;;
+
+let nc = NATS.connect({
     url: server.nats,
-    nkey: uPub,
+    nkey: &#39;UD6OU4D3CIOGIDZVL4ANXU3NWXOW5DCDE2YPZDBHPBXCVKHSODUA4FKI&#39;,
     sigCB: function (nonce) {
-        const sk = nkeys.fromSeed(Buffer.from(uSeed));
+        const sk = nkeys.fromSeed(Buffer.from(seed));
         return sk.sign(nonce);
     }
 });
@@ -86,11 +89,14 @@ nc.close();
 	</div>
 	
 	<div class="tab__content">
-	<pre id="connect_nkey_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/auth_examples.ts#L92-101"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = await connect({
+	<pre id="connect_nkey_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/auth_examples.ts#L89-101"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// seed should be stored in a file and treated like a secret
+const seed = &#39;SUAEL6GG2L2HIF7DUGZJGMRUFKXELGGYFMHF76UO2AYBG3K4YLWR3FKC2Q&#39;;
+
+let nc = await connect({
     url: server.nats,
-    nkey: uPub,
+    nkey: &#39;UD6OU4D3CIOGIDZVL4ANXU3NWXOW5DCDE2YPZDBHPBXCVKHSODUA4FKI&#39;,
     nonceSigner: function (nonce) {
-        const sk = fromSeed(Buffer.from(uSeed));
+        const sk = fromSeed(Buffer.from(seed));
         return sk.sign(Buffer.from(nonce));
     }
 });
