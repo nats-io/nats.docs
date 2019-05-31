@@ -119,6 +119,7 @@
 * [nats-account-server](nats_tools/nas/README.md)
   * [Basics](nats_tools/nas/nas_conf.md)
   * [Inspecting JWTs](nats_tools/nas/inspecting_jwts.md)
+  * [Directory Store](nats_tools/nas/dir_store.md)
   * [Memory Resolver](nats_tools/nas/mem_resolver.md)
 * [nats-top](nats_tools/nats_top/README.md)
   * [Tutorial](nats_tools/nats_top/tutorial.md)
