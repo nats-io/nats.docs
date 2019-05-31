@@ -1,3 +1,6 @@
+
+<a href="https://nats.io"><img src="nats-horizontal-color.png" width="350" height="90" title="NATS Logo">
+</a>
 # Introduction
 
 ## The Importance of Messaging
