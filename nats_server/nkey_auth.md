@@ -61,10 +61,4 @@ const nc = NATS.connect({
 
 The client provides a function that it uses to parse the seed (the private key) and sign the connection challenge.
 
-Other NATS tooling such as `nats-pub` and `nats-sub` can directly use nkeys:
-
-```text
-nats-sub -nkey /path/to/file/storing/seed ">"
-```
-
 
