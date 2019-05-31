@@ -1,9 +1,7 @@
 
 <a href="https://nats.io"><img src="nats-horizontal-color.png" width="350" height="90" title="NATS Logo">
 </a>
-# Introduction
-
-## The Importance of Messaging
+# The Importance of Messaging
 
 Developing and deploying applications that communicate in distributed systems
 can be complex and difficult.  A communication infrastructure should provide
@@ -14,7 +12,7 @@ applications.  This can drive services/micro-services based workloads and take
 the place of things like a service mesh, and also drive observability, all
 from the same technology.
 
-### Distributed Computing Needs of Today
+## Distributed Computing Needs of Today
 
 A modern messaging system needs to support multiple communication patterns, be
 secure by default, support multiple qualities of service, and provide secure
@@ -44,7 +42,7 @@ about a distributed communication system.
 * Client support for over 30 different programming languages
 * Cloud Native, a CNCF project with Kubernetes and Prometheus integrations
 
-### Use Cases
+## Use Cases
 
 NATS can run anywhere, from large servers and cloud instances, through edge
 gateways and even IoT devices.  Use cases for NATS include:
