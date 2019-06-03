@@ -1,6 +1,6 @@
 ## Store Notifications
 
-The `nats-account-server` can notify a nats-server about JWT updates, enabling the `nats-server` to update itself to the newly updated JWT.
+The `nats-account-server` can notify a nats-server about JWT updates, enabling the NATS server to update itself to the newly updated JWT.
 
 To push notifications, the nats-account-server makes use of [system accounts](/sys_accounts/README.md).
 
@@ -33,9 +33,9 @@ The `nats` section:
 
 When the account server starts:
 
-- It makes a connection to the nats server using the `usercredentials` of the system account.
+- It makes a connection to the NATS server using the `usercredentials` of the system account.
 
-The nats-server configuration looks like:
+The NATS server configuration looks like:
 
 ```
 operator: /users/synadia/.nsc/nats/AAA/AAA.jwt
@@ -78,7 +78,7 @@ The nats-account-server has to be running before that nats-server starts, as cur
 2019/05/31 18:00:27.331223 [ERR] will try to connect again in 1000 milliseconds
 ```
 
-The nats-server:
+Then start the NATS server:
 
 ```
 > nats-server -c /tmp/server.conf
