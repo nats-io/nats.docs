@@ -7,7 +7,7 @@
 | `host` | Interface where the gateway will listen for incomming gateway connections. |
 | `listen` | Combines `host` and `port` as `<host>:<port>` |
 | `name` | Name for this cluster, all gateways belonging to the same cluster, should specify the same name. |
-| `no_advertise | if `true` the leafnode shouldn't be advertised. |
+| `no_advertise` | if `true` the leafnode shouldn't be advertised. |
 | `port` | Port where the gateway will listen for incomming gateway connections. |
 | `remotes` | List of `remote` entries specifying servers where leafnode client connection can be made. |
 | `tls` | TLS configuration block (same as other nats-server `tls` configuration). |

@@ -55,7 +55,7 @@ Success! - added user "TA" to "A"
 
 The `nsc` tool can generate a configuration file automatically. You provide a path to the server configuration and operator jwt. The `nsc` tool will copy the operator JWT to the file specified, and generate the server config for you:
 
-`"
+```
 > nsc generate config --mem-resolver --config-file /tmp/server.conf --operator-jwt /tmp/memory.jwt
 Success!! - generated "/tmp/server.conf"
             generated "/tmp/memory.jwt"
@@ -63,9 +63,9 @@ Success!! - generated "/tmp/server.conf"
 
 If you require additional settings, you may want to consider using [`include`](/nats_server/configuration.md#include-directive) in your main configuration, to reference the generated files. Otherwise, you can start a server and reference the generated configuration:
 
-`"
+```
 > nats-server -c /tmp/server.conf
-`"
+```
 
 You can then [test it](#testing-the-configuration).
 
@@ -81,7 +81,7 @@ For the configuration you'll need:
 
 The format of the file is:
 
-`"
+```
 operator: <path to the operator jwt>
 resolver: MEMORY
 resolver_preload: {
@@ -89,6 +89,7 @@ resolver_preload: {
     ### add as many accounts as you want
     ...
 }
+```
 
 In this example this translates to:
 
@@ -103,7 +104,7 @@ ACSU3Q6LTLBVLGAQUONAGXJHVNWGSKKAUA7IY5TB4Z7PLEKSR5O6JTGR: eyJ0eXAiOiJqd3QiLCJhbG
 Save the config at server.conf and start the server:
 ```text
 > nats-server -c server.conf
-`"
+```
 
 You can then [test it](#testing-the-configuration).
 
