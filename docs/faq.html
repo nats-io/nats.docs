@@ -66,8 +66,6 @@
     <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="developer/concepts/intro.html" />
-    
     
     <link rel="prev" href="whats_new/whats_new_20.html" />
     
@@ -133,6 +131,19 @@
             
                     
                     FAQ
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <a target="_blank" href="https://nats.io">
+            
+                    
+                    nats.io
             
                 </a>
             
@@ -2375,7 +2386,7 @@
 <h3 id="what-language-is-nats-written-in"><a name="what-language-is-nats-written-in" class="plugin-anchor" href="#what-language-is-nats-written-in"><i class="fa fa-link" aria-hidden="true"></i></a>What language is NATS written in?</h3>
 <p>The NATS server (<code>nats-server</code>) is written in Go. There is client support for a wide variety of languages. Please see the <a href="https://nats.io/download" target="_blank">Download</a> page for more info.</p>
 <h3 id="who-maintains-nats"><a name="who-maintains-nats" class="plugin-anchor" href="#who-maintains-nats"><i class="fa fa-link" aria-hidden="true"></i></a>Who maintains NATS?</h3>
-<p>NATS is sponsored and supported by Synadia, a company founded by Derek Collison. The Synadia team maintain the NATS server, as well as the Go, Ruby, Node.js, C, C#, Java and several other client libraries. Our very active user community also contributes client libraries for several other implementation languages. Please see the <a href="https://github.com/nats-io/nats-site/tree/c42c46a7c6b8669e66e28419887d2f8dd29aa502/download/README.md" target="_blank">download</a> page for the complete list, and links to the relevant source repositories and documentation.</p>
+<p>NATS is sponsored and supported by Synadia, a company founded by Derek Collison. The Synadia team maintain the NATS server, as well as the Go, Ruby, Node.js, C, C#, Java and several other client libraries. Our very active user community also contributes client libraries for several other implementation languages. Please see the <a href="https://nats.io/download" target="_blank">download</a> page for the complete list, and links to the relevant source repositories and documentation.</p>
 <h3 id="what-client-support-exists-for-nats"><a name="what-client-support-exists-for-nats" class="plugin-anchor" href="#what-client-support-exists-for-nats"><i class="fa fa-link" aria-hidden="true"></i></a>What client support exists for NATS?</h3>
 <p>Please see the <a href="https://nats.io/download" target="_blank">Download</a> page for the latest list of Synadia- and community-sponsored NATS clients.</p>
 <h2 id="technical-questions"><a name="technical-questions" class="plugin-anchor" href="#technical-questions"><i class="fa fa-link" aria-hidden="true"></i></a>Technical Questions</h2>
@@ -2397,7 +2408,7 @@
 <p>This form of distributed queueing is done in real time, and messages are not persisted to secondary storage. Further, the distribution is based on interest graphs (subscriptions), so it is not a publisher operation, but instead is controlled entirely by <code>nats-server</code>.</p>
 <h3 id="can-i-list-the-subjects-that-exist-in-my-nats-cluster"><a name="can-i-list-the-subjects-that-exist-in-my-nats-cluster" class="plugin-anchor" href="#can-i-list-the-subjects-that-exist-in-my-nats-cluster"><i class="fa fa-link" aria-hidden="true"></i></a>Can I list the subjects that exist in my NATS cluster?</h3>
 <p>NATS maintains and constantly updates the interest graph (subjects and their subscribers) in real time. Do not think of it as a &quot;directory&quot; that is aggregated over time. The interest graph dynamic, and will change constantly as publishers and subscribers come and go.</p>
-<p>If you are determined to gather this information, it can be indirectly derived at any instant in time by polling the monitoring endpoint for /connz and /routez. See <a href="https://github.com/nats-io/nats-site/tree/c42c46a7c6b8669e66e28419887d2f8dd29aa502/documentation/managing_the_server/monitoring/README.md" target="_blank">Server Monitoring</a> for more information.</p>
+<p>If you are determined to gather this information, it can be indirectly derived at any instant in time by polling the monitoring endpoint for /connz and /routez. See <a href="nats-server/monitoring.md">Server Monitoring</a> for more information.</p>
 <h3 id="does-nats-support-subject-wildcards"><a name="does-nats-support-subject-wildcards" class="plugin-anchor" href="#does-nats-support-subject-wildcards"><i class="fa fa-link" aria-hidden="true"></i></a>Does NATS support subject wildcards?</h3>
 <p>Yes. The valid wildcards are as follows:</p>
 <p>The dot character <code>&apos;.&apos;</code> is the token separator.</p>
@@ -2454,14 +2465,10 @@
 
             
                 
-                <a href="whats_new/whats_new_20.html" class="navigation navigation-prev " aria-label="Previous page: What's New in 2.0">
+                <a href="whats_new/whats_new_20.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: What's New in 2.0">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
-                
-                <a href="developer/concepts/intro.html" class="navigation navigation-next " aria-label="Next page: What is NATS">
-                    <i class="fa fa-angle-right"></i>
-                </a>
                 
             
         
@@ -2470,7 +2477,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"FAQ","level":"1.3","depth":1,"next":{"title":"What is NATS","level":"2.1","depth":1,"path":"developer/concepts/intro.md","ref":"developer/concepts/intro.md","articles":[]},"previous":{"title":"What's New in 2.0","level":"1.2","depth":1,"path":"whats_new/whats_new_20.md","ref":"whats_new/whats_new_20.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"anchors":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"faq.md","mtime":"2019-05-31T18:06:29.017Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-04T14:29:49.333Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"FAQ","level":"1.3","depth":1,"next":{"title":"nats.io","level":"1.4","depth":1,"url":"https://nats.io","ref":"https://nats.io","articles":[]},"previous":{"title":"What's New in 2.0","level":"1.2","depth":1,"path":"whats_new/whats_new_20.md","ref":"whats_new/whats_new_20.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"anchors":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"faq.md","mtime":"2019-06-04T21:00:44.332Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-04T21:01:15.070Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

@@ -140,6 +140,19 @@
             
         </li>
     
+        <li class="chapter " data-level="1.4" >
+            
+                <a target="_blank" href="https://nats.io">
+            
+                    
+                    nats.io
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
         
@@ -2341,7 +2354,7 @@
                                 <section class="normal markdown-section">
                                 
                                 <h2 id="slow-consumers"><a name="slow-consumers" class="plugin-anchor" href="#slow-consumers"><i class="fa fa-link" aria-hidden="true"></i></a>Slow Consumers</h2>
-<p>To support resiliency and high availability, NATS provides built-in mechanisms to automatically prune the registered listener interest graph that is used to keep track of subscribers, including slow consumers and lazy listeners. NATS automatically handles a slow consumer. If a client is not processing messages quick enough, the NATS server cuts it off. To support scaling, NATS provides for auto-pruning of client connections. If a subscriber does not respond to ping requests from the server within the <a href="../nats-protocol/nats-protocol.md#PINGPONG">ping-pong interval</a>, the client is cut off (disconnected). The client will need to have reconnect logic to reconnect with the server.</p>
+<p>To support resiliency and high availability, NATS provides built-in mechanisms to automatically prune the registered listener interest graph that is used to keep track of subscribers, including slow consumers and lazy listeners. NATS automatically handles a slow consumer. If a client is not processing messages quick enough, the NATS server cuts it off. To support scaling, NATS provides for auto-pruning of client connections. If a subscriber does not respond to ping requests from the server within the <a href="../nats-protocol.md#PINGPONG">ping-pong interval</a>, the client is cut off (disconnected). The client will need to have reconnect logic to reconnect with the server.</p>
 <h1 id="slow-consumers"><a name="slow-consumers" class="plugin-anchor" href="#slow-consumers"><i class="fa fa-link" aria-hidden="true"></i></a>Slow Consumers</h1>
 <p>In core NATS, consumers that cannot keep up are handled differently from many other messaging systems:  NATS favors the approach of protecting the system as a whole over accommodating a particular consumer to ensure message delivery.</p>
 <p><strong>What is a slow consumer?</strong></p>
@@ -2450,7 +2463,7 @@ Falling behind with 65536 pending messages on subject <span class="token string"
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Slow Consumers","level":"4.6.2","depth":2,"next":{"title":"Signals","level":"4.6.3","depth":2,"path":"nats_admin/signals.md","ref":"nats_admin/signals.md","articles":[]},"previous":{"title":"Upgrading a Cluster","level":"4.6.1","depth":2,"path":"nats_admin/upgrading_cluster.md","ref":"nats_admin/upgrading_cluster.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"anchors":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_admin/slow_consumers.md","mtime":"2019-05-31T18:06:29.018Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-04T14:29:49.333Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Slow Consumers","level":"4.6.2","depth":2,"next":{"title":"Signals","level":"4.6.3","depth":2,"path":"nats_admin/signals.md","ref":"nats_admin/signals.md","articles":[]},"previous":{"title":"Upgrading a Cluster","level":"4.6.1","depth":2,"path":"nats_admin/upgrading_cluster.md","ref":"nats_admin/upgrading_cluster.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"anchors":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_admin/slow_consumers.md","mtime":"2019-06-04T21:00:44.332Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-04T21:01:15.070Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
