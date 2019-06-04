@@ -6,7 +6,7 @@ NATS philosophy is simplicity. Installation is just decompressing a zip file and
 - [Kubernetes](#installing-on-kubernetes-with-nats-operator)
 - [Package Manager](#installing-via-a-package-manager)
 - [Release Zip](#downloading-a-release-build)
-- [Development Build](installing-from-the-source)
+- [Development Build](#installing-from-the-source)
 
 
 ### Installing via Docker

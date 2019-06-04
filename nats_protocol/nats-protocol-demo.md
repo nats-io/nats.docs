@@ -2,7 +2,7 @@
 
 The virtues of the NATS protocol manifest quickly when you experience how easy it is to use NATS. Because the NATS protocol is text-based, you can use NATS across virtually any platform or language. In the following demo we use [Telnet](https://en.wikipedia.org/wiki/Telnet).
 
-On the wire you can publish and subscribe using a simple [set of protocol commands](/documentation/internals/nats-protocol/).
+On the wire you can publish and subscribe using a simple [set of protocol commands](nats-protocol.md).
 
 ## Instructions
 
