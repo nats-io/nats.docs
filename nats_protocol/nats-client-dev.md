@@ -28,7 +28,7 @@ Probably the best way to learn about implementing a client is to look at one of 
 
 ## Client connection options
 
-Clients can connect in authenticated or unauthenticated mode, as well as verbose mode which enables acknowledgements. See the [protocol documentation](/documentation/internals/nats-protocol/#CONNECT) for details.
+Clients can connect in authenticated or unauthenticated mode, as well as verbose mode which enables acknowledgements. See the [protocol documentation](/nats_protocol/nats-protocol.md#connect) for details.
 
 ## Client authorization
 
