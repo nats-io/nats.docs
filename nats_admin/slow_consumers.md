@@ -1,8 +1,6 @@
-## Slow Consumers
-
-To support resiliency and high availability, NATS provides built-in mechanisms to automatically prune the registered listener interest graph that is used to keep track of subscribers, including slow consumers and lazy listeners. NATS automatically handles a slow consumer. If a client is not processing messages quick enough, the NATS server cuts it off. To support scaling, NATS provides for auto-pruning of client connections. If a subscriber does not respond to ping requests from the server within the [ping-pong interval](/nats-protocol.md#PINGPONG), the client is cut off (disconnected). The client will need to have reconnect logic to reconnect with the server.
-
 # Slow Consumers
+
+To support resiliency and high availability, NATS provides built-in mechanisms to automatically prune the registered listener interest graph that is used to keep track of subscribers, including slow consumers and lazy listeners. NATS automatically handles a slow consumer. If a client is not processing messages quick enough, the NATS server cuts it off. To support scaling, NATS provides for auto-pruning of client connections. If a subscriber does not respond to ping requests from the server within the [ping-pong interval](nats_protocol/nats-protocol.html#PINGPONG), the client is cut off (disconnected). The client will need to have reconnect logic to reconnect with the server.
 
 In core NATS, consumers that cannot keep up are handled differently from many other messaging systems:  NATS favors the approach of protecting the system as a whole over accommodating a particular consumer to ensure message delivery.
 
