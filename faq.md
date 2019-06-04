@@ -45,7 +45,7 @@ The NATS server \(`nats-server`\) is written in Go. There is client support for 
 
 ### Who maintains NATS?
 
-NATS is sponsored and supported by Synadia, a company founded by Derek Collison. The Synadia team maintain the NATS server, as well as the Go, Ruby, Node.js, C, C\#, Java and several other client libraries. Our very active user community also contributes client libraries for several other implementation languages. Please see the [download](https://github.com/nats-io/nats-site/tree/c42c46a7c6b8669e66e28419887d2f8dd29aa502/download/README.md) page for the complete list, and links to the relevant source repositories and documentation.
+NATS is sponsored and supported by Synadia, a company founded by Derek Collison. The Synadia team maintain the NATS server, as well as the Go, Ruby, Node.js, C, C\#, Java and several other client libraries. Our very active user community also contributes client libraries for several other implementation languages. Please see the [download](https://nats.io/download) page for the complete list, and links to the relevant source repositories and documentation.
 
 ### What client support exists for NATS?
 
@@ -83,7 +83,7 @@ This form of distributed queueing is done in real time, and messages are not per
 
 NATS maintains and constantly updates the interest graph \(subjects and their subscribers\) in real time. Do not think of it as a "directory" that is aggregated over time. The interest graph dynamic, and will change constantly as publishers and subscribers come and go.
 
-If you are determined to gather this information, it can be indirectly derived at any instant in time by polling the monitoring endpoint for /connz and /routez. See [Server Monitoring](https://github.com/nats-io/nats-site/tree/c42c46a7c6b8669e66e28419887d2f8dd29aa502/documentation/managing_the_server/monitoring/README.md) for more information.
+If you are determined to gather this information, it can be indirectly derived at any instant in time by polling the monitoring endpoint for /connz and /routez. See [Server Monitoring](/nats-server/monitoring.md/) for more information.
 
 ### Does NATS support subject wildcards?
 
