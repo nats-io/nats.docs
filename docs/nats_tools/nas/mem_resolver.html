@@ -69,7 +69,7 @@
     <link rel="next" href="../nats_top/" />
     
     
-    <link rel="prev" href="dir_store.html" />
+    <link rel="prev" href="notifications.html" />
     
 
 <link rel="stylesheet" href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css">
@@ -1551,7 +1551,20 @@
             
         </li>
     
-        <li class="chapter active" data-level="5.4.4" data-path="mem_resolver.html">
+        <li class="chapter " data-level="5.4.4" data-path="notifications.html">
+            
+                <a href="notifications.html">
+            
+                    
+                    Update Notifications
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="5.4.5" data-path="mem_resolver.html">
             
                 <a href="mem_resolver.html">
             
@@ -2375,20 +2388,12 @@ Success! - added user &quot;TA&quot; to &quot;A&quot;
 </code></pre>
 <h3 id="create-the-server-config"><a name="create-the-server-config" class="plugin-anchor" href="#create-the-server-config"><i class="fa fa-link" aria-hidden="true"></i></a>Create the Server Config</h3>
 <p>The <code>nsc</code> tool can generate a configuration file automatically. You provide a path to the server configuration and operator jwt. The <code>nsc</code> tool will copy the operator JWT to the file specified, and generate the server config for you:</p>
-<p>`&quot;</p>
-<blockquote>
-<p>nsc generate config --mem-resolver --config-file /tmp/server.conf --operator-jwt /tmp/memory.jwt
+<pre class="language-"><code>&gt; nsc generate config --mem-resolver --config-file /tmp/server.conf --operator-jwt /tmp/memory.jwt
 Success!! - generated &quot;/tmp/server.conf&quot;
             generated &quot;/tmp/memory.jwt&quot;
-```</p>
-</blockquote>
-<p>If you require additional settings, you may want to consider using <a href="../../nats_server/configuration.html#include-directive"><code>include</code></a> in your main configuration, to reference the generated files. Otherwise, you can start a server and reference the generated configuration:</p>
-<p>`&quot;</p>
-<blockquote>
-<p>nats-server -c /tmp/server.conf
-`&quot;</p>
-</blockquote>
-<p>You can then <a href="#testing-the-configuration">test it</a>.</p>
+</code></pre><p>If you require additional settings, you may want to consider using <a href="../../nats_server/configuration.html#include-directive"><code>include</code></a> in your main configuration, to reference the generated files. Otherwise, you can start a server and reference the generated configuration:</p>
+<pre class="language-"><code>&gt; nats-server -c /tmp/server.conf
+</code></pre><p>You can then <a href="#testing-the-configuration">test it</a>.</p>
 <h3 id="manual-server-config"><a name="manual-server-config" class="plugin-anchor" href="#manual-server-config"><i class="fa fa-link" aria-hidden="true"></i></a>Manual Server Config</h3>
 <p>While generating a configuration file is easy, you may want to craft one by hand to know the details. With the entities created, and a standard location for the <code>.nsc</code> directory. You can reference the operator JWT and the account JWT in a server configuration. Remember that your configuration will be in <code>$NSC_HOME/nats/<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>operator_name</span><span class="token punctuation">&gt;</span></span>/<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>operator_name</span><span class="token punctuation">&gt;</span></span>.jwt</code> for the operator. The account JWT will be in <code>$NSC_HOME/nats/<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>operator_name</span><span class="token punctuation">&gt;</span></span>/accounts/<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>account_name</span><span class="token punctuation">&gt;</span></span>/<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>account_name</span><span class="token punctuation">&gt;</span></span>.jwt</code></p>
 <p>For the configuration you&apos;ll need:</p>
@@ -2397,15 +2402,14 @@ Success!! - generated &quot;/tmp/server.conf&quot;
 <li>A copy of the contents of the account JWT file</li>
 </ul>
 <p>The format of the file is:</p>
-<p>`&quot;
-operator: <path to="" the="" operator="" jwt=""></path>
+<pre class="language-"><code>operator: <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>path</span> <span class="token attr-name">to</span> <span class="token attr-name">the</span> <span class="token attr-name">operator</span> <span class="token attr-name">jwt</span><span class="token punctuation">&gt;</span></span>
 resolver: MEMORY
 resolver_preload: {
-    <public key="" for="" an="" account="">: <contents of="" the="" account="" jwt=""></contents></public></p>
-<pre class="language-"><code>### add as many accounts as you want
-...
-</code></pre><p>}</p>
-<p>In this example this translates to:</p>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>public</span> <span class="token attr-name">key</span> <span class="token attr-name">for</span> <span class="token attr-name">an</span> <span class="token attr-name">account</span><span class="token punctuation">&gt;</span></span>: <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>contents</span> <span class="token attr-name">of</span> <span class="token attr-name">the</span> <span class="token attr-name">account</span> <span class="token attr-name">jwt</span><span class="token punctuation">&gt;</span></span>
+    ### add as many accounts as you want
+    ...
+}
+</code></pre><p>In this example this translates to:</p>
 <pre class="language-"><code class="lang-text">operator: /Users/synadia/.nsc/nats/memory/memory.jwt
 resolver: MEMORY
 resolver_preload: {
@@ -2414,16 +2418,11 @@ ACSU3Q6LTLBVLGAQUONAGXJHVNWGSKKAUA7IY5TB4Z7PLEKSR5O6JTGR: eyJ0eXAiOiJqd3QiLCJhbG
 </code></pre>
 <p>Save the config at server.conf and start the server:</p>
 <pre class="language-"><code class="lang-text">&gt; nats-server -c server.conf
-`&quot;
-
-You can then [test it](#testing-the-configuration).
-
-### Testing the Configuration
-
-To test the configuration, simply use one of the standard tools:
-
-```text
-&gt; nats-pub -creds ~/.nkeys/memory/accounts/A/users/TA.creds hello world
+</code></pre>
+<p>You can then <a href="#testing-the-configuration">test it</a>.</p>
+<h3 id="testing-the-configuration"><a name="testing-the-configuration" class="plugin-anchor" href="#testing-the-configuration"><i class="fa fa-link" aria-hidden="true"></i></a>Testing the Configuration</h3>
+<p>To test the configuration, simply use one of the standard tools:</p>
+<pre class="language-"><code class="lang-text">&gt; nats-pub -creds ~/.nkeys/memory/accounts/A/users/TA.creds hello world
 Published [hello] : &apos;world&apos;
 </code></pre>
 
@@ -2453,7 +2452,7 @@ Published [hello] : &apos;world&apos;
 
             
                 
-                <a href="dir_store.html" class="navigation navigation-prev " aria-label="Previous page: Directory Store">
+                <a href="notifications.html" class="navigation navigation-prev " aria-label="Previous page: Update Notifications">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
@@ -2469,7 +2468,7 @@ Published [hello] : &apos;world&apos;
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Memory Resolver","level":"5.4.4","depth":2,"next":{"title":"nats-top","level":"5.5","depth":1,"path":"nats_tools/nats_top/README.md","ref":"nats_tools/nats_top/README.md","articles":[{"title":"Tutorial","level":"5.5.1","depth":2,"path":"nats_tools/nats_top/tutorial.md","ref":"nats_tools/nats_top/tutorial.md","articles":[]}]},"previous":{"title":"Directory Store","level":"5.4.3","depth":2,"path":"nats_tools/nas/dir_store.md","ref":"nats_tools/nas/dir_store.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"anchors":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_tools/nas/mem_resolver.md","mtime":"2019-05-31T18:29:15.575Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-31T22:29:00.140Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Memory Resolver","level":"5.4.5","depth":2,"next":{"title":"nats-top","level":"5.5","depth":1,"path":"nats_tools/nats_top/README.md","ref":"nats_tools/nats_top/README.md","articles":[{"title":"Tutorial","level":"5.5.1","depth":2,"path":"nats_tools/nats_top/tutorial.md","ref":"nats_tools/nats_top/tutorial.md","articles":[]}]},"previous":{"title":"Update Notifications","level":"5.4.4","depth":2,"path":"nats_tools/nas/notifications.md","ref":"nats_tools/nas/notifications.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"anchors":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_tools/nas/mem_resolver.md","mtime":"2019-06-04T14:29:14.195Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-04T14:29:49.333Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
