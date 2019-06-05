@@ -4,7 +4,7 @@ The basic strategy for upgrading a cluster revolves around the server's ability 
 
 Note that since each server stores it's own permission and authentication configuration, new servers added to a cluster should provide the same users and authorization to prevent clients from getting rejected or gaining unexpected privileges.
 
-For purposes of describing the scenario, let's get some fingers on keyboards, and go through the motions. Let's consider a cluster of two servers: 'A' and 'B.', and yes - clusters should be *three* to *five* servers, but for purposes of describing the behavior and cluster upgrade process, a cluster of two servers will suffice. 
+For purposes of describing the scenario, let's get some fingers on keyboards, and go through the motions. Let's consider a cluster of two servers: 'A' and 'B', and yes - clusters should be *three* to *five* servers, but for purposes of describing the behavior and cluster upgrade process, a cluster of two servers will suffice. 
 
 Let's build this cluster:
 
