@@ -1,6 +1,6 @@
 ## Cluster Upgrading
 
-The basic strategy for upgrading a cluster revolves around the server's ability to gossip cluster configuration to clients and other servers. When cluster configuration changes, clients become aware of new servers automatically. In case of a disconnect, a client has a list of servers that joined the cluster in addition to the ones it knew about from its connection settings. 
+The basic strategy for upgrading a cluster revolves around the server's ability to gossip cluster configuration to clients and other servers. When cluster configuration changes, clients become aware of new servers automatically. In the case of a disconnect, a client has a list of servers that joined the cluster in addition to the ones it knew about from its connection settings. 
 
 Note that since each server stores it's own permission and authentication configuration, new servers added to a cluster should provide the same users and authorization to prevent clients from getting rejected or gaining unexpected privileges.
 
@@ -27,17 +27,17 @@ Let's fix that, by starting the second server:
 ```bash
 nats-server -D -p 4333 -cluster nats://localhost:6333 -routes nats://localhost:6222,nats://localhost:6333
 ```
-The second server was started on port 4333 with its cluster port on 6333. Otherwise the same as 'A.'
+The second server was started on port 4333 with its cluster port on 6333. Otherwise the same as 'A'.
 
 Let's get one client, so we can observe it moving between servers as servers get removed:
 ```bash
 nats-sub -s nats://localhost:4222 ">"
 ```
 
-Nats-sub is a subscriber sample included with all NATS clients. Nats-sub subscribes to a subject and prints out any messages received. You can find the source code to the go version of nats-sub [here)(https://github.com/nats-io/go-nats/tree/master/examples).  After starting the subscriber you should see a message on 'A' that a new client connected.
+`nats-sub` is a subscriber sample included with all NATS clients. `nats-sub` subscribes to a subject and prints out any messages received. You can find the source code to the go version of `nats-sub` [here)(https://github.com/nats-io/nats.go/tree/master/examples).  After starting the subscriber you should see a message on 'A' that a new client connected.
 
-We have two servers and a client. Time to simulate our rolling upgrade. But wait, before we upgrade 'A,' let's introduce a new server 'T.'  Server 'T' will join the existing cluster while we perform the upgrade. Its sole purpose is to provide an additional place where clients can go besides 'A.'  and ensure we don't end up with a single server serving all the clients after the upgrade procedure. Clients will randomly select a server when connecting unless a special option is provided that disables that functionality (usually called 'DontRandomize' or 'noRandomize'). You can read more about ["Avoiding the Thundering Herd"](/developer/reconnect/random.md/).
-Suffice it to say that clients redistribute themselves about evenly between all servers in the cluster. In our case 1/2 of the clients on 'A' will jump over to 'B' and the remaining half to 'T.'
+We have two servers and a client. Time to simulate our rolling upgrade. But wait, before we upgrade 'A', let's introduce a new server 'C'.  Server 'C' will join the existing cluster while we perform the upgrade. Its sole purpose is to provide an additional place where clients can go other than 'A' and ensure we don't end up with a single server serving all the clients after the upgrade procedure. Clients will randomly select a server when connecting unless a special option is provided that disables that functionality (usually called 'DontRandomize' or 'noRandomize'). You can read more about ["Avoiding the Thundering Herd"](/developer/reconnect/random.md/).
+Suffice it to say that clients redistribute themselves about evenly between all servers in the cluster. In our case 1/2 of the clients on 'A' will jump over to 'B' and the remaining half to 'C'.
 
 Let's start our temporary server:
 
@@ -45,9 +45,9 @@ Let's start our temporary server:
 nats-server -D -p 4444 -cluster nats://localhost:6444 -routes nats://localhost:6222,nats://localhost:6333
 ```
 
-After an instant or so, clients on 'A' learn of the new cluster member that joined. On our hands-on  tutorial, `nats-sub` is now aware of 3 possible servers, 'A' (specified when we started the tool) and 'B' and 'T' learned from the cluster gossip.
+After an instant or so, clients on 'A' learn of the new cluster member that joined. On our hands-on  tutorial, `nats-sub` is now aware of 3 possible servers, 'A' (specified when we started the tool) and 'B' and 'C' learned from the cluster gossip.
 
-We invoke our admin powers and turn off 'A' by issuing a `CTRL+C` to the terminal on 'A,' and observe that either 'B' or 'T' reports that a new client connected. That is our `nats-sub` client.
+We invoke our admin powers and turn off 'A' by issuing a `CTRL+C` to the terminal on 'A' and observe that either 'B' or 'C' reports that a new client connected. That is our `nats-sub` client.
 
 We perform the upgrade process, update the binary for 'A', and restart 'A':
 
@@ -55,13 +55,13 @@ We perform the upgrade process, update the binary for 'A', and restart 'A':
 nats-server -D -p 4222 -cluster nats://localhost:6222 -routes nats://localhost:6222,nats://localhost:6333
 ```
 
-We move on to upgrade 'B'. Notice that clients from 'B' reconnect to 'A' and 'T'. We upgrade and restart 'B':
+We move on to upgrade 'B'. Notice that clients from 'B' reconnect to 'A' and 'C'. We upgrade and restart 'B':
 
 ```bash
 nats-server -D -p 4333 -cluster nats://localhost:6333 -routes nats://localhost:6222,nats://localhost:6333
 ```
 
-If we had more servers, we would continue the stop, update, restart rotation as we did for 'A' and 'B.'  After restarting the last server, we can go ahead and turn off 'T.' Any clients on 'T' will redistribute to our permanent cluster members.
+If we had more servers, we would continue the stop, update, restart rotation as we did for 'A' and 'B'.  After restarting the last server, we can go ahead and turn off 'C.' Any clients on 'C' will redistribute to our permanent cluster members.
 
 
 ### Seed Servers
@@ -83,4 +83,4 @@ nats-server -D -p 4333 -cluster nats://localhost:6333 -routes nats://localhost:6
 nats-server -D -p 4444 -cluster nats://localhost:6444 -routes nats://localhost:6222
 ```
 
-Once they connect to the 'seed server', the will learn about all the other servers and connect to each other forming the full mesh.
+Once they connect to the 'seed server', they will learn about all the other servers and connect to each other forming the full mesh.

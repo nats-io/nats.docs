@@ -100,7 +100,7 @@ To test the service, we can install the `nats-req` and `nats-rply` tools:
 
 Set up a process to handle the request:
 ```text
-> go get github.com/nats-io/go-nats/examples/nats-rply
+> go get github.com/nats-io/nats.go/examples/nats-rply
 
 > nats-rply -creds ~/.nkeys/Test/accounts/AccountB/users/userb.creds "help" "I will help"                
 Listening on [help]
@@ -108,7 +108,7 @@ Listening on [help]
 
 Send the request:
 ```text
-> go get github.com/nats-io/go-nats/examples/nats-req
+> go get github.com/nats-io/nats.go/examples/nats-req
 > nats-req -creds ~/.nkeys/Test/accounts/AccountB/users/userb.creds help me
 Published [help] : 'me'
 ```

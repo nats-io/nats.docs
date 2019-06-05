@@ -47,18 +47,18 @@ be routing the messages so that they will be processed to the NATS Streaming clu
 ```sh
 $ sudo docker run --network nats-streaming-example -it golang:latest
 
-root@d12f9f3fcdde:/go# cd src/github.com/nats-io/go-nats-streaming/
+root@d12f9f3fcdde:/go# cd src/github.com/nats-io/stan.go/
 
 # Publishing 3 messages
-root@d12f9f3fcdde:/go/src/github.com/nats-io/go-nats-streaming# go run examples/stan-pub/main.go -s nats://nats-cluster-node-1:4222 --cluster swarm hello world
+root@d12f9f3fcdde:/go/src/github.com/nats-io/stan.go# go run examples/stan-pub/main.go -s nats://nats-cluster-node-1:4222 --cluster swarm hello world
 Published [hello] : 'world'
-root@d12f9f3fcdde:/go/src/github.com/nats-io/go-nats-streaming# go run examples/stan-pub/main.go -s nats://nats-cluster-node-1:4222 --cluster swarm hello world
+root@d12f9f3fcdde:/go/src/github.com/nats-io/stan.go# go run examples/stan-pub/main.go -s nats://nats-cluster-node-1:4222 --cluster swarm hello world
 Published [hello] : 'world'
-root@d12f9f3fcdde:/go/src/github.com/nats-io/go-nats-streaming# go run examples/stan-pub/main.go -s nats://nats-cluster-node-1:4222 --cluster swarm hello world
+root@d12f9f3fcdde:/go/src/github.com/nats-io/stan.go# go run examples/stan-pub/main.go -s nats://nats-cluster-node-1:4222 --cluster swarm hello world
 Published [hello] : 'world'
 
 # Replaying the messages from the beginning
-root@d12f9f3fcdde:/go/src/github.com/nats-io/go-nats-streaming# go run examples/stan-sub/main.go -s nats://nats-cluster-node-1:4222 --cluster swarm -id $RANDOM --all hello
+root@d12f9f3fcdde:/go/src/github.com/nats-io/stan.go# go run examples/stan-sub/main.go -s nats://nats-cluster-node-1:4222 --cluster swarm -id $RANDOM --all hello
 Connected to nats://nats-cluster-node-1:4222 clusterID: [swarm] clientID: [17010]
 subscribing with DeliverAllAvailable
 Listening on [hello], clientID=[17010], qgroup=[] durable=[]

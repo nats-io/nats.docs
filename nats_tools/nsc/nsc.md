@@ -216,9 +216,9 @@ At minimum the server requires the `operator` JWT, which we have pointed at dire
 Let’s install some tooling:
 
 ```text
-> go get github.com/nats-io/go-nats/examples/nats-pub
+> go get github.com/nats-io/nats.go/examples/nats-pub
 
-> go get github.com/nats-io/go-nats/examples/nats-sub
+> go get github.com/nats-io/nats.go/examples/nats-sub
 ```
 
 Create a subscriber:
