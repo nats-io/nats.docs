@@ -83,4 +83,4 @@ nats-server -D -p 4333 -cluster nats://localhost:6333 -routes nats://localhost:6
 nats-server -D -p 4444 -cluster nats://localhost:6444 -routes nats://localhost:6222
 ```
 
-Once they connect to the 'seed server', the will learn about all the other servers and connect to each other forming the full mesh.
+Once they connect to the 'seed server', they will learn about all the other servers and connect to each other forming the full mesh.
