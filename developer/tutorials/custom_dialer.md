@@ -15,7 +15,7 @@ import (
     "net"
     "time"
 
-    "github.com/nats-io/go-nats"
+    "github.com/nats-io/nats.go"
 )
 
 type customDialer struct {
