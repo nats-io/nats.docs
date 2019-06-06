@@ -1,6 +1,6 @@
 # Explore NATS Pub/Sub
 
-NATS is a publish subscribe messaging system. Subscribers listening on a subject name receive messages on that subject. If the subscriber is not actively listening on the subject, the message is not received. Subscribers can use the wildcard subjects `*` to match a single token to match the tail of a subject.
+NATS is a publish subscribe messaging system. Subscribers listening on a subject receive messages on that subject. If the subscriber is not actively listening on the subject, the message is not received. Subscribers can use the wildcard tokens such as  `*` and `>` to match a single token or to match the tail of a subject.
 
 <div class="graphviz"><code data-viz="dot">
 digraph nats_pub_sub {
@@ -9,13 +9,13 @@ digraph nats_pub_sub {
   sub1 [shape="box", label="SUB\ncom.msg.one"];
   pub1 [shape="box", label="PUB\ncom.msg.one"];
   non_active [shape="box", label="Non-Active\nSubscriber"];
-  
+
   {
     rank=same
     pub1 sub1 non_active
   }
 
-  gnatsd [shape="box", label="NATS", width=8];
+  nats-server [shape="box", label="NATS", width=8];
 
   sub2 [shape="box", label="SUB\ncom.msg.one"];
   sub3 [shape="box", label="SUB\ncom.msg.two"];
@@ -26,19 +26,19 @@ digraph nats_pub_sub {
     sub2 sub3 sub4
   }
 
-  pub1 -> gnatsd [penwidth=2];
-  gnatsd -> sub1 [penwidth=2];
-  gnatsd -> non_active [style=dashed color=red arrowhead="none"];
+  pub1 -> nats-server [penwidth=2];
+  nats-server -> sub1 [penwidth=2];
+  nats-server -> non_active [style=dashed color=red arrowhead="none"];
 
-  gnatsd -> sub2 [penwidth=2];
-  gnatsd -> sub3 [style=dashed color=red arrowhead="none"];
-  gnatsd -> sub4 [penwidth=2];
+  nats-server -> sub2 [penwidth=2];
+  nats-server -> sub3 [style=dashed color=red arrowhead="none"];
+  nats-server -> sub4 [penwidth=2];
 }
 </code></div>
 
 ## Prerequisites
 
-Go and the NATS server should be installed.
+Go and the NATS server should be installed. optionally you can use the demo server located at `nats://demo.nats.io`
 
 ### 1. Start the NATS server
 

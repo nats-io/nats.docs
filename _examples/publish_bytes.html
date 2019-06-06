@@ -1,38 +1,38 @@
 
 <div class="tab-wrap">
-  	
-	
-	<input type="radio" id="publish_bytes_go" name="publish_bytes" class="tab" checked>
-	
-	<label for="publish_bytes_go" class="api-lang" data-language="go">Go</label>
-	
-	
-	<input type="radio" id="publish_bytes_java" name="publish_bytes" class="tab">
-	
-	<label for="publish_bytes_java" class="api-lang" data-language="java">Java</label>
-	
-	
-	<input type="radio" id="publish_bytes_js" name="publish_bytes" class="tab">
-	
-	<label for="publish_bytes_js" class="api-lang" data-language="js">JavaScript</label>
-	
-	
-	<input type="radio" id="publish_bytes_py" name="publish_bytes" class="tab">
-	
-	<label for="publish_bytes_py" class="api-lang" data-language="py">Python</label>
-	
-	
-	<input type="radio" id="publish_bytes_ruby" name="publish_bytes" class="tab">
-	
-	<label for="publish_bytes_ruby" class="api-lang" data-language="ruby">Ruby</label>
-	
-	
-	<input type="radio" id="publish_bytes_ts" name="publish_bytes" class="tab">
-	
-	<label for="publish_bytes_ts" class="api-lang" data-language="ts">TypeScript</label>
-	
 
-  	
+
+	<input type="radio" id="publish_bytes_go" name="publish_bytes" class="tab" checked>
+
+	<label for="publish_bytes_go" class="api-lang" data-language="go">Go</label>
+
+
+	<input type="radio" id="publish_bytes_java" name="publish_bytes" class="tab">
+
+	<label for="publish_bytes_java" class="api-lang" data-language="java">Java</label>
+
+
+	<input type="radio" id="publish_bytes_js" name="publish_bytes" class="tab">
+
+	<label for="publish_bytes_js" class="api-lang" data-language="js">JavaScript</label>
+
+
+	<input type="radio" id="publish_bytes_py" name="publish_bytes" class="tab">
+
+	<label for="publish_bytes_py" class="api-lang" data-language="py">Python</label>
+
+
+	<input type="radio" id="publish_bytes_ruby" name="publish_bytes" class="tab">
+
+	<label for="publish_bytes_ruby" class="api-lang" data-language="ruby">Ruby</label>
+
+
+	<input type="radio" id="publish_bytes_ts" name="publish_bytes" class="tab">
+
+	<label for="publish_bytes_ts" class="api-lang" data-language="ts">TypeScript</label>
+
+
+
 	<div class="tab__content">
 	<pre id="publish_bytes_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/publish_bytes/main.go#L10-22"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;demo.nats.io&#34;)
 if err != nil {
@@ -43,11 +43,9 @@ defer nc.Close()
 if err := nc.Publish(&#34;updates&#34;, []byte(&#34;All is Well&#34;)); err != nil {
 	log.Fatal(err)
 }
-// Make sure the message goes through before we close
-nc.Flush()
 </code></pre>
 	</div>
-	
+
 	<div class="tab__content">
 	<pre id="publish_bytes_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/PublishBytes.java#L13-21"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java">Connection nc = Nats.connect(&#34;nats://demo.nats.io:4222&#34;);
 
@@ -58,13 +56,13 @@ nc.flush(Duration.ZERO);
 nc.close();
 </code></pre>
 	</div>
-	
+
 	<div class="tab__content">
 	<pre id="publish_bytes_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/publisher_samples.js#L8-11"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = NATS.connect({url: &#34;nats://demo.nats.io:4222&#34;});
 nc.publish(&#39;updates&#39;, &#34;All is Well&#34;);
 </code></pre>
 	</div>
-	
+
 	<div class="tab__content">
 	<pre id="publish_bytes_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/publish_bytes.py#L6-13"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc = NATS()
 
@@ -74,7 +72,7 @@ await nc.publish(&#34;updates&#34;, b&#39;All is Well&#39;)
 
 </code></pre>
 	</div>
-	
+
 	<div class="tab__content">
 	<pre id="publish_bytes_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/publish_bytes.rb#L1-7"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby">require &#39;nats/client&#39;
 
@@ -83,7 +81,7 @@ NATS.start(servers:[&#34;nats://127.0.0.1:4222&#34;]) do |nc|
 end
 </code></pre>
 	</div>
-	
+
 	<div class="tab__content">
 	<pre id="publish_bytes_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/publisher_samples.ts#L6-12"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = await connect({
     url: &#34;nats://demo.nats.io:4222&#34;,
@@ -92,5 +90,5 @@ end
 nc.publish(&#39;updates&#39;, &#39;All is Well&#39;);
 </code></pre>
 	</div>
-	
+
 </div>

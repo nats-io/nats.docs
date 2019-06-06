@@ -1,10 +1,15 @@
-# Request-Reply and Scatter-Gather
+# Request-Reply
 
-NATS supports two flavors of request reply messaging: point-to-point or one-to-many. Point-to-point involves the fastest or first to respond. In a one-to-many exchange, you can set a limit on the number of responses the requestor may receive or use a timeout to limit on the speed of the response. One-to-many request reply is sometimes called *scatter gather*.
+Request-Reply is a common pattern in modern distributed systems. A request is sent and the application either waits on the response with a certain timeout or receives a response asynchronously.
+The increased complexity of modern systems requires features such as location transparency, scale up and scale down, observability and more. Many technologies need additional components, sidecars and proxies to accomplish the complete feature set.
 
-In a request-response exchange the publish request operation publishes a message with a reply subject expecting a response on that reply subject. Many libraries allow you to use a function that will automatically wait for a response with a timeout. You can also handle that waiting process yourself.
+NATS supports this pattern with its core communication mechanism, publish and subscribe. A request is published on a given subject with a reply subject, and responders listen on that subject and send responses to the reply subject. Reply subjects
+are usually a subject called and _INBOX that will be directed back to the requestor dynamically, regardless of location of either party.
 
-The common pattern used by the libraries is that the request creates a unique inbox and performs a request call with the inbox reply and returns the first reply received. This is optimized in the case of multiple responses by ignoring later responses automatically.
+NATS allows multiple responders to run and form dynamic queue groups for transparent scale up. The ability for NATS applications to drain before exiting allows scale down with no requests being dropped. And since NATS is based on publish-subscribe,
+observability is as simple as running another application that can view requests and responses to measure latency, watch for anomalies, direct scalability and more.
+
+The power of NATS even allows multiple responses where the first response is utilized and the system efficiently discards the additional ones. This allows for a sophisticated pattern to have multiple responders reduce response latency and jitter.
 
 <div class="graphviz"><code data-viz="dot">
 digraph nats_request_reply {

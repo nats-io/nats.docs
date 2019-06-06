@@ -3,14 +3,10 @@
 </a>
 # The Importance of Messaging
 
-Developing and deploying applications that communicate in distributed systems
-can be complex and difficult.  A communication infrastructure should provide
-features to make this easier, including multiple messaging patterns bundled
-into one technology, location transparency, the decoupling of data producers
-and consumers, and asynchronous communications to build event driven
-applications.  This can drive services/micro-services based workloads and take
-the place of things like a service mesh, and also drive observability, all
-from the same technology.
+Developing and deploying applications and services that communicate in distributed systems
+can be complex and difficult.  However there are two basic patterns, request/reply or RPC for services,
+and event and data streams. A modern technology should provide
+features to make this easier, scalable, secure, location independent and observable.
 
 ## Distributed Computing Needs of Today
 
@@ -20,10 +16,10 @@ multi-tenancy for a truly shared infrastructure. A modern system needs to includ
 
 * Secure by default communications for microservices, edge platforms and devices
 * Secure multi-tenancy in a single distributed communication technology
-* Decoupled from IP for addressing and security
-* Resiliency with an emphasis on the health of the system as a whole
+* Transparent location addressing and discovery
+* Resiliency with an emphasis on the overall health of the system
 * Ease of use for agile development, CI/CD, and operations, at scale
-* Highly scalable with built-in load balancing and no config auto-scaling
+* Highly scalable and performant with built-in load balancing and dynamic auto-scaling
 * Consistent identity and security mechanisms from edge devices to backend services
 
 ## NATS
@@ -37,8 +33,8 @@ about a distributed communication system.
 * High-Performance
 * Always on and available
 * Extremely lightweight
-* At Most Once (NATS) or At Least Once Delivery (NATS Streaming)
-* Common Messaging Pattern Support (Scalable Services, Event/Data Streams)
+* At Most Once and At Least Once Delivery
+* Support for Observable and Scalable Services and Event/Data Streams
 * Client support for over 30 different programming languages
 * Cloud Native, a CNCF project with Kubernetes and Prometheus integrations
 
