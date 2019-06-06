@@ -293,7 +293,7 @@ Handling of these errors usually has to be done asynchronously.
 
 `-ERR <error message>`
 
-Some protocol errors result in the server closing the connection.  Upon recieving these errors, the connection is no longer valid and the client should clean up relevant resources.  These errors include:
+Some protocol errors result in the server closing the connection.  Upon receiving these errors, the connection is no longer valid and the client should clean up relevant resources.  These errors include:
 
 - `-ERR 'Unknown Protocol Operation'`: Unknown protocol error
 - `-ERR 'Attempted To Connect To Route Port'`: Client attempted to connect to a route port instead of the client port
