@@ -29,7 +29,7 @@
 | `cert_file` | TLS certificate file. |
 | `key_file` | TLS certificate key file. |
 | `ca_file` | TLS certificate authority file. |
-| `insecure` | Skip certificate verfication. |
+| `insecure` | Skip certificate verification. |
 | `verify` | If `true`, require and verify client certificates. |
 | `verify_and_map` | If `true`, require and verify client certificates and use values map certificate values for authentication purposes. |
 | `cipher_suites` | When set, only the specified TLS cipher suites will be allowed. Values must match golang version used to build the server.  |
