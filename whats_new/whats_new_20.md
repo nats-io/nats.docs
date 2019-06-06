@@ -38,7 +38,7 @@ technology end-to-end where organizations may self-manage making it
 easier to support a massive number of endpoints.
 
 To achieve this, we added a number of new features that are transparent
-to existing clients with 100% backward client compatablity.
+to existing clients with 100% backward client compatibility.
 
 ## Accounts
 
