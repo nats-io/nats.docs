@@ -2354,16 +2354,17 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="draining-connections-and-subscriptions"><a name="draining-connections-and-subscriptions" class="plugin-anchor" href="#draining-connections-and-subscriptions"><i class="fa fa-link" aria-hidden="true"></i></a>Draining Connections and Subscriptions</h1>
-<p>A feature recently added across the NATS client libraries is the ability to drain connections or subscriptions. Closing a connection, or unsubscribing from a subscription are generally considered immediate requests. When you close or unsubscribe the library will halt messages in any pending queue or cache for subscribers. When you drain a subscription or connection, it will process any cached/pending messages before closing.</p>
-<p>Drain provides clients that use queue subscriptions with a way to bring down applications without losing any messages. A client can bring up a new queue member, drain and shut down the old queue member, all without losing messages sent to the old client. Without drain, there is the possibility of lost messages due to queue timing.</p>
+<p>A feature recently added across the NATS client libraries is the ability to drain connections or subscriptions. Closing a connection, or unsubscribing from a subscription, are generally considered immediate requests. When you close or unsubscribe the library will halt messages in any pending queue or cache for subscribers. When you drain a subscription or connection, it will process any inflight and cached/pending messages before closing.</p>
+<p>Drain provides clients that use queue subscriptions with a way to bring down applications without losing any messages. A client can bring up a new queue member, drain and shut down the old queue member, all without losing messages sent to the old client. Without drain, there is the possibility of lost messages due to delivery timing.</p>
 <p>The libraries can provide drain on a connection or on a subscriber, or both.</p>
 <p>For a connection the process is essentially:</p>
 <ol>
-<li>Drain subscriptions</li>
+<li>Drain all subscriptions</li>
 <li>Stop new messages from being published</li>
-<li>Flush any remaining messages</li>
+<li>Flush any remaining published messages</li>
 <li>Close</li>
 </ol>
+<p>The API for drain can generally be used instead of close:</p>
 <p>As an example of draining a connection:</p>
 <div class="tab-wrap">
   	
@@ -2551,8 +2552,8 @@ nc<span class="token punctuation">.</span><span class="token function">close</sp
 </div>
 <p>The mechanics of drain for a subscription are simpler:</p>
 <ol>
-<li>Unsubscribe at the server</li>
-<li>Process known messages</li>
+<li>Unsubscribe</li>
+<li>Process all cached or inflight messages</li>
 <li>Clean up</li>
 </ol>
 <p>The API for drain can generally be used instead of unsubscribe:</p>
@@ -2765,7 +2766,7 @@ nc<span class="token punctuation">.</span><span class="token function">close</sp
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Draining Messages Before Disconnect","level":"3.5.8","depth":2,"next":{"title":"Structured Data","level":"3.5.9","depth":2,"path":"developer/receiving/structure.md","ref":"developer/receiving/structure.md","articles":[]},"previous":{"title":"Queue Subscriptions","level":"3.5.7","depth":2,"path":"developer/receiving/queues.md","ref":"developer/receiving/queues.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"anchors":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"developer/receiving/drain.md","mtime":"2019-05-31T18:06:28.937Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-05T22:32:29.333Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Draining Messages Before Disconnect","level":"3.5.8","depth":2,"next":{"title":"Structured Data","level":"3.5.9","depth":2,"path":"developer/receiving/structure.md","ref":"developer/receiving/structure.md","articles":[]},"previous":{"title":"Queue Subscriptions","level":"3.5.7","depth":2,"path":"developer/receiving/queues.md","ref":"developer/receiving/queues.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"anchors":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"developer/receiving/drain.md","mtime":"2019-06-07T14:58:27.245Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-07T14:58:58.173Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

@@ -2354,14 +2354,10 @@
                                 <p><a href="https://nats.io" target="_blank"><img src="nats-horizontal-color.png" width="350" height="90" title="NATS Logo">
 </a></p>
 <h1 id="the-importance-of-messaging"><a name="the-importance-of-messaging" class="plugin-anchor" href="#the-importance-of-messaging"><i class="fa fa-link" aria-hidden="true"></i></a>The Importance of Messaging</h1>
-<p>Developing and deploying applications that communicate in distributed systems
-can be complex and difficult.  A communication infrastructure should provide
-features to make this easier, including multiple messaging patterns bundled
-into one technology, location transparency, the decoupling of data producers
-and consumers, and asynchronous communications to build event driven
-applications.  This can drive services/micro-services based workloads and take
-the place of things like a service mesh, and also drive observability, all
-from the same technology.</p>
+<p>Developing and deploying applications and services that communicate in distributed systems
+can be complex and difficult.  However there are two basic patterns, request/reply or RPC for services,
+and event and data streams. A modern technology should provide
+features to make this easier, scalable, secure, location independent and observable.</p>
 <h2 id="distributed-computing-needs-of-today"><a name="distributed-computing-needs-of-today" class="plugin-anchor" href="#distributed-computing-needs-of-today"><i class="fa fa-link" aria-hidden="true"></i></a>Distributed Computing Needs of Today</h2>
 <p>A modern messaging system needs to support multiple communication patterns, be
 secure by default, support multiple qualities of service, and provide secure
@@ -2369,10 +2365,10 @@ multi-tenancy for a truly shared infrastructure. A modern system needs to includ
 <ul>
 <li>Secure by default communications for microservices, edge platforms and devices</li>
 <li>Secure multi-tenancy in a single distributed communication technology</li>
-<li>Decoupled from IP for addressing and security</li>
-<li>Resiliency with an emphasis on the health of the system as a whole</li>
+<li>Transparent location addressing and discovery</li>
+<li>Resiliency with an emphasis on the overall health of the system</li>
 <li>Ease of use for agile development, CI/CD, and operations, at scale</li>
-<li>Highly scalable with built-in load balancing and no config auto-scaling</li>
+<li>Highly scalable and performant with built-in load balancing and dynamic auto-scaling</li>
 <li>Consistent identity and security mechanisms from edge devices to backend services</li>
 </ul>
 <h2 id="nats"><a name="nats" class="plugin-anchor" href="#nats"><i class="fa fa-link" aria-hidden="true"></i></a>NATS</h2>
@@ -2385,8 +2381,8 @@ about a distributed communication system.</p>
 <li>High-Performance</li>
 <li>Always on and available</li>
 <li>Extremely lightweight</li>
-<li>At Most Once (NATS) or At Least Once Delivery (NATS Streaming)</li>
-<li>Common Messaging Pattern Support (Scalable Services, Event/Data Streams)</li>
+<li>At Most Once and At Least Once Delivery</li>
+<li>Support for Observable and Scalable Services and Event/Data Streams</li>
 <li>Client support for over 30 different programming languages</li>
 <li>Cloud Native, a CNCF project with Kubernetes and Prometheus integrations</li>
 </ul>
@@ -2445,7 +2441,7 @@ gateways and even IoT devices.  Use cases for NATS include:</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"1.1","depth":1,"next":{"title":"What's New in 2.0","level":"1.2","depth":1,"path":"whats_new/whats_new_20.md","ref":"whats_new/whats_new_20.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"anchors":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"README.md","mtime":"2019-05-31T22:28:33.772Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-05T22:32:29.333Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"1.1","depth":1,"next":{"title":"What's New in 2.0","level":"1.2","depth":1,"path":"whats_new/whats_new_20.md","ref":"whats_new/whats_new_20.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"anchors":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"README.md","mtime":"2019-06-07T14:58:27.242Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-07T14:58:58.173Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
