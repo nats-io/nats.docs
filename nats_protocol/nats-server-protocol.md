@@ -166,4 +166,4 @@ If the another server sends a ping request, a server will reply with a pong mess
 
 #### Description
 
-The `-ERR` message is used by the server indicate a protocol, authorization, or other runtime connection error to another server. Most of these errors result in the remote server closing the connection.
+The `-ERR` message is used by the server to indicate a protocol, authorization, or other runtime connection error to another server. Most of these errors result in the remote server closing the connection.
