@@ -15,10 +15,10 @@ Example:
 
 ```sh
 $ nats-server -m 8222
-[4528] 2015/08/19 20:09:58.572939 [INF] Starting gnatsd version 0.8.0
-[4528] 2015/08/19 20:09:58.573007 [INF] Starting http monitor on port 8222
-[4528] 2015/08/19 20:09:58.573071 [INF] Listening for client connections on 0.0.0.0:4222
-[4528] 2015/08/19 20:09:58.573090 [INF] gnatsd is ready</td>
+[4528] 2019/06/01 20:09:58.572939 [INF] Starting nats-server version 2.0.0
+[4528] 2019/06/01 20:09:58.573007 [INF] Starting http monitor on port 8222
+[4528] 2019/06/01 20:09:58.573071 [INF] Listening for client connections on 0.0.0.0:4222
+[4528] 2019/06/01 20:09:58.573090 [INF] nats-server is ready</td>
 ```
 
 To test, run `nats-server -m 8222`, then go to <a href="http://localhost:8222/" target="_blank">http://localhost:8222/</a>
@@ -29,7 +29,7 @@ The following sections describe each supported monitoring endpoint: `varz`, `con
 
 ### /varz
 
-The endpoint <a href="http://localhost:8222/varz" target="_blank">http://localhost:8222/varz</a> reports various general statistics.
+The endpoint <a href="http://localhost:822/varz" target="_blank">http://localhost:8222/varz</a> reports various general statistics.
 
 ```json
 {
