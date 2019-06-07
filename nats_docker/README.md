@@ -246,10 +246,10 @@ nats-pub -s "nats://192.168.59.105:7222" hello world
 
 [#1] Received on [hello] : 'world'
 
-# GNATSD on Node C logs:
+# nats-server on Node C logs:
 [1] 2015/06/23 05:20:31.100032 [TRC] 192.168.59.103:7244 - rid:2 - <<- [MSG hello RSID:8:2 5]
 
-# GNATSD on Node A logs:
+# nats-server on Node A logs:
 [1] 2015/06/23 05:20:31.100600 [TRC] 10.0.2.2:51007 - cid:8 - <<- [MSG hello 2 5]
 ```
 
