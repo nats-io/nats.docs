@@ -65,7 +65,7 @@ To verify the routes are connected:
 
 ```sh
 $ docker run -d --name=nats-2 --link nats-main nats --routes=nats-route://ruser:T0pS3cr3t@nats-main:6222 -DV
-[INF] Starting nats-server version 0.6.6
+[INF] Starting nats-server version 2.0.0
 [INF] Starting http monitor on port 8222
 [INF] Listening for route connections on :6222
 [INF] Listening for client connections on 0.0.0.0:4222
