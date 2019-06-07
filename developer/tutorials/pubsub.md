@@ -15,7 +15,7 @@ digraph nats_pub_sub {
     pub1 sub1 non_active
   }
 
-  nats-server [shape="box", label="NATS", width=8];
+  gnatsd [shape="box", label="NATS", width=8];
 
   sub2 [shape="box", label="SUB\ncom.msg.one"];
   sub3 [shape="box", label="SUB\ncom.msg.two"];
@@ -26,13 +26,13 @@ digraph nats_pub_sub {
     sub2 sub3 sub4
   }
 
-  pub1 -> nats-server [penwidth=2];
-  nats-server -> sub1 [penwidth=2];
-  nats-server -> non_active [style=dashed color=red arrowhead="none"];
+  pub1 -> gnatsd [penwidth=2];
+  gnatsd -> sub1 [penwidth=2];
+  gnatsd -> non_active [style=dashed color=red arrowhead="none"];
 
-  nats-server -> sub2 [penwidth=2];
-  nats-server -> sub3 [style=dashed color=red arrowhead="none"];
-  nats-server -> sub4 [penwidth=2];
+  gnatsd -> sub2 [penwidth=2];
+  gnatsd -> sub3 [style=dashed color=red arrowhead="none"];
+  gnatsd -> sub4 [penwidth=2];
 }
 </code></div>
 
