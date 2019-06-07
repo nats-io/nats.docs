@@ -1,12 +1,13 @@
-# Queue Subscribers & Sharing Work
+# Queue Subscribers & Scalability
 
-NATS provides a load balancing feature called queue subscriptions. Using queue subscribers will load balance message delivery across a group of subscribers which can be used to provide application fault tolerance and scale workload processing.
+NATS provides a built-in load balancing feature called distributed queues. Using queue subscribers will balance message delivery across a group of subscribers which can be used to provide application fault tolerance and scale workload processing.
 
-To create a queue subscription, subscribers register a queue name. All subscribers with the same queue name form the queue group. As messages on the registered subject are published, one member of the group is chosen randomly to receive the message. Although queue groups have multiple subscribers, each message is consumed by only one.
+To create a queue subscription, subscribers register a queue name. All subscribers with the same queue name form the queue group. This requires no configuration. As messages on the registered subject are published, one member of the group is chosen randomly to receive the message. Although queue groups have multiple subscribers, each message is consumed by only one.
 
-One of the great features of NATS is that queue groups are defined by the subscribers, not on the server. Applications can create new queue groups without any server change.
+One of the great features of NATS is that queue groups are defined by the application and their queue subscribers, not on the server configuration.
 
-Queue subscribers are ideal for auto scaling as you can add or remove them anytime, without any configuration changes or restarting the server or clients.
+Queue subscribers are ideal for scaling services. Scale up is as simple as running another application, scale down is terminating the application with a signal that drains the in flight requests.
+This flexibility and lack of any configuration changes makes NATS an excellent service communication technology that can work with all platform technologies.
 
 <div class="graphviz"><code data-viz="dot">
 digraph nats_queues {

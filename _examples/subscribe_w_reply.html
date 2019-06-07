@@ -1,38 +1,38 @@
 
 <div class="tab-wrap">
-  	
-	
-	<input type="radio" id="subscribe_w_reply_go" name="subscribe_w_reply" class="tab" checked>
-	
-	<label for="subscribe_w_reply_go" class="api-lang" data-language="go">Go</label>
-	
-	
-	<input type="radio" id="subscribe_w_reply_java" name="subscribe_w_reply" class="tab">
-	
-	<label for="subscribe_w_reply_java" class="api-lang" data-language="java">Java</label>
-	
-	
-	<input type="radio" id="subscribe_w_reply_js" name="subscribe_w_reply" class="tab">
-	
-	<label for="subscribe_w_reply_js" class="api-lang" data-language="js">JavaScript</label>
-	
-	
-	<input type="radio" id="subscribe_w_reply_py" name="subscribe_w_reply" class="tab">
-	
-	<label for="subscribe_w_reply_py" class="api-lang" data-language="py">Python</label>
-	
-	
-	<input type="radio" id="subscribe_w_reply_ruby" name="subscribe_w_reply" class="tab">
-	
-	<label for="subscribe_w_reply_ruby" class="api-lang" data-language="ruby">Ruby</label>
-	
-	
-	<input type="radio" id="subscribe_w_reply_ts" name="subscribe_w_reply" class="tab">
-	
-	<label for="subscribe_w_reply_ts" class="api-lang" data-language="ts">TypeScript</label>
-	
 
-  	
+
+	<input type="radio" id="subscribe_w_reply_go" name="subscribe_w_reply" class="tab" checked>
+
+	<label for="subscribe_w_reply_go" class="api-lang" data-language="go">Go</label>
+
+
+	<input type="radio" id="subscribe_w_reply_java" name="subscribe_w_reply" class="tab">
+
+	<label for="subscribe_w_reply_java" class="api-lang" data-language="java">Java</label>
+
+
+	<input type="radio" id="subscribe_w_reply_js" name="subscribe_w_reply" class="tab">
+
+	<label for="subscribe_w_reply_js" class="api-lang" data-language="js">JavaScript</label>
+
+
+	<input type="radio" id="subscribe_w_reply_py" name="subscribe_w_reply" class="tab">
+
+	<label for="subscribe_w_reply_py" class="api-lang" data-language="py">Python</label>
+
+
+	<input type="radio" id="subscribe_w_reply_ruby" name="subscribe_w_reply" class="tab">
+
+	<label for="subscribe_w_reply_ruby" class="api-lang" data-language="ruby">Ruby</label>
+
+
+	<input type="radio" id="subscribe_w_reply_ts" name="subscribe_w_reply" class="tab">
+
+	<label for="subscribe_w_reply_ts" class="api-lang" data-language="ts">TypeScript</label>
+
+
+
 	<div class="tab__content">
 	<pre id="subscribe_w_reply_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/subscribe_w_reply/main.go#L11-39"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;demo.nats.io&#34;)
 if err != nil {
@@ -58,12 +58,10 @@ timeAsBytes := []byte(time.Now().String())
 // Send the time
 nc.Publish(msg.Reply, timeAsBytes)
 
-// Flush and close the connection
-nc.Flush()
-nc.Close()
+// We will close the connection from the above defer
 </code></pre>
 	</div>
-	
+
 	<div class="tab__content">
 	<pre id="subscribe_w_reply_java_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/java-nats-examples/blob/master/src/main/java/io/nats/examples/SubscribeWithReply.java#L17-37"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-java">Connection nc = Nats.connect(&#34;nats://demo.nats.io:4222&#34;);
 
@@ -86,7 +84,7 @@ nc.flush(Duration.ZERO);
 nc.close();
 </code></pre>
 	</div>
-	
+
 	<div class="tab__content">
 	<pre id="subscribe_w_reply_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/subscriber_samples.js#L28-35"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// set up a subscription to process a request
 nc.subscribe(&#39;time&#39;, (msg, reply) =&gt; {
@@ -96,7 +94,7 @@ nc.subscribe(&#39;time&#39;, (msg, reply) =&gt; {
 });
 </code></pre>
 	</div>
-	
+
 	<div class="tab__content">
 	<pre id="subscribe_w_reply_py_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/asyncio-nats-examples/blob/master/subscribe_w_reply.py#L8-31"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-python">nc = NATS()
 
@@ -122,7 +120,7 @@ await nc.publish(msg.reply, time_as_bytes)
 
 </code></pre>
 	</div>
-	
+
 	<div class="tab__content">
 	<pre id="subscribe_w_reply_ruby_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ruby-nats-examples/blob/master/subscribe_w_reply.rb#L1-22"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-ruby">require &#39;nats/client&#39;
 require &#39;fiber&#39;
@@ -146,7 +144,7 @@ end
 
 </code></pre>
 	</div>
-	
+
 	<div class="tab__content">
 	<pre id="subscribe_w_reply_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/subscriber_samples.ts#L29-38"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// set up a subscription to process a request
 await nc.subscribe(&#39;time&#39;, (err, msg) =&gt; {
@@ -158,5 +156,5 @@ await nc.subscribe(&#39;time&#39;, (err, msg) =&gt; {
 });
 </code></pre>
 	</div>
-	
+
 </div>
