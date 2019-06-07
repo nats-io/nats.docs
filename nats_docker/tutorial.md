@@ -11,7 +11,7 @@ The easiest way to run Docker is to use the [Docker Toolbox](http://docs.docker.
 **2. Run the nats-server Docker image.**
 
 ```sh
-> docker run -p 4222:4222 -p 8222:8222 -p 6222:6222 --name gnatsd -ti nats:latest
+> docker run -p 4222:4222 -p 8222:8222 -p 6222:6222 --name nats-server -ti nats:latest
 ```
 
 **3. Verify that the NATS server is running.**
@@ -30,11 +30,11 @@ Status: Downloaded newer image for nats:latest
 Followed by this, indicating that the NATS server is running:
 
 ```sh
-[1] 2017/06/28 18:34:19.605144 [INF] Starting nats-server version 0.9.6
-[1] 2017/06/28 18:34:19.605191 [INF] Starting http monitor on 0.0.0.0:8222
-[1] 2017/06/28 18:34:19.605286 [INF] Listening for client connections on 0.0.0.0:4222
-[1] 2017/06/28 18:34:19.605312 [INF] Server is ready
-[1] 2017/06/28 18:34:19.608756 [INF] Listening for route connections on 0.0.0.0:6222
+[1] 2019/06/01 18:34:19.605144 [INF] Starting nats-server version 2.0.0
+[1] 2019/06/01 18:34:19.605191 [INF] Starting http monitor on 0.0.0.0:8222
+[1] 2019/06/01 18:34:19.605286 [INF] Listening for client connections on 0.0.0.0:4222
+[1] 2019/06/01 18:34:19.605312 [INF] Server is ready
+[1] 2019/06/01 18:34:19.608756 [INF] Listening for route connections on 0.0.0.0:6222
 ```
 
 Notice how quickly the NATS server Docker image downloads. It is a mere 6 MB in size.
@@ -53,7 +53,7 @@ Expected result:
 Trying ::1...
 Connected to localhost.
 Escape character is '^]'.
-INFO {"server_id":"YMeTi2z178lM5SG302YgH2","version":"0.9.6","go":"go1.7.4","host":"0.0.0.0","port":4222,"auth_required":false,"ssl_required":false,"tls_required":false,"tls_verify":false,"max_payload":1048576} 
+INFO {"server_id":"NDP7NP2P2KADDDUUBUDG6VSSWKCW4IC5BQHAYVMLVAJEGZITE5XP7O5J","version":"2.0.0","proto":1,"go":"go1.11.10","host":"0.0.0.0","port":4222,"max_payload":1048576,"client_id":13249} 
 ```
 
 You can also test the monitoring endpoint, viewing `http://localhost:8222` with a browser.
