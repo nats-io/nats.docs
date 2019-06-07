@@ -10,12 +10,12 @@ graph nats {
 
   publisher [shape="record", label="{Application 1 | <nats> NATS Publisher}"];
   application [shape="record", label="{Application 3 | <nats>  }"];
-  nats-server [shape="box", label="", width=4, height=0, penwidth=1];
+  gnatsd [shape="box", label="", width=4, height=0, penwidth=1];
   subscriber [shape="record", label="{<nats> NATS Subscriber | Application 2}"];
 
-  publisher:nats -- nats-server [penwidth=2];
-  application:nats -- nats-server;
-  nats-server -- subscriber:nats [penwidth=2, dir="forward"];
+  publisher:nats -- gnatsd [penwidth=2];
+  application:nats -- gnatsd;
+  gnatsd -- subscriber:nats [penwidth=2, dir="forward"];
 }
 </code></div>
 
