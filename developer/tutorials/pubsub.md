@@ -38,7 +38,7 @@ digraph nats_pub_sub {
 
 ## Prerequisites
 
-Go and the NATS server should be installed. optionally you can use the demo server located at `nats://demo.nats.io`
+Go and the NATS server should be installed. Optionally you can use the demo server located at `nats://demo.nats.io`
 
 ### 1. Start the NATS server
 
