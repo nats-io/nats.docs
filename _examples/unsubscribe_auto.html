@@ -84,7 +84,10 @@ nc.close();
 	</div>
 	
 	<div class="tab__content">
-	<pre id="unsubscribe_auto_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/subscriber_samples.js#L105-120"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// `max` specifies the number of messages that the server will forward.
+	<pre id="unsubscribe_auto_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/subscriber_samples.js#L101-119"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = NATS.connect({
+    url: &#34;nats://demo.nats.io:4222&#34;
+});
+// `max` specifies the number of messages that the server will forward.
 // The server will auto-cancel.
 let opts = {max: 10};
 let sub = nc.subscribe(NATS.createInbox(), opts, (msg) =&gt; {

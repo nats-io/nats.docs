@@ -121,7 +121,25 @@ nc.close();
 	</div>
 	
 	<div class="tab__content">
-	<pre id="drain_sub_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/subscriber_samples.js#L232-234"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// Drain subscription is not supported.
+	<pre id="drain_sub_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/subscriber_samples.js#L232-252"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = NATS.connect({url: &#34;nats://demo.nats.io:4222&#34;});
+let inbox = createInbox();
+let counter = 0;
+let sid = nc.subscribe(inbox, () =&gt; {
+    counter&#43;&#43;;
+});
+
+nc.publish(inbox);
+nc.drainSubscription(sid, (err)=&gt; {
+    if(err) {
+        t.log(err);
+    }
+    t.log(&#39;processed&#39;, counter, &#39;messages&#39;);
+});
+nc.flush(() =&gt; {
+    nc.close();
+    t.pass();
+    resolve();
+});
 </code></pre>
 	</div>
 	

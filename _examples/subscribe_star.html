@@ -86,7 +86,10 @@ nc.close();
 	</div>
 	
 	<div class="tab__content">
-	<pre id="subscribe_star_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/subscriber_samples.js#L134-157"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">nc.subscribe(&#39;time.us.*&#39;, (msg, reply, subject) =&gt; {
+	<pre id="subscribe_star_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/subscriber_samples.js#L130-156"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = NATS.connect({
+    url: &#34;nats://demo.nats.io:4222&#34;});
+
+nc.subscribe(&#39;time.us.*&#39;, (msg, reply, subject) =&gt; {
     // converting timezones correctly in node requires a library
     // this doesn&#39;t take into account *many* things.
     let time = &#34;&#34;;
