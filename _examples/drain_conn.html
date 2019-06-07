@@ -12,6 +12,11 @@
 	<label for="drain_conn_java" class="api-lang" data-language="java">Java</label>
 	
 	
+	<input type="radio" id="drain_conn_js" name="drain_conn" class="tab">
+	
+	<label for="drain_conn_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
 	<input type="radio" id="drain_conn_py" name="drain_conn" class="tab">
 	
 	<label for="drain_conn_py" class="api-lang" data-language="py">Python</label>
@@ -104,6 +109,29 @@ CompletableFuture&lt;Boolean&gt; drained = nc.drain(Duration.ofSeconds(10));
 
 // Wait for the drain to complete
 drained.get();
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="drain_conn_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/connection_samples.js#L91-111"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">let nc = NATS.connect({url: &#34;nats://demo.nats.io:4222&#34;});
+let inbox = createInbox();
+let counter = 0;
+nc.subscribe(inbox, () =&gt; {
+    counter&#43;&#43;;
+});
+
+nc.publish(inbox);
+nc.drain((err)=&gt; {
+    if(err) {
+        t.log(err);
+    }
+    t.log(&#39;connection is closed:&#39;, nc.closed);
+    t.log(&#39;processed&#39;, counter, &#39;messages&#39;);
+    t.pass();
+    // the snippet is running as a promise in a test
+    // and calls resolve to pass the test
+    resolve();
+});
 </code></pre>
 	</div>
 	

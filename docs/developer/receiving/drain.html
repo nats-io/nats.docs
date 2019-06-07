@@ -2379,6 +2379,11 @@
 	<label for="drain_conn_java" class="api-lang" data-language="java">Java</label>
 	
 	
+	<input type="radio" id="drain_conn_js" name="drain_conn" class="tab">
+	
+	<label for="drain_conn_js" class="api-lang" data-language="js">JavaScript</label>
+	
+	
 	<input type="radio" id="drain_conn_py" name="drain_conn" class="tab">
 	
 	<label for="drain_conn_py" class="api-lang" data-language="py">Python</label>
@@ -2471,6 +2476,29 @@ latch<span class="token punctuation">.</span><span class="token function">await<
 
 <span class="token comment">// Wait for the drain to complete</span>
 drained<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+	</div>
+	
+	<div class="tab__content">
+	<pre id="drain_conn_js_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/node-nats-examples/blob/master/src/connection_samples.js#L91-111"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript"><span class="token keyword">let</span> nc <span class="token operator">=</span> <span class="token constant">NATS</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">{</span>url<span class="token punctuation">:</span> <span class="token string">&quot;nats://demo.nats.io:4222&quot;</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> inbox <span class="token operator">=</span> <span class="token function">createInbox</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> counter <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+nc<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span>inbox<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    counter<span class="token operator">++</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+nc<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>inbox<span class="token punctuation">)</span><span class="token punctuation">;</span>
+nc<span class="token punctuation">.</span><span class="token function">drain</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">err</span><span class="token punctuation">)</span><span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        t<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    t<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&apos;connection is closed:&apos;</span><span class="token punctuation">,</span> nc<span class="token punctuation">.</span>closed<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    t<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&apos;processed&apos;</span><span class="token punctuation">,</span> counter<span class="token punctuation">,</span> <span class="token string">&apos;messages&apos;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    t<span class="token punctuation">.</span><span class="token function">pass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// the snippet is running as a promise in a test</span>
+    <span class="token comment">// and calls resolve to pass the test</span>
+    <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 	</div>
 	
@@ -2784,7 +2812,7 @@ nc<span class="token punctuation">.</span><span class="token function">flush</sp
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Draining Messages Before Disconnect","level":"3.5.8","depth":2,"next":{"title":"Structured Data","level":"3.5.9","depth":2,"path":"developer/receiving/structure.md","ref":"developer/receiving/structure.md","articles":[]},"previous":{"title":"Queue Subscriptions","level":"3.5.7","depth":2,"path":"developer/receiving/queues.md","ref":"developer/receiving/queues.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"anchors":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"developer/receiving/drain.md","mtime":"2019-06-07T14:58:27.245Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-07T16:09:42.554Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Draining Messages Before Disconnect","level":"3.5.8","depth":2,"next":{"title":"Structured Data","level":"3.5.9","depth":2,"path":"developer/receiving/structure.md","ref":"developer/receiving/structure.md","articles":[]},"previous":{"title":"Queue Subscriptions","level":"3.5.7","depth":2,"path":"developer/receiving/queues.md","ref":"developer/receiving/queues.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"include-html":{},"toggle-chapters":{},"anchors":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"developer/receiving/drain.md","mtime":"2019-06-07T14:58:27.245Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-07T18:14:40.088Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
