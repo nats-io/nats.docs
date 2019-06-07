@@ -33,7 +33,7 @@ NATS is an open source, lightweight, high-performance cloud native infrastructur
 
 NATS is offered in two interoperable modules: core NATS \(referred to simply as "NATS" or "NATS Server" throughout this site\), and [NATS Streaming](/nats_streaming/intro.md), an event streaming service that can be employed to add event streaming, delivery guarantees, and historical data replay to NATS.
 
-NATS was created by Derek Collison, who has over 20 years designing, building, and using publish-subscribe messaging systems. NATS is maintained by an amazing OpenSource Ecosystem, find more at [GitHub](https://www.github.com/nats-io).
+NATS was created by Derek Collison, who has over 25 years designing, building, and using publish-subscribe messaging systems. NATS is maintained by an amazing OpenSource Ecosystem, find more at [GitHub](https://www.github.com/nats-io).
 
 **What does the NATS acronym stand for?**
 
@@ -137,4 +137,3 @@ To gracefully shutdown an asynchronous subscriber so that any outstanding MsgHan
 ### How do I create subjects?
 
 Subjects are created and pruned \(deleted\) dynamically based on interest \(subscriptions\). This means that a subject does not exist in a NATS cluster until a client subscribes to it, and the subject goes away after the last subscribing client unsubscribes from that subject.
-
