@@ -241,9 +241,9 @@ Subscriber shows:
 
 ### User Authorization
 
-User authorization, as expected, also works with JWT authentication. With `nsc` you can specify authorization for specific subjects the user can or not publish or subscribe. By default a user doesn't have any limits on the subjects that it can publish or subscribe to. Any message stream or message published in the account is subscribable by the user. The user can also publish to any subject or imported service. Note that authorization, if configured, must be specified on a per user basis.
+User authorization, as expected, also works with JWT authentication. With `nsc` you can specify authorization for specific subjects to which the user can or cannot publish or subscribe. By default a user doesn't have any limits on the subjects that it can publish or subscribe to. Any message stream or message published in the account is subscribable by the user. The user can also publish to any subject or imported service. Note that authorization, if configured, must be specified on a per user basis.
 
-When specifying limits it is important to remember that clients by default use generated "inboxes" to allow publish requests. When specifying subscribe and publish permissions, you need to enable clients to subscribe and publish to `_INBOX.>`. You can further restrict it, but you'll be responsible for segmenting the subject space so as not to break request/reply communications between clients.
+When specifying limits it is important to remember that clients by default use generated "inboxes" to allow publish requests. When specifying subscribe and publish permissions, you need to enable clients to subscribe and publish to `_INBOX.>`. You can further restrict it, but you'll be responsible for segmenting the subject space so as to not break request/reply communications between clients.
 
 Let's say you have a service that your account clients can make requests to under `req.a`. To enable the service to receive and respond to requests it requires permissions to subscribe to `req.a` and publish permissions under `_INBOX.>`:
 
