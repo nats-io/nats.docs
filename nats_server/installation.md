@@ -90,7 +90,7 @@ Archive:  nats-server.zip
 If you have Go installed, installing the binary is easy:
 
 ```
-> go get github.com/nats-io/nats-server
+> GO111MODULE=on go get github.com/nats-io/nats-server/v2
 ```
 
 This mechanism will install a build of [master](https://github.com/nats-io/nats-server), which almost certainly will not be a released version. If you are a developer and want to play with the latest, this is the easiest way. 
