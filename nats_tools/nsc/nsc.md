@@ -71,9 +71,9 @@ You can view the JWT by entering the command:
 │           Operator Details            │
 ├─────────────┬─────────────────────────┤
 │ Name        │ Test                    │
-│ Operator ID │ OAYI3YUZSWDN            │
-│ Issuer ID   │ OAYI3YUZSWDN            │
-│ Issued      │ 2019-04-24 19:48:55 UTC │
+│ Operator ID │ OCEWHXFL3I5I            │
+│ Issuer ID   │ OCEWHXFL3I5I            │
+│ Issued      │ 2019-06-11 16:25:37 UTC │
 │ Expires     │                         │
 ╰─────────────┴─────────────────────────╯
 ```
@@ -86,9 +86,9 @@ Note that the Operator ID is truncated to simplify the output, to get the full I
 │                            Operator Details                            │
 ├─────────────┬──────────────────────────────────────────────────────────┤
 │ Name        │ Test                                                     │
-│ Operator ID │ OAYI3YUZSWDNMERD2IN3HZSIP3JA2E3VDTXSTEVOIII273XL2NABJP64 │
-│ Issuer ID   │ OAYI3YUZSWDNMERD2IN3HZSIP3JA2E3VDTXSTEVOIII273XL2NABJP64 │
-│ Issued      │ 2019-04-24 19:48:55 UTC                                  │
+│ Operator ID │ OCEWHXFL3I5IWPFK2674IUQTFHRZXHI52S2DKQIQJXRXC6P6GWSINZ3H │
+│ Issuer ID   │ OCEWHXFL3I5IWPFK2674IUQTFHRZXHI52S2DKQIQJXRXC6P6GWSINZ3H │
+│ Issued      │ 2019-06-11 16:25:37 UTC                                  │
 │ Expires     │                                                          │
 ╰─────────────┴──────────────────────────────────────────────────────────╯
 ```
@@ -109,26 +109,27 @@ As we did with the operator, we can describe the account:
 
 ```text
 > nsc describe account 
-╭────────────────────────────────────────────────────╮
-│                  Account Details                   │
-├──────────────────────────┬─────────────────────────┤
-│ Name                     │ TestAccount             │
-│ Account ID               │ AC7PO3MREV26            │
-│ Issuer ID                │ OAYI3YUZSWDN            │
-│ Issued                   │ 2019-04-24 19:58:01 UTC │
-│ Expires                  │                         │
-├──────────────────────────┼─────────────────────────┤
-│ Max Connections          │ Unlimited               │
-│ Max Data                 │ Unlimited               │
-│ Max Exports              │ Unlimited               │
-│ Max Imports              │ Unlimited               │
-│ Max Msg Payload          │ Unlimited               │
-│ Max Subscriptions        │ Unlimited               │
-│ Exports Allows Wildcards │ True                    │
-├──────────────────────────┼─────────────────────────┤
-│ Imports                  │ None                    │
-│ Exports                  │ None                    │
-╰──────────────────────────┴─────────────────────────╯
+╭─────────────────────────────────────────────────────╮
+│                   Account Details                   │
+├───────────────────────────┬─────────────────────────┤
+│ Name                      │ TestAccount             │
+│ Account ID                │ ADM7UGD4FV52            │
+│ Issuer ID                 │ OCEWHXFL3I5I            │
+│ Issued                    │ 2019-06-11 16:25:57 UTC │
+│ Expires                   │                         │
+├───────────────────────────┼─────────────────────────┤
+│ Max Connections           │ Unlimited               │
+│ Max Leaf Node Connections │ Unlimited               │
+│ Max Data                  │ Unlimited               │
+│ Max Exports               │ Unlimited               │
+│ Max Imports               │ Unlimited               │
+│ Max Msg Payload           │ Unlimited               │
+│ Max Subscriptions         │ Unlimited               │
+│ Exports Allows Wildcards  │ True                    │
+├───────────────────────────┼─────────────────────────┤
+│ Imports                   │ None                    │
+│ Exports                   │ None                    │
+╰───────────────────────────┴─────────────────────────╯
 ```
 
 Again, specifying the `-W` flag will print the complete account ID (the public key identifying the account).
@@ -158,9 +159,9 @@ And let’s describe it:
 │                   User                    │
 ├─────────────────┬─────────────────────────┤
 │ Name            │ TestUser                │
-│ User ID         │ UCQB7NONBKRC            │
-│ Issuer ID       │ AC7PO3MREV26            │
-│ Issued          │ 2019-04-24 20:36:25 UTC │
+│ User ID         │ UBV36EUP2B3Q            │
+│ Issuer ID       │ ADM7UGD4FV52            │
+│ Issued          │ 2019-06-11 16:26:22 UTC │
 │ Expires         │                         │
 ├─────────────────┼─────────────────────────┤
 │ Max Messages    │ Unlimited               │
@@ -237,4 +238,70 @@ Subscriber shows:
 ```text
 [#1] Received on [hello]: ’NATS’
 ```
+
+### User Authorization
+
+User authorization, as expected, also works with JWT authentication. With `nsc` you can specify authorization for specific subjects to which the user can or cannot publish or subscribe. By default a user doesn't have any limits on the subjects that it can publish or subscribe to. Any message stream or message published in the account is subscribable by the user. The user can also publish to any subject or imported service. Note that authorization, if configured, must be specified on a per user basis.
+
+When specifying limits it is important to remember that clients by default use generated "inboxes" to allow publish requests. When specifying subscribe and publish permissions, you need to enable clients to subscribe and publish to `_INBOX.>`. You can further restrict it, but you'll be responsible for segmenting the subject space so as to not break request/reply communications between clients.
+
+Let's say you have a service that your account clients can make requests to under `req.a`. To enable the service to receive and respond to requests it requires permissions to subscribe to `req.a` and publish permissions under `_INBOX.>`:
+
+```text
+> nsc add user --name TestService --allow-pub "_INBOX.>" --allow-sub "req.a"
+Generated user key - private key stored "~/.nkeys/Test/accounts/TestAccount/users/TestService.nk"
+Generated user creds file "~/.nkeys/Test/accounts/TestAccount/users/TestService.creds"
+Success! - added user "TestService" to "TestAccount"
+
+> nsc describe user --name TestService
+╭───────────────────────────────────────────╮
+│                   User                    │
+├─────────────────┬─────────────────────────┤
+│ Name            │ TestService             │
+│ User ID         │ UCAYGJXTF5WO            │
+│ Issuer ID       │ ADM7UGD4FV52            │
+│ Issued          │ 2019-06-11 16:41:03 UTC │
+│ Expires         │                         │
+├─────────────────┼─────────────────────────┤
+│ Pub Allow       │ _INBOX.>                │
+│ Sub Allow       │ req.a                   │
+├─────────────────┼─────────────────────────┤
+│ Max Messages    │ Unlimited               │
+│ Max Msg Payload │ Unlimited               │
+│ Network Src     │ Any                     │
+│ Time            │ Any                     │
+╰─────────────────┴─────────────────────────╯
+```
+
+As you can see this client is not limited to publishing responses to `_INBOX.>` addresses, and to subscribing to the service's request subject.
+
+Similarly, we can limit a client:
+
+```text
+> nsc add user --name TestClient --allow-pub "req.a" --allow-sub "_INBOX.>"
+Generated user key - private key stored "~/.nkeys/Test/accounts/TestAccount/users/TestClient.nk"
+Generated user creds file "~/.nkeys/Test/accounts/TestAccount/users/TestClient.creds"
+Success! - added user "TestClient" to "TestAccount"
+
+> nsc describe user --name TestClient
+╭───────────────────────────────────────────╮
+│                   User                    │
+├─────────────────┬─────────────────────────┤
+│ Name            │ TestClient              │
+│ User ID         │ UDJ3LCVNTYXL            │
+│ Issuer ID       │ ADM7UGD4FV52            │
+│ Issued          │ 2019-06-11 16:43:46 UTC │
+│ Expires         │                         │
+├─────────────────┼─────────────────────────┤
+│ Pub Allow       │ req.a                   │
+│ Sub Allow       │ _INBOX.>                │
+├─────────────────┼─────────────────────────┤
+│ Max Messages    │ Unlimited               │
+│ Max Msg Payload │ Unlimited               │
+│ Network Src     │ Any                     │
+│ Time            │ Any                     │
+╰─────────────────┴─────────────────────────╯
+```
+
+The client has the opposite permissions of the service. It can publish on the request subject `req.a`, and receive replies on an inbox.
 
