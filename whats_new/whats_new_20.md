@@ -217,4 +217,4 @@ can be revoked with the master updating this JWT.
   * The server uses resolvers to obtain JWTs and verify the client trust chain.
 
 This allows for rapid change of permissions, authentication and limits, to a
-the secure multi-tenant NATS system.
+secure multi-tenant NATS system.
