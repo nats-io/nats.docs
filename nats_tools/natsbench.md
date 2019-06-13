@@ -29,13 +29,13 @@ The NATS benchmark can be installed and run via Go.  Ensure your golang environm
 There are two approaches; you can either install the `nats-bench` utility in the directory specified in your `GOBIN` environment variable:
 
 ```sh
-% go install $GOPATH/src/github.com/nats-io/nats.go/examples/nats-bench.go
+% go install $GOPATH/src/github.com/nats-io/nats.go/examples/nats-bench/main.go
 ```
 
 ... or you can simply run it via `go run`:
 
 ```sh
-% go run $GOPATH/src/github.com/nats-io/nats.go/examples/nats-bench.go
+% go run $GOPATH/src/github.com/nats-io/nats.go/examples/nats-bench/main.go
 ```
 
 *On windows use the % environment variable syntax, replacing `$GOPATH` with `%GOPATH%`.*
