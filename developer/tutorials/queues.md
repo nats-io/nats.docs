@@ -16,8 +16,8 @@ nats-server
 
 ```sh
 go get github.com/nats-io/nats.go
-git clone https://github.com/nats-io/node-nats.git
-git clone https://github.com/nats-io/ruby-nats.git
+git clone https://github.com/nats-io/nats.js.git
+git clone https://github.com/nats-io/nats.rb.git
 ```
 
 ### 3. Run the Go client subscriber with queue group name
@@ -31,7 +31,7 @@ go run nats-qsub/main.go foo my-queue
 
 ```sh
 npm install nats
-cd node-nats/examples
+cd nats.js/examples
 node node-sub foo my-queue
 ```
 
