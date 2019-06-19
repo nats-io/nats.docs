@@ -2361,9 +2361,10 @@
 <p><strong>Control line w/Optional Content</strong>: Each interaction between the client and server consists of a control, or protocol, line of text followed, optionally by message content. Most of the protocol messages don&apos;t require content, only <code>PUB</code> and <code>MSG</code> include payloads.</p>
 <p><strong>Field Delimiters</strong>: The fields of NATS protocol messages are delimited by whitespace characters &apos;<code>`&apos; (space)  or</code>\t` (tab). Multiple whitespace characters will be treated as a single field delimiter.</p>
 <p><strong>Newlines</strong>: NATS uses <code>CR</code> followed by <code>LF</code> (<code>CR+LF</code>, <code>\r\n</code>, <code>0x0D0A</code>) to terminate protocol messages. This newline sequence is also used to mark the end of the message payload in a <code>PUB</code> or <code>MSG</code> protocol message.</p>
-<p><strong>Subject names</strong>: Subject names, including reply subject (INBOX) names, are case-sensitive and must be non-empty alphanumeric strings with no embedded whitespace, and optionally token-delimited using the dot character (<code>.</code>), e.g.:</p>
+<p><strong>Subject names</strong>: Subject names, including reply subject (INBOX) names, are case-sensitive and must be non-empty alphanumeric strings with no embedded whitespace. All ascii alphanumeric characters except spaces/tabs and separators which are &quot;.&quot; and &quot;&gt;&quot; are allowed. Subject names can be optionally token-delimited using the dot character (<code>.</code>), e.g.:</p>
 <p><code>FOO</code>, <code>BAR</code>, <code>foo.bar</code>, <code>foo.BAR</code>, <code>FOO.BAR</code> and <code>FOO.BAR.BAZ</code> are all valid subject names</p>
 <p><code>FOO. BAR</code>, <code>foo. .bar</code> and<code>foo..bar</code> are <em>not</em> valid subject names</p>
+<p>A subject is comprised of 1 or more tokens. Tokens are separated by &quot;.&quot; and can be any non space ascii alphanumeric character. The full wildcard token &quot;&gt;&quot; is only valid as the last token and matches all tokens past that point. A token wildcard, &quot;*&quot; matches any token in the position it was listed. Wildcard tokens should only be used in a wildcard capacity and not part of a literal token.</p>
 <p><strong>Character Encoding</strong>: Subject names should be ascii characters for maximum interoperability. Due to language constraints and performance, some clients may support UTF-8 subject names, as may the server. No guarantees of non-ASCII support are provided.</p>
 <p><strong>Wildcards</strong>: NATS supports the use of wildcards in subject subscriptions.</p>
 <ul>
@@ -2655,7 +2656,7 @@ Connection closed by foreign host.
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Client Protocol","level":"9.2","depth":1,"next":{"title":"Developing a Client","level":"9.2.1","depth":2,"path":"nats_protocol/nats-client-dev.md","ref":"nats_protocol/nats-client-dev.md","articles":[]},"previous":{"title":"Protocol Demo","level":"9.1","depth":1,"path":"nats_protocol/nats-protocol-demo.md","ref":"nats_protocol/nats-protocol-demo.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_protocol/nats-protocol.md","mtime":"2019-06-07T14:58:27.248Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-14T20:59:59.144Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Client Protocol","level":"9.2","depth":1,"next":{"title":"Developing a Client","level":"9.2.1","depth":2,"path":"nats_protocol/nats-client-dev.md","ref":"nats_protocol/nats-client-dev.md","articles":[]},"previous":{"title":"Protocol Demo","level":"9.1","depth":1,"path":"nats_protocol/nats-protocol-demo.md","ref":"nats_protocol/nats-protocol-demo.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_protocol/nats-protocol.md","mtime":"2019-06-19T14:28:09.271Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-19T14:33:09.913Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
@@ -2743,6 +2744,16 @@ Connection closed by foreign host.
         window.gitbook.events.bind("page.change", function () {
             pageChanged();
         });
+
+        var searchInput = document.querySelector('#book-search-input input');
+
+        if (searchInput) {
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.keyCode === 13) {
+                    event.target.blur();
+                }
+            });
+        }
     }
 
     function pageChanged() {
