@@ -90,6 +90,16 @@
         window.gitbook.events.bind("page.change", function () {
             pageChanged();
         });
+
+        var searchInput = document.querySelector('#book-search-input input');
+
+        if (searchInput) {
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.keyCode === 13) {
+                    event.target.blur();
+                }
+            });
+        }
     }
 
     function pageChanged() {
