@@ -2374,49 +2374,49 @@ As in the client protocol, the NATS protocol operation names are case insensitiv
 </thead>
 <tbody>
 <tr>
-<td><a href="#INFO"><code>INFO</code></a></td>
+<td><a href="#info"><code>INFO</code></a></td>
 <td style="text-align:left">All Servers</td>
 <td style="text-align:left">Sent after initial TCP/IP connection and to update cluster knowledge</td>
 </tr>
 <tr>
-<td><a href="#CONNECT"><code>CONNECT</code></a></td>
+<td><a href="#connect"><code>CONNECT</code></a></td>
 <td style="text-align:left">All Servers</td>
 <td style="text-align:left">Sent to establish a route</td>
 </tr>
 <tr>
-<td><a href="#SUB"><code>RS+</code></a></td>
+<td><a href="#sub"><code>RS+</code></a></td>
 <td style="text-align:left">All Servers</td>
 <td style="text-align:left">Subscribes to a subject for a given account on behalf of interested clients.</td>
 </tr>
 <tr>
-<td><a href="#UNSUB"><code>RS-</code></a></td>
+<td><a href="#unsub"><code>RS-</code></a></td>
 <td style="text-align:left">All Servers</td>
 <td style="text-align:left">Unsubscribe (or auto-unsubscribe) from subject for a given account.</td>
 </tr>
 <tr>
-<td><a href="#MSG"><code>RMSG</code></a></td>
+<td><a href="#rmsg"><code>RMSG</code></a></td>
 <td style="text-align:left">Origin Server</td>
 <td style="text-align:left">Delivers a message for a given subject and account to another server.</td>
 </tr>
 <tr>
-<td><a href="#PINGPONG"><code>PING</code></a></td>
+<td><a href="#pingpong"><code>PING</code></a></td>
 <td style="text-align:left">All Servers</td>
 <td style="text-align:left">PING keep-alive message</td>
 </tr>
 <tr>
-<td><a href="#PINGPONG"><code>PONG</code></a></td>
+<td><a href="#pingpong"><code>PONG</code></a></td>
 <td style="text-align:left">All Servers</td>
 <td style="text-align:left">PONG keep-alive response</td>
 </tr>
 <tr>
-<td><a href="#ERR"><code>-ERR</code></a></td>
+<td><a href="#-err"><code>-ERR</code></a></td>
 <td style="text-align:left">All Servers</td>
 <td style="text-align:left">Indicates a protocol error. May cause the remote server to disconnect.</td>
 </tr>
 </tbody>
 </table>
 <p>The following sections explain each protocol message.</p>
-<h2 id="info"><a name="info" class="plugin-anchor" href="#info"><i class="fa fa-link" aria-hidden="true"></i></a><a name="INFO"></a>INFO</h2>
+<h2 id="info"><a name="info" class="plugin-anchor" href="#info"><i class="fa fa-link" aria-hidden="true"></i></a>INFO</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
 <p>As soon as the server accepts a connection from another server, it will send information about itself and the configuration and security requirements that are necessary for the other server to successfully authenticate with the server and exchange messages.</p>
 <p>The connecting server also sends an <code>INFO</code> message.  The accepting server will add an <code>ip</code> field containing the address and port of the connecting server, and forward the new server&apos;s <code>INFO</code> message to all servers it is routed to.</p>
@@ -2439,9 +2439,9 @@ As in the client protocol, the NATS protocol operation names are case insensitiv
 <h4 id="example"><a name="example" class="plugin-anchor" href="#example"><i class="fa fa-link" aria-hidden="true"></i></a>Example</h4>
 <p>Below is an example of an <code>INFO</code> string received by a NATS server, with the <code>ip</code> field.</p>
 <p><code>INFO {&quot;server_id&quot;:&quot;KP19vTlB417XElnv8kKaC5&quot;,&quot;version&quot;:&quot;2.0.0&quot;,&quot;go&quot;:&quot;&quot;,&quot;host&quot;:&quot;localhost&quot;,&quot;port&quot;:5222,&quot;auth_required&quot;:false,&quot;tls_required&quot;:false,&quot;tls_verify&quot;:false,&quot;max_payload&quot;:1048576,&quot;ip&quot;:&quot;nats-route://127.0.0.1:5222/&quot;,&quot;connect_urls&quot;:[&quot;localhost:4222&quot;]}</code></p>
-<h2 id="connect"><a name="connect" class="plugin-anchor" href="#connect"><i class="fa fa-link" aria-hidden="true"></i></a><a name="CONNECT"></a>CONNECT</h2>
+<h2 id="connect"><a name="connect" class="plugin-anchor" href="#connect"><i class="fa fa-link" aria-hidden="true"></i></a>CONNECT</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
-<p>The <code>CONNECT</code> message is analogous to the <code>INFO</code> message. Once the NATS server has established a TCP/IP socket connection with another server, and an <code>INFO</code> message has been received, the server will send a <code>CONNECT</code> message to provide more information about the current connection as well as security information.</p>
+<p>The <code>CONNECT</code> message is analogous to the <a href="#info"><code>INFO</code></a> message. Once the NATS server has established a TCP/IP socket connection with another server, and an <a href="#info"><code>INFO</code></a> message has been received, the server will send a <code>CONNECT</code> message to provide more information about the current connection as well as security information.</p>
 <h4 id="syntax"><a name="syntax" class="plugin-anchor" href="#syntax"><i class="fa fa-link" aria-hidden="true"></i></a>Syntax</h4>
 <p><code>CONNECT {[&quot;option_name&quot;:option_value],...}</code></p>
 <p>The valid options are as follows:</p>
@@ -2481,7 +2481,7 @@ Note that queue subscriptions will use RS+ for increases and descreases to queue
 <li><code>account</code>: The account associated with the subject interest</li>
 <li><code>subject</code>: The subject</li>
 </ul>
-<h2 id="rmsg"><a name="rmsg" class="plugin-anchor" href="#rmsg"><i class="fa fa-link" aria-hidden="true"></i></a><a name="MSG"></a>RMSG</h2>
+<h2 id="rmsg"><a name="rmsg" class="plugin-anchor" href="#rmsg"><i class="fa fa-link" aria-hidden="true"></i></a>RMSG</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
 <p>The <code>RMSG</code> protocol message delivers a message to another server.</p>
 <h4 id="syntax"><a name="syntax" class="plugin-anchor" href="#syntax"><i class="fa fa-link" aria-hidden="true"></i></a>Syntax</h4>
@@ -2494,14 +2494,14 @@ Note that queue subscriptions will use RS+ for increases and descreases to queue
 <li><code>#bytes</code>: Size of the payload in bytes</li>
 <li><code>payload</code>: The message payload data</li>
 </ul>
-<h2 id="pingpong"><a name="pingpong" class="plugin-anchor" href="#pingpong"><i class="fa fa-link" aria-hidden="true"></i></a><a name="PINGPONG"></a>PING/PONG</h2>
+<h2 id="pingpong"><a name="pingpong" class="plugin-anchor" href="#pingpong"><i class="fa fa-link" aria-hidden="true"></i></a>PING/PONG</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
 <p><code>PING</code> and <code>PONG</code> implement a simple keep-alive mechanism between servers. Once two servers establish a connection with each other, the NATS server will continuously send <code>PING</code> messages to other servers at a configurable interval. If another server fails to respond with a <code>PONG</code> message within the configured response interval, the server will terminate its connection. If your connection stays idle for too long, it is cut off.</p>
 <p>If the another server sends a ping request, a server will reply with a pong message to notify the other server that it is still present.</p>
 <h4 id="syntax"><a name="syntax" class="plugin-anchor" href="#syntax"><i class="fa fa-link" aria-hidden="true"></i></a>Syntax</h4>
 <p><code>PING\r\n</code>
 <code>PONG\r\n</code></p>
-<h2 id="err"><a name="err" class="plugin-anchor" href="#err"><i class="fa fa-link" aria-hidden="true"></i></a><a name="ERR"></a>-ERR</h2>
+<h2 id="err"><a name="err" class="plugin-anchor" href="#err"><i class="fa fa-link" aria-hidden="true"></i></a>-ERR</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
 <p>The <code>-ERR</code> message is used by the server to indicate a protocol, authorization, or other runtime connection error to another server. Most of these errors result in the remote server closing the connection.</p>
 
@@ -2543,7 +2543,7 @@ Note that queue subscriptions will use RS+ for increases and descreases to queue
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"NATS Cluster Protocol","level":"9.3","depth":1,"previous":{"title":"Developing a Client","level":"9.2.1","depth":2,"path":"nats_protocol/nats-client-dev.md","ref":"nats_protocol/nats-client-dev.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_protocol/nats-server-protocol.md","mtime":"2019-06-07T14:58:27.248Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-19T14:33:09.913Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"NATS Cluster Protocol","level":"9.3","depth":1,"previous":{"title":"Developing a Client","level":"9.2.1","depth":2,"path":"nats_protocol/nats-client-dev.md","ref":"nats_protocol/nats-client-dev.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_protocol/nats-server-protocol.md","mtime":"2019-06-24T18:36:39.426Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-24T18:36:56.167Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

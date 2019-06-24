@@ -2387,62 +2387,62 @@ it is also possible to express interest in every subject that may exist in NATS:
 </thead>
 <tbody>
 <tr>
-<td><a href="#INFO"><code>INFO</code></a></td>
+<td><a href="#info"><code>INFO</code></a></td>
 <td style="text-align:left">Server</td>
 <td style="text-align:left">Sent to client after initial TCP/IP connection</td>
 </tr>
 <tr>
-<td><a href="#CONNECT"><code>CONNECT</code></a></td>
+<td><a href="#connect"><code>CONNECT</code></a></td>
 <td style="text-align:left">Client</td>
 <td style="text-align:left">Sent to server to specify connection information</td>
 </tr>
 <tr>
-<td><a href="#PUB"><code>PUB</code></a></td>
+<td><a href="#pub"><code>PUB</code></a></td>
 <td style="text-align:left">Client</td>
 <td style="text-align:left">Publish a message to a subject, with optional reply subject</td>
 </tr>
 <tr>
-<td><a href="#SUB"><code>SUB</code></a></td>
+<td><a href="#sub"><code>SUB</code></a></td>
 <td style="text-align:left">Client</td>
 <td style="text-align:left">Subscribe to a subject (or subject wildcard)</td>
 </tr>
 <tr>
-<td><a href="#UNSUB"><code>UNSUB</code></a></td>
+<td><a href="#unsub"><code>UNSUB</code></a></td>
 <td style="text-align:left">Client</td>
 <td style="text-align:left">Unsubscribe (or auto-unsubscribe) from subject</td>
 </tr>
 <tr>
-<td><a href="#MSG"><code>MSG</code></a></td>
+<td><a href="#msg"><code>MSG</code></a></td>
 <td style="text-align:left">Server</td>
 <td style="text-align:left">Delivers a message payload to a subscriber</td>
 </tr>
 <tr>
-<td><a href="#PINGPONG"><code>PING</code></a></td>
+<td><a href="#pingpong"><code>PING</code></a></td>
 <td style="text-align:left">Both</td>
 <td style="text-align:left">PING keep-alive message</td>
 </tr>
 <tr>
-<td><a href="#PINGPONG"><code>PONG</code></a></td>
+<td><a href="#pingpong"><code>PONG</code></a></td>
 <td style="text-align:left">Both</td>
 <td style="text-align:left">PONG keep-alive response</td>
 </tr>
 <tr>
-<td><a href="#OKERR"><code>+OK</code></a></td>
+<td><a href="#okerr"><code>+OK</code></a></td>
 <td style="text-align:left">Server</td>
 <td style="text-align:left">Acknowledges well-formed protocol message in <code>verbose</code> mode</td>
 </tr>
 <tr>
-<td><a href="#OKERR"><code>-ERR</code></a></td>
+<td><a href="#okerr"><code>-ERR</code></a></td>
 <td style="text-align:left">Server</td>
 <td style="text-align:left">Indicates a protocol error. May cause client disconnect.</td>
 </tr>
 </tbody>
 </table>
 <p>The following sections explain each protocol message.</p>
-<h2 id="info"><a name="info" class="plugin-anchor" href="#info"><i class="fa fa-link" aria-hidden="true"></i></a><a name="INFO"></a>INFO</h2>
+<h2 id="info"><a name="info" class="plugin-anchor" href="#info"><i class="fa fa-link" aria-hidden="true"></i></a>INFO</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
 <p>As soon as the server accepts a connection from the client, it will send information about itself and the configuration and security requirements that are necessary for the client to successfully authenticate with the server and exchange messages.</p>
-<p>When using the updated client protocol (see <a href="#CONNECT"><code>CONNECT</code></a> below), <code>INFO</code> messages can be sent anytime by the server.  This means clients with that protocol level need to be able to asynchronously handle <code>INFO</code> messages.</p>
+<p>When using the updated client protocol (see <a href="#connect"><code>CONNECT</code></a> below), <code>INFO</code> messages can be sent anytime by the server.  This means clients with that protocol level need to be able to asynchronously handle <code>INFO</code> messages.</p>
 <h4 id="syntax"><a name="syntax" class="plugin-anchor" href="#syntax"><i class="fa fa-link" aria-hidden="true"></i></a>Syntax</h4>
 <p><code>INFO {[&quot;option_name&quot;:option_value],...}</code></p>
 <p>The valid options are as follows:</p>
@@ -2473,14 +2473,14 @@ Connected to demo.nats.io.
 Escape character is <span class="token string">&apos;^]&apos;</span><span class="token keyword">.</span>
 INFO <span class="token punctuation">{</span><span class="token string">&quot;server_id&quot;</span><span class="token keyword">:</span><span class="token string">&quot;Zk0GQ3JBSrg3oyxCRRlE09&quot;</span>,<span class="token string">&quot;version&quot;</span><span class="token keyword">:</span><span class="token string">&quot;1.2.0&quot;</span>,<span class="token string">&quot;proto&quot;</span>:1,<span class="token string">&quot;go&quot;</span><span class="token keyword">:</span><span class="token string">&quot;go1.10.3&quot;</span>,<span class="token string">&quot;host&quot;</span><span class="token keyword">:</span><span class="token string">&quot;0.0.0.0&quot;</span>,<span class="token string">&quot;port&quot;</span>:4222,<span class="token string">&quot;max_payload&quot;</span>:1048576,<span class="token string">&quot;client_id&quot;</span>:2392<span class="token punctuation">}</span>
 </code></pre>
-<h2 id="connect"><a name="connect" class="plugin-anchor" href="#connect"><i class="fa fa-link" aria-hidden="true"></i></a><a name="CONNECT"></a>CONNECT</h2>
+<h2 id="connect"><a name="connect" class="plugin-anchor" href="#connect"><i class="fa fa-link" aria-hidden="true"></i></a>CONNECT</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
-<p>The <code>CONNECT</code> message is the client version of the <code>INFO</code> message. Once the client has established a TCP/IP socket connection with the NATS server, and an <code>INFO</code> message has been received from the server, the client may send a <code>CONNECT</code> message to the NATS server to provide more information about the current connection as well as security information.</p>
+<p>The <code>CONNECT</code> message is the client version of the <a href="#info"><code>INFO</code></a> message. Once the client has established a TCP/IP socket connection with the NATS server, and an <a href="#info"><code>INFO</code></a> message has been received from the server, the client may send a <code>CONNECT</code> message to the NATS server to provide more information about the current connection as well as security information.</p>
 <h4 id="syntax"><a name="syntax" class="plugin-anchor" href="#syntax"><i class="fa fa-link" aria-hidden="true"></i></a>Syntax</h4>
 <p><code>CONNECT {[&quot;option_name&quot;:option_value],...}</code></p>
 <p>The valid options are as follows:</p>
 <ul>
-<li><code>verbose</code>: Turns on <a href="#OKERR"><code>+OK</code></a> protocol acknowledgements.</li>
+<li><code>verbose</code>: Turns on <a href="#okerr"><code>+OK</code></a> protocol acknowledgements.</li>
 <li><code>pedantic</code>: Turns on additional strict format checking, e.g. for properly formed subjects</li>
 <li><code>tls_required</code>: Indicates whether the client requires an SSL connection.</li>
 <li><code>auth_token</code>: Client authorization token (if <code>auth_required</code> is set)</li>
@@ -2489,14 +2489,14 @@ INFO <span class="token punctuation">{</span><span class="token string">&quot;se
 <li><code>name</code>: Optional client name</li>
 <li><code>lang</code>: The implementation language of the client.</li>
 <li><code>version</code>: The version of the client.</li>
-<li><code>protocol</code>: <em>optional int</em>. Sending <code>0</code> (or absent) indicates client supports original protocol. Sending <code>1</code> indicates that the client supports dynamic reconfiguration of cluster topology changes by asynchronously receiving <code>INFO</code> messages with known servers it can reconnect to.</li>
+<li><code>protocol</code>: <em>optional int</em>. Sending <code>0</code> (or absent) indicates client supports original protocol. Sending <code>1</code> indicates that the client supports dynamic reconfiguration of cluster topology changes by asynchronously receiving <a href="#info"><code>INFO</code></a> messages with known servers it can reconnect to.</li>
 <li><code>echo</code>: Optional boolean. If set to <code>true</code>, the server (version 1.2.0+) will not send originating messages from this connection to its own subscriptions. Clients should set this to <code>true</code> only for server supporting this feature, which is when <code>proto</code> in the <code>INFO</code> protocol is set to at least <code>1</code>.</li>
 </ul>
 <h4 id="example"><a name="example" class="plugin-anchor" href="#example"><i class="fa fa-link" aria-hidden="true"></i></a>Example</h4>
 <p>Here is an example from the default string of the Go client:</p>
 <pre class="language-"><code>[CONNECT {&quot;verbose&quot;:false,&quot;pedantic&quot;:false,&quot;tls_required&quot;:false,&quot;name&quot;:&quot;&quot;,&quot;lang&quot;:&quot;go&quot;,&quot;version&quot;:&quot;1.2.2&quot;,&quot;protocol&quot;:1}]\r\n
-</code></pre><p>Most clients set <code>verbose</code> to <code>false</code> by default. This means that the server should not confirm each message it receives on this connection with a <code>+OK</code> back to the client.</p>
-<h2 id="pub"><a name="pub" class="plugin-anchor" href="#pub"><i class="fa fa-link" aria-hidden="true"></i></a><a name="PUB"></a>PUB</h2>
+</code></pre><p>Most clients set <code>verbose</code> to <code>false</code> by default. This means that the server should not confirm each message it receives on this connection with a <a href="#okerr"><code>+OK</code></a> back to the client.</p>
+<h2 id="pub"><a name="pub" class="plugin-anchor" href="#pub"><i class="fa fa-link" aria-hidden="true"></i></a>PUB</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
 <p>The <code>PUB</code> message publishes the message payload to the given subject name, optionally supplying a reply subject. If a reply subject is supplied, it will be delivered to eligible subscribers along with the supplied payload. Note that the payload itself is optional. To omit the payload, set the payload size to 0, but the second CRLF is still required.</p>
 <h4 id="syntax"><a name="syntax" class="plugin-anchor" href="#syntax"><i class="fa fa-link" aria-hidden="true"></i></a>Syntax</h4>
@@ -2515,7 +2515,7 @@ INFO <span class="token punctuation">{</span><span class="token string">&quot;se
 <p><code>PUB FRONT.DOOR INBOX.22 11\r\nKnock Knock\r\n</code></p>
 <p>To publish an empty message to subject NOTIFY:</p>
 <p><code>PUB NOTIFY 0\r\n\r\n</code></p>
-<h2 id="sub"><a name="sub" class="plugin-anchor" href="#sub"><i class="fa fa-link" aria-hidden="true"></i></a><a name="SUB"></a>SUB</h2>
+<h2 id="sub"><a name="sub" class="plugin-anchor" href="#sub"><i class="fa fa-link" aria-hidden="true"></i></a>SUB</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
 <p><code>SUB</code> initiates a subscription to a subject, optionally joining a distributed queue group.</p>
 <h4 id="syntax"><a name="syntax" class="plugin-anchor" href="#syntax"><i class="fa fa-link" aria-hidden="true"></i></a>Syntax</h4>
@@ -2531,7 +2531,7 @@ INFO <span class="token punctuation">{</span><span class="token string">&quot;se
 <p><code>SUB FOO 1\r\n</code></p>
 <p>To subscribe the current connection to the subject <code>BAR</code> as part of distribution queue group <code>G1</code> with sid <code>44</code>:</p>
 <p><code>SUB BAR G1 44\r\n</code></p>
-<h2 id="unsub"><a name="unsub" class="plugin-anchor" href="#unsub"><i class="fa fa-link" aria-hidden="true"></i></a><a name="UNSUB"></a>UNSUB</h2>
+<h2 id="unsub"><a name="unsub" class="plugin-anchor" href="#unsub"><i class="fa fa-link" aria-hidden="true"></i></a>UNSUB</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
 <p><code>UNSUB</code> unsubcribes the connection from the  specified subject, or auto-unsubscribes after the specified number of messages has been received.</p>
 <h4 id="syntax"><a name="syntax" class="plugin-anchor" href="#syntax"><i class="fa fa-link" aria-hidden="true"></i></a>Syntax</h4>
@@ -2546,7 +2546,7 @@ INFO <span class="token punctuation">{</span><span class="token string">&quot;se
 <p><code>UNSUB 1\r\n</code></p>
 <p>To auto-unsubscribe from <code>FOO</code> after 5 messages have been received:</p>
 <p><code>UNSUB 1 5\r\n</code></p>
-<h2 id="msg"><a name="msg" class="plugin-anchor" href="#msg"><i class="fa fa-link" aria-hidden="true"></i></a><a name="MSG"></a>MSG</h2>
+<h2 id="msg"><a name="msg" class="plugin-anchor" href="#msg"><i class="fa fa-link" aria-hidden="true"></i></a>MSG</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
 <p>The <code>MSG</code> protocol message is used to deliver an application message to the client.</p>
 <h4 id="syntax"><a name="syntax" class="plugin-anchor" href="#syntax"><i class="fa fa-link" aria-hidden="true"></i></a>Syntax</h4>
@@ -2564,7 +2564,7 @@ INFO <span class="token punctuation">{</span><span class="token string">&quot;se
 <p><code>MSG FOO.BAR 9 11\r\nHello World\r\n</code></p>
 <p>To deliver the same message along with a reply inbox:</p>
 <p><code>MSG FOO.BAR 9 INBOX.34 11\r\nHello World\r\n</code></p>
-<h2 id="pingpong"><a name="pingpong" class="plugin-anchor" href="#pingpong"><i class="fa fa-link" aria-hidden="true"></i></a><a name="PINGPONG"></a>PING/PONG</h2>
+<h2 id="pingpong"><a name="pingpong" class="plugin-anchor" href="#pingpong"><i class="fa fa-link" aria-hidden="true"></i></a>PING/PONG</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
 <p><code>PING</code> and <code>PONG</code> implement a simple keep-alive mechanism between client and server. Once a client establishes a connection to the NATS server, the server will continuously send <code>PING</code> messages to the client at a configurable interval. If the client fails to respond with a <code>PONG</code> message within the configured response interval, the server will terminate its connection. If your connection stays idle for too long, it is cut off.</p>
 <p>If the server sends a ping request, you can reply with a pong message to notify the server that you are still interested. You can also ping the server and will receive a pong reply. The ping/pong interval is configurable.</p>
@@ -2584,9 +2584,9 @@ PING
 PING
 -ERR &apos;Stale Connection&apos;
 Connection closed by foreign host.
-</code></pre><h2 id="okerr"><a name="okerr" class="plugin-anchor" href="#okerr"><i class="fa fa-link" aria-hidden="true"></i></a><a name="OKERR"></a>+OK/ERR</h2>
+</code></pre><h2 id="okerr"><a name="okerr" class="plugin-anchor" href="#okerr"><i class="fa fa-link" aria-hidden="true"></i></a>+OK/ERR</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
-<p>When the <code>verbose</code> connection option is set to <code>true</code> (the default value), the server acknowledges each well-formed protocol message from the client with a <code>+OK</code> message. Most NATS clients set the <code>verbose</code> option to <code>false</code> using the <a href="#CONNECT">CONNECT</a> message</p>
+<p>When the <code>verbose</code> connection option is set to <code>true</code> (the default value), the server acknowledges each well-formed protocol message from the client with a <code>+OK</code> message. Most NATS clients set the <code>verbose</code> option to <code>false</code> using the <a href="#connect"><code>CONNECT</code></a> message</p>
 <p>The <code>-ERR</code> message is used by the server indicate a protocol, authorization, or other runtime connection error to the client. Most of these errors result in the server closing the connection.</p>
 <p>Handling of these errors usually has to be done asynchronously.</p>
 <h4 id="syntax"><a name="syntax" class="plugin-anchor" href="#syntax"><i class="fa fa-link" aria-hidden="true"></i></a>Syntax</h4>
@@ -2596,22 +2596,22 @@ Connection closed by foreign host.
 <ul>
 <li><code>-ERR &apos;Unknown Protocol Operation&apos;</code>: Unknown protocol error</li>
 <li><code>-ERR &apos;Attempted To Connect To Route Port&apos;</code>: Client attempted to connect to a route port instead of the client port</li>
-<li><code>-ERR &apos;Authorization Violation&apos;</code>: Client failed to authenticate to the server with credentials specified in the <a href="#CONNECT">CONNECT</a> message</li>
+<li><code>-ERR &apos;Authorization Violation&apos;</code>: Client failed to authenticate to the server with credentials specified in the <a href="#connect"><code>CONNECT</code></a> message</li>
 <li><code>-ERR &apos;Authorization Timeout&apos;</code>: Client took too long to authenticate to the server after establishing a connection (default 1 second)</li>
-<li><code>-ERR &apos;Invalid Client Protocol&apos;</code>: Client specified an invalid protocol version in the <a href="#CONNECT">CONNECT</a> message</li>
+<li><code>-ERR &apos;Invalid Client Protocol&apos;</code>: Client specified an invalid protocol version in the <a href="#connect"><code>CONNECT</code></a> message</li>
 <li><code>-ERR &apos;Maximum Control Line Exceeded&apos;</code>: Message destination subject and reply subject length exceeded the maximum control line value specified by the <code>max_control_line</code> server option.  The default is 1024 bytes.</li>
 <li><code>-ERR &apos;Parser Error&apos;</code>: Cannot parse the protocol message sent by the client</li>
 <li><code>-ERR &apos;Secure Connection - TLS Required&apos;</code>:  The server requires TLS and the client does not have TLS enabled.</li>
 <li><code>-ERR &apos;Stale Connection&apos;</code>: The server hasn&apos;t received a message from the client, including a <code>PONG</code> in too long.</li>
 <li><code>-ERR &apos;Maximum Connections Exceeded</code>&apos;: This error is sent by the server when creating a new connection and the server has exceeded the maximum number of connections specified by the <code>max_connections</code> server option.  The default is 64k.</li>
 <li><code>-ERR &apos;Slow Consumer&apos;</code>: The server pending data size for the connection has reached the maximum size (default 10MB).</li>
-<li><code>-ERR &apos;Maximum Payload Violation&apos;</code>: Client attempted to publish a message with a payload size that exceeds the <code>max_payload</code> size configured on the server. This value is supplied to the client upon connection in the initial <a href="#INFO"><code>INFO</code></a> message. The client is expected to do proper accounting of byte size to be sent to the server in order to handle this error synchronously.</li>
+<li><code>-ERR &apos;Maximum Payload Violation&apos;</code>: Client attempted to publish a message with a payload size that exceeds the <code>max_payload</code> size configured on the server. This value is supplied to the client upon connection in the initial <a href="#info"><code>INFO</code></a> message. The client is expected to do proper accounting of byte size to be sent to the server in order to handle this error synchronously.</li>
 </ul>
 <p>Protocol error messages where the connection remains open are listed below.  The client should not close the connection in these cases.</p>
 <ul>
 <li><code>-ERR &apos;Invalid Subject&apos;</code>: Client sent a malformed subject (e.g. <code>sub foo. 90</code>)</li>
-<li><code>-ERR &apos;Permissions Violation for Subscription to <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>subject</span><span class="token punctuation">&gt;</span></span>&apos;</code>: The user specified in the <a href="#CONNECT">CONNECT</a> message does not have permission to subscribe to the subject.</li>
-<li><code>-ERR &apos;Permissions Violation for Publish to <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>subject</span><span class="token punctuation">&gt;</span></span>&apos;</code>: The user specified in the <a href="#CONNECT">CONNECT</a> message does not have permissions to publish to the subject.</li>
+<li><code>-ERR &apos;Permissions Violation for Subscription to <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>subject</span><span class="token punctuation">&gt;</span></span>&apos;</code>: The user specified in the <a href="#connect"><code>CONNECT</code></a> message does not have permission to subscribe to the subject.</li>
+<li><code>-ERR &apos;Permissions Violation for Publish to <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>subject</span><span class="token punctuation">&gt;</span></span>&apos;</code>: The user specified in the <a href="#connect"><code>CONNECT</code></a> message does not have permissions to publish to the subject.</li>
 </ul>
 
                                 
@@ -2656,7 +2656,7 @@ Connection closed by foreign host.
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Client Protocol","level":"9.2","depth":1,"next":{"title":"Developing a Client","level":"9.2.1","depth":2,"path":"nats_protocol/nats-client-dev.md","ref":"nats_protocol/nats-client-dev.md","articles":[]},"previous":{"title":"Protocol Demo","level":"9.1","depth":1,"path":"nats_protocol/nats-protocol-demo.md","ref":"nats_protocol/nats-protocol-demo.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_protocol/nats-protocol.md","mtime":"2019-06-19T14:28:09.271Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-19T14:33:09.913Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Client Protocol","level":"9.2","depth":1,"next":{"title":"Developing a Client","level":"9.2.1","depth":2,"path":"nats_protocol/nats-client-dev.md","ref":"nats_protocol/nats-client-dev.md","articles":[]},"previous":{"title":"Protocol Demo","level":"9.1","depth":1,"path":"nats_protocol/nats-protocol-demo.md","ref":"nats_protocol/nats-protocol-demo.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_protocol/nats-protocol.md","mtime":"2019-06-24T18:36:39.425Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-24T18:36:56.167Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
