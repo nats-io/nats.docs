@@ -175,7 +175,6 @@
 * [Embedding NATS Streaming Server](developer/streaming/embedding.md)
 * [Docker Swarm](nats_streaming/swarm.md)
 * [Monitoring](nats_streaming/monitoring/monitoring.md)
-  * [Enabling](nats_streaming/monitoring/enabling.md)
   * [Endpoints](nats_streaming/monitoring/endpoints.md)
 
 ## NATS Protocol
