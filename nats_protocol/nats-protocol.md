@@ -41,26 +41,26 @@ Click the name to see more detailed information, including syntax:
 
 | OP Name              | Sent By        |    Description
 | -------------------- |:-------------- |:--------------------------------------------
-| [`INFO`](#INFO)      | Server         | Sent to client after initial TCP/IP connection
-| [`CONNECT`](#CONNECT)| Client         | Sent to server to specify connection information
-| [`PUB`](#PUB)        | Client         | Publish a message to a subject, with optional reply subject
-| [`SUB`](#SUB)        | Client         | Subscribe to a subject (or subject wildcard)
-| [`UNSUB`](#UNSUB)    | Client         | Unsubscribe (or auto-unsubscribe) from subject
-| [`MSG`](#MSG)        | Server         | Delivers a message payload to a subscriber
-| [`PING`](#PINGPONG)  | Both           | PING keep-alive message
-| [`PONG`](#PINGPONG)  | Both           | PONG keep-alive response
-| [`+OK`](#OKERR)      | Server         | Acknowledges well-formed protocol message in `verbose` mode
-| [`-ERR`](#OKERR)     | Server         | Indicates a protocol error. May cause client disconnect.
+| [`INFO`](#info)  | Server         | Sent to client after initial TCP/IP connection
+| [`CONNECT`](#connect)| Client         | Sent to server to specify connection information
+| [`PUB`](#pub)     | Client         | Publish a message to a subject, with optional reply subject
+| [`SUB`](#sub)        | Client         | Subscribe to a subject (or subject wildcard)
+| [`UNSUB`](#unsub)    | Client         | Unsubscribe (or auto-unsubscribe) from subject
+| [`MSG`](#msg)        | Server         | Delivers a message payload to a subscriber
+| [`PING`](#pingpong)  | Both           | PING keep-alive message
+| [`PONG`](#pingpong)  | Both           | PONG keep-alive response
+| [`+OK`](#okerr)      | Server         | Acknowledges well-formed protocol message in `verbose` mode
+| [`-ERR`](#okerr)     | Server         | Indicates a protocol error. May cause client disconnect.
 
 The following sections explain each protocol message.
 
-## <a name="INFO"></a>INFO
+## INFO
 
 ####  Description
 
 As soon as the server accepts a connection from the client, it will send information about itself and the configuration and security requirements that are necessary for the client to successfully authenticate with the server and exchange messages.
 
-When using the updated client protocol (see [`CONNECT`](#CONNECT) below), `INFO` messages can be sent anytime by the server.  This means clients with that protocol level need to be able to asynchronously handle `INFO` messages.
+When using the updated client protocol (see [`CONNECT`](#connect) below), `INFO` messages can be sent anytime by the server.  This means clients with that protocol level need to be able to asynchronously handle `INFO` messages.
 
 ####  Syntax
 
@@ -102,11 +102,11 @@ Escape character is '^]'.
 INFO {"server_id":"Zk0GQ3JBSrg3oyxCRRlE09","version":"1.2.0","proto":1,"go":"go1.10.3","host":"0.0.0.0","port":4222,"max_payload":1048576,"client_id":2392}
 ```
 
-## <a name="CONNECT"></a>CONNECT
+## CONNECT
 
 ####  Description
 
-The `CONNECT` message is the client version of the `INFO` message. Once the client has established a TCP/IP socket connection with the NATS server, and an `INFO` message has been received from the server, the client may send a `CONNECT` message to the NATS server to provide more information about the current connection as well as security information.
+The `CONNECT` message is the client version of the [`INFO`](#info) message. Once the client has established a TCP/IP socket connection with the NATS server, and an [`INFO`](#info) message has been received from the server, the client may send a `CONNECT` message to the NATS server to provide more information about the current connection as well as security information.
 
 ####  Syntax
 
@@ -114,7 +114,7 @@ The `CONNECT` message is the client version of the `INFO` message. Once the clie
 
 The valid options are as follows:
 
-* `verbose`: Turns on [`+OK`](#OKERR) protocol acknowledgements.
+* `verbose`: Turns on [`+OK`](#okerr) protocol acknowledgements.
 * `pedantic`: Turns on additional strict format checking, e.g. for properly formed subjects
 * `tls_required`: Indicates whether the client requires an SSL connection.
 * `auth_token`: Client authorization token (if `auth_required` is set)
@@ -123,7 +123,7 @@ The valid options are as follows:
 * `name`: Optional client name
 * `lang`: The implementation language of the client.
 * `version`: The version of the client.
-* `protocol`: *optional int*. Sending `0` (or absent) indicates client supports original protocol. Sending `1` indicates that the client supports dynamic reconfiguration of cluster topology changes by asynchronously receiving `INFO` messages with known servers it can reconnect to.
+* `protocol`: *optional int*. Sending `0` (or absent) indicates client supports original protocol. Sending `1` indicates that the client supports dynamic reconfiguration of cluster topology changes by asynchronously receiving [`INFO`](#info) messages with known servers it can reconnect to.
 * `echo`: Optional boolean. If set to `true`, the server (version 1.2.0+) will not send originating messages from this connection to its own subscriptions. Clients should set this to `true` only for server supporting this feature, which is when `proto` in the `INFO` protocol is set to at least `1`.
 
 ####  Example
@@ -134,9 +134,9 @@ Here is an example from the default string of the Go client:
 [CONNECT {"verbose":false,"pedantic":false,"tls_required":false,"name":"","lang":"go","version":"1.2.2","protocol":1}]\r\n
 ```
 
-Most clients set `verbose` to `false` by default. This means that the server should not confirm each message it receives on this connection with a `+OK` back to the client.
+Most clients set `verbose` to `false` by default. This means that the server should not confirm each message it receives on this connection with a [`+OK`](#okerr) back to the client.
 
-## <a name="PUB"></a>PUB
+## PUB
 
 ####  Description
 
@@ -167,7 +167,7 @@ To publish an empty message to subject NOTIFY:
 
 `PUB NOTIFY 0\r\n\r\n`
 
-## <a name="SUB"></a>SUB
+## SUB
 
 ####  Description
 
@@ -193,7 +193,7 @@ To subscribe the current connection to the subject `BAR` as part of distribution
 
 `SUB BAR G1 44\r\n`
 
-## <a name="UNSUB"></a>UNSUB
+## UNSUB
 
 ####  Description
 
@@ -218,7 +218,7 @@ To auto-unsubscribe from `FOO` after 5 messages have been received:
 
 `UNSUB 1 5\r\n`
 
-## <a name="MSG"></a>MSG
+## MSG
 
 ####  Description
 
@@ -246,7 +246,7 @@ To deliver the same message along with a reply inbox:
 
 `MSG FOO.BAR 9 INBOX.34 11\r\nHello World\r\n`
 
-## <a name="PINGPONG"></a>PING/PONG
+## PING/PONG
 
 ####  Description
 
@@ -279,11 +279,11 @@ PING
 Connection closed by foreign host.
 ```
 
-## <a name="OKERR"></a>+OK/ERR
+## +OK/ERR
 
 ####  Description
 
-When the `verbose` connection option is set to `true` (the default value), the server acknowledges each well-formed protocol message from the client with a `+OK` message. Most NATS clients set the `verbose` option to `false` using the [CONNECT](#CONNECT) message
+When the `verbose` connection option is set to `true` (the default value), the server acknowledges each well-formed protocol message from the client with a `+OK` message. Most NATS clients set the `verbose` option to `false` using the [`CONNECT`](#connect) message
 
 The `-ERR` message is used by the server indicate a protocol, authorization, or other runtime connection error to the client. Most of these errors result in the server closing the connection.
 
@@ -299,19 +299,19 @@ Some protocol errors result in the server closing the connection.  Upon receivin
 
 - `-ERR 'Unknown Protocol Operation'`: Unknown protocol error
 - `-ERR 'Attempted To Connect To Route Port'`: Client attempted to connect to a route port instead of the client port
-- `-ERR 'Authorization Violation'`: Client failed to authenticate to the server with credentials specified in the [CONNECT](#CONNECT) message
+- `-ERR 'Authorization Violation'`: Client failed to authenticate to the server with credentials specified in the [`CONNECT`](#connect) message
 - `-ERR 'Authorization Timeout'`: Client took too long to authenticate to the server after establishing a connection (default 1 second)
-- `-ERR 'Invalid Client Protocol'`: Client specified an invalid protocol version in the [CONNECT](#CONNECT) message
+- `-ERR 'Invalid Client Protocol'`: Client specified an invalid protocol version in the [`CONNECT`](#connect) message
 - `-ERR 'Maximum Control Line Exceeded'`: Message destination subject and reply subject length exceeded the maximum control line value specified by the `max_control_line` server option.  The default is 1024 bytes.
 - `-ERR 'Parser Error'`: Cannot parse the protocol message sent by the client
 - `-ERR 'Secure Connection - TLS Required'`:  The server requires TLS and the client does not have TLS enabled.
 - `-ERR 'Stale Connection'`: The server hasn't received a message from the client, including a `PONG` in too long.
 - `-ERR 'Maximum Connections Exceeded`': This error is sent by the server when creating a new connection and the server has exceeded the maximum number of connections specified by the `max_connections` server option.  The default is 64k.
 - `-ERR 'Slow Consumer'`: The server pending data size for the connection has reached the maximum size (default 10MB).
-- `-ERR 'Maximum Payload Violation'`: Client attempted to publish a message with a payload size that exceeds the `max_payload` size configured on the server. This value is supplied to the client upon connection in the initial [`INFO`](#INFO) message. The client is expected to do proper accounting of byte size to be sent to the server in order to handle this error synchronously.
+- `-ERR 'Maximum Payload Violation'`: Client attempted to publish a message with a payload size that exceeds the `max_payload` size configured on the server. This value is supplied to the client upon connection in the initial [`INFO`](#info) message. The client is expected to do proper accounting of byte size to be sent to the server in order to handle this error synchronously.
 
 Protocol error messages where the connection remains open are listed below.  The client should not close the connection in these cases.
 
 - `-ERR 'Invalid Subject'`: Client sent a malformed subject (e.g. `sub foo. 90`)
-- `-ERR 'Permissions Violation for Subscription to <subject>'`: The user specified in the [CONNECT](#CONNECT) message does not have permission to subscribe to the subject.
-- `-ERR 'Permissions Violation for Publish to <subject>'`: The user specified in the [CONNECT](#CONNECT) message does not have permissions to publish to the subject.
+- `-ERR 'Permissions Violation for Subscription to <subject>'`: The user specified in the [`CONNECT`](#connect) message does not have permission to subscribe to the subject.
+- `-ERR 'Permissions Violation for Publish to <subject>'`: The user specified in the [`CONNECT`](#connect) message does not have permissions to publish to the subject.

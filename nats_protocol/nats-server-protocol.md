@@ -25,19 +25,19 @@ Click the name to see more detailed information, including syntax:
 
 | OP Name              | Sent By          |    Description
 | -------------------- |:-----------------|:--------------------------------------------
-| [`INFO`](#INFO)      | All Servers      | Sent after initial TCP/IP connection and to update cluster knowledge
-| [`CONNECT`](#CONNECT)| All Servers      | Sent to establish a route
-| [`RS+`](#SUB)        | All Servers      | Subscribes to a subject for a given account on behalf of interested clients.
-| [`RS-`](#UNSUB)      | All Servers      | Unsubscribe (or auto-unsubscribe) from subject for a given account.
-| [`RMSG`](#MSG)       | Origin Server    | Delivers a message for a given subject and account to another server.
-| [`PING`](#PINGPONG)  | All Servers      | PING keep-alive message
-| [`PONG`](#PINGPONG)  | All Servers      | PONG keep-alive response
-| [`-ERR`](#ERR)       | All Servers      | Indicates a protocol error. May cause the remote server to disconnect.
+| [`INFO`](#info)      | All Servers      | Sent after initial TCP/IP connection and to update cluster knowledge
+| [`CONNECT`](#connect)| All Servers      | Sent to establish a route
+| [`RS+`](#sub)        | All Servers      | Subscribes to a subject for a given account on behalf of interested clients.
+| [`RS-`](#unsub)      | All Servers      | Unsubscribe (or auto-unsubscribe) from subject for a given account.
+| [`RMSG`](#rmsg)      | Origin Server    | Delivers a message for a given subject and account to another server.
+| [`PING`](#pingpong)  | All Servers      | PING keep-alive message
+| [`PONG`](#pingpong)  | All Servers      | PONG keep-alive response
+| [`-ERR`](#-err)       | All Servers      | Indicates a protocol error. May cause the remote server to disconnect.
 
 
 The following sections explain each protocol message.
 
-## <a name="INFO"></a>INFO
+## INFO
 
 #### Description
 
@@ -70,11 +70,11 @@ Below is an example of an `INFO` string received by a NATS server, with the `ip`
 
 `INFO {"server_id":"KP19vTlB417XElnv8kKaC5","version":"2.0.0","go":"","host":"localhost","port":5222,"auth_required":false,"tls_required":false,"tls_verify":false,"max_payload":1048576,"ip":"nats-route://127.0.0.1:5222/","connect_urls":["localhost:4222"]}`
 
-## <a name="CONNECT"></a>CONNECT
+## CONNECT
 
 #### Description
 
-The `CONNECT` message is analogous to the `INFO` message. Once the NATS server has established a TCP/IP socket connection with another server, and an `INFO` message has been received, the server will send a `CONNECT` message to provide more information about the current connection as well as security information.
+The `CONNECT` message is analogous to the [`INFO`](#info) message. Once the NATS server has established a TCP/IP socket connection with another server, and an [`INFO`](#info) message has been received, the server will send a `CONNECT` message to provide more information about the current connection as well as security information.
 
 #### Syntax
 
@@ -131,7 +131,7 @@ where:
 * `account`: The account associated with the subject interest
 * `subject`: The subject
 
-## <a name="MSG"></a>RMSG
+## RMSG
 
 #### Description
 
@@ -149,7 +149,7 @@ where:
 * `#bytes`: Size of the payload in bytes
 * `payload`: The message payload data
 
-## <a name="PINGPONG"></a>PING/PONG
+## PING/PONG
 
 #### Description
 
@@ -162,7 +162,7 @@ If the another server sends a ping request, a server will reply with a pong mess
 `PING\r\n`
 `PONG\r\n`
 
-## <a name="ERR"></a>-ERR
+## -ERR
 
 #### Description
 
