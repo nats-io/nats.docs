@@ -41,34 +41,52 @@ The endpoint <a href="http://localhost:822/varz" target="_blank">http://localhos
 
 ```json
 {
-  "server_id": "ec933edcd2bd86bcf71d555fc8b4fb2c",
-  "version": "0.6.6",
-  "go": "go1.5.0",
+  "server_id": "NACDVKFBUW4C4XA24OOT6L4MDP56MW76J5RJDFXG7HLABSB46DCMWCOW",
+  "version": "2.0.0",
+  "proto": 1,
+  "go": "go1.12",
   "host": "0.0.0.0",
   "port": 4222,
-  "auth_required": false,
-  "ssl_required": false,
-  "max_payload": 1048576,
   "max_connections": 65536,
   "ping_interval": 120000000000,
   "ping_max": 2,
+  "http_host": "0.0.0.0",
   "http_port": 8222,
-  "ssl_timeout": 0.5,
-  "max_control_line": 1024,
-  "start": "2015-07-14T13:29:26.426805508-07:00",
-  "now": "2015-07-14T13:30:59.349179963-07:00",
-  "uptime": "1m33s",
-  "mem": 8445952,
+  "https_port": 0,
+  "auth_timeout": 1,
+  "max_control_line": 4096,
+  "max_payload": 1048576,
+  "max_pending": 67108864,
+  "cluster": {},
+  "gateway": {},
+  "leaf": {},
+  "tls_timeout": 0.5,
+  "write_deadline": 2000000000,
+  "start": "2019-06-24T14:24:43.928582-07:00",
+  "now": "2019-06-24T14:24:46.894852-07:00",
+  "uptime": "2s",
+  "mem": 9617408,
   "cores": 4,
   "cpu": 0,
-  "connections": 39,
+  "connections": 0,
+  "total_connections": 0,
   "routes": 0,
   "remotes": 0,
-  "in_msgs": 100000,
-  "out_msgs": 100000,
-  "in_bytes": 1600000,
-  "out_bytes": 1600000,
-  "slow_consumers": 0
+  "in_msgs": 0,
+  "out_msgs": 0,
+  "in_bytes": 0,
+  "out_bytes": 0,
+  "slow_consumers": 0,
+  "subscriptions": 0,
+  "http_req_stats": {
+    "/": 0,
+    "/connz": 0,
+    "/gatewayz": 0,
+    "/routez": 0,
+    "/subsz": 0,
+    "/varz": 1
+  },
+  "config_load_time": "2019-06-24T14:24:43.928582-07:00"
 }
 ```
 
@@ -82,41 +100,55 @@ You can also report detailed subscription information on a per connection basis 
 
 ```json
 {
-  "now": "2015-07-14T13:30:59.349179963-07:00",
+  "server_id": "NACDVKFBUW4C4XA24OOT6L4MDP56MW76J5RJDFXG7HLABSB46DCMWCOW",
+  "now": "2019-06-24T14:28:16.520365-07:00",
   "num_connections": 2,
+  "total": 2,
   "offset": 0,
   "limit": 1024,
   "connections": [
     {
-      "cid": 571,
+      "cid": 1,
       "ip": "127.0.0.1",
-      "port": 61572,
-      "pending_size": 0,
+      "port": 49764,
+      "start": "2019-06-24T14:27:25.94611-07:00",
+      "last_activity": "2019-06-24T14:27:25.954046-07:00",
+      "rtt": "275µs",
+      "uptime": "50s",
+      "idle": "50s",
+      "pending_bytes": 0,
       "in_msgs": 0,
       "out_msgs": 0,
       "in_bytes": 0,
       "out_bytes": 0,
       "subscriptions": 1,
+      "name": "NATS Sample Subscriber",
       "lang": "go",
-      "version": "1.0.9",
+      "version": "1.8.1",
       "subscriptions_list": [
         "hello.world"
       ]
     },
     {
-      "cid": 574,
+      "cid": 2,
       "ip": "127.0.0.1",
-      "port": 61577,
-      "pending_size": 0,
+      "port": 49767,
+      "start": "2019-06-24T14:27:43.403923-07:00",
+      "last_activity": "2019-06-24T14:27:43.406568-07:00",
+      "rtt": "96µs",
+      "uptime": "33s",
+      "idle": "33s",
+      "pending_bytes": 0,
       "in_msgs": 0,
       "out_msgs": 0,
       "in_bytes": 0,
       "out_bytes": 0,
       "subscriptions": 1,
-      "lang": "ruby",
-      "version": "0.5.0",
+      "name": "NATS Sample Subscriber",
+      "lang": "go",
+      "version": "1.8.1",
       "subscriptions_list": [
-        "hello.world"
+        "foo.bar"
       ]
     }
   ]
@@ -131,7 +163,8 @@ The `routez` endpoint does support the `subs` argument from the `/connz` endpoin
 
 ```json
 {
-  "now": "2015-07-14T13:30:59.349179963-07:00",
+  "server_id": "NACDVKFBUW4C4XA24OOT6L4MDP56MW76J5RJDFXG7HLABSB46DCMWCOW",
+  "now": "2019-06-24T14:29:16.046656-07:00",
   "num_routes": 1,
   "routes": [
     {
@@ -157,15 +190,14 @@ The endpoint <a href="http://localhost:8222/subz" target="_blank">http://localho
 
 ```json
 {
-  "num_subscriptions": 3,
+  "num_subscriptions": 2,
   "num_cache": 0,
-  "num_inserts": 572,
-  "num_removes": 569,
-  "num_matches": 200000,
-  "cache_hit_rate": 0.99999,
+  "num_inserts": 2,
+  "num_removes": 0,
+  "num_matches": 0,
+  "cache_hit_rate": 0,
   "max_fanout": 0,
-  "avg_fanout": 0,
-  "stats_time": "2015-07-14T12:55:25.564818051-07:00"
+  "avg_fanout": 0
 }
 ```
 
