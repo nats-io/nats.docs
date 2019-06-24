@@ -4,7 +4,7 @@ To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP 
 
 The NATS monitoring endpoints support JSONP and CORS, making it easy to create single page monitoring web applications.
 
-## Enabling monitoring
+### Enabling monitoring from the command line
 
 To enable the monitoring server, start the NATS server with the monitoring flag `-m` and the monitoring port, or turn it on in the [configuration file](configuration.md#configuration-properties).
 
@@ -22,6 +22,14 @@ $ nats-server -m 8222
 ```
 
 To test, run `nats-server -m 8222`, then go to <a href="http://localhost:8222/" target="_blank">http://localhost:8222/</a>
+
+### Enable monitoring from the configuration file
+
+You can also enable monitoring using the configuration file as follows:
+
+```yaml
+http_port: 8222
+```
 
 ## Monitoring endpoints
 
