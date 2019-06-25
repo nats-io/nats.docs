@@ -1,4 +1,4 @@
-# Queue Subscriptions
+# Queue Subscriptions in NATS Streaming
 
 Queue subscriptions are created like other subscriptions with the addition of a queue name.
 
