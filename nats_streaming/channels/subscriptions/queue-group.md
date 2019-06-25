@@ -1,4 +1,4 @@
-# Queue Group
+# Queue Group in NATS Streaming
 
 When consumers want to consume from the same channel but each receive a different message, as opposed to all receiving the same messages, they need to create a queue subscription. When a queue group name is specified, the server will send each messages from the log to a single consumer in the group. The distribution of these messages is not specified, therefore applications should not rely on an expected delivery scheme.
 
