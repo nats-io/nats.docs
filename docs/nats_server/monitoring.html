@@ -1376,9 +1376,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="4.7.1" data-path="../nats_docker/tutorial.html">
+        <li class="chapter " data-level="4.7.1" data-path="../nats_docker/nats-docker-tutorial.html">
             
-                <a href="../nats_docker/tutorial.html">
+                <a href="../nats_docker/nats-docker-tutorial.html">
             
                     
                     Tutorial
@@ -1609,9 +1609,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="5.5.1" data-path="../nats_tools/nats_top/tutorial.html">
+        <li class="chapter " data-level="5.5.1" data-path="../nats_tools/nats_top/nats-top-tutorial.html">
             
-                <a href="../nats_tools/nats_top/tutorial.html">
+                <a href="../nats_tools/nats_top/nats-top-tutorial.html">
             
                     
                     Tutorial
@@ -2212,20 +2212,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="8.9.1" data-path="../nats_streaming/monitoring/enabling.html">
-            
-                <a href="../nats_streaming/monitoring/enabling.html">
-            
-                    
-                    Enabling
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="8.9.2" data-path="../nats_streaming/monitoring/endpoints.html">
+        <li class="chapter " data-level="8.9.1" data-path="../nats_streaming/monitoring/endpoints.html">
             
                 <a href="../nats_streaming/monitoring/endpoints.html">
             
@@ -2353,10 +2340,10 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="monitoring"><a name="monitoring" class="plugin-anchor" href="#monitoring"><i class="fa fa-link" aria-hidden="true"></i></a>Monitoring</h2>
+                                <h2 id="monitoring-nats"><a name="monitoring-nats" class="plugin-anchor" href="#monitoring-nats"><i class="fa fa-link" aria-hidden="true"></i></a>Monitoring NATS</h2>
 <p>To monitor the NATS messaging system, <code>nats-server</code> provides a lightweight HTTP server on a dedicated monitoring port. The monitoring server provides several endpoints, including <a href="#/varz">varz</a>, <a href="#/connz">connz</a>, <a href="#/routez">routez</a>, and <a href="#/subz">subsz</a>. All endpoints return a JSON object.</p>
 <p>The NATS monitoring endpoints support JSONP and CORS, making it easy to create single page monitoring web applications.</p>
-<h2 id="enabling-monitoring"><a name="enabling-monitoring" class="plugin-anchor" href="#enabling-monitoring"><i class="fa fa-link" aria-hidden="true"></i></a>Enabling monitoring</h2>
+<h3 id="enabling-monitoring-from-the-command-line"><a name="enabling-monitoring-from-the-command-line" class="plugin-anchor" href="#enabling-monitoring-from-the-command-line"><i class="fa fa-link" aria-hidden="true"></i></a>Enabling monitoring from the command line</h3>
 <p>To enable the monitoring server, start the NATS server with the monitoring flag <code>-m</code> and the monitoring port, or turn it on in the <a href="configuration.html#configuration-properties">configuration file</a>.</p>
 <pre class="language-"><code>-m, --http_port PORT             HTTP PORT for monitoring
 -ms,--https_port PORT            Use HTTPS PORT for monitoring
@@ -2368,39 +2355,61 @@
 <span class="token punctuation">[</span>4528<span class="token punctuation">]</span> 2019/06/01 20:09:58.573090 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> nats-server is ready<span class="token operator">&lt;</span>/td<span class="token operator">&gt;</span>
 </code></pre>
 <p>To test, run <code>nats-server -m 8222</code>, then go to <a href="http://localhost:8222/" target="_blank">http://localhost:8222/</a></p>
+<h3 id="enable-monitoring-from-the-configuration-file"><a name="enable-monitoring-from-the-configuration-file" class="plugin-anchor" href="#enable-monitoring-from-the-configuration-file"><i class="fa fa-link" aria-hidden="true"></i></a>Enable monitoring from the configuration file</h3>
+<p>You can also enable monitoring using the configuration file as follows:</p>
+<pre class="language-"><code class="lang-yaml"><span class="token key atrule">http_port</span><span class="token punctuation">:</span> <span class="token number">8222</span>
+</code></pre>
 <h2 id="monitoring-endpoints"><a name="monitoring-endpoints" class="plugin-anchor" href="#monitoring-endpoints"><i class="fa fa-link" aria-hidden="true"></i></a>Monitoring endpoints</h2>
 <p>The following sections describe each supported monitoring endpoint: <code>varz</code>, <code>connz</code>, <code>routez</code>, and <code>subsz</code>.</p>
 <h3 id="varz"><a name="varz" class="plugin-anchor" href="#varz"><i class="fa fa-link" aria-hidden="true"></i></a>/varz</h3>
 <p>The endpoint <a href="http://localhost:822/varz" target="_blank">http://localhost:8222/varz</a> reports various general statistics.</p>
 <pre class="language-"><code class="lang-json"><span class="token punctuation">{</span>
-  <span class="token property">&quot;server_id&quot;</span><span class="token operator">:</span> <span class="token string">&quot;ec933edcd2bd86bcf71d555fc8b4fb2c&quot;</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;version&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0.6.6&quot;</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;go&quot;</span><span class="token operator">:</span> <span class="token string">&quot;go1.5.0&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;server_id&quot;</span><span class="token operator">:</span> <span class="token string">&quot;NACDVKFBUW4C4XA24OOT6L4MDP56MW76J5RJDFXG7HLABSB46DCMWCOW&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;version&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2.0.0&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;proto&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;go&quot;</span><span class="token operator">:</span> <span class="token string">&quot;go1.12&quot;</span><span class="token punctuation">,</span>
   <span class="token property">&quot;host&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0.0.0.0&quot;</span><span class="token punctuation">,</span>
   <span class="token property">&quot;port&quot;</span><span class="token operator">:</span> <span class="token number">4222</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;auth_required&quot;</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;ssl_required&quot;</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;max_payload&quot;</span><span class="token operator">:</span> <span class="token number">1048576</span><span class="token punctuation">,</span>
   <span class="token property">&quot;max_connections&quot;</span><span class="token operator">:</span> <span class="token number">65536</span><span class="token punctuation">,</span>
   <span class="token property">&quot;ping_interval&quot;</span><span class="token operator">:</span> <span class="token number">120000000000</span><span class="token punctuation">,</span>
   <span class="token property">&quot;ping_max&quot;</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;http_host&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0.0.0.0&quot;</span><span class="token punctuation">,</span>
   <span class="token property">&quot;http_port&quot;</span><span class="token operator">:</span> <span class="token number">8222</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;ssl_timeout&quot;</span><span class="token operator">:</span> <span class="token number">0.5</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;max_control_line&quot;</span><span class="token operator">:</span> <span class="token number">1024</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;start&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2015-07-14T13:29:26.426805508-07:00&quot;</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;now&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2015-07-14T13:30:59.349179963-07:00&quot;</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;uptime&quot;</span><span class="token operator">:</span> <span class="token string">&quot;1m33s&quot;</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;mem&quot;</span><span class="token operator">:</span> <span class="token number">8445952</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;https_port&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;auth_timeout&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;max_control_line&quot;</span><span class="token operator">:</span> <span class="token number">4096</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;max_payload&quot;</span><span class="token operator">:</span> <span class="token number">1048576</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;max_pending&quot;</span><span class="token operator">:</span> <span class="token number">67108864</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;cluster&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;gateway&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;leaf&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;tls_timeout&quot;</span><span class="token operator">:</span> <span class="token number">0.5</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;write_deadline&quot;</span><span class="token operator">:</span> <span class="token number">2000000000</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;start&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2019-06-24T14:24:43.928582-07:00&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;now&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2019-06-24T14:24:46.894852-07:00&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;uptime&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2s&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;mem&quot;</span><span class="token operator">:</span> <span class="token number">9617408</span><span class="token punctuation">,</span>
   <span class="token property">&quot;cores&quot;</span><span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
   <span class="token property">&quot;cpu&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;connections&quot;</span><span class="token operator">:</span> <span class="token number">39</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;connections&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;total_connections&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
   <span class="token property">&quot;routes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
   <span class="token property">&quot;remotes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;in_msgs&quot;</span><span class="token operator">:</span> <span class="token number">100000</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;out_msgs&quot;</span><span class="token operator">:</span> <span class="token number">100000</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;in_bytes&quot;</span><span class="token operator">:</span> <span class="token number">1600000</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;out_bytes&quot;</span><span class="token operator">:</span> <span class="token number">1600000</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;slow_consumers&quot;</span><span class="token operator">:</span> <span class="token number">0</span>
+  <span class="token property">&quot;in_msgs&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;out_msgs&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;in_bytes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;out_bytes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;slow_consumers&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;subscriptions&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;http_req_stats&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;/&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;/connz&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;/gatewayz&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;/routez&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;/subsz&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;/varz&quot;</span><span class="token operator">:</span> <span class="token number">1</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;config_load_time&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2019-06-24T14:24:43.928582-07:00&quot;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <h3 id="connz"><a name="connz" class="plugin-anchor" href="#connz"><i class="fa fa-link" aria-hidden="true"></i></a>/connz</h3>
@@ -2408,41 +2417,55 @@
 <p>You can control these via URL arguments (limit and offset). For example: <a href="http://localhost:8222/connz?limit=1&amp;offset=1" target="_blank">http://localhost:8222/connz?limit=1&amp;offset=1</a>.</p>
 <p>You can also report detailed subscription information on a per connection basis using subs=1. For example: <a href="http://localhost:8222/connz?limit=1&amp;offset=1&amp;subs=1" target="_blank">http://localhost:8222/connz?limit=1&amp;offset=1&amp;subs=1</a>.</p>
 <pre class="language-"><code class="lang-json"><span class="token punctuation">{</span>
-  <span class="token property">&quot;now&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2015-07-14T13:30:59.349179963-07:00&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;server_id&quot;</span><span class="token operator">:</span> <span class="token string">&quot;NACDVKFBUW4C4XA24OOT6L4MDP56MW76J5RJDFXG7HLABSB46DCMWCOW&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;now&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2019-06-24T14:28:16.520365-07:00&quot;</span><span class="token punctuation">,</span>
   <span class="token property">&quot;num_connections&quot;</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;total&quot;</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
   <span class="token property">&quot;offset&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
   <span class="token property">&quot;limit&quot;</span><span class="token operator">:</span> <span class="token number">1024</span><span class="token punctuation">,</span>
   <span class="token property">&quot;connections&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
     <span class="token punctuation">{</span>
-      <span class="token property">&quot;cid&quot;</span><span class="token operator">:</span> <span class="token number">571</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;cid&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
       <span class="token property">&quot;ip&quot;</span><span class="token operator">:</span> <span class="token string">&quot;127.0.0.1&quot;</span><span class="token punctuation">,</span>
-      <span class="token property">&quot;port&quot;</span><span class="token operator">:</span> <span class="token number">61572</span><span class="token punctuation">,</span>
-      <span class="token property">&quot;pending_size&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;port&quot;</span><span class="token operator">:</span> <span class="token number">49764</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;start&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2019-06-24T14:27:25.94611-07:00&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;last_activity&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2019-06-24T14:27:25.954046-07:00&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;rtt&quot;</span><span class="token operator">:</span> <span class="token string">&quot;275&#xB5;s&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;uptime&quot;</span><span class="token operator">:</span> <span class="token string">&quot;50s&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;idle&quot;</span><span class="token operator">:</span> <span class="token string">&quot;50s&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;pending_bytes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
       <span class="token property">&quot;in_msgs&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
       <span class="token property">&quot;out_msgs&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
       <span class="token property">&quot;in_bytes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
       <span class="token property">&quot;out_bytes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
       <span class="token property">&quot;subscriptions&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;NATS Sample Subscriber&quot;</span><span class="token punctuation">,</span>
       <span class="token property">&quot;lang&quot;</span><span class="token operator">:</span> <span class="token string">&quot;go&quot;</span><span class="token punctuation">,</span>
-      <span class="token property">&quot;version&quot;</span><span class="token operator">:</span> <span class="token string">&quot;1.0.9&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;version&quot;</span><span class="token operator">:</span> <span class="token string">&quot;1.8.1&quot;</span><span class="token punctuation">,</span>
       <span class="token property">&quot;subscriptions_list&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
         <span class="token string">&quot;hello.world&quot;</span>
       <span class="token punctuation">]</span>
     <span class="token punctuation">}</span><span class="token punctuation">,</span>
     <span class="token punctuation">{</span>
-      <span class="token property">&quot;cid&quot;</span><span class="token operator">:</span> <span class="token number">574</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;cid&quot;</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
       <span class="token property">&quot;ip&quot;</span><span class="token operator">:</span> <span class="token string">&quot;127.0.0.1&quot;</span><span class="token punctuation">,</span>
-      <span class="token property">&quot;port&quot;</span><span class="token operator">:</span> <span class="token number">61577</span><span class="token punctuation">,</span>
-      <span class="token property">&quot;pending_size&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;port&quot;</span><span class="token operator">:</span> <span class="token number">49767</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;start&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2019-06-24T14:27:43.403923-07:00&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;last_activity&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2019-06-24T14:27:43.406568-07:00&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;rtt&quot;</span><span class="token operator">:</span> <span class="token string">&quot;96&#xB5;s&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;uptime&quot;</span><span class="token operator">:</span> <span class="token string">&quot;33s&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;idle&quot;</span><span class="token operator">:</span> <span class="token string">&quot;33s&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;pending_bytes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
       <span class="token property">&quot;in_msgs&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
       <span class="token property">&quot;out_msgs&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
       <span class="token property">&quot;in_bytes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
       <span class="token property">&quot;out_bytes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
       <span class="token property">&quot;subscriptions&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
-      <span class="token property">&quot;lang&quot;</span><span class="token operator">:</span> <span class="token string">&quot;ruby&quot;</span><span class="token punctuation">,</span>
-      <span class="token property">&quot;version&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0.5.0&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;NATS Sample Subscriber&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;lang&quot;</span><span class="token operator">:</span> <span class="token string">&quot;go&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;version&quot;</span><span class="token operator">:</span> <span class="token string">&quot;1.8.1&quot;</span><span class="token punctuation">,</span>
       <span class="token property">&quot;subscriptions_list&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-        <span class="token string">&quot;hello.world&quot;</span>
+        <span class="token string">&quot;foo.bar&quot;</span>
       <span class="token punctuation">]</span>
     <span class="token punctuation">}</span>
   <span class="token punctuation">]</span>
@@ -2452,7 +2475,8 @@
 <p>The endpoint <a href="http://localhost:8222/routez" target="_blank">http://localhost:8222/routez</a> reports information on active routes for a cluster. Routes are expected to be low, so there is no paging mechanism with this endpoint.</p>
 <p>The <code>routez</code> endpoint does support the <code>subs</code> argument from the <code>/connz</code> endpoint. For example: <a href="http://localhost:8222/routez?subs=1" target="_blank">http://localhost:8222/routez?subs=1</a></p>
 <pre class="language-"><code class="lang-json"><span class="token punctuation">{</span>
-  <span class="token property">&quot;now&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2015-07-14T13:30:59.349179963-07:00&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;server_id&quot;</span><span class="token operator">:</span> <span class="token string">&quot;NACDVKFBUW4C4XA24OOT6L4MDP56MW76J5RJDFXG7HLABSB46DCMWCOW&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;now&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2019-06-24T14:29:16.046656-07:00&quot;</span><span class="token punctuation">,</span>
   <span class="token property">&quot;num_routes&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
   <span class="token property">&quot;routes&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
     <span class="token punctuation">{</span>
@@ -2474,15 +2498,14 @@
 <h3 id="subsz"><a name="subsz" class="plugin-anchor" href="#subsz"><i class="fa fa-link" aria-hidden="true"></i></a>/subsz</h3>
 <p>The endpoint <a href="http://localhost:8222/subz" target="_blank">http://localhost:8222/subz</a> reports detailed information about the current subscriptions and the routing data structure.</p>
 <pre class="language-"><code class="lang-json"><span class="token punctuation">{</span>
-  <span class="token property">&quot;num_subscriptions&quot;</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;num_subscriptions&quot;</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
   <span class="token property">&quot;num_cache&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;num_inserts&quot;</span><span class="token operator">:</span> <span class="token number">572</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;num_removes&quot;</span><span class="token operator">:</span> <span class="token number">569</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;num_matches&quot;</span><span class="token operator">:</span> <span class="token number">200000</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;cache_hit_rate&quot;</span><span class="token operator">:</span> <span class="token number">0.99999</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;num_inserts&quot;</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;num_removes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;num_matches&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;cache_hit_rate&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
   <span class="token property">&quot;max_fanout&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;avg_fanout&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;stats_time&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2015-07-14T12:55:25.564818051-07:00&quot;</span>
+  <span class="token property">&quot;avg_fanout&quot;</span><span class="token operator">:</span> <span class="token number">0</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <h2 id="creating-monitoring-applications"><a name="creating-monitoring-applications" class="plugin-anchor" href="#creating-monitoring-applications"><i class="fa fa-link" aria-hidden="true"></i></a>Creating monitoring applications</h2>
@@ -2540,7 +2563,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Monitoring","level":"4.5.6","depth":2,"next":{"title":"Managing A NATS Server","level":"4.6","depth":1,"path":"nats_admin/README.md","ref":"nats_admin/README.md","articles":[{"title":"Upgrading a Cluster","level":"4.6.1","depth":2,"path":"nats_admin/upgrading_cluster.md","ref":"nats_admin/upgrading_cluster.md","articles":[]},{"title":"Slow Consumers","level":"4.6.2","depth":2,"path":"nats_admin/slow_consumers.md","ref":"nats_admin/slow_consumers.md","articles":[]},{"title":"Signals","level":"4.6.3","depth":2,"path":"nats_admin/signals.md","ref":"nats_admin/signals.md","articles":[]},{"title":"System Accounts","level":"4.6.4","depth":2,"path":"sys_accounts/README.md","ref":"sys_accounts/README.md","articles":[{"title":"Configuration","level":"4.6.4.1","depth":3,"path":"sys_accounts/sys_accounts.md","ref":"sys_accounts/sys_accounts.md","articles":[]}]}]},"previous":{"title":"Logging","level":"4.5.5","depth":2,"path":"nats_server/logging.md","ref":"nats_server/logging.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/monitoring.md","mtime":"2019-06-07T16:09:25.591Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-24T18:36:56.167Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Monitoring","level":"4.5.6","depth":2,"next":{"title":"Managing A NATS Server","level":"4.6","depth":1,"path":"nats_admin/README.md","ref":"nats_admin/README.md","articles":[{"title":"Upgrading a Cluster","level":"4.6.1","depth":2,"path":"nats_admin/upgrading_cluster.md","ref":"nats_admin/upgrading_cluster.md","articles":[]},{"title":"Slow Consumers","level":"4.6.2","depth":2,"path":"nats_admin/slow_consumers.md","ref":"nats_admin/slow_consumers.md","articles":[]},{"title":"Signals","level":"4.6.3","depth":2,"path":"nats_admin/signals.md","ref":"nats_admin/signals.md","articles":[]},{"title":"System Accounts","level":"4.6.4","depth":2,"path":"sys_accounts/README.md","ref":"sys_accounts/README.md","articles":[{"title":"Configuration","level":"4.6.4.1","depth":3,"path":"sys_accounts/sys_accounts.md","ref":"sys_accounts/sys_accounts.md","articles":[]}]}]},"previous":{"title":"Logging","level":"4.5.5","depth":2,"path":"nats_server/logging.md","ref":"nats_server/logging.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/monitoring.md","mtime":"2019-06-25T14:14:34.660Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-25T14:14:50.838Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

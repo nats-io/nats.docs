@@ -66,7 +66,7 @@
     <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="enabling.html" />
+    <link rel="next" href="endpoints.html" />
     
     
     <link rel="prev" href="../swarm.html" />
@@ -1376,9 +1376,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="4.7.1" data-path="../../nats_docker/tutorial.html">
+        <li class="chapter " data-level="4.7.1" data-path="../../nats_docker/nats-docker-tutorial.html">
             
-                <a href="../../nats_docker/tutorial.html">
+                <a href="../../nats_docker/nats-docker-tutorial.html">
             
                     
                     Tutorial
@@ -1609,9 +1609,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="5.5.1" data-path="../../nats_tools/nats_top/tutorial.html">
+        <li class="chapter " data-level="5.5.1" data-path="../../nats_tools/nats_top/nats-top-tutorial.html">
             
-                <a href="../../nats_tools/nats_top/tutorial.html">
+                <a href="../../nats_tools/nats_top/nats-top-tutorial.html">
             
                     
                     Tutorial
@@ -2212,20 +2212,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="8.9.1" data-path="enabling.html">
-            
-                <a href="enabling.html">
-            
-                    
-                    Enabling
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="8.9.2" data-path="endpoints.html">
+        <li class="chapter " data-level="8.9.1" data-path="endpoints.html">
             
                 <a href="endpoints.html">
             
@@ -2353,8 +2340,46 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="monitoring"><a name="monitoring" class="plugin-anchor" href="#monitoring"><i class="fa fa-link" aria-hidden="true"></i></a>Monitoring</h2>
-<p>To monitor the NATS streaming system, a lightweight HTTP server is used on a dedicated monitoring port. The monitoring server provides several endpoints, all returning a JSON object.</p>
+                                <h2 id="monitoring-nats-streaming"><a name="monitoring-nats-streaming" class="plugin-anchor" href="#monitoring-nats-streaming"><i class="fa fa-link" aria-hidden="true"></i></a>Monitoring NATS Streaming</h2>
+<p>To monitor the NATS Streaming system, a lightweight HTTP server is used on a dedicated monitoring port. The monitoring server provides several endpoints, all returning a JSON object.</p>
+<h3 id="enabling-from-the-command-line"><a name="enabling-from-the-command-line" class="plugin-anchor" href="#enabling-from-the-command-line"><i class="fa fa-link" aria-hidden="true"></i></a>Enabling from the command line</h3>
+<p>To enable the monitoring server, start the NATS Streaming Server with the monitoring flag -m (or -ms) and specify the monitoring port.</p>
+<p>Monitoring options</p>
+<pre class="language-"><code>-m, --http_port PORT             HTTP PORT for monitoring
+-ms,--https_port PORT            Use HTTPS PORT for monitoring (requires TLS cert and key)
+</code></pre><p>To enable monitoring via the configuration file, use <code>http: &quot;host:port&quot;</code> or <code>https: &quot;host:port&quot;</code>. There is no explicit configuration flag for the monitoring interface.</p>
+<p>For example, after running this:</p>
+<pre class="language-"><code>nats-streaming-server -m 8222
+</code></pre><p>you should see that the NATS Streaming server starts with the HTTP monitoring port enabled:</p>
+<pre class="language-"><code class="lang-bash"><span class="token punctuation">[</span>19339<span class="token punctuation">]</span> 2019/06/24 15:02:38.251091 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> STREAM: Starting nats-streaming-server<span class="token punctuation">[</span>test-cluster<span class="token punctuation">]</span> version 0.15.1
+<span class="token punctuation">[</span>19339<span class="token punctuation">]</span> 2019/06/24 15:02:38.251238 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> STREAM: ServerID: 0Z2HXClEM6BPsGaKcoHg5N
+<span class="token punctuation">[</span>19339<span class="token punctuation">]</span> 2019/06/24 15:02:38.251243 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> STREAM: Go version: go1.12
+<span class="token punctuation">[</span>19339<span class="token punctuation">]</span> 2019/06/24 15:02:38.251862 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Starting nats-server version 2.0.0
+<span class="token punctuation">[</span>19339<span class="token punctuation">]</span> 2019/06/24 15:02:38.251873 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Git commit <span class="token punctuation">[</span>not set<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>19339<span class="token punctuation">]</span> 2019/06/24 15:02:38.252173 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Starting http monitor on 0.0.0.0:8222
+<span class="token punctuation">[</span>19339<span class="token punctuation">]</span> 2019/06/24 15:02:38.252248 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Listening <span class="token keyword">for</span> client connections on 0.0.0.0:4222
+<span class="token punctuation">(</span><span class="token punctuation">..</span>.<span class="token punctuation">)</span>
+</code></pre>
+<p>You can then point your browser (or curl) to <a href="http://localhost:8222/streaming" target="_blank">http://localhost:8222/streaming</a></p>
+<h3 id="enabling-from-the-configuration-file"><a name="enabling-from-the-configuration-file" class="plugin-anchor" href="#enabling-from-the-configuration-file"><i class="fa fa-link" aria-hidden="true"></i></a>Enabling from the configuration file</h3>
+<p>To start via the configuration file you can define the monitoring port as follows:</p>
+<pre class="language-"><code class="lang-conf">http_port = 8222
+</code></pre>
+<p>Then use the <code>-sc</code> flag to customize the NATS Streaming configuration:</p>
+<pre class="language-"><code class="lang-bash">nats-streaming-server -sc nats-streaming.conf -ns nats://demo.nats.io:4222 -SDV
+</code></pre>
+<p>Confirm that the monitoring endpoint is enabled by sending a request:</p>
+<pre class="language-"><code class="lang-bash"><span class="token function">curl</span> 127.0.0.1:8222/streaming/channelsz
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;cluster_id&quot;</span><span class="token keyword">:</span> <span class="token string">&quot;test-cluster&quot;</span>,
+  <span class="token string">&quot;server_id&quot;</span><span class="token keyword">:</span> <span class="token string">&quot;dXUsNRef1z25NpcFmZhBNj&quot;</span>,
+  <span class="token string">&quot;now&quot;</span><span class="token keyword">:</span> <span class="token string">&quot;2019-06-24T15:18:37.388938-07:00&quot;</span>,
+  <span class="token string">&quot;offset&quot;</span><span class="token keyword">:</span> 0,
+  <span class="token string">&quot;limit&quot;</span><span class="token keyword">:</span> 1024,
+  <span class="token string">&quot;count&quot;</span><span class="token keyword">:</span> 0,
+  <span class="token string">&quot;total&quot;</span><span class="token keyword">:</span> 0
+<span class="token punctuation">}</span>
+</code></pre>
 
                                 
                                 </section>
@@ -2387,7 +2412,7 @@
                 </a>
                 
                 
-                <a href="enabling.html" class="navigation navigation-next " aria-label="Next page: Enabling">
+                <a href="endpoints.html" class="navigation navigation-next " aria-label="Next page: Endpoints">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -2398,7 +2423,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Monitoring","level":"8.9","depth":1,"next":{"title":"Enabling","level":"8.9.1","depth":2,"path":"nats_streaming/monitoring/enabling.md","ref":"nats_streaming/monitoring/enabling.md","articles":[]},"previous":{"title":"Docker Swarm","level":"8.8","depth":1,"path":"nats_streaming/swarm.md","ref":"nats_streaming/swarm.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_streaming/monitoring/monitoring.md","mtime":"2019-05-30T22:52:52.330Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-24T18:36:56.167Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Monitoring","level":"8.9","depth":1,"next":{"title":"Endpoints","level":"8.9.1","depth":2,"path":"nats_streaming/monitoring/endpoints.md","ref":"nats_streaming/monitoring/endpoints.md","articles":[]},"previous":{"title":"Docker Swarm","level":"8.8","depth":1,"path":"nats_streaming/swarm.md","ref":"nats_streaming/swarm.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_streaming/monitoring/monitoring.md","mtime":"2019-06-25T14:14:34.661Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-25T14:14:50.838Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
