@@ -105,7 +105,7 @@
   * [System Accounts](sys_accounts/README.md)
     * [Configuration](sys_accounts/sys_accounts.md)
 * [NATS and Docker](nats_docker/README.md)
-  * [Tutorial](nats_docker/tutorial.md)
+  * [Tutorial](nats_docker/nats-docker-tutorial.md)
   * [Docker Swarm](nats_docker/docker_swarm.md)
 
 ## NATS Tools
@@ -124,7 +124,7 @@
   * [Update Notifications](nats_tools/nas/notifications.md)
   * [Memory Resolver](nats_tools/nas/mem_resolver.md)
 * [nats-top](nats_tools/nats_top/README.md)
-  * [Tutorial](nats_tools/nats_top/tutorial.md)
+  * [Tutorial](nats_tools/nats_top/nats-top-tutorial.md)
 * [nats-bench](nats_tools/natsbench.md)
 
 ## NATS Streaming Concepts
