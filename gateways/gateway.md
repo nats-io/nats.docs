@@ -3,7 +3,7 @@
 
 The `gateway` configuration block is similar to a `cluster` block:
 
-```yaml
+```hcl
 gateway {
 	name: "A"
 	listen: "localhost:7222"
@@ -13,9 +13,9 @@ gateway {
 	}
 
 	gateways: [
-		{name: "A", url: "nats-gateway://gwu:gwp@localhost:7222"},
-		{name: "B", url: "nats-gateway://gwu:gwp@localhost:7333"},
-		{name: "C", url: "nats-gateway://gwu:gwp@localhost:7444"},
+		{name: "A", url: "nats://gwu:gwp@localhost:7222"},
+		{name: "B", url: "nats://gwu:gwp@localhost:7333"},
+		{name: "C", url: "nats://gwu:gwp@localhost:7444"},
 	]
 }
 ```
@@ -25,8 +25,7 @@ One difference is that instead of `routes` you specify `gateways`. As expected _
 Starting a server: 
 ```text
 > nats-server -c A.conf
-[85803] 2019/05/07 10:50:55.902474 [INF] Starting nats-server version 2.0.0-RC11
-[85803] 2019/05/07 10:50:55.902547 [INF] Git commit [not set]
+[85803] 2019/05/07 10:50:55.902474 [INF] Starting nats-server version 2.0.0
 [85803] 2019/05/07 10:50:55.903669 [INF] Gateway name is A
 [85803] 2019/05/07 10:50:55.903684 [INF] Listening for gateways connections on localhost:7222
 [85803] 2019/05/07 10:50:55.903696 [INF] Address for gateway "A" is localhost:7222
@@ -83,3 +82,20 @@ The `gateways` configuration block is a list of gateway entries with the followi
 | `url` | Hostport `<host>:<port>` describing where the remote gateway can be reached. If multiple IPs are returned, one is randomly selected. |
 | `urls` | A list of `url` |
 
+By using `urls` and an array, can specify a list of endpoints that
+form part of a cluster as below.  A NATS Server will pick one of those
+addresses randomly and only establish a single outbound gateway
+connection to one of the members from another cluster:
+
+```hcl
+gateway {
+	name: "DC-A"
+	listen: "localhost:7222"
+
+	gateways: [
+		{name: "DC-A", urls: ["nats://localhost:7222", "nats://localhost:7223", "nats://localhost:7224"]},
+		{name: "DC-B", urls: ["nats://localhost:7332", "nats://localhost:7333", "nats://localhost:7334"]},
+		{name: "DC-C", urls: ["nats://localhost:7442", "nats://localhost:7333", "nats://localhost:7335"]}
+	]
+}
+```
