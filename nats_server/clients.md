@@ -7,8 +7,8 @@ If you have a client library installed, you can try using a bundled client. Othe
 ### If you have Go installed:
 
 ```
-> go get https://github.com/nats-io/go-nats-examples/tools/nats-pub
-> go get https://github.com/nats-io/go-nats-examples/tools/nats-sub
+> go get github.com/nats-io/go-nats-examples/tools/nats-pub
+> go get github.com/nats-io/go-nats-examples/tools/nats-sub
 ```
 
 ### Or download a zip file
