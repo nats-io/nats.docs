@@ -82,7 +82,7 @@ The `gateways` configuration block is a list of gateway entries with the followi
 | `url` | Hostport `<host>:<port>` describing where the remote gateway can be reached. If multiple IPs are returned, one is randomly selected. |
 | `urls` | A list of `url` |
 
-By using `urls` and an array, can specify a list of endpoints that
+By using `urls` and an array, you can specify a list of endpoints that
 form part of a cluster as below.  A NATS Server will pick one of those
 addresses randomly and only establish a single outbound gateway
 connection to one of the members from another cluster:
