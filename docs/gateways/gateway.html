@@ -2342,26 +2342,25 @@
                                 
                                 <h2 id="gateway-configuration"><a name="gateway-configuration" class="plugin-anchor" href="#gateway-configuration"><i class="fa fa-link" aria-hidden="true"></i></a>Gateway Configuration</h2>
 <p>The <code>gateway</code> configuration block is similar to a <code>cluster</code> block:</p>
-<pre class="language-"><code class="lang-yaml">gateway <span class="token punctuation">{</span>
-    <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">&quot;A&quot;</span>
-    <span class="token key atrule">listen</span><span class="token punctuation">:</span> <span class="token string">&quot;localhost:7222&quot;</span>
-    authorization <span class="token punctuation">{</span>
-        <span class="token key atrule">user</span><span class="token punctuation">:</span> gwu
-        <span class="token key atrule">password</span><span class="token punctuation">:</span> gwp
+<pre class="language-"><code class="lang-hcl"><span class="token keyword">gateway</span> <span class="token punctuation">{</span>
+    name: <span class="token string">&quot;A&quot;</span>
+    listen: <span class="token string">&quot;localhost:7222&quot;</span>
+    <span class="token keyword">authorization</span> <span class="token punctuation">{</span>
+        user: gwu
+        password: gwp
     <span class="token punctuation">}</span>
 
-    <span class="token key atrule">gateways</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
-        <span class="token punctuation">{</span><span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">&quot;A&quot;</span><span class="token punctuation">,</span> <span class="token key atrule">url</span><span class="token punctuation">:</span> <span class="token string">&quot;nats-gateway://gwu:gwp@localhost:7222&quot;</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token punctuation">{</span><span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">&quot;B&quot;</span><span class="token punctuation">,</span> <span class="token key atrule">url</span><span class="token punctuation">:</span> <span class="token string">&quot;nats-gateway://gwu:gwp@localhost:7333&quot;</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token punctuation">{</span><span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">&quot;C&quot;</span><span class="token punctuation">,</span> <span class="token key atrule">url</span><span class="token punctuation">:</span> <span class="token string">&quot;nats-gateway://gwu:gwp@localhost:7444&quot;</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    gateways: <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>name: <span class="token string">&quot;A&quot;</span>, url: <span class="token string">&quot;nats://gwu:gwp@localhost:7222&quot;</span><span class="token punctuation">}</span>,
+        <span class="token punctuation">{</span>name: <span class="token string">&quot;B&quot;</span>, url: <span class="token string">&quot;nats://gwu:gwp@localhost:7333&quot;</span><span class="token punctuation">}</span>,
+        <span class="token punctuation">{</span>name: <span class="token string">&quot;C&quot;</span>, url: <span class="token string">&quot;nats://gwu:gwp@localhost:7444&quot;</span><span class="token punctuation">}</span>,
     <span class="token punctuation">]</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <p>One difference is that instead of <code>routes</code> you specify <code>gateways</code>. As expected <em>self-gateway</em> connections are ignored, so you can share gateway configurations with minimal fuzz.</p>
 <p>Starting a server: </p>
 <pre class="language-"><code class="lang-text">&gt; nats-server -c A.conf
-[85803] 2019/05/07 10:50:55.902474 [INF] Starting nats-server version 2.0.0-RC11
-[85803] 2019/05/07 10:50:55.902547 [INF] Git commit [not set]
+[85803] 2019/05/07 10:50:55.902474 [INF] Starting nats-server version 2.0.0
 [85803] 2019/05/07 10:50:55.903669 [INF] Gateway name is A
 [85803] 2019/05/07 10:50:55.903684 [INF] Listening for gateways connections on localhost:7222
 [85803] 2019/05/07 10:50:55.903696 [INF] Address for gateway &quot;A&quot; is localhost:7222
@@ -2463,6 +2462,21 @@ Listening on [&gt;]
 </tr>
 </tbody>
 </table>
+<p>By using <code>urls</code> and an array, you can specify a list of endpoints that
+form part of a cluster as below.  A NATS Server will pick one of those
+addresses randomly and only establish a single outbound gateway
+connection to one of the members from another cluster:</p>
+<pre class="language-"><code class="lang-hcl"><span class="token keyword">gateway</span> <span class="token punctuation">{</span>
+    name: <span class="token string">&quot;DC-A&quot;</span>
+    listen: <span class="token string">&quot;localhost:7222&quot;</span>
+
+    gateways: <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>name: <span class="token string">&quot;DC-A&quot;</span>, urls: <span class="token punctuation">[</span><span class="token string">&quot;nats://localhost:7222&quot;</span>, <span class="token string">&quot;nats://localhost:7223&quot;</span>, <span class="token string">&quot;nats://localhost:7224&quot;</span><span class="token punctuation">]</span><span class="token punctuation">}</span>,
+        <span class="token punctuation">{</span>name: <span class="token string">&quot;DC-B&quot;</span>, urls: <span class="token punctuation">[</span><span class="token string">&quot;nats://localhost:7332&quot;</span>, <span class="token string">&quot;nats://localhost:7333&quot;</span>, <span class="token string">&quot;nats://localhost:7334&quot;</span><span class="token punctuation">]</span><span class="token punctuation">}</span>,
+        <span class="token punctuation">{</span>name: <span class="token string">&quot;DC-C&quot;</span>, urls: <span class="token punctuation">[</span><span class="token string">&quot;nats://localhost:7442&quot;</span>, <span class="token string">&quot;nats://localhost:7333&quot;</span>, <span class="token string">&quot;nats://localhost:7335&quot;</span><span class="token punctuation">]</span><span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
 
                                 
                                 </section>
@@ -2506,7 +2520,7 @@ Listening on [&gt;]
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Configuration","level":"4.5.3.1","depth":3,"next":{"title":"Leaf Nodes","level":"4.5.4","depth":2,"path":"leafnodes/README.md","ref":"leafnodes/README.md","articles":[{"title":"Configuration","level":"4.5.4.1","depth":3,"path":"leafnodes/leafnode_conf.md","ref":"leafnodes/leafnode_conf.md","articles":[]}]},"previous":{"title":"Gateways","level":"4.5.3","depth":2,"path":"gateways/README.md","ref":"gateways/README.md","articles":[{"title":"Configuration","level":"4.5.3.1","depth":3,"path":"gateways/gateway.md","ref":"gateways/gateway.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"gateways/gateway.md","mtime":"2019-05-30T22:52:52.320Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-25T14:14:50.838Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Configuration","level":"4.5.3.1","depth":3,"next":{"title":"Leaf Nodes","level":"4.5.4","depth":2,"path":"leafnodes/README.md","ref":"leafnodes/README.md","articles":[{"title":"Configuration","level":"4.5.4.1","depth":3,"path":"leafnodes/leafnode_conf.md","ref":"leafnodes/leafnode_conf.md","articles":[]}]},"previous":{"title":"Gateways","level":"4.5.3","depth":2,"path":"gateways/README.md","ref":"gateways/README.md","articles":[{"title":"Configuration","level":"4.5.3.1","depth":3,"path":"gateways/gateway.md","ref":"gateways/gateway.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"gateways/gateway.md","mtime":"2019-06-27T18:04:50.342Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-27T18:05:07.318Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
