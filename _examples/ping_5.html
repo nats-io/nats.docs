@@ -34,19 +34,16 @@
 
   	
 	<div class="tab__content">
-	<pre id="ping_5_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/ping_5/main.go#L10-25"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">opts := nats.GetDefaultOptions()
-opts.Url = &#34;demo.nats.io&#34;
-// Set maximum number of PINGs out without getting a PONG back
-// before the connection will be disconnected as a stale connection.
-opts.MaxPingsOut = 5
+	<pre id="ping_5_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/ping_5/main.go#L10-22"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">
+	// Set maximum number of PINGs out without getting a PONG back
+	// before the connection will be disconnected as a stale connection.
+	nc, err := nats.Connect(&#34;demo.nats.io&#34;, nats.Name(&#34;API MaxPing Example&#34;), nats.MaxPingsOutstanding(5))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer nc.Close()
 
-nc, err := opts.Connect()
-if err != nil {
-	log.Fatal(err)
-}
-defer nc.Close()
-
-// Do something with the connection
+	// Do something with the connection
 
 </code></pre>
 	</div>

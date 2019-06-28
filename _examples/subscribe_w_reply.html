@@ -34,7 +34,7 @@
 
   	
 	<div class="tab__content">
-	<pre id="subscribe_w_reply_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/subscribe_w_reply/main.go#L11-35"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;demo.nats.io&#34;)
+	<pre id="subscribe_w_reply_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/subscribe_w_reply/main.go#L11-36"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;demo.nats.io&#34;)
 if err != nil {
 	log.Fatal(err)
 }
@@ -55,8 +55,9 @@ if err != nil {
 // Get the time
 timeAsBytes := []byte(time.Now().String())
 
-// Send the time
-nc.Publish(msg.Reply, timeAsBytes)
+// Send the time as the response.
+msg.Respond(timeAsBytes)
+
 </code></pre>
 	</div>
 	

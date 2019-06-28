@@ -34,7 +34,7 @@
 
   	
 	<div class="tab__content">
-	<pre id="drain_conn_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/drain_conn/main.go#L12-61"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">wg := sync.WaitGroup{}
+	<pre id="drain_conn_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/drain_conn/main.go#L12-64"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">wg := sync.WaitGroup{}
 wg.Add(1)
 
 errCh := make(chan error, 1)
@@ -55,15 +55,18 @@ if err != nil {
 	log.Fatal(err)
 }
 
+// Just to not collide using the demo server with other users.
+subject := nats.NewInbox()
+
 // Subscribe, but add some delay while processing.
-if _, err := nc.Subscribe(&#34;foo&#34;, func(_ *nats.Msg) {
+if _, err := nc.Subscribe(subject, func(_ *nats.Msg) {
 	time.Sleep(200 * time.Millisecond)
 }); err != nil {
 	log.Fatal(err)
 }
 
 // Publish a message
-if err := nc.Publish(&#34;foo&#34;, []byte(&#34;hello&#34;)); err != nil {
+if err := nc.Publish(subject, []byte(&#34;hello&#34;)); err != nil {
 	log.Fatal(err)
 }
 

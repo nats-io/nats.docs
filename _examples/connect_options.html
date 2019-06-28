@@ -34,7 +34,7 @@
 
   	
 	<div class="tab__content">
-	<pre id="connect_options_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/connect_options/main.go#L11-20"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(nats.DefaultURL, nats.Timeout(10*time.Second))
+	<pre id="connect_options_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/connect_options/main.go#L11-20"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;demo.nats.io&#34;, nats.Name(&#34;API Options Example&#34;), nats.Timeout(10*time.Second))
 if err != nil {
 	log.Fatal(err)
 }

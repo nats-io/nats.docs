@@ -34,17 +34,20 @@
 
   	
 	<div class="tab__content">
-	<pre id="flush_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/flush/main.go#L11-26"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;demo.nats.io&#34;)
+	<pre id="flush_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/flush/main.go#L11-29"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;demo.nats.io&#34;)
 if err != nil {
 	log.Fatal(err)
 }
 defer nc.Close()
 
-if err := nc.Publish(&#34;updates&#34;, []byte(&#34;All is Well&#34;)); err != nil {
+// Just to not collide using the demo server with other users.
+subject := nats.NewInbox()
+
+if err := nc.Publish(subject, []byte(&#34;All is Well&#34;)); err != nil {
 	log.Fatal(err)
 }
 // Sends a PING and wait for a PONG from the server, up to the given timeout.
-// This gives guarantee that the server has processed above message.
+// This gives guarantee that the server has processed the above message.
 if err := nc.FlushTimeout(time.Second); err != nil {
 	log.Fatal(err)
 }

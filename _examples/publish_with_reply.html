@@ -34,13 +34,13 @@
 
   	
 	<div class="tab__content">
-	<pre id="publish_with_reply_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/publish_with_reply/main.go#L11-43"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;demo.nats.io&#34;)
+	<pre id="publish_with_reply_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/publish_with_reply/main.go#L11-42"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;demo.nats.io&#34;)
 if err != nil {
 	log.Fatal(err)
 }
 defer nc.Close()
 
-// Create a unique subject name
+// Create a unique subject name for replies.
 uniqueReplyTo := nats.NewInbox()
 
 // Listen for a single response
@@ -49,7 +49,8 @@ if err != nil {
 	log.Fatal(err)
 }
 
-// Send the request
+// Send the request.
+// If processing is synchronous, use Request() which returns the response message.
 if err := nc.PublishRequest(&#34;time&#34;, uniqueReplyTo, nil); err != nil {
 	log.Fatal(err)
 }
@@ -63,8 +64,6 @@ if err != nil {
 // Use the response
 log.Printf(&#34;Reply: %s&#34;, msg.Data)
 
-// Close the connection
-nc.Close()
 </code></pre>
 	</div>
 	

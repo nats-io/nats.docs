@@ -34,7 +34,7 @@
 
   	
 	<div class="tab__content">
-	<pre id="subscribe_json_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/subscribe_json/main.go#L11-45"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;demo.nats.io&#34;)
+	<pre id="subscribe_json_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/subscribe_json/main.go#L11-43"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">nc, err := nats.Connect(&#34;demo.nats.io&#34;)
 if err != nil {
 	log.Fatal(err)
 }
@@ -65,8 +65,6 @@ if _, err := ec.Subscribe(&#34;updates&#34;, func(s *stock) {
 // Wait for a message to come in
 wg.Wait()
 
-// Close the connection
-ec.Close()
 </code></pre>
 	</div>
 	

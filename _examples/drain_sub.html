@@ -34,7 +34,7 @@
 
   	
 	<div class="tab__content">
-	<pre id="drain_sub_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/drain_sub/main.go#L13-67"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">
+	<pre id="drain_sub_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/drain_sub/main.go#L13-70"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">
 	nc, err := nats.Connect(&#34;demo.nats.io&#34;)
 	if err != nil {
 		log.Fatal(err)
@@ -49,8 +49,11 @@
 
 	msgAfterDrain := &#34;not this one&#34;
 
+	// Just to not collide using the demo server with other users.
+	subject := nats.NewInbox()
+
 	// This callback will process each message slowly
-	sub, err := nc.Subscribe(&#34;updates&#34;, func(m *nats.Msg) {
+	sub, err := nc.Subscribe(subject, func(m *nats.Msg) {
 		if string(m.Data) == msgAfterDrain {
 			errCh &lt;- fmt.Errorf(&#34;Should not have received this message&#34;)
 			return
@@ -64,7 +67,7 @@
 
 	// Send 2 messages
 	for i := 0; i &lt; 2; i&#43;&#43; {
-		nc.Publish(&#34;updates&#34;, []byte(&#34;hello&#34;))
+		nc.Publish(subject, []byte(&#34;hello&#34;))
 	}
 
 	// Call Drain on the subscription. It unsubscribes but
@@ -74,7 +77,7 @@
 	}
 
 	// Send one more message, this message should not be received
-	nc.Publish(&#34;updates&#34;, []byte(msgAfterDrain))
+	nc.Publish(subject, []byte(msgAfterDrain))
 
 	// Wait for the subscription to have processed the 2 messages.
 	done.Wait()

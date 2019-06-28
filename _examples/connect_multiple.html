@@ -34,10 +34,7 @@
 
   	
 	<div class="tab__content">
-	<pre id="connect_multiple_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/connect_multiple/main.go#L11-25"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">servers := []string{&#34;nats://localhost:1222&#34;,
-	&#34;nats://localhost:1223&#34;,
-	&#34;nats://localhost:1224&#34;,
-}
+	<pre id="connect_multiple_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/connect_multiple/main.go#L11-22"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">servers := []string{&#34;nats://127.0.0.1:1222&#34;, &#34;nats://127.0.0.1:1223&#34;, &#34;nats://127.0.0.1:1224&#34;}
 
 nc, err := nats.Connect(strings.Join(servers, &#34;,&#34;))
 if err != nil {

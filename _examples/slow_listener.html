@@ -34,15 +34,8 @@
 
   	
 	<div class="tab__content">
-	<pre id="slow_listener_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/slow_listener/main.go#L10-27"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">// Set the callback that will be invoked when an asynchronous error occurs.
-nc, err := nats.Connect(&#34;demo.nats.io&#34;,
-	nats.ErrorHandler(func(nc *nats.Conn, sub *nats.Subscription, err error) {
-		if err == nats.ErrSlowConsumer {
-			dropped, _ := sub.Dropped()
-			log.Printf(&#34;Slow consumer on subject %s dropped %d messages\n&#34;,
-				sub.Subject, dropped)
-		}
-	}))
+	<pre id="slow_listener_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/slow_listener/main.go#L10-20"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">// Set the callback that will be invoked when an asynchronous error occurs.
+nc, err := nats.Connect(&#34;demo.nats.io&#34;, nats.ErrorHandler(logSlowConsumer))
 if err != nil {
 	log.Fatal(err)
 }

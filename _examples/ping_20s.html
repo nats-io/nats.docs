@@ -35,7 +35,7 @@
   	
 	<div class="tab__content">
 	<pre id="ping_20s_go_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/go-nats-examples/blob/master/api-examples/ping_20s/main.go#L11-21"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-go">// Set Ping Interval to 20 seconds
-nc, err := nats.Connect(&#34;demo.nats.io&#34;, nats.PingInterval(20*time.Second))
+nc, err := nats.Connect(&#34;demo.nats.io&#34;, nats.Name(&#34;API Ping Example&#34;), nats.PingInterval(20*time.Second))
 if err != nil {
 	log.Fatal(err)
 }
