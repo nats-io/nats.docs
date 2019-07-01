@@ -115,7 +115,7 @@ authorization: {
 | `max_payload` | Maximum number of bytes in a message payload |
 | `max_subscriptions` | Maximum numbers of subscriptions for a client connection |
 | [`operator`](/nats_tools/nsc/nsc.md#nats-server-configuration) | path to an operator JWT |
-| [`ping_interval`](developer/connecting/pingpong.md) | Interval in seconds in which the server checks if a subscription is active |
+| [`ping_interval`](developer/connecting/pingpong.md) | Interval in seconds in which the server checks if a connection is active |
 | `port` | port for client connections |
 | [`resolver`](/nats_tools/nsc/nsc.md#nats-server-configuration)  | Resolver type `MEMORY` or `URL` for account JWTs |
 | [`tls`](tls.md#tls-configuration) | configuration map for tls for client and http monitoring |
