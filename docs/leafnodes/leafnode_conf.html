@@ -2340,7 +2340,7 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="leafnode-configuration-block"><a name="leafnode-configuration-block" class="plugin-anchor" href="#leafnode-configuration-block"><i class="fa fa-link" aria-hidden="true"></i></a><code>LeafNode</code> Configuration Block</h2>
+                                <h2 id="leafnodes-configuration-block"><a name="leafnodes-configuration-block" class="plugin-anchor" href="#leafnodes-configuration-block"><i class="fa fa-link" aria-hidden="true"></i></a><code>leafnodes</code> Configuration Block</h2>
 <table>
 <thead>
 <tr>
@@ -2351,7 +2351,7 @@
 <tbody>
 <tr>
 <td style="text-align:left"><code>advertise</code></td>
-<td style="text-align:left">Hostport <code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>host</span><span class="token punctuation">&gt;</span></span>:<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>port</span><span class="token punctuation">&gt;</span></span></code> to advertise to other gateways.</td>
+<td style="text-align:left">Hostport <code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>host</span><span class="token punctuation">&gt;</span></span>:<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>port</span><span class="token punctuation">&gt;</span></span></code> to advertise to other servers.</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>authorization</code></td>
@@ -2359,15 +2359,11 @@
 </tr>
 <tr>
 <td style="text-align:left"><code>host</code></td>
-<td style="text-align:left">Interface where the gateway will listen for incomming gateway connections.</td>
+<td style="text-align:left">Interface where the server will listen for incoming leafnode connections.</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>listen</code></td>
 <td style="text-align:left">Combines <code>host</code> and <code>port</code> as <code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>host</span><span class="token punctuation">&gt;</span></span>:<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>port</span><span class="token punctuation">&gt;</span></span></code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>name</code></td>
-<td style="text-align:left">Name for this cluster, all gateways belonging to the same cluster, should specify the same name.</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>no_advertise</code></td>
@@ -2375,7 +2371,7 @@
 </tr>
 <tr>
 <td style="text-align:left"><code>port</code></td>
-<td style="text-align:left">Port where the gateway will listen for incomming gateway connections.</td>
+<td style="text-align:left">Port where the server will listen for incoming leafnode connections.</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>remotes</code></td>
@@ -2387,7 +2383,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="leafnode-remote-entry-block"><a name="leafnode-remote-entry-block" class="plugin-anchor" href="#leafnode-remote-entry-block"><i class="fa fa-link" aria-hidden="true"></i></a>LeafNode <code>Remote</code> Entry Block</h3>
+<h3 id="leafnode-remotes-entry-block"><a name="leafnode-remotes-entry-block" class="plugin-anchor" href="#leafnode-remotes-entry-block"><i class="fa fa-link" aria-hidden="true"></i></a>LeafNode <code>remotes</code> Entry Block</h3>
 <table>
 <thead>
 <tr>
@@ -2398,7 +2394,7 @@
 <tbody>
 <tr>
 <td style="text-align:left"><code>url</code></td>
-<td style="text-align:left">Leafnode URL (URL protocol should be <code>leafnode</code>).</td>
+<td style="text-align:left">Leafnode URL (URL protocol should be <code>nats-leaf</code>).</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>account</code></td>
@@ -2410,11 +2406,11 @@
 </tr>
 <tr>
 <td style="text-align:left"><code>tls</code></td>
-<td style="text-align:left">A TLS configuration block. Gateway client will use specified TLS certificates when connecting/authenticating.</td>
+<td style="text-align:left">A TLS configuration block. Leafnode client will use specified TLS certificates when connecting/authenticating.</td>
 </tr>
 </tbody>
 </table>
-<h3 id="tls-configuration-block"><a name="tls-configuration-block" class="plugin-anchor" href="#tls-configuration-block"><i class="fa fa-link" aria-hidden="true"></i></a><code>TLS</code> Configuration Block</h3>
+<h3 id="tls-configuration-block"><a name="tls-configuration-block" class="plugin-anchor" href="#tls-configuration-block"><i class="fa fa-link" aria-hidden="true"></i></a><code>tls</code> Configuration Block</h3>
 <table>
 <thead>
 <tr>
@@ -2504,7 +2500,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Configuration","level":"4.5.4.1","depth":3,"next":{"title":"Logging","level":"4.5.5","depth":2,"path":"nats_server/logging.md","ref":"nats_server/logging.md","articles":[]},"previous":{"title":"Leaf Nodes","level":"4.5.4","depth":2,"path":"leafnodes/README.md","ref":"leafnodes/README.md","articles":[{"title":"Configuration","level":"4.5.4.1","depth":3,"path":"leafnodes/leafnode_conf.md","ref":"leafnodes/leafnode_conf.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"leafnodes/leafnode_conf.md","mtime":"2019-06-07T14:58:27.247Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-07-01T22:58:54.704Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Configuration","level":"4.5.4.1","depth":3,"next":{"title":"Logging","level":"4.5.5","depth":2,"path":"nats_server/logging.md","ref":"nats_server/logging.md","articles":[]},"previous":{"title":"Leaf Nodes","level":"4.5.4","depth":2,"path":"leafnodes/README.md","ref":"leafnodes/README.md","articles":[{"title":"Configuration","level":"4.5.4.1","depth":3,"path":"leafnodes/leafnode_conf.md","ref":"leafnodes/leafnode_conf.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"leafnodes/leafnode_conf.md","mtime":"2019-07-02T22:54:36.731Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-07-02T22:54:53.279Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
