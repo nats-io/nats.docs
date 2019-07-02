@@ -2,12 +2,12 @@
 
 | Property | Description |
 | :------  | :---- |
-| `advertise` | Hostport `<host>:<port>` to advertise to other gateways. |
+| `advertise` | Hostport `<host>:<port>` to advertise to other servers. |
 | `authorization` | Authorization block (same as other nats-server `authorization` configuration). |
-| `host` | Interface where the gateway will listen for incoming leafnode connections. |
+| `host` | Interface where the server will listen for incoming leafnode connections. |
 | `listen` | Combines `host` and `port` as `<host>:<port>` |
 | `no_advertise` | if `true` the leafnode shouldn't be advertised. |
-| `port` | Port where the leafnode will listen for incoming leafnode connections. |
+| `port` | Port where the server will listen for incoming leafnode connections. |
 | `remotes` | List of `remote` entries specifying servers where leafnode client connection can be made. |
 | `tls` | TLS configuration block (same as other nats-server `tls` configuration). |
 
