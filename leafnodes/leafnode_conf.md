@@ -1,28 +1,27 @@
-## `LeafNode` Configuration Block
+## `leafnodes` Configuration Block
 
 | Property | Description |
 | :------  | :---- |
-| `advertise` | Hostport `<host>:<port>` to advertise to other gateways. |
+| `advertise` | Hostport `<host>:<port>` to advertise to other servers. |
 | `authorization` | Authorization block (same as other nats-server `authorization` configuration). |
-| `host` | Interface where the gateway will listen for incomming gateway connections. |
+| `host` | Interface where the server will listen for incoming leafnode connections. |
 | `listen` | Combines `host` and `port` as `<host>:<port>` |
-| `name` | Name for this cluster, all gateways belonging to the same cluster, should specify the same name. |
 | `no_advertise` | if `true` the leafnode shouldn't be advertised. |
-| `port` | Port where the gateway will listen for incomming gateway connections. |
+| `port` | Port where the server will listen for incoming leafnode connections. |
 | `remotes` | List of `remote` entries specifying servers where leafnode client connection can be made. |
 | `tls` | TLS configuration block (same as other nats-server `tls` configuration). |
 
 
-### LeafNode `Remote` Entry Block
+### LeafNode `remotes` Entry Block
 
 | Property | Description |
 | :------  | :---- |
-| `url` | Leafnode URL (URL protocol should be `leafnode`). |
+| `url` | Leafnode URL (URL protocol should be `nats-leaf`). |
 | `account` | Account public key identifying the leafnode. Account must be defined locally. |
 | `credentials` | Credential file for connecting to the leafnode server. |
-| `tls` | A TLS configuration block. Gateway client will use specified TLS certificates when connecting/authenticating. |
+| `tls` | A TLS configuration block. Leafnode client will use specified TLS certificates when connecting/authenticating. |
 
-### `TLS` Configuration Block
+### `tls` Configuration Block
 
 | Property | Description |
 | :------  | :---- |
