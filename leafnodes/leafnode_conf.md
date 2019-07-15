@@ -17,6 +17,7 @@
 | Property | Description |
 | :------  | :---- |
 | `url` | Leafnode URL (URL protocol should be `nats-leaf`). |
+| `urls` | Leafnode URL arrays. Supports multiple URLs for discovery.(URLs protocol should be `nats-leaf`).|
 | `account` | Account public key identifying the leafnode. Account must be defined locally. |
 | `credentials` | Credential file for connecting to the leafnode server. |
 | `tls` | A TLS configuration block. Leafnode client will use specified TLS certificates when connecting/authenticating. |
