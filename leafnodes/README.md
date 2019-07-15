@@ -87,6 +87,18 @@ leafnodes {
 ```
 Note the leaf node configuration lists a number of `remotes`. The `url` specifies the port on the server where leaf node connections are allowed. The `credentials` configuration specifies the path to a user's credentials file.
 
+The leaf server configuration (leaf.conf) also supports multiple URLs with `urls` such as the following:
+```text
+port: 4111
+leafnodes {
+	remotes = [ 
+		{ urls: nats-leaf://host1:4000, nats-leaf://host2:4000,
+		  credentials: /Users/synadia/.nkeys/O/accounts/A/users/leaf.creds 
+		},
+	]
+}
+```
+
 Create a subscriber on the leaf:
 ```text
 > nats-sub -s localhost:4111 ">"
