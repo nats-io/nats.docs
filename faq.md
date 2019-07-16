@@ -7,6 +7,7 @@
 * [What language is NATS written in?](#what-language-is-nats-written-in)
 * [Who maintains NATS?](#who-maintains-nats)
 * [What clients does NATS support?](#what-client-support-exists-for-nats)
+* [What does the NATS acronym stand for?](#what-does-the-nats-acronym-stand-for)
 
 ### Technical Questions
 
@@ -37,7 +38,7 @@ NATS was created by Derek Collison, who has over 25 years designing, building, a
 
 **What does the NATS acronym stand for?**
 
-Ask a NATS maintainer at one of the many meetups and conferences we attend to discover the mystery and lore behind the NATS acronym.
+NATS stands for Neural Autonomic Transport System. Derek Collison conceived NATS as a messaging platform that functions like a central nervous system.
 
 ### What language is NATS written in?
 
