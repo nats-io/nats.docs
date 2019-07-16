@@ -36,7 +36,7 @@ NATS is offered in two interoperable modules: core NATS \(referred to simply as 
 
 NATS was created by Derek Collison, who has over 25 years designing, building, and using publish-subscribe messaging systems. NATS is maintained by an amazing OpenSource Ecosystem, find more at [GitHub](https://www.github.com/nats-io).
 
-### What does the NATS acronym stand for?###
+### What does the NATS acronym stand for?
 
 NATS stands for Neural Autonomic Transport System. Derek Collison conceived NATS as a messaging platform that functions like a central nervous system.
 
