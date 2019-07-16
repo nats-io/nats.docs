@@ -2401,13 +2401,25 @@ Listening on [&gt;]
 <pre class="language-"><code class="lang-text">port: 4111
 leafnodes {
     remotes = [ 
-        { url: nats-leaf://localhost:4000, 
-          credentials: /Users/synadia/.nkeys/O/accounts/A/users/leaf.creds 
+        { 
+          url: &quot;nats-leaf://localhost:4000&quot;
+          credentials: &quot;/Users/synadia/.nkeys/O/accounts/A/users/leaf.creds&quot;
         },
     ]
 }
 </code></pre>
 <p>Note the leaf node configuration lists a number of <code>remotes</code>. The <code>url</code> specifies the port on the server where leaf node connections are allowed. The <code>credentials</code> configuration specifies the path to a user&apos;s credentials file.</p>
+<p>The leaf server configuration (leaf.conf) also supports multiple URLs with <code>urls</code> such as the following:</p>
+<pre class="language-"><code class="lang-text">port: 4111
+leafnodes {
+    remotes = [ 
+        { 
+           urls: [&quot;nats-leaf://host1:4000&quot;, &quot;nats-leaf://host2:4000&quot;]
+           credentials: &quot;/Users/synadia/.nkeys/O/accounts/A/users/leaf.creds&quot;
+        },
+    ]
+}
+</code></pre>
 <p>Create a subscriber on the leaf:</p>
 <pre class="language-"><code class="lang-text">&gt; nats-sub -s localhost:4111 &quot;&gt;&quot;
 Listening on [&gt;]
@@ -2532,7 +2544,7 @@ Published [bar] : &apos;bar&apos;
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Leaf Nodes","level":"4.5.4","depth":2,"next":{"title":"Configuration","level":"4.5.4.1","depth":3,"path":"leafnodes/leafnode_conf.md","ref":"leafnodes/leafnode_conf.md","articles":[]},"previous":{"title":"Configuration","level":"4.5.3.1","depth":3,"path":"gateways/gateway.md","ref":"gateways/gateway.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"leafnodes/README.md","mtime":"2019-05-31T18:06:29.017Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-07-02T22:54:53.279Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Leaf Nodes","level":"4.5.4","depth":2,"next":{"title":"Configuration","level":"4.5.4.1","depth":3,"path":"leafnodes/leafnode_conf.md","ref":"leafnodes/leafnode_conf.md","articles":[]},"previous":{"title":"Configuration","level":"4.5.3.1","depth":3,"path":"gateways/gateway.md","ref":"gateways/gateway.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"leafnodes/README.md","mtime":"2019-07-16T22:26:53.775Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-07-16T22:33:21.709Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
