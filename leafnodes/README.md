@@ -79,7 +79,8 @@ Create the leaf server configuration (leaf.conf) with the following contents:
 port: 4111
 leafnodes {
 	remotes = [ 
-		{ url: [nats-leaf://localhost:4000] 
+		{ 
+		  url: "nats-leaf://localhost:4000"
 		  credentials: "/Users/synadia/.nkeys/O/accounts/A/users/leaf.creds"
 		},
 	]
@@ -92,8 +93,9 @@ The leaf server configuration (leaf.conf) also supports multiple URLs with `urls
 port: 4111
 leafnodes {
 	remotes = [ 
-		{ urls: [nats-leaf://host1:4000, nats-leaf://host2:4000]
-		  credentials: "/Users/synadia/.nkeys/O/accounts/A/users/leaf.creds"
+		{ 
+		   urls: ["nats-leaf://host1:4000", "nats-leaf://host2:4000"]
+		   credentials: "/Users/synadia/.nkeys/O/accounts/A/users/leaf.creds"
 		},
 	]
 }
