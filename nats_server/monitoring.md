@@ -142,9 +142,9 @@ It uses a paging mechanism which defaults to 1024 connections.
 | offset | number > 0               | Pagination offset.  Default is 0.                       |
 | limit  | number > 0               | Number of results to return.  Default is 1024.          |
 | cid    | number, valid id         | Return a connection by it's id                          |
-| state  | open \| *closed \| any   | Return connections of partular state.  Default is open. |
+| state  | open, *closed,  any      | Return connections of partular state.  Default is open. |
 
-*`*The server will hold the last 10,000 closed connections.`*
+*The server will default to holding the last 10,000 closed connections.*
 
 ##### Sort Options
 
