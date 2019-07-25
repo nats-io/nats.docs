@@ -1,6 +1,15 @@
 ## Monitoring NATS
 
-To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP server on a dedicated monitoring port. The monitoring server provides several endpoints, including [varz](#/varz), [connz](#/connz), [routez](#/routez), and [subsz](#/subz). All endpoints return a JSON object.
+To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP server on a dedicated monitoring port.
+The monitoring server provides several endpoints, providing statistics and other information about the following:
+
+* [General Server Information](#General-Information)
+* [Connections](#Connection-Information)
+* [Routing](#Route-Information)
+* [Subscription Routing](#Subscription-Routing-Information)
+* [Gateways](#Gateway-Information)
+
+All endpoints return a JSON object.
 
 The NATS monitoring endpoints support JSONP and CORS, making it easy to create single page monitoring web applications.
 
@@ -21,7 +30,7 @@ $ nats-server -m 8222
 [4528] 2019/06/01 20:09:58.573090 [INF] nats-server is ready</td>
 ```
 
-To test, run `nats-server -m 8222`, then go to <a href="http://localhost:8222/" target="_blank">http://localhost:8222/</a>
+To test, run `nats-server -m 8222`, then go to <a href="http://demo.nats.io:8222/" target="_blank">http://demo.nats.io:8222/</a>
 
 ### Enable monitoring from the configuration file
 
@@ -31,13 +40,34 @@ You can also enable monitoring using the configuration file as follows:
 http_port: 8222
 ```
 
+For example, to monitor this server locally, the endpoint would be <a href="http://demo.nats.io:8222/varz" target="_blank">http://demo.nats.io:8222/varz</a> reports various general statistics.
+
 ## Monitoring endpoints
 
-The following sections describe each supported monitoring endpoint: `varz`, `connz`, `routez`, and `subsz`.
+The following sections describe each supported monitoring endpoint: `varz`, `connz`, `routez`, `subsz`, and `gatewayz`.
+There are not any required arguments, however use of arguments can let you tailor monitoring to your environment
+and tooling.
 
-### /varz
+### General Information
 
-The endpoint <a href="http://localhost:822/varz" target="_blank">http://localhost:8222/varz</a> reports various general statistics.
+The `/varz` endpoint returns general information about the server state and configuration.
+
+**Endpoint:** `http://server:port/varz`
+
+| Result  | Return Code       |
+|:---|:----|
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
+
+#### Arguments
+
+N/A
+
+#### Example
+
+<a href="http://demo.nats.io:8222/varz" target="_blank">http://demo.nats.io:8222/varz</a>
+
+#### Response
 
 ```json
 {
@@ -90,13 +120,61 @@ The endpoint <a href="http://localhost:822/varz" target="_blank">http://localhos
 }
 ```
 
-### /connz
+### Connection Information
 
-The endpoint <a href="http://localhost:8222/connz" target="_blank">http://localhost:8222/connz</a> reports more detailed information on current connections. It uses a paging mechanism which defaults to 1024 connections.
+The `/connz` endpoint reports more detailed information on current and recently closed connections.
+It uses a paging mechanism which defaults to 1024 connections.
 
-You can control these via URL arguments (limit and offset). For example: <a href="http://localhost:8222/connz?limit=1&offset=1" target="_blank">http://localhost:8222/connz?limit=1&offset=1</a>.
+**Endpoint:** `http://server:port/connz`
 
-You can also report detailed subscription information on a per connection basis using subs=1. For example: <a href="http://localhost:8222/connz?limit=1&offset=1&subs=1" target="_blank">http://localhost:8222/connz?limit=1&offset=1&subs=1</a>.
+| Result  | Return Code       |
+|:---|:---|
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
+
+#### Arguments
+
+| Argument | Values | Description |
+|:---|:---|:---|
+| sort   | (*see sort options*)     | Sorts the results.  Default is connection ID.           |
+| auth   | true, 1, false, 0        | Include username.  Default is false.                    |
+| subs   | true, 1, false, 0        | Include subscriptions.  Default is false.               |
+| offset | number > 0               | Pagination offset.  Default is 0.                       |
+| limit  | number > 0               | Number of results to return.  Default is 1024.          |
+| cid    | number, valid id         | Return a connection by it's id                          |
+| state  | open, *closed,  any      | Return connections of partular state.  Default is open. |
+
+*The server will default to holding the last 10,000 closed connections.*
+
+##### Sort Options
+
+| Option | Sort by|
+|:---|:---|
+|cid        | Connection ID                                        |
+|start      | Connection start time, same as CID                   |
+|subs       | Number of subscriptions                              |
+|pending    | Amount of data in bytes waiting to be sent to client |
+|msgs_to    | Number of messages sent                              |
+|msgs_from  | Number of messages received                          |
+|bytes_to   | Number of bytes sent                                 |
+|bytes_from | Number of bytes received                             |
+|last       | Last activity                                        |
+|idle       | Amount of inactivity                                 |
+|uptime     | Lifetime of the connection                           |
+|stop       | Stop time for a closed connection                    |
+|reason     | Reason for a closed connection                       |
+
+#### Examples
+
+Get up to 1024 connections: <a href="http://demo.nats.io:8222/connz" target="_blank">http://demo.nats.io:8222/connz</a>
+
+Control limit and offset: <a href="http://demo.nats.io:8222/connz?limit=16&offset=128" target="_blank">http://demo.nats.io:8222/connz?limit=16&offset=128</a>.
+
+Get closed connection information: <a href="http://demo.nats.io:8222/connz?state=closed" target="_blank">http://demo.nats.io:8222/connz?state=closed</a>.
+
+You can also report detailed subscription information on a per connection basis using subs=1. For example: <a href="http://demo.nats.io:8222/connz?limit=1&offset=1&subs=1" target="_blank">http://demo.nats.io:8222/connz?limit=1&offset=1&subs=1</a>.
+
+#### Response
 
 ```json
 {
@@ -155,11 +233,31 @@ You can also report detailed subscription information on a per connection basis 
 }
 ```
 
-### /routez
+### Route Information
 
-The endpoint <a href="http://localhost:8222/routez" target="_blank">http://localhost:8222/routez</a> reports information on active routes for a cluster. Routes are expected to be low, so there is no paging mechanism with this endpoint.
+The `/routez` endpoint reports information on active routes for a cluster.
+Routes are expected to be low, so there is no paging mechanism with this endpoint.
 
-The `routez` endpoint does support the `subs` argument from the `/connz` endpoint. For example: <a href="http://localhost:8222/routez?subs=1" target="_blank">http://localhost:8222/routez?subs=1</a>
+**Endpoint:** `http://server:port/routez`
+
+| Result  | Return Code       |
+|:---|:---|
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
+
+#### Arguments
+
+| Argument | Values | Description |
+|:---|:---|:---|
+| subs | true, 1, false, 0 | Include internal subscriptions.  Default is false.|
+
+As noted above, the `routez` endpoint does support the `subs` argument from the `/connz` endpoint. For example: <a href="http://demo.nats.io:8222/routez?subs=1" target="_blank">http://demo.nats.io:8222/routez?subs=1</a>
+
+#### Example
+
+* Get route information:  <a href="http://demo.nats.io:8222/routez?subs=1" target="_blank">http://demo.nats.io:8222/routez?subs=1</a>
+
+#### Response
 
 ```json
 {
@@ -184,9 +282,31 @@ The `routez` endpoint does support the `subs` argument from the `/connz` endpoin
 }
 ```
 
-### /subsz
+### Subscription Routing Information
 
-The endpoint <a href="http://localhost:8222/subz" target="_blank">http://localhost:8222/subz</a> reports detailed information about the current subscriptions and the routing data structure.
+The `/subz` endpoint reports detailed information about the current subscriptions and the routing data structure.  It is not normally used.
+
+**Endpoint:** `http://server:port/subz`
+
+| Result  | Return Code       |
+|:---|:---|
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
+
+#### Arguments
+
+| Argument | Values | Description |
+|:---|:---|:---|
+| subs   | true, 1, false, 0 | Include subscriptions.  Default is false.               |
+| offset | integer > 0       | Pagination offset.  Default is 0.                       |
+| limit  | integer > 0       | Number of results to return.  Default is 1024.          |
+| test   | subject           | Test whether a subsciption exists.                      |
+
+#### Example
+
+* Get subscription routing information:  <a href="http://demo.nats.io:8222/subsz" target="_blank">http://demo.nats.io:8222/subsz</a>
+
+#### Response
 
 ```json
 {
@@ -201,20 +321,159 @@ The endpoint <a href="http://localhost:8222/subz" target="_blank">http://localho
 }
 ```
 
-## Creating monitoring applications
+### Gateway Information
+
+The `/gatewayz` endpoint reports information about gateways used to create a NATS supercluster.
+Like routes, the number of gateways are expected to be low, so there is no paging mechanism with this endpoint.
+
+**Endpoint:** `http://server:port/gatewayz`
+
+| Result  | Return Code       |
+|:---|:---|
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
+
+#### Arguments
+
+| Argument | Values | Description |
+|:---|:---|:---|
+| accs     | true, 1, false, 0   | Include account information.  Default is false.  |
+| gw_name  | string              | Return only remote gateways with this name.      |
+| acc_name | string              | Limit the list of accounts to this account name. |
+
+#### Examples
+
+* Retrieve Gateway Information: <a href="http://demo.nats.io:8222/gatewayz" target="_blank">http://demo.nats.io:8222/gatewayz</a>
+
+#### Response
+
+```json
+{
+  "server_id": "NANVBOU62MDUWTXWRQ5KH3PSMYNCHCEUHQV3TW3YH7WZLS7FMJE6END6",
+  "now": "2019-07-24T18:02:55.597398-06:00",
+  "name": "region1",
+  "host": "2601:283:4601:1350:1895:efda:2010:95a1",
+  "port": 4501,
+  "outbound_gateways": {
+    "region2": {
+      "configured": true,
+      "connection": {
+        "cid": 7,
+        "ip": "127.0.0.1",
+        "port": 5500,
+        "start": "2019-07-24T18:02:48.765621-06:00",
+        "last_activity": "2019-07-24T18:02:48.765621-06:00",
+        "uptime": "6s",
+        "idle": "6s",
+        "pending_bytes": 0,
+        "in_msgs": 0,
+        "out_msgs": 0,
+        "in_bytes": 0,
+        "out_bytes": 0,
+        "subscriptions": 0,
+        "name": "NCXBIYWT7MV7OAQTCR4QTKBN3X3HDFGSFWTURTCQ22ZZB6NKKJPO7MN4"
+      }
+    },
+    "region3": {
+      "configured": true,
+      "connection": {
+        "cid": 5,
+        "ip": "::1",
+        "port": 6500,
+        "start": "2019-07-24T18:02:48.764685-06:00",
+        "last_activity": "2019-07-24T18:02:48.764685-06:00",
+        "uptime": "6s",
+        "idle": "6s",
+        "pending_bytes": 0,
+        "in_msgs": 0,
+        "out_msgs": 0,
+        "in_bytes": 0,
+        "out_bytes": 0,
+        "subscriptions": 0,
+        "name": "NCVS7Q65WX3FGIL2YQRLI77CE6MQRWO2Y453HYVLNMBMTVLOKMPW7R6K"
+      }
+    }
+  },
+  "inbound_gateways": {
+    "region2": [
+      {
+        "configured": false,
+        "connection": {
+          "cid": 9,
+          "ip": "::1",
+          "port": 52029,
+          "start": "2019-07-24T18:02:48.76677-06:00",
+          "last_activity": "2019-07-24T18:02:48.767096-06:00",
+          "uptime": "6s",
+          "idle": "6s",
+          "pending_bytes": 0,
+          "in_msgs": 0,
+          "out_msgs": 0,
+          "in_bytes": 0,
+          "out_bytes": 0,
+          "subscriptions": 0,
+          "name": "NCXBIYWT7MV7OAQTCR4QTKBN3X3HDFGSFWTURTCQ22ZZB6NKKJPO7MN4"
+        }
+      }
+    ],
+    "region3": [
+      {
+        "configured": false,
+        "connection": {
+          "cid": 4,
+          "ip": "::1",
+          "port": 52025,
+          "start": "2019-07-24T18:02:48.764577-06:00",
+          "last_activity": "2019-07-24T18:02:48.764994-06:00",
+          "uptime": "6s",
+          "idle": "6s",
+          "pending_bytes": 0,
+          "in_msgs": 0,
+          "out_msgs": 0,
+          "in_bytes": 0,
+          "out_bytes": 0,
+          "subscriptions": 0,
+          "name": "NCVS7Q65WX3FGIL2YQRLI77CE6MQRWO2Y453HYVLNMBMTVLOKMPW7R6K"
+        }
+      },
+      {
+        "configured": false,
+        "connection": {
+          "cid": 8,
+          "ip": "127.0.0.1",
+          "port": 52026,
+          "start": "2019-07-24T18:02:48.766173-06:00",
+          "last_activity": "2019-07-24T18:02:48.766999-06:00",
+          "uptime": "6s",
+          "idle": "6s",
+          "pending_bytes": 0,
+          "in_msgs": 0,
+          "out_msgs": 0,
+          "in_bytes": 0,
+          "out_bytes": 0,
+          "subscriptions": 0,
+          "name": "NCKCYK5LE3VVGOJQ66F65KA27UFPCLBPX4N4YOPOXO3KHGMW24USPCKN"
+        }
+      }
+    ]
+  }
+}
+```
+
+## Creating Monitoring Applications
 
 NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSONP) and [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing#How_CORS_works). You can easily create single page web applications for monitoring. To do this you simply pass the `callback` query parameter to any endpoint.
 
 For example:
 
 ```sh
-http://localhost:8222/connz?callback=cb
+http://demo.nats.io:8222/connz?callback=cb
 ```
 
 Here is a JQuery example implementation:
 
 ```javascript
-$.getJSON('http://localhost:8222/connz?callback=?', function(data) {
+$.getJSON('http://demo.nats.io:8222/connz?callback=?', function(data) {
   console.log(data);
 });
 
