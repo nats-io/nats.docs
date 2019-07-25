@@ -55,7 +55,7 @@ The `/varz` endpoint returns general information about the server state and conf
 **Endpoint:** `http://server:port/varz`
 
 | Result  | Return Code       |
-|-|-|
+|:---|:----|
 | Success | 200 (OK)          |
 | Error   | 400 (Bad Request) |
 
@@ -128,14 +128,14 @@ It uses a paging mechanism which defaults to 1024 connections.
 **Endpoint:** `http://server:port/connz`
 
 | Result  | Return Code       |
-|-|-|
+|:---|:---|
 | Success | 200 (OK)          |
 | Error   | 400 (Bad Request) |
 
 #### Arguments
 
 | Argument | Values | Description |
-|-|-|-|
+|:---|:---|:---|
 | sort   | (*see sort options*)     | Sorts the results.  Default is connection ID.           |
 | auth   | true, 1, false, 0        | Include username.  Default is false.                    |
 | subs   | true, 1, false, 0        | Include subscriptions.  Default is false.               |
@@ -149,7 +149,7 @@ It uses a paging mechanism which defaults to 1024 connections.
 ##### Sort Options
 
 | Option | Sort by|
-|-|-|
+|:---|:---|
 |cid        | Connection ID                                        |
 |start      | Connection start time, same as CID                   |
 |subs       | Number of subscriptions                              |
@@ -241,14 +241,14 @@ Routes are expected to be low, so there is no paging mechanism with this endpoin
 **Endpoint:** `http://server:port/routez`
 
 | Result  | Return Code       |
-|-|-|
+|:---|:---|
 | Success | 200 (OK)          |
 | Error   | 400 (Bad Request) |
 
 #### Arguments
 
 | Argument | Values | Description |
-|-|-|-|
+|:---|:---|:---|
 | subs | true, 1, false, 0 | Include internal subscriptions.  Default is false.|
 
 As noted above, the `routez` endpoint does support the `subs` argument from the `/connz` endpoint. For example: <a href="http://demo.nats.io:8222/routez?subs=1" target="_blank">http://demo.nats.io:8222/routez?subs=1</a>
@@ -289,14 +289,14 @@ The `/subz` endpoint reports detailed information about the current subscription
 **Endpoint:** `http://server:port/subz`
 
 | Result  | Return Code       |
-|-|-|
+|:---|:---|
 | Success | 200 (OK)          |
 | Error   | 400 (Bad Request) |
 
 #### Arguments
 
 | Argument | Values | Description |
-|-|-|-|
+|:---|:---|:---|
 | subs   | true, 1, false, 0 | Include subscriptions.  Default is false.               |
 | offset | integer > 0       | Pagination offset.  Default is 0.                       |
 | limit  | integer > 0       | Number of results to return.  Default is 1024.          |
@@ -329,14 +329,14 @@ Like routes, the number of gateways are expected to be low, so there is no pagin
 **Endpoint:** `http://server:port/gatewayz`
 
 | Result  | Return Code       |
-|-|-|
+|:---|:---|
 | Success | 200 (OK)          |
 | Error   | 400 (Bad Request) |
 
 #### Arguments
 
 | Argument | Values | Description |
-|-|-|-|
+|:---|:---|:---|
 | accs     | true, 1, false, 0   | Include account information.  Default is false.  |
 | gw_name  | string              | Return only remote gateways with this name.      |
 | acc_name | string              | Limit the list of accounts to this account name. |
