@@ -137,8 +137,8 @@ It uses a paging mechanism which defaults to 1024 connections.
 | Argument | Values | Description |
 |-|-|-|
 | sort   | (*see sort options*)     | Sorts the results.  Default is connection ID.           |
-| auth   | true\|1\|false\|0        | Include username.  Default is false.                    |
-| subs   | true\|1\|false\|0        | Include subscriptions.  Default is false.               |
+| auth   | true, 1, false, 0        | Include username.  Default is false.                    |
+| subs   | true, 1, false, 0        | Include subscriptions.  Default is false.               |
 | offset | number > 0               | Pagination offset.  Default is 0.                       |
 | limit  | number > 0               | Number of results to return.  Default is 1024.          |
 | cid    | number, valid id         | Return a connection by it's id                          |
@@ -249,7 +249,7 @@ Routes are expected to be low, so there is no paging mechanism with this endpoin
 
 | Argument | Values | Description |
 |-|-|-|
-| subs | true \| 1 \| false \| 0 | Include internal subscriptions.  Default is false.|
+| subs | true, 1, false, 0 | Include internal subscriptions.  Default is false.|
 
 As noted above, the `routez` endpoint does support the `subs` argument from the `/connz` endpoint. For example: <a href="http://demo.nats.io:8222/routez?subs=1" target="_blank">http://demo.nats.io:8222/routez?subs=1</a>
 
@@ -297,10 +297,10 @@ The `/subz` endpoint reports detailed information about the current subscription
 
 | Argument | Values | Description |
 |-|-|-|
-| subs   | true \| 1 \| false \| 0 | Include subscriptions.  Default is false.               |
-| offset | integer > 0             | Pagination offset.  Default is 0.                       |
-| limit  | integer > 0             | Number of results to return.  Default is 1024.          |
-| test   | subject                 | Test whether a subsciption exists.                      |
+| subs   | true, 1, false, 0 | Include subscriptions.  Default is false.               |
+| offset | integer > 0       | Pagination offset.  Default is 0.                       |
+| limit  | integer > 0       | Number of results to return.  Default is 1024.          |
+| test   | subject           | Test whether a subsciption exists.                      |
 
 #### Example
 
@@ -337,7 +337,7 @@ Like routes, the number of gateways are expected to be low, so there is no pagin
 
 | Argument | Values | Description |
 |-|-|-|
-| accs     | true \| 1 \| false \| 0 | Include account information.  Default is false.  |
+| accs     | true, 1, false, 0   | Include account information.  Default is false.  |
 | gw_name  | string              | Return only remote gateways with this name.      |
 | acc_name | string              | Limit the list of accounts to this account name. |
 
