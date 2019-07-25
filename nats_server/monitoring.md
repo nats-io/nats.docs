@@ -1,6 +1,15 @@
 ## Monitoring NATS
 
-To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP server on a dedicated monitoring port. The monitoring server provides several endpoints, including [varz](#/varz), [connz](#/connz), [routez](#/routez), and [subsz](#/subz). All endpoints return a JSON object.
+To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP server on a dedicated monitoring port.
+The monitoring server provides several endpoints, providing statistics and other information about the following:
+
+* [General Server Information](#General-Information)
+* [Connections](#Connection-Information)
+* [Routing](#Route-Information)
+* [Subscription Routing](#Subscription-Routing-Information)
+* [Gateways](#Gateway-Information)
+
+All endpoints return a JSON object.
 
 The NATS monitoring endpoints support JSONP and CORS, making it easy to create single page monitoring web applications.
 
@@ -21,7 +30,7 @@ $ nats-server -m 8222
 [4528] 2019/06/01 20:09:58.573090 [INF] nats-server is ready</td>
 ```
 
-To test, run `nats-server -m 8222`, then go to <a href="http://localhost:8222/" target="_blank">http://localhost:8222/</a>
+To test, run `nats-server -m 8222`, then go to <a href="http://demo.nats.io:8222/" target="_blank">http://demo.nats.io:8222/</a>
 
 ### Enable monitoring from the configuration file
 
@@ -31,7 +40,7 @@ You can also enable monitoring using the configuration file as follows:
 http_port: 8222
 ```
 
-For example, to monitor this server locally, the endpoint would be <a href="http://localhost:8222/varz" target="_blank">http://localhost:8222/varz</a> reports various general statistics.
+For example, to monitor this server locally, the endpoint would be <a href="http://demo.nats.io:8222/varz" target="_blank">http://demo.nats.io:8222/varz</a> reports various general statistics.
 
 ## Monitoring endpoints
 
@@ -43,19 +52,20 @@ and tooling.
 
 The `/varz` endpoint returns general information about the server state and configuration.
 
-|||
-|-|-|
-| Endpoint    | /varz             |
-| Success     | 200 (OK)          |
-| Errors      | 400 (Bad Request) |
+**Endpoint:** `http://server:port/varz`
 
-**Arguments:**
+| Result  | Return Code       |
+|-|-|
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
+
+#### Arguments
 
 N/A
 
 #### Example
 
-<a href="http://localhost:8222/varz" target="_blank">http://localhost:8222/varz</a>
+<a href="http://demo.nats.io:8222/varz" target="_blank">http://demo.nats.io:8222/varz</a>
 
 #### Response
 
@@ -115,13 +125,14 @@ N/A
 The `/connz` endpoint reports more detailed information on current and recently closed connections.
 It uses a paging mechanism which defaults to 1024 connections.
 
-|||
-|-|-|
-| Endpoint    | /connz            |
-| Success     | 200 (OK)          |
-| Errors      | 400 (Bad Request) |
+**Endpoint:** `http://server:port/connz`
 
-**Arguments:**
+| Result  | Return Code       |
+|-|-|
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
+
+#### Arguments
 
 | Argument | Values | Description |
 |-|-|-|
@@ -129,13 +140,13 @@ It uses a paging mechanism which defaults to 1024 connections.
 | auth   | true\|1\|false\|0        | Include username.  Default is false.                    |
 | subs   | true\|1\|false\|0        | Include subscriptions.  Default is false.               |
 | offset | number > 0               | Pagination offset.  Default is 0.                       |
-| limit  | number > 1               | Number of results to return.  Default is 1024.          |
+| limit  | number > 0               | Number of results to return.  Default is 1024.          |
 | cid    | number, valid id         | Return a connection by it's id                          |
-| state  | open \| *closed \| any    | Return connections of partular state.  Default is open.|
+| state  | open \| *closed \| any   | Return connections of partular state.  Default is open. |
 
 *`*The server will hold the last 10,000 closed connections.`*
 
-**Sort options:**
+##### Sort Options
 
 | Option | Sort by|
 |-|-|
@@ -155,13 +166,13 @@ It uses a paging mechanism which defaults to 1024 connections.
 
 #### Examples
 
-Get up to 1024 connections: <a href="http://localhost:8222/connz" target="_blank">http://localhost:8222/connz</a>
+Get up to 1024 connections: <a href="http://demo.nats.io:8222/connz" target="_blank">http://demo.nats.io:8222/connz</a>
 
-Control limit and offset: <a href="http://localhost:8222/connz?limit=16&offset=128" target="_blank">http://localhost:8222/connz?limit=16&offset=128</a>.
+Control limit and offset: <a href="http://demo.nats.io:8222/connz?limit=16&offset=128" target="_blank">http://demo.nats.io:8222/connz?limit=16&offset=128</a>.
 
-Get closed connection information: <a href="http://localhost:8222/connz?state=closed" target="_blank">http://localhost:8222/connz?state=closed</a>.
+Get closed connection information: <a href="http://demo.nats.io:8222/connz?state=closed" target="_blank">http://demo.nats.io:8222/connz?state=closed</a>.
 
-You can also report detailed subscription information on a per connection basis using subs=1. For example: <a href="http://localhost:8222/connz?limit=1&offset=1&subs=1" target="_blank">http://localhost:8222/connz?limit=1&offset=1&subs=1</a>.
+You can also report detailed subscription information on a per connection basis using subs=1. For example: <a href="http://demo.nats.io:8222/connz?limit=1&offset=1&subs=1" target="_blank">http://demo.nats.io:8222/connz?limit=1&offset=1&subs=1</a>.
 
 #### Response
 
@@ -224,28 +235,27 @@ You can also report detailed subscription information on a per connection basis 
 
 ### Route Information
 
-The `/routez` endpoint reports reports information on active routes for a cluster.
+The `/routez` endpoint reports information on active routes for a cluster.
 Routes are expected to be low, so there is no paging mechanism with this endpoint.
 
-|||
-|-|-|
-| Endpoint    | /routez           |
-| Success     | 200 (OK)          |
-| Errors      | 400 (Bad Request) |
+**Endpoint:** `http://server:port/routez`
 
-**Arguments:**
+| Result  | Return Code       |
+|-|-|
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
+
+#### Arguments
 
 | Argument | Values | Description |
 |-|-|-|
 | subs | true \| 1 \| false \| 0 | Include internal subscriptions.  Default is false.|
 
-The endpoint <a href="http://localhost:8222/routez" target="_blank">http://localhost:8222/routez</a> reports information on active routes for a cluster. Routes are expected to be low, so there is no paging mechanism with this endpoint.
-
-As noted above, the `routez` endpoint does support the `subs` argument from the `/connz` endpoint. For example: <a href="http://localhost:8222/routez?subs=1" target="_blank">http://localhost:8222/routez?subs=1</a>
+As noted above, the `routez` endpoint does support the `subs` argument from the `/connz` endpoint. For example: <a href="http://demo.nats.io:8222/routez?subs=1" target="_blank">http://demo.nats.io:8222/routez?subs=1</a>
 
 #### Example
 
-* Get route information:  <a href="http://localhost:8222/routez?subs=1" target="_blank">http://localhost:8222/routez?subs=1</a>
+* Get route information:  <a href="http://demo.nats.io:8222/routez?subs=1" target="_blank">http://demo.nats.io:8222/routez?subs=1</a>
 
 #### Response
 
@@ -272,17 +282,18 @@ As noted above, the `routez` endpoint does support the `subs` argument from the 
 }
 ```
 
-### Subscription information
+### Subscription Routing Information
 
-The `/subsz` endpoint reports detailed information about the current subscriptions and the routing data structure.  It is not normally used.
+The `/subz` endpoint reports detailed information about the current subscriptions and the routing data structure.  It is not normally used.
 
-|||
+**Endpoint:** `http://server:port/subz`
+
+| Result  | Return Code       |
 |-|-|
-| Endpoint    | /subsz            |
-| Success     | 200 (OK)          |
-| Errors      | 400 (Bad Request) |
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
 
-**Arguments:**
+#### Arguments
 
 | Argument | Values | Description |
 |-|-|-|
@@ -293,7 +304,7 @@ The `/subsz` endpoint reports detailed information about the current subscriptio
 
 #### Example
 
-* Get subscription routing information:  <a href="http://localhost:8222/subz" target="_blank">http://localhost:8222/subz</a>
+* Get subscription routing information:  <a href="http://demo.nats.io:8222/subsz" target="_blank">http://demo.nats.io:8222/subsz</a>
 
 #### Response
 
@@ -310,41 +321,19 @@ The `/subsz` endpoint reports detailed information about the current subscriptio
 }
 ```
 
-### Subscription Routing Information
-
-The `/subsz` endpoint reports detailed information about the current subscriptions and the routing data structure.  It is not normally used.
-
-|||
-|-|-|
-| Endpoint    | /subsz            |
-| Success     | 200 (OK)          |
-| Errors      | 400 (Bad Request) |
-
-**Arguments:**
-
-| Argument | Values | Description |
-|-|-|-|
-| subs   | true \| 1 \| false \| 0 | Include subscriptions.  Default is false.      |
-| offset | integer > 0             | Pagination offset.  Default is 0.              |
-| limit  | integer > 1             | Number of results to return.  Default is 1024. |
-| test   | subject                 | Test whether a subsciption exists.             |
-
-#### Example
-
-* Get subscription routing information:  <a href="http://localhost:8222/subz" target="_blank">http://localhost:8222/subz</a>
-
 ### Gateway Information
 
 The `/gatewayz` endpoint reports information about gateways used to create a NATS supercluster.
 Like routes, the number of gateways are expected to be low, so there is no paging mechanism with this endpoint.
 
-|||
-|-|-|
-| Endpoint    | /gatewayz         |
-| Success     | 200 (OK)          |
-| Errors      | 400 (Bad Request) |
+**Endpoint:** `http://server:port/gatewayz`
 
-**Arguments:**
+| Result  | Return Code       |
+|-|-|
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
+
+#### Arguments
 
 | Argument | Values | Description |
 |-|-|-|
@@ -354,7 +343,7 @@ Like routes, the number of gateways are expected to be low, so there is no pagin
 
 #### Examples
 
-* Retrieve Gateway Information: <a href="http://localhost:8222/gatewayz" target="_blank">http://localhost:8222/gatewayz</a>
+* Retrieve Gateway Information: <a href="http://demo.nats.io:8222/gatewayz" target="_blank">http://demo.nats.io:8222/gatewayz</a>
 
 #### Response
 
@@ -471,20 +460,20 @@ Like routes, the number of gateways are expected to be low, so there is no pagin
 }
 ```
 
-## Creating monitoring applications
+## Creating Monitoring Applications
 
 NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSONP) and [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing#How_CORS_works). You can easily create single page web applications for monitoring. To do this you simply pass the `callback` query parameter to any endpoint.
 
 For example:
 
 ```sh
-http://localhost:8222/connz?callback=cb
+http://demo.nats.io:8222/connz?callback=cb
 ```
 
 Here is a JQuery example implementation:
 
 ```javascript
-$.getJSON('http://localhost:8222/connz?callback=?', function(data) {
+$.getJSON('http://demo.nats.io:8222/connz?callback=?', function(data) {
   console.log(data);
 });
 
