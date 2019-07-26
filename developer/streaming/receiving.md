@@ -11,7 +11,7 @@ Subscriptions come in several forms:
 
 For more details on the various types, check the [concepts](/nats_streaming/channels/subscriptions/subscriptions.md) section.
 
-***Note: message callbacks are invoked serially, one message at a time. If your application does not care about processing ordering and would prefer the messages to be dispatched concurrently, it is the application responsibility to move them to some internal queue to be picked up by threads/go routines.***
+***Note: message callbacks are invoked serially, one message at a time. If your application does not care about processing ordering and would prefer the messages to be dispatched concurrently, it is the application's responsibility to move them to some internal queue to be picked up by threads/go routines.***
 
 Subscriptions set their starting position on creation using position or time. For example, in Go you can start at:
 
@@ -49,7 +49,7 @@ sub, err := sc.Subscribe("foo",
   stan.StartAtTime(startTime))
 ```
 
-To set the delay after which the server should attempt to redeliver a message for which it has not receive an acknowledgment:
+To set the delay after which the server should attempt to redeliver a message for which it has not received an acknowledgment:
 
 ```go
 sub, err := sc.Subscribe("foo",
@@ -57,7 +57,7 @@ sub, err := sc.Subscribe("foo",
   stan.AckWait(20*time.Second))
 ```
 
-When an application wishes to stop receiving, but want to maintain the connection opened, the subscription should be closed. There are two ways to stop a subscription, either "close" it, or "unsubscribe" it. For non durable subscriptions, this is equivalent since the subscription will be completely removed. For durable subscriptions, close means that the server will stop delivering, but remember the durable subscription. Unsubscribe, however, means that the server will remove the state of this subscription.
+When an application wishes to stop receiving, but wants to maintain the connection opened, the subscription should be closed. There are two ways to stop a subscription, either "close" it, or "unsubscribe" it. For non durable subscriptions, this is equivalent since the subscription will be completely removed. For durable subscriptions, close means that the server will stop delivering, but remember the durable subscription. Unsubscribe, however, means that the server will remove the state of this subscription.
 
 To simply close:
 ```go

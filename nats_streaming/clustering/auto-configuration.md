@@ -14,4 +14,4 @@ nats-streaming-server -store file -dir store-c -clustered -nats_server nats://lo
 
 For a given cluster ID, if more than one server is started with `cluster_bootstrap` set to true, each server with this parameter will report the misconfiguration and exit.
 
-The very first server that bootstrapped the cluster can be restarted, however, the operator **must remove the datastores** of the other servers that were incorrectly started with the bootstrap parameter before attempting to restart them. If they are restarted -even without the `-cluster_bootstrap` parameter- but with existing state, they will once again start as a leader.
+The very first server that bootstrapped the cluster can be restarted, however, the operator **must remove the datastores** of the other servers that were incorrectly started with the bootstrap parameter before attempting to restart them. If they are restarted with existing state, even without the `-cluster_bootstrap` parameter, they will once again start as a leader.

@@ -54,7 +54,7 @@ A connection request is sent when a streaming client connects to the NATS Stream
 
 More advanced libraries can set the protocol to 1 and send a connection ID which in combination with ping interval and ping max out allows the library to detect that the connection to the server is lost.
 
-This request is published to a subject comprised of the `<discover-prefix>.cluster-id`, for example, if a NATS Streaming Server was started with a cluster-id of `mycluster`, and the default prefix was used, the client publishes to `_STAN.discover.mycluster`
+This request is published to a subject comprised of the `<discover-prefix>.cluster-id`. For example, if a NATS Streaming Server was started with a cluster-id of `mycluster`, and the default prefix was used, the client publishes to `_STAN.discover.mycluster`
 
 ##### Message Structure
 
