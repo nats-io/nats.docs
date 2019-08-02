@@ -1,4 +1,4 @@
-## NATS Account Configuration
+# NATS Account Configuration
 
 NATS account configurations are built using the `nsc` tool. The NSC tool allows you to:
 
@@ -27,6 +27,7 @@ You can find various task-oriented tutorials to working with the tool here:
 - [Configuring Streams](streams.md)
 - [Configuring Services](services.md)
 - [Signing Keys](signing_keys.md)
+- [Deploying and Migrating Accounts](deploying.md)
 
 ## Tool Documentation
 
@@ -38,4 +39,3 @@ It can be found within the tool itself:
 ```
 
 Or an online version [here](https://nats-io.github.io/nsc)
-

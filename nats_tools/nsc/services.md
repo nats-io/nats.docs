@@ -1,8 +1,8 @@
-## Services
+# Services
 
 To share services that other accounts can reach via request reply, you have to _Export_ a _Service_. _Services_ are associated with the account performing the replies and are advertised in the exporting accounts' JWT.
 
-### Adding a Public Service Export
+## Adding a Public Service Export
 
 To add a service to your account:
 
@@ -44,7 +44,7 @@ To review the service export:
 ╰──────┴─────────┴─────────┴────────╯
 ```
 
-### Importing a Service
+## Importing a Service
 
 Importing a service enables you to send requests to the remote _Account_. To import a Service, you have to create an _Import_. To create an import you need to know:
 
@@ -61,7 +61,7 @@ To learn how to inspect a JWT from an account server, [check this article](../na
 Success! - added service import "help"
 ```
 
-Verifying our handywork:
+Verifying our work:
 
 ```text
 > nsc describe account
@@ -122,7 +122,6 @@ And the response is received by the requestor:
 ```text
 Received  [_INBOX.v6KAX0v1bu87k49hbg3dgn.StIGJF0D] : 'I will help'
 ```
-
 
 ## Securing Services
 

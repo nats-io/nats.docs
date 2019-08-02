@@ -1,4 +1,4 @@
-## NSC
+# NSC
 
 NATS uses JWTs to armor the various identity and authorization artifacts. These JWTs are created with the `nsc` tool. NSC simplifies the tasks of creating and managing  identities and other JWT artifacts.
 
@@ -47,7 +47,7 @@ Let’s see what settings `nsc` has in its environment:
 By default you’ll see that generated secrets are stored in `~/.nkeys`, and configurations in `~/.nsc/nats`. All operations are assumed to be in a context of the current operator and current account. When working with multiple operators and accounts you may need to set the current one. You can easily do so by issuing the `nsc env` and provide flags to set the current operator or account. See `nsc env —help` for more details.
 
 
-#### Creating an Operator
+## Creating an Operator
 
 Let’s create an operator called `Test`:
 
@@ -95,7 +95,7 @@ Note that the Operator ID is truncated to simplify the output, to get the full I
 
 With an operator, we are ready to create our first account.
 
-#### Creating an Account
+## Creating an Account
 
 Let’s create an account called `TestAccount`:
 
@@ -138,7 +138,7 @@ Note that the issuer for the account is the ID for the operator (the public key 
 
 Now we are ready to add a user.
 
-#### Creating a User
+## Creating a User
 
 Let’s add a user named ‘TestUser’:
 
@@ -173,7 +173,7 @@ And let’s describe it:
 
 Let’s put all of this together, and create a simple server configuration that accepts sessions from TestUser.
 
-### Account Server Configuration
+## Account Server Configuration
 
 To configure a server to use accounts you need an _account resolver_. An account resolver exposes a URL where a nats-server can query for JWTs belonging to an account.
 
@@ -195,7 +195,7 @@ Above we pointed the account server to our nsc data directory (more specifically
 
 We are now ready to configure the nats-server
 
-### NATS Server Configuration
+## NATS Server Configuration
 
 If you don’t have a nats-server installed, let’s do that now:
 
@@ -212,7 +212,7 @@ resolver: URL(http://localhost:9090/jwt/v1/accounts/)
 
 At minimum the server requires the `operator` JWT, which we have pointed at directly, and a resolver. The resolver has two types `MEM` and `URL`. We are interested in the `URL` since we want the nats-server to talk to the account server. Note we put the URL of the server with the path `/jwt/v1/accounts`. Currently this is where the account server expects requests for account information.
 
-### Client Testing
+## Client Testing
 
 Let’s install some tooling:
 

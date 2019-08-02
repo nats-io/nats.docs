@@ -1,4 +1,4 @@
-## Signing Keys
+# Signing Keys
 
 As previously discussed, NKEYs are identities, and if someone gets a hold of an account or operator nkey they can do everything you can do as you.
 
@@ -20,7 +20,6 @@ Let’s get a feel for the workflow. We are going to:
 - Create an account with a signing key
 - The account will be signed using the operator’s signing key
 - Create an user with the account’s signing key
-
 
 All signing key operations revolve around the global `nsc` flag `-K` or `--private-key`. Whenever you want to modify an entity, you have to supply the parent key so that the JWT is signed. Normally this happens automatically but in the case of signing keys, you’ll have to supply the flag by hand.
 
@@ -71,7 +70,6 @@ Check our handy work:
 ╰──────────────┴─────────────────────────╯
 ```
 
-
 Now let’s create an account called `A` and sign it the generated operator private signing key. To sign it with the key specify the `-K` flag and the private key or a path to the private key:
 
 ```text
@@ -89,6 +87,7 @@ ABHYL27UAHHQXA5HLH2YWHFQBIP4YMPC7RNZ4PSFRAMJHSSZUUIXF2RV
 ```
 
 Let’s add the signing key to the account, and remember to sign the account with the operator signing key:
+
 ```text
 > nsc edit account --sk ABHYL27UAHHQXA5HLH2YWHFQBIP4YMPC7RNZ4PSFRAMJHSSZUUIXF2RV -K SOAIHSQSAM3ZJI5W6U5M4INH7FUCQQ5ETJ5RMPVJZCJLTDREY6ZNEE6LZQ 
 Success! - edited account "A"
@@ -149,4 +148,3 @@ Success! - added user "U" to "A"
 ```
 
 As expected, the issuer is now the signing key we generated earlier. To map the user to the actual account, an `Issuer Account` field was added to the JWT that identifies the public key of account _A_.
-
