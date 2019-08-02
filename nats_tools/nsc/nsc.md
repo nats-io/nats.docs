@@ -1,4 +1,4 @@
-## NSC
+# NSC
 
 NATS uses JWTs to armor the various identity and authorization artifacts. These JWTs are created with the `nsc` tool. NSC simplifies the tasks of creating and managing  identities and other JWT artifacts.
 
@@ -20,11 +20,11 @@ In this guide, you’ll run end-to-end on some of the configuration scenarios:
 
 Let’s run through the process of creating some identities and JWTs and work through the process.
 
-By default JWTs are written to `~/.nsc` and secrets to `~/.nkeys`. You can easily change those locations by setting `NSC_HOME` and `NKEYS_PATH` respectively in your environment to your desired locations.
+## The NSC Environment
 
-> The $NKEYS_PATH stores secrets. Since nkeys relies on cryptographic signatures to prove identity, anyone with access to your private keys will be able to assume your identity. With that said, treat them as secrets and guard them carefully.
+By default JWTs are written to `~/.nsc` and secrets to `~/.nkeys`. `nsc` also tracks a value called the "stores directory". This directory is the one that contains the operators you are currently working with. By default the stores directory is `~/.nsc/nats` but you can switch it to another folder if you want to separate JWTs for use in a revision control system, or co-locate them with a project, etc...
 
-Let’s see what settings `nsc` has in its environment:
+To see the current NSC environment use the command `nsc env`:
 
 ```text
 > nsc env
@@ -44,10 +44,13 @@ Let’s see what settings `nsc` has in its environment:
 ╰──────────────────┴─────┴─────────────────╯
 ```
 
-By default you’ll see that generated secrets are stored in `~/.nkeys`, and configurations in `~/.nsc/nats`. All operations are assumed to be in a context of the current operator and current account. When working with multiple operators and accounts you may need to set the current one. You can easily do so by issuing the `nsc env` and provide flags to set the current operator or account. See `nsc env —help` for more details.
+As you can see there is a setting for the nkeys folder and the nsc home. By default you’ll see that generated secrets are stored in `~/.nkeys`, and configurations in `~/.nsc/nats`. All operations are assumed to be in a context of the current operator and current account. When working with multiple operators and accounts you may need to set the current one. You can easily do so by issuing the `nsc env` and provide flags to set the current operator or account. See `nsc env —help` for more details.
 
+You can easily change the home and keys locations by setting `NSC_HOME` and `NKEYS_PATH` respectively in your environment to your desired locations. The environment itself is stored in the `NSC_HOME` while the operators are in the stores directory which can be elsewhere.
 
-#### Creating an Operator
+> The $NKEYS_PATH stores secrets. Since nkeys relies on cryptographic signatures to prove identity, anyone with access to your private keys will be able to assume your identity. With that said, treat them as secrets and guard them carefully.
+
+## Creating an Operator
 
 Let’s create an operator called `Test`:
 
@@ -93,9 +96,11 @@ Note that the Operator ID is truncated to simplify the output, to get the full I
 ╰─────────────┴──────────────────────────────────────────────────────────╯
 ```
 
+The operator JWT contains two important URLs. The `account-jwt-server-url` is used by `nsc` when you want to push JWTs to an account server. The `service-url`s are used by `nsc` when you run the tool commands, like `nsc tool pub`.
+
 With an operator, we are ready to create our first account.
 
-#### Creating an Account
+## Creating an Account
 
 Let’s create an account called `TestAccount`:
 
@@ -138,7 +143,7 @@ Note that the issuer for the account is the ID for the operator (the public key 
 
 Now we are ready to add a user.
 
-#### Creating a User
+## Creating a User
 
 Let’s add a user named ‘TestUser’:
 
@@ -173,7 +178,7 @@ And let’s describe it:
 
 Let’s put all of this together, and create a simple server configuration that accepts sessions from TestUser.
 
-### Account Server Configuration
+## Account Server Configuration
 
 To configure a server to use accounts you need an _account resolver_. An account resolver exposes a URL where a nats-server can query for JWTs belonging to an account.
 
@@ -193,9 +198,11 @@ The account server has options to enable you to use an nsc directory directly. L
 
 Above we pointed the account server to our nsc data directory (more specifically to the `Test` operator that we created earlier). By default, the server listens on the localhost at port 9090.
 
-We are now ready to configure the nats-server
+You can also run the account server with a data directory that is not your nsc folder. In this mode you can upload account JWTs to the server. See the help for `nsc push` for more information about how to push JWTs to the account server.
 
-### NATS Server Configuration
+We are now ready to configure the nats-server.
+
+## NATS Server Configuration
 
 If you don’t have a nats-server installed, let’s do that now:
 
@@ -212,7 +219,7 @@ resolver: URL(http://localhost:9090/jwt/v1/accounts/)
 
 At minimum the server requires the `operator` JWT, which we have pointed at directly, and a resolver. The resolver has two types `MEM` and `URL`. We are interested in the `URL` since we want the nats-server to talk to the account server. Note we put the URL of the server with the path `/jwt/v1/accounts`. Currently this is where the account server expects requests for account information.
 
-### Client Testing
+## Client Testing
 
 Let’s install some tooling:
 
@@ -223,18 +230,21 @@ Let’s install some tooling:
 ```
 
 Create a subscriber:
+
 ```text
 nats-sub -creds ~/.nkeys/Test/accounts/TestAccount/users/TestUser.creds ">"
 Listening on [>]
 ```
 
 Publish a message:
+
 ```text
 nats-pub -creds ~/.nkeys/Test/accounts/TestAccount/users/TestUser.creds hello NATS 
 Published [hello] : 'NATS'
 ```
 
 Subscriber shows:
+
 ```text
 [#1] Received on [hello]: ’NATS’
 ```
@@ -304,4 +314,3 @@ Success! - added user "TestClient" to "TestAccount"
 ```
 
 The client has the opposite permissions of the service. It can publish on the request subject `req.a`, and receive replies on an inbox.
-
