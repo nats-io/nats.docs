@@ -27,6 +27,7 @@ You can find various task-oriented tutorials to working with the tool here:
 - [Configuring Streams](streams.md)
 - [Configuring Services](services.md)
 - [Signing Keys](signing_keys.md)
+- [Revoking Users or Activations](revocation.md)
 - [Deploying and Migrating Accounts](deploying.md)
 
 ## Tool Documentation
