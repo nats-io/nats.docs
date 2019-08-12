@@ -113,6 +113,7 @@ authorization: {
 | `max_connections` | Maximum number of active client connections |
 | `max_control_line` | Maximum length of a protocol line (including subject length) |
 | `max_payload` | Maximum number of bytes in a message payload |
+| `max_pending` | Maximum number of bytes buffered for a connection |
 | `max_subscriptions` | Maximum numbers of subscriptions for a client connection |
 | [`operator`](/nats_tools/nsc/nsc.md#nats-server-configuration) | path to an operator JWT |
 | [`ping_interval`](/developer/connecting/pingpong.md) | Interval in seconds in which the server checks if a connection is active |
