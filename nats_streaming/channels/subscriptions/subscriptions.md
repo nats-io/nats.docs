@@ -8,4 +8,4 @@ When receiving ACKs from the consumer, the server will then deliver more message
 
 A subscription can be created to start at any point in the message log, either by message sequence, or by time.
 
-Following pages describe all types of subscription.
+The following pages describe all the types of subscriptions.

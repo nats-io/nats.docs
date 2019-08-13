@@ -1,6 +1,6 @@
 # Subject-based Messaging
 
-Fundamentally NATS is about publishing and listening for messages. Both of these depend heavily on _Subjects_ which scope messages into streams or topics. At its simplest, a subject is just a string of characters that form a name the publisher and subscriber can used to find each other.
+Fundamentally NATS is about publishing and listening for messages. Both of these depend heavily on _Subjects_ which scope messages into streams or topics. At its simplest, a subject is just a string of characters that form a name the publisher and subscriber can use to find each other.
 
 <div class="graphviz"><code data-viz="dot">
 digraph g {
@@ -16,7 +16,7 @@ digraph g {
 }
 </code></div>
 
- The NATS server reserves a few characters as special, and the specification says that only "alpha-numeric" characters plus the "." should be used in subject names. Subjects are case-sensitive and can not contain whitespace. For safety across clients, ASCII characters should be used, although this is subject to change in the future.
+ The NATS server reserves a few characters as special, and the specification says that only "alpha-numeric" characters plus the "." should be used in subject names. Subjects are case-sensitive and cannot contain whitespace. For safety across clients, ASCII characters should be used, although this is subject to change in the future.
 
 ## Subject Hierarchies
 
@@ -29,8 +29,6 @@ time.us.east.atlanta
 time.eu.east
 time.eu.warsaw
 ```
-
-to logically group related subjects.
 
 ## Wildcards
 
@@ -76,4 +74,4 @@ digraph g {
 
 ### Monitoring and Wire Taps
 
-Subject to your security configuration, wildcards can be used for monitoring by creating something sometimes called a *wire tap*. In the simplest case you can create a subscriber for `>`. This application will receive all messages, again subject to security settings, sent on your NATS cluster.
+Subject to your security configuration, wildcards can be used for monitoring by creating something sometimes called a *wire tap*. In the simplest case you can create a subscriber for `>`. This application will receive all messages -- again, subject to security settings -- sent on your NATS cluster.
