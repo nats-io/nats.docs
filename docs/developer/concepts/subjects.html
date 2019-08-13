@@ -2341,7 +2341,7 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="subject-based-messaging"><a name="subject-based-messaging" class="plugin-anchor" href="#subject-based-messaging"><i class="fa fa-link" aria-hidden="true"></i></a>Subject-based Messaging</h1>
-<p>Fundamentally NATS is about publishing and listening for messages. Both of these depend heavily on <em>Subjects</em> which scope messages into streams or topics. At its simplest, a subject is just a string of characters that form a name the publisher and subscriber can used to find each other.</p>
+<p>Fundamentally NATS is about publishing and listening for messages. Both of these depend heavily on <em>Subjects</em> which scope messages into streams or topics. At its simplest, a subject is just a string of characters that form a name the publisher and subscriber can use to find each other.</p>
 <div class="graphviz"><code data-viz="dot">
 digraph g {
   rankdir=LR
@@ -2356,7 +2356,7 @@ digraph g {
 }
 </code></div>
 
-<p> The NATS server reserves a few characters as special, and the specification says that only &quot;alpha-numeric&quot; characters plus the &quot;.&quot; should be used in subject names. Subjects are case-sensitive and can not contain whitespace. For safety across clients, ASCII characters should be used, although this is subject to change in the future.</p>
+<p> The NATS server reserves a few characters as special, and the specification says that only &quot;alpha-numeric&quot; characters plus the &quot;.&quot; should be used in subject names. Subjects are case-sensitive and cannot contain whitespace. For safety across clients, ASCII characters should be used, although this is subject to change in the future.</p>
 <h2 id="subject-hierarchies"><a name="subject-hierarchies" class="plugin-anchor" href="#subject-hierarchies"><i class="fa fa-link" aria-hidden="true"></i></a>Subject Hierarchies</h2>
 <p>The <code>.</code> character is used to create a subject hierarchy. For example, a world clock application might define the following to logically group related subjects:</p>
 <pre class="language-"><code class="lang-markup">time.us
@@ -2365,7 +2365,6 @@ time.us.east.atlanta
 time.eu.east
 time.eu.warsaw
 </code></pre>
-<p>to logically group related subjects.</p>
 <h2 id="wildcards"><a name="wildcards" class="plugin-anchor" href="#wildcards"><i class="fa fa-link" aria-hidden="true"></i></a>Wildcards</h2>
 <p>NATS provides two <em>wildcards</em> that can take the place of one or more elements in a dot-separated subject. Subscribers can use these wildcards to listen to multiple subjects with a single subscription but Publishers will always use a fully specified subject, without the wildcard.</p>
 <h3 id="matching-a-single-token"><a name="matching-a-single-token" class="plugin-anchor" href="#matching-a-single-token"><i class="fa fa-link" aria-hidden="true"></i></a>Matching A Single Token</h3>
@@ -2403,7 +2402,7 @@ digraph g {
 </code></div>
 
 <h3 id="monitoring-and-wire-taps"><a name="monitoring-and-wire-taps" class="plugin-anchor" href="#monitoring-and-wire-taps"><i class="fa fa-link" aria-hidden="true"></i></a>Monitoring and Wire Taps</h3>
-<p>Subject to your security configuration, wildcards can be used for monitoring by creating something sometimes called a <em>wire tap</em>. In the simplest case you can create a subscriber for <code>&gt;</code>. This application will receive all messages, again subject to security settings, sent on your NATS cluster.</p>
+<p>Subject to your security configuration, wildcards can be used for monitoring by creating something sometimes called a <em>wire tap</em>. In the simplest case you can create a subscriber for <code>&gt;</code>. This application will receive all messages -- again, subject to security settings -- sent on your NATS cluster.</p>
 
                                 
                                 </section>
@@ -2447,7 +2446,7 @@ digraph g {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Subject-Based Messaging","level":"2.2","depth":1,"next":{"title":"Publish-Subscribe","level":"2.3","depth":1,"path":"developer/concepts/pubsub.md","ref":"developer/concepts/pubsub.md","articles":[]},"previous":{"title":"What is NATS","level":"2.1","depth":1,"path":"developer/concepts/intro.md","ref":"developer/concepts/intro.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"developer/concepts/subjects.md","mtime":"2019-05-30T22:52:52.229Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-07-25T22:29:27.003Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Subject-Based Messaging","level":"2.2","depth":1,"next":{"title":"Publish-Subscribe","level":"2.3","depth":1,"path":"developer/concepts/pubsub.md","ref":"developer/concepts/pubsub.md","articles":[]},"previous":{"title":"What is NATS","level":"2.1","depth":1,"path":"developer/concepts/intro.md","ref":"developer/concepts/intro.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"developer/concepts/subjects.md","mtime":"2019-08-13T14:25:46.276Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-08-13T14:26:56.704Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
