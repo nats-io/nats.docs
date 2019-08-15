@@ -8,6 +8,7 @@ NATS account configurations are built using the `nsc` tool. The NSC tool allows 
 - Generate Activations
 - Generate User credential files
 - Describe Operators, Accounts, Users, and Activations
+- Push account JWTs to a server or pull account JWTs from a server
 
 ## Installation
 
@@ -28,7 +29,7 @@ You can find various task-oriented tutorials to working with the tool here:
 - [Configuring Services](services.md)
 - [Signing Keys](signing_keys.md)
 - [Revoking Users or Activations](revocation.md)
-- [Deploying and Migrating Accounts](deploying.md)
+- [Working with Managed Operators](managed.md)
 
 ## Tool Documentation
 
