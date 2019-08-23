@@ -73,7 +73,7 @@ NATS can be deployed to have an HTTP(s) monitoring port - see the demo server he
 * [natsboard](https://github.com/cmfatih/natsboard) A monitoring tool developed by Fatih Cetinkaya.
 * [nats-mon](https://github.com/repejota/nats-mon) A monitoring tool developed by Raül Pérez and Adrià Cidre.
 
-A more detailed overview of monitoring is available under [NATS Server Monitoring](/nats_server/monitoring.md/).
+A more detailed overview of monitoring is available under [NATS Server Monitoring](/nats_server/monitoring.md).
 
 ### Does NATS do queuing? Does NATS do load balancing?
 
@@ -85,7 +85,7 @@ This form of distributed queueing is done in real time, and messages are not per
 
 NATS maintains and constantly updates the interest graph \(subjects and their subscribers\) in real time. Do not think of it as a "directory" that is aggregated over time. The interest graph dynamic, and will change constantly as publishers and subscribers come and go.
 
-If you are determined to gather this information, it can be indirectly derived at any instant in time by polling the monitoring endpoint for /connz and /routez. See [Server Monitoring](/nats-server/monitoring.html/) for more information.
+If you are determined to gather this information, it can be indirectly derived at any instant in time by polling the monitoring endpoint for /connz and /routez. See [Server Monitoring](/nats-server/monitoring.md) for more information.
 
 ### Does NATS support subject wildcards?
 
