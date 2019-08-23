@@ -2397,7 +2397,7 @@
 <p>This form of distributed queueing is done in real time, and messages are not persisted to secondary storage. Further, the distribution is based on interest graphs (subscriptions), so it is not a publisher operation, but instead is controlled entirely by <code>nats-server</code>.</p>
 <h3 id="can-i-list-the-subjects-that-exist-in-my-nats-cluster"><a name="can-i-list-the-subjects-that-exist-in-my-nats-cluster" class="plugin-anchor" href="#can-i-list-the-subjects-that-exist-in-my-nats-cluster"><i class="fa fa-link" aria-hidden="true"></i></a>Can I list the subjects that exist in my NATS cluster?</h3>
 <p>NATS maintains and constantly updates the interest graph (subjects and their subscribers) in real time. Do not think of it as a &quot;directory&quot; that is aggregated over time. The interest graph dynamic, and will change constantly as publishers and subscribers come and go.</p>
-<p>If you are determined to gather this information, it can be indirectly derived at any instant in time by polling the monitoring endpoint for /connz and /routez. See <a href="nats-server/monitoring.md">Server Monitoring</a> for more information.</p>
+<p>If you are determined to gather this information, it can be indirectly derived at any instant in time by polling the monitoring endpoint for /connz and /routez. See <a href="nats_server/monitoring.html">Server Monitoring</a> for more information.</p>
 <h3 id="does-nats-support-subject-wildcards"><a name="does-nats-support-subject-wildcards" class="plugin-anchor" href="#does-nats-support-subject-wildcards"><i class="fa fa-link" aria-hidden="true"></i></a>Does NATS support subject wildcards?</h3>
 <p>Yes. The valid wildcards are as follows:</p>
 <p>The dot character <code>&apos;.&apos;</code> is the token separator.</p>
