@@ -20,7 +20,8 @@
     },
     "edit-link": {
       "base": "https://github.com/nats-io/docs/edit/master",
-      "label": ""
+      "label": "edit"
+
   }
   }
 }

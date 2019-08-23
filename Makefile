@@ -4,6 +4,7 @@ build: init examples
 	
 init:
 	gitbook install
+	sed -i.bak 's/fa-edit/fa-github/g' node_modules/gitbook-plugin-edit-link/book/plugin.js
 
 serve:
 	gitbook serve
