@@ -3,11 +3,12 @@
 To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP server on a dedicated monitoring port.
 The monitoring server provides several endpoints, providing statistics and other information about the following:
 
-* [General Server Information](#General-Information)
-* [Connections](#Connection-Information)
-* [Routing](#Route-Information)
-* [Subscription Routing](#Subscription-Routing-Information)
-* [Gateways](#Gateway-Information)
+* [General Server Information](#general-information)
+* [Connections](#connection-information)
+* [Routing](#route-information)
+* [Gateways](#gateway-information)
+* [Leaf Nodes](#leaf-nodes-information)
+* [Subscription Routing](#subscription-routing-information)
 
 All endpoints return a JSON object.
 
@@ -282,45 +283,6 @@ As noted above, the `routez` endpoint does support the `subs` argument from the 
 }
 ```
 
-### Subscription Routing Information
-
-The `/subz` endpoint reports detailed information about the current subscriptions and the routing data structure.  It is not normally used.
-
-**Endpoint:** `http://server:port/subz`
-
-| Result  | Return Code       |
-|:---|:---|
-| Success | 200 (OK)          |
-| Error   | 400 (Bad Request) |
-
-#### Arguments
-
-| Argument | Values | Description |
-|:---|:---|:---|
-| subs   | true, 1, false, 0 | Include subscriptions.  Default is false.               |
-| offset | integer > 0       | Pagination offset.  Default is 0.                       |
-| limit  | integer > 0       | Number of results to return.  Default is 1024.          |
-| test   | subject           | Test whether a subsciption exists.                      |
-
-#### Example
-
-* Get subscription routing information:  <a href="http://demo.nats.io:8222/subsz" target="_blank">http://demo.nats.io:8222/subsz</a>
-
-#### Response
-
-```json
-{
-  "num_subscriptions": 2,
-  "num_cache": 0,
-  "num_inserts": 2,
-  "num_removes": 0,
-  "num_matches": 0,
-  "cache_hit_rate": 0,
-  "max_fanout": 0,
-  "avg_fanout": 0
-}
-```
-
 ### Gateway Information
 
 The `/gatewayz` endpoint reports information about gateways used to create a NATS supercluster.
@@ -457,6 +419,94 @@ Like routes, the number of gateways are expected to be low, so there is no pagin
       }
     ]
   }
+}
+```
+
+### Leaf Nodes Information
+
+The `/leafz` endpoint reports detailed information about the leaf node connections.
+
+**Endpoint:** `http://server:port/leafz`
+
+| Result  | Return Code       |
+|:---|:---|
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
+
+#### Arguments
+
+| Argument | Values | Description |
+|:---|:---|:---|
+| subs | true, 1, false, 0 | Include internal subscriptions.  Default is false.|
+
+As noted above, the `leafz` endpoint does support the `subs` argument from the `/connz` endpoint. For example: <a href="http://demo.nats.io:8222/leafz?subs=1" target="_blank">http://demo.nats.io:8222/leafz?subs=1</a>
+
+#### Example
+
+* Get leaf nodes information:  <a href="http://demo.nats.io:8222/leafz?subs=1" target="_blank">http://demo.nats.io:8222/leafz?subs=1</a>
+
+#### Response
+
+```json
+{
+  "server_id": "NC2FJCRMPBE5RI5OSRN7TKUCWQONCKNXHKJXCJIDVSAZ6727M7MQFVT3",
+  "now": "2019-08-27T09:07:05.841132-06:00",
+  "leafnodes": 1,
+  "leafs": [
+    {
+      "account": "$G",
+      "ip": "127.0.0.1",
+      "port": 6223,
+      "rtt": "200µs",
+      "in_msgs": 0,
+      "out_msgs": 10000,
+      "in_bytes": 0,
+      "out_bytes": 1280000,
+      "subscriptions": 1,
+      "subscriptions_list": [
+        "foo"
+      ]
+    }
+  ]
+}
+```
+
+### Subscription Routing Information
+
+The `/subz` endpoint reports detailed information about the current subscriptions and the routing data structure.  It is not normally used.
+
+**Endpoint:** `http://server:port/subz`
+
+| Result  | Return Code       |
+|:---|:---|
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
+
+#### Arguments
+
+| Argument | Values | Description |
+|:---|:---|:---|
+| subs   | true, 1, false, 0 | Include subscriptions.  Default is false.               |
+| offset | integer > 0       | Pagination offset.  Default is 0.                       |
+| limit  | integer > 0       | Number of results to return.  Default is 1024.          |
+| test   | subject           | Test whether a subsciption exists.                      |
+
+#### Example
+
+* Get subscription routing information:  <a href="http://demo.nats.io:8222/subsz" target="_blank">http://demo.nats.io:8222/subsz</a>
+
+#### Response
+
+```json
+{
+  "num_subscriptions": 2,
+  "num_cache": 0,
+  "num_inserts": 2,
+  "num_removes": 0,
+  "num_matches": 0,
+  "cache_hit_rate": 0,
+  "max_fanout": 0,
+  "avg_fanout": 0
 }
 ```
 
