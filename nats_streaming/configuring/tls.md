@@ -1,13 +1,13 @@
 # Securing NATS Streaming Server
 
 
-## Authenticating users
+## Authenticating Users
 
 To enable user authentication from the command line, you can use the same mechanism as the NATS Server (`nats-server`). You pass in the `—user <user>` and `—pass <pass>` commands, or `--auth` parameters, and the NATS streaming server will automatically use these credentials. Or you can use a configuration file with a single user or token.
 
 When using a configuration file with multi-user authorization, you must use the `—user` and `—pass` parameters with the NATS streaming server, matching a user in the configuration file, in order to specify which user the NATS streaming server should authenticate with to it's embedded NATS server.
 
-For example, if you pass the NATS streaming server a file with a several users, you must run the streaming server as a user such as "Joe" who is defined in the configuration file.
+For example, if you pass the NATS Streaming server a file with a several users, you must run the streaming server as a user such as "Joe" who is defined in the configuration file.
 
 ## Using TLS
 

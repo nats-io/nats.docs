@@ -1,4 +1,4 @@
-# Command line arguments
+# Command Line Arguments
 
 The NATS Streaming Server accepts command line arguments to control its behavior. There is a set of parameters specific to the NATS Streaming Server and some to the embedded NATS Server.
 
@@ -72,8 +72,7 @@ Streaming Server SQL Store Options:
     --sql_max_open_conns <int>       Maximum number of opened connections to the database
 
 Streaming Server TLS Options:
-    -secure <bool>                   Use a TLS connection to the NATS server without
-                                     verification; weaker than specifying certificates.
+    -secure <bool>                   Use a TLS connection to the NATS server without verification; weaker than specifying certificates.
     -tls_client_key <string>         Client key for the streaming server
     -tls_client_cert <string>        Client certificate for the streaming server
     -tls_client_cacert <string>      Client certificate CA for the streaming server
@@ -121,5 +120,5 @@ NATS Clustering Options:
 Common Options:
     -h, --help                       Show this message
     -v, --version                    Show version
-        --help_tls                   TLS help.
+        --help_tls                   TLS help
 ```

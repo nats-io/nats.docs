@@ -19,7 +19,7 @@ Here is an example of creating an user `nss` with password `password` for the My
 mysql -u root -e "CREATE USER 'nss'@'localhost' IDENTIFIED BY 'password'; GRANT ALL PRIVILEGES ON *.* TO 'nss'@'localhost'; CREATE DATABASE nss_db;"
 ```
 
-The above has gives all permissions to user `nss`. Once this user is created, we can then create the tables using this user
+The above gives all permissions to user `nss`. Once this user is created, we can then create the tables using this user
 and selecting the `nss_db` database. We then execute all the SQL statements creating the tables from the sql file that
 is provided in this repo:
 

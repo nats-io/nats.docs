@@ -1,10 +1,10 @@
-# Configuration file
+# Configuration File
 
-You can use a configuration file to configure the options specific to the NATS Streaming server.
+You can use a configuration file to configure the options specific to the NATS Streaming Server.
 
 Use the `-sc` or `-stan_config` command line parameter to specify the file to use.
 
-For the embedded NATS Server, you can use another configuration file and pass it to the Streaming server using `-c` or `--config` command line parameters.
+For the embedded NATS Server, you can use another configuration file and pass it to the Streaming Server using `-c` or `--config` command line parameters.
 
 Since most options do not overlap, it is possible to combine all options into a single file and specify this file using either the `-sc` or `-c` command line parameter.
 
@@ -34,20 +34,20 @@ streaming: {
 }
 ```
 
-However, if you want to avoid any possible conflict, simply use two different configuration files!
+However, if you want to avoid any possible conflict, simply use two different configuration files.
 
 Note the order in which options are applied during the start of a NATS Streaming server:
 
 1. Start with some reasonable default options.
 2. If a configuration file is specified, override those options
-  with all options defined in the file. This include options that are defined
+  with all options defined in the file. This includes options that are defined
   but have no value specified. In this case, the zero value for the type of the
   option will be used.
 3. Any command line parameter override all of the previous set options.
 
 In general the configuration parameters are the same as the command line arguments. Below is the list of NATS Streaming parameters:
 
-| Parameter | Meaning | Possible values | Usage example |
+| Parameter | Meaning | Possible Values | Usage Example |
 |:----|:----|:----|:----|
 | cluster_id | Cluster name | String, underscore possible | `cluster_id: "my_cluster_name"` |
 | discover_prefix | Subject prefix for server discovery by clients | NATS Subject | `discover_prefix: "_STAN.Discovery"` |
@@ -57,34 +57,34 @@ In general the configuration parameters are the same as the command line argumen
 | sv | Enable trace logging | `true` or `false` | `sv: true` |
 | nats_server_url | If specified, connects to an external NATS Server, otherwise starts an embedded one | NATS URL | `nats_server_url: "nats://localhost:4222"` |
 | secure | If true, creates a TLS connection to the server but without the need to use TLS configuration (no NATS Server certificate verification) | `true` or `false` | `secure: true` |
-| tls | TLS Configuration | Map: `tls: { ... }` | **See details below** |
-| store_limits | Store Limits | Map: `store_limits: { ... }` | **See details below** |
-| file_options | File Store specific options | Map: `file_options: { ... }` | **See details below** |
-| sql_options | SQL Store specific options | Map: `sql_options: { ... }` | **See details below** |
+| tls | TLS Configuration | Map: `tls: { ... }` | [**See details below**](#tls-configuration) |
+| store_limits | Store Limits | Map: `store_limits: { ... }` | [**See details below**](#store-limits-configuration) |
+| file_options | File Store specific options | Map: `file_options: { ... }` | [**See details below**](#file-options-configuration) |
+| sql_options | SQL Store specific options | Map: `sql_options: { ... }` | [**See details below**](#sql-options-configuration) |
 | hb_interval | Interval at which the server sends an heartbeat to a client | Duration | `hb_interval: "10s"` |
 | hb_timeout | How long the server waits for a heartbeat response from the client before considering it a failed heartbeat | Duration | `hb_timeout: "10s"` |
 | hb_fail_count | Count of failed heartbeats before server closes the client connection. The actual total wait is: (fail count + 1) * (hb interval + hb timeout) | Number | `hb_fail_count: 2` |
 | ft_group | In Fault Tolerance mode, you can start a group of streaming servers with only one server being active while others are running in standby mode. This is the name of this FT group | String | `ft_group: "my_ft_group"` |
 | partitioning | If set to true, a list of channels must be defined in store_limits/channels section. This section then serves two purposes, overriding limits for a given channel or adding it to the partition | `true` or `false` | `partitioning: true` |
-| cluster | Cluster Configuration | Map: `cluster: { ... }` | **See details below** |
+| cluster | Cluster Configuration | Map: `cluster: { ... }` | [**See details below**](#cluster-configuration) |
 | encrypt | Specify if server should encrypt messages (only the payload) when storing them | `true` or `false` | `encrypt: true` |
 | encryption_cipher | Cipher to use for encryption. Currently support AES and CHAHA (ChaChaPoly). Defaults to AES | `AES` or `CHACHA` | `encryption_cipher: "AES"` |
 | encryption_key | Encryption key. It is recommended to specify the key through the `NATS_STREAMING_ENCRYPTION_KEY` environment variable instead | String | `encryption_key: "mykey"` |
 
-TLS Configuration:
+## TLS Configuration
 
-Note that the Streaming server uses a connection to a NATS Server, and so the NATS Streaming TLS Configuration
+Note that the Streaming Server uses a connection to a NATS Server, and so the NATS Streaming TLS Configuration
 is in fact a client-side TLS configuration.
 
-| Parameter | Meaning | Possible values | Usage example |
+| Parameter | Meaning | Possible Values | Usage Example |
 |:----|:----|:----|:----|
 | client_cert | Client key for the streaming server | File path | `client_cert: "/path/to/client/cert_file"` |
 | client_key | Client certificate for the streaming server | File path | `client_key: "/path/to/client/key_file"` |
 | client_ca | Client certificate CA for the streaming server | File path | `client_ca: "/path/to/client/ca_file"` |
 
-Store Limits Configuration:
+## Store Limits Configuration
 
-| Parameter | Meaning | Possible values | Usage example |
+| Parameter | Meaning | Possible Values | Usage Example |
 |:----|:----|:----|:----|
 | max_channels | Maximum number of channels, 0 means unlimited | Number >= 0 | `max_channels: 100` |
 | max_subs | Maximum number of subscriptions per channel, 0 means unlimited | Number >= 0 | `max_subs: 100` |
@@ -92,7 +92,9 @@ Store Limits Configuration:
 | max_bytes | Total size of messages per channel, 0 means unlimited | Number >= 0 | `max_bytes: 1GB` |
 | max_age | How long messages can stay in the log | Duration | `max_age: "24h"` |
 | max_inactivity | How long without any subscription and any new message before a channel can be automatically deleted | Duration | `max_inactivity: "24h"` |
-| channels | A map of channel names with specific limits | Map: `channels: { ... }` | **See details below** |
+| channels | A map of channel names with specific limits | Map: `channels: { ... }` | [**See details below**](#channels) |
+
+## Channels
 
 The `channels` section is a map with the key being the channel name. For instance:
 ```
@@ -104,7 +106,7 @@ The `channels` section is a map with the key being the channel name. For instanc
 ```
 For a given channel, the possible parameters are:
 
-| Parameter | Meaning | Possible values | Usage example |
+| Parameter | Meaning | Possible Values | Usage Example |
 |:----|:----|:----|:----|
 | max_subs | Maximum number of subscriptions per channel, 0 means unlimited | Number >= 0 | `max_subs: 100` |
 | max_msgs | Maximum number of messages per channel, 0 means unlimited | Number >= 0 | `max_msgs: 10000` |
@@ -112,9 +114,9 @@ For a given channel, the possible parameters are:
 | max_age | How long messages can stay in the log | Duration | `max_age: "24h"` |
 | max_inactivity | How long without any subscription and any new message before a channel can be automatically deleted | Duration | `max_inactivity: "24h"` |
 
-File Options Configuration:
+## File Options Configuration
 
-| Parameter | Meaning | Possible values | Usage example |
+| Parameter | Meaning | Possible Values | Usage Example |
 |:----|:----|:----|:----|
 | compact | Enable/disable file compaction. Only some of the files (`clients.dat` and `subs.dat`) are subject to compaction | `true` or `false` | `compact: true` |
 | compact_fragmentation | Compaction threshold (in percentage) | Number >= 0 | `compact_fragmentation: 50` |
@@ -133,9 +135,9 @@ File Options Configuration:
 | read_buffer_size | Size of buffers used to read ahead from message stores. This can significantly speed up sending messages to consumers after messages have been published. Default is 2MB. Set to 0 to disable | Bytes | `read_buffer_size: 2MB` |
 | auto_sync | Interval at which the store should be automatically flushed and sync'ed on disk. Default is every minute. Set to <=0 to disable | Duration | `auto_sync: "2m"` |
 
-Cluster Configuration:
+## Cluster Configuration
 
-| Parameter | Meaning | Possible values | Usage example |
+| Parameter | Meaning | Possible Values | Usage Example |
 |:----|:----|:----|:----|
 | node_id | ID of the node within the cluster if there is no stored ID | String (no whitespace) | `node_id: "node-a"` |
 | bootstrap | Bootstrap the cluster if there is no existing state by electing self as leader | `true` or `false` | `bootstrap: true` |
@@ -151,9 +153,9 @@ Cluster Configuration:
 | raft_lease_timeout | Specifies how long a leader waits without being able to contact a quorum of nodes before stepping down as leader | Duration | `raft_lease_timeout: "1s"` |
 | raft_commit_timeout | Specifies the time without an Apply() operation before sending an heartbeat to ensure timely commit. Due to random staggering, may be delayed as much as 2x this value | Duration | `raft_commit_timeout: "100ms"` |
 
-SQL Options Configuration:
+## SQL Options Configuration
 
-| Parameter | Meaning | Possible values | Usage example |
+| Parameter | Meaning | Possible Values | Usage Example |
 |:----|:----|:----|:----|
 | driver | Name of the SQL driver to use | `mysql` or `postgres` | `driver: "mysql"` |
 | source | How to connect to the database. This is driver specific | String | `source: "ivan:pwd@/nss_db"` |

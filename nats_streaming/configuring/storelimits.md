@@ -3,7 +3,7 @@
 The `store_limits` section in the configuration file (or the command line parameters
 `-mc`, `-mm`, etc..) allow you to configure the global limits.
 
-These limits somewhat offer some upper bound on the size of the storage. By multiplying
+These limits offer some upper bounds on the size of the storage. By multiplying
 the limits per channel with the maximum number of channels, you will get a total limit.
 
 It is not the case, though, if you override limits of some channels. Indeed, it is possible
@@ -72,7 +72,7 @@ of channels. ***This is true only for channels without wildcards.***
 Channels limits can override global limits by being either higher, lower or even set to
 unlimited.
 
-***An unlimited value applies to the specified limit, not to the whole channel***
+***An unlimited value applies to the specified limit, not to the whole channel.***
 
 That is, in the configuration above, `baz` has the maximum number of messages set
 to 0, which means ignored or unlimited. Yet, other limits such as max bytes, max age
@@ -81,7 +81,7 @@ the store will not check the number of messages but still check the other limits
 
 For a truly unlimited channel *all* limits need to be set to 0.
 
-## Limits inheritance
+## Limits Inheritance
 
 When starting the server from the command line, global limits that are not specified
 (configuration file or command line parameters) are inherited from default limits
@@ -100,9 +100,9 @@ limit to indicate that the limit was inherited from the default store limits.
 For channels that have been configured, their name is displayed and only the
 limits being specifically set are displayed to minimize the output.
 
-### Wildcards
+## Wildcards
 
-Wildcards are allowed for channels configuration. Limits for `foo.>`
+Wildcards are allowed for channel configuration. Limits for `foo.>`
 will apply to any channel that starts with `foo` (but has at least one more token).
 If `foo.bar.>` is specified, it will inherit from `foo.>` and from global limits.
 

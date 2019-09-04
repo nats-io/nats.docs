@@ -23,14 +23,14 @@ Finally, the number of stored messages for a given channel can also be limited w
 
 ## Options
 
-As described in the [Configuring](nats_streaming/configuring/configuring.md) section, there are several options that you can use to configure a file store.
+As described in the [Configuring](../configuring/cfgfile.html#configuration-file) section, there are several options that you can use to configure a file store.
 
 Regardless of channel limits, you can configure message logs to be split in individual files (called file slices). You can configure
 those slices by number of messages it can contain (`--file_slice_max_msgs`), the size of the file - including the corresponding index file
 (`--file_slice_max_bytes`), or the period of time that a file slice should cover - starting at the time the first message is stored in
 that slice (`--file_slice_max_age`). The default file store options are defined such that only the slice size is configured to 64MB.
 
-Note: If you don't configure any slice limit but you do configure channel limits, then the server will automatically
+>**Note**: If you don't configure any slice limit but you do configure channel limits, then the server will automatically
 set some limits for file slices.
 
 When messages accumulate in a channel, and limits are reached, older messages are removed. When the first file slice

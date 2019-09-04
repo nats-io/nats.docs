@@ -1,5 +1,14 @@
 # Important Changes
 
+ * [Version `0.10.0`](#version-0100)
+ * [Version `0.9.0`](#version-090)
+ * [Version `0.8.0-beta`](#version-080-beta)
+ * [Version `0.6.0`](#version-060)
+ * [Version `0.5.0`](#version-050)
+ * [Version `0.4.0`](#version-040)
+ 
+ 
+
 ## Version `0.10.0`
 
 The server needs to persist more state for a client connection. Therefore, the Store interface has been changed:
@@ -54,7 +63,7 @@ The store implementation should ignore the call if the given sequence number is 
 The Store interface has been heavily modified. Some of the responsibilities have been moved into the server
 resulting on deletion of some Store APIs and removal of `UserData` fields in `Client` and `ChannelStore` (renamed `Channel`) objects.
 
-NOTE: Although the interface has changed, the file format of the FileStore implementation has not, which means
+>**NOTE:** Although the interface has changed, the file format of the FileStore implementation has not, which means
 that there is backward/forward compatibility between this and previous releases.
 
 The Store interface was updated:
@@ -64,7 +73,7 @@ The Store interface was updated:
 * `RecoveredChannel` has a pointer to a `Channel` (formely `ChannelStore`) and an array of pointers to `RecoveredSubscription` objects.
 * `RecoveredSubscription` replaces `RecoveredSubState`.
 * `Client` no longer stores a `UserData` field.
-* `Channel` (formely `ChannelStore`) no longer stores a `UserData` field.
+* `Channel` (formerly `ChannelStore`) no longer stores a `UserData` field.
 * `CreateChannel()` no longer accepts a `userData interface{}` parameter. It returns a `*Channel` and an `error`. If the channel
 already exists, the error `ErrAlreadyExists` is returned.
 * `LookupChannel()`, `HasChannel()`, `GetChannels()`, `GetChannelsCount()`, `GetClient()`, `GetClients`, `GetClientsCount()` and `MsgsState()` APIs
