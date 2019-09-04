@@ -130,7 +130,7 @@
 ## NATS Streaming Concepts
 
 * [Introduction](nats_streaming/intro.md)
-  * [Relation to NATS](nats_streaming/relation-to-nats.md)
+* [Relation to NATS](nats_streaming/relation-to-nats.md)
 * [Client Connections](nats_streaming/client-connections.md)
 * [Channels](nats_streaming/channels/channels.md)
   * [Message Log](nats_streaming/channels/message-log.md)
@@ -152,6 +152,8 @@
   * [Shared State](nats_streaming/fault-tolerance/shared-state.md)
   * [Failover](nats_streaming/fault-tolerance/failover.md)
 * [Partitioning](nats_streaming/partitioning.md)
+* [Monitoring](nats_streaming/monitoring/monitoring.md)
+  * [Endpoints](nats_streaming/monitoring/endpoints.md)
 
 ## Developing With NATS Streaming
 
@@ -166,16 +168,28 @@
 
 ## NATS Streaming Server
 
+* [Important Changes](nats_streaming/gettingstarted/changes.md)
 * [Installing](nats_streaming/gettingstarted/install.md)
 * [Running](nats_streaming/gettingstarted/run.md)
-* [Configuring](nats_streaming/gettingstarted/configuring.md)
-* [Securing](nats_streaming/gettingstarted/tls.md)
+* [Configuring](nats_streaming/configuring/configuring.md)
+  * [Command line arguments](nats_streaming/configuring/cmdline.md)
+  * [Configuration file](nats_streaming/configuring/cfgfile.md)
+  * [Store Limits](nats_streaming/configuring/storelimits.md)
+    * [Limits inheritance](nats_streaming/configuring/storelimits.md#limits-inheritance)
+  * [Persistence](nats_streaming/configuring/persistence.md)
+    * [File Store](nats_streaming/configuring/filestore.md)
+      * [Options](nats_streaming/configuring/filestore.md#options)
+      * [Recovery Errors](nats_streaming/configuring/filestore.md#recovery-errors)
+    * [SQL Store](nats_streaming/configuring/sqlstore.md)
+      * [Read and Write Timeouts](nats_streaming/configuring/sqlstore.md#read-and-write-timeouts)
+      * [Options](nats_streaming/configuring/sqlstore.md#options)
+  * [Securing](nats_streaming/configuring/tls.md)
+    * [Authenticating Users](nats_streaming/configuring/tls.md#authenticating-users)
+    * [TLS](nats_streaming/configuring/tls.md#using-tls)
 * [Process Signaling](nats_streaming/gettingstarted/process-signaling.md)
 * [Windows Service](nats_streaming/gettingstarted/windows-service.md)
 * [Embedding NATS Streaming Server](developer/streaming/embedding.md)
 * [Docker Swarm](nats_streaming/swarm.md)
-* [Monitoring](nats_streaming/monitoring/monitoring.md)
-  * [Endpoints](nats_streaming/monitoring/endpoints.md)
 
 ## NATS Protocol
 
