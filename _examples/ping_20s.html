@@ -101,7 +101,7 @@ end
 	<div class="tab__content">
 	<pre id="ping_20s_ts_content"><a class="toolbar-icons pull-right" target="_blank" href="https://github.com/nats-io/ts-nats-examples/blob/master/src/options_samples.ts#L5-12"><i class="mdi mdi-github-circle" title="View on GitHub"></i></a><a class="toolbar-icons pull-right"><i class="mdi mdi-content-copy js-copy" title="Copy to Clipboard"></i></a><span class="copy-msg pull-right"></span><code class="language-javascript">// will throw an exception if connection fails
 let nc = await connect({
-    pingInterval: 20*2000, //20s
+    pingInterval: 20*1000, //20s
     url: &#34;nats://demo.nats.io:4222&#34;
 });
 nc.close();
