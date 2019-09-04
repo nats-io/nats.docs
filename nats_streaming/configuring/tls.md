@@ -33,7 +33,7 @@ The embedded NATS server specifies TLS server certificates with these:
 --tlscacert <file>           Client certificate CA for verification
 ```
 
-The server parameters are used the same way you'd [secure a typical NATS server](https://github.com/nats-io/nats-server#securing-nats).
+The server parameters are used the same way you'd [secure a typical NATS server](../../nats_server/tls.md).
 
 Proper usage of the NATS Streaming Server requires the use of both client and server parameters.
 
@@ -43,4 +43,28 @@ For example:
 % nats-streaming-server -tls_client_cert client-cert.pem -tls_client_key client-key.pem -tls_client_cacert ca.pem -tlscert server-cert.pem -tlskey server-key.pem -tlscacert ca.pem
 ```
 
-Further TLS related functionality can be found in [Securing NATS > TLS](https://github.com/nats-io/nats-server#securing-nats). Note that if specifying cipher suites is required, a configuration file for the embedded NATS server can be passed through the `-config` command line parameter.
+Further TLS related functionality can be found in [Securing NATS > TLS](../../nats_server/tls.md). Note that if specifying cipher suites is required, a configuration file for the embedded NATS server can be passed through the `-config` command line parameter.
+
+### Connecting to Remote NATS Server with TLS Enabled
+
+If that is the case, it is not necessary to configure the server-side TLS parameters. You only need to specify the client-side parameters (`-tls_client_cert`, etc...).
+
+However, NATS Streaming Server uses the NATS Server command line parsing code and currently would not allow specifying the client-side parameters alone. The server would fail to start with a message similar to this:
+```sh
+$ nats-streaming-server -tls_ca_cert test/certs/ca.pem
+
+TLS Server certificate must be present and valid
+```
+
+The solution is to include the required client-side parameters in a configuration file, say `c.conf`:
+```
+streaming {
+ tls {
+   client_ca: "test/certs/ca.pem"
+ }
+}
+```
+And then start the server with this configuration file:
+```sh
+$ nats-streaming-server -c c.conf
+```

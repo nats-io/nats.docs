@@ -52,4 +52,4 @@ NATS provides a [server binary](gettingstarted/install.md) for Linux, Mac, and W
 
 ## Usage, Configuration and Administration
 
-NATS Streaming provides a rich set of commands and parameters to configure all aspects of the server. Please refer to the [README](https://github.com/nats-io/nats-streaming-server#configuring) for further information on usage, configuration, and administration.
+NATS Streaming provides a rich set of commands and parameters to configure all aspects of the server. Please refer to the [Configuring](configuring/configuring.md) for further information on usage, configuration, and administration.
