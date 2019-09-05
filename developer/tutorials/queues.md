@@ -32,7 +32,7 @@ go run nats-qsub/main.go foo my-queue
 ```sh
 npm install nats
 cd nats.js/examples
-node node-sub foo my-queue
+node node-sub --queue=my-queue foo
 ```
 
 ### 5. Install and run the Ruby client subscriber with queue group name
