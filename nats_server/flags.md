@@ -55,6 +55,7 @@ The following flags are available on the server to configure logging:
 | `-D`, `--debug` | Enable debugging output |
 | `-V`, `--trace` | Enable protocol trace log messages |
 | `-DV` | Enable both debug and protocol trace messages |
+| `--max_traced_msg_len` | Maximum printable length for traced messages. 0 for unlimited|
 
 You can read more about [logging configuration here](logging.md).
 
