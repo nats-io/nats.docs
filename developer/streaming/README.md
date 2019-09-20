@@ -66,7 +66,7 @@ distributed system.
 
 ## NATS Streaming Overview
 
-Where NATS provides at most once quality of service, streaming adds at least once. Streaming is implemented as a request-reply service on top of NATS. Streaming messages are encoded as protocol buffers, the streaming clients use NATS to talk to the streaming server. The streaming server organizes messages in channels and stores them in files and databases. ACKs are used to insure delivery in both directions.
+Where NATS provides at most once quality of service, streaming adds at least once. Streaming is implemented as a request-reply service on top of NATS. Streaming messages are encoded as protocol buffers, the streaming clients use NATS to talk to the streaming server. The streaming server organizes messages in channels and stores them in files and databases. ACKs are used to ensure delivery in both directions.
 
 > Sometimes the maintainers will refer to NATS as "nats core" and streaming as "stan" or "streaming".
 
