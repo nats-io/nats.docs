@@ -11,7 +11,7 @@ Server configuration revolves around a `tls` map, which has the following proper
 | `curve_preferences` | List of TLS cipher curves to use in order. |
 | `insecure` | Skip certificate verification. |
 | `key_file` | TLS certificate key file. |
-| `timeout` | TLS handshake timeout in fractional seconds. |
+| `timeout` | TLS handshake timeout in fractional seconds. Default set to 2 seconds. |
 | `verify_and_map` | If `true`, require and verify client certificates and map certificate values for authentication purposes. |
 | `verify` | If `true`, require and verify client certificates. |
 

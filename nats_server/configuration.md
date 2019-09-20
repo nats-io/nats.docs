@@ -101,26 +101,30 @@ authorization: {
 
 | Property | Description |
 | :------  | :---- |
-| [`authorization`](auth_intro.md) | configuration map for client authentication/authorization |
-| [`cluster`](cluster_config.md) | configuration map for clustering configuration |
-| `debug` | if `true` enable debug log messages |
+| [`authorization`](auth_intro.md) | Configuration map for client authentication/authorization |
+| [`cluster`](cluster_config.md) | Configuration map for clustering configuration |
+| `connect_error_reports` | Number of attempts at which a repeated failed route, gateway or leaf node connection is reported. Default is 3600, approx every hour.
+| `debug` | If `true` enable debug log messages |
 | [`gateway`](/gateways/gateway.md) | Gateway configuration map |
-| `host` | host for client connections |
+| `host` | Host for client connections |
 | [`http_port`](monitoring.md) | http port for server monitoring |
 | [`https_port`](monitoring.md) | https port for server monitoring |
 | [`leafnode`](/leafnodes/leafnode_conf.md) | Leafnode configuration map |
-| `listen`   | host/port for client connections |
+| `listen`   | Host/port for client connections |
 | `max_connections` | Maximum number of active client connections |
 | `max_control_line` | Maximum length of a protocol line (including subject length) |
 | `max_payload` | Maximum number of bytes in a message payload |
 | `max_pending` | Maximum number of bytes buffered for a connection |
 | `max_subscriptions` | Maximum numbers of subscriptions for a client connection |
-| [`operator`](/nats_tools/nsc/nsc.md#nats-server-configuration) | path to an operator JWT |
+| `max_traced_msg_len` | Set a limit to the trace of the payload of a message | 
+| `disable_sublist_cache` | Disable sublist cache globally for accounts.
+| [`operator`](/nats_tools/nsc/nsc.md#nats-server-configuration) | Path to an operator JWT |
 | [`ping_interval`](/developer/connecting/pingpong.md) | Interval in seconds in which the server checks if a connection is active |
-| `port` | port for client connections |
+| `port` | Port for client connections |
+| `reconnect_error_reports` | Number of failed attempt to reconnect a route, gateway or leaf node connection. Default is to report every attempt.
 | [`resolver`](/nats_tools/nsc/nsc.md#nats-server-configuration)  | Resolver type `MEMORY` or `URL` for account JWTs |
-| [`tls`](tls.md#tls-configuration) | configuration map for tls for client and http monitoring |
-| `trace` | if `true` enable protocol trace log messages |
+| [`tls`](tls.md#tls-configuration) | Configuration map for tls for client and http monitoring |
+| `trace` | If `true` enable protocol trace log messages |
 | `write_deadline` | Maximum number of seconds the server will block when writing a to a client (slow consumer) |
 
 
