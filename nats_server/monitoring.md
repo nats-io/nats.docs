@@ -102,6 +102,7 @@ N/A
   "total_connections": 0,
   "routes": 0,
   "remotes": 0,
+  "leafnodes": 0,
   "in_msgs": 0,
   "out_msgs": 0,
   "in_bytes": 0,
