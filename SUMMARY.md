@@ -117,6 +117,8 @@
   * [Streams](nats_tools/nsc/streams.md)
   * [Services](nats_tools/nsc/services.md)
   * [Signing Keys](nats_tools/nsc/signing_keys.md)
+  * [Revocation](nats_tools/nsc/revocation.md)
+  * [Managed Operators](nats_tools/nsc/managed.md)
 * [nats-account-server](nats_tools/nas/README.md)
   * [Basics](nats_tools/nas/nas_conf.md)
   * [Inspecting JWTs](nats_tools/nas/inspecting_jwts.md)

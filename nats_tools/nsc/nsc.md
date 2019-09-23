@@ -249,7 +249,7 @@ Subscriber shows:
 [#1] Received on [hello]: ’NATS’
 ```
 
-### User Authorization
+## User Authorization
 
 User authorization, as expected, also works with JWT authentication. With `nsc` you can specify authorization for specific subjects to which the user can or cannot publish or subscribe. By default a user doesn't have any limits on the subjects that it can publish or subscribe to. Any message stream or message published in the account is subscribable by the user. The user can also publish to any subject or imported service. Note that authorization, if configured, must be specified on a per user basis.
 

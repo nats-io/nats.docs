@@ -1,6 +1,6 @@
 # Working with Managed Operators
 
-`nsc` can be used to administer multiple operators. Operators can be thought of as the owners of nats-servers, and fall into two categories: local and managed. The key difference, pardon the pun, is that managed operators are ones which you don't have the nkey for. An example of a managed operator is the Synadia service called NGS. Synadia has the keys.
+You can use `nsc` to administer multiple operators. Operators can be thought of as the owners of nats-servers, and fall into two categories: local and managed. The key difference, pardon the pun, is that managed operators are ones which you don't have the nkey for. An example of a managed operator is the Synadia service called NGS. Synadia has the keys.
 
 Accounts, as represented by their JWTs, are signed by the operator. Some operators may use local copies of JWTs, others may use the [nats-account-server](../nas/README.md) to manage their JWTs. Synadia uses a custom server for their JWTs that works similarly to the open-sourced account server.
 
@@ -37,7 +37,7 @@ Once you add a managed operator you can add accounts to it normally, with the ca
 
 ## Defining "Well Known Operators"
 
-You tell `nsc` about an operator that you want people in your environment to use by name with a simple environment variable of the form `nsc_<operator name>_operator` the value of this environment variable should be the URL for getting the operator JWT. For example:
+To define a well known operator, you would tell `nsc` about an operator that you want people in your environment to use by name with a simple environment variable of the form `nsc_<operator name>_operator` the value of this environment variable should be the URL for getting the operator JWT. For example:
 
 ```bash
 export nsc_zoom_operator=https://account-server-host/jwt/v1/operator

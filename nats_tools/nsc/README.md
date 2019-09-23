@@ -2,7 +2,7 @@
 
 NATS account configurations are built using the `nsc` tool. The NSC tool allows you to:
 
-- Create and Edit Operators, Accounts, Users
+- Create and edit Operators, Accounts, Users
 - Manage subscribe and publish permissions for Users
 - Add and delete Exports and Imports
 - Generate Activation tokens
@@ -40,4 +40,4 @@ It can be found within the tool itself:
 > nsc help
 ```
 
-Or an online version [here](https://nats-io.github.io/nsc)
+Or an online version [here](https://nats-io.github.io/nsc).
