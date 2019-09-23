@@ -22,7 +22,7 @@ Let’s run through the process of creating some identities and JWTs and work th
 
 ## The NSC Environment
 
-By default JWTs are written to `~/.nsc` and secrets to `~/.nkeys`. `nsc` also tracks a value called the "stores directory". This directory is the one that contains the operators you are currently working with. By default the stores directory is `~/.nsc/nats` but you can switch it to another folder if you want to separate JWTs for use in a revision control system, or co-locate them with a project, etc...
+By default JWTs are written to ~/.nsc and secrets to ~/.nkeys. nsc also tracks a value called the "stores directory". This directory contains the operators you are currently working with. By default the stores directory is ~/.nsc/nats but you can switch it to another folder if you want to separate JWTs for use in a revision control system, or co-locate them with a project, etc..
 
 To see the current NSC environment use the command `nsc env`:
 
