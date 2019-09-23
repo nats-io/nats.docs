@@ -1506,6 +1506,32 @@
             
         </li>
     
+        <li class="chapter " data-level="5.3.5" data-path="../nats_tools/nsc/revocation.html">
+            
+                <a href="../nats_tools/nsc/revocation.html">
+            
+                    
+                    Revocation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.6" data-path="../nats_tools/nsc/managed.html">
+            
+                <a href="../nats_tools/nsc/managed.html">
+            
+                    
+                    Managed Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2556,11 +2582,12 @@
 <p>To monitor the NATS messaging system, <code>nats-server</code> provides a lightweight HTTP server on a dedicated monitoring port.
 The monitoring server provides several endpoints, providing statistics and other information about the following:</p>
 <ul>
-<li><a href="#General-Information">General Server Information</a></li>
-<li><a href="#Connection-Information">Connections</a></li>
-<li><a href="#Route-Information">Routing</a></li>
-<li><a href="#Subscription-Routing-Information">Subscription Routing</a></li>
-<li><a href="#Gateway-Information">Gateways</a></li>
+<li><a href="#general-information">General Server Information</a></li>
+<li><a href="#connection-information">Connections</a></li>
+<li><a href="#route-information">Routing</a></li>
+<li><a href="#gateway-information">Gateways</a></li>
+<li><a href="#leaf-nodes-information">Leaf Nodes</a></li>
+<li><a href="#subscription-routing-information">Subscription Routing</a></li>
 </ul>
 <p>All endpoints return a JSON object.</p>
 <p>The NATS monitoring endpoints support JSONP and CORS, making it easy to create single page monitoring web applications.</p>
@@ -2569,11 +2596,11 @@ The monitoring server provides several endpoints, providing statistics and other
 <pre class="language-"><code>-m, --http_port PORT             HTTP PORT for monitoring
 -ms,--https_port PORT            Use HTTPS PORT for monitoring
 </code></pre><p>Example:</p>
-<pre class="language-"><code class="lang-sh">$ nats-server -m 8222
-<span class="token punctuation">[</span>4528<span class="token punctuation">]</span> 2019/06/01 20:09:58.572939 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Starting nats-server version 2.0.0
-<span class="token punctuation">[</span>4528<span class="token punctuation">]</span> 2019/06/01 20:09:58.573007 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Starting http monitor on port 8222
-<span class="token punctuation">[</span>4528<span class="token punctuation">]</span> 2019/06/01 20:09:58.573071 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Listening <span class="token keyword">for</span> client connections on 0.0.0.0:4222
-<span class="token punctuation">[</span>4528<span class="token punctuation">]</span> 2019/06/01 20:09:58.573090 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> nats-server is ready<span class="token operator">&lt;</span>/td<span class="token operator">&gt;</span>
+<pre class="language-"><code class="lang-sh">$ nats-server -m <span class="token number">8222</span>
+<span class="token punctuation">[</span><span class="token number">4528</span><span class="token punctuation">]</span> <span class="token number">2019</span>/06/01 <span class="token number">20</span>:09:58.572939 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Starting nats-server version <span class="token number">2.0</span>.0
+<span class="token punctuation">[</span><span class="token number">4528</span><span class="token punctuation">]</span> <span class="token number">2019</span>/06/01 <span class="token number">20</span>:09:58.573007 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Starting http monitor on port <span class="token number">8222</span>
+<span class="token punctuation">[</span><span class="token number">4528</span><span class="token punctuation">]</span> <span class="token number">2019</span>/06/01 <span class="token number">20</span>:09:58.573071 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Listening <span class="token keyword">for</span> client connections on <span class="token number">0.0</span>.0.0:4222
+<span class="token punctuation">[</span><span class="token number">4528</span><span class="token punctuation">]</span> <span class="token number">2019</span>/06/01 <span class="token number">20</span>:09:58.573090 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> nats-server is ready<span class="token operator">&lt;</span>/td<span class="token operator">&gt;</span>
 </code></pre>
 <p>To test, run <code>nats-server -m 8222</code>, then go to <a href="http://demo.nats.io:8222/" target="_blank">http://demo.nats.io:8222/</a></p>
 <h3 id="enable-monitoring-from-the-configuration-file"><a name="enable-monitoring-from-the-configuration-file" class="plugin-anchor" href="#enable-monitoring-from-the-configuration-file"><i class="fa fa-link" aria-hidden="true"></i></a>Enable monitoring from the configuration file</h3>
@@ -2643,6 +2670,7 @@ and tooling.</p>
   <span class="token property">&quot;total_connections&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
   <span class="token property">&quot;routes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
   <span class="token property">&quot;remotes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;leafnodes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
   <span class="token property">&quot;in_msgs&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
   <span class="token property">&quot;out_msgs&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
   <span class="token property">&quot;in_bytes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
@@ -2920,75 +2948,6 @@ Routes are expected to be low, so there is no paging mechanism with this endpoin
   <span class="token punctuation">]</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<h3 id="subscription-routing-information"><a name="subscription-routing-information" class="plugin-anchor" href="#subscription-routing-information"><i class="fa fa-link" aria-hidden="true"></i></a>Subscription Routing Information</h3>
-<p>The <code>/subz</code> endpoint reports detailed information about the current subscriptions and the routing data structure.  It is not normally used.</p>
-<p><strong>Endpoint:</strong> <code>http://server:port/subz</code></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Result</th>
-<th style="text-align:left">Return Code</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Success</td>
-<td style="text-align:left">200 (OK)</td>
-</tr>
-<tr>
-<td style="text-align:left">Error</td>
-<td style="text-align:left">400 (Bad Request)</td>
-</tr>
-</tbody>
-</table>
-<h4 id="arguments"><a name="arguments" class="plugin-anchor" href="#arguments"><i class="fa fa-link" aria-hidden="true"></i></a>Arguments</h4>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Argument</th>
-<th style="text-align:left">Values</th>
-<th style="text-align:left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">subs</td>
-<td style="text-align:left">true, 1, false, 0</td>
-<td style="text-align:left">Include subscriptions.  Default is false.</td>
-</tr>
-<tr>
-<td style="text-align:left">offset</td>
-<td style="text-align:left">integer &gt; 0</td>
-<td style="text-align:left">Pagination offset.  Default is 0.</td>
-</tr>
-<tr>
-<td style="text-align:left">limit</td>
-<td style="text-align:left">integer &gt; 0</td>
-<td style="text-align:left">Number of results to return.  Default is 1024.</td>
-</tr>
-<tr>
-<td style="text-align:left">test</td>
-<td style="text-align:left">subject</td>
-<td style="text-align:left">Test whether a subsciption exists.</td>
-</tr>
-</tbody>
-</table>
-<h4 id="example"><a name="example" class="plugin-anchor" href="#example"><i class="fa fa-link" aria-hidden="true"></i></a>Example</h4>
-<ul>
-<li>Get subscription routing information:  <a href="http://demo.nats.io:8222/subsz" target="_blank">http://demo.nats.io:8222/subsz</a></li>
-</ul>
-<h4 id="response"><a name="response" class="plugin-anchor" href="#response"><i class="fa fa-link" aria-hidden="true"></i></a>Response</h4>
-<pre class="language-"><code class="lang-json"><span class="token punctuation">{</span>
-  <span class="token property">&quot;num_subscriptions&quot;</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;num_cache&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;num_inserts&quot;</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;num_removes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;num_matches&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;cache_hit_rate&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;max_fanout&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
-  <span class="token property">&quot;avg_fanout&quot;</span><span class="token operator">:</span> <span class="token number">0</span>
-<span class="token punctuation">}</span>
-</code></pre>
 <h3 id="gateway-information"><a name="gateway-information" class="plugin-anchor" href="#gateway-information"><i class="fa fa-link" aria-hidden="true"></i></a>Gateway Information</h3>
 <p>The <code>/gatewayz</code> endpoint reports information about gateways used to create a NATS supercluster.
 Like routes, the number of gateways are expected to be low, so there is no paging mechanism with this endpoint.</p>
@@ -3154,6 +3113,141 @@ Like routes, the number of gateways are expected to be low, so there is no pagin
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
+<h3 id="leaf-nodes-information"><a name="leaf-nodes-information" class="plugin-anchor" href="#leaf-nodes-information"><i class="fa fa-link" aria-hidden="true"></i></a>Leaf Nodes Information</h3>
+<p>The <code>/leafz</code> endpoint reports detailed information about the leaf node connections.</p>
+<p><strong>Endpoint:</strong> <code>http://server:port/leafz</code></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Result</th>
+<th style="text-align:left">Return Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Success</td>
+<td style="text-align:left">200 (OK)</td>
+</tr>
+<tr>
+<td style="text-align:left">Error</td>
+<td style="text-align:left">400 (Bad Request)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="arguments"><a name="arguments" class="plugin-anchor" href="#arguments"><i class="fa fa-link" aria-hidden="true"></i></a>Arguments</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Argument</th>
+<th style="text-align:left">Values</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">subs</td>
+<td style="text-align:left">true, 1, false, 0</td>
+<td style="text-align:left">Include internal subscriptions.  Default is false.</td>
+</tr>
+</tbody>
+</table>
+<p>As noted above, the <code>leafz</code> endpoint does support the <code>subs</code> argument from the <code>/connz</code> endpoint. For example: <a href="http://demo.nats.io:8222/leafz?subs=1" target="_blank">http://demo.nats.io:8222/leafz?subs=1</a></p>
+<h4 id="example"><a name="example" class="plugin-anchor" href="#example"><i class="fa fa-link" aria-hidden="true"></i></a>Example</h4>
+<ul>
+<li>Get leaf nodes information:  <a href="http://demo.nats.io:8222/leafz?subs=1" target="_blank">http://demo.nats.io:8222/leafz?subs=1</a></li>
+</ul>
+<h4 id="response"><a name="response" class="plugin-anchor" href="#response"><i class="fa fa-link" aria-hidden="true"></i></a>Response</h4>
+<pre class="language-"><code class="lang-json"><span class="token punctuation">{</span>
+  <span class="token property">&quot;server_id&quot;</span><span class="token operator">:</span> <span class="token string">&quot;NC2FJCRMPBE5RI5OSRN7TKUCWQONCKNXHKJXCJIDVSAZ6727M7MQFVT3&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;now&quot;</span><span class="token operator">:</span> <span class="token string">&quot;2019-08-27T09:07:05.841132-06:00&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;leafnodes&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;leafs&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">&quot;account&quot;</span><span class="token operator">:</span> <span class="token string">&quot;$G&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;ip&quot;</span><span class="token operator">:</span> <span class="token string">&quot;127.0.0.1&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;port&quot;</span><span class="token operator">:</span> <span class="token number">6223</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;rtt&quot;</span><span class="token operator">:</span> <span class="token string">&quot;200&#xB5;s&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;in_msgs&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;out_msgs&quot;</span><span class="token operator">:</span> <span class="token number">10000</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;in_bytes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;out_bytes&quot;</span><span class="token operator">:</span> <span class="token number">1280000</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;subscriptions&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;subscriptions_list&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token string">&quot;foo&quot;</span>
+      <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="subscription-routing-information"><a name="subscription-routing-information" class="plugin-anchor" href="#subscription-routing-information"><i class="fa fa-link" aria-hidden="true"></i></a>Subscription Routing Information</h3>
+<p>The <code>/subz</code> endpoint reports detailed information about the current subscriptions and the routing data structure.  It is not normally used.</p>
+<p><strong>Endpoint:</strong> <code>http://server:port/subz</code></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Result</th>
+<th style="text-align:left">Return Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Success</td>
+<td style="text-align:left">200 (OK)</td>
+</tr>
+<tr>
+<td style="text-align:left">Error</td>
+<td style="text-align:left">400 (Bad Request)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="arguments"><a name="arguments" class="plugin-anchor" href="#arguments"><i class="fa fa-link" aria-hidden="true"></i></a>Arguments</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Argument</th>
+<th style="text-align:left">Values</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">subs</td>
+<td style="text-align:left">true, 1, false, 0</td>
+<td style="text-align:left">Include subscriptions.  Default is false.</td>
+</tr>
+<tr>
+<td style="text-align:left">offset</td>
+<td style="text-align:left">integer &gt; 0</td>
+<td style="text-align:left">Pagination offset.  Default is 0.</td>
+</tr>
+<tr>
+<td style="text-align:left">limit</td>
+<td style="text-align:left">integer &gt; 0</td>
+<td style="text-align:left">Number of results to return.  Default is 1024.</td>
+</tr>
+<tr>
+<td style="text-align:left">test</td>
+<td style="text-align:left">subject</td>
+<td style="text-align:left">Test whether a subsciption exists.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example"><a name="example" class="plugin-anchor" href="#example"><i class="fa fa-link" aria-hidden="true"></i></a>Example</h4>
+<ul>
+<li>Get subscription routing information:  <a href="http://demo.nats.io:8222/subsz" target="_blank">http://demo.nats.io:8222/subsz</a></li>
+</ul>
+<h4 id="response"><a name="response" class="plugin-anchor" href="#response"><i class="fa fa-link" aria-hidden="true"></i></a>Response</h4>
+<pre class="language-"><code class="lang-json"><span class="token punctuation">{</span>
+  <span class="token property">&quot;num_subscriptions&quot;</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;num_cache&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;num_inserts&quot;</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;num_removes&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;num_matches&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;cache_hit_rate&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;max_fanout&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;avg_fanout&quot;</span><span class="token operator">:</span> <span class="token number">0</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <h2 id="creating-monitoring-applications"><a name="creating-monitoring-applications" class="plugin-anchor" href="#creating-monitoring-applications"><i class="fa fa-link" aria-hidden="true"></i></a>Creating Monitoring Applications</h2>
 <p>NATS monitoring endpoints support <a href="https://en.wikipedia.org/wiki/JSONP" target="_blank">JSONP</a> and <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing#How_CORS_works" target="_blank">CORS</a>. You can easily create single page web applications for monitoring. To do this you simply pass the <code>callback</code> query parameter to any endpoint.</p>
 <p>For example:</p>
@@ -3209,7 +3303,7 @@ Like routes, the number of gateways are expected to be low, so there is no pagin
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Monitoring","level":"4.5.6","depth":2,"next":{"title":"Managing A NATS Server","level":"4.6","depth":1,"path":"nats_admin/README.md","ref":"nats_admin/README.md","articles":[{"title":"Upgrading a Cluster","level":"4.6.1","depth":2,"path":"nats_admin/upgrading_cluster.md","ref":"nats_admin/upgrading_cluster.md","articles":[]},{"title":"Slow Consumers","level":"4.6.2","depth":2,"path":"nats_admin/slow_consumers.md","ref":"nats_admin/slow_consumers.md","articles":[]},{"title":"Signals","level":"4.6.3","depth":2,"path":"nats_admin/signals.md","ref":"nats_admin/signals.md","articles":[]},{"title":"System Accounts","level":"4.6.4","depth":2,"path":"sys_accounts/README.md","ref":"sys_accounts/README.md","articles":[{"title":"Configuration","level":"4.6.4.1","depth":3,"path":"sys_accounts/sys_accounts.md","ref":"sys_accounts/sys_accounts.md","articles":[]}]}]},"previous":{"title":"Logging","level":"4.5.5","depth":2,"path":"nats_server/logging.md","ref":"nats_server/logging.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/monitoring.md","mtime":"2019-07-25T22:29:04.836Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-05T21:19:53.626Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Monitoring","level":"4.5.6","depth":2,"next":{"title":"Managing A NATS Server","level":"4.6","depth":1,"path":"nats_admin/README.md","ref":"nats_admin/README.md","articles":[{"title":"Upgrading a Cluster","level":"4.6.1","depth":2,"path":"nats_admin/upgrading_cluster.md","ref":"nats_admin/upgrading_cluster.md","articles":[]},{"title":"Slow Consumers","level":"4.6.2","depth":2,"path":"nats_admin/slow_consumers.md","ref":"nats_admin/slow_consumers.md","articles":[]},{"title":"Signals","level":"4.6.3","depth":2,"path":"nats_admin/signals.md","ref":"nats_admin/signals.md","articles":[]},{"title":"System Accounts","level":"4.6.4","depth":2,"path":"sys_accounts/README.md","ref":"sys_accounts/README.md","articles":[{"title":"Configuration","level":"4.6.4.1","depth":3,"path":"sys_accounts/sys_accounts.md","ref":"sys_accounts/sys_accounts.md","articles":[]}]}]},"previous":{"title":"Logging","level":"4.5.5","depth":2,"path":"nats_server/logging.md","ref":"nats_server/logging.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/monitoring.md","mtime":"2019-09-23T22:49:18.487Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-23T22:50:08.961Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

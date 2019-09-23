@@ -1506,6 +1506,32 @@
             
         </li>
     
+        <li class="chapter " data-level="5.3.5" data-path="../nsc/revocation.html">
+            
+                <a href="../nsc/revocation.html">
+            
+                    
+                    Revocation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.6" data-path="../nsc/managed.html">
+            
+                <a href="../nsc/managed.html">
+            
+                    
+                    Managed Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2557,18 +2583,18 @@
 <p>The nats-top tool provides a dynamic real-time view of a NATS server. nats-top can display a variety of system summary information about the NATS server, such as subscription, pending bytes, number of messages, and more, in real time. For example:</p>
 <pre class="language-"><code class="lang-sh">nats-top
 
-nats-server version 0.6.4 <span class="token punctuation">(</span>uptime: 31m42s<span class="token punctuation">)</span>
+nats-server version <span class="token number">0.6</span>.4 <span class="token punctuation">(</span>uptime: 31m42s<span class="token punctuation">)</span>
 Server:
-  Load: CPU: 0.8%   Memory: 5.9M  Slow Consumers: 0
-  In:   Msgs: 34.2K  Bytes: 3.0M  Msgs/Sec: 37.9  Bytes/Sec: 3389.7
-  Out:  Msgs: 68.3K  Bytes: 6.0M  Msgs/Sec: 75.8  Bytes/Sec: 6779.4
+  Load: CPU: <span class="token number">0.8</span>%   Memory: <span class="token number">5</span>.9M  Slow Consumers: <span class="token number">0</span>
+  In:   Msgs: <span class="token number">34</span>.2K  Bytes: <span class="token number">3</span>.0M  Msgs/Sec: <span class="token number">37.9</span>  Bytes/Sec: <span class="token number">3389.7</span>
+  Out:  Msgs: <span class="token number">68</span>.3K  Bytes: <span class="token number">6</span>.0M  Msgs/Sec: <span class="token number">75.8</span>  Bytes/Sec: <span class="token number">6779.4</span>
 
-Connections: 4
-  HOST                 CID      SUBS    PENDING     MSGS_TO     MSGS_FROM   BYTES_TO    BYTES_FROM  LANG     VERSION SUBSCRIPTIONS
-  127.0.0.1:56134      2        5       0           11.6K       11.6K       1.1M        905.1K      go       1.1.0   foo, hello
-  127.0.1.1:56138      3        1       0           34.2K       0           3.0M        0           go       1.1.0    _INBOX.a96f3f6853616154d23d1b5072
-  127.0.0.1:56144      4        5       0           11.2K       11.1K       873.5K      1.1M        go       1.1.0   foo, hello
-  127.0.0.1:56151      5        8       0           11.4K       11.5K       1014.6K     1.0M        go       1.1.0   foo, hello
+Connections: <span class="token number">4</span>
+  HOST                 CID      SUBS    PENDING     MSGS_TO     MSGS_FROM   BYTES_TO    BYTES_FROM  <span class="token environment constant">LANG</span>     VERSION SUBSCRIPTIONS
+  <span class="token number">127.0</span>.0.1:56134      <span class="token number">2</span>        <span class="token number">5</span>       <span class="token number">0</span>           <span class="token number">11</span>.6K       <span class="token number">11</span>.6K       <span class="token number">1</span>.1M        <span class="token number">905</span>.1K      go       <span class="token number">1.1</span>.0   foo, hello
+  <span class="token number">127.0</span>.1.1:56138      <span class="token number">3</span>        <span class="token number">1</span>       <span class="token number">0</span>           <span class="token number">34</span>.2K       <span class="token number">0</span>           <span class="token number">3</span>.0M        <span class="token number">0</span>           go       <span class="token number">1.1</span>.0    _INBOX.a96f3f6853616154d23d1b5072
+  <span class="token number">127.0</span>.0.1:56144      <span class="token number">4</span>        <span class="token number">5</span>       <span class="token number">0</span>           <span class="token number">11</span>.2K       <span class="token number">11</span>.1K       <span class="token number">873</span>.5K      <span class="token number">1</span>.1M        go       <span class="token number">1.1</span>.0   foo, hello
+  <span class="token number">127.0</span>.0.1:56151      <span class="token number">5</span>        <span class="token number">8</span>       <span class="token number">0</span>           <span class="token number">11</span>.4K       <span class="token number">11</span>.5K       <span class="token number">1014</span>.6K     <span class="token number">1</span>.0M        go       <span class="token number">1.1</span>.0   foo, hello
 </code></pre>
 <h2 id="installation"><a name="installation" class="plugin-anchor" href="#installation"><i class="fa fa-link" aria-hidden="true"></i></a>Installation</h2>
 <p>nats-top can be installed using <code>go get</code>. For example:</p>
@@ -2665,7 +2691,7 @@ Connections: 4
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"nats-top","level":"5.5","depth":1,"next":{"title":"Tutorial","level":"5.5.1","depth":2,"path":"nats_tools/nats_top/nats-top-tutorial.md","ref":"nats_tools/nats_top/nats-top-tutorial.md","articles":[]},"previous":{"title":"Memory Resolver","level":"5.4.5","depth":2,"path":"nats_tools/nas/mem_resolver.md","ref":"nats_tools/nas/mem_resolver.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_tools/nats_top/README.md","mtime":"2019-05-30T22:52:52.332Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-05T21:19:53.626Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"nats-top","level":"5.5","depth":1,"next":{"title":"Tutorial","level":"5.5.1","depth":2,"path":"nats_tools/nats_top/nats-top-tutorial.md","ref":"nats_tools/nats_top/nats-top-tutorial.md","articles":[]},"previous":{"title":"Memory Resolver","level":"5.4.5","depth":2,"path":"nats_tools/nas/mem_resolver.md","ref":"nats_tools/nas/mem_resolver.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_tools/nats_top/README.md","mtime":"2019-09-23T22:49:18.494Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-23T22:50:08.961Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

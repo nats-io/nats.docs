@@ -1506,6 +1506,32 @@
             
         </li>
     
+        <li class="chapter " data-level="5.3.5" data-path="../nats_tools/nsc/revocation.html">
+            
+                <a href="../nats_tools/nsc/revocation.html">
+            
+                    
+                    Revocation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.6" data-path="../nats_tools/nsc/managed.html">
+            
+                <a href="../nats_tools/nsc/managed.html">
+            
+                    
+                    Managed Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2665,12 +2691,12 @@ it is also possible to express interest in every subject that may exist in NATS:
 <p>The <code>connect_urls</code> will contain a list of strings with an IP and port, looking like this: <code>&quot;connect_urls&quot;:[&quot;10.0.0.184:4333&quot;,&quot;192.168.129.1:4333&quot;,&quot;192.168.192.1:4333&quot;]</code></p>
 <h4 id="example"><a name="example" class="plugin-anchor" href="#example"><i class="fa fa-link" aria-hidden="true"></i></a>Example</h4>
 <p>Below you can see a sample connection string from a telnet connection to the <code>demo.nats.io</code> site.</p>
-<pre class="language-"><code class="lang-sh">% telnet demo.nats.io 4222
+<pre class="language-"><code class="lang-sh">% telnet demo.nats.io <span class="token number">4222</span>
 
-Trying 107.170.221.32<span class="token punctuation">..</span>.
+Trying <span class="token number">107.170</span>.221.32<span class="token punctuation">..</span>.
 Connected to demo.nats.io.
-Escape character is <span class="token string">&apos;^]&apos;</span><span class="token keyword">.</span>
-INFO <span class="token punctuation">{</span><span class="token string">&quot;server_id&quot;</span><span class="token keyword">:</span><span class="token string">&quot;Zk0GQ3JBSrg3oyxCRRlE09&quot;</span>,<span class="token string">&quot;version&quot;</span><span class="token keyword">:</span><span class="token string">&quot;1.2.0&quot;</span>,<span class="token string">&quot;proto&quot;</span>:1,<span class="token string">&quot;go&quot;</span><span class="token keyword">:</span><span class="token string">&quot;go1.10.3&quot;</span>,<span class="token string">&quot;host&quot;</span><span class="token keyword">:</span><span class="token string">&quot;0.0.0.0&quot;</span>,<span class="token string">&quot;port&quot;</span>:4222,<span class="token string">&quot;max_payload&quot;</span>:1048576,<span class="token string">&quot;client_id&quot;</span>:2392<span class="token punctuation">}</span>
+Escape character is <span class="token string">&apos;^]&apos;</span><span class="token builtin class-name">.</span>
+INFO <span class="token punctuation">{</span><span class="token string">&quot;server_id&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;Zk0GQ3JBSrg3oyxCRRlE09&quot;</span>,<span class="token string">&quot;version&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;1.2.0&quot;</span>,<span class="token string">&quot;proto&quot;</span>:1,<span class="token string">&quot;go&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;go1.10.3&quot;</span>,<span class="token string">&quot;host&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;0.0.0.0&quot;</span>,<span class="token string">&quot;port&quot;</span>:4222,<span class="token string">&quot;max_payload&quot;</span>:1048576,<span class="token string">&quot;client_id&quot;</span>:2392<span class="token punctuation">}</span>
 </code></pre>
 <h2 id="connect"><a name="connect" class="plugin-anchor" href="#connect"><i class="fa fa-link" aria-hidden="true"></i></a>CONNECT</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
@@ -2855,7 +2881,7 @@ Connection closed by foreign host.
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Client Protocol","level":"9.2","depth":1,"next":{"title":"Developing a Client","level":"9.2.1","depth":2,"path":"nats_protocol/nats-client-dev.md","ref":"nats_protocol/nats-client-dev.md","articles":[]},"previous":{"title":"Protocol Demo","level":"9.1","depth":1,"path":"nats_protocol/nats-protocol-demo.md","ref":"nats_protocol/nats-protocol-demo.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_protocol/nats-protocol.md","mtime":"2019-06-24T18:36:39.425Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-05T21:19:53.626Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Client Protocol","level":"9.2","depth":1,"next":{"title":"Developing a Client","level":"9.2.1","depth":2,"path":"nats_protocol/nats-client-dev.md","ref":"nats_protocol/nats-client-dev.md","articles":[]},"previous":{"title":"Protocol Demo","level":"9.1","depth":1,"path":"nats_protocol/nats-protocol-demo.md","ref":"nats_protocol/nats-protocol-demo.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_protocol/nats-protocol.md","mtime":"2019-09-23T22:49:18.485Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-23T22:50:08.961Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -1506,6 +1506,32 @@
             
         </li>
     
+        <li class="chapter " data-level="5.3.5" data-path="revocation.html">
+            
+                <a href="revocation.html">
+            
+                    
+                    Revocation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.6" data-path="managed.html">
+            
+                <a href="managed.html">
+            
+                    
+                    Managed Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2552,15 +2578,16 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="nats-account-configuration"><a name="nats-account-configuration" class="plugin-anchor" href="#nats-account-configuration"><i class="fa fa-link" aria-hidden="true"></i></a>NATS Account Configuration</h2>
+                                <h1 id="nats-account-configuration"><a name="nats-account-configuration" class="plugin-anchor" href="#nats-account-configuration"><i class="fa fa-link" aria-hidden="true"></i></a>NATS Account Configuration</h1>
 <p>NATS account configurations are built using the <code>nsc</code> tool. The NSC tool allows you to:</p>
 <ul>
-<li>Create and Edit Operators, Accounts, Users</li>
+<li>Create and edit Operators, Accounts, Users</li>
 <li>Manage subscribe and publish permissions for Users</li>
 <li>Add and delete Exports and Imports</li>
-<li>Generate Activations</li>
+<li>Generate Activation tokens</li>
 <li>Generate User credential files</li>
 <li>Describe Operators, Accounts, Users, and Activations</li>
+<li>Push account JWTs to a server or pull account JWTs from a server</li>
 </ul>
 <h2 id="installation"><a name="installation" class="plugin-anchor" href="#installation"><i class="fa fa-link" aria-hidden="true"></i></a>Installation</h2>
 <p>Installing <code>nsc</code> is easy:</p>
@@ -2574,13 +2601,15 @@
 <li><a href="streams.html">Configuring Streams</a></li>
 <li><a href="services.html">Configuring Services</a></li>
 <li><a href="signing_keys.html">Signing Keys</a></li>
+<li><a href="revocation.html">Revoking Users or Activations</a></li>
+<li><a href="managed.html">Working with Managed Operators</a></li>
 </ul>
 <h2 id="tool-documentation"><a name="tool-documentation" class="plugin-anchor" href="#tool-documentation"><i class="fa fa-link" aria-hidden="true"></i></a>Tool Documentation</h2>
 <p>For more specific browsing of the tool syntax, check out the <code>nsc</code> tool documentation.
 It can be found within the tool itself:</p>
 <pre class="language-"><code class="lang-text">&gt; nsc help
 </code></pre>
-<p>Or an online version <a href="https://nats-io.github.io/nsc" target="_blank">here</a></p>
+<p>Or an online version <a href="https://nats-io.github.io/nsc" target="_blank">here</a>.</p>
 
                                 
                                 </section>
@@ -2624,7 +2653,7 @@ It can be found within the tool itself:</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"nsc","level":"5.3","depth":1,"next":{"title":"Basics","level":"5.3.1","depth":2,"path":"nats_tools/nsc/nsc.md","ref":"nats_tools/nsc/nsc.md","articles":[]},"previous":{"title":"nk","level":"5.2","depth":1,"path":"nats_tools/nk.md","ref":"nats_tools/nk.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_tools/nsc/README.md","mtime":"2019-05-30T22:52:52.333Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-05T21:19:53.626Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"nsc","level":"5.3","depth":1,"next":{"title":"Basics","level":"5.3.1","depth":2,"path":"nats_tools/nsc/nsc.md","ref":"nats_tools/nsc/nsc.md","articles":[]},"previous":{"title":"nk","level":"5.2","depth":1,"path":"nats_tools/nk.md","ref":"nats_tools/nk.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_tools/nsc/README.md","mtime":"2019-09-23T22:49:18.495Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-23T22:50:08.961Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

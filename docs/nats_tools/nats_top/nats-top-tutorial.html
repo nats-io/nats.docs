@@ -1506,6 +1506,32 @@
             
         </li>
     
+        <li class="chapter " data-level="5.3.5" data-path="../nsc/revocation.html">
+            
+                <a href="../nsc/revocation.html">
+            
+                    
+                    Revocation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.6" data-path="../nsc/managed.html">
+            
+                <a href="../nsc/managed.html">
+            
+                    
+                    Managed Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2566,50 +2592,50 @@
 <pre class="language-"><code class="lang-sh">% <span class="token function">sudo</span> -E go get github.com/nats-io/nats-top
 </code></pre>
 <h4 id="2-start-the-nats-server-with-monitoring-enabled"><a name="2-start-the-nats-server-with-monitoring-enabled" class="plugin-anchor" href="#2-start-the-nats-server-with-monitoring-enabled"><i class="fa fa-link" aria-hidden="true"></i></a>2. Start the NATS server with monitoring enabled</h4>
-<pre class="language-"><code class="lang-sh">% nats-server -m 8222
+<pre class="language-"><code class="lang-sh">% nats-server -m <span class="token number">8222</span>
 </code></pre>
 <h4 id="3-start-nats-top"><a name="3-start-nats-top" class="plugin-anchor" href="#3-start-nats-top"><i class="fa fa-link" aria-hidden="true"></i></a>3. Start nats-top</h4>
 <pre class="language-"><code class="lang-sh">% nats-top
 </code></pre>
 <p>Result:</p>
-<pre class="language-"><code class="lang-sh">nats-server version 0.6.6 <span class="token punctuation">(</span>uptime: 2m2s<span class="token punctuation">)</span>
+<pre class="language-"><code class="lang-sh">nats-server version <span class="token number">0.6</span>.6 <span class="token punctuation">(</span>uptime: 2m2s<span class="token punctuation">)</span>
 Server:
-  Load: CPU:  0.0%  Memory: 6.3M  Slow Consumers: 0
-  In:   Msgs: 0  Bytes: 0  Msgs/Sec: 0.0  Bytes/Sec: 0
-  Out:  Msgs: 0  Bytes: 0  Msgs/Sec: 0.0  Bytes/Sec: 0
+  Load: CPU:  <span class="token number">0.0</span>%  Memory: <span class="token number">6</span>.3M  Slow Consumers: <span class="token number">0</span>
+  In:   Msgs: <span class="token number">0</span>  Bytes: <span class="token number">0</span>  Msgs/Sec: <span class="token number">0.0</span>  Bytes/Sec: <span class="token number">0</span>
+  Out:  Msgs: <span class="token number">0</span>  Bytes: <span class="token number">0</span>  Msgs/Sec: <span class="token number">0.0</span>  Bytes/Sec: <span class="token number">0</span>
 
-Connections: 0
-  HOST                 CID      SUBS    PENDING     MSGS_TO     MSGS_FROM   BYTES_TO    BYTES_FROM  LANG     VERSION
+Connections: <span class="token number">0</span>
+  HOST                 CID      SUBS    PENDING     MSGS_TO     MSGS_FROM   BYTES_TO    BYTES_FROM  <span class="token environment constant">LANG</span>     VERSION
 </code></pre>
 <h4 id="4-run-nats-client-programs"><a name="4-run-nats-client-programs" class="plugin-anchor" href="#4-run-nats-client-programs"><i class="fa fa-link" aria-hidden="true"></i></a>4. Run NATS client programs</h4>
 <p>Run some NATS client programs and exchange messages.</p>
 <p>For the best experience, you will want to run multiple subscribers, at least 2 or 3. Refer to the <a href="../../nats_server/clients.html">example pub-sub clients</a>.</p>
 <h4 id="5-check-nats-top-for-statistics"><a name="5-check-nats-top-for-statistics" class="plugin-anchor" href="#5-check-nats-top-for-statistics"><i class="fa fa-link" aria-hidden="true"></i></a>5. Check nats-top for statistics</h4>
-<pre class="language-"><code class="lang-sh">nats-server version 0.6.6 <span class="token punctuation">(</span>uptime: 30m51s<span class="token punctuation">)</span>
+<pre class="language-"><code class="lang-sh">nats-server version <span class="token number">0.6</span>.6 <span class="token punctuation">(</span>uptime: 30m51s<span class="token punctuation">)</span>
 Server:
-  Load: CPU:  0.0%  Memory: 10.3M  Slow Consumers: 0
-  In:   Msgs: 56  Bytes: 302  Msgs/Sec: 0.0  Bytes/Sec: 0
-  Out:  Msgs: 98  Bytes: 512  Msgs/Sec: 0.0  Bytes/Sec: 0
+  Load: CPU:  <span class="token number">0.0</span>%  Memory: <span class="token number">10</span>.3M  Slow Consumers: <span class="token number">0</span>
+  In:   Msgs: <span class="token number">56</span>  Bytes: <span class="token number">302</span>  Msgs/Sec: <span class="token number">0.0</span>  Bytes/Sec: <span class="token number">0</span>
+  Out:  Msgs: <span class="token number">98</span>  Bytes: <span class="token number">512</span>  Msgs/Sec: <span class="token number">0.0</span>  Bytes/Sec: <span class="token number">0</span>
 
-Connections: 3
-  HOST                 CID      SUBS    PENDING     MSGS_TO     MSGS_FROM   BYTES_TO    BYTES_FROM  LANG     VERSION
-  ::1:58651            6        1       0           52          0           260         0           go       1.1.0
-  ::1:58922            38       1       0           21          0           105         0           go       1.1.0
-  ::1:58953            39       1       0           21          0           105         0           go       1.1.0
+Connections: <span class="token number">3</span>
+  HOST                 CID      SUBS    PENDING     MSGS_TO     MSGS_FROM   BYTES_TO    BYTES_FROM  <span class="token environment constant">LANG</span>     VERSION
+  ::1:58651            <span class="token number">6</span>        <span class="token number">1</span>       <span class="token number">0</span>           <span class="token number">52</span>          <span class="token number">0</span>           <span class="token number">260</span>         <span class="token number">0</span>           go       <span class="token number">1.1</span>.0
+  ::1:58922            <span class="token number">38</span>       <span class="token number">1</span>       <span class="token number">0</span>           <span class="token number">21</span>          <span class="token number">0</span>           <span class="token number">105</span>         <span class="token number">0</span>           go       <span class="token number">1.1</span>.0
+  ::1:58953            <span class="token number">39</span>       <span class="token number">1</span>       <span class="token number">0</span>           <span class="token number">21</span>          <span class="token number">0</span>           <span class="token number">105</span>         <span class="token number">0</span>           go       <span class="token number">1.1</span>.0
 </code></pre>
 <h4 id="6-sort-nats-top-statistics"><a name="6-sort-nats-top-statistics" class="plugin-anchor" href="#6-sort-nats-top-statistics"><i class="fa fa-link" aria-hidden="true"></i></a>6. Sort nats-top statistics</h4>
 <p>In nats-top, enter the command <code>o</code> followed by the option, such as <code>bytes_to</code>. You see that nats-top sorts the BYTES_TO column in ascending order.</p>
-<pre class="language-"><code class="lang-sh">nats-server version 0.6.6 <span class="token punctuation">(</span>uptime: 45m40s<span class="token punctuation">)</span>
+<pre class="language-"><code class="lang-sh">nats-server version <span class="token number">0.6</span>.6 <span class="token punctuation">(</span>uptime: 45m40s<span class="token punctuation">)</span>
 Server:
-  Load: CPU:  0.0%  Memory: 10.4M  Slow Consumers: 0
-  In:   Msgs: 81  Bytes: 427  Msgs/Sec: 0.0  Bytes/Sec: 0
-  Out:  Msgs: 154  Bytes: 792  Msgs/Sec: 0.0  Bytes/Sec: 0
+  Load: CPU:  <span class="token number">0.0</span>%  Memory: <span class="token number">10</span>.4M  Slow Consumers: <span class="token number">0</span>
+  In:   Msgs: <span class="token number">81</span>  Bytes: <span class="token number">427</span>  Msgs/Sec: <span class="token number">0.0</span>  Bytes/Sec: <span class="token number">0</span>
+  Out:  Msgs: <span class="token number">154</span>  Bytes: <span class="token number">792</span>  Msgs/Sec: <span class="token number">0.0</span>  Bytes/Sec: <span class="token number">0</span>
 <span class="token function">sort</span> by <span class="token punctuation">[</span>bytes_to<span class="token punctuation">]</span>:
-Connections: 3
-  HOST                 CID      SUBS    PENDING     MSGS_TO     MSGS_FROM   BYTES_TO    BYTES_FROM  LANG     VERSION
-  ::1:59259            83       1       0           4           0           20          0           go       1.1.0
-  ::1:59349            91       1       0           2           0           10          0           go       1.1.0
-  ::1:59342            90       1       0           0           0           0           0           go       1.1.0
+Connections: <span class="token number">3</span>
+  HOST                 CID      SUBS    PENDING     MSGS_TO     MSGS_FROM   BYTES_TO    BYTES_FROM  <span class="token environment constant">LANG</span>     VERSION
+  ::1:59259            <span class="token number">83</span>       <span class="token number">1</span>       <span class="token number">0</span>           <span class="token number">4</span>           <span class="token number">0</span>           <span class="token number">20</span>          <span class="token number">0</span>           go       <span class="token number">1.1</span>.0
+  ::1:59349            <span class="token number">91</span>       <span class="token number">1</span>       <span class="token number">0</span>           <span class="token number">2</span>           <span class="token number">0</span>           <span class="token number">10</span>          <span class="token number">0</span>           go       <span class="token number">1.1</span>.0
+  ::1:59342            <span class="token number">90</span>       <span class="token number">1</span>       <span class="token number">0</span>           <span class="token number">0</span>           <span class="token number">0</span>           <span class="token number">0</span>           <span class="token number">0</span>           go       <span class="token number">1.1</span>.0
 </code></pre>
 <h4 id="7-use-different-sort-options"><a name="7-use-different-sort-options" class="plugin-anchor" href="#7-use-different-sort-options"><i class="fa fa-link" aria-hidden="true"></i></a>7. Use different sort options</h4>
 <p>Use some different sort options to explore nats-top, such as:</p>
@@ -2617,34 +2643,34 @@ Connections: 3
 <p>You can also set the sort option on the command line using the <code>-sort</code> flag. For example: <code>nats-top -sort bytes_to</code>.</p>
 <h4 id="8-display-the-registered-subscriptions"><a name="8-display-the-registered-subscriptions" class="plugin-anchor" href="#8-display-the-registered-subscriptions"><i class="fa fa-link" aria-hidden="true"></i></a>8. Display the registered subscriptions.</h4>
 <p>In nats-top, enter the command <code>s</code> to toggle displaying connection subscriptions. When enabled, you see the subscription subject in nats-top table:</p>
-<pre class="language-"><code class="lang-sh">nats-server version 0.6.6 <span class="token punctuation">(</span>uptime: 1h2m23s<span class="token punctuation">)</span>
+<pre class="language-"><code class="lang-sh">nats-server version <span class="token number">0.6</span>.6 <span class="token punctuation">(</span>uptime: 1h2m23s<span class="token punctuation">)</span>
 Server:
-  Load: CPU:  0.0%  Memory: 10.4M  Slow Consumers: 0
-  In:   Msgs: 108  Bytes: 643  Msgs/Sec: 0.0  Bytes/Sec: 0
-  Out:  Msgs: 185  Bytes: 1.0K  Msgs/Sec: 0.0  Bytes/Sec: 0
+  Load: CPU:  <span class="token number">0.0</span>%  Memory: <span class="token number">10</span>.4M  Slow Consumers: <span class="token number">0</span>
+  In:   Msgs: <span class="token number">108</span>  Bytes: <span class="token number">643</span>  Msgs/Sec: <span class="token number">0.0</span>  Bytes/Sec: <span class="token number">0</span>
+  Out:  Msgs: <span class="token number">185</span>  Bytes: <span class="token number">1</span>.0K  Msgs/Sec: <span class="token number">0.0</span>  Bytes/Sec: <span class="token number">0</span>
 
-Connections: 3
-  HOST                 CID      SUBS    PENDING     MSGS_TO     MSGS_FROM   BYTES_TO    BYTES_FROM  LANG     VERSION SUBSCRIPTIONS
-  ::1:59708            115      1       0           6           0           48          0           go       1.1.0   foo.bar
-  ::1:59758            122      1       0           1           0           8           0           go       1.1.0   foo
-  ::1:59817            124      1       0           0           0           0           0           go       1.1.0   foo
+Connections: <span class="token number">3</span>
+  HOST                 CID      SUBS    PENDING     MSGS_TO     MSGS_FROM   BYTES_TO    BYTES_FROM  <span class="token environment constant">LANG</span>     VERSION SUBSCRIPTIONS
+  ::1:59708            <span class="token number">115</span>      <span class="token number">1</span>       <span class="token number">0</span>           <span class="token number">6</span>           <span class="token number">0</span>           <span class="token number">48</span>          <span class="token number">0</span>           go       <span class="token number">1.1</span>.0   foo.bar
+  ::1:59758            <span class="token number">122</span>      <span class="token number">1</span>       <span class="token number">0</span>           <span class="token number">1</span>           <span class="token number">0</span>           <span class="token number">8</span>           <span class="token number">0</span>           go       <span class="token number">1.1</span>.0   foo
+  ::1:59817            <span class="token number">124</span>      <span class="token number">1</span>       <span class="token number">0</span>           <span class="token number">0</span>           <span class="token number">0</span>           <span class="token number">0</span>           <span class="token number">0</span>           go       <span class="token number">1.1</span>.0   foo
 </code></pre>
 <h4 id="9-quit-nats-top"><a name="9-quit-nats-top" class="plugin-anchor" href="#9-quit-nats-top"><i class="fa fa-link" aria-hidden="true"></i></a>9. Quit nats-top</h4>
 <p>Use the <code>q</code> command to quit nats-top.</p>
 <h4 id="10-restart-nats-top-with-a-specified-query"><a name="10-restart-nats-top-with-a-specified-query" class="plugin-anchor" href="#10-restart-nats-top-with-a-specified-query"><i class="fa fa-link" aria-hidden="true"></i></a>10. Restart nats-top with a specified query</h4>
 <p>For example, to query for the connection with largest number of subscriptions:</p>
-<pre class="language-"><code class="lang-sh">% nats-top -n 1 -sort subs
+<pre class="language-"><code class="lang-sh">% nats-top -n <span class="token number">1</span> -sort subs
 </code></pre>
 <p>Result: nats-top displays only the client connection with the largest number of subscriptions:</p>
-<pre class="language-"><code class="lang-sh">nats-server version 0.6.6 <span class="token punctuation">(</span>uptime: 1h7m0s<span class="token punctuation">)</span>
+<pre class="language-"><code class="lang-sh">nats-server version <span class="token number">0.6</span>.6 <span class="token punctuation">(</span>uptime: 1h7m0s<span class="token punctuation">)</span>
 Server:
-  Load: CPU:  0.0%  Memory: 10.4M  Slow Consumers: 0
-  In:   Msgs: 109  Bytes: 651  Msgs/Sec: 0.0  Bytes/Sec: 0
-  Out:  Msgs: 187  Bytes: 1.0K  Msgs/Sec: 0.0  Bytes/Sec: 0
+  Load: CPU:  <span class="token number">0.0</span>%  Memory: <span class="token number">10</span>.4M  Slow Consumers: <span class="token number">0</span>
+  In:   Msgs: <span class="token number">109</span>  Bytes: <span class="token number">651</span>  Msgs/Sec: <span class="token number">0.0</span>  Bytes/Sec: <span class="token number">0</span>
+  Out:  Msgs: <span class="token number">187</span>  Bytes: <span class="token number">1</span>.0K  Msgs/Sec: <span class="token number">0.0</span>  Bytes/Sec: <span class="token number">0</span>
 
-Connections: 3
-  HOST                 CID      SUBS    PENDING     MSGS_TO     MSGS_FROM   BYTES_TO    BYTES_FROM  LANG     VERSION
-  ::1:59708            115      1       0           6           0           48          0           go       1.1.0
+Connections: <span class="token number">3</span>
+  HOST                 CID      SUBS    PENDING     MSGS_TO     MSGS_FROM   BYTES_TO    BYTES_FROM  <span class="token environment constant">LANG</span>     VERSION
+  ::1:59708            <span class="token number">115</span>      <span class="token number">1</span>       <span class="token number">0</span>           <span class="token number">6</span>           <span class="token number">0</span>           <span class="token number">48</span>          <span class="token number">0</span>           go       <span class="token number">1.1</span>.0
 </code></pre>
 
                                 
@@ -2689,7 +2715,7 @@ Connections: 3
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Tutorial","level":"5.5.1","depth":2,"next":{"title":"nats-bench","level":"5.6","depth":1,"path":"nats_tools/natsbench.md","ref":"nats_tools/natsbench.md","articles":[]},"previous":{"title":"nats-top","level":"5.5","depth":1,"path":"nats_tools/nats_top/README.md","ref":"nats_tools/nats_top/README.md","articles":[{"title":"Tutorial","level":"5.5.1","depth":2,"path":"nats_tools/nats_top/nats-top-tutorial.md","ref":"nats_tools/nats_top/nats-top-tutorial.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_tools/nats_top/nats-top-tutorial.md","mtime":"2019-06-25T14:14:34.661Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-05T21:19:53.626Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Tutorial","level":"5.5.1","depth":2,"next":{"title":"nats-bench","level":"5.6","depth":1,"path":"nats_tools/natsbench.md","ref":"nats_tools/natsbench.md","articles":[]},"previous":{"title":"nats-top","level":"5.5","depth":1,"path":"nats_tools/nats_top/README.md","ref":"nats_tools/nats_top/README.md","articles":[{"title":"Tutorial","level":"5.5.1","depth":2,"path":"nats_tools/nats_top/nats-top-tutorial.md","ref":"nats_tools/nats_top/nats-top-tutorial.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_tools/nats_top/nats-top-tutorial.md","mtime":"2019-09-23T22:49:18.495Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-23T22:50:08.961Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

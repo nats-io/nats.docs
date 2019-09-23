@@ -1506,6 +1506,32 @@
             
         </li>
     
+        <li class="chapter " data-level="5.3.5" data-path="../nats_tools/nsc/revocation.html">
+            
+                <a href="../nats_tools/nsc/revocation.html">
+            
+                    
+                    Revocation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.6" data-path="../nats_tools/nsc/managed.html">
+            
+                <a href="../nats_tools/nsc/managed.html">
+            
+                    
+                    Managed Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2593,26 +2619,26 @@
 </code></pre>
 <p>In this case, <code>nats-cluster-node-1</code> is seeding the rest of the cluster through the autodiscovery feature.  Now NATS servers <code>nats-cluster-node-1</code> and <code>nats-cluster-node-2</code> are clustered together.</p>
 <p>Add in more replicas of the subscriber:</p>
-<pre class="language-"><code class="lang-sh">% docker <span class="token function">service</span> scale ruby-nats<span class="token operator">=</span>3
+<pre class="language-"><code class="lang-sh">% docker <span class="token function">service</span> scale ruby-nats<span class="token operator">=</span><span class="token number">3</span>
 </code></pre>
 <p>Then confirm the distribution on the Docker Swarm cluster:</p>
 <pre class="language-"><code class="lang-sh">% docker <span class="token function">service</span> <span class="token function">ps</span> ruby-nats
 ID                         NAME         IMAGE                                     NODE    DESIRED STATE  CURRENT STATE          ERROR
-25skxso8honyhuznu15e4989m  ruby-nats.1  wallyqs/ruby-nats:ruby-2.3.1-nats-v0.8.0  node-1  Running        Running 2 minutes ago  
-0017lut0u3wj153yvp0uxr8yo  ruby-nats.2  wallyqs/ruby-nats:ruby-2.3.1-nats-v0.8.0  node-1  Running        Running 2 minutes ago  
-2sxl8rw6vm99x622efbdmkb96  ruby-nats.3  wallyqs/ruby-nats:ruby-2.3.1-nats-v0.8.0  node-2  Running        Running 2 minutes ago
+25skxso8honyhuznu15e4989m  ruby-nats.1  wallyqs/ruby-nats:ruby-2.3.1-nats-v0.8.0  node-1  Running        Running <span class="token number">2</span> minutes ago  
+0017lut0u3wj153yvp0uxr8yo  ruby-nats.2  wallyqs/ruby-nats:ruby-2.3.1-nats-v0.8.0  node-1  Running        Running <span class="token number">2</span> minutes ago  
+2sxl8rw6vm99x622efbdmkb96  ruby-nats.3  wallyqs/ruby-nats:ruby-2.3.1-nats-v0.8.0  node-2  Running        Running <span class="token number">2</span> minutes ago
 </code></pre>
 <p>The sample output after adding more NATS server nodes to the cluster, is below - and notice that the client is <em>dynamically</em> aware of more nodes being part of the cluster via auto discovery!</p>
-<pre class="language-"><code class="lang-sh"><span class="token punctuation">[</span>2016-08-15 12:51:52 +0000<span class="token punctuation">]</span> Saying hi <span class="token punctuation">(</span>servers <span class="token keyword">in</span> pool: <span class="token punctuation">[</span><span class="token punctuation">{</span>:uri<span class="token operator">=</span><span class="token operator">&gt;</span><span class="token comment">#&lt;URI::Generic nats://10.0.1.3:4222&gt;, :was_connected=&gt;true, :reconnect_attempts=&gt;0}]</span>
-<span class="token punctuation">[</span>2016-08-15 12:51:53 +0000<span class="token punctuation">]</span> Saying hi <span class="token punctuation">(</span>servers <span class="token keyword">in</span> pool: <span class="token punctuation">[</span><span class="token punctuation">{</span>:uri<span class="token operator">=</span><span class="token operator">&gt;</span><span class="token comment">#&lt;URI::Generic nats://10.0.1.3:4222&gt;, :was_connected=&gt;true, :reconnect_attempts=&gt;0}]</span>
-<span class="token punctuation">[</span>2016-08-15 12:51:54 +0000<span class="token punctuation">]</span> Saying hi <span class="token punctuation">(</span>servers <span class="token keyword">in</span> pool: <span class="token punctuation">[</span><span class="token punctuation">{</span>:uri<span class="token operator">=</span><span class="token operator">&gt;</span><span class="token comment">#&lt;URI::Generic nats://10.0.1.3:4222&gt;, :was_connected=&gt;true, :reconnect_attempts=&gt;0}]</span>
-<span class="token punctuation">[</span>2016-08-15 12:51:55 +0000<span class="token punctuation">]</span> Saying hi <span class="token punctuation">(</span>servers <span class="token keyword">in</span> pool: <span class="token punctuation">[</span><span class="token punctuation">{</span>:uri<span class="token operator">=</span><span class="token operator">&gt;</span><span class="token comment">#&lt;URI::Generic nats://10.0.1.3:4222&gt;, :was_connected=&gt;true, :reconnect_attempts=&gt;0}, {:uri=&gt;#&lt;URI::Generic nats://10.0.1.7:4222&gt;, :reconnect_attempts=&gt;0}, {:uri=&gt;#&lt;URI::Generic nats://10.0.1.6:4222&gt;, :reconnect_attempts=&gt;0}]</span>
+<pre class="language-"><code class="lang-sh"><span class="token punctuation">[</span><span class="token number">2016</span>-08-15 <span class="token number">12</span>:51:52 +0000<span class="token punctuation">]</span> Saying hi <span class="token punctuation">(</span>servers <span class="token keyword">in</span> pool: <span class="token punctuation">[</span><span class="token punctuation">{</span>:uri<span class="token operator">=</span><span class="token operator">&gt;</span><span class="token comment">#&lt;URI::Generic nats://10.0.1.3:4222&gt;, :was_connected=&gt;true, :reconnect_attempts=&gt;0}]</span>
+<span class="token punctuation">[</span><span class="token number">2016</span>-08-15 <span class="token number">12</span>:51:53 +0000<span class="token punctuation">]</span> Saying hi <span class="token punctuation">(</span>servers <span class="token keyword">in</span> pool: <span class="token punctuation">[</span><span class="token punctuation">{</span>:uri<span class="token operator">=</span><span class="token operator">&gt;</span><span class="token comment">#&lt;URI::Generic nats://10.0.1.3:4222&gt;, :was_connected=&gt;true, :reconnect_attempts=&gt;0}]</span>
+<span class="token punctuation">[</span><span class="token number">2016</span>-08-15 <span class="token number">12</span>:51:54 +0000<span class="token punctuation">]</span> Saying hi <span class="token punctuation">(</span>servers <span class="token keyword">in</span> pool: <span class="token punctuation">[</span><span class="token punctuation">{</span>:uri<span class="token operator">=</span><span class="token operator">&gt;</span><span class="token comment">#&lt;URI::Generic nats://10.0.1.3:4222&gt;, :was_connected=&gt;true, :reconnect_attempts=&gt;0}]</span>
+<span class="token punctuation">[</span><span class="token number">2016</span>-08-15 <span class="token number">12</span>:51:55 +0000<span class="token punctuation">]</span> Saying hi <span class="token punctuation">(</span>servers <span class="token keyword">in</span> pool: <span class="token punctuation">[</span><span class="token punctuation">{</span>:uri<span class="token operator">=</span><span class="token operator">&gt;</span><span class="token comment">#&lt;URI::Generic nats://10.0.1.3:4222&gt;, :was_connected=&gt;true, :reconnect_attempts=&gt;0}, {:uri=&gt;#&lt;URI::Generic nats://10.0.1.7:4222&gt;, :reconnect_attempts=&gt;0}, {:uri=&gt;#&lt;URI::Generic nats://10.0.1.6:4222&gt;, :reconnect_attempts=&gt;0}]</span>
 </code></pre>
 <p>Sample output after adding more workers which can reply back (since ignoring own responses):</p>
-<pre class="language-"><code class="lang-sh"><span class="token punctuation">[</span>2016-08-15 16:06:26 +0000<span class="token punctuation">]</span> Received reply - world
-<span class="token punctuation">[</span>2016-08-15 16:06:26 +0000<span class="token punctuation">]</span> Received reply - world
-<span class="token punctuation">[</span>2016-08-15 16:06:27 +0000<span class="token punctuation">]</span> Received greeting - hi - _INBOX.b8d8c01753d78e562e4dc561f1
-<span class="token punctuation">[</span>2016-08-15 16:06:27 +0000<span class="token punctuation">]</span> Received greeting - hi - _INBOX.4c35d18701979f8c8ed7e5f6ea
+<pre class="language-"><code class="lang-sh"><span class="token punctuation">[</span><span class="token number">2016</span>-08-15 <span class="token number">16</span>:06:26 +0000<span class="token punctuation">]</span> Received reply - world
+<span class="token punctuation">[</span><span class="token number">2016</span>-08-15 <span class="token number">16</span>:06:26 +0000<span class="token punctuation">]</span> Received reply - world
+<span class="token punctuation">[</span><span class="token number">2016</span>-08-15 <span class="token number">16</span>:06:27 +0000<span class="token punctuation">]</span> Received greeting - hi - _INBOX.b8d8c01753d78e562e4dc561f1
+<span class="token punctuation">[</span><span class="token number">2016</span>-08-15 <span class="token number">16</span>:06:27 +0000<span class="token punctuation">]</span> Received greeting - hi - _INBOX.4c35d18701979f8c8ed7e5f6ea
 </code></pre>
 <h3 id="and-so-forth"><a name="and-so-forth" class="plugin-anchor" href="#and-so-forth"><i class="fa fa-link" aria-hidden="true"></i></a>And so forth...</h3>
 <p>From here you can experiment adding to the NATS cluster by simply adding servers with new service names, that route to the seed server <code>nats-cluster-node-1</code>.  As you&apos;ve seen above, clients will automatically be updated to know that new servers are available in the cluster.</p>
@@ -2661,7 +2687,7 @@ ID                         NAME         IMAGE                                   
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Docker Swarm","level":"4.7.2","depth":2,"next":{"title":"mkpasswd","level":"5.1","depth":1,"path":"nats_tools/mkpasswd.md","ref":"nats_tools/mkpasswd.md","articles":[]},"previous":{"title":"Tutorial","level":"4.7.1","depth":2,"path":"nats_docker/nats-docker-tutorial.md","ref":"nats_docker/nats-docker-tutorial.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_docker/docker_swarm.md","mtime":"2019-05-31T18:06:29.019Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-05T21:19:53.626Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Docker Swarm","level":"4.7.2","depth":2,"next":{"title":"mkpasswd","level":"5.1","depth":1,"path":"nats_tools/mkpasswd.md","ref":"nats_tools/mkpasswd.md","articles":[]},"previous":{"title":"Tutorial","level":"4.7.1","depth":2,"path":"nats_docker/nats-docker-tutorial.md","ref":"nats_docker/nats-docker-tutorial.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_docker/docker_swarm.md","mtime":"2019-09-23T22:49:18.485Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-23T22:50:08.961Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -66,7 +66,7 @@
     <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../nas/" />
+    <link rel="next" href="revocation.html" />
     
     
     <link rel="prev" href="services.html" />
@@ -1506,6 +1506,32 @@
             
         </li>
     
+        <li class="chapter " data-level="5.3.5" data-path="revocation.html">
+            
+                <a href="revocation.html">
+            
+                    
+                    Revocation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.6" data-path="managed.html">
+            
+                <a href="managed.html">
+            
+                    
+                    Managed Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2552,7 +2578,7 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="signing-keys"><a name="signing-keys" class="plugin-anchor" href="#signing-keys"><i class="fa fa-link" aria-hidden="true"></i></a>Signing Keys</h2>
+                                <h1 id="signing-keys"><a name="signing-keys" class="plugin-anchor" href="#signing-keys"><i class="fa fa-link" aria-hidden="true"></i></a>Signing Keys</h1>
 <p>As previously discussed, NKEYs are identities, and if someone gets a hold of an account or operator nkey they can do everything you can do as you.</p>
 <p>NATS has a strategies to let you deal with scenarios where your private keys escape out in the wild.</p>
 <p>The first and most important line of defense is <em>Signing Keys</em>. <em>Signing Keys</em> allow you have multiple NKEY identities of the same kind (Operator or Account) that have the same degree of trust as the standard <em>Issuer</em> nkey.</p>
@@ -2700,7 +2726,7 @@ Success! - added user &quot;U&quot; to &quot;A&quot;
                 </a>
                 
                 
-                <a href="../nas/" class="navigation navigation-next " aria-label="Next page: nats-account-server">
+                <a href="revocation.html" class="navigation navigation-next " aria-label="Next page: Revocation">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -2711,7 +2737,7 @@ Success! - added user &quot;U&quot; to &quot;A&quot;
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Signing Keys","level":"5.3.4","depth":2,"next":{"title":"nats-account-server","level":"5.4","depth":1,"path":"nats_tools/nas/README.md","ref":"nats_tools/nas/README.md","articles":[{"title":"Basics","level":"5.4.1","depth":2,"path":"nats_tools/nas/nas_conf.md","ref":"nats_tools/nas/nas_conf.md","articles":[]},{"title":"Inspecting JWTs","level":"5.4.2","depth":2,"path":"nats_tools/nas/inspecting_jwts.md","ref":"nats_tools/nas/inspecting_jwts.md","articles":[]},{"title":"Directory Store","level":"5.4.3","depth":2,"path":"nats_tools/nas/dir_store.md","ref":"nats_tools/nas/dir_store.md","articles":[]},{"title":"Update Notifications","level":"5.4.4","depth":2,"path":"nats_tools/nas/notifications.md","ref":"nats_tools/nas/notifications.md","articles":[]},{"title":"Memory Resolver","level":"5.4.5","depth":2,"path":"nats_tools/nas/mem_resolver.md","ref":"nats_tools/nas/mem_resolver.md","articles":[]}]},"previous":{"title":"Services","level":"5.3.3","depth":2,"path":"nats_tools/nsc/services.md","ref":"nats_tools/nsc/services.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_tools/nsc/signing_keys.md","mtime":"2019-05-30T22:52:52.334Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-05T21:19:53.626Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Signing Keys","level":"5.3.4","depth":2,"next":{"title":"Revocation","level":"5.3.5","depth":2,"path":"nats_tools/nsc/revocation.md","ref":"nats_tools/nsc/revocation.md","articles":[]},"previous":{"title":"Services","level":"5.3.3","depth":2,"path":"nats_tools/nsc/services.md","ref":"nats_tools/nsc/services.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_tools/nsc/signing_keys.md","mtime":"2019-09-23T22:49:18.496Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-23T22:50:08.961Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

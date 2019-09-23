@@ -1506,6 +1506,32 @@
             
         </li>
     
+        <li class="chapter " data-level="5.3.5" data-path="../nats_tools/nsc/revocation.html">
+            
+                <a href="../nats_tools/nsc/revocation.html">
+            
+                    
+                    Revocation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.6" data-path="../nats_tools/nsc/managed.html">
+            
+                <a href="../nats_tools/nsc/managed.html">
+            
+                    
+                    Managed Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2561,20 +2587,20 @@ done at the end to confirm that can connect to the cluster.</p>
 </code></pre>
 <h4 id="step-2"><a name="step-2" class="plugin-anchor" href="#step-2"><i class="fa fa-link" aria-hidden="true"></i></a>Step 2:</h4>
 <p>Next create the NATS cluster which will be used by the NATS Streaming cluster.</p>
-<pre class="language-"><code class="lang-sh"><span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token variable"><span class="token variable">`</span><span class="token function">seq</span> 1 3<span class="token variable">`</span></span><span class="token punctuation">;</span> <span class="token keyword">do</span>
-  <span class="token function">sudo</span> docker <span class="token function">service</span> create --network nats-streaming-example \
-                             --name nats-cluster-node-<span class="token variable">$i</span> nats:1.1.0 \
-                             -cluster nats://0.0.0.0:6222 \
+<pre class="language-"><code class="lang-sh"><span class="token keyword">for</span> <span class="token for-or-select variable">i</span> <span class="token keyword">in</span> <span class="token variable"><span class="token variable">`</span><span class="token function">seq</span> <span class="token number">1</span> <span class="token number">3</span><span class="token variable">`</span></span><span class="token punctuation">;</span> <span class="token keyword">do</span>
+  <span class="token function">sudo</span> docker <span class="token function">service</span> create --network nats-streaming-example <span class="token punctuation">\</span>
+                             --name nats-cluster-node-<span class="token variable">$i</span> nats:1.1.0 <span class="token punctuation">\</span>
+                             -cluster nats://0.0.0.0:6222 <span class="token punctuation">\</span>
                              -routes nats://nats-cluster-node-1:6222,nats://nats-cluster-node-2:6222,nats://nats-cluster-node-3:6222
 <span class="token keyword">done</span>
 </code></pre>
 <h4 id="step-3"><a name="step-3" class="plugin-anchor" href="#step-3"><i class="fa fa-link" aria-hidden="true"></i></a>Step 3:</h4>
 <p>Now that there is a NATS cluster available to connect, create the NATS Streaming cluster of three nodes as follows:</p>
-<pre class="language-"><code class="lang-sh"><span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token variable"><span class="token variable">`</span><span class="token function">seq</span> 1 3<span class="token variable">`</span></span><span class="token punctuation">;</span> <span class="token keyword">do</span>
-  <span class="token function">sudo</span> docker <span class="token function">service</span> create --network nats-streaming-example \
-                             --name nats-streaming-node-<span class="token variable">$i</span> nats-streaming:0.9.2 \
-                             -store <span class="token function">file</span> -dir store -clustered -cluster_id swarm -cluster_node_id node-<span class="token variable">$i</span> \
-                             -cluster_peers node-1,node-2,node-3 \
+<pre class="language-"><code class="lang-sh"><span class="token keyword">for</span> <span class="token for-or-select variable">i</span> <span class="token keyword">in</span> <span class="token variable"><span class="token variable">`</span><span class="token function">seq</span> <span class="token number">1</span> <span class="token number">3</span><span class="token variable">`</span></span><span class="token punctuation">;</span> <span class="token keyword">do</span>
+  <span class="token function">sudo</span> docker <span class="token function">service</span> create --network nats-streaming-example <span class="token punctuation">\</span>
+                             --name nats-streaming-node-<span class="token variable">$i</span> nats-streaming:0.9.2 <span class="token punctuation">\</span>
+                             -store <span class="token function">file</span> -dir store -clustered -cluster_id swarm -cluster_node_id node-<span class="token variable">$i</span> <span class="token punctuation">\</span>
+                             -cluster_peers node-1,node-2,node-3 <span class="token punctuation">\</span>
                              -nats_server nats://nats-cluster-node-1:4222,nats://nats-cluster-node-2:4222,nats://nats-cluster-node-3:4222
 <span class="token keyword">done</span>
 </code></pre>
@@ -2589,17 +2615,17 @@ root@d12f9f3fcdde:/go<span class="token comment"># cd src/github.com/nats-io/sta
 
 <span class="token comment"># Publishing 3 messages</span>
 root@d12f9f3fcdde:/go/src/github.com/nats-io/stan.go<span class="token comment"># go run examples/stan-pub/main.go -s nats://nats-cluster-node-1:4222 --cluster swarm hello world</span>
-Published <span class="token punctuation">[</span>hello<span class="token punctuation">]</span> <span class="token keyword">:</span> <span class="token string">&apos;world&apos;</span>
+Published <span class="token punctuation">[</span>hello<span class="token punctuation">]</span> <span class="token builtin class-name">:</span> <span class="token string">&apos;world&apos;</span>
 root@d12f9f3fcdde:/go/src/github.com/nats-io/stan.go<span class="token comment"># go run examples/stan-pub/main.go -s nats://nats-cluster-node-1:4222 --cluster swarm hello world</span>
-Published <span class="token punctuation">[</span>hello<span class="token punctuation">]</span> <span class="token keyword">:</span> <span class="token string">&apos;world&apos;</span>
+Published <span class="token punctuation">[</span>hello<span class="token punctuation">]</span> <span class="token builtin class-name">:</span> <span class="token string">&apos;world&apos;</span>
 root@d12f9f3fcdde:/go/src/github.com/nats-io/stan.go<span class="token comment"># go run examples/stan-pub/main.go -s nats://nats-cluster-node-1:4222 --cluster swarm hello world</span>
-Published <span class="token punctuation">[</span>hello<span class="token punctuation">]</span> <span class="token keyword">:</span> <span class="token string">&apos;world&apos;</span>
+Published <span class="token punctuation">[</span>hello<span class="token punctuation">]</span> <span class="token builtin class-name">:</span> <span class="token string">&apos;world&apos;</span>
 
 <span class="token comment"># Replaying the messages from the beginning</span>
 root@d12f9f3fcdde:/go/src/github.com/nats-io/stan.go<span class="token comment"># go run examples/stan-sub/main.go -s nats://nats-cluster-node-1:4222 --cluster swarm -id $RANDOM --all hello</span>
-Connected to nats://nats-cluster-node-1:4222 clusterID: <span class="token punctuation">[</span>swarm<span class="token punctuation">]</span> clientID: <span class="token punctuation">[</span>17010<span class="token punctuation">]</span>
+Connected to nats://nats-cluster-node-1:4222 clusterID: <span class="token punctuation">[</span>swarm<span class="token punctuation">]</span> clientID: <span class="token punctuation">[</span><span class="token number">17010</span><span class="token punctuation">]</span>
 subscribing with DeliverAllAvailable
-Listening on <span class="token punctuation">[</span>hello<span class="token punctuation">]</span>, clientID<span class="token operator">=</span><span class="token punctuation">[</span>17010<span class="token punctuation">]</span>, qgroup<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span> durable<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+Listening on <span class="token punctuation">[</span>hello<span class="token punctuation">]</span>, <span class="token assign-left variable">clientID</span><span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">17010</span><span class="token punctuation">]</span>, <span class="token assign-left variable">qgroup</span><span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token assign-left variable">durable</span><span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
 <span class="token punctuation">[</span><span class="token comment">#1] Received on [hello]: &apos;sequence:1 subject:&quot;hello&quot; data:&quot;world&quot; timestamp:1526948600795366785 &apos;</span>
 <span class="token punctuation">[</span><span class="token comment">#2] Received on [hello]: &apos;sequence:2 subject:&quot;hello&quot; data:&quot;world&quot; timestamp:1526948604613783399 &apos;</span>
 <span class="token punctuation">[</span><span class="token comment">#3] Received on [hello]: &apos;sequence:3 subject:&quot;hello&quot; data:&quot;world&quot; timestamp:1526948606124258269 &apos;</span>
@@ -2647,7 +2673,7 @@ Listening on <span class="token punctuation">[</span>hello<span class="token pun
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Docker Swarm","level":"8.8","depth":1,"next":{"title":"Protocol Demo","level":"9.1","depth":1,"path":"nats_protocol/nats-protocol-demo.md","ref":"nats_protocol/nats-protocol-demo.md","articles":[]},"previous":{"title":"Embedding NATS Streaming Server","level":"8.7","depth":1,"path":"developer/streaming/embedding.md","ref":"developer/streaming/embedding.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_streaming/swarm.md","mtime":"2019-06-05T22:32:07.015Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-05T21:19:53.626Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Docker Swarm","level":"8.8","depth":1,"next":{"title":"Protocol Demo","level":"9.1","depth":1,"path":"nats_protocol/nats-protocol-demo.md","ref":"nats_protocol/nats-protocol-demo.md","articles":[]},"previous":{"title":"Embedding NATS Streaming Server","level":"8.7","depth":1,"path":"developer/streaming/embedding.md","ref":"developer/streaming/embedding.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_streaming/swarm.md","mtime":"2019-09-23T22:49:18.493Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-23T22:50:08.961Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

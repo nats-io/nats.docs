@@ -1506,6 +1506,32 @@
             
         </li>
     
+        <li class="chapter " data-level="5.3.5" data-path="../nats_tools/nsc/revocation.html">
+            
+                <a href="../nats_tools/nsc/revocation.html">
+            
+                    
+                    Revocation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.6" data-path="../nats_tools/nsc/managed.html">
+            
+                <a href="../nats_tools/nsc/managed.html">
+            
+                    
+                    Managed Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2635,15 +2661,19 @@ include ./auth.conf
 <tbody>
 <tr>
 <td style="text-align:left"><a href="auth_intro.html"><code>authorization</code></a></td>
-<td style="text-align:left">configuration map for client authentication/authorization</td>
+<td style="text-align:left">Configuration map for client authentication/authorization</td>
 </tr>
 <tr>
 <td style="text-align:left"><a href="cluster_config.html"><code>cluster</code></a></td>
-<td style="text-align:left">configuration map for clustering configuration</td>
+<td style="text-align:left">Configuration map for clustering configuration</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>connect_error_reports</code></td>
+<td style="text-align:left">Number of attempts at which a repeated failed route, gateway or leaf node connection is reported. Default is 3600, approx every hour.</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>debug</code></td>
-<td style="text-align:left">if <code>true</code> enable debug log messages</td>
+<td style="text-align:left">If <code>true</code> enable debug log messages</td>
 </tr>
 <tr>
 <td style="text-align:left"><a href="../gateways/gateway.html"><code>gateway</code></a></td>
@@ -2651,7 +2681,7 @@ include ./auth.conf
 </tr>
 <tr>
 <td style="text-align:left"><code>host</code></td>
-<td style="text-align:left">host for client connections</td>
+<td style="text-align:left">Host for client connections</td>
 </tr>
 <tr>
 <td style="text-align:left"><a href="monitoring.html"><code>http_port</code></a></td>
@@ -2667,7 +2697,7 @@ include ./auth.conf
 </tr>
 <tr>
 <td style="text-align:left"><code>listen</code></td>
-<td style="text-align:left">host/port for client connections</td>
+<td style="text-align:left">Host/port for client connections</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>max_connections</code></td>
@@ -2690,8 +2720,16 @@ include ./auth.conf
 <td style="text-align:left">Maximum numbers of subscriptions for a client connection</td>
 </tr>
 <tr>
+<td style="text-align:left"><code>max_traced_msg_len</code></td>
+<td style="text-align:left">Set a limit to the trace of the payload of a message</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>disable_sublist_cache</code></td>
+<td style="text-align:left">Disable sublist cache globally for accounts.</td>
+</tr>
+<tr>
 <td style="text-align:left"><a href="../nats_tools/nsc/nsc.html#nats-server-configuration"><code>operator</code></a></td>
-<td style="text-align:left">path to an operator JWT</td>
+<td style="text-align:left">Path to an operator JWT</td>
 </tr>
 <tr>
 <td style="text-align:left"><a href="../developer/connecting/pingpong.html"><code>ping_interval</code></a></td>
@@ -2699,7 +2737,11 @@ include ./auth.conf
 </tr>
 <tr>
 <td style="text-align:left"><code>port</code></td>
-<td style="text-align:left">port for client connections</td>
+<td style="text-align:left">Port for client connections</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>reconnect_error_reports</code></td>
+<td style="text-align:left">Number of failed attempt to reconnect a route, gateway or leaf node connection. Default is to report every attempt.</td>
 </tr>
 <tr>
 <td style="text-align:left"><a href="../nats_tools/nsc/nsc.html#nats-server-configuration"><code>resolver</code></a></td>
@@ -2707,11 +2749,11 @@ include ./auth.conf
 </tr>
 <tr>
 <td style="text-align:left"><a href="tls.html#tls-configuration"><code>tls</code></a></td>
-<td style="text-align:left">configuration map for tls for client and http monitoring</td>
+<td style="text-align:left">Configuration map for tls for client and http monitoring</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>trace</code></td>
-<td style="text-align:left">if <code>true</code> enable protocol trace log messages</td>
+<td style="text-align:left">If <code>true</code> enable protocol trace log messages</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>write_deadline</code></td>
@@ -2765,7 +2807,7 @@ include ./auth.conf
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Configuration","level":"4.5","depth":1,"next":{"title":"Securing NATS","level":"4.5.1","depth":2,"path":"nats_server/securing_nats.md","ref":"nats_server/securing_nats.md","articles":[{"title":"Enabling TLS","level":"4.5.1.1","depth":3,"path":"nats_server/tls.md","ref":"nats_server/tls.md","articles":[]},{"title":"Authentication","level":"4.5.1.2","depth":3,"path":"nats_server/auth_intro.md","ref":"nats_server/auth_intro.md","articles":[{"title":"Tokens","level":"4.5.1.2.1","depth":4,"path":"nats_server/tokens.md","ref":"nats_server/tokens.md","articles":[]},{"title":"Username/Password","level":"4.5.1.2.2","depth":4,"path":"nats_server/username_password.md","ref":"nats_server/username_password.md","articles":[]},{"title":"TLS Authentication","level":"4.5.1.2.3","depth":4,"path":"nats_server/tls_mutual_auth.md","ref":"nats_server/tls_mutual_auth.md","articles":[]},{"title":"NKeys","level":"4.5.1.2.4","depth":4,"path":"nats_server/nkey_auth.md","ref":"nats_server/nkey_auth.md","articles":[]},{"title":"Accounts","level":"4.5.1.2.5","depth":4,"path":"nats_server/accounts.md","ref":"nats_server/accounts.md","articles":[]},{"title":"JWTs","level":"4.5.1.2.6","depth":4,"path":"nats_server/jwt_auth.md","ref":"nats_server/jwt_auth.md","articles":[]},{"title":"Authentication Timeout","level":"4.5.1.2.7","depth":4,"path":"nats_server/auth_timeout.md","ref":"nats_server/auth_timeout.md","articles":[]}]},{"title":"Authorization","level":"4.5.1.3","depth":3,"path":"nats_server/authorization.md","ref":"nats_server/authorization.md","articles":[]}]},"previous":{"title":"Flags","level":"4.4","depth":1,"path":"nats_server/flags.md","ref":"nats_server/flags.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/configuration.md","mtime":"2019-08-13T14:25:46.278Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-05T21:19:53.626Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Configuration","level":"4.5","depth":1,"next":{"title":"Securing NATS","level":"4.5.1","depth":2,"path":"nats_server/securing_nats.md","ref":"nats_server/securing_nats.md","articles":[{"title":"Enabling TLS","level":"4.5.1.1","depth":3,"path":"nats_server/tls.md","ref":"nats_server/tls.md","articles":[]},{"title":"Authentication","level":"4.5.1.2","depth":3,"path":"nats_server/auth_intro.md","ref":"nats_server/auth_intro.md","articles":[{"title":"Tokens","level":"4.5.1.2.1","depth":4,"path":"nats_server/tokens.md","ref":"nats_server/tokens.md","articles":[]},{"title":"Username/Password","level":"4.5.1.2.2","depth":4,"path":"nats_server/username_password.md","ref":"nats_server/username_password.md","articles":[]},{"title":"TLS Authentication","level":"4.5.1.2.3","depth":4,"path":"nats_server/tls_mutual_auth.md","ref":"nats_server/tls_mutual_auth.md","articles":[]},{"title":"NKeys","level":"4.5.1.2.4","depth":4,"path":"nats_server/nkey_auth.md","ref":"nats_server/nkey_auth.md","articles":[]},{"title":"Accounts","level":"4.5.1.2.5","depth":4,"path":"nats_server/accounts.md","ref":"nats_server/accounts.md","articles":[]},{"title":"JWTs","level":"4.5.1.2.6","depth":4,"path":"nats_server/jwt_auth.md","ref":"nats_server/jwt_auth.md","articles":[]},{"title":"Authentication Timeout","level":"4.5.1.2.7","depth":4,"path":"nats_server/auth_timeout.md","ref":"nats_server/auth_timeout.md","articles":[]}]},{"title":"Authorization","level":"4.5.1.3","depth":3,"path":"nats_server/authorization.md","ref":"nats_server/authorization.md","articles":[]}]},"previous":{"title":"Flags","level":"4.4","depth":1,"path":"nats_server/flags.md","ref":"nats_server/flags.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_server/configuration.md","mtime":"2019-09-23T22:49:18.486Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-23T22:50:08.961Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

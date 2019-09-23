@@ -1506,6 +1506,32 @@
             
         </li>
     
+        <li class="chapter " data-level="5.3.5" data-path="nsc/revocation.html">
+            
+                <a href="nsc/revocation.html">
+            
+                    
+                    Revocation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.6" data-path="nsc/managed.html">
+            
+                <a href="nsc/managed.html">
+            
+                    
+                    Managed Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2560,13 +2586,13 @@
 <li><a href="../nats_server/installation.html">Install the NATS server</a></li>
 </ul>
 <h4 id="start-the-nats-server-with-monitoring-enabled"><a name="start-the-nats-server-with-monitoring-enabled" class="plugin-anchor" href="#start-the-nats-server-with-monitoring-enabled"><i class="fa fa-link" aria-hidden="true"></i></a>Start the NATS server with monitoring enabled</h4>
-<pre class="language-"><code class="lang-sh">% nats-server -m 8222
+<pre class="language-"><code class="lang-sh">% nats-server -m <span class="token number">8222</span>
 </code></pre>
 <p>Verify that the NATS server starts successfully, as well as the HTTP monitor:</p>
-<pre class="language-"><code class="lang-sh"><span class="token punctuation">[</span>18541<span class="token punctuation">]</span> 2016/10/31 13:26:32.037819 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Starting nats-server version 0.9.4
-<span class="token punctuation">[</span>18541<span class="token punctuation">]</span> 2016/10/31 13:26:32.037912 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Starting http monitor on 0.0.0.0:8222
-<span class="token punctuation">[</span>18541<span class="token punctuation">]</span> 2016/10/31 13:26:32.037997 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Listening <span class="token keyword">for</span> client connections on 0.0.0.0:4222
-<span class="token punctuation">[</span>18541<span class="token punctuation">]</span> 2016/10/31 13:26:32.038020 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Server is ready
+<pre class="language-"><code class="lang-sh"><span class="token punctuation">[</span><span class="token number">18541</span><span class="token punctuation">]</span> <span class="token number">2016</span>/10/31 <span class="token number">13</span>:26:32.037819 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Starting nats-server version <span class="token number">0.9</span>.4
+<span class="token punctuation">[</span><span class="token number">18541</span><span class="token punctuation">]</span> <span class="token number">2016</span>/10/31 <span class="token number">13</span>:26:32.037912 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Starting http monitor on <span class="token number">0.0</span>.0.0:8222
+<span class="token punctuation">[</span><span class="token number">18541</span><span class="token punctuation">]</span> <span class="token number">2016</span>/10/31 <span class="token number">13</span>:26:32.037997 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Listening <span class="token keyword">for</span> client connections on <span class="token number">0.0</span>.0.0:4222
+<span class="token punctuation">[</span><span class="token number">18541</span><span class="token punctuation">]</span> <span class="token number">2016</span>/10/31 <span class="token number">13</span>:26:32.038020 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> Server is ready
 </code></pre>
 <h4 id="installing-and-running-the-benchmark-utility"><a name="installing-and-running-the-benchmark-utility" class="plugin-anchor" href="#installing-and-running-the-benchmark-utility"><i class="fa fa-link" aria-hidden="true"></i></a>Installing and running the benchmark utility</h4>
 <p>The NATS benchmark can be installed and run via Go.  Ensure your golang environment is setup.</p>
@@ -2585,67 +2611,67 @@ Usage: nats-bench <span class="token punctuation">[</span>-s server <span class=
 <p>The options are self-explanatory. Each publisher or subscriber runs in its own go routine with its own NATS connection.</p>
 <h4 id="run-a-publisher-throughput-test"><a name="run-a-publisher-throughput-test" class="plugin-anchor" href="#run-a-publisher-throughput-test"><i class="fa fa-link" aria-hidden="true"></i></a>Run a publisher throughput test</h4>
 <p>Let&apos;s run a test to see how fast a single publisher can publish one million 16 byte messages to the NATS server.</p>
-<pre class="language-"><code class="lang-sh">% nats-bench -np 1 -n 100000 -ms 16 foo
+<pre class="language-"><code class="lang-sh">% nats-bench -np <span class="token number">1</span> -n <span class="token number">100000</span> -ms <span class="token number">16</span> foo
 </code></pre>
 <p>The output tells you the number of messages and the number of payload bytes that the client was able to publish per second:</p>
-<pre class="language-"><code class="lang-sh">Starting benchmark <span class="token punctuation">[</span>msgs<span class="token operator">=</span>100000, msgsize<span class="token operator">=</span>16, pubs<span class="token operator">=</span>1, subs<span class="token operator">=</span>0<span class="token punctuation">]</span>
-Pub stats: 7,055,644 msgs/sec ~ 107.66 MB/sec
+<pre class="language-"><code class="lang-sh">Starting benchmark <span class="token punctuation">[</span>msgs<span class="token operator">=</span><span class="token number">100000</span>, <span class="token assign-left variable">msgsize</span><span class="token operator">=</span><span class="token number">16</span>, <span class="token assign-left variable">pubs</span><span class="token operator">=</span><span class="token number">1</span>, <span class="token assign-left variable">subs</span><span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">]</span>
+Pub stats: <span class="token number">7,055</span>,644 msgs/sec ~ <span class="token number">107.66</span> MB/sec
 </code></pre>
 <p>Now increase the number of messages published:</p>
-<pre class="language-"><code class="lang-sh">% nats-bench -np 1 -n 10000000 -ms 16 foo
-Starting benchmark <span class="token punctuation">[</span>msgs<span class="token operator">=</span>10000000, msgsize<span class="token operator">=</span>16, pubs<span class="token operator">=</span>1, subs<span class="token operator">=</span>0<span class="token punctuation">]</span>
-Pub stats: 7,671,570 msgs/sec ~ 117.06 MB/sec
+<pre class="language-"><code class="lang-sh">% nats-bench -np <span class="token number">1</span> -n <span class="token number">10000000</span> -ms <span class="token number">16</span> foo
+Starting benchmark <span class="token punctuation">[</span>msgs<span class="token operator">=</span><span class="token number">10000000</span>, <span class="token assign-left variable">msgsize</span><span class="token operator">=</span><span class="token number">16</span>, <span class="token assign-left variable">pubs</span><span class="token operator">=</span><span class="token number">1</span>, <span class="token assign-left variable">subs</span><span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">]</span>
+Pub stats: <span class="token number">7,671</span>,570 msgs/sec ~ <span class="token number">117.06</span> MB/sec
 </code></pre>
 <h4 id="run-a-publishsubscribe-throughput-test"><a name="run-a-publishsubscribe-throughput-test" class="plugin-anchor" href="#run-a-publishsubscribe-throughput-test"><i class="fa fa-link" aria-hidden="true"></i></a>Run a publish/subscribe throughput test</h4>
 <p>When using both publishers and subscribers, <code>nats-bench</code> reports aggregate, as well as individual publish and subscribe throughput performance.</p>
 <p>Let&apos;s look at throughput for a single publisher with a single subscriber:</p>
-<pre class="language-"><code class="lang-sh">% nats-bench -np 1 -ns 1 -n 100000 -ms 16 foo
+<pre class="language-"><code class="lang-sh">% nats-bench -np <span class="token number">1</span> -ns <span class="token number">1</span> -n <span class="token number">100000</span> -ms <span class="token number">16</span> foo
 </code></pre>
 <p>Note that the output shows the aggregate throughput as well as the individual publisher and subscriber performance:</p>
-<pre class="language-"><code class="lang-sh">Starting benchmark <span class="token punctuation">[</span>msgs<span class="token operator">=</span>100000, msgsize<span class="token operator">=</span>16, pubs<span class="token operator">=</span>1, subs<span class="token operator">=</span>1<span class="token punctuation">]</span>
-NATS Pub/Sub stats: 2,009,230 msgs/sec ~ 30.66 MB/sec
- Pub stats: 1,076,537 msgs/sec ~ 16.43 MB/sec
- Sub stats: 1,004,615 msgs/sec ~ 15.33 MB/sec
+<pre class="language-"><code class="lang-sh">Starting benchmark <span class="token punctuation">[</span>msgs<span class="token operator">=</span><span class="token number">100000</span>, <span class="token assign-left variable">msgsize</span><span class="token operator">=</span><span class="token number">16</span>, <span class="token assign-left variable">pubs</span><span class="token operator">=</span><span class="token number">1</span>, <span class="token assign-left variable">subs</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">]</span>
+NATS Pub/Sub stats: <span class="token number">2,009</span>,230 msgs/sec ~ <span class="token number">30.66</span> MB/sec
+ Pub stats: <span class="token number">1,076</span>,537 msgs/sec ~ <span class="token number">16.43</span> MB/sec
+ Sub stats: <span class="token number">1,004</span>,615 msgs/sec ~ <span class="token number">15.33</span> MB/sec
 </code></pre>
 <h4 id="run-a-1n-throughput-test"><a name="run-a-1n-throughput-test" class="plugin-anchor" href="#run-a-1n-throughput-test"><i class="fa fa-link" aria-hidden="true"></i></a>Run a 1:N throughput test</h4>
 <p>When specifying multiple publishers, or multiple subscribers, <code>nats-bench</code> will also report statistics for each publisher and subscriber individually, along with min/max/avg and standard deviation.</p>
 <p>Let&apos;s increase both the number of messages, and the number of subscribers.:</p>
-<pre class="language-"><code class="lang-sh">% nats-bench -np 1 -ns 5 -n 10000000 -ms 16 foo
+<pre class="language-"><code class="lang-sh">% nats-bench -np <span class="token number">1</span> -ns <span class="token number">5</span> -n <span class="token number">10000000</span> -ms <span class="token number">16</span> foo
 </code></pre>
 <p>Output:</p>
-<pre class="language-"><code class="lang-sh">Starting benchmark <span class="token punctuation">[</span>msgs<span class="token operator">=</span>10000000, msgsize<span class="token operator">=</span>16, pubs<span class="token operator">=</span>1, subs<span class="token operator">=</span>5<span class="token punctuation">]</span>
-NATS Pub/Sub stats: 5,730,851 msgs/sec ~ 87.45 MB/sec
- Pub stats: 955,279 msgs/sec ~ 14.58 MB/sec
- Sub stats: 4,775,709 msgs/sec ~ 72.87 MB/sec
-  <span class="token punctuation">[</span>1<span class="token punctuation">]</span> 955,157 msgs/sec ~ 14.57 MB/sec <span class="token punctuation">(</span>10000000 msgs<span class="token punctuation">)</span>
-  <span class="token punctuation">[</span>2<span class="token punctuation">]</span> 955,150 msgs/sec ~ 14.57 MB/sec <span class="token punctuation">(</span>10000000 msgs<span class="token punctuation">)</span>
-  <span class="token punctuation">[</span>3<span class="token punctuation">]</span> 955,157 msgs/sec ~ 14.57 MB/sec <span class="token punctuation">(</span>10000000 msgs<span class="token punctuation">)</span>
-  <span class="token punctuation">[</span>4<span class="token punctuation">]</span> 955,156 msgs/sec ~ 14.57 MB/sec <span class="token punctuation">(</span>10000000 msgs<span class="token punctuation">)</span>
-  <span class="token punctuation">[</span>5<span class="token punctuation">]</span> 955,153 msgs/sec ~ 14.57 MB/sec <span class="token punctuation">(</span>10000000 msgs<span class="token punctuation">)</span>
-  min 955,150 <span class="token operator">|</span> avg 955,154 <span class="token operator">|</span> max 955,157 <span class="token operator">|</span> stddev 2 msgs
+<pre class="language-"><code class="lang-sh">Starting benchmark <span class="token punctuation">[</span>msgs<span class="token operator">=</span><span class="token number">10000000</span>, <span class="token assign-left variable">msgsize</span><span class="token operator">=</span><span class="token number">16</span>, <span class="token assign-left variable">pubs</span><span class="token operator">=</span><span class="token number">1</span>, <span class="token assign-left variable">subs</span><span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">]</span>
+NATS Pub/Sub stats: <span class="token number">5,730</span>,851 msgs/sec ~ <span class="token number">87.45</span> MB/sec
+ Pub stats: <span class="token number">955,279</span> msgs/sec ~ <span class="token number">14.58</span> MB/sec
+ Sub stats: <span class="token number">4,775</span>,709 msgs/sec ~ <span class="token number">72.87</span> MB/sec
+  <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token number">955,157</span> msgs/sec ~ <span class="token number">14.57</span> MB/sec <span class="token punctuation">(</span><span class="token number">10000000</span> msgs<span class="token punctuation">)</span>
+  <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token number">955,150</span> msgs/sec ~ <span class="token number">14.57</span> MB/sec <span class="token punctuation">(</span><span class="token number">10000000</span> msgs<span class="token punctuation">)</span>
+  <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token number">955,157</span> msgs/sec ~ <span class="token number">14.57</span> MB/sec <span class="token punctuation">(</span><span class="token number">10000000</span> msgs<span class="token punctuation">)</span>
+  <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token number">955,156</span> msgs/sec ~ <span class="token number">14.57</span> MB/sec <span class="token punctuation">(</span><span class="token number">10000000</span> msgs<span class="token punctuation">)</span>
+  <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span> <span class="token number">955,153</span> msgs/sec ~ <span class="token number">14.57</span> MB/sec <span class="token punctuation">(</span><span class="token number">10000000</span> msgs<span class="token punctuation">)</span>
+  min <span class="token number">955,150</span> <span class="token operator">|</span> avg <span class="token number">955,154</span> <span class="token operator">|</span> max <span class="token number">955,157</span> <span class="token operator">|</span> stddev <span class="token number">2</span> msgs
 </code></pre>
 <h4 id="run-a-nm-throughput-test"><a name="run-a-nm-throughput-test" class="plugin-anchor" href="#run-a-nm-throughput-test"><i class="fa fa-link" aria-hidden="true"></i></a>Run a N:M throughput test</h4>
 <p>When more than 1 publisher is specified, <code>nats-bench</code> evenly distributes the total number of  messages (<code>-n</code>) across the number of publishers (<code>-np</code>). </p>
 <p>Now let&apos;s increase the number of publishers and examine the output:</p>
-<pre class="language-"><code class="lang-sh">% nats-bench -np 5 -ns 5 -n 10000000 -ms 16 foo
+<pre class="language-"><code class="lang-sh">% nats-bench -np <span class="token number">5</span> -ns <span class="token number">5</span> -n <span class="token number">10000000</span> -ms <span class="token number">16</span> foo
 </code></pre>
 <p>The output:</p>
-<pre class="language-"><code class="lang-sh">Starting benchmark <span class="token punctuation">[</span>msgs<span class="token operator">=</span>10000000, msgsize<span class="token operator">=</span>16, pubs<span class="token operator">=</span>5, subs<span class="token operator">=</span>5<span class="token punctuation">]</span>
-NATS Pub/Sub stats: 6,716,465 msgs/sec ~ 102.49 MB/sec
- Pub stats: 1,119,653 msgs/sec ~ 17.08 MB/sec
-  <span class="token punctuation">[</span>1<span class="token punctuation">]</span> 226,395 msgs/sec ~ 3.45 MB/sec <span class="token punctuation">(</span>2000000 msgs<span class="token punctuation">)</span>
-  <span class="token punctuation">[</span>2<span class="token punctuation">]</span> 225,955 msgs/sec ~ 3.45 MB/sec <span class="token punctuation">(</span>2000000 msgs<span class="token punctuation">)</span>
-  <span class="token punctuation">[</span>3<span class="token punctuation">]</span> 225,889 msgs/sec ~ 3.45 MB/sec <span class="token punctuation">(</span>2000000 msgs<span class="token punctuation">)</span>
-  <span class="token punctuation">[</span>4<span class="token punctuation">]</span> 224,552 msgs/sec ~ 3.43 MB/sec <span class="token punctuation">(</span>2000000 msgs<span class="token punctuation">)</span>
-  <span class="token punctuation">[</span>5<span class="token punctuation">]</span> 223,933 msgs/sec ~ 3.42 MB/sec <span class="token punctuation">(</span>2000000 msgs<span class="token punctuation">)</span>
-  min 223,933 <span class="token operator">|</span> avg 225,344 <span class="token operator">|</span> max 226,395 <span class="token operator">|</span> stddev 937 msgs
- Sub stats: 5,597,054 msgs/sec ~ 85.40 MB/sec
-  <span class="token punctuation">[</span>1<span class="token punctuation">]</span> 1,119,461 msgs/sec ~ 17.08 MB/sec <span class="token punctuation">(</span>10000000 msgs<span class="token punctuation">)</span>
-  <span class="token punctuation">[</span>2<span class="token punctuation">]</span> 1,119,466 msgs/sec ~ 17.08 MB/sec <span class="token punctuation">(</span>10000000 msgs<span class="token punctuation">)</span>
-  <span class="token punctuation">[</span>3<span class="token punctuation">]</span> 1,119,444 msgs/sec ~ 17.08 MB/sec <span class="token punctuation">(</span>10000000 msgs<span class="token punctuation">)</span>
-  <span class="token punctuation">[</span>4<span class="token punctuation">]</span> 1,119,444 msgs/sec ~ 17.08 MB/sec <span class="token punctuation">(</span>10000000 msgs<span class="token punctuation">)</span>
-  <span class="token punctuation">[</span>5<span class="token punctuation">]</span> 1,119,430 msgs/sec ~ 17.08 MB/sec <span class="token punctuation">(</span>10000000 msgs<span class="token punctuation">)</span>
-  min 1,119,430 <span class="token operator">|</span> avg 1,119,449 <span class="token operator">|</span> max 1,119,466 <span class="token operator">|</span> stddev 12 msgs
+<pre class="language-"><code class="lang-sh">Starting benchmark <span class="token punctuation">[</span>msgs<span class="token operator">=</span><span class="token number">10000000</span>, <span class="token assign-left variable">msgsize</span><span class="token operator">=</span><span class="token number">16</span>, <span class="token assign-left variable">pubs</span><span class="token operator">=</span><span class="token number">5</span>, <span class="token assign-left variable">subs</span><span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">]</span>
+NATS Pub/Sub stats: <span class="token number">6,716</span>,465 msgs/sec ~ <span class="token number">102.49</span> MB/sec
+ Pub stats: <span class="token number">1,119</span>,653 msgs/sec ~ <span class="token number">17.08</span> MB/sec
+  <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token number">226,395</span> msgs/sec ~ <span class="token number">3.45</span> MB/sec <span class="token punctuation">(</span><span class="token number">2000000</span> msgs<span class="token punctuation">)</span>
+  <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token number">225,955</span> msgs/sec ~ <span class="token number">3.45</span> MB/sec <span class="token punctuation">(</span><span class="token number">2000000</span> msgs<span class="token punctuation">)</span>
+  <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token number">225,889</span> msgs/sec ~ <span class="token number">3.45</span> MB/sec <span class="token punctuation">(</span><span class="token number">2000000</span> msgs<span class="token punctuation">)</span>
+  <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token number">224,552</span> msgs/sec ~ <span class="token number">3.43</span> MB/sec <span class="token punctuation">(</span><span class="token number">2000000</span> msgs<span class="token punctuation">)</span>
+  <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span> <span class="token number">223,933</span> msgs/sec ~ <span class="token number">3.42</span> MB/sec <span class="token punctuation">(</span><span class="token number">2000000</span> msgs<span class="token punctuation">)</span>
+  min <span class="token number">223,933</span> <span class="token operator">|</span> avg <span class="token number">225,344</span> <span class="token operator">|</span> max <span class="token number">226,395</span> <span class="token operator">|</span> stddev <span class="token number">937</span> msgs
+ Sub stats: <span class="token number">5,597</span>,054 msgs/sec ~ <span class="token number">85.40</span> MB/sec
+  <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token number">1,119</span>,461 msgs/sec ~ <span class="token number">17.08</span> MB/sec <span class="token punctuation">(</span><span class="token number">10000000</span> msgs<span class="token punctuation">)</span>
+  <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token number">1,119</span>,466 msgs/sec ~ <span class="token number">17.08</span> MB/sec <span class="token punctuation">(</span><span class="token number">10000000</span> msgs<span class="token punctuation">)</span>
+  <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token number">1,119</span>,444 msgs/sec ~ <span class="token number">17.08</span> MB/sec <span class="token punctuation">(</span><span class="token number">10000000</span> msgs<span class="token punctuation">)</span>
+  <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token number">1,119</span>,444 msgs/sec ~ <span class="token number">17.08</span> MB/sec <span class="token punctuation">(</span><span class="token number">10000000</span> msgs<span class="token punctuation">)</span>
+  <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span> <span class="token number">1,119</span>,430 msgs/sec ~ <span class="token number">17.08</span> MB/sec <span class="token punctuation">(</span><span class="token number">10000000</span> msgs<span class="token punctuation">)</span>
+  min <span class="token number">1,119</span>,430 <span class="token operator">|</span> avg <span class="token number">1,119</span>,449 <span class="token operator">|</span> max <span class="token number">1,119</span>,466 <span class="token operator">|</span> stddev <span class="token number">12</span> msgs
 </code></pre>
 
                                 
@@ -2690,7 +2716,7 @@ NATS Pub/Sub stats: 6,716,465 msgs/sec ~ 102.49 MB/sec
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"nats-bench","level":"5.6","depth":1,"next":{"title":"Introduction","level":"6.1","depth":1,"path":"nats_streaming/intro.md","ref":"nats_streaming/intro.md","articles":[]},"previous":{"title":"Tutorial","level":"5.5.1","depth":2,"path":"nats_tools/nats_top/nats-top-tutorial.md","ref":"nats_tools/nats_top/nats-top-tutorial.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_tools/natsbench.md","mtime":"2019-06-14T15:52:25.560Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-05T21:19:53.626Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"nats-bench","level":"5.6","depth":1,"next":{"title":"Introduction","level":"6.1","depth":1,"path":"nats_streaming/intro.md","ref":"nats_streaming/intro.md","articles":[]},"previous":{"title":"Tutorial","level":"5.5.1","depth":2,"path":"nats_tools/nats_top/nats-top-tutorial.md","ref":"nats_tools/nats_top/nats-top-tutorial.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_tools/natsbench.md","mtime":"2019-09-23T22:49:18.495Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-23T22:50:08.961Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

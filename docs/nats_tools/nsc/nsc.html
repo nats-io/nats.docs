@@ -1506,6 +1506,32 @@
             
         </li>
     
+        <li class="chapter " data-level="5.3.5" data-path="revocation.html">
+            
+                <a href="revocation.html">
+            
+                    
+                    Revocation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.6" data-path="managed.html">
+            
+                <a href="managed.html">
+            
+                    
+                    Managed Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2552,8 +2578,8 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="nsc"><a name="nsc" class="plugin-anchor" href="#nsc"><i class="fa fa-link" aria-hidden="true"></i></a>NSC</h2>
-<p>NATS uses JWTs to armor the various identity and authorization artifacts. These JWTs are created with the <code>nsc</code> tool. NSC simplifies the tasks of creating and managing  identities and other JWT artifacts.</p>
+                                <h1 id="nsc"><a name="nsc" class="plugin-anchor" href="#nsc"><i class="fa fa-link" aria-hidden="true"></i></a>NSC</h1>
+<p>NATS uses JWTs to armor the various identity and authorization artifacts. These JWTs are created with the <code>nsc</code> tool. NSC simplifies the tasks of creating and managing identities and other JWT artifacts.</p>
 <p>There&#x2019;s a logical hierarchy to the entities:</p>
 <ul>
 <li><p><code>Operators</code> are responsible for running nats-servers, and signing account JWTs that set the limits on what an account can do, such as the number of connections, data limits, etc.</p>
@@ -2571,11 +2597,9 @@
 <li>configure a nats-server to use JWTs</li>
 </ul>
 <p>Let&#x2019;s run through the process of creating some identities and JWTs and work through the process.</p>
-<p>By default JWTs are written to <code>~/.nsc</code> and secrets to <code>~/.nkeys</code>. You can easily change those locations by setting <code>NSC_HOME</code> and <code>NKEYS_PATH</code> respectively in your environment to your desired locations.</p>
-<blockquote>
-<p>The $NKEYS_PATH stores secrets. Since nkeys relies on cryptographic signatures to prove identity, anyone with access to your private keys will be able to assume your identity. With that said, treat them as secrets and guard them carefully.</p>
-</blockquote>
-<p>Let&#x2019;s see what settings <code>nsc</code> has in its environment:</p>
+<h2 id="the-nsc-environment"><a name="the-nsc-environment" class="plugin-anchor" href="#the-nsc-environment"><i class="fa fa-link" aria-hidden="true"></i></a>The NSC Environment</h2>
+<p>By default JWTs are written to ~/.nsc and secrets to ~/.nkeys. nsc also tracks a value called the &quot;stores directory&quot;. This directory contains the operators you are currently working with. By default the stores directory is ~/.nsc/nats but you can switch it to another folder if you want to separate JWTs for use in a revision control system, or co-locate them with a project, etc..</p>
+<p>To see the current NSC environment use the command <code>nsc env</code>:</p>
 <pre class="language-"><code class="lang-text">&gt; nsc env
 &#x256D;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x256E;
 &#x2502;             NSC Environment              &#x2502;
@@ -2592,8 +2616,12 @@
 &#x2502; Default Cluster  &#x2502;     &#x2502;                 &#x2502;
 &#x2570;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2534;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2534;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x256F;
 </code></pre>
-<p>By default you&#x2019;ll see that generated secrets are stored in <code>~/.nkeys</code>, and configurations in <code>~/.nsc/nats</code>. All operations are assumed to be in a context of the current operator and current account. When working with multiple operators and accounts you may need to set the current one. You can easily do so by issuing the <code>nsc env</code> and provide flags to set the current operator or account. See <code>nsc env &#x2014;help</code> for more details.</p>
-<h4 id="creating-an-operator"><a name="creating-an-operator" class="plugin-anchor" href="#creating-an-operator"><i class="fa fa-link" aria-hidden="true"></i></a>Creating an Operator</h4>
+<p>As you can see there is a setting for the nkeys folder and the nsc home. By default you&#x2019;ll see that generated secrets are stored in <code>~/.nkeys</code>, and configurations in <code>~/.nsc/nats</code>. All operations are assumed to be in a context of the current operator and current account. When working with multiple operators and accounts you may need to set the current one. You can easily do so by issuing the <code>nsc env</code> and provide flags to set the current operator or account. See <code>nsc env &#x2014;help</code> for more details.</p>
+<p>You can easily change the home and keys locations by setting <code>NSC_HOME</code> and <code>NKEYS_PATH</code> respectively in your environment to your desired locations. The environment itself is stored in the <code>NSC_HOME</code>. Operator folders are in the stores directory which can be inside <code>NSC_HOME</code> or external to it.</p>
+<blockquote>
+<p>The $NKEYS_PATH stores secrets. Since nkeys relies on cryptographic signatures to prove identity, anyone with access to your private keys will be able to assume your identity. With that said, treat them as secrets and guard them carefully.</p>
+</blockquote>
+<h2 id="creating-an-operator"><a name="creating-an-operator" class="plugin-anchor" href="#creating-an-operator"><i class="fa fa-link" aria-hidden="true"></i></a>Creating an Operator</h2>
 <p>Let&#x2019;s create an operator called <code>Test</code>:</p>
 <pre class="language-"><code class="lang-text">&gt; nsc add operator -n Test
 Generated operator key - private key stored &#x201C;~/.nkeys/Test/Test.nk&#x201D;
@@ -2628,8 +2656,9 @@ Success! - added operator &quot;Test&quot;
 &#x2502; Expires     &#x2502;                                                          &#x2502;
 &#x2570;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2534;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x256F;
 </code></pre>
+<p>The operator JWT contains two important URLs. The <code>account-jwt-server-url</code> is used by <code>nsc</code> when you want to push JWTs to an account server. The <code>service-url</code>s are used by <code>nsc</code> when you run the tool commands, like <code>nsc tool pub</code>.</p>
 <p>With an operator, we are ready to create our first account.</p>
-<h4 id="creating-an-account"><a name="creating-an-account" class="plugin-anchor" href="#creating-an-account"><i class="fa fa-link" aria-hidden="true"></i></a>Creating an Account</h4>
+<h2 id="creating-an-account"><a name="creating-an-account" class="plugin-anchor" href="#creating-an-account"><i class="fa fa-link" aria-hidden="true"></i></a>Creating an Account</h2>
 <p>Let&#x2019;s create an account called <code>TestAccount</code>:</p>
 <pre class="language-"><code>&gt; nsc add account -n TestAccount
 Generated account key - private key stored &#x201C;~/.nkeys/Test/accounts/TestAccount/TestAccount.nk&quot;
@@ -2661,7 +2690,7 @@ Success! - added account &quot;TestAccount&quot;
 <p>Again, specifying the <code>-W</code> flag will print the complete account ID (the public key identifying the account).</p>
 <p>Note that the issuer for the account is the ID for the operator (the public key identifying the operator).</p>
 <p>Now we are ready to add a user.</p>
-<h4 id="creating-a-user"><a name="creating-a-user" class="plugin-anchor" href="#creating-a-user"><i class="fa fa-link" aria-hidden="true"></i></a>Creating a User</h4>
+<h2 id="creating-a-user"><a name="creating-a-user" class="plugin-anchor" href="#creating-a-user"><i class="fa fa-link" aria-hidden="true"></i></a>Creating a User</h2>
 <p>Let&#x2019;s add a user named &#x2018;TestUser&#x2019;:</p>
 <pre class="language-"><code class="lang-text">&gt; nsc add user -n TestUser
 Generated user key - private key stored &quot;~/.nkeys/Test/accounts/TestAccount/users/TestUser.nk&quot;
@@ -2687,7 +2716,7 @@ Success! - added user &quot;TestUser&quot; to &quot;TestAccount&quot;
 &#x2570;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2534;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x256F;
 </code></pre>
 <p>Let&#x2019;s put all of this together, and create a simple server configuration that accepts sessions from TestUser.</p>
-<h3 id="account-server-configuration"><a name="account-server-configuration" class="plugin-anchor" href="#account-server-configuration"><i class="fa fa-link" aria-hidden="true"></i></a>Account Server Configuration</h3>
+<h2 id="account-server-configuration"><a name="account-server-configuration" class="plugin-anchor" href="#account-server-configuration"><i class="fa fa-link" aria-hidden="true"></i></a>Account Server Configuration</h2>
 <p>To configure a server to use accounts you need an <em>account resolver</em>. An account resolver exposes a URL where a nats-server can query for JWTs belonging to an account.</p>
 <p>A simple built-in resolver is the <code>MEMORY</code> resolver which simply statically maps account public keys to an account JWT in the server&#x2019;s configuration file. It is somewhat easier to configure because it doesn&#x2019;t require another moving part, but fails provide the needed experience of setting up an account server. Let&#x2019;s setup an <em>Account Server</em>.</p>
 <p>Installing the Account Server</p>
@@ -2697,8 +2726,9 @@ Success! - added user &quot;TestUser&quot; to &quot;TestAccount&quot;
 <pre class="language-"><code class="lang-text">&gt; nats-account-server -nsc ~/.nsc/nats/Test
 </code></pre>
 <p>Above we pointed the account server to our nsc data directory (more specifically to the <code>Test</code> operator that we created earlier). By default, the server listens on the localhost at port 9090.</p>
-<p>We are now ready to configure the nats-server</p>
-<h3 id="nats-server-configuration"><a name="nats-server-configuration" class="plugin-anchor" href="#nats-server-configuration"><i class="fa fa-link" aria-hidden="true"></i></a>NATS Server Configuration</h3>
+<p>You can also run the account server with a data directory that is not your nsc folder. In this mode you can upload account JWTs to the server. See the help for <code>nsc push</code> for more information about how to push JWTs to the account server.</p>
+<p>We are now ready to configure the nats-server.</p>
+<h2 id="nats-server-configuration"><a name="nats-server-configuration" class="plugin-anchor" href="#nats-server-configuration"><i class="fa fa-link" aria-hidden="true"></i></a>NATS Server Configuration</h2>
 <p>If you don&#x2019;t have a nats-server installed, let&#x2019;s do that now:</p>
 <pre class="language-"><code class="lang-text">&gt; go get github.com/nats-io/nats-server
 </code></pre>
@@ -2707,7 +2737,7 @@ Success! - added user &quot;TestUser&quot; to &quot;TestAccount&quot;
 <span class="token key atrule">resolver</span><span class="token punctuation">:</span> URL(http<span class="token punctuation">:</span>//localhost<span class="token punctuation">:</span>9090/jwt/v1/accounts/)
 </code></pre>
 <p>At minimum the server requires the <code>operator</code> JWT, which we have pointed at directly, and a resolver. The resolver has two types <code>MEM</code> and <code>URL</code>. We are interested in the <code>URL</code> since we want the nats-server to talk to the account server. Note we put the URL of the server with the path <code>/jwt/v1/accounts</code>. Currently this is where the account server expects requests for account information.</p>
-<h3 id="client-testing"><a name="client-testing" class="plugin-anchor" href="#client-testing"><i class="fa fa-link" aria-hidden="true"></i></a>Client Testing</h3>
+<h2 id="client-testing"><a name="client-testing" class="plugin-anchor" href="#client-testing"><i class="fa fa-link" aria-hidden="true"></i></a>Client Testing</h2>
 <p>Let&#x2019;s install some tooling:</p>
 <pre class="language-"><code class="lang-text">&gt; go get github.com/nats-io/nats.go/examples/nats-pub
 
@@ -2724,7 +2754,7 @@ Published [hello] : &apos;NATS&apos;
 <p>Subscriber shows:</p>
 <pre class="language-"><code class="lang-text">[#1] Received on [hello]: &#x2019;NATS&#x2019;
 </code></pre>
-<h3 id="user-authorization"><a name="user-authorization" class="plugin-anchor" href="#user-authorization"><i class="fa fa-link" aria-hidden="true"></i></a>User Authorization</h3>
+<h2 id="user-authorization"><a name="user-authorization" class="plugin-anchor" href="#user-authorization"><i class="fa fa-link" aria-hidden="true"></i></a>User Authorization</h2>
 <p>User authorization, as expected, also works with JWT authentication. With <code>nsc</code> you can specify authorization for specific subjects to which the user can or cannot publish or subscribe. By default a user doesn&apos;t have any limits on the subjects that it can publish or subscribe to. Any message stream or message published in the account is subscribable by the user. The user can also publish to any subject or imported service. Note that authorization, if configured, must be specified on a per user basis.</p>
 <p>When specifying limits it is important to remember that clients by default use generated &quot;inboxes&quot; to allow publish requests. When specifying subscribe and publish permissions, you need to enable clients to subscribe and publish to <code>_INBOX.&gt;</code>. You can further restrict it, but you&apos;ll be responsible for segmenting the subject space so as to not break request/reply communications between clients.</p>
 <p>Let&apos;s say you have a service that your account clients can make requests to under <code>req.a</code>. To enable the service to receive and respond to requests it requires permissions to subscribe to <code>req.a</code> and publish permissions under <code>_INBOX.&gt;</code>:</p>
@@ -2822,7 +2852,7 @@ Success! - added user &quot;TestClient&quot; to &quot;TestAccount&quot;
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Basics","level":"5.3.1","depth":2,"next":{"title":"Streams","level":"5.3.2","depth":2,"path":"nats_tools/nsc/streams.md","ref":"nats_tools/nsc/streams.md","articles":[]},"previous":{"title":"nsc","level":"5.3","depth":1,"path":"nats_tools/nsc/README.md","ref":"nats_tools/nsc/README.md","articles":[{"title":"Basics","level":"5.3.1","depth":2,"path":"nats_tools/nsc/nsc.md","ref":"nats_tools/nsc/nsc.md","articles":[]},{"title":"Streams","level":"5.3.2","depth":2,"path":"nats_tools/nsc/streams.md","ref":"nats_tools/nsc/streams.md","articles":[]},{"title":"Services","level":"5.3.3","depth":2,"path":"nats_tools/nsc/services.md","ref":"nats_tools/nsc/services.md","articles":[]},{"title":"Signing Keys","level":"5.3.4","depth":2,"path":"nats_tools/nsc/signing_keys.md","ref":"nats_tools/nsc/signing_keys.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_tools/nsc/nsc.md","mtime":"2019-06-11T19:34:10.868Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-05T21:19:53.626Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Basics","level":"5.3.1","depth":2,"next":{"title":"Streams","level":"5.3.2","depth":2,"path":"nats_tools/nsc/streams.md","ref":"nats_tools/nsc/streams.md","articles":[]},"previous":{"title":"nsc","level":"5.3","depth":1,"path":"nats_tools/nsc/README.md","ref":"nats_tools/nsc/README.md","articles":[{"title":"Basics","level":"5.3.1","depth":2,"path":"nats_tools/nsc/nsc.md","ref":"nats_tools/nsc/nsc.md","articles":[]},{"title":"Streams","level":"5.3.2","depth":2,"path":"nats_tools/nsc/streams.md","ref":"nats_tools/nsc/streams.md","articles":[]},{"title":"Services","level":"5.3.3","depth":2,"path":"nats_tools/nsc/services.md","ref":"nats_tools/nsc/services.md","articles":[]},{"title":"Signing Keys","level":"5.3.4","depth":2,"path":"nats_tools/nsc/signing_keys.md","ref":"nats_tools/nsc/signing_keys.md","articles":[]},{"title":"Revocation","level":"5.3.5","depth":2,"path":"nats_tools/nsc/revocation.md","ref":"nats_tools/nsc/revocation.md","articles":[]},{"title":"Managed Operators","level":"5.3.6","depth":2,"path":"nats_tools/nsc/managed.md","ref":"nats_tools/nsc/managed.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_tools/nsc/nsc.md","mtime":"2019-09-23T22:49:18.495Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-23T22:50:08.961Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

@@ -1506,6 +1506,32 @@
             
         </li>
     
+        <li class="chapter " data-level="5.3.5" data-path="../nats_tools/nsc/revocation.html">
+            
+                <a href="../nats_tools/nsc/revocation.html">
+            
+                    
+                    Revocation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.6" data-path="../nats_tools/nsc/managed.html">
+            
+                <a href="../nats_tools/nsc/managed.html">
+            
+                    
+                    Managed Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2557,7 +2583,7 @@
 <p>Note that since each server stores it&apos;s own permission and authentication configuration, new servers added to a cluster should provide the same users and authorization to prevent clients from getting rejected or gaining unexpected privileges.</p>
 <p>For purposes of describing the scenario, let&apos;s get some fingers on keyboards, and go through the motions. Let&apos;s consider a cluster of two servers: &apos;A&apos; and &apos;B&apos;, and yes - clusters should be <em>three</em> to <em>five</em> servers, but for purposes of describing the behavior and cluster upgrade process, a cluster of two servers will suffice. </p>
 <p>Let&apos;s build this cluster:</p>
-<pre class="language-"><code class="lang-bash">nats-server -D -p 4222 -cluster nats://localhost:6222 -routes nats://localhost:6222,nats://localhost:6333
+<pre class="language-"><code class="lang-bash">nats-server -D -p <span class="token number">4222</span> -cluster nats://localhost:6222 -routes nats://localhost:6222,nats://localhost:6333
 </code></pre>
 <p>The command above is starting nats-server with debug output enabled, listening for clients on port 4222, and accepting cluster connections on port 6222. The <code>-routes</code> option specifies a list of nats URLs where the server will attempt to connect
 to other servers. These URLs define the cluster ports enabled on the cluster peers.</p>
@@ -2566,7 +2592,7 @@ to other servers. These URLs define the cluster ports enabled on the cluster pee
 <pre class="language-"><code class="lang-ascii"> Error trying to connect to route: dial tcp localhost:6333: connect: connection refused
 </code></pre>
 <p>Let&apos;s fix that, by starting the second server:</p>
-<pre class="language-"><code class="lang-bash">nats-server -D -p 4333 -cluster nats://localhost:6333 -routes nats://localhost:6222,nats://localhost:6333
+<pre class="language-"><code class="lang-bash">nats-server -D -p <span class="token number">4333</span> -cluster nats://localhost:6333 -routes nats://localhost:6222,nats://localhost:6333
 </code></pre>
 <p>The second server was started on port 4333 with its cluster port on 6333. Otherwise the same as &apos;A&apos;.</p>
 <p>Let&apos;s get one client, so we can observe it moving between servers as servers get removed:</p>
@@ -2576,27 +2602,27 @@ to other servers. These URLs define the cluster ports enabled on the cluster pee
 <p>We have two servers and a client. Time to simulate our rolling upgrade. But wait, before we upgrade &apos;A&apos;, let&apos;s introduce a new server &apos;C&apos;.  Server &apos;C&apos; will join the existing cluster while we perform the upgrade. Its sole purpose is to provide an additional place where clients can go other than &apos;A&apos; and ensure we don&apos;t end up with a single server serving all the clients after the upgrade procedure. Clients will randomly select a server when connecting unless a special option is provided that disables that functionality (usually called &apos;DontRandomize&apos; or &apos;noRandomize&apos;). You can read more about <a href="../developer/reconnect/random.html">&quot;Avoiding the Thundering Herd&quot;</a>.
 Suffice it to say that clients redistribute themselves about evenly between all servers in the cluster. In our case 1/2 of the clients on &apos;A&apos; will jump over to &apos;B&apos; and the remaining half to &apos;C&apos;.</p>
 <p>Let&apos;s start our temporary server:</p>
-<pre class="language-"><code class="lang-bash">nats-server -D -p 4444 -cluster nats://localhost:6444 -routes nats://localhost:6222,nats://localhost:6333
+<pre class="language-"><code class="lang-bash">nats-server -D -p <span class="token number">4444</span> -cluster nats://localhost:6444 -routes nats://localhost:6222,nats://localhost:6333
 </code></pre>
 <p>After an instant or so, clients on &apos;A&apos; learn of the new cluster member that joined. On our hands-on  tutorial, <code>nats-sub</code> is now aware of 3 possible servers, &apos;A&apos; (specified when we started the tool) and &apos;B&apos; and &apos;C&apos; learned from the cluster gossip.</p>
 <p>We invoke our admin powers and turn off &apos;A&apos; by issuing a <code>CTRL+C</code> to the terminal on &apos;A&apos; and observe that either &apos;B&apos; or &apos;C&apos; reports that a new client connected. That is our <code>nats-sub</code> client.</p>
 <p>We perform the upgrade process, update the binary for &apos;A&apos;, and restart &apos;A&apos;:</p>
-<pre class="language-"><code class="lang-bash">nats-server -D -p 4222 -cluster nats://localhost:6222 -routes nats://localhost:6222,nats://localhost:6333
+<pre class="language-"><code class="lang-bash">nats-server -D -p <span class="token number">4222</span> -cluster nats://localhost:6222 -routes nats://localhost:6222,nats://localhost:6333
 </code></pre>
 <p>We move on to upgrade &apos;B&apos;. Notice that clients from &apos;B&apos; reconnect to &apos;A&apos; and &apos;C&apos;. We upgrade and restart &apos;B&apos;:</p>
-<pre class="language-"><code class="lang-bash">nats-server -D -p 4333 -cluster nats://localhost:6333 -routes nats://localhost:6222,nats://localhost:6333
+<pre class="language-"><code class="lang-bash">nats-server -D -p <span class="token number">4333</span> -cluster nats://localhost:6333 -routes nats://localhost:6222,nats://localhost:6333
 </code></pre>
 <p>If we had more servers, we would continue the stop, update, restart rotation as we did for &apos;A&apos; and &apos;B&apos;.  After restarting the last server, we can go ahead and turn off &apos;C.&apos; Any clients on &apos;C&apos; will redistribute to our permanent cluster members.</p>
 <h3 id="seed-servers"><a name="seed-servers" class="plugin-anchor" href="#seed-servers"><i class="fa fa-link" aria-hidden="true"></i></a>Seed Servers</h3>
 <p>In the examples above we started nats-server specifying two clustering routes. It is possible to allow the server gossip protocol drive it and reduce the amount of configuration. You could for example start A, B and C as follows:</p>
 <h4 id="a---seed-server"><a name="a---seed-server" class="plugin-anchor" href="#a---seed-server"><i class="fa fa-link" aria-hidden="true"></i></a>A - Seed Server</h4>
-<pre class="language-"><code class="lang-bash">nats-server -D -p 4222 -cluster nats://localhost:6222
+<pre class="language-"><code class="lang-bash">nats-server -D -p <span class="token number">4222</span> -cluster nats://localhost:6222
 </code></pre>
 <h4 id="b"><a name="b" class="plugin-anchor" href="#b"><i class="fa fa-link" aria-hidden="true"></i></a>B</h4>
-<pre class="language-"><code class="lang-bash">nats-server -D -p 4333 -cluster nats://localhost:6333 -routes nats://localhost:6222
+<pre class="language-"><code class="lang-bash">nats-server -D -p <span class="token number">4333</span> -cluster nats://localhost:6333 -routes nats://localhost:6222
 </code></pre>
 <h4 id="c"><a name="c" class="plugin-anchor" href="#c"><i class="fa fa-link" aria-hidden="true"></i></a>C</h4>
-<pre class="language-"><code class="lang-bash">nats-server -D -p 4444 -cluster nats://localhost:6444 -routes nats://localhost:6222
+<pre class="language-"><code class="lang-bash">nats-server -D -p <span class="token number">4444</span> -cluster nats://localhost:6444 -routes nats://localhost:6222
 </code></pre>
 <p>Once they connect to the &apos;seed server&apos;, they will learn about all the other servers and connect to each other forming the full mesh.</p>
 
@@ -2642,7 +2668,7 @@ Suffice it to say that clients redistribute themselves about evenly between all 
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Upgrading a Cluster","level":"4.6.1","depth":2,"next":{"title":"Slow Consumers","level":"4.6.2","depth":2,"path":"nats_admin/slow_consumers.md","ref":"nats_admin/slow_consumers.md","articles":[]},"previous":{"title":"Managing A NATS Server","level":"4.6","depth":1,"path":"nats_admin/README.md","ref":"nats_admin/README.md","articles":[{"title":"Upgrading a Cluster","level":"4.6.1","depth":2,"path":"nats_admin/upgrading_cluster.md","ref":"nats_admin/upgrading_cluster.md","articles":[]},{"title":"Slow Consumers","level":"4.6.2","depth":2,"path":"nats_admin/slow_consumers.md","ref":"nats_admin/slow_consumers.md","articles":[]},{"title":"Signals","level":"4.6.3","depth":2,"path":"nats_admin/signals.md","ref":"nats_admin/signals.md","articles":[]},{"title":"System Accounts","level":"4.6.4","depth":2,"path":"sys_accounts/README.md","ref":"sys_accounts/README.md","articles":[{"title":"Configuration","level":"4.6.4.1","depth":3,"path":"sys_accounts/sys_accounts.md","ref":"sys_accounts/sys_accounts.md","articles":[]}]}]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_admin/upgrading_cluster.md","mtime":"2019-06-07T14:58:27.248Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-05T21:19:53.626Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Upgrading a Cluster","level":"4.6.1","depth":2,"next":{"title":"Slow Consumers","level":"4.6.2","depth":2,"path":"nats_admin/slow_consumers.md","ref":"nats_admin/slow_consumers.md","articles":[]},"previous":{"title":"Managing A NATS Server","level":"4.6","depth":1,"path":"nats_admin/README.md","ref":"nats_admin/README.md","articles":[{"title":"Upgrading a Cluster","level":"4.6.1","depth":2,"path":"nats_admin/upgrading_cluster.md","ref":"nats_admin/upgrading_cluster.md","articles":[]},{"title":"Slow Consumers","level":"4.6.2","depth":2,"path":"nats_admin/slow_consumers.md","ref":"nats_admin/slow_consumers.md","articles":[]},{"title":"Signals","level":"4.6.3","depth":2,"path":"nats_admin/signals.md","ref":"nats_admin/signals.md","articles":[]},{"title":"System Accounts","level":"4.6.4","depth":2,"path":"sys_accounts/README.md","ref":"sys_accounts/README.md","articles":[{"title":"Configuration","level":"4.6.4.1","depth":3,"path":"sys_accounts/sys_accounts.md","ref":"sys_accounts/sys_accounts.md","articles":[]}]}]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_admin/upgrading_cluster.md","mtime":"2019-09-23T22:49:18.485Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-23T22:50:08.961Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

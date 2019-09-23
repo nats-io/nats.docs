@@ -1506,6 +1506,32 @@
             
         </li>
     
+        <li class="chapter " data-level="5.3.5" data-path="../nats_tools/nsc/revocation.html">
+            
+                <a href="../nats_tools/nsc/revocation.html">
+            
+                    
+                    Revocation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.6" data-path="../nats_tools/nsc/managed.html">
+            
+                <a href="../nats_tools/nsc/managed.html">
+            
+                    
+                    Managed Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2583,13 +2609,13 @@ nc<span class="token punctuation">,</span> err <span class="token operator">:=</
 </code></pre>
 <p>With this example code and default settings, a slow consumer error would generate output something like this:</p>
 <pre class="language-"><code class="lang-sh">error: nats: slow consumer, messages dropped
-Falling behind with 65536 pending messages on subject <span class="token string">&quot;foo&quot;</span><span class="token keyword">.</span>
+Falling behind with <span class="token number">65536</span> pending messages on subject <span class="token string">&quot;foo&quot;</span><span class="token builtin class-name">.</span>
 </code></pre>
 <p>Note that if you are using a synchronous subscriber, <code>Subscription.NextMsg(timeout time.Duration)</code> will also return an error indicating there was a slow consumer and messages have been dropped.</p>
 <h2 id="slow-consumers-identified-by-the-server"><a name="slow-consumers-identified-by-the-server" class="plugin-anchor" href="#slow-consumers-identified-by-the-server"><i class="fa fa-link" aria-hidden="true"></i></a>Slow consumers identified by the server</h2>
 <p>When a client does not process messages fast enough, the server will buffer messages in the outbound connection to the client.  When this happens and the server cannot write data fast enough to the client, in order to protect itself, it will designate a subscriber as a &quot;slow consumer&quot; and may drop the associated connection.</p>
 <p>When the server initiates a slow consumer error, you&apos;ll see the following in the server output:</p>
-<pre class="language-"><code class="lang-sh"><span class="token punctuation">[</span>54083<span class="token punctuation">]</span> 2017/09/28 14:45:18.001357 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> ::1:63283 - cid:7 - Slow Consumer Detected
+<pre class="language-"><code class="lang-sh"><span class="token punctuation">[</span><span class="token number">54083</span><span class="token punctuation">]</span> <span class="token number">2017</span>/09/28 <span class="token number">14</span>:45:18.001357 <span class="token punctuation">[</span>INF<span class="token punctuation">]</span> ::1:63283 - cid:7 - Slow Consumer Detected
 </code></pre>
 <p>The server will also keep count of the number of slow consumer errors encountered, available through the monitoring <code>varz</code> endpoint in the <code>slow_consumers</code> field.</p>
 <h2 id="handling-slow-consumers"><a name="handling-slow-consumers" class="plugin-anchor" href="#handling-slow-consumers"><i class="fa fa-link" aria-hidden="true"></i></a>Handling slow consumers</h2>
@@ -2661,7 +2687,7 @@ Falling behind with 65536 pending messages on subject <span class="token string"
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Slow Consumers","level":"4.6.2","depth":2,"next":{"title":"Signals","level":"4.6.3","depth":2,"path":"nats_admin/signals.md","ref":"nats_admin/signals.md","articles":[]},"previous":{"title":"Upgrading a Cluster","level":"4.6.1","depth":2,"path":"nats_admin/upgrading_cluster.md","ref":"nats_admin/upgrading_cluster.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_admin/slow_consumers.md","mtime":"2019-06-05T22:32:07.014Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-05T21:19:53.626Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Slow Consumers","level":"4.6.2","depth":2,"next":{"title":"Signals","level":"4.6.3","depth":2,"path":"nats_admin/signals.md","ref":"nats_admin/signals.md","articles":[]},"previous":{"title":"Upgrading a Cluster","level":"4.6.1","depth":2,"path":"nats_admin/upgrading_cluster.md","ref":"nats_admin/upgrading_cluster.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_admin/slow_consumers.md","mtime":"2019-09-23T22:49:18.484Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-23T22:50:08.961Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

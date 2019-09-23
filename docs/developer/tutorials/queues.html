@@ -1506,6 +1506,32 @@
             
         </li>
     
+        <li class="chapter " data-level="5.3.5" data-path="../../nats_tools/nsc/revocation.html">
+            
+                <a href="../../nats_tools/nsc/revocation.html">
+            
+                    
+                    Revocation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.6" data-path="../../nats_tools/nsc/managed.html">
+            
+                <a href="../../nats_tools/nsc/managed.html">
+            
+                    
+                    Managed Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2565,12 +2591,12 @@
 <span class="token function">git</span> clone https://github.com/nats-io/nats.rb.git
 </code></pre>
 <h3 id="3-run-the-go-client-subscriber-with-queue-group-name"><a name="3-run-the-go-client-subscriber-with-queue-group-name" class="plugin-anchor" href="#3-run-the-go-client-subscriber-with-queue-group-name"><i class="fa fa-link" aria-hidden="true"></i></a>3. Run the Go client subscriber with queue group name</h3>
-<pre class="language-"><code class="lang-sh"><span class="token function">cd</span> <span class="token variable">$GOPATH</span>/src/github.com/nats-io/nats.go/examples
+<pre class="language-"><code class="lang-sh"><span class="token builtin class-name">cd</span> <span class="token variable">$GOPATH</span>/src/github.com/nats-io/nats.go/examples
 go run nats-qsub/main.go foo my-queue
 </code></pre>
 <h3 id="4-install-and-run-the-node-client-subscriber-with-queue-group-name"><a name="4-install-and-run-the-node-client-subscriber-with-queue-group-name" class="plugin-anchor" href="#4-install-and-run-the-node-client-subscriber-with-queue-group-name"><i class="fa fa-link" aria-hidden="true"></i></a>4. Install and run the Node client subscriber with queue group name</h3>
 <pre class="language-"><code class="lang-sh"><span class="token function">npm</span> <span class="token function">install</span> nats
-<span class="token function">cd</span> nats.js/examples
+<span class="token builtin class-name">cd</span> nats.js/examples
 node node-sub --queue<span class="token operator">=</span>my-queue foo
 </code></pre>
 <h3 id="5-install-and-run-the-ruby-client-subscriber-with-queue-group-name"><a name="5-install-and-run-the-ruby-client-subscriber-with-queue-group-name" class="plugin-anchor" href="#5-install-and-run-the-ruby-client-subscriber-with-queue-group-name"><i class="fa fa-link" aria-hidden="true"></i></a>5. Install and run the Ruby client subscriber with queue group name</h3>
@@ -2578,11 +2604,11 @@ node node-sub --queue<span class="token operator">=</span>my-queue foo
 nats-queue foo my-queue <span class="token operator">&amp;</span>
 </code></pre>
 <h3 id="6-run-another-go-client-subscriber-without-the-queue-group"><a name="6-run-another-go-client-subscriber-without-the-queue-group" class="plugin-anchor" href="#6-run-another-go-client-subscriber-without-the-queue-group"><i class="fa fa-link" aria-hidden="true"></i></a>6. Run another Go client subscriber <em>without</em> the queue group.</h3>
-<pre class="language-"><code class="lang-sh"><span class="token function">cd</span> <span class="token variable">$GOPATH</span>/src/github.com/nats-io/nats.go/examples
+<pre class="language-"><code class="lang-sh"><span class="token builtin class-name">cd</span> <span class="token variable">$GOPATH</span>/src/github.com/nats-io/nats.go/examples
 go run nats-sub/main.go foo
 </code></pre>
 <h3 id="7-publish-a-nats-message-using-the-go-client"><a name="7-publish-a-nats-message-using-the-go-client" class="plugin-anchor" href="#7-publish-a-nats-message-using-the-go-client"><i class="fa fa-link" aria-hidden="true"></i></a>7. Publish a NATS message using the Go client</h3>
-<pre class="language-"><code class="lang-sh"><span class="token function">cd</span> <span class="token variable">$GOPATH</span>/src/github.com/nats-io/nats.go/examples
+<pre class="language-"><code class="lang-sh"><span class="token builtin class-name">cd</span> <span class="token variable">$GOPATH</span>/src/github.com/nats-io/nats.go/examples
 go run nats-pub/main.go foo <span class="token string">&quot;Hello NATS!&quot;</span>
 </code></pre>
 <h3 id="8-verify-message-publication-and-receipt"><a name="8-verify-message-publication-and-receipt" class="plugin-anchor" href="#8-verify-message-publication-and-receipt"><i class="fa fa-link" aria-hidden="true"></i></a>8. Verify message publication and receipt</h3>
@@ -2635,7 +2661,7 @@ go run nats-pub/main.go foo <span class="token string">&quot;Hello NATS!&quot;</
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Explore NATS Queueing","level":"3.8.3","depth":2,"next":{"title":"Advanced Connect and Custom Dialer in Go","level":"3.8.4","depth":2,"path":"developer/tutorials/custom_dialer.md","ref":"developer/tutorials/custom_dialer.md","articles":[]},"previous":{"title":"Explore NATS Request/Reply","level":"3.8.2","depth":2,"path":"developer/tutorials/reqreply.md","ref":"developer/tutorials/reqreply.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"developer/tutorials/queues.md","mtime":"2019-09-05T21:18:33.345Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-05T21:19:53.626Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Explore NATS Queueing","level":"3.8.3","depth":2,"next":{"title":"Advanced Connect and Custom Dialer in Go","level":"3.8.4","depth":2,"path":"developer/tutorials/custom_dialer.md","ref":"developer/tutorials/custom_dialer.md","articles":[]},"previous":{"title":"Explore NATS Request/Reply","level":"3.8.2","depth":2,"path":"developer/tutorials/reqreply.md","ref":"developer/tutorials/reqreply.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"developer/tutorials/queues.md","mtime":"2019-09-23T22:49:18.409Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-23T22:50:08.961Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

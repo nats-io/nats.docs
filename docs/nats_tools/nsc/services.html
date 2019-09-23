@@ -1506,6 +1506,32 @@
             
         </li>
     
+        <li class="chapter " data-level="5.3.5" data-path="revocation.html">
+            
+                <a href="revocation.html">
+            
+                    
+                    Revocation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.6" data-path="managed.html">
+            
+                <a href="managed.html">
+            
+                    
+                    Managed Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -2552,9 +2578,9 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="services"><a name="services" class="plugin-anchor" href="#services"><i class="fa fa-link" aria-hidden="true"></i></a>Services</h2>
+                                <h1 id="services"><a name="services" class="plugin-anchor" href="#services"><i class="fa fa-link" aria-hidden="true"></i></a>Services</h1>
 <p>To share services that other accounts can reach via request reply, you have to <em>Export</em> a <em>Service</em>. <em>Services</em> are associated with the account performing the replies and are advertised in the exporting accounts&apos; JWT.</p>
-<h3 id="adding-a-public-service-export"><a name="adding-a-public-service-export" class="plugin-anchor" href="#adding-a-public-service-export"><i class="fa fa-link" aria-hidden="true"></i></a>Adding a Public Service Export</h3>
+<h2 id="adding-a-public-service-export"><a name="adding-a-public-service-export" class="plugin-anchor" href="#adding-a-public-service-export"><i class="fa fa-link" aria-hidden="true"></i></a>Adding a Public Service Export</h2>
 <p>To add a service to your account:</p>
 <pre class="language-"><code class="lang-text">&gt; nsc add export --name &quot;srv&quot; --subject &quot;help&quot; --service
 Success! - added public service export &quot;srv&quot;
@@ -2589,7 +2615,7 @@ Success! - added public service export &quot;srv&quot;
 &#x2502; help &#x2502; Service &#x2502; help    &#x2502; Yes    &#x2502;
 &#x2570;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2534;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2534;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2534;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x256F;
 </code></pre>
-<h3 id="importing-a-service"><a name="importing-a-service" class="plugin-anchor" href="#importing-a-service"><i class="fa fa-link" aria-hidden="true"></i></a>Importing a Service</h3>
+<h2 id="importing-a-service"><a name="importing-a-service" class="plugin-anchor" href="#importing-a-service"><i class="fa fa-link" aria-hidden="true"></i></a>Importing a Service</h2>
 <p>Importing a service enables you to send requests to the remote <em>Account</em>. To import a Service, you have to create an <em>Import</em>. To create an import you need to know:</p>
 <ul>
 <li>The exporting account&#x2019;s public key</li>
@@ -2601,7 +2627,7 @@ Success! - added public service export &quot;srv&quot;
 <pre class="language-"><code class="lang-text">&gt; nsc add import --src-account AC7PO3MREV26U3LFZFP5BN3HAI32X3PKLBRVMPAETLEHWPQEUG7EJY4H --remote-subject help --service
 Success! - added service import &quot;help&quot;
 </code></pre>
-<p>Verifying our handywork:</p>
+<p>Verifying our work:</p>
 <pre class="language-"><code class="lang-text">&gt; nsc describe account
 &#x256D;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x256E;
 &#x2502;                  Account Details                   &#x2502;
@@ -2822,7 +2848,7 @@ Published [help] : &apos;me&apos;
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Services","level":"5.3.3","depth":2,"next":{"title":"Signing Keys","level":"5.3.4","depth":2,"path":"nats_tools/nsc/signing_keys.md","ref":"nats_tools/nsc/signing_keys.md","articles":[]},"previous":{"title":"Streams","level":"5.3.2","depth":2,"path":"nats_tools/nsc/streams.md","ref":"nats_tools/nsc/streams.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_tools/nsc/services.md","mtime":"2019-06-05T22:32:07.016Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-05T21:19:53.626Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Services","level":"5.3.3","depth":2,"next":{"title":"Signing Keys","level":"5.3.4","depth":2,"path":"nats_tools/nsc/signing_keys.md","ref":"nats_tools/nsc/signing_keys.md","articles":[]},"previous":{"title":"Streams","level":"5.3.2","depth":2,"path":"nats_tools/nsc/streams.md","ref":"nats_tools/nsc/streams.md","articles":[]},"dir":"ltr"},"config":{"plugins":["prism","-sharing","-highlight","include-html","toggle-chapters","anchors","edit-link"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"ascii":"markup","text":"markup"}},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"include-html":{},"fontsettings":{"theme":"white","family":"sans","size":2},"edit-link":{"label":"edit","base":"https://github.com/nats-io/docs/edit/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"toggle-chapters":{}},"theme":"default","author":"The NATS Maintainers","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"NATS","gitbook":"*","description":"Administrative, developer and conceptual documentation for the NATS messaging system."},"file":{"path":"nats_tools/nsc/services.md","mtime":"2019-09-23T22:49:18.495Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-23T22:50:08.961Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
