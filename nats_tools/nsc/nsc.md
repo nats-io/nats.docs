@@ -1,6 +1,6 @@
 # NSC
 
-NATS uses JWTs to armor the various identity and authorization artifacts. These JWTs are created with the `nsc` tool. NSC simplifies the tasks of creating and managing  identities and other JWT artifacts.
+NATS uses JWTs to armor the various identity and authorization artifacts. These JWTs are created with the `nsc` tool. NSC simplifies the tasks of creating and managing identities and other JWT artifacts.
 
 There’s a logical hierarchy to the entities:
 
@@ -46,7 +46,7 @@ To see the current NSC environment use the command `nsc env`:
 
 As you can see there is a setting for the nkeys folder and the nsc home. By default you’ll see that generated secrets are stored in `~/.nkeys`, and configurations in `~/.nsc/nats`. All operations are assumed to be in a context of the current operator and current account. When working with multiple operators and accounts you may need to set the current one. You can easily do so by issuing the `nsc env` and provide flags to set the current operator or account. See `nsc env —help` for more details.
 
-You can easily change the home and keys locations by setting `NSC_HOME` and `NKEYS_PATH` respectively in your environment to your desired locations. The environment itself is stored in the `NSC_HOME` while the operators are in the stores directory which can be elsewhere.
+You can easily change the home and keys locations by setting `NSC_HOME` and `NKEYS_PATH` respectively in your environment to your desired locations. The environment itself is stored in the `NSC_HOME`. Operator folders are in the stores directory which can be inside `NSC_HOME` or external to it.
 
 > The $NKEYS_PATH stores secrets. Since nkeys relies on cryptographic signatures to prove identity, anyone with access to your private keys will be able to assume your identity. With that said, treat them as secrets and guard them carefully.
 
