@@ -23,6 +23,6 @@ Available Commands:
   list_users        List users revoked in an account
 ```
 
-both add commands take the flag `--at` which defaults to 0, for now, which can be used to set the unix timestamp as described above. By default revocations are at the current time, but you can set them in the past for situations where you know when a problem occurred and was fixed.
+Both add commands take the flag `--at` which defaults to 0, for now, which can be used to set the unix timestamp as described above. By default revocations are at the current time, but you can set them in the past for situations where you know when a problem occurred and was fixed.
 
 Deleting a revocation is permanent and can allow an old activation or user JWT to be valid again. Therefore delete should only be used if you are sure the tokens in question have expired.
