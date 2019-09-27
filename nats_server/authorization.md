@@ -14,7 +14,7 @@ The `permissions` map specify subjects that can be subscribed to or published by
 | Property | Description |
 | :------  | :---- |
 | `publish` | subject, list of subjects, or permission map the client can publish |
-| `subscribe` | subject, list of subjects, or permission map the client can publish |
+| `subscribe` | subject, list of subjects, or permission map the client can subscribe |
 
 ### Permission Map
 
