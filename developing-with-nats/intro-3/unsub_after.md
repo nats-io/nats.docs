@@ -12,5 +12,141 @@ Finally, most of the client libraries also track the max message count after an 
 
 The following example shows unsubscribe after a single message:
 
-!INCLUDE "../../\_examples/unsubscribe\_auto.html"
+{% tabs %}
+{% tab title="Go" %}
+```go
+nc, err := nats.Connect("demo.nats.io")
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+// Sync Subscription
+sub, err := nc.SubscribeSync("updates")
+if err != nil {
+	log.Fatal(err)
+}
+if err := sub.AutoUnsubscribe(1); err != nil {
+	log.Fatal(err)
+}
+
+// Async Subscription
+sub, err = nc.Subscribe("updates", func(_ *nats.Msg) {})
+if err != nil {
+	log.Fatal(err)
+}
+if err := sub.AutoUnsubscribe(1); err != nil {
+	log.Fatal(err)
+}
+```
+{% endtab %}
+
+{% tab title="Java" %}
+```java
+Connection nc = Nats.connect("nats://demo.nats.io:4222");
+Dispatcher d = nc.createDispatcher((msg) -> {
+    String str = new String(msg.getData(), StandardCharsets.UTF_8);
+    System.out.println(str);
+});
+
+// Sync Subscription
+Subscription sub = nc.subscribe("updates");
+sub.unsubscribe(1);
+
+// Async Subscription
+d.subscribe("updates");
+d.unsubscribe("updates", 1);
+
+// Close the connection
+nc.close();
+```
+{% endtab %}
+
+{% tab title="JavaScript" %}
+```javascript
+let nc = NATS.connect({
+    url: "nats://demo.nats.io:4222"
+});
+// `max` specifies the number of messages that the server will forward.
+// The server will auto-cancel.
+let opts = {max: 10};
+let sub = nc.subscribe(NATS.createInbox(), opts, (msg) => {
+    t.log(msg);
+});
+
+// another way after 10 messages
+let sub2 = nc.subscribe(NATS.createInbox(), (err, msg) => {
+    t.log(msg.data);
+});
+// if the subscription already received 10 messages, the handler
+// won't get any more messages
+nc.unsubscribe(sub2, 10);
+```
+{% endtab %}
+
+{% tab title="Python" %}
+```python
+nc = NATS()
+
+await nc.connect(servers=["nats://demo.nats.io:4222"])
+
+async def cb(msg):
+  print(msg)
+
+sid = await nc.subscribe("updates", cb=cb)
+await nc.auto_unsubscribe(sid, 1)
+await nc.publish("updates", b'All is Well')
+
+# Won't be received...
+await nc.publish("updates", b'...')
+```
+{% endtab %}
+
+{% tab title="Ruby" %}
+```ruby
+require 'nats/client'
+require 'fiber'
+
+NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
+  Fiber.new do
+    f = Fiber.current
+
+    nc.subscribe("time", max: 1) do |msg, reply|
+      f.resume Time.now
+    end
+
+    nc.publish("time", 'What is the time?', NATS.create_inbox)
+
+    # Use the response
+    msg = Fiber.yield
+    puts "Reply: #{msg}"
+
+    # Won't be received
+    nc.publish("time", 'What is the time?', NATS.create_inbox)
+
+  end.resume
+end
+
+```
+{% endtab %}
+
+{% tab title="TypeScript" %}
+```typescript
+// `max` specifies the number of messages that the server will forward.
+// The server will auto-cancel.
+let opts = {max: 10};
+let sub = await nc.subscribe(createInbox(), (err, msg) => {
+    t.log(msg.data);
+}, opts);
+
+// another way after 10 messages
+let sub2 = await nc.subscribe(createInbox(), (err, msg) => {
+    t.log(msg.data);
+});
+// if the subscription already received 10 messages, the handler
+// won't get any more messages
+sub2.unsubscribe(10);
+```
+{% endtab %}
+{% endtabs %}
 
