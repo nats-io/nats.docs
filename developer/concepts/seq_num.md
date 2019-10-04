@@ -3,7 +3,7 @@
 A common problem for one-to-many messages is that a message can get lost or dropped due to a network failure. A simple pattern for resolving this situation is to include a sequence id with the message. Receivers can check the sequence id to see if they have missed anything.
 Sequence numbers combined with heartbeats in the absence of new data form a powerful and resilient pattern to detect loss. Systems that store and persist messages can also solve this problem, but sometimes are overkill for the problem at hand and usually cause additional management and operational cost.
 
-![seq numbers](/assets/images/seqno.svg)
+![](/assets/images/seqno.svg)
 
 In order to really leverage sequence ids there are a few things to keep in mind:
 
