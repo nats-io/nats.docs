@@ -10,6 +10,6 @@ NATS allows multiple responders to run and form dynamic queue groups for transpa
 
 The power of NATS even allows multiple responses where the first response is utilized and the system efficiently discards the additional ones. This allows for a sophisticated pattern to have multiple responders reduce response latency and jitter.
 
-![request/reply](/assets/images/reqrepl.svg)
+![](/assets/images/reqrepl.svg)
 
 Try NATS request reply on your own, using a live server by walking through the [request/reply tutorial](../tutorials/reqreply.md).
