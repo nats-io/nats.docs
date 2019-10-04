@@ -2,7 +2,7 @@
 
 Fundamentally NATS is about publishing and listening for messages. Both of these depend heavily on _Subjects_ which scope messages into streams or topics. At its simplest, a subject is just a string of characters that form a name the publisher and subscriber can use to find each other.
 
-![subjects 1](/assets/images/subjects1.svg)
+![](/assets/images/subjects1.svg)
 
  The NATS server reserves a few characters as special, and the specification says that only "alpha-numeric" characters plus the "." should be used in subject names. Subjects are case-sensitive and cannot contain whitespace. For safety across clients, ASCII characters should be used, although this is subject to change in the future.
 
