@@ -2,39 +2,7 @@
 
 NATS is a publish subscribe messaging system. Subscribers listening on a subject receive messages on that subject. If the subscriber is not actively listening on the subject, the message is not received. Subscribers can use the wildcard tokens such as  `*` and `>` to match a single token or to match the tail of a subject.
 
-<div class="graphviz"><code data-viz="dot">
-digraph nats_pub_sub {
-  graph [splines=ortho, nodesep=1];
-
-  sub1 [shape="box", label="SUB\ncom.msg.one"];
-  pub1 [shape="box", label="PUB\ncom.msg.one"];
-  non_active [shape="box", label="Non-Active\nSubscriber"];
-
-  {
-    rank=same
-    pub1 sub1 non_active
-  }
-
-  natsserver [shape="box", label="NATS", width=8];
-
-  sub2 [shape="box", label="SUB\ncom.msg.one"];
-  sub3 [shape="box", label="SUB\ncom.msg.two"];
-  sub4 [shape="box", label="SUB\ncom.msg.*"];
-
-  {
-    rank=same
-    sub2 sub3 sub4
-  }
-
-  pub1 -> natsserver [penwidth=2];
-  natsserver -> sub1 [penwidth=2];
-  natsserver -> non_active [style=dashed color=red arrowhead="none"];
-
-  natsserver -> sub2 [penwidth=2];
-  natsserver -> sub3 [style=dashed color=red arrowhead="none"];
-  natsserver -> sub4 [penwidth=2];
-}
-</code></div>
+![pub/sub](/assets/images/pubsubtut.svg)
 
 ## Prerequisites
 
