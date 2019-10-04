@@ -90,24 +90,6 @@ await nc.close()
 ```
 {% endtab %}
 
-{% tab title="Ruby" %}
-```ruby
-require 'nats/client'
-
-NATS.start(max_outstanding_pings: 5) do |nc|
-   nc.on_reconnect do
-    puts "Got reconnected to #{nc.connected_server}"
-  end
-
-  nc.on_disconnect do |reason|
-    puts "Got disconnected! #{reason}"
-  end
-
-  # Do something with the connection
-end
-```
-{% endtab %}
-
 {% tab title="TypeScript" %}
 ```typescript
 // seed should be stored in a file and treated like a secret
