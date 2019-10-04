@@ -20,5 +20,73 @@ SUAOY5JZ2WJKVR4UO2KJ2P3SW6FZFNWEOIMAXF4WZEUNVQXXUOKGM55CYE
 
 Given a creds file, a client can authenticate as a specific user belonging to a specific account:
 
-!INCLUDE "../../\_examples/connect\_creds.html"
+{% tabs %}
+{% tab title="Go" %}
+```go
+nc, err := nats.Connect("127.0.0.1", nats.UserCredentials("path_to_creds_file"))
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+// Do something with the connection
+```
+{% endtab %}
+
+{% tab title="Java" %}
+```java
+Options options = new Options.Builder().
+            server("nats://localhost:4222").
+            authHandler(Nats.credentials("path_to_creds_file")).
+            build();
+Connection nc = Nats.connect(options);
+
+// Do something with the connection
+
+nc.close();
+```
+{% endtab %}
+
+{% tab title="JavaScript" %}
+```javascript
+// credentials file contains the JWT and the secret signing key
+let credsFile = path.join(confDir, 'credsfile.creds');
+
+let nc = NATS.connect({
+    url: server.nats,
+    userCreds: credsFile
+});
+```
+{% endtab %}
+
+{% tab title="Python" %}
+```python
+nc = NATS()
+
+async def error_cb(e):
+    print("Error:", e)
+
+await nc.connect("nats://localhost:4222",
+                 user_credentials="path_to_creds_file",
+                 error_cb=error_cb,
+                 )
+
+# Do something with the connection
+
+await nc.close()
+```
+{% endtab %}
+
+{% tab title="TypeScript" %}
+```typescript
+// credentials file contains the JWT and the secret signing key
+let credsFile = path.join(confDir, 'credsfile.creds');
+
+let nc = await connect({
+    url: server.nats,
+    userCreds: credsFile
+});
+```
+{% endtab %}
+{% endtabs %}
 
