@@ -1,30 +1,29 @@
 # FAQ
 
-
 ### General
 
-* [What is NATS?](#what-is-nats)
-* [What language is NATS written in?](#what-language-is-nats-written-in)
-* [Who maintains NATS?](#who-maintains-nats)
-* [What clients does NATS support?](#what-client-support-exists-for-nats)
-* [What does the NATS acronym stand for?](#what-does-the-nats-acronym-stand-for)
+* [What is NATS?](faq.md#what-is-nats)
+* [What language is NATS written in?](faq.md#what-language-is-nats-written-in)
+* [Who maintains NATS?](faq.md#who-maintains-nats)
+* [What clients does NATS support?](faq.md#what-client-support-exists-for-nats)
+* [What does the NATS acronym stand for?](faq.md#what-does-the-nats-acronym-stand-for)
 
 ### Technical Questions
 
-* [What is the difference between Request() and Publish()?](#what-is-the-difference-between-request-and-publish)
-* [Can multiple subscribers receive a Request?](#can-multiple-subscribers-receive-a-request)
-* [How can I monitor my NATS cluster?](#how-can-i-monitor-my-nats-cluster)
-* [Does NATS do queuing? Does NATS do load balancing?](#does-nats-do-queuing-does-nats-do-load-balancing)
-* [Can I list the subjects that exist in my NATS cluster?](#can-i-list-the-subjects-that-exist-in-my-nats-cluster)
-* [Does NATS support subject wildcards?](#does-nats-support-subject-wildcards)
-* [What do ‘verbose’ and ‘pedantic’ mean when using CONNECT?](#what-do-verbose-and-pedantic-mean-when-using-connect)
-* [Does NATS offer any guarantee of message ordering?](#does-nats-offer-any-guarantee-of-message-ordering)
-* [Is there a message size limitation in NATS?](#is-there-a-message-size-limitation-in-nats)
-* [Does NATS impose any limits on the # of subjects?](#does-nats-impose-any-limits-on-the--of-subjects)
-* [Does NATS guarantee message delivery?](#does-nats-guarantee-message-delivery)
-* [Does NATS support replay/redelivery of historical data?](#does-nats-support-replayredelivery-of-historical-data)
-* [How do I gracefully shut down an asynchronous subscriber?](#how-do-i-gracefully-shut-down-an-asynchronous-subscriber)
-* [How do I create subjects?](#how-do-i-create-subjects)
+* [What is the difference between Request\(\) and Publish\(\)?](faq.md#what-is-the-difference-between-request-and-publish)
+* [Can multiple subscribers receive a Request?](faq.md#can-multiple-subscribers-receive-a-request)
+* [How can I monitor my NATS cluster?](faq.md#how-can-i-monitor-my-nats-cluster)
+* [Does NATS do queuing? Does NATS do load balancing?](faq.md#does-nats-do-queuing-does-nats-do-load-balancing)
+* [Can I list the subjects that exist in my NATS cluster?](faq.md#can-i-list-the-subjects-that-exist-in-my-nats-cluster)
+* [Does NATS support subject wildcards?](faq.md#does-nats-support-subject-wildcards)
+* [What do ‘verbose’ and ‘pedantic’ mean when using CONNECT?](faq.md#what-do-verbose-and-pedantic-mean-when-using-connect)
+* [Does NATS offer any guarantee of message ordering?](faq.md#does-nats-offer-any-guarantee-of-message-ordering)
+* [Is there a message size limitation in NATS?](faq.md#is-there-a-message-size-limitation-in-nats)
+* [Does NATS impose any limits on the \# of subjects?](faq.md#does-nats-impose-any-limits-on-the--of-subjects)
+* [Does NATS guarantee message delivery?](faq.md#does-nats-guarantee-message-delivery)
+* [Does NATS support replay/redelivery of historical data?](faq.md#does-nats-support-replayredelivery-of-historical-data)
+* [How do I gracefully shut down an asynchronous subscriber?](faq.md#how-do-i-gracefully-shut-down-an-asynchronous-subscriber)
+* [How do I create subjects?](faq.md#how-do-i-create-subjects)
 
 ## General
 
@@ -32,7 +31,7 @@
 
 NATS is an open source, lightweight, high-performance cloud native infrastructure messaging system. It implements a highly scalable and elegant publish-subscribe \(pub/sub\) distribution model. The performant nature of NATS make it an ideal base for building modern, reliable, scalable cloud native distributed systems.
 
-NATS is offered in two interoperable modules: core NATS \(referred to simply as "NATS" or "NATS Server" throughout this site\), and [NATS Streaming](/nats_streaming/intro.md), an event streaming service that can be employed to add event streaming, delivery guarantees, and historical data replay to NATS.
+NATS is offered in two interoperable modules: core NATS \(referred to simply as "NATS" or "NATS Server" throughout this site\), and [NATS Streaming](nats-streaming-concepts/intro.md), an event streaming service that can be employed to add event streaming, delivery guarantees, and historical data replay to NATS.
 
 NATS was created by Derek Collison, who has over 25 years of experience designing, building, and using publish-subscribe messaging systems. NATS is maintained by an amazing OpenSource Ecosystem, find more at [GitHub](https://www.github.com/nats-io).
 
@@ -64,16 +63,16 @@ Request\(\) is simply a convenience API that does this for you in a pseudo-synch
 
 Yes. NATS is a publish and subscribe system that also has distributed queueing functionality on a per subscriber basis. When you publish a message, for instance at the beginning of a request, every subscriber will receive the message. If subscribers form a queue group, only one subscriber will be picked at random to receive the message. However, note that the requestor does not know or control this information. What the requestor does control is that it only wants one answer to the request, and NATS handles this very well by actively pruning the interest graph.
 
-###  How can I monitor my NATS cluster?
+### How can I monitor my NATS cluster?
 
-NATS can be deployed to have an HTTP(s) monitoring port - see the demo server here: [http://demo.nats.io:8222/](https://demo.nats.io:8222/). Alternately, there are several options available, including some from the active NATS community:
+NATS can be deployed to have an HTTP\(s\) monitoring port - see the demo server here: [http://demo.nats.io:8222/](https://demo.nats.io:8222/). Alternately, there are several options available, including some from the active NATS community:
 
 * [Prometheus NATS Exporter](https://github.com/nats-io/prometheus-nats-exporter) Use Prometheus to configure metrics and Grafana to create a visual display.
 * [nats-top](https://github.com/nats-io/nats-top) A top-like monitoring tool developed by Wally Quevedo of Synadia.
 * [natsboard](https://github.com/cmfatih/natsboard) A monitoring tool developed by Fatih Cetinkaya.
 * [nats-mon](https://github.com/repejota/nats-mon) A monitoring tool developed by Raül Pérez and Adrià Cidre.
 
-A more detailed overview of monitoring is available under [NATS Server Monitoring](/nats_server/monitoring.md/).
+A more detailed overview of monitoring is available under [NATS Server Monitoring](nats-server/configuration/monitoring.md).
 
 ### Does NATS do queuing? Does NATS do load balancing?
 
@@ -85,7 +84,7 @@ This form of distributed queueing is done in real time, and messages are not per
 
 NATS maintains and constantly updates the interest graph \(subjects and their subscribers\) in real time. Do not think of it as a "directory" that is aggregated over time. The interest graph dynamic, and will change constantly as publishers and subscribers come and go.
 
-If you are determined to gather this information, it can be indirectly derived at any instant in time by polling the monitoring endpoint for /connz and /routez. See [Server Monitoring](nats_server/monitoring.md) for more information.
+If you are determined to gather this information, it can be indirectly derived at any instant in time by polling the monitoring endpoint for /connz and /routez. See [Server Monitoring](nats-server/configuration/monitoring.md) for more information.
 
 ### Does NATS support subject wildcards?
 
@@ -123,14 +122,14 @@ No. As of `nats-server` v0.8.0, there is no hard limit on the maximum number of 
 
 ### Does NATS guarantee message delivery?
 
-NATS is offered as two components: the core server \(referred to simply as "NATS" or "NATS Server"\) and [NATS Streaming](/nats_streaming/intro.md/), which is a data streaming service that sits atop NATS core like a client.
+NATS is offered as two components: the core server \(referred to simply as "NATS" or "NATS Server"\) and [NATS Streaming](nats-streaming-concepts/intro.md), which is a data streaming service that sits atop NATS core like a client.
 
 * **NATS** implements what is commonly referred to as "at-most-once" delivery. This means that messages are guaranteed to arrive intact, in order from a given publisher, but not across different publishers. NATS does everything required to remain on and provide a dial-tone. However, if a subscriber is problematic or goes offline it will not receive messages, as the basic NATS platform is a simple pub-sub transport system that offers only TCP reliability.
-* [**NATS Streaming**](/nats_streaming/intro.md) offers _at-least-once_ delivery guarantees by implementing publish and delivery acknowledgements, and persisting messages to memory or a secondary store until messages have been successfully delivered, or until resource limits or other administrator-defined limits have been reached.
+* [**NATS Streaming**](nats-streaming-concepts/intro.md) offers _at-least-once_ delivery guarantees by implementing publish and delivery acknowledgements, and persisting messages to memory or a secondary store until messages have been successfully delivered, or until resource limits or other administrator-defined limits have been reached.
 
 ### Does NATS support replay/redelivery of historical data?
 
-Yes, historical data may be persisted to memory or secondary storage and replayed using [NATS Streaming](/nats_streaming/intro.md), an event streaming service based on \(and compatible with\) NATS.
+Yes, historical data may be persisted to memory or secondary storage and replayed using [NATS Streaming](nats-streaming-concepts/intro.md), an event streaming service based on \(and compatible with\) NATS.
 
 ### How do I gracefully shut down an asynchronous subscriber?
 
@@ -139,3 +138,4 @@ To gracefully shutdown an asynchronous subscriber so that any outstanding MsgHan
 ### How do I create subjects?
 
 Subjects are created and pruned \(deleted\) dynamically based on interest \(subscriptions\). This means that a subject does not exist in a NATS cluster until a client subscribes to it, and the subject goes away after the last subscribing client unsubscribes from that subject.
+
