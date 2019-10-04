@@ -2,31 +2,7 @@
 
 NATS Streaming is a data streaming system powered by NATS, and written in the Go programming language. The executable name for the NATS Streaming server is `nats-streaming-server`. NATS Streaming embeds, extends, and interoperates seamlessly with the core NATS platform. The [NATS Streaming server](https://github.com/nats-io/nats-streaming-server) is provided as open source software under the Apache-2.0 license. Synadia actively maintains and supports the NATS Streaming server.
 
-<div class="graphviz"><code data-viz="dot">
-digraph nats_streaming {
-  graph [splines=ortho, nodesep=1];
-
-  application [shape="record", label="{Application Code | NATS Streaming Client API | <nats> NATS Client API}"];
-
-  subgraph cluster_nats_streaming_server {
-      label="NATS Streaming Server";
-      labelloc=b;
-      nats_server [shape=box, label="NATS Server"];
-      streaming_module [shape=box, label="Streaming Module"];
-      nats_server -> streaming_module [penwidth=2, dir="both"];
-
-      {
-        rank=same
-        nats_server streaming_module
-      }
-  }
-
-  storage [shape=box, style="rounded", label="storage"];
-
-  application:nats -> nats_server [penwidth=2, dir="both"];
-  streaming_module -> storage [penwidth=2, dir="both"];
-}
-</code></div>
+![NATS Streaming](/assets/images/nats_streaming.svg)
 
 ## Features
 
