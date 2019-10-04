@@ -4,7 +4,7 @@ Subscribing to a queue group is only slightly different than subscribing to a su
 
 Keep in mind that the queue groups in NATS are dynamic and do not require any server configuration. You can almost think of a regular subscription as a queue group of 1, but it is probably not worth thinking too much about that.
 
-![Queue](/assets/images/queue.svg)
+![](/assets/images/queues.svg)
 
 As an example, to subscribe to the queue `workers` with the subject `updates`:
 
