@@ -22,7 +22,78 @@ The code uses localhost:4222 so that you can start the server on your machine to
 
 When logging in with a password `nats-server` will take either a plain text password or an encrypted password.
 
-!INCLUDE "../../\_examples/connect\_userpass.html"
+{% tabs %}
+{% tab title="Go" %}
+```go
+// Set a user and plain text password
+nc, err := nats.Connect("127.0.0.1", nats.UserInfo("myname", "password"))
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+// Do something with the connection
+```
+{% endtab %}
+
+{% tab title="Java" %}
+```java
+Options options = new Options.Builder().
+                            server("nats://localhost:4222").
+                            userInfo("myname","password"). // Set a user and plain text password
+                            build();
+Connection nc = Nats.connect(options);
+
+// Do something with the connection
+
+nc.close();
+```
+{% endtab %}
+
+{% tab title="JavaScript" %}
+```javascript
+let nc = NATS.connect({url: server.nats, user: "myname", pass: "password"});
+```
+{% endtab %}
+
+{% tab title="Python" %}
+```python
+nc = NATS()
+
+await nc.connect(servers=["nats://myname:password@demo.nats.io:4222"])
+
+# Do something with the connection.
+```
+{% endtab %}
+
+{% tab title="Ruby" %}
+```ruby
+require 'nats/client'
+
+NATS.start(servers:["nats://myname:password@127.0.0.1:4222"], name: "my-connection") do |nc|
+   nc.on_error do |e|
+    puts "Error: #{e}"
+  end
+
+   nc.on_reconnect do
+    puts "Got reconnected to #{nc.connected_server}"
+  end
+
+  nc.on_disconnect do |reason|
+    puts "Got disconnected! #{reason}"
+  end
+
+  nc.close
+end
+```
+{% endtab %}
+
+{% tab title="TypeScript" %}
+```typescript
+let nc = await connect({url: server.nats, user: "myname", pass: "password"});
+```
+{% endtab %}
+{% endtabs %}
 
 ## Connecting with a User/Password in the URL
 
@@ -32,5 +103,74 @@ Most clients make it easy to pass the user name and password by accepting them i
 
 Using this format, you can connect to a server using authentication as easily as you connected with a URL:
 
-!INCLUDE "../../\_examples/connect\_userpass\_url.html"
+{% tabs %}
+{% tab title="Go" %}
+```go
+// Set a user and plain text password
+nc, err := nats.Connect("myname:password@127.0.0.1")
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+// Do something with the connection
+```
+{% endtab %}
+
+{% tab title="Java" %}
+```java
+Connection nc = Nats.connect("nats://myname:password@localhost:4222");
+
+// Do something with the connection
+
+nc.close();
+```
+{% endtab %}
+
+{% tab title="JavaScript" %}
+```javascript
+let url = `nats://myname:password@127.0.0.1:${port}`;
+let nc = NATS.connect(url);
+```
+{% endtab %}
+
+{% tab title="Python" %}
+```python
+nc = NATS()
+
+await nc.connect(servers=["nats://myname:password@demo.nats.io:4222"])
+
+# Do something with the connection.
+```
+{% endtab %}
+
+{% tab title="Ruby" %}
+```ruby
+require 'nats/client'
+
+NATS.start(servers:["nats://myname:password@127.0.0.1:4222"], name: "my-connection") do |nc|
+   nc.on_error do |e|
+    puts "Error: #{e}"
+  end
+
+   nc.on_reconnect do
+    puts "Got reconnected to #{nc.connected_server}"
+  end
+
+  nc.on_disconnect do |reason|
+    puts "Got disconnected! #{reason}"
+  end
+
+  nc.close
+end
+```
+{% endtab %}
+
+{% tab title="TypeScript" %}
+```typescript
+let url = `nats://myname:password@127.0.0.1:${port}`;
+let nc = await connect({url: url});
+```
+{% endtab %}
+{% endtabs %}
 
