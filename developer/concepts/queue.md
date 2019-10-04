@@ -9,20 +9,6 @@ One of the great features of NATS is that queue groups are defined by the applic
 Queue subscribers are ideal for scaling services. Scale up is as simple as running another application, scale down is terminating the application with a signal that drains the in flight requests.
 This flexibility and lack of any configuration changes makes NATS an excellent service communication technology that can work with all platform technologies.
 
-<div class="graphviz"><code data-viz="dot">
-digraph nats_queues {
-  rankdir=LR
-  publisher [shape=box, style="rounded", label="Publisher"];
-  subject [shape=circle, label="Queue"];
-  sub1 [shape=box, style="rounded", label="Subscriber"];
-  sub2 [shape=box, style="rounded", label="Subscriber"];
-  sub3 [shape=box, style="rounded", label="Subscriber"];
-
-  publisher -> subject [label="msgs 1,2,3"];
-  subject -> sub1 [label="msg 2"];
-  subject -> sub2 [label="msg 1"];
-  subject -> sub3 [label="msg 3"];
-}
-</code></div>
+![](/assets/images/queue.svg)
 
 Try NATS queue subscriptions on your own, using a live server by walking through the [queueing tutorial](../tutorials/queues.md).
