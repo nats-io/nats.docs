@@ -26,13 +26,13 @@ NATS provides two _wildcards_ that can take the place of one or more elements in
 
 The first wildcard is `*` which will match a single token. For example, if an application wanted to listen for eastern time zones, they could subscribe to `time.*.east`, which would match `time.us.east` and `time.eu.east`.
 
-![subjects 2](/assets/images/subjects2.svg)
+![](/assets/images/subjects2.svg)
 
 ### Matching Multiple Tokens
 
 The second wildcard is `>` which will match one or more tokens, and can only appear at the end of the subject. For example, `time.us.>` will match `time.us.east` and `time.us.east.atlanta`, while `time.us.*` would only match `time.us.east` since it can't match more than one token.
 
-![subjects 3](/assets/images/subjects3.svg)
+![](/assets/images/subjects3.svg)
 
 ### Monitoring and Wire Taps
 
