@@ -2,16 +2,7 @@
 
 The client and server use a simple PING/PONG protocol to check that they are both still connected. The client will ping the server on a regular, configured interval so that the server usually doesn't have to initiate the PING/PONG interaction.
 
-<div class="graphviz"><code data-viz="dot">
-digraph g {
-  rankdir=LR
-  client [shape=box, style="rounded", label="NATS Client"];
-  natsserver [shape=circle, fixedsize="true", width="1.0", height="1.0", label="nats-server"];
-
-  client -> natsserver [label="PING"];
-  natsserver -> client [label="PONG"];
-}
-</code></div>
+![Ping Pong](/assets/images/pingpong.svg)
 
 ## Set the Ping Interval
 
