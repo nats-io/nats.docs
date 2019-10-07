@@ -8,7 +8,109 @@ The primary difference between the request method and publishing with a reply-to
 
 For example, updating the previous publish example we may request `time` with a one second timeout:
 
-!INCLUDE "../../\_examples/request\_reply.html"
+{% tabs %}
+{% tab title="Go" %}
+```go
+nc, err := nats.Connect("demo.nats.io")
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+// Send the request
+msg, err := nc.Request("time", nil, time.Second)
+if err != nil {
+	log.Fatal(err)
+}
+
+// Use the response
+log.Printf("Reply: %s", msg.Data)
+
+// Close the connection
+nc.Close()
+```
+{% endtab %}
+
+{% tab title="Java" %}
+```java
+Connection nc = Nats.connect("nats://demo.nats.io:4222");
+
+// Send the request
+Message msg = nc.request("time", null, Duration.ofSeconds(1));
+
+// Use the response
+System.out.println(new String(msg.getData(), StandardCharsets.UTF_8));
+
+// Close the connection
+nc.close();
+```
+{% endtab %}
+
+{% tab title="JavaScript" %}
+```javascript
+let nc = NATS.connect({url: "nats://demo.nats.io:4222"});
+
+// set up a subscription to process the request
+nc.subscribe('time', (msg, reply) => {
+    if(reply) {
+        nc.publish(reply, new Date().toLocaleTimeString());
+    }
+});
+
+nc.requestOne('time', (msg) => {
+    t.log('the time is', msg);
+    nc.close();
+});
+```
+{% endtab %}
+
+{% tab title="Python" %}
+```python
+nc = NATS()
+
+async def sub(msg):
+  await nc.publish(msg.reply, b'response')
+
+await nc.connect(servers=["nats://demo.nats.io:4222"])
+await nc.subscribe("time", cb=sub)
+
+# Send the request
+try:
+  msg = await nc.request("time", b'', timeout=1)
+  # Use the response
+  print("Reply:", msg)
+except asyncio.TimeoutError:
+  print("Timed out waiting for response")
+```
+{% endtab %}
+
+{% tab title="Ruby" %}
+```ruby
+require 'nats/client'
+require 'fiber'
+
+NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
+  nc.subscribe("time") do |msg, reply|
+    nc.publish(reply, "response")
+  end
+
+  Fiber.new do
+    # Use the response
+    msg = nc.request("time", "")
+    puts "Reply: #{msg}"
+  end.resume
+end
+```
+{% endtab %}
+
+{% tab title="TypeScript" %}
+```typescript
+let msg = await nc.request('time', 1000);
+t.log('the time is', msg.data);
+nc.close();
+```
+{% endtab %}
+{% endtabs %}
 
 You can think of request-reply in the library as a subscribe, get one message, unsubscribe pattern. In Go this might look something like:
 
