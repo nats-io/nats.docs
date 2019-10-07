@@ -4,7 +4,7 @@ Some client libraries provide helpers to send structured data while others depen
 
 Take a simple _stock ticker_ that sends the symbol and price of each stock:
 
-!{% tabs %}
+{% tabs %}
 {% tab title="Go" %}
 ```go
 nc, err := nats.Connect("demo.nats.io")
