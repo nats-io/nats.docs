@@ -54,7 +54,7 @@ You should see the message: _Listening on \[msg.test\]_
 
 You will use this session to run a NATS publisher client.
 
-## 6. CD to the examples directory
+### 6. CD to the examples directory
 
 ```bash
 % cd $GOPATH/src/github.com/nats-io/nats.go/examples
