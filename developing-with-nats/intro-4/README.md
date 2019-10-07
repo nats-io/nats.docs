@@ -4,5 +4,68 @@ NATS sends and receives messages using a protocol that includes a target subject
 
 All of the NATS clients are designed to make sending a message simple. For example, to send the string “All is Well” to the “updates” subject as a UTF-8 string of bytes you would do:
 
-!INCLUDE "../../\_examples/publish\_bytes.html"
+{% tabs %}
+{% tab title="Go" %}
+```go
+nc, err := nats.Connect("demo.nats.io", nats.Name("API PublishBytes Example"))
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+if err := nc.Publish("updates", []byte("All is Well")); err != nil {
+	log.Fatal(err)
+}
+```
+{% endtab %}
+
+{% tab title="Java" %}
+```java
+Connection nc = Nats.connect("nats://demo.nats.io:4222");
+
+nc.publish("updates", "All is Well".getBytes(StandardCharsets.UTF_8));
+
+// Make sure the message goes through before we close
+nc.flush(Duration.ZERO);
+nc.close();
+```
+{% endtab %}
+
+{% tab title="JavaScript" %}
+```javascript
+let nc = NATS.connect({url: "nats://demo.nats.io:4222"});
+nc.publish('updates', "All is Well");
+```
+{% endtab %}
+
+{% tab title="Python" %}
+```python
+nc = NATS()
+
+await nc.connect(servers=["nats://demo.nats.io:4222"])
+
+await nc.publish("updates", b'All is Well')
+```
+{% endtab %}
+
+{% tab title="Ruby" %}
+```ruby
+require 'nats/client'
+
+NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
+  nc.publish("updates", "All is Well")
+end
+```
+{% endtab %}
+
+{% tab title="TypeScript" %}
+```typescript
+let nc = await connect({
+    url: "nats://demo.nats.io:4222",
+    payload: Payload.STRING
+});
+nc.publish('updates', 'All is Well');
+```
+{% endtab %}
+{% endtabs %}
 
