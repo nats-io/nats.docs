@@ -160,11 +160,198 @@ nc.on('reconnect', (nc, url) => {
 
 When working with a cluster, servers may be added or changed. Some of the clients allow you to listen for this notification:
 
-!INCLUDE "../../\_examples/servers\_added.html"
+{% tabs %}
+{% tab title="Go" %}
+```go
+// Be notified if a new server joins the cluster.
+// Print all the known servers and the only the ones that were discovered.
+nc, err := nats.Connect("demo.nats.io",
+	nats.DiscoveredServersHandler(func(nc *nats.Conn) {
+		log.Printf("Known servers: %v\n", nc.Servers())
+		log.Printf("Discovered servers: %v\n", nc.DiscoveredServers())
+	}))
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+// Do something with the connection
+```
+{% endtab %}
+
+{% tab title="Java" %}
+```java
+class ServersAddedListener implements ConnectionListener {
+    public void connectionEvent(Connection nc, Events event) {
+        if (event == Events.DISCOVERED_SERVERS) {
+            for (String server : nc.getServers()) {
+                System.out.println("Known server: "+server);
+            }
+        }
+    }
+}
+
+public class ListenForNewServers {
+    public static void main(String[] args) {
+
+        try {
+            Options options = new Options.Builder().
+                                        server("nats://demo.nats.io:4222").
+                                        connectionListener(new ServersAddedListener()). // Set the listener
+                                        build();
+            Connection nc = Nats.connect(options);
+
+            // Do something with the connection
+
+            nc.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+{% endtab %}
+
+{% tab title="JavaScript" %}
+```javascript
+let nc = NATS.connect("nats://demo.nats.io:4222");
+nc.on('serversDiscovered', (urls) => {
+    t.log('serversDiscovered', urls);
+});
+```
+{% endtab %}
+
+{% tab title="Python" %}
+```python
+# Asyncio NATS client does not support discovered servers handler right now
+```
+{% endtab %}
+
+{% tab title="Ruby" %}
+```ruby
+r# The Ruby NATS client does not support discovered servers handler right now
+```
+{% endtab %}
+
+{% tab title="TypeScript" %}
+```typescript
+nc.on('serversChanged', (ce) => {
+    t.log('servers changed\n', 'added: ',ce.added, 'removed:', ce.removed);
+});
+```
+{% endtab %}
+{% endtabs %}
 
 ## Listen for Errors
 
 The client library may separate server-to-client errors from events. Many server events are not handled by application code and result in the connection being closed. Listening for the errors can be very useful for debugging problems.
 
-!INCLUDE "../../\_examples/error\_listener.html"
+{% tabs %}
+{% tab title="Go" %}
+```go
+// Set the callback that will be invoked when an asynchronous error occurs.
+nc, err := nats.Connect("demo.nats.io",
+	nats.ErrorHandler(func(_ *nats.Conn, _ *nats.Subscription, err error) {
+		log.Printf("Error: %v", err)
+	}))
+if err != nil {
+	log.Fatal(err)
+}
+defer nc.Close()
+
+// Do something with the connection
+```
+{% endtab %}
+
+{% tab title="Java" %}
+```java
+class MyErrorListener implements ErrorListener {
+    public void errorOccurred(Connection conn, String error)
+    {
+        System.out.println("The server notificed the client with: "+error);
+    }
+
+    public void exceptionOccurred(Connection conn, Exception exp) {
+        System.out.println("The connection handled an exception: "+exp.getLocalizedMessage());
+    }
+
+    public void slowConsumerDetected(Connection conn, Consumer consumer) {
+        System.out.println("A slow consumer was detected.");
+    }
+}
+
+public class SetErrorListener {
+    public static void main(String[] args) {
+
+        try {
+            Options options = new Options.Builder().
+                                        server("nats://demo.nats.io:4222").
+                                        errorListener(new MyErrorListener()). // Set the listener
+                                        build();
+            Connection nc = Nats.connect(options);
+
+            // Do something with the connection
+
+            nc.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+{% endtab %}
+
+{% tab title="JavaScript" %}
+```javascript
+let nc = NATS.connect("nats://demo.nats.io:4222");
+
+// on node you *must* register an error listener. If not registered
+// the library emits an 'error' event, the node process will exit.
+nc.on('error', (err) => {
+    t.log('client got an error:', err);
+});
+```
+{% endtab %}
+
+{% tab title="Python" %}
+```python
+nc = NATS()
+
+async def error_cb(e):
+   print("Error: ", e)
+
+await nc.connect(
+   servers=["nats://demo.nats.io:4222"],
+   reconnect_time_wait=10,
+   error_cb=error_cb,
+   )
+
+# Do something with the connection.
+```
+{% endtab %}
+
+{% tab title="Ruby" %}
+```ruby
+require 'nats/client'
+
+NATS.start(servers:["nats://demo.nats.io:4222"]) do |nc|
+   nc.on_error do |e|
+    puts "Error: #{e}"
+  end
+
+  nc.close
+end
+```
+{% endtab %}
+
+{% tab title="TypeScript" %}
+```typescript
+// on node you *must* register an error listener. If not registered
+// the library emits an 'error' event, the node process will exit.
+nc.on('error', (err) => {
+    t.log('client got an out of band error:', err);
+});
+```
+{% endtab %}
+{% endtabs %}
 
