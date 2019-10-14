@@ -3,7 +3,6 @@
 * [Introduction](README.md)
 * [What's New in 2.0](whats_new_20.md)
 * [FAQ](faq.md)
-* [nats.io](https://nats.io)
 
 ## Concepts
 
