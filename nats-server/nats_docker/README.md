@@ -256,5 +256,5 @@ nats-pub -s "nats://192.168.59.105:7222" hello world
 
 ## Tutorial
 
-See the [NATS Docker tutorial](https://github.com/nats-io/nats.docs/tree/51fc56e3090645f7cedb242415e2d5361e1807e7/nats_docker/tutorial.md) for more instructions on using the NATS server Docker image.
+See the [NATS Docker tutorial](nats-docker-tutorial.md) for more instructions on using the NATS server Docker image.
 
