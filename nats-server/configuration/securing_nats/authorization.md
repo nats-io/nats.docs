@@ -66,3 +66,32 @@ authorization {
 
 > Note that in the above example, any client with permissions to subscribe to `_INBOX.>` can receive _all_ responses published. More sensitive installations will want to add or subset the prefix to further limit subjects that a client can subscribe. Alternatively, [_Accounts_](auth_intro/accounts.md) allow complete isolation limiting what members of an account can see.
 
+Here's another example, where the `allow` and `deny` options are specified:
+
+```
+authorization: {
+	users = [
+	    {
+	    	user: admin
+	    	password: secret
+	    	permissions: {
+	    		publish: ">"
+	    		subscribe: ">"
+	    	}
+	    }
+		{ 
+			user: test
+			password: test
+			permissions: {
+				publish: {
+					deny: ">"
+				}, 
+				subscribe: {
+					allow: "client.>"
+				}
+			}
+		}
+	]
+}
+```
+
