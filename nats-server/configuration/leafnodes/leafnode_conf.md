@@ -1,4 +1,4 @@
-# `leafnodes` Configuration Block
+## `leafnodes` Configuration Block
 
 | Property | Description |
 | :------  | :---- |
