@@ -7,7 +7,7 @@ The server can require TLS certificates from a client. When needed, you can use 
 
 ## Validating a Client Certificate
 
-The server can verify a client certificate using a CA certificate. To require verification, add the option `verify` the TLS configuration section as follows:
+The server can verify a client certificate using a CA certificate. To require verification, add the option `verify` to the TLS configuration section as follows:
 
 ```text
 tls {
