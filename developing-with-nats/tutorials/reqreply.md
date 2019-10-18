@@ -38,5 +38,5 @@ You should see the message `Receiver is listening`, and that the NATS receiver c
 
 The NATS requestor client makes a request by sending the message "some message" on the “help.please” subject.
 
-The NATS receiver client receives the message, formulates the reply \("OK, I CAN HELP!!!\), and sends it to the inbox of the requester.
+The NATS receiver client receives the message, formulates the reply \("OK, I CAN HELP!!!"\), and sends it to the inbox of the requester.
 
