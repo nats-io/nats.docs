@@ -1,20 +1,22 @@
-# Basics
+# NSC
 
 NATS uses JWTs to armor the various identity and authorization artifacts. These JWTs are created with the `nsc` tool. NSC simplifies the tasks of creating and managing identities and other JWT artifacts.
 
 There’s a logical hierarchy to the entities:
 
-* `Operators` are responsible for running nats-servers, and signing account JWTs that set the limits on what an account can do, such as the number of connections, data limits, etc.
-* `Accounts` are responsible for issuing user JWTs, and for declaring what subjects can be exported to other accounts, and what subjects they import from other accounts and what the local subjects for those imports are.
-* `Users` are issued by an account, and encode limits regarding usage and authorization over the subject space.
+- `Operators` are responsible for running nats-servers, and signing account JWTs that set the limits on what an account can do, such as the number of connections, data limits, etc.
+
+- `Accounts` are responsible for issuing user JWTs, and for declaring what subjects can be exported to other accounts, and what subjects they import from other accounts and what the local subjects for those imports are.
+
+- `Users` are issued by an account, and encode limits regarding usage and authorization over the subject space.
 
 NSC allows you to create, edit, delete these entities, and will be central to all account based configuration.
 
 In this guide, you’ll run end-to-end on some of the configuration scenarios:
 
-* generate JWTs
-* make JWTs accessible to a nats-server
-* configure a nats-server to use JWTs
+- generate JWTs
+- make JWTs accessible to a nats-server
+- configure a nats-server to use JWTs
 
 Let’s run through the process of creating some identities and JWTs and work through the process.
 
@@ -46,7 +48,7 @@ As you can see there is a setting for the nkeys folder and the nsc home. By defa
 
 You can easily change the home and keys locations by setting `NSC_HOME` and `NKEYS_PATH` respectively in your environment to your desired locations. The environment itself is stored in the `NSC_HOME`. Operator folders are in the stores directory which can be inside `NSC_HOME` or external to it.
 
-> The $NKEYS\_PATH stores secrets. Since nkeys relies on cryptographic signatures to prove identity, anyone with access to your private keys will be able to assume your identity. With that said, treat them as secrets and guard them carefully.
+> The $NKEYS_PATH stores secrets. Since nkeys relies on cryptographic signatures to prove identity, anyone with access to your private keys will be able to assume your identity. With that said, treat them as secrets and guard them carefully.
 
 ## Creating an Operator
 
@@ -60,7 +62,7 @@ Success! - added operator "Test"
 
 With the above incantation, the tool generated an NKEY for the operator, stored the private key safely in `~/.nkeys/Test/Test.nk`. The file contains a single line, with the seed value for the NKEY.
 
-> You can tell the key is a seed if it starts with the letter `S`. The type of the key is will be the second letter an `O`, `A` or `U` for _Operator_, _Account_ or _User_. If the key does not start with an `S` you have instead a public key.
+ > You can tell the key is a seed if it starts with the letter `S`. The type of the key is the second letter - an `O`, `A` or `U` for _Operator_, _Account_ or _User_. If the key does not start with an `S` you have instead a public key.
 
 The tool also created a JWT with all default settings for the operator test, and stored it in `~/.nsc/nats/Test/Test.jwt`. The `~/.nsc/nats/Test` directory will also contain a directory where accounts related to this operator will live.
 
@@ -102,7 +104,7 @@ With an operator, we are ready to create our first account.
 
 Let’s create an account called `TestAccount`:
 
-```text
+```
 > nsc add account -n TestAccount
 Generated account key - private key stored “~/.nkeys/Test/accounts/TestAccount/TestAccount.nk"
 Success! - added account "TestAccount"
@@ -135,9 +137,9 @@ As we did with the operator, we can describe the account:
 ╰───────────────────────────┴─────────────────────────╯
 ```
 
-Again, specifying the `-W` flag will print the complete account ID \(the public key identifying the account\).
+Again, specifying the `-W` flag will print the complete account ID (the public key identifying the account).
 
-Note that the issuer for the account is the ID for the operator \(the public key identifying the operator\).
+Note that the issuer for the account is the ID for the operator (the public key identifying the operator).
 
 Now we are ready to add a user.
 
@@ -152,7 +154,7 @@ Generated user creds file "~/.nkeys/Test/accounts/TestAccount/users/TestUser.cre
 Success! - added user "TestUser" to "TestAccount"
 ```
 
-Note that when we added the user, we got a message telling us about a `.creds` file being created. The `.creds` file contains the JWT describing the user, and the private \(seed\) key for the user. This file is formatted in a special way for use by nats client libraries. Client libraries can extract the JWT and seed key, and connect to a server expecting JWT authentication, provide the JWT and use the private key to sign the nonce to verify its identity.
+Note that when we added the user, we got a message telling us about a `.creds` file being created. The `.creds` file contains the JWT describing the user, and the private  (seed) key for the user. This file is formatted in a special way for use by nats client libraries. Client libraries can extract the JWT and seed key, and connect to a server expecting JWT authentication, provide the JWT and use the private key to sign the nonce to verify its identity.
 
 And let’s describe it:
 
@@ -180,7 +182,7 @@ Let’s put all of this together, and create a simple server configuration that 
 
 To configure a server to use accounts you need an _account resolver_. An account resolver exposes a URL where a nats-server can query for JWTs belonging to an account.
 
-A simple built-in resolver is the `MEMORY` resolver which simply statically maps account public keys to an account JWT in the server’s configuration file. It is somewhat easier to configure because it doesn’t require another moving part, but fails provide the needed experience of setting up an account server. Let’s setup an _Account Server_.
+A simple built-in resolver is the `MEMORY` resolver which simply statically maps account public keys to an account JWT in the server’s configuration file. It is somewhat easier to configure because it doesn’t require another moving part, but fails to provide the needed experience of setting up an account server. Let’s setup an _Account Server_.
 
 Installing the Account Server
 
@@ -194,7 +196,7 @@ The account server has options to enable you to use an nsc directory directly. L
 > nats-account-server -nsc ~/.nsc/nats/Test
 ```
 
-Above we pointed the account server to our nsc data directory \(more specifically to the `Test` operator that we created earlier\). By default, the server listens on the localhost at port 9090.
+Above we pointed the account server to our nsc data directory (more specifically to the `Test` operator that we created earlier). By default, the server listens on the localhost at port 9090.
 
 You can also run the account server with a data directory that is not your nsc folder. In this mode you can upload account JWTs to the server. See the help for `nsc push` for more information about how to push JWTs to the account server.
 
@@ -244,7 +246,7 @@ Published [hello] : 'NATS'
 Subscriber shows:
 
 ```text
-
+[#1] Received on [hello]: ’NATS’
 ```
 
 ## User Authorization
@@ -312,4 +314,3 @@ Success! - added user "TestClient" to "TestAccount"
 ```
 
 The client has the opposite permissions of the service. It can publish on the request subject `req.a`, and receive replies on an inbox.
-
