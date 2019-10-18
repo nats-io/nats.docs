@@ -48,12 +48,13 @@ To review the service export:
 
 Importing a service enables you to send requests to the remote _Account_. To import a Service, you have to create an _Import_. To create an import you need to know:
 
-* The exporting account’s public key
-* The subject the service is listening on
-* You can map the service’s subject to a different subject
-* Self-imports are not valid; you can only import services from other accounts.
+- The exporting account’s public key
+- The subject the service is listening on
+- You can map the service’s subject to a different subject
+- Self-imports are not valid; you can only import services from other accounts.
 
 To learn how to inspect a JWT from an account server, [check this article](../nas/inspecting_jwts.md).
+
 
 ```text
 > nsc add import --src-account AC7PO3MREV26U3LFZFP5BN3HAI32X3PKLBRVMPAETLEHWPQEUG7EJY4H --remote-subject help --service
@@ -98,7 +99,6 @@ Verifying our work:
 To test the service, we can install the `nats-req` and `nats-rply` tools:
 
 Set up a process to handle the request:
-
 ```text
 > go get github.com/nats-io/nats.go/examples/nats-rply
 
@@ -107,7 +107,6 @@ Listening on [help]
 ```
 
 Send the request:
-
 ```text
 > go get github.com/nats-io/nats.go/examples/nats-req
 > nats-req -creds ~/.nkeys/Test/accounts/AccountB/users/userb.creds help me
@@ -115,13 +114,11 @@ Published [help] : 'me'
 ```
 
 The service receives the request:
-
 ```text
-
+[#1] Received on [help]: 'me'
 ```
 
 And the response is received by the requestor:
-
 ```text
 Received  [_INBOX.v6KAX0v1bu87k49hbg3dgn.StIGJF0D] : 'I will help'
 ```
@@ -131,7 +128,6 @@ Received  [_INBOX.v6KAX0v1bu87k49hbg3dgn.StIGJF0D] : 'I will help'
 If you want to create a service that is only accessible to accounts you designate you can create a _private_ service. The export will be visible in your account, but subscribing accounts will require an authorization token that must be created by you and generated specifically for the requesting account.
 
 Let’s create an account and user for our stream client:
-
 ```text
 > nsc add account --name AccountB
 Generated account key - private key stored “~/.nkeys/Test/accounts/AccountB/AccountB"
@@ -229,7 +225,7 @@ When decoded it looks like this:
 ╰─────────────────┴─────────────────────────╯
 ```
 
-The token can be shared directly with the client account.
+The token can be shared directly with the client account. 
 
 > If you manage many tokens for many accounts, you may want to host activation tokens on a web server and share the URL with the account. The benefit to the hosted approach is that any updates to the token would be available to the importing account whenever their account is updated, provided the URL you host them in is stable.
 
@@ -268,6 +264,7 @@ As with streams, importing a private service is more natural than a public one b
 ╰─────────┴─────────┴─────────────────┴─────────┴─────────┴──────────────┴────────╯
 ```
 
+
 ### Testing the Private Service
 
 Start the replier:
@@ -277,22 +274,19 @@ Start the replier:
 Listening on [help.>]
 ```
 
-Send a request:
 
+Send a request:
 ```text
 > nats-req -creds ~/.nkeys/Test/accounts/AccountB/users/userb.creds help me           
 Published [help] : 'me'
 ```
 
 The service receives the message:
-
 ```text
-
+[#1] Received on [help.AAL5Q2B3SM]: 'me'
 ```
 
 The requester receives its response:
-
 ```text
 Received  [_INBOX.N3IiqWbiAQfPoINCBpBrUM.ZjBNtkB3] : 'I will help'
 ```
-
