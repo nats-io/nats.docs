@@ -1,6 +1,6 @@
 # Memory Resolver
 
-The `MEMORY` resolver is a built-in resolver for JWTs. It is mostly used by test setups but can be used to test the simplest of environments where there is one or very few accounts, and the account JWTs don't change often.
+The `MEMORY` resolver is a server built-in resolver for account JWTs. If there are a small number of accounts, or they do not change too often this can be a simpler configuration that does not require an external account resolver. Server configuration reload is supported, meaning the preloads can be updated in the server configuration and reloaded without a server restart.
 
 The basic configuration for the server requires:
 
