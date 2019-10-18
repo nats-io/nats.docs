@@ -52,10 +52,10 @@ Messages this account publishes on `a.b.c.>` will be forwarded to all accounts t
 
 Importing a stream enables you to receive messages that are published by a different _Account_. To import a Stream, you have to create an _Import_. To create an _Import_ you need to know:
 
-* The exporting account’s public key
-* The subject where the stream is published
-* You can map the stream’s subject to a different subject
-* Self-imports are not valid; you can only import streams from other accounts.
+- The exporting account’s public key
+- The subject where the stream is published
+- You can map the stream’s subject to a different subject
+- Self-imports are not valid; you can only import streams from other accounts.
 
 To learn how to inspect a JWT from an account server, [check this article](../nas/inspecting_jwts.md).
 
@@ -147,12 +147,12 @@ Like before we defined an export, but this time we added the `--private` flag.
 ╰──────┴────────┴─────────┴────────╯
 ```
 
+
 ### Generating an Activation Token
 
 For a foreign account to _import_ a private stream, you have to generate an activation token. The activation token in addition to granting permissions to the account, it also allows you to subset the exported stream’s subject.
 
 Let’s create an account and user for our stream client:
-
 ```text
 > nsc add account --name AccountB
 Generated account key - private key stored “~/.nkeys/Test/accounts/AccountB/AccountB"
@@ -204,7 +204,7 @@ When decoded it looks like this:
 ╰─────────────────┴─────────────────────────╯
 ```
 
-The token can be shared directly with the client account.
+The token can be shared directly with the client account. 
 
 > If you manage many tokens for many accounts, you may want to host activation tokens on a web server and share the URL with the account. The benefit to the hosted approach is that any updates to the token would be available to the importing account whenever their account is updated, provided the URL you host them in is stable.
 
@@ -252,26 +252,22 @@ nsc describe account
 ### Testing the Private Stream
 
 Start the `nats-account-server`:
-
 ```text
   > nats-account-server -nsc ~/.nsc/nats/Test
 ```
 
 Create a config for the nats server `server.conf`:
-
 ```text
 operator: /Users/synadia/.nsc/nats/Test/Test.jwt
 resolver: URL(http://localhost:9090/jwt/v1/accounts/)
 ```
 
 Start the `nats-server`:
-
 ```text
 > nats-server -c server.conf
 ```
 
 Start the subscriber for the client account:
-
 ```text
 > nats-sub -creds ~/.nkeys/Test/accounts/AccountB/users/userb.creds ">"
 Listening on [>]
@@ -292,6 +288,7 @@ Published [a.b.c.d] : 'hello'
 The subscriber as expected prints a message on the stream that it was allowed to receive:
 
 ```text
-
+[#1] Received on [a.b.c.d.a.b.c.d]: 'hello'
 ```
+
 
