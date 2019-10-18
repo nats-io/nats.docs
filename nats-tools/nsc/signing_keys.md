@@ -4,22 +4,22 @@ As previously discussed, NKEYs are identities, and if someone gets a hold of an 
 
 NATS has a strategies to let you deal with scenarios where your private keys escape out in the wild.
 
-The first and most important line of defense is _Signing Keys_. _Signing Keys_ allow you have multiple NKEY identities of the same kind \(Operator or Account\) that have the same degree of trust as the standard _Issuer_ nkey.
+The first and most important line of defense is _Signing Keys_. _Signing Keys_ allow you have multiple NKEY identities of the same kind (Operator or Account) that have the same degree of trust as the standard _Issuer_ nkey.
 
 The concept behind the signing key is that you can issue a JWT for an operator or an account that lists multiple nkeys. Typically the issuer will match the _Subject_ of the entity issuing the JWT. With SigningKeys, a JWT is considered valid if it is signed by the _Subject_ of the _Issuer_ or one of its signing keys. This enables guarding the private key of the Operator or Account more closely while allowing _Accounts_, _Users_ or _Activation Tokens_ be signed using alternate private keys.
 
-If an issue should arise where somehow a signing key escapes into the wild, you would remove the compromised signing key from the entity, add a new one, and reissue the entity. When a JWT is validated, if the signing key is missing, the operation is rejected. You are also on the hook to re-issue all JWTs \(accounts, users, activation tokens\) that were signed with the compromised signing key.
+If an issue should arise where somehow a signing key escapes into the wild, you would remove the compromised signing key from the entity, add a new one, and reissue the entity. When a JWT is validated, if the signing key is missing, the operation is rejected. You are also on the hook to re-issue all JWTs (accounts, users, activation tokens) that were signed with the compromised signing key.
 
-This is effectively a large hammer. You can mitigate the process a bit by having a larger number of signing keys and then rotating the signing keys to get a distribution you can easily handle in case of a compromise. In a future release, we’ll have a revocation process were you can invalidate a single JWT by its unique JWT ID \(JTI\). For now a sledge hammer you have.
+This is effectively a large hammer. You can mitigate the process a bit by having a larger number of signing keys and then rotating the signing keys to get a distribution you can easily handle in case of a compromise. In a future release, we’ll have a revocation process were you can invalidate a single JWT by its unique JWT ID (JTI). For now a sledge hammer you have.
 
 With greater security process, there’s greater complexity. With that said, `nsc` doesn’t track public or private signing keys. As these are only identities that when in use presume a manual use. That means that you the user will have to track and manage your private keys more closely.
 
 Let’s get a feel for the workflow. We are going to:
 
-* Create an operator with a signing key
-* Create an account with a signing key
-* The account will be signed using the operator’s signing key
-* Create an user with the account’s signing key
+- Create an operator with a signing key
+- Create an account with a signing key
+- The account will be signed using the operator’s signing key
+- Create an user with the account’s signing key
 
 All signing key operations revolve around the global `nsc` flag `-K` or `--private-key`. Whenever you want to modify an entity, you have to supply the parent key so that the JWT is signed. Normally this happens automatically but in the case of signing keys, you’ll have to supply the flag by hand.
 
@@ -29,6 +29,7 @@ Creating the operator:
 > nsc add operator -n O2
 Generated operator key - private key stored "/Users/synadia/.nkeys/O2/O2.nk"
 Success! - added operator "O2"
+
 ```
 
 To add a signing key we have to first generate one with `nk`. `NSC` doesn’t at this time offer a way to generate keys that are not associated with an entity. This means that you will have to generate and store the secrets yourself:
@@ -42,7 +43,7 @@ ODMYCI5TSZY6MFLOBBQ2RNRBRAXRKJKAC5UACRC6H6CJXCLR2STTGAAQ
 
 > On a production environment private keys should be saved to a file and always referenced from the secured file.
 
-Now we are going to edit the operator by adding a signing key with the `--sk` flag providing the generated operator public key \(the one starting with `O`\):
+Now we are going to edit the operator by adding a signing key with the `--sk` flag providing the generated operator public key (the one starting with `O`):
 
 ```text
 > nsc edit operator --sk ODMYCI5TSZY6MFLOBBQ2RNRBRAXRKJKAC5UACRC6H6CJXCLR2STTGAAQ
@@ -118,7 +119,7 @@ Success! - edited account "A"
 ╰───────────────────────────┴─────────────────────────╯
 ```
 
-We can see that the signing key `ABHYL27UAHHQ` was added to the account. Also the issuer is the operator signing key \(specified by the `-K`\).
+We can see that the signing key `ABHYL27UAHHQ` was added to the account. Also the issuer is the operator signing key (specified by the `-K`).
 
 Now let’s create a user and signing it with account signing key starting with `ABHYL27UAHHQ`.
 
@@ -147,4 +148,3 @@ Success! - added user "U" to "A"
 ```
 
 As expected, the issuer is now the signing key we generated earlier. To map the user to the actual account, an `Issuer Account` field was added to the JWT that identifies the public key of account _A_.
-
