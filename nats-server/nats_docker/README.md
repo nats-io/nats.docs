@@ -44,7 +44,6 @@ docker run --name nats --network nats --rm -p 4222:4222 -p 8222:8222 nats
 [INF] Server is ready
 [INF] Listening for route connections on 0.0.0.0:6222
 ```
-```
 
 Next, start another couple of servers and point them to the seed server to make them form a cluster:
 
@@ -96,6 +95,51 @@ curl http://127.0.0.1:8222/routez
     }
   ]
 }
+```
+
+### Creating a NATS Cluster with Docker Compose
+
+It is also straightforward to create a cluster using Docker Compose.  Below is a simple example that uses a network named `nats` to create a full mesh cluster.
+
+```yaml
+version: "3"
+services:
+  nats:
+    image: nats
+    ports:
+      - "8222:8222"
+  nats-1:
+    image: nats
+    command: "--cluster nats://0.0.0.0:6222 --routes=nats://ruser:T0pS3cr3t@nats:6222"
+  nats-2:
+    image: nats
+    command: "--cluster nats://0.0.0.0:6222 --routes=nats://ruser:T0pS3cr3t@nats:6222"
+networks:
+  default:
+    external:
+      name: nats
+```
+
+Now we use Docker Compose to create the cluster that will be using the `nats` network:
+
+```sh
+$ docker network create nats
+
+$ docker-compose -f nats-cluster.yaml up
+Recreating docs_nats_1   ... done
+Recreating docs_nats-2_1 ... done
+Recreating docs_nats-1_1 ... done
+Attaching to docs_nats-2_1, docs_nats_1, docs_nats-1_1
+nats-2_1  | [1] 2019/10/19 06:41:26.064501 [INF] Starting nats-server version 2.1.0
+nats-2_1  | [1] 2019/10/19 06:41:26.064783 [INF] Git commit [1cc5ae0]
+nats_1    | [1] 2019/10/19 06:41:26.359150 [INF] Starting nats-server version 2.1.0
+nats_1    | [1] 2019/10/19 06:41:26.359365 [INF] Git commit [1cc5ae0]
+nats_1    | [1] 2019/10/19 06:41:26.360540 [INF] Starting http monitor on 0.0.0.0:8222
+nats-1_1  | [1] 2019/10/19 06:41:26.578773 [INF] 172.18.0.2:6222 - rid:1 - Route connection created
+nats_1    | [1] 2019/10/19 06:41:27.138198 [INF] 172.18.0.4:38900 - rid:2 - Route connection created
+nats-2_1  | [1] 2019/10/19 06:41:27.147816 [INF] 172.18.0.2:6222 - rid:1 - Route connection created
+nats-2_1  | [1] 2019/10/19 06:41:27.150367 [INF] 172.18.0.3:60702 - rid:2 - Route connection created
+nats-1_1  | [1] 2019/10/19 06:41:27.153078 [INF] 172.18.0.4:6222 - rid:3 - Route connection created
 ```
 
 ### Testing the Clusters
