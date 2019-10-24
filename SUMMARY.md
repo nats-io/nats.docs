@@ -4,7 +4,7 @@
 * [What's New in 2.0](whats_new_20.md)
 * [FAQ](faq.md)
 
-## Concepts
+## NATS Concepts
 
 * [What is NATS](concepts/intro.md)
 * [Subject-Based Messaging](concepts/subjects.md)
