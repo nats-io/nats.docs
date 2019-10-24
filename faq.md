@@ -24,7 +24,7 @@
 * [Does NATS support replay/redelivery of historical data?](faq.md#does-nats-support-replayredelivery-of-historical-data)
 * [How do I gracefully shut down an asynchronous subscriber?](faq.md#how-do-i-gracefully-shut-down-an-asynchronous-subscriber)
 * [How do I create subjects?](faq.md#how-do-i-create-subjects)
-* [Does adding a “max_age” to a “channel” for NATS streaming server connected to a SQL store, retroactively delete messages?](faq.md#does-adding-a-maxage-to-a-channel-for-nats-streaming-server-connected-to-a-sql-store-retroactively-delete-messages)
+* [Does adding a “max_age” to a “channel” for NATS streaming server connected to a SQL store, retroactively delete messages?](faq.md#does-adding-a-max_age-to-a-channel-for-nats-streaming-server-connected-to-a-sql-store-retroactively-delete-messages)
 
 ## General
 
