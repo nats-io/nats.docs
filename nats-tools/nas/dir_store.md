@@ -34,7 +34,7 @@ Starting the server:
 
 On a new store, the server doesn't have any JWTs. This means that any nats-server that attempts to resolve accounts will fail. To add JWTs to the server, you can use a tool like [`curl` to post request](dir_store.md#add/using-curl-to-add-or-update-accounts). But it is much easier if you use `nsc` to update the nats-account-server.
 
-## Using NSC to And or Update Accounts
+## Using NSC to Add or Update Accounts
 
 The `nsc` tool has built-in facilities to `push` JWTs related to an operator. The tool also performs validation of your JWTs to ensure that you push JWTs that will validate correctly.
 
