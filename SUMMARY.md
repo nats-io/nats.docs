@@ -4,7 +4,7 @@
 * [What's New in 2.0](whats_new_20.md)
 * [FAQ](faq.md)
 
-## Concepts
+## NATS Concepts
 
 * [What is NATS](concepts/intro.md)
 * [Subject-Based Messaging](concepts/subjects.md)
@@ -166,17 +166,12 @@
 * [Installing](nats-streaming-server/install.md)
 * [Running](nats-streaming-server/run.md)
 * [Configuring](nats-streaming-server/configuring/README.md)
-  * [Command line arguments](nats-streaming-server/configuring/cmdline.md)
-  * [Configuration file](nats-streaming-server/configuring/cfgfile.md)
+  * [Command Line Arguments](nats-streaming-server/configuring/cmdline.md)
+  * [Configuration File](nats-streaming-server/configuring/cfgfile.md)
   * [Store Limits](nats-streaming-server/configuring/storelimits/README.md)
-    * [Limits inheritance](nats-streaming-server/configuring/storelimits/limits-inheritance.md)
   * [Persistence](nats-streaming-server/configuring/persistence/README.md)
-    * [File Store](nats-streaming-server/configuring/persistence/filestore/README.md)
-      * [Options](nats-streaming-server/configuring/persistence/filestore/options.md)
-      * [Recovery Errors](nats-streaming-server/configuring/persistence/filestore/recovery-errors.md)
-    * [SQL Store](nats-streaming-server/configuring/persistence/sqlstore/README.md)
-      * [Read and Write Timeouts](nats-streaming-server/configuring/persistence/sqlstore/read-and-write-timeouts.md)
-      * [Options](nats-streaming-server/configuring/persistence/sqlstore/options.md)
+    * [File Store](nats-streaming-server/configuring/persistence/file_store.md)
+    * [SQL Store](nats-streaming-server/configuring/persistence/sql_store.md)
   * [Securing](nats-streaming-server/configuring/tls/README.md)
     * [Authenticating Users](nats-streaming-server/configuring/tls/authenticating-users.md)
     * [TLS](nats-streaming-server/configuring/tls/tls.md)
