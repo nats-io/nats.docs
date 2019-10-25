@@ -102,6 +102,7 @@
 
 ## NATS Tools
 
+* [Introduction](nats-tools/README.md)
 * [mkpasswd](nats-tools/mkpasswd.md)
 * [nk](nats-tools/nk.md)
 * [nsc](nats-tools/nsc/README.md)
