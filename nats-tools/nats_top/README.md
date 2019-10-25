@@ -1,7 +1,5 @@
 # nats-top
 
-## NATS TOP
-
 [nats-top](https://github.com/nats-io/nats-top) is a [top](http://man7.org/linux/man-pages/man1/top.1.html)-like tool for monitoring nats-server servers.
 
 The nats-top tool provides a dynamic real-time view of a NATS server. nats-top can display a variety of system summary information about the NATS server, such as subscription, pending bytes, number of messages, and more, in real time. For example:
