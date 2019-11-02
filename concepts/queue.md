@@ -10,5 +10,5 @@ Queue subscribers are ideal for scaling services. Scale up is as simple as runni
 
 ![](../.gitbook/assets/queue.svg)
 
-Try NATS queue subscriptions on your own, using a live server by walking through the [queueing tutorial](../developing-with-nats/intro-6/queues.md).
+Try NATS queue subscriptions on your own, using a live server by walking through the [queueing tutorial](../developing-with-nats/tutorials/queues.md).
 
