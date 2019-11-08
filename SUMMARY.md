@@ -33,7 +33,7 @@
   * [Listening for Reconnect Events](developing-with-nats/reconnect/events.md)
   * [Buffering Messages During Reconnect Attempts](developing-with-nats/reconnect/buffer.md)
 * [Securing Connections](developing-with-nats/security/README.md)
-  * [Authenticating with a User and Password](developing-with-nats/intro-2/userpass.md)
+  * [Authenticating with a User and Password](developing-with-nats/security/userpass.md)
   * [Authenticating with a Token](developing-with-nats/security/token.md)
   * [Authenticating with an NKey](developing-with-nats/security/nkey.md)
   * [Authenticating with a Credentials File](developing-with-nats/security/creds.md)
