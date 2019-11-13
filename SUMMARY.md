@@ -1,7 +1,8 @@
 # Table of contents
 
 * [Introduction](README.md)
-* [What's New in 2.0](whats_new_20.md)
+* [What's New!]()
+* [NATS 2.0](whats_new_20.md)
 * [FAQ](faq.md)
 
 ## NATS Concepts
