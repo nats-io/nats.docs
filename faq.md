@@ -83,7 +83,7 @@ This form of distributed queueing is done in real time, and messages are not per
 
 ### Can I list the subjects that exist in my NATS cluster?
 
-NATS maintains and constantly updates the interest graph \(subjects and their subscribers\) in real time. Do not think of it as a "directory" that is aggregated over time. The interest graph dynamic, and will change constantly as publishers and subscribers come and go.
+NATS maintains and constantly updates the interest graph \(subjects and their subscribers\) in real time. Do not think of it as a "directory" that is aggregated over time. The interest graph is dynamic, and will change constantly as publishers and subscribers come and go.
 
 If you are determined to gather this information, it can be indirectly derived at any instant in time by polling the monitoring endpoint for /connz and /routez. See [Server Monitoring](nats-server/configuration/monitoring.md) for more information.
 
