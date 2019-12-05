@@ -136,7 +136,7 @@ Published [help] : 'me'
 
 The service receives the request:
 ```text
- [#1] Received on [help]: 'me'
+Received on [help]: 'me'
 ```
 
 And the response is received by the requestor:
