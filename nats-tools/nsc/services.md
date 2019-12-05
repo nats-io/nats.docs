@@ -56,7 +56,7 @@ Importing a service enables you to send requests to the remote _Account_. To imp
 
 To learn how to inspect a JWT from an account server, [check this article](../nas/inspecting_jwts.md).
 
-First lets create a second account to import the service into:
+First let's create a second account to import the service into:
 
 ```bash
 > nsc add account B
@@ -102,7 +102,7 @@ Verifying our work:
 ╰──────┴─────────┴────────┴──────────────┴─────────┴──────────────┴────────╯
 ```
 
-Let's also add user to make requests from the service:
+Let's also add a user to make requests from the service:
 
 ```bash
 > nsc add user b
@@ -207,7 +207,7 @@ As before, we declared an export, but this time we added the `--private` flag. T
 
 For the foreign account to _import_ a private service and be able to send requests, you have to generate an activation token. The activation token in addition to granting permission to the account allows you to subset the service’s subject:
 
-To generate a token, you’ll need to know the public key of the account importing the service. We can easily find the public key for account B by doing: 
+To generate a token, you’ll need to know the public key of the account importing the service. We can easily find the public key for account B by running: 
 
 ```bash
 > nsc list keys --account B
@@ -230,7 +230,7 @@ To generate a token, you’ll need to know the public key of the account importi
 ```
 
 The command took the account that has the export ('A'), the public key of account B, the subject where requests from account B will be handled, and an output file where the token can be stored.
-The subject for the export allows the service to handle all requests coming on private.help.*, but account B can only request from a specific subject.
+The subject for the export allows the service to handle all requests coming in on private.help.*, but account B can only request from a specific subject.
 
 
 For completeness, the contents of the JWT file looks like this:

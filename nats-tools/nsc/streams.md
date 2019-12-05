@@ -72,7 +72,7 @@ With the required information, we can add an import to the public stream.
 [ OK ] added stream import "a.b.c.>"
 ```
 
-> Notice that messages published by the remote account will be received on the same subject as the are originally published. Sometimes you would like to prefix messages received from a stream. To add a prefix specify `--local-subject`.  Subscribers in our account can listen to `abc.>`. For example if `--local-subject abc`, The message will be received as `abc.a.b.c.>`.
+> Notice that messages published by the remote account will be received on the same subject as they are originally published. Sometimes you would like to prefix messages received from a stream. To add a prefix specify `--local-subject`.  Subscribers in our account can listen to `abc.>`. For example if `--local-subject abc`, The message will be received as `abc.a.b.c.>`.
 
 And verifying it:
 
@@ -108,7 +108,7 @@ And verifying it:
 ╰─────────┴────────┴─────────┴──────────────┴─────────┴──────────────┴────────╯
 ```
 
-Let's also add user to make requests from the service:
+Let's also add a user to make requests from the service:
 
 ```bash
 > nsc add user b
@@ -142,7 +142,7 @@ The authorization token is simply a JWT signed by your account where you authori
 [ OK ] added private stream export "private.abc.*"
 ```
 
-Like before we defined an export, but this time we added the `--private` flag. The other thing to note is that the subject for the request has a wildcard. This enables the account to map specific subjects to specifically authorized accounts.
+Similarly when we defined an export, but this time we added the `--private` flag. The other thing to note is that the subject for the request has a wildcard. This enables the account to map specific subjects to specifically authorized accounts.
 
 ```text
 > nsc describe account A
@@ -180,9 +180,9 @@ Like before we defined an export, but this time we added the `--private` flag. T
 
 ### Generating an Activation Token
 
-For a foreign account to _import_ a private stream, you have to generate an activation token. The activation token in addition to granting permissions to the account, it also allows you to subset the exported stream’s subject.
+For a foreign account to _import_ a private stream, you have to generate an activation token. In addition to granting permissions to the account, the activation token also allows you to subset the exported stream’s subject.
 
-To generate a token, you’ll need to know the public key of the account importing the service. We can easily find the public key for account B by doing: 
+To generate a token, you’ll need to know the public key of the account importing the service. We can easily find the public key for account B by running: 
 
 ```bash
 > nsc list keys --account B
@@ -245,7 +245,7 @@ The token can be shared directly with the client account.
 
 ## Importing a Private Stream
 
-Importing a private stream is more natural than a public one as the activation token given to you already has all the necessary details. Note that the token can be an actual file path or a remote URL.
+Importing a private stream is more natural than a public one as the activation token given to you already has all of the necessary details. Note that the token can be an actual file path or a remote URL.
 
 ```text
 > nsc add import --account B --token /tmp/activation.jwt 

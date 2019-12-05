@@ -2,17 +2,17 @@
 
 NSC allows you to manage identities. Identities take the form of _nkeys_. Nkeys are a public-key signature system based on Ed25519 for the NATS ecosystem.
 
-The nkey identities are associated with NATS configuration in the form of a Jason Web Token (JWT). These JWT are digitally signed by the private key of an issuer forming a chain of trust. The `nsc` tool creates and manages these identities and allows you to deploy them to a JWT account server, which in turn makes the configurations available to nats-servers.
+The nkey identities are associated with NATS configuration in the form of a Jason Web Token (JWT). The JWT is digitally signed by the private key of an issuer forming a chain of trust. The `nsc` tool creates and manages these identities and allows you to deploy them to a JWT account server, which in turn makes the configurations available to nats-servers.
 
 There’s a logical hierarchy to the entities:
 
-- `Operators` are responsible for running nats-servers, and issue account JWTs. Operators set the limits on what an account can do, such as the number of connections, data limits, etc.
+- `Operators` are responsible for running nats-servers, and issuing account JWTs. Operators set the limits on what an account can do, such as the number of connections, data limits, etc.
 
 - `Accounts` are responsible for issuing user JWTs. An account defines streams and services that can be exported to other accounts. Likewise, they import streams and services from other accounts.
 
 - `Users` are issued by an account, and encode limits regarding usage and authorization over the account's subject space.
 
-NSC allows you to create, edit, delete these entities, and will be central to all account-based configuration.
+NSC allows you to create, edit, and delete these entities, and will be central to all account-based configuration.
 
 In this guide, you’ll run end-to-end on some of the configuration scenarios:
 
@@ -24,7 +24,7 @@ Let’s run through the process of creating some identities and JWTs and work th
 
 ## Creating an Operator, Account and User
 
-Let’s create an operator called `O`:
+Let’s create an operator called `O` (oh):
 
 ```bash
 > nsc add operator O
@@ -51,7 +51,7 @@ Creating an account is just as easy:
 [ OK ] added account "A"
 ```
 
-As expected, the tool generated an NKEY representing the account, and stored the private key safely in the keystore.
+As expected, the tool generated an NKEY representing the account and stored the private key safely in the keystore.
 
 Finally, let's create a user:
 
@@ -62,7 +62,7 @@ Finally, let's create a user:
 [ OK ] added user "U" to account "A"
 ```
 
-As expected, the tool generated an NKEY representing the user, and stored the private key safely in the keystore. In addition, the tool generated a _credentials_ file. A credentials file contains the JWT for the user and the private key for the user. Credential files are used by nats-clients to identify themselves to the system. The client will extract and present the JWT to the nats-server and use the private key to verify its identity.
+As expected, the tool generated an NKEY representing the user, and stored the private key safely in the keystore. In addition, the tool generated a _credentials_ file. A credentials file contains the JWT for the user and the private key for the user. Credential files are used by NATS clients to identify themselves to the system. The client will extract and present the JWT to the nats-server and use the private key to verify its identity.
 
 
 ### NSC Assets
@@ -89,7 +89,7 @@ tree ~/.nsc/nats
                 └── U.jwt
 ```
 
-These JWTs are the same artifacts that nats-servers will use to validate if an account is valid and its limits as well as the JWTs that are presented by clients when they connect to the nats-server.
+These JWTs are the same artifacts that the NATS servers will use to check the validity of an account, its limits, and the JWTs that are presented by clients when they connect to the nats-server.
 
 #### The NKEYS Directory
 
@@ -116,7 +116,7 @@ tree ~/.nkeys
             └── UDBD5FNQPSLIO6CDMIS5D4EBNFKYWVDNULQTFTUZJXWFNYLGFF52VZN7.nk
 ```
 
-The `nk` files themselves are named after the complete public key, and store a single string - the private key in question:
+The `nk` files themselves are named after the complete public key, and stored in a single string - the private key in question:
 ```bash
 cat ~/.nkeys/keys/U/DB/UDBD5FNQPSLIO6CDMIS5D4EBNFKYWVDNULQTFTUZJXWFNYLGFF52VZN7.nk 
 SUAG35IAY2EF5DOZRV6MUSOFDGJ6O2BQCZHSRPLIK6J3GVCX366BFAYSNA
@@ -124,7 +124,7 @@ SUAG35IAY2EF5DOZRV6MUSOFDGJ6O2BQCZHSRPLIK6J3GVCX366BFAYSNA
 
 The private keys are encoded into a string, and always begin with an `S` for _seed_. The second letter starts with the type of key in question. `O` for operators, `A` for accounts, `U` for users.
 
-In addition to containing keys, the nkeys directory contains a `creds` directory. This directory is organized in a way friendly to humans. It stores user credential files or `creds` files for short. A credentials file contains a copy of the user JWT and the private key for the user. These files are used by nats-clients to connect to a nats-server:
+In addition to containing keys, the nkeys directory contains a `creds` directory. This directory is organized in a way friendly to humans. It stores user credential files or `creds` files for short. A credentials file contains a copy of the user JWT and the private key for the user. These files are used by NATS clients to connect to a NATS server:
 
 
 ```bash
@@ -161,7 +161,7 @@ nsc list keys
 ╰────────┴──────────────────────────────────────────────────────────┴─────────────┴────────╯
 ```
 
-The different entity names are listed along with their public key, and weather the key is stored. Stored keys are those that are found in the nkeys directory.
+The different entity names are listed along with their public key, and whether the key is stored. Stored keys are those that are found in the nkeys directory.
 
 In some cases you may want to view the private keys:
 
@@ -202,7 +202,7 @@ You can view a human readable version of the JWT by using `nsc`:
 ╰───────────────────────┴──────────────────────────────────────────────────────────╯
 ```
 
-Since the operator JWT is just a JWT you can use other tools, such as jwt.io to decode a JWT an inspect it's contents. All jwts have a header, payload, and signature:
+Since the operator JWT is just a JWT you can use other tools, such as jwt.io to decode a JWT an inspect it's contents. All JWTs have a header, payload, and signature:
 ```json
 {
   "typ": "jwt",
@@ -223,8 +223,8 @@ Since the operator JWT is just a JWT you can use other tools, such as jwt.io to 
 }
 ```
 
-For NATS JWTs all well use the `algorithm` ed25519 for signature.
-The payload will list different things, on our basically empty operator we only standard JWT `claim` fields:
+All NATS JWTs will use the `algorithm` ed25519 for signature.
+The payload will list different things. On our basically empty operator, we will only have standard JWT `claim` fields:
 
 `jti` - a jwt id
 `iat` - the timestamp when the JWT was issued in UNIX time
@@ -291,7 +291,7 @@ Finally the user JWT:
 
 The user id is the public key for the user, the issuer is the account. This user can publish and subscribe to anything, as no limits are set.
 
-When a user connects to a nats-server, it presents it's user JWT and signs an nonce using its private key. The server verifies the user is who they say they are by validating that the nonce was signed using the private key associated with the public key representing the identify of the user. Next, the server fetches the issuer account and validates that the account was issued by a trusted operator completing the chain of trust verification.
+When a user connects to a nats-server, it presents it's user JWT and signs an nonce using its private key. The server verifies if the user is who they say they are by validating that the nonce was signed using the private key associated with the public key, representing the identify of the user. Next, the server fetches the issuer account and validates that the account was issued by a trusted operator completing the chain of trust verification.
 
 
 Let’s put all of this together, and create a simple server configuration that accepts sessions from `U`.
@@ -370,7 +370,7 @@ Subscriber shows:
 
 ### NSC Embeds NATS tooling
 
-To make it easier to work, you can use the nats clients built right into NSC. These tools know how to find the credential files in the keyring.
+To make it easier to work, you can use the NATS clients built right into NSC. These tools know how to find the credential files in the keyring.
 For convenience, the tools are aliased to `sub`, `pub`, `req`, `reply`:
 
 ```bash
@@ -458,7 +458,7 @@ The client has the opposite permissions of the service. It can publish on the re
 
 ## The NSC Environment
 
-As your projects become more involved, you may work with one or more accounts. Nsc tracks your current operator and account. If you are not in a directory containing an operator, account or user, it will use the last operator/account context.
+As your projects become more involved, you may work with one or more accounts. NSC tracks your current operator and account. If you are not in a directory containing an operator, account or user, it will use the last operator/account context.
 
 To view your current environment:
 
@@ -479,4 +479,4 @@ To view your current environment:
 ╰──────────────────┴─────┴─────────────────╯
 ```
 
-If you have multiple accounts, you can `nsc env --account <account name>` to set the account as the current default. If you have defined `NKEYS_PATH` or `NSC_HOME` in the environment, you'll also see their current effective values. Finally, if you want to set the stores directory to anything else other than the default, you can do `nsc env --store <dir containing an operator>`. If you have multiple accounts, you can try having multiple terminals, each in a directory for a different account.
+If you have multiple accounts, you can use `nsc env --account <account name>` to set the account as the current default. If you have defined `NKEYS_PATH` or `NSC_HOME` in the environment, you'll also see their current effective values. Finally, if you want to set the stores directory to anything other than the default, you can do `nsc env --store <dir containing an operator>`. If you have multiple accounts, you can try having multiple terminals, each in a directory for a different account.
