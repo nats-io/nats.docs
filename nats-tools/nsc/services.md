@@ -6,42 +6,43 @@ To share services that other accounts can reach via request reply, you have to _
 
 To add a service to your account:
 
-```text
-> nsc add export --name "srv" --subject "help" --service
-Success! - added public service export "srv"
+```bash
+> nsc add export --name help --subject help --service
+[ OK ] added public service export "help"
 ```
 
 To review the service export:
 
-```text
+```bash
 > nsc describe account
-╭────────────────────────────────────────────────────╮
-│                  Account Details                   │
-├──────────────────────────┬─────────────────────────┤
-│ Name                     │ TestAccount             │
-│ Account ID               │ AC7PO3MREV26            │
-│ Issuer ID                │ OAYI3YUZSWDN            │
-│ Issued                   │ 2019-04-29 14:20:13 UTC │
-│ Expires                  │                         │
-├──────────────────────────┼─────────────────────────┤
-│ Max Connections          │ Unlimited               │
-│ Max Data                 │ Unlimited               │
-│ Max Exports              │ Unlimited               │
-│ Max Imports              │ Unlimited               │
-│ Max Msg Payload          │ Unlimited               │
-│ Max Subscriptions        │ Unlimited               │
-│ Exports Allows Wildcards │ True                    │
-├──────────────────────────┼─────────────────────────┤
-│ Imports                  │ None                    │
-╰──────────────────────────┴─────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────────────╮
+│                                   Account Details                                    │
+├───────────────────────────┬──────────────────────────────────────────────────────────┤
+│ Name                      │ A                                                        │
+│ Account ID                │ ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFTV5NGE │
+│ Issuer ID                 │ OAFEEYZSYYVI4FXLRXJTMM32PQEI3RGOWZJT7Y3YFM4HB7ACPE4RTJPG │
+│ Issued                    │ 2019-12-04 18:20:42 UTC                                  │
+│ Expires                   │                                                          │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Max Connections           │ Unlimited                                                │
+│ Max Leaf Node Connections │ Unlimited                                                │
+│ Max Data                  │ Unlimited                                                │
+│ Max Exports               │ Unlimited                                                │
+│ Max Imports               │ Unlimited                                                │
+│ Max Msg Payload           │ Unlimited                                                │
+│ Max Subscriptions         │ Unlimited                                                │
+│ Exports Allows Wildcards  │ True                                                     │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Imports                   │ None                                                     │
+╰───────────────────────────┴──────────────────────────────────────────────────────────╯
 
-╭───────────────────────────────────╮
-│              Exports              │
-├──────┬─────────┬─────────┬────────┤
-│ Name │ Type    │ Subject │ Public │
-├──────┼─────────┼─────────┼────────┤
-│ help │ Service │ help    │ Yes    │
-╰──────┴─────────┴─────────┴────────╯
+╭────────────────────────────────────────────────────────────╮
+│                          Exports                           │
+├──────┬─────────┬─────────┬────────┬─────────────┬──────────┤
+│ Name │ Type    │ Subject │ Public │ Revocations │ Tracking │
+├──────┼─────────┼─────────┼────────┼─────────────┼──────────┤
+│ help │ Service │ help    │ Yes    │ 0           │ -        │
+╰──────┴─────────┴─────────┴────────┴─────────────┴──────────╯
 ```
 
 ## Importing a Service
@@ -55,61 +56,81 @@ Importing a service enables you to send requests to the remote _Account_. To imp
 
 To learn how to inspect a JWT from an account server, [check this article](../nas/inspecting_jwts.md).
 
+First lets create a second account to import the service into:
 
-```text
-> nsc add import --src-account AC7PO3MREV26U3LFZFP5BN3HAI32X3PKLBRVMPAETLEHWPQEUG7EJY4H --remote-subject help --service
-Success! - added service import "help"
+```bash
+> nsc add account B
+[ OK ] generated and stored account key "AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
+[ OK ] added account "B"
+
+
+> nsc add import --src-account ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFTV5NGE --remote-subject help --service
+[ OK ] added service import "help"
 ```
 
 Verifying our work:
 
-```text
+```bash
 > nsc describe account
-╭────────────────────────────────────────────────────╮
-│                  Account Details                   │
-├──────────────────────────┬─────────────────────────┤
-│ Name                     │ AccountB                │
-│ Account ID               │ AAL5Q2B3SMSO            │
-│ Issuer ID                │ OAYI3YUZSWDN            │
-│ Issued                   │ 2019-04-29 14:37:49 UTC │
-│ Expires                  │                         │
-├──────────────────────────┼─────────────────────────┤
-│ Max Connections          │ Unlimited               │
-│ Max Data                 │ Unlimited               │
-│ Max Exports              │ Unlimited               │
-│ Max Imports              │ Unlimited               │
-│ Max Msg Payload          │ Unlimited               │
-│ Max Subscriptions        │ Unlimited               │
-│ Exports Allows Wildcards │ True                    │
-├──────────────────────────┼─────────────────────────┤
-│ Exports                  │ None                    │
-╰──────────────────────────┴─────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────────────╮
+│                                   Account Details                                    │
+├───────────────────────────┬──────────────────────────────────────────────────────────┤
+│ Name                      │ B                                                        │
+│ Account ID                │ AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H │
+│ Issuer ID                 │ OAFEEYZSYYVI4FXLRXJTMM32PQEI3RGOWZJT7Y3YFM4HB7ACPE4RTJPG │
+│ Issued                    │ 2019-12-04 20:12:42 UTC                                  │
+│ Expires                   │                                                          │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Max Connections           │ Unlimited                                                │
+│ Max Leaf Node Connections │ Unlimited                                                │
+│ Max Data                  │ Unlimited                                                │
+│ Max Exports               │ Unlimited                                                │
+│ Max Imports               │ Unlimited                                                │
+│ Max Msg Payload           │ Unlimited                                                │
+│ Max Subscriptions         │ Unlimited                                                │
+│ Exports Allows Wildcards  │ True                                                     │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Exports                   │ None                                                     │
+╰───────────────────────────┴──────────────────────────────────────────────────────────╯
 
-╭─────────────────────────────────────────────────────────────────────────╮
-│                                 Imports                                 │
-├─────────┬─────────┬─────────┬─────────┬─────────┬──────────────┬────────┤
-│ Name    │ Type    │ Remote  │ Local   │ Expires │ From Account │ Public │
-├─────────┼─────────┼─────────┼─────────┼─────────┼──────────────┼────────┤
-│ help    │ Service │ help    │ help    │         │ AC7PO3MREV26 │ Yes    │
-╰─────────┴─────────┴─────────┴─────────┴─────────┴──────────────┴────────╯
+╭──────────────────────────────────────────────────────────────────────────╮
+│                                 Imports                                  │
+├──────┬─────────┬────────┬──────────────┬─────────┬──────────────┬────────┤
+│ Name │ Type    │ Remote │ Local/Prefix │ Expires │ From Account │ Public │
+├──────┼─────────┼────────┼──────────────┼─────────┼──────────────┼────────┤
+│ help │ Service │ help   │ help         │         │ A            │ Yes    │
+╰──────┴─────────┴────────┴──────────────┴─────────┴──────────────┴────────╯
 ```
+
+Let's also add user to make requests from the service:
+
+```bash
+> nsc add user b
+[ OK ] generated and stored user key "UDKNTNEL5YD66U2FZZ2B3WX2PLJFKEFHAPJ3NWJBFF44PT76Y2RAVFVE"
+[ OK ] generated user creds file "~/.nkeys/creds/O/B/b.creds"
+[ OK ] added user "b" to account "B"
+```
+
 
 ### Testing the Service
 
 To test the service, we can install the `nats-req` and `nats-rply` tools:
 
-Set up a process to handle the request:
+Set up a process to handle the request. This process will run from account 'A' using user 'U':
 ```text
 > go get github.com/nats-io/nats.go/examples/nats-rply
 
-> nats-rply -creds ~/.nkeys/Test/accounts/AccountB/users/userb.creds "help" "I will help"                
+> nats-rply -creds ~/.nkeys/creds/O/A/U.creds help "I will help"                
 Listening on [help]
+
+# Remember you can also do:
+nsc reply --account A --user U help "I will help"
 ```
 
 Send the request:
 ```text
 > go get github.com/nats-io/nats.go/examples/nats-req
-> nats-req -creds ~/.nkeys/Test/accounts/AccountB/users/userb.creds help me
+> nats-req -creds ~/.nkeys/creds/O/B/b.creds help me
 Published [help] : 'me'
 ```
 
@@ -123,84 +144,101 @@ And the response is received by the requestor:
 Received  [_INBOX.v6KAX0v1bu87k49hbg3dgn.StIGJF0D] : 'I will help'
 ```
 
-## Securing Services
+Or more simply:
 
-If you want to create a service that is only accessible to accounts you designate you can create a _private_ service. The export will be visible in your account, but subscribing accounts will require an authorization token that must be created by you and generated specifically for the requesting account.
+```bash
+> nsc reply --account A --user U help "I will help"
+listening on [help]
+...
 
-Let’s create an account and user for our stream client:
-```text
-> nsc add account --name AccountB
-Generated account key - private key stored “~/.nkeys/Test/accounts/AccountB/AccountB"
-Success! - added account "AccountB"
-
-> nsc add user --name userb
-Generated user key - private key stored "~/.nkeys/Test/accounts/AccountB/users/userb”
-Generated user creds file "~/.nkeys/Test/accounts/AccountB/users/userb.creds"
-Success! - added user “userb” to “AccountB”
+> nsc req --account B --user b help me
+published request: [help] : 'me'
+received reply: [_INBOX.GCJltVq1wRSb5FoJrJ6SE9.w8utbBXR] : 'I will help'
 ```
 
-The authorization token is simply a JWT signed by your account where you authorize the client account to import your service.
+## Securing Services
+
+If you want to create a service that is only accessible to accounts you designate you can create a _private_ service. The export will be visible in your account, but subscribing accounts will require an authorization token that must be created by you and generated specifically for the requesting account. The authorization token is simply a JWT signed by your account where you authorize the client account to import your service.
 
 ### Creating a Private Service Export
 
 ```text
-> nsc add export --name phelp --subject "help.>" --private --service
-Success! - added private service export "phelp"
+> nsc add export --subject "private.help.*" --private --service --account A
+[ OK ] added private service export "private.help.*"
 ```
 
 As before, we declared an export, but this time we added the `--private` flag. The other thing to note is that the subject for the request has a wildcard. This enables the account to map specific subjects to specifically authorized accounts.
 
 ```text
-> nsc describe account
-╭────────────────────────────────────────────────────╮
-│                  Account Details                   │
-├──────────────────────────┬─────────────────────────┤
-│ Name                     │ TestAccount             │
-│ Account ID               │ AC7PO3MREV26            │
-│ Issuer ID                │ OAYI3YUZSWDN            │
-│ Issued                   │ 2019-04-29 14:59:42 UTC │
-│ Expires                  │                         │
-├──────────────────────────┼─────────────────────────┤
-│ Max Connections          │ Unlimited               │
-│ Max Data                 │ Unlimited               │
-│ Max Exports              │ Unlimited               │
-│ Max Imports              │ Unlimited               │
-│ Max Msg Payload          │ Unlimited               │
-│ Max Subscriptions        │ Unlimited               │
-│ Exports Allows Wildcards │ True                    │
-├──────────────────────────┼─────────────────────────┤
-│ Imports                  │ None                    │
-╰──────────────────────────┴─────────────────────────╯
+> nsc describe account A
+╭──────────────────────────────────────────────────────────────────────────────────────╮
+│                                   Account Details                                    │
+├───────────────────────────┬──────────────────────────────────────────────────────────┤
+│ Name                      │ A                                                        │
+│ Account ID                │ ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFTV5NGE │
+│ Issuer ID                 │ OAFEEYZSYYVI4FXLRXJTMM32PQEI3RGOWZJT7Y3YFM4HB7ACPE4RTJPG │
+│ Issued                    │ 2019-12-04 20:19:19 UTC                                  │
+│ Expires                   │                                                          │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Max Connections           │ Unlimited                                                │
+│ Max Leaf Node Connections │ Unlimited                                                │
+│ Max Data                  │ Unlimited                                                │
+│ Max Exports               │ Unlimited                                                │
+│ Max Imports               │ Unlimited                                                │
+│ Max Msg Payload           │ Unlimited                                                │
+│ Max Subscriptions         │ Unlimited                                                │
+│ Exports Allows Wildcards  │ True                                                     │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Imports                   │ None                                                     │
+╰───────────────────────────┴──────────────────────────────────────────────────────────╯
 
-╭────────────────────────────────────╮
-│              Exports               │
-├───────┬─────────┬─────────┬────────┤
-│ Name  │ Type    │ Subject │ Public │
-├───────┼─────────┼─────────┼────────┤
-│ phelp │ Service │ help.>  │ No     │
-╰───────┴─────────┴─────────┴────────╯
+╭─────────────────────────────────────────────────────────────────────────────╮
+│                                   Exports                                   │
+├────────────────┬─────────┬────────────────┬────────┬─────────────┬──────────┤
+│ Name           │ Type    │ Subject        │ Public │ Revocations │ Tracking │
+├────────────────┼─────────┼────────────────┼────────┼─────────────┼──────────┤
+│ help           │ Service │ help           │ Yes    │ 0           │ -        │
+│ private.help.* │ Service │ private.help.* │ No     │ 0           │ -        │
+╰────────────────┴─────────┴────────────────┴────────┴─────────────┴──────────╯
+
 ```
 
 ### Generating an Activation Token
 
 For the foreign account to _import_ a private service and be able to send requests, you have to generate an activation token. The activation token in addition to granting permission to the account allows you to subset the service’s subject:
 
-To generate a token, you’ll need to know the public key of the account importing the service.
+To generate a token, you’ll need to know the public key of the account importing the service. We can easily find the public key for account B by doing: 
 
-```text
-> nsc generate activation -o /tmp/activation.jwt --target-account AAL5Q2B3SMSO5AS3APJFUNAIKUCEQJPAQ76XEBTVOCQCXXGKP3YMGGN4 --subject "help.AAL5Q2B3SM" --service
-generated "phelp" activation for account "AAL5Q2B3SMSO5AS3APJFUNAIKUCEQJPAQ76XEBTVOCQCXXGKP3YMGGN4".
-JTI is "IY4ZUWLNLOTO5N5UDLOFEBCOMHB6MKQMK4ZELA2BSPKMXSEARXOA"
+```bash
+> nsc list keys --account B
+╭──────────────────────────────────────────────────────────────────────────────────────────╮
+│                                           Keys                                           │
+├────────┬──────────────────────────────────────────────────────────┬─────────────┬────────┤
+│ Entity │ Key                                                      │ Signing Key │ Stored │
+├────────┼──────────────────────────────────────────────────────────┼─────────────┼────────┤
+│ O      │ OAFEEYZSYYVI4FXLRXJTMM32PQEI3RGOWZJT7Y3YFM4HB7ACPE4RTJPG │             │ *      │
+│  B     │ AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H │             │ *      │
+│   b    │ UDKNTNEL5YD66U2FZZ2B3WX2PLJFKEFHAPJ3NWJBFF44PT76Y2RAVFVE │             │ *      │
+╰────────┴──────────────────────────────────────────────────────────┴─────────────┴────────╯
 ```
 
-In the above invocation, we generated an activation redirecting the output to `/tmp/activation.jwt`. The activation only allows the client account to perform requests on `help.AAL5Q2B3SM`.
+
+```text
+> nsc generate activation --account A --target-account AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H --subject private.help.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H -o /tmp/activation.jwt
+[ OK ] generated "private.help.*" activation for account "AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
+[ OK ] wrote account description to "/tmp/activation.jwt"
+```
+
+The command took the account that has the export ('A'), the public key of account B, the subject where requests from account B will be handled, and an output file where the token can be stored.
+The subject for the export allows the service to handle all requests coming on private.help.*, but account B can only request from a specific subject.
+
 
 For completeness, the contents of the JWT file looks like this:
 
-```text
+```bash
 > cat /tmp/activation.jwt
 -----BEGIN NATS ACTIVATION JWT-----
-eyJ0eXAiOiJqd3QiLCJhbGciOiJlZDI1NTE5In0.eyJqdGkiOiJJWTRaVVdMTkxPVE81TjVVRExPRkVCQ09NSEI2TUtRTUs0WkVMQTJCU1BLTVhTRUFSWE9BIiwiaWF0IjoxNTU2NTUwMDczLCJpc3MiOiJBQzdQTzNNUkVWMjZVM0xGWkZQNUJOM0hBSTMyWDNQS0xCUlZNUEFFVExFSFdQUUVVRzdFSlk0SCIsIm5hbWUiOiJoZWxwLkFBTDVRMkIzU00iLCJzdWIiOiJBQUw1UTJCM1NNU081QVMzQVBKRlVOQUlLVUNFUUpQQVE3NlhFQlRWT0NRQ1hYR0tQM1lNR0dONCIsInR5cGUiOiJhY3RpdmF0aW9uIiwibmF0cyI6eyJzdWJqZWN0IjoiaGVscC5BQUw1UTJCM1NNIiwidHlwZSI6InNlcnZpY2UifX0.VFYHPA0e67RFR-XFy7Q7pS90hzZvP5k3OsldjaDrIXP4UdpuQeUhv9qK9EMK40pcgH6NzJ7gmaZLU6RpAcbXAg
+eyJ0eXAiOiJqd3QiLCJhbGciOiJlZDI1NTE5In0.eyJqdGkiOiJUS01LNEFHT1pOVERDTERGUk9QTllNM0hHUVRDTEJTUktNQUxXWTVSUUhFVEVNNE1VTDdBIiwiaWF0IjoxNTc1NDkxNjEwLCJpc3MiOiJBREVUUFQzNldCSUJVS00zSUJDVk00QTVZVVNEWEZFSlBXNE02R0dWQllDQlc3UlJORlRWNU5HRSIsIm5hbWUiOiJwcml2YXRlLmhlbHAuQUFNNDZFM1lGNVdPWlNFNVdOWVdITjNZWUlTVlpPU0k2WEhURjJRNjRFQ1BYU0ZRWlJPSk1QMkgiLCJzdWIiOiJBQU00NkUzWUY1V09aU0U1V05ZV0hOM1lZSVNWWk9TSTZYSFRGMlE2NEVDUFhTRlFaUk9KTVAySCIsInR5cGUiOiJhY3RpdmF0aW9uIiwibmF0cyI6eyJzdWJqZWN0IjoicHJpdmF0ZS5oZWxwLkFBTTQ2RTNZRjVXT1pTRTVXTllXSE4zWVlJU1ZaT1NJNlhIVEYyUTY0RUNQWFNGUVpST0pNUDJIIiwidHlwZSI6InNlcnZpY2UifX0.4tFx_1UzPUwbV8wFNIJsQYu91K9hZaGRLE10nOphfHGetvMPv1384KC-1AiNdhApObSDFosdDcpjryD0QxaDCQ
 ------END NATS ACTIVATION JWT------
 ```
 
@@ -208,85 +246,83 @@ When decoded it looks like this:
 
 ```text
 > nsc describe jwt -f /tmp/activation.jwt
-╭───────────────────────────────────────────╮
-│                Activation                 │
-├─────────────────┬─────────────────────────┤
-│ Import Type     │ Service                 │
-│ Import Subject  │ help.AAL5Q2B3SM         │
-│ Account ID      │ AAL5Q2B3SMSO            │
-│ Issuer ID       │ AC7PO3MREV26            │
-│ Issued          │ 2019-04-29 15:01:13 UTC │
-│ Expires         │                         │
-├─────────────────┼─────────────────────────┤
-│ Max Messages    │ Unlimited               │
-│ Max Msg Payload │ Unlimited               │
-│ Network Src     │ Any                     │
-│ Time            │ Any                     │
-╰─────────────────┴─────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────╮
+│                                       Activation                                        │
+├─────────────────┬───────────────────────────────────────────────────────────────────────┤
+│ Name            │ private.help.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H │
+│ Account ID      │ AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H              │
+│ Issuer ID       │ ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFTV5NGE              │
+│ Issued          │ 2019-12-04 20:33:30 UTC                                               │
+│ Expires         │                                                                       │
+├─────────────────┼───────────────────────────────────────────────────────────────────────┤
+│ Hash ID         │ DD6BZKI2LTQKAJYD5GTSI4OFUG72KD2BF74NFVLUNO47PR4OX64Q====              │
+├─────────────────┼───────────────────────────────────────────────────────────────────────┤
+│ Import Type     │ Service                                                               │
+│ Import Subject  │ private.help.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H │
+├─────────────────┼───────────────────────────────────────────────────────────────────────┤
+│ Max Messages    │ Unlimited                                                             │
+│ Max Msg Payload │ Unlimited                                                             │
+│ Network Src     │ Any                                                                   │
+│ Time            │ Any                                                                   │
+╰─────────────────┴───────────────────────────────────────────────────────────────────────╯
 ```
 
 The token can be shared directly with the client account. 
 
-> If you manage many tokens for many accounts, you may want to host activation tokens on a web server and share the URL with the account. The benefit to the hosted approach is that any updates to the token would be available to the importing account whenever their account is updated, provided the URL you host them in is stable.
+> If you manage many tokens for many accounts, you may want to host activation tokens on a web server and share the URL with the account. The benefit to the hosted approach is that any updates to the token would be available to the importing account whenever their account is updated, provided the URL you host them in is stable. When using a JWT account server, the tokens can be stored right on the server and shared by an URL that is printed when the token is generated. 
 
 ## Importing a Private Service
 
-As with streams, importing a private service is more natural than a public one because the activation token stores all the necessary details. Again, the token can be an actual file path or a remote URL.
+Importing a private service is more natural than a public one because the activation token stores all the necessary details. Again, the token can be an actual file path or a remote URL.
 
 ```text
-> nsc describe account
-╭────────────────────────────────────────────────────╮
-│                  Account Details                   │
-├──────────────────────────┬─────────────────────────┤
-│ Name                     │ AccountB                │
-│ Account ID               │ AAL5Q2B3SMSO            │
-│ Issuer ID                │ OAYI3YUZSWDN            │
-│ Issued                   │ 2019-04-29 15:26:39 UTC │
-│ Expires                  │                         │
-├──────────────────────────┼─────────────────────────┤
-│ Max Connections          │ Unlimited               │
-│ Max Data                 │ Unlimited               │
-│ Max Exports              │ Unlimited               │
-│ Max Imports              │ Unlimited               │
-│ Max Msg Payload          │ Unlimited               │
-│ Max Subscriptions        │ Unlimited               │
-│ Exports Allows Wildcards │ True                    │
-├──────────────────────────┼─────────────────────────┤
-│ Exports                  │ None                    │
-╰──────────────────────────┴─────────────────────────╯
+> nsc add import --account B -u /tmp/activation.jwt --local-subject private.help --name private.help
+[ OK ] added service import "private.help.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
 
-╭─────────────────────────────────────────────────────────────────────────────────╮
-│                                     Imports                                     │
-├─────────┬─────────┬─────────────────┬─────────┬─────────┬──────────────┬────────┤
-│ Name    │ Type    │ Remote          │ Local   │ Expires │ From Account │ Public │
-├─────────┼─────────┼─────────────────┼─────────┼─────────┼──────────────┼────────┤
-│ help    │ Service │ help.AAL5Q2B3SM │ help    │         │ AC7PO3MREV26 │ No     │
-╰─────────┴─────────┴─────────────────┴─────────┴─────────┴──────────────┴────────╯
+> nsc describe account B
+╭──────────────────────────────────────────────────────────────────────────────────────╮
+│                                   Account Details                                    │
+├───────────────────────────┬──────────────────────────────────────────────────────────┤
+│ Name                      │ B                                                        │
+│ Account ID                │ AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H │
+│ Issuer ID                 │ OAFEEYZSYYVI4FXLRXJTMM32PQEI3RGOWZJT7Y3YFM4HB7ACPE4RTJPG │
+│ Issued                    │ 2019-12-04 20:38:06 UTC                                  │
+│ Expires                   │                                                          │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Max Connections           │ Unlimited                                                │
+│ Max Leaf Node Connections │ Unlimited                                                │
+│ Max Data                  │ Unlimited                                                │
+│ Max Exports               │ Unlimited                                                │
+│ Max Imports               │ Unlimited                                                │
+│ Max Msg Payload           │ Unlimited                                                │
+│ Max Subscriptions         │ Unlimited                                                │
+│ Exports Allows Wildcards  │ True                                                     │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Exports                   │ None                                                     │
+╰───────────────────────────┴──────────────────────────────────────────────────────────╯
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                     Imports                                                                     │
+├──────────────┬─────────┬───────────────────────────────────────────────────────────────────────┬──────────────┬─────────┬──────────────┬────────┤
+│ Name         │ Type    │ Remote                                                                │ Local/Prefix │ Expires │ From Account │ Public │
+├──────────────┼─────────┼───────────────────────────────────────────────────────────────────────┼──────────────┼─────────┼──────────────┼────────┤
+│ help         │ Service │ help                                                                  │ help         │         │ A            │ Yes    │
+│ private.help │ Service │ private.help.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H │ private.help │         │ A            │ No     │
+╰──────────────┴─────────┴───────────────────────────────────────────────────────────────────────┴──────────────┴─────────┴──────────────┴────────╯
 ```
 
+When importing a service, you can specify the local subject you want to use to make requests. The local subject in this case is `private.help`. However when the request is forwarded by NATS, the request is sent on the remote subject.
 
 ### Testing the Private Service
 
-Start the replier:
+Testing a private service is no different than a public one:
 
-```text
-> nats-rply -creds ~/.nkeys/Test/accounts/TestAccount/users/TestUser.creds "help.>" "I will help"
-Listening on [help.>]
-```
+```bash
+> nsc reply --account A --user U "private.help.*" "help is here"
+listening on [private.help.*]
+[#1] received on [private.help.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H]: 'help_me'
 
-
-Send a request:
-```text
-> nats-req -creds ~/.nkeys/Test/accounts/AccountB/users/userb.creds help me           
-Published [help] : 'me'
-```
-
-The service receives the message:
-```text
-[#1] Received on [help.AAL5Q2B3SM]: 'me'
-```
-
-The requester receives its response:
-```text
-Received  [_INBOX.N3IiqWbiAQfPoINCBpBrUM.ZjBNtkB3] : 'I will help'
+> nsc req --account B --user b private.help help_me
+published request: [private.help] : 'help_me'
+received reply: [_INBOX.3MhS0iCHfqO8wUl1x59bHB.jpE2jvEj] : 'help is here'
 ```

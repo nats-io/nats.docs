@@ -6,44 +6,45 @@ To share messages you publish with other accounts, you have to _Export_ a _Strea
 
 To add a stream to your account:
 
-```text
-> nsc add export --name "abc" --subject "a.b.c.>"
-Success! - added public stream export "abc"
+```bash
+> nsc add export --name abc --subject "a.b.c.>"
+  [ OK ] added public stream export "abc"
 ```
 
 > Note that we have exported stream with a subject that contains a wildcard. Any subject that matches the pattern will be exported.
 
-To check that the export is how you intended:
+To review the stream export:
 
 ```text
 > nsc describe account
-╭────────────────────────────────────────────────────╮
-│                  Account Details                   │
-├──────────────────────────┬─────────────────────────┤
-│ Name                     │ TestAccount             │
-│ Account ID               │ AC7PO3MREV26            │
-│ Issuer ID                │ OAYI3YUZSWDN            │
-│ Issued                   │ 2019-04-29 14:20:13 UTC │
-│ Expires                  │                         │
-├──────────────────────────┼─────────────────────────┤
-│ Max Connections          │ Unlimited               │
-│ Max Data                 │ Unlimited               │
-│ Max Exports              │ Unlimited               │
-│ Max Imports              │ Unlimited               │
-│ Max Msg Payload          │ Unlimited               │
-│ Max Subscriptions        │ Unlimited               │
-│ Exports Allows Wildcards │ True                    │
-├──────────────────────────┼─────────────────────────┤
-│ Imports                  │ None                    │
-╰──────────────────────────┴─────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────────────╮
+│                                   Account Details                                    │
+├───────────────────────────┬──────────────────────────────────────────────────────────┤
+│ Name                      │ A                                                        │
+│ Account ID                │ ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFTV5NGE │
+│ Issuer ID                 │ OAFEEYZSYYVI4FXLRXJTMM32PQEI3RGOWZJT7Y3YFM4HB7ACPE4RTJPG │
+│ Issued                    │ 2019-12-05 13:35:42 UTC                                  │
+│ Expires                   │                                                          │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Max Connections           │ Unlimited                                                │
+│ Max Leaf Node Connections │ Unlimited                                                │
+│ Max Data                  │ Unlimited                                                │
+│ Max Exports               │ Unlimited                                                │
+│ Max Imports               │ Unlimited                                                │
+│ Max Msg Payload           │ Unlimited                                                │
+│ Max Subscriptions         │ Unlimited                                                │
+│ Exports Allows Wildcards  │ True                                                     │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Imports                   │ None                                                     │
+╰───────────────────────────┴──────────────────────────────────────────────────────────╯
 
-╭───────────────────────────────────╮
-│              Exports              │
-├──────┬─────────┬─────────┬────────┤
-│ Name │ Type    │ Subject │ Public │
-├──────┼─────────┼─────────┼────────┤
-│ abc  │ Stream  │ a.b.c.> │ Yes    │
-╰──────┴─────────┴─────────┴────────╯
+╭───────────────────────────────────────────────────────────╮
+│                          Exports                          │
+├──────┬────────┬─────────┬────────┬─────────────┬──────────┤
+│ Name │ Type   │ Subject │ Public │ Revocations │ Tracking │
+├──────┼────────┼─────────┼────────┼─────────────┼──────────┤
+│ abc  │ Stream │ a.b.c.> │ Yes    │ 0           │ N/A      │
+╰──────┴────────┴─────────┴────────┴─────────────┴──────────╯
 ```
 
 Messages this account publishes on `a.b.c.>` will be forwarded to all accounts that import this stream.
@@ -61,44 +62,71 @@ To learn how to inspect a JWT from an account server, [check this article](../na
 
 With the required information, we can add an import to the public stream.
 
-```text
-> nsc add import --src-account AC7PO3MREV26U3LFZFP5BN3HAI32X3PKLBRVMPAETLEHWPQEUG7EJY4H --remote-subject "a.b.c.>" --local-subject "abc.>"
-Success! - added stream import "a.b.c.>"
+```bash
+> nsc add account B
+[ OK ] generated and stored account key "AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
+[ OK ] added account "B"
+
+
+> nsc add import --src-account ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFTV5NGE --remote-subject "a.b.c.>"
+[ OK ] added stream import "a.b.c.>"
 ```
 
-> Note we did fancy things here: The remote stream publishes messages as `a.b.c.>`, but we changed the prefix to be something else in the importing account’s subject space. We changed it to `abc.>`. Subscribers in our account can listen to `abc.>` to get the messages. The message will be delivered as `abc.a.b.c.>`.
+> Notice that messages published by the remote account will be received on the same subject as the are originally published. Sometimes you would like to prefix messages received from a stream. To add a prefix specify `--local-subject`.  Subscribers in our account can listen to `abc.>`. For example if `--local-subject abc`, The message will be received as `abc.a.b.c.>`.
 
 And verifying it:
 
 ```text
 > nsc describe account
-╭────────────────────────────────────────────────────╮
-│                  Account Details                   │
-├──────────────────────────┬─────────────────────────┤
-│ Name                     │ AccountB                │
-│ Account ID               │ AAL5Q2B3SMSO            │
-│ Issuer ID                │ OAYI3YUZSWDN            │
-│ Issued                   │ 2019-04-25 21:33:58 UTC │
-│ Expires                  │                         │
-├──────────────────────────┼─────────────────────────┤
-│ Max Connections          │ Unlimited               │
-│ Max Data                 │ Unlimited               │
-│ Max Exports              │ Unlimited               │
-│ Max Imports              │ Unlimited               │
-│ Max Msg Payload          │ Unlimited               │
-│ Max Subscriptions        │ Unlimited               │
-│ Exports Allows Wildcards │ True                    │
-├──────────────────────────┼─────────────────────────┤
-│ Exports                  │ None                    │
-╰──────────────────────────┴─────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────────────╮
+│                                   Account Details                                    │
+├───────────────────────────┬──────────────────────────────────────────────────────────┤
+│ Name                      │ B                                                        │
+│ Account ID                │ AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H │
+│ Issuer ID                 │ OAFEEYZSYYVI4FXLRXJTMM32PQEI3RGOWZJT7Y3YFM4HB7ACPE4RTJPG │
+│ Issued                    │ 2019-12-05 13:39:55 UTC                                  │
+│ Expires                   │                                                          │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Max Connections           │ Unlimited                                                │
+│ Max Leaf Node Connections │ Unlimited                                                │
+│ Max Data                  │ Unlimited                                                │
+│ Max Exports               │ Unlimited                                                │
+│ Max Imports               │ Unlimited                                                │
+│ Max Msg Payload           │ Unlimited                                                │
+│ Max Subscriptions         │ Unlimited                                                │
+│ Exports Allows Wildcards  │ True                                                     │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Exports                   │ None                                                     │
+╰───────────────────────────┴──────────────────────────────────────────────────────────╯
 
-╭────────────────────────────────────────────────────────────────────╮
-│                              Imports                               │
-├───────┬────────┬─────────┬───────┬─────────┬──────────────┬────────┤
-│ Name  │ Type   │ Remote  │ Local │ Expires │ From Account │ Public │
-├───────┼────────┼─────────┼───────┼─────────┼──────────────┼────────┤
-│ abc.> │ Stream │ a.b.c.> │ abc.> │         │ AC7PO3MREV26 │ Yes    │
-╰───────┴────────┴─────────┴───────┴─────────┴──────────────┴────────╯
+╭─────────────────────────────────────────────────────────────────────────────╮
+│                                   Imports                                   │
+├─────────┬────────┬─────────┬──────────────┬─────────┬──────────────┬────────┤
+│ Name    │ Type   │ Remote  │ Local/Prefix │ Expires │ From Account │ Public │
+├─────────┼────────┼─────────┼──────────────┼─────────┼──────────────┼────────┤
+│ a.b.c.> │ Stream │ a.b.c.> │              │         │ A            │ Yes    │
+╰─────────┴────────┴─────────┴──────────────┴─────────┴──────────────┴────────╯
+```
+
+Let's also add user to make requests from the service:
+
+```bash
+> nsc add user b
+[ OK ] generated and stored user key "UDKNTNEL5YD66U2FZZ2B3WX2PLJFKEFHAPJ3NWJBFF44PT76Y2RAVFVE"
+[ OK ] generated user creds file "~/.nkeys/creds/O/B/b.creds"
+[ OK ] added user "b" to account "B"
+```
+
+### Testing the Stream
+
+```bash 
+> nsc sub --account B --user b "a.b.c.>"
+Listening on [a.b.c.>]
+...
+> nsc pub --account A --user U a.b.c.hello world
+Published [a.b.c.hello] : "world"
+...
+[#1] received on [a.b.c.hello]: 'world'
 ```
 
 ## Securing Streams
@@ -110,41 +138,43 @@ The authorization token is simply a JWT signed by your account where you authori
 ### Creating a Private Stream Export
 
 ```text
-> nsc add export --name pabc --subject "a.b.c.>" --private
-Success! - added private stream export "pabc"
+> nsc add export --subject "private.abc.*" --private --account A
+[ OK ] added private stream export "private.abc.*"
 ```
 
-Like before we defined an export, but this time we added the `--private` flag.
+Like before we defined an export, but this time we added the `--private` flag. The other thing to note is that the subject for the request has a wildcard. This enables the account to map specific subjects to specifically authorized accounts.
 
 ```text
-> nsc describe account
-╭────────────────────────────────────────────────────╮
-│                  Account Details                   │
-├──────────────────────────┬─────────────────────────┤
-│ Name                     │ TestAccount             │
-│ Account ID               │ AC7PO3MREV26            │
-│ Issuer ID                │ OAYI3YUZSWDN            │
-│ Issued                   │ 2019-04-25 21:51:02 UTC │
-│ Expires                  │                         │
-├──────────────────────────┼─────────────────────────┤
-│ Max Connections          │ Unlimited               │
-│ Max Data                 │ Unlimited               │
-│ Max Exports              │ Unlimited               │
-│ Max Imports              │ Unlimited               │
-│ Max Msg Payload          │ Unlimited               │
-│ Max Subscriptions        │ Unlimited               │
-│ Exports Allows Wildcards │ True                    │
-├──────────────────────────┼─────────────────────────┤
-│ Imports                  │ None                    │
-╰──────────────────────────┴─────────────────────────╯
+> nsc describe account A
+╭──────────────────────────────────────────────────────────────────────────────────────╮
+│                                   Account Details                                    │
+├───────────────────────────┬──────────────────────────────────────────────────────────┤
+│ Name                      │ A                                                        │
+│ Account ID                │ ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFTV5NGE │
+│ Issuer ID                 │ OAFEEYZSYYVI4FXLRXJTMM32PQEI3RGOWZJT7Y3YFM4HB7ACPE4RTJPG │
+│ Issued                    │ 2019-12-05 14:24:02 UTC                                  │
+│ Expires                   │                                                          │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Max Connections           │ Unlimited                                                │
+│ Max Leaf Node Connections │ Unlimited                                                │
+│ Max Data                  │ Unlimited                                                │
+│ Max Exports               │ Unlimited                                                │
+│ Max Imports               │ Unlimited                                                │
+│ Max Msg Payload           │ Unlimited                                                │
+│ Max Subscriptions         │ Unlimited                                                │
+│ Exports Allows Wildcards  │ True                                                     │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Imports                   │ None                                                     │
+╰───────────────────────────┴──────────────────────────────────────────────────────────╯
 
-╭──────────────────────────────────╮
-│             Exports              │
-├──────┬────────┬─────────┬────────┤
-│ Name │ Type   │ Subject │ Public │
-├──────┼────────┼─────────┼────────┤
-│ pabc │ Stream │ a.b.c.> │ No     │
-╰──────┴────────┴─────────┴────────╯
+╭──────────────────────────────────────────────────────────────────────────╮
+│                                 Exports                                  │
+├───────────────┬────────┬───────────────┬────────┬─────────────┬──────────┤
+│ Name          │ Type   │ Subject       │ Public │ Revocations │ Tracking │
+├───────────────┼────────┼───────────────┼────────┼─────────────┼──────────┤
+│ abc           │ Stream │ a.b.c.>       │ Yes    │ 0           │ N/A      │
+│ private.abc.* │ Stream │ private.abc.* │ No     │ 0           │ N/A      │
+╰───────────────┴────────┴───────────────┴────────┴─────────────┴──────────╯
 ```
 
 
@@ -152,34 +182,35 @@ Like before we defined an export, but this time we added the `--private` flag.
 
 For a foreign account to _import_ a private stream, you have to generate an activation token. The activation token in addition to granting permissions to the account, it also allows you to subset the exported stream’s subject.
 
-Let’s create an account and user for our stream client:
-```text
-> nsc add account --name AccountB
-Generated account key - private key stored “~/.nkeys/Test/accounts/AccountB/AccountB"
-Success! - added account "AccountB"
+To generate a token, you’ll need to know the public key of the account importing the service. We can easily find the public key for account B by doing: 
 
-> nsc add user --name userb
-Generated user key - private key stored "~/.nkeys/Test/accounts/AccountB/users/userb”
-Generated user creds file "~/.nkeys/Test/accounts/ACcountB/users/userb.creds"
-Success! - added user “userb” to “AccountB”
+```bash
+> nsc list keys --account B
+╭──────────────────────────────────────────────────────────────────────────────────────────╮
+│                                           Keys                                           │
+├────────┬──────────────────────────────────────────────────────────┬─────────────┬────────┤
+│ Entity │ Key                                                      │ Signing Key │ Stored │
+├────────┼──────────────────────────────────────────────────────────┼─────────────┼────────┤
+│ O      │ OAFEEYZSYYVI4FXLRXJTMM32PQEI3RGOWZJT7Y3YFM4HB7ACPE4RTJPG │             │ *      │
+│  B     │ AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H │             │ *      │
+│   b    │ UDKNTNEL5YD66U2FZZ2B3WX2PLJFKEFHAPJ3NWJBFF44PT76Y2RAVFVE │             │ *      │
+╰────────┴──────────────────────────────────────────────────────────┴─────────────┴────────╯
 ```
 
-To generate a token, you’ll need to know the public key of the account importing the stream.
-
-```text
-> nsc generate activation -o /tmp/activation.jwt --target-account AAL5Q2B3SMSO5AS3APJFUNAIKUCEQJPAQ76XEBTVOCQCXXGKP3YMGGN4 —subject a.b.c.d    
-generated "pabc" activation for account "AAL5Q2B3SMSO5AS3APJFUNAIKUCEQJPAQ76XEBTVOCQCXXGKP3YMGGN4".
-JTI is "VNT3Y32I5FNTEHIVL6PINEJNNZ6Z2BGGEJ2QWNA3TPQ4A4KBRGHQ"
+```bash
+> nsc generate activation --account A --target-account AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H --subject private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H -o /tmp/activation.jwt
+[ OK ] generated "private.abc.*" activation for account "AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
+[ OK ] wrote account description to "/tmp/activation.jwt"
 ```
 
-In the above invocation, we generated an activation redirecting the output to `/tmp/activation.jwt`. The exporting account exported `a.b.c.>`, but on the activation token will only grant permission to `a.b.c.d` to the target account.
+The command took the account that has the export ('A'), the public key of account B, the subject where the stream will publish to account B.
 
 For completeness, the contents of the JWT file look like this:
 
 ```text
 > cat /tmp/activation.jwt
 -----BEGIN NATS ACTIVATION JWT-----
-eyJ0eXAiOiJqd3QiLCJhbGciOiJlZDI1NTE5In0.eyJqdGkiOiJWTlQzWTMySTVGTlRFSElWTDZQSU5FSk5OWjZaMkJHR0VKMlFXTkEzVFBRNEE0S0JSR0hRIiwiaWF0IjoxNTU2MjI5NDk0LCJpc3MiOiJBQzdQTzNNUkVWMjZVM0xGWkZQNUJOM0hBSTMyWDNQS0xCUlZNUEFFVExFSFdQUUVVRzdFSlk0SCIsIm5hbWUiOiJhLmIuYy5kIiwic3ViIjoiQUFMNVEyQjNTTVNPNUFTM0FQSkZVTkFJS1VDRVFKUEFRNzZYRUJUVk9DUUNYWEdLUDNZTUdHTjQiLCJ0eXBlIjoiYWN0aXZhdGlvbiIsIm5hdHMiOnsic3ViamVjdCI6ImEuYi5jLmQiLCJ0eXBlIjoic3RyZWFtIn19.eA0W-mcxFXyIpEk0MUgaLjj7t5jxEHTar7MNY5IYcJ7NHlDoHU5IFog2LlFW_hpTCFA4qa989vqECsiTuBuCAA
+eyJ0eXAiOiJqd3QiLCJhbGciOiJlZDI1NTE5In0.eyJqdGkiOiJIS1FPQU9aQkVKS1JYNFJRUVhXS0xYSVBVTlNOSkRRTkxXUFBTSTQ3NkhCVVNYT0paVFFRIiwiaWF0IjoxNTc1NTU1OTczLCJpc3MiOiJBREVUUFQzNldCSUJVS00zSUJDVk00QTVZVVNEWEZFSlBXNE02R0dWQllDQlc3UlJORlRWNU5HRSIsIm5hbWUiOiJwcml2YXRlLmFiYy5BQU00NkUzWUY1V09aU0U1V05ZV0hOM1lZSVNWWk9TSTZYSFRGMlE2NEVDUFhTRlFaUk9KTVAySCIsInN1YiI6IkFBTTQ2RTNZRjVXT1pTRTVXTllXSE4zWVlJU1ZaT1NJNlhIVEYyUTY0RUNQWFNGUVpST0pNUDJIIiwidHlwZSI6ImFjdGl2YXRpb24iLCJuYXRzIjp7InN1YmplY3QiOiJwcml2YXRlLmFiYy5BQU00NkUzWUY1V09aU0U1V05ZV0hOM1lZSVNWWk9TSTZYSFRGMlE2NEVDUFhTRlFaUk9KTVAySCIsInR5cGUiOiJzdHJlYW0ifX0.yD2HWhRQYUFy5aQ7zNV0YjXzLIMoTKnnsBB_NsZNXP-Qr5fz7nowyz9IhoP7UszkN58m__ovjIaDKI9ml0l9DA
 ------END NATS ACTIVATION JWT------
 ```
 
@@ -187,21 +218,25 @@ When decoded it looks like this:
 
 ```text
 > nsc describe jwt -f /tmp/activation.jwt 
-╭───────────────────────────────────────────╮
-│                Activation                 │
-├─────────────────┬─────────────────────────┤
-│ Import Type     │ Stream                  │
-│ Import Subject  │ a.b.c.d                 │
-│ Account ID      │ AAL5Q2B3SMSO            │
-│ Issuer ID       │ AC7PO3MREV26            │
-│ Issued          │ 2019-04-25 21:58:14 UTC │
-│ Expires         │                         │
-├─────────────────┼─────────────────────────┤
-│ Max Messages    │ Unlimited               │
-│ Max Msg Payload │ Unlimited               │
-│ Network Src     │ Any                     │
-│ Time            │ Any                     │
-╰─────────────────┴─────────────────────────╯
+╭────────────────────────────────────────────────────────────────────────────────────────╮
+│                                       Activation                                       │
+├─────────────────┬──────────────────────────────────────────────────────────────────────┤
+│ Name            │ private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H │
+│ Account ID      │ AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H             │
+│ Issuer ID       │ ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFTV5NGE             │
+│ Issued          │ 2019-12-05 14:26:13 UTC                                              │
+│ Expires         │                                                                      │
+├─────────────────┼──────────────────────────────────────────────────────────────────────┤
+│ Hash ID         │ GWIS5YCSET4EXEOBXVMQKXAR4CLY4IIXFV4MEMRUXPSQ7L4YTZ4Q====             │
+├─────────────────┼──────────────────────────────────────────────────────────────────────┤
+│ Import Type     │ Stream                                                               │
+│ Import Subject  │ private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H │
+├─────────────────┼──────────────────────────────────────────────────────────────────────┤
+│ Max Messages    │ Unlimited                                                            │
+│ Max Msg Payload │ Unlimited                                                            │
+│ Network Src     │ Any                                                                  │
+│ Time            │ Any                                                                  │
+╰─────────────────┴──────────────────────────────────────────────────────────────────────╯
 ```
 
 The token can be shared directly with the client account. 
@@ -213,82 +248,54 @@ The token can be shared directly with the client account.
 Importing a private stream is more natural than a public one as the activation token given to you already has all the necessary details. Note that the token can be an actual file path or a remote URL.
 
 ```text
-> nsc add import --token /tmp/activation.jwt 
-Success! - added stream import "a.b.c.d"
+> nsc add import --account B --token /tmp/activation.jwt 
+[ OK ] added stream import "private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
 ```
 
 ```text
-> nsc describe account
-nsc describe account
-╭────────────────────────────────────────────────────╮
-│                  Account Details                   │
-├──────────────────────────┬─────────────────────────┤
-│ Name                     │ AccountB                │
-│ Account ID               │ AAL5Q2B3SMSO            │
-│ Issuer ID                │ OAYI3YUZSWDN            │
-│ Issued                   │ 2019-04-25 22:04:29 UTC │
-│ Expires                  │                         │
-├──────────────────────────┼─────────────────────────┤
-│ Max Connections          │ Unlimited               │
-│ Max Data                 │ Unlimited               │
-│ Max Exports              │ Unlimited               │
-│ Max Imports              │ Unlimited               │
-│ Max Msg Payload          │ Unlimited               │
-│ Max Subscriptions        │ Unlimited               │
-│ Exports Allows Wildcards │ True                    │
-├──────────────────────────┼─────────────────────────┤
-│ Exports                  │ None                    │
-╰──────────────────────────┴─────────────────────────╯
+> nsc describe account B
+╭──────────────────────────────────────────────────────────────────────────────────────╮
+│                                   Account Details                                    │
+├───────────────────────────┬──────────────────────────────────────────────────────────┤
+│ Name                      │ B                                                        │
+│ Account ID                │ AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H │
+│ Issuer ID                 │ OAFEEYZSYYVI4FXLRXJTMM32PQEI3RGOWZJT7Y3YFM4HB7ACPE4RTJPG │
+│ Issued                    │ 2019-12-05 14:29:16 UTC                                  │
+│ Expires                   │                                                          │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Max Connections           │ Unlimited                                                │
+│ Max Leaf Node Connections │ Unlimited                                                │
+│ Max Data                  │ Unlimited                                                │
+│ Max Exports               │ Unlimited                                                │
+│ Max Imports               │ Unlimited                                                │
+│ Max Msg Payload           │ Unlimited                                                │
+│ Max Subscriptions         │ Unlimited                                                │
+│ Exports Allows Wildcards  │ True                                                     │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Exports                   │ None                                                     │
+╰───────────────────────────┴──────────────────────────────────────────────────────────╯
 
-╭────────────────────────────────────────────────────────────────────────╮
-│                                Imports                                 │
-├─────────┬────────┬─────────┬─────────┬─────────┬──────────────┬────────┤
-│ Name    │ Type   │ Remote  │ Local   │ Expires │ From Account │ Public │
-├─────────┼────────┼─────────┼─────────┼─────────┼──────────────┼────────┤
-│ a.b.c.d │ Stream │ a.b.c.d │ a.b.c.d │         │ AC7PO3MREV26 │ No     │
-╰─────────┴────────┴─────────┴─────────┴─────────┴──────────────┴────────╯
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                Imports                                                                                                │
+├──────────────────────────────────────────────────────────────────────┬────────┬──────────────────────────────────────────────────────────────────────┬──────────────┬─────────┬──────────────┬────────┤
+│ Name                                                                 │ Type   │ Remote                                                               │ Local/Prefix │ Expires │ From Account │ Public │
+├──────────────────────────────────────────────────────────────────────┼────────┼──────────────────────────────────────────────────────────────────────┼──────────────┼─────────┼──────────────┼────────┤
+│ a.b.c.>                                                              │ Stream │ a.b.c.>                                                              │              │         │ A            │ Yes    │
+│ private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H │ Stream │ private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H │              │         │ A            │ No     │
+╰──────────────────────────────────────────────────────────────────────┴────────┴──────────────────────────────────────────────────────────────────────┴──────────────┴─────────┴──────────────┴────────╯
 ```
 
 ### Testing the Private Stream
 
-Start the `nats-account-server`:
-```text
-  > nats-account-server -nsc ~/.nsc/nats/Test
+Testing a private stream is no different than a public one:
+
+```bash 
+> nsc sub --account B --user b private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H
+Listening on [private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H]
+...
+> nsc pub --account A --user U private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H hello
+Published [private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H] : "hello"
+...
+[#1] received on [private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H]: 'hello'
 ```
-
-Create a config for the nats server `server.conf`:
-```text
-operator: /Users/synadia/.nsc/nats/Test/Test.jwt
-resolver: URL(http://localhost:9090/jwt/v1/accounts/)
-```
-
-Start the `nats-server`:
-```text
-> nats-server -c server.conf
-```
-
-Start the subscriber for the client account:
-```text
-> nats-sub -creds ~/.nkeys/Test/accounts/AccountB/users/userb.creds ">"
-Listening on [>]
-```
-
-Publish messages to the stream:
-
-```text
-# Client won’t get this one since it only has permission
-# for messages ‘a.b.c.d’
-> nats-pub -creds ~/.nkeys/Test/accounts/TestAccount/users/TestUser.creds a.b.c.a "hello"
-Published [a.b.c.a] : 'hello'
-
- > nats-pub -creds ~/.nkeys/Test/accounts/TestAccount/users/TestUser.creds a.b.c.d "hello"
-Published [a.b.c.d] : 'hello'
-```
-
-The subscriber as expected prints a message on the stream that it was allowed to receive:
-
-```text
-[#1] Received on [a.b.c.d.a.b.c.d]: 'hello'
-```
-
 

@@ -25,20 +25,19 @@ All signing key operations revolve around the global `nsc` flag `-K` or `--priva
 
 Creating the operator:
 
-```text
-> nsc add operator -n O2
-Generated operator key - private key stored "/Users/synadia/.nkeys/O2/O2.nk"
-Success! - added operator "O2"
-
+```bash
+> nsc add operator O2
+[ OK ] generated and stored operator key "OABX3STBZZRBHMWMIMVHNQVNUG2O3D54BMZXX5LMBYKSAPDSHIWPMMFY"
+[ OK ] added operator "O2"
 ```
 
-To add a signing key we have to first generate one with `nk`. `NSC` doesn’t at this time offer a way to generate keys that are not associated with an entity. This means that you will have to generate and store the secrets yourself:
+To add a signing key we have to first generate one with `nsc`:
 
-```text
-# generate an operator keypair:
-> nk -gen operator -pubout
-SOAIHSQSAM3ZJI5W6U5M4INH7FUCQQ5ETJ5RMPVJZCJLTDREY6ZNEE6LZQ
-ODMYCI5TSZY6MFLOBBQ2RNRBRAXRKJKAC5UACRC6H6CJXCLR2STTGAAQ
+```bash
+> nsc generate nkey --operator --store
+SOAEW6Z4HCCGSLZJYZQMGFQY2SY6ZKOPIAKUQ5VZY6CW23WWYRNHTQWVOA
+OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5
+operator key stored ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk
 ```
 
 > On a production environment private keys should be saved to a file and always referenced from the secured file.
@@ -46,105 +45,107 @@ ODMYCI5TSZY6MFLOBBQ2RNRBRAXRKJKAC5UACRC6H6CJXCLR2STTGAAQ
 Now we are going to edit the operator by adding a signing key with the `--sk` flag providing the generated operator public key (the one starting with `O`):
 
 ```text
-> nsc edit operator --sk ODMYCI5TSZY6MFLOBBQ2RNRBRAXRKJKAC5UACRC6H6CJXCLR2STTGAAQ
-Success! - edited operator
------BEGIN NATS OPERATOR JWT-----
-eyJ0eXAiOiJqd3QiLCJhbGciOiJlZDI1NTE5In0.eyJqdGkiOiJPMk5BMkNaQ1ZINkQyTEVCQkNDVUFHTEZaWFJPTTdKTEs1Q1ZXRDZMVlpPVU9TUExDS0dBIiwiaWF0IjoxNTU2NTczNTYzLCJpc3MiOiJPQks3M09MUU9KV05ZVE4yTzQ2SVpRTjRXTVNDN0hWVk5BM1k2VFdQV0tDRlhJV1MzWExTQVVJUyIsIm5hbWUiOiJPMiIsInN1YiI6Ik9CSzczT0xRT0pXTllUTjJPNDZJWlFONFdNU0M3SFZWTkEzWTZUV1BXS0NGWElXUzNYTFNBVUlTIiwidHlwZSI6Im9wZXJhdG9yIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0RNWUNJNVRTWlk2TUZMT0JCUTJSTlJCUkFYUktKS0FDNVVBQ1JDNkg2Q0pYQ0xSMlNUVEdBQVEiXX19.-VNSZhmOa3TrGglTZ3pGU3BPScb0uj5rdvTHzzOyZ18_WlCBfo6H8S01S3D2qf9J36lKhPplMtupheYqEo04Aw
-------END NATS OPERATOR JWT------
+> nsc edit operator --sk OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5
+[ OK ] added signing key "OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5"
+[ OK ] edited operator "O2"
 ```
 
 Check our handy work:
 
 ```text
 > nsc describe operator
-╭────────────────────────────────────────╮
-│            Operator Details            │
-├──────────────┬─────────────────────────┤
-│ Name         │ O2                      │
-│ Operator ID  │ OBK73OLQOJWN            │
-│ Issuer ID    │ OBK73OLQOJWN            │
-│ Issued       │ 2019-04-29 21:32:43 UTC │
-│ Expires      │                         │
-├──────────────┼─────────────────────────┤
-│ Signing Keys │ ODMYCI5TSZY6            │
-╰──────────────┴─────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────╮
+│                            Operator Details                             │
+├──────────────┬──────────────────────────────────────────────────────────┤
+│ Name         │ O2                                                       │
+│ Operator ID  │ OABX3STBZZRBHMWMIMVHNQVNUG2O3D54BMZXX5LMBYKSAPDSHIWPMMFY │
+│ Issuer ID    │ OABX3STBZZRBHMWMIMVHNQVNUG2O3D54BMZXX5LMBYKSAPDSHIWPMMFY │
+│ Issued       │ 2019-12-05 14:36:16 UTC                                  │
+│ Expires      │                                                          │
+├──────────────┼──────────────────────────────────────────────────────────┤
+│ Signing Keys │ OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5 │
+╰──────────────┴──────────────────────────────────────────────────────────╯
 ```
 
 Now let’s create an account called `A` and sign it the generated operator private signing key. To sign it with the key specify the `-K` flag and the private key or a path to the private key:
 
 ```text
-> nsc add account --name A -K SOAIHSQSAM3ZJI5W6U5M4INH7FUCQQ5ETJ5RMPVJZCJLTDREY6ZNEE6LZQ
-Generated account key - private key stored "/Users/synadia/.nkeys/O2/accounts/A/A.nk"
-Success! - added account "A"
+> nsc add account A -K ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk 
+[ OK ] generated and stored account key "ACDXQQ6KD5MVSFMK7GNF5ARK3OJC6PEICWCH5PQ7HO27VKGCXQHFE33B"
+[ OK ] added account "A"
 ```
 
 Let’s generate an account signing key, again we use `nk`:
 
 ```text
-> nk -gen account -pubout
-SAAK3EL5BW4ZOR7JVTXZ4TJ6RQBSOIXK27AFPPSYVP4KDHJKSRQFVRAHIA
-ABHYL27UAHHQXA5HLH2YWHFQBIP4YMPC7RNZ4PSFRAMJHSSZUUIXF2RV
+> nsc generate nkey --account --store 
+SAAA4BVFTJMBOW3GAYB3STG3VWFSR4TP4QJKG2OCECGA26SKONPFGC4HHE
+ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7
+account key stored ~/.nkeys/keys/A/DU/ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7.nk
 ```
 
 Let’s add the signing key to the account, and remember to sign the account with the operator signing key:
 
 ```text
-> nsc edit account --sk ABHYL27UAHHQXA5HLH2YWHFQBIP4YMPC7RNZ4PSFRAMJHSSZUUIXF2RV -K SOAIHSQSAM3ZJI5W6U5M4INH7FUCQQ5ETJ5RMPVJZCJLTDREY6ZNEE6LZQ 
-Success! - edited account "A"
+> nsc edit account --sk ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7 -K ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk 
+[ OK ] added signing key "ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7"
+[ OK ] edited account "A"
 
 
 > nsc describe account 
-╭─────────────────────────────────────────────────────╮
-│                   Account Details                   │
-├───────────────────────────┬─────────────────────────┤
-│ Name                      │ A                       │
-│ Account ID                │ AD7HDY5AS3LT            │
-│ Issuer ID                 │ ODMYCI5TSZY6            │
-│ Issued                    │ 2019-04-30 22:33:13 UTC │
-│ Expires                   │                         │
-├───────────────────────────┼─────────────────────────┤
-│ Signing Keys              │ ABHYL27UAHHQ            │
-├───────────────────────────┼─────────────────────────┤
-│ Max Connections           │ Unlimited               │
-│ Max Leaf Node Connections │ Unlimited               │
-│ Max Data                  │ Unlimited               │
-│ Max Exports               │ Unlimited               │
-│ Max Imports               │ Unlimited               │
-│ Max Msg Payload           │ Unlimited               │
-│ Max Subscriptions         │ Unlimited               │
-│ Exports Allows Wildcards  │ True                    │
-├───────────────────────────┼─────────────────────────┤
-│ Imports                   │ None                    │
-│ Exports                   │ None                    │
-╰───────────────────────────┴─────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────────────╮
+│                                   Account Details                                    │
+├───────────────────────────┬──────────────────────────────────────────────────────────┤
+│ Name                      │ A                                                        │
+│ Account ID                │ ACDXQQ6KD5MVSFMK7GNF5ARK3OJC6PEICWCH5PQ7HO27VKGCXQHFE33B │
+│ Issuer ID                 │ OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5 │
+│ Issued                    │ 2019-12-05 14:48:22 UTC                                  │
+│ Expires                   │                                                          │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Signing Keys              │ ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7 │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Max Connections           │ Unlimited                                                │
+│ Max Leaf Node Connections │ Unlimited                                                │
+│ Max Data                  │ Unlimited                                                │
+│ Max Exports               │ Unlimited                                                │
+│ Max Imports               │ Unlimited                                                │
+│ Max Msg Payload           │ Unlimited                                                │
+│ Max Subscriptions         │ Unlimited                                                │
+│ Exports Allows Wildcards  │ True                                                     │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Imports                   │ None                                                     │
+│ Exports                   │ None                                                     │
+╰───────────────────────────┴──────────────────────────────────────────────────────────╯
 ```
 
-We can see that the signing key `ABHYL27UAHHQ` was added to the account. Also the issuer is the operator signing key (specified by the `-K`).
+We can see that the signing key `ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7` was added to the account. Also the issuer is the operator signing key (specified by the `-K`).
 
 Now let’s create a user and signing it with account signing key starting with `ABHYL27UAHHQ`.
 
 ```text
-> nsc add user --name U -K SAAK3EL5BW4ZOR7JVTXZ4TJ6RQBSOIXK27AFPPSYVP4KDHJKSRQFVRAHIA
-Generated user key - private key stored "/Users/synadia/.nkeys/O2/accounts/A/users/U.nk"
-Generated user creds file "/Users/synadia/.nkeys/O2/accounts/A/users/U.creds"
-Success! - added user "U" to "A"
+> nsc add user U -K ~/.nkeys/keys/A/DU/ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7.nk
+[ OK ] generated and stored user key "UD47TOTKVDY4IQRGI6D7XMLZPHZVNV5FCD4CNQICLV3FXLQBY72A4UXL"
+[ OK ] generated user creds file "~/.nkeys/creds/O2/A/U.creds"
+[ OK ] added user "U" to account "A"
 
 > nsc describe user
-╭───────────────────────────────────────────╮
-│                   User                    │
-├─────────────────┬─────────────────────────┤
-│ Name            │ U                       │
-│ User ID         │ UDYKZHLXFH56            │
-│ Issuer ID       │ ABHYL27UAHHQ            │
-│ Issuer Account  │ AD7HDY5AS3LT            │
-│ Issued          │ 2019-04-30 22:43:46 UTC │
-│ Expires         │                         │
-├─────────────────┼─────────────────────────┤
-│ Max Messages    │ Unlimited               │
-│ Max Msg Payload │ Unlimited               │
-│ Network Src     │ Any                     │
-│ Time            │ Any                     │
-╰─────────────────┴─────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────╮
+│                                      User                                       │
+├──────────────────────┬──────────────────────────────────────────────────────────┤
+│ Name                 │ U                                                        │
+│ User ID              │ UD47TOTKVDY4IQRGI6D7XMLZPHZVNV5FCD4CNQICLV3FXLQBY72A4UXL │
+│ Issuer ID            │ ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7 │
+│ Issuer Account       │ ACDXQQ6KD5MVSFMK7GNF5ARK3OJC6PEICWCH5PQ7HO27VKGCXQHFE33B │
+│ Issued               │ 2019-12-05 14:50:07 UTC                                  │
+│ Expires              │                                                          │
+├──────────────────────┼──────────────────────────────────────────────────────────┤
+│ Response Permissions │ Not Set                                                  │
+├──────────────────────┼──────────────────────────────────────────────────────────┤
+│ Max Messages         │ Unlimited                                                │
+│ Max Msg Payload      │ Unlimited                                                │
+│ Network Src          │ Any                                                      │
+│ Time                 │ Any                                                      │
+╰──────────────────────┴──────────────────────────────────────────────────────────╯
 ```
 
 As expected, the issuer is now the signing key we generated earlier. To map the user to the actual account, an `Issuer Account` field was added to the JWT that identifies the public key of account _A_.
