@@ -3,12 +3,13 @@
 NATS account configurations are built using the `nsc` tool. The NSC tool allows you to:
 
 - Create and edit Operators, Accounts, Users
-- Manage subscribe and publish permissions for Users
-- Add and delete Exports and Imports
-- Generate Activation tokens
+- Manage publish and subscribe permissions for Users
+- Define Service and Stream exports from an account
+- Reference Service and Streams from another account 
+- Generate Activation tokens that grants access to a private service or stream
 - Generate User credential files
 - Describe Operators, Accounts, Users, and Activations
-- Push account JWTs to a server or pull account JWTs from a server
+- Push and pull account JWTs to an account JWTs server
 
 ## Installation
 
