@@ -129,7 +129,7 @@ Published [foo] : 'foo'
 Both the server and leaf subscriber print:
 
 ```text
-
+Received on [foo]: 'foo'
 ```
 
 Publish a message on the leaf:
@@ -142,7 +142,7 @@ Published [bar] : 'bar'
 Both the server and leaf subscribers print:
 
 ```text
-
+Received on [bar]: 'bar'
 ```
 
 The leaf forwards all local messages to the server where members of the account are able to receive them. Messages published on the server by the account are forwarded to the leaf where subscribers are able to receive them.
@@ -206,7 +206,7 @@ Published [foo] : 'foo'
 You should see a new message in all your subscriber windows:
 
 ```text
-
+Received on [foo]: 'foo'
 ```
 
 Now publish a new message on the leaf, but this time with the subject `bar`:
