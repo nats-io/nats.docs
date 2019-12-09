@@ -7,7 +7,7 @@
 | `host` | Interface where the server will listen for incoming leafnode connections. |
 | `listen` | Combines `host` and `port` as `<host>:<port>` |
 | `no_advertise` | if `true` the leafnode shouldn't be advertised. |
-| `port` | Port where the server will listen for incoming leafnode connections. |
+| `port` | Port where the server will listen for incoming leafnode connections (default is 7422). |
 | `remotes` | List of `remote` entries specifying servers where leafnode client connection can be made. |
 | `tls` | TLS configuration block (same as other nats-server `tls` configuration). |
 
@@ -15,21 +15,21 @@
 
 | Property | Description |
 | :------  | :---- |
-| `user` | Username for the Leafnode connection. |
+| `user` | Username for the leaf node  connection. |
 | `password` | Password for the user entry. |
-| `account` | Account this Leafnode connection should be bound to. |
-| `timeout` | Maximum number of seconds to wait for Leafnode authentication. |
-| `users` | List of credentials and account to bind to Leafnode connections. [**See User Block section below**](#users-block). |
+| `account` | Account this leaf node  connection should be bound to. |
+| `timeout` | Maximum number of seconds to wait for leaf node  authentication. |
+| `users` | List of credentials and account to bind to leaf node  connections. [**See User Block section below**](#users-block). |
 
 ### Users Block
 
 | Property | Description |
 | :------  | :---- |
-| `user` | Username for the Leafnode connection. |
+| `user` | Username for the leaf node connection. |
 | `password` | Password for the user entry. |
-| `account` | Account this Leafnode connection should be bound to. |
+| `account` | Account this leaf node  connection should be bound to. |
 
-Here are some examples of using basic user/password authentication for Leafnodes:
+Here are some examples of using basic user/password authentication for leaf nodes (note while this is using accounts it is not using JWTs)
 
 Singleton mode:
 ```
