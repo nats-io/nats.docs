@@ -1,15 +1,14 @@
 # Leaf Nodes
 
-A _Leaf Node_ allows an extension to a cluter or supercluster that bridges accounts and security domains. This is useful in IoT and edge scenarios and when the local server traffic should be low RTT and local unless routed to the super cluster.
+A _Leaf Node_ extends a cluster or supercluster by bridging security domains. A leaf node proxies local messages to the cluster and cluster messages to the local server through the leaf node's connection client. The leaf node authenticates and authorizes clients using a local policy. Messages are allowed to flow to the cluster or into the leaf node based on the leaf node's connection permissions.
 
-Leaf Nodes leverage [accounts](../securing_nats/auth_intro/jwt_auth.md) and JWTs to enable a server to connect to another and filter messages as per the leaf node's account user configuration.
-
-This effectively means that the leaf node clusters with the other server at an account level:
+Leaf nodes are useful in IoT and edge scenarios and when the local server traffic should be low RTT and local unless routed to the super cluster. Messages flow in and out of the leaf node using the permissions available to the leaf node connection.
 
 * Leaf nodes clients authenticate locally \(or just connect if authentication is not required\)
 * Traffic between the leaf node and the cluster assumes the restrictions of the user configuration used to create the leaf connection. 
   * Subjects that the user is allowed to publish are exported to the cluster. 
   * Subjects the user is allowed to subscribe to, are imported into the leaf node.
+
 
 > Leaf Nodes are an important component as a way to bridge traffic between local NATS servers you control and servers that are managed by a third-party. Synadia's [NATS Global Service \(NGS\)](https://www.synadia.com/) allows accounts to use leaf nodes, but gain accessibility to the global network to inexpensively connect geographically distributed servers or small clusters.
 
@@ -17,227 +16,204 @@ This effectively means that the leaf node clusters with the other server at an a
 
 ## LeafNode Configuration Tutorial
 
-Create a new operator called "O":
+The main server is just a standard NATS server. Clients to the main cluster are just using token authentication, but any kind of authentication can be used. The server allows leaf node connections at port 7422 (default port):
 
 ```text
-> nsc add operator -n O
-Generated operator key - private key stored "~/.nkeys/O/O.nk"
-Success! - added operator "O"
-```
-
-Create an account called "A":
-
-```text
-> nsc add account -n A
-Generated account key - private key stored "~/.nkeys/O/accounts/A/A.nk"
-Success! - added account "A"
-```
-
-Create an user called "leaf":
-
-```text
-> nsc add user -n leaf
-Generated user key - private key stored "~/.nkeys/O/accounts/A/users/leaf.nk"
-Generated user creds file "~/.nkeys/O/accounts/A/users/leaf.creds"
-Success! - added user "leaf" to "A"
-```
-
-Let's create an second user called 'nolimit'
-
-```text
-> nsc add user -n nolimit
-Generated user key - private key stored "~/.nkeys/O/accounts/A/users/nolimit.nk"
-Generated user creds file "~/.nkeys/O/accounts/A/users/nolimit.creds"
-Success! - added user "nolimit" to "A"
-```
-
-Start a nats-account-server:
-
-```text
-> nats-account-server -nsc ~/.nsc/nats/O
-```
-
-Create the server configuration file \(server.conf\) with the following contents:
-
-```text
-operator: /Users/synadia/.nsc/nats/O/O.jwt
-resolver: URL(http://localhost:9090/jwt/v1/accounts/)
 leafnodes {
-    listen: "127.0.0.1:4000"
+    port: 7422
+}
+authorization {
+    token: "s3cr3t"
 }
 ```
 
-The server configuration naturally requires an `operator` and `resolver` to deal with the JWT authentication and accounts. In addition the `leafnodes` configuration exposes a `listen` where the server will receive leaf nodes. In this case on the localhost on port 4000.
-
-Start the nats-server:
-
-```text
-> nats-server -c server.conf
+Start the server:
+```bash
+nats-server -c /tmp/server.conf
+...
+[5774] 2019/12/09 11:11:23.064276 [INF] Listening for leafnode connections on 0.0.0.0:7422
+...
 ```
 
-Create a subscriber on the server:
 
-```text
-> nats-sub -creds ~/.nkeys/O/accounts/A/users/nolimit.creds ">"
-Listening on [>]
+We create a replier on the server to listen for requests on 'q', which it will aptly respond with '42':
+```bash
+nats-rply -s nats://s3cr3t@localhost q 42
 ```
 
-Create the leaf server configuration \(leaf.conf\) with the following contents:
+
+The leaf node, allows local clients to connect to through port 4111, and doesn't require any kind of authentication. The configuration specifies where the remote cluster is located, and specifies how to connect to it (just a simple token in this case):
 
 ```text
-port: 4111
+listen: "127.0.0.1:4111"
 leafnodes {
     remotes = [ 
         { 
-          url: "nats-leaf://localhost:4000"
-          credentials: "/Users/synadia/.nkeys/O/accounts/A/users/leaf.creds"
+          url: "nats-leaf://s3cr3t@localhost"
         },
     ]
 }
 ```
 
-Note the leaf node configuration lists a number of `remotes`. The `url` specifies the port on the server where leaf node connections are allowed. The `credentials` configuration specifies the path to a user's credentials file.
+Note the leaf node configuration lists a number of `remotes`. The `url` specifies the port on the server where leaf node connections are allowed.
 
-The leaf server configuration \(leaf.conf\) also supports multiple URLs with `urls` such as the following:
+Start the leaf node server:
+
+```bash
+nats-server -c /tmp/leaf.conf 
+....
+[3704] 2019/12/09 09:55:31.548308 [INF] Listening for client connections on 127.0.0.1:4111
+...
+[3704] 2019/12/09 09:55:31.549404 [INF] Connected leafnode to "localhost"
+```
+
+Connect a client to the leaf server and make a request to 'q':
+
+```bash
+nats-req -s nats://127.0.0.1:4111 q ""
+Published [q] : ''
+Received  [_INBOX.Ua82OJamRdWof5FBoiKaRm.gZhJP6RU] : '42'
+```
+
+## Leaf Node Example Using a Remote Global Service
+
+In this example, we connect a leaf node to [NGS](https://www.synadia.com). Leaf nodes are supported on developer and paid accounts. To sign up for a developer account, you'll need the `ngs` tool which you can install by following instructions in [https://github.com/ConnectEverything/ngs-cli](https://github.com/ConnectEverything/ngs-cli).
+
+Once you have the ngs tool installed, you can go ahead and import the synadia operator from ngs:
+
+```bash
+> nsc add operator -u synadia
+[ OK ] imported operator "synadia"
+
+> nsc add account leaftest
+[ OK ] generated and stored account key "ACR4E2VU2ZC4GPTGOLL6GLO3WHUBBIQBM2JWOGRCEJJQEV6SVXL64JWD"
+[ OK ] push jwt to account server:
+    [ OK ] pushed account jwt to the account server
+    > NGS created a new free billing account for your JWT, leaftest [ACR4E2VU2ZC4].
+    > Use the 'ngs' command to manage your billing plan.
+    > If your account JWT is *not* in ~/.nsc, use the -d flag on ngs commands to locate it.
+[ OK ] pull jwt from account server
+[ OK ] added account "leaftest" to operator "Synadia Communications Inc."
+```
+
+In order to use leaf nodes, you'll have to upgrade the account to the developer plan. The developer plan has zero cost, but requires specifying an email and providing a credit card number:
+
+```bash
+> ngs edit
+
+Please select your new plan. For a complete description of offerings,
+please visit our website at https://www.https://www.synadia.com/.
+
+? Select a Messaging Plan Developer $0.00/month
+
+Synadia will report service notifications and billing updates with the
+email address you associate with your account. This address will be
+verified if changed.
+
+? Email natsuser@test.com
+
+╭────────────────────────────────╮
+│        Account Details         │
+├────────┬───────────────────────┤
+│ Email: │ natsuser@test.com     |
+│ Plan:  │ Developer $0.00/month │
+╰────────┴───────────────────────╯
+
+
+? Check your account details OK
+
+Your changes were sent to Synadia, but it looks like we need to verify
+your email and credit card before updating your account. You should
+receive a welcome email shortly.
+Once the update succeeds use nsc to sync the latest version of your
+synadia account JWT to disk.
+```
+
+Check your email, verify the email, and specify an credit card, after that:
+
+```bash
+> nsc pull
+[ OK ] pulled "leaftest" from the account server
+
+> nsc describe account
+╭──────────────────────────────────────────────────────────────────────────────────────╮
+│                                   Account Details                                    │
+├───────────────────────────┬──────────────────────────────────────────────────────────┤
+│ Name                      │ leaftest                                                 │
+│ Account ID                │ ACR4E2VU2ZC4GPTGOLL6GLO3WHUBBIQBM2JWOGRCEJJQEV6SVXL64JWD │
+│ Issuer ID                 │ ODSKBNDIT3LTZWFSRAWOBXSBZ7VZCDQVU6TBJX3TQGYXUWRU46ANJJS4 │
+│ Issued                    │ 2019-12-09 14:44:55 UTC                                  │
+│ Expires                   │                                                          │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Max Connections           │ 50                                                       │
+│ Max Leaf Node Connections │ 2                                                        │
+│ Max Data                  │ 5.0 GB (5000000000 bytes)                                │
+│ Max Exports               │ Unlimited                                                │
+│ Max Imports               │ Unlimited                                                │
+│ Max Msg Payload           │ 4.0 kB (4000 bytes)                                      │
+│ Max Subscriptions         │ 50                                                       │
+│ Exports Allows Wildcards  │ False                                                    │
+├───────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Exports                   │ None                                                     │
+╰───────────────────────────┴──────────────────────────────────────────────────────────╯
+
+....
+
+```
+
+Note the limits on the account, specify that the account can have up-to 2 leaf node connections. Let's use them:
+
+```bash
+> nsc add user leaftestuser
+[ OK ] generated and stored user key "UB5QBEU4LU7OR26JEYSG27HH265QVUFGXYVBRD7SVKQJMEFSZTGFU62F"
+[ OK ] generated user creds file "~/.nkeys/creds/synadia/leaftest/leaftestuser.creds"
+[ OK ] added user "leaftestuser" to account "leaftest"
+```
+
+Let's craft a leaf node connection much like we did earlier:
+
 
 ```text
-port: 4111
 leafnodes {
     remotes = [ 
         { 
-           urls: ["nats-leaf://host1:4000", "nats-leaf://host2:4000"]
-           credentials: "/Users/synadia/.nkeys/O/accounts/A/users/leaf.creds"
+          url: "nats-leaf://connect.ngs.global"
+          credentials: "/Users/alberto/.nkeys/creds/synadia/leaftest/leaftestuser.creds"
         },
     ]
 }
 ```
 
-Create a subscriber on the leaf:
+The default port for leaf nodes is 7422, so we don't have to specify it.
 
-```text
-> nats-sub -s localhost:4111 ">"
-Listening on [>]
+Let's start the leaf server:
+
+```bash
+> nats-server -c /tmp/ngs_leaf.conf 
+...
+[4985] 2019/12/09 10:55:51.577569 [INF] Listening for client connections on 0.0.0.0:4222
+...
+[4985] 2019/12/09 10:55:51.918781 [INF] Connected leafnode to "connect.ngs.global"
 ```
 
-Publish a message on the server:
+Again, let's connect a replier, but this time to NGS. NSC connects specifying the credentials file:
 
-```text
-> nats-pub -creds ~/.nkeys/O/accounts/A/users/leaf.creds foo foo
-Published [foo] : 'foo'
+```bash
+nsc reply q 42
 ```
 
-Both the server and leaf subscriber print:
+And now let's make the request from the local host:
 
-```text
-Received on [foo]: 'foo'
+```bash
+> nats-req q ""
+Published [q] : ''
+Received  [_INBOX.hgG0zVcVcyr4G5KBwOuyJw.uUYkEyKr] : '42'
 ```
 
-Publish a message on the leaf:
-
-```text
-> nats-pub -s localhost:4111 bar bar
-Published [bar] : 'bar'
-```
-
-Both the server and leaf subscribers print:
-
-```text
-Received on [bar]: 'bar'
-```
-
-The leaf forwards all local messages to the server where members of the account are able to receive them. Messages published on the server by the account are forwarded to the leaf where subscribers are able to receive them.
 
 ## Leaf Authorization
 
-In some cases you may want to restrict what messages can be exported from the leaf node or imported from the account. For leaf servers this is simply a user account configuration, as users can have specific permissions on what subjects to publish and/or subscribe to.
+In some cases you may want to restrict what messages can be exported from the leaf node or imported from the leaf connection. You can specify restrictions by limiting what the leaf connection client can publish and subscribe to. See [NATS Authorization](../securing_nats/authorization.md) for how you can do this.
 
-Let's put some restrictions on the `leaf` user so that it can only publish to `foo` and subscribe to `bar`:
 
-```text
-> nsc edit user -n leaf --allow-pub foo --allow-sub bar
-Updated user creds file "~/.nkeys/O/accounts/A/users/leaf.creds"
-Success! - edited user "leaf" in account "A"
-
------BEGIN NATS ACCOUNT JWT-----
-eyJ0eXAiOiJqd3QiLCJhbGciOiJlZDI1NTE5In0.eyJqdGkiOiJVSk9RTFVSTUVFTVZXQVpVT0E2VlE1UVQ0UEdIV081WktDWlBLVFBJQVpLSldaSTJGNVpRIiwiaWF0IjoxNTU2ODM1MzU4LCJpc3MiOiJBRDU3TUZOQklLTzNBRFU2VktMRkVYQlBVQjdFWlpLU0tVUDdZTzNWVUFJTUlBWUpVNE1EM0NDUiIsIm5hbWUiOiJsZWFmIiwic3ViIjoiVUNEMlpSVUs1UE8yMk02MlNWVTZITzZJS01BVERDUlJYVVVGWDRRU1VTWFdRSDRHU1Y3RDdXVzMiLCJ0eXBlIjoidXNlciIsIm5hdHMiOnsicHViIjp7ImFsbG93IjpbImZvbyJdfSwic3ViIjp7ImFsbG93IjpbImJhciJdfX19.IeqSylTaisMQMH3Ih_0G8LLxoxe0gIClpxTm3B_ys_XwL9TtPIW-M2qdaYQZ_ZmR2glMvYK4EJ6J8RQ1UZdGAg
-------END NATS ACCOUNT JWT------
-
-> nsc describe user -n leaf
-╭───────────────────────────────────────────╮
-│                   User                    │
-├─────────────────┬─────────────────────────┤
-│ Name            │ leaf                    │
-│ User ID         │ UCD2ZRUK5PO2            │
-│ Issuer ID       │ AD57MFNBIKO3            │
-│ Issued          │ 2019-05-02 22:15:58 UTC │
-│ Expires         │                         │
-├─────────────────┼─────────────────────────┤
-│ Pub Allow       │ foo                     │
-│ Sub Allow       │ bar                     │
-├─────────────────┼─────────────────────────┤
-│ Max Messages    │ Unlimited               │
-│ Max Msg Payload │ Unlimited               │
-│ Network Src     │ Any                     │
-│ Time            │ Any                     │
-╰─────────────────┴─────────────────────────╯
-```
-
-As we can see on the inspection of the user, the restrictions have been applied.
-
-Let's repeat the experiment. This time we'll restart the leaf server so that the new user configuration is applied:
-
-```text
-> nats-server -c leaf.conf
-```
-
-You should see a new message on the leaf subscriber:
-
-```text
-Reconnected [nats://localhost:4111]
-```
-
-Let's publish a message on the leaf:
-
-```text
-> nats-pub -s localhost:4111 foo foo
-Published [foo] : 'foo'
-```
-
-You should see a new message in all your subscriber windows:
-
-```text
-Received on [foo]: 'foo'
-```
-
-Now publish a new message on the leaf, but this time with the subject `bar`:
-
-```text
-> nats-pub -s localhost:4111 bar bar
-Published [bar] : 'bar'
-```
-
-This time only the leaf subscriber will print `[#4] Received on [bar]: 'bar'`, the account subscriber won't print it because the leaf user doesn't have permissions to publish on 'bar'.
-
-Let's try the flow of messages from the server to the leaf node:
-
-```text
-> nats-pub -creds ~/.nkeys/O/accounts/A/users/leaf.creds foo foo
-Published [foo] : 'foo'
-```
-
-Only the server subscriber will receive the message as expected.
-
-Repeat the publish this time with 'bar':
-
-```text
-> nats-pub -creds ~/.nkeys/O/accounts/A/users/leaf.creds bar bar
-Published [bar] : 'bar'
-```
-
-Both subscribers will receive the message as expected.
-
-As you can see:
-
-* Messages to and from the leaf node to the server are limited by the user associated with the leaf node connection.
-* Messages within the leaf node are as per the server's authentication and authorization configuration
 
