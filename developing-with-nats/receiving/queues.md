@@ -123,3 +123,35 @@ await nc.subscribe('updates', (err, msg) => {
 
 If you run this example with the publish examples that send to `updates`, you will see that one of the instances gets a message while the others you run won't. But the instance that receives the message will change.
 
+## Queue Permissions
+
+Added in NATS Server v2.1.2, Queue Permissions allow you to express authorization for queue groups. As queue groups are integral to implementing horizontally scalable microservices, control of who is allowed to join a specific queue group is important to the overall security model. 
+
+A Queue Permission can be defined with the syntax `<subject> <queue>`, where the name of the queue can also use wildcards, for example the following would allow clients to join queue groups v1 and v2.*, but won't allow plain subscriptions:
+
+```hcl
+allow = ["foo v1", "foo v2.*"]
+```
+
+The full wildcard can also be used, for example the following would prevent plain subscriptions on `bar` but allow the client to join any queue:
+
+```
+allow = ["bar >"]
+```
+
+Permissions for Queue Subscriptions can be combined with plain subscriptions as well though, for example you could allow plain subscriptions on `foo` but constrain the queues to which a client can join, as well a preventing any service from using a queue subscription with the name `*.prod`:
+
+```text
+users = [
+  {
+    user: "foo", permissions: {
+      sub: {
+        # Allow plain subscription foo, but only v1 groups or *.dev queue groups
+        allow: ["foo", "foo v1", "foo v1.>", "foo *.dev"]
+
+        # Prevent queue subscriptions on prod groups
+        deny: ["> *.prod"]
+     }
+  }
+]
+```
