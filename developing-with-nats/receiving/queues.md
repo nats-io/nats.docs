@@ -123,3 +123,24 @@ await nc.subscribe('updates', (err, msg) => {
 
 If you run this example with the publish examples that send to `updates`, you will see that one of the instances gets a message while the others you run won't. But the instance that receives the message will change.
 
+## Queue Permissions
+
+Added in NATS Server v2.1.2, Queue Permissions allow you to express authorization for queue groups. As queue groups are integral to implementing horizontally scalable microservices, control of who is allowed to join a specific queue group is important to the overall security model. 
+
+```text
+users = [
+  {
+    user: "foo", permissions: {
+      sub: {
+        # Allow plain subscription foo, but only v1 groups or *.dev queue groups
+        allow: ["foo", "foo v1", "foo v1.>", "foo *.dev"]
+
+        # Prevent queue subscriptions on prod groups
+        deny: ["> *.prod"]
+     }
+  }
+]t also queue group called “v1”
+allow: [“foo”, “foo v1”]
+```
+
+
