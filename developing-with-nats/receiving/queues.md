@@ -127,6 +127,10 @@ If you run this example with the publish examples that send to `updates`, you wi
 
 Added in NATS Server v2.1.2, Queue Permissions allow you to express authorization for queue groups. As queue groups are integral to implementing horizontally scalable microservices, control of who is allowed to join a specific queue group is important to the overall security model. 
 
+A Queue Permission can be defined with the syntax `<subject> <queue>`, where the name of the queue can also use wildcards, for example the following would allow clients to join queue groups v1 and v2.*, but won't allow plain subscriptions:
+
+```hcl
+allow = ["foo v1", "foo v2.*"]
 ```text
 users = [
   {
@@ -142,5 +146,4 @@ users = [
 ]t also queue group called “v1”
 allow: [“foo”, “foo v1”]
 ```
-
 
