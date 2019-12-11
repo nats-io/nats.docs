@@ -131,6 +131,16 @@ A Queue Permission can be defined with the syntax `<subject> <queue>`, where the
 
 ```hcl
 allow = ["foo v1", "foo v2.*"]
+```
+
+The full wildcard can also be used, for example the following would prevent plain subscriptions on `bar` but allow the client to join any queue:
+
+```
+allow = ["bar >"]
+```
+
+Permissions for Queue Subscriptions can be combined with plain subscriptions as well though, for example you could allow plain subscriptions on `foo` but constrain the queues to which a client can join, as well a preventing any service from using a queue subscription with the name `*.prod`:
+
 ```text
 users = [
   {
@@ -144,5 +154,4 @@ users = [
      }
   }
 ]
-allow: [“foo”, “foo v1”]
 ```
