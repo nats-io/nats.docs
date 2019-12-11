@@ -143,7 +143,6 @@ users = [
         deny: ["> *.prod"]
      }
   }
-]t also queue group called “v1”
+]
 allow: [“foo”, “foo v1”]
 ```
-
