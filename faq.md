@@ -25,7 +25,7 @@
 * [How do I gracefully shut down an asynchronous subscriber?](faq.md#how-do-i-gracefully-shut-down-an-asynchronous-subscriber)
 * [How do I create subjects?](faq.md#how-do-i-create-subjects)
 * [Does adding a “max_age” to a “channel” for NATS streaming server connected to a SQL store, retroactively delete messages?](faq.md#does-adding-a-max_age-to-a-channel-for-nats-streaming-server-connected-to-a-sql-store-retroactively-delete-messages)
-* [What is the upgrade path from NATS 1.x to 2.x?](faq.md#what-is-the-upgrade-path-from-nats-1x-to-2x)
+* [What is the upgrade path from NATS 1.x to 2.x?](faq.md#what-is-the-upgrade-path-from-nats-1-x-to-2-x)
 
 ## General
 
