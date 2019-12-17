@@ -186,3 +186,6 @@
   * [Developing a Client](nats-protocol/nats-protocol/nats-client-dev.md)
 * [NATS Cluster Protocol](nats-protocol/nats-server-protocol.md)
 
+## NATS on Kubernetes
+
+* [Creating a NATS Streaming cluster in K8S with FT mode](nats_kubernetes/stan-ft-k8s-aws.md)
