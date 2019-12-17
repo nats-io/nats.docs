@@ -188,4 +188,4 @@
 
 ## NATS on Kubernetes
 
-* [Creating a NATS Streaming cluster in K8S with FT mode](nats_kubernetes/stan-ft-k8s-aws.md)
+* [NATS Streaming Cluster with FT Mode](nats_kubernetes/stan-ft-k8s-aws.md)
