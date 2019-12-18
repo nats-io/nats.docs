@@ -158,7 +158,7 @@ We will also be setting up TLS for the full mesh routes.
 )
 ```
 
-## Generating the certs for the clients \(CNCF && ACME\)
+### Generating the certs for the clients \(CNCF && ACME\)
 
 ```javascript
 {
@@ -184,14 +184,15 @@ We will also be setting up TLS for the full mesh routes.
 )
 ```
 
-## Kubectl Create
+### Kubectl Create
 
-```
+```text
 cd certs kubectl create secret generic nats-tls-example --from-file=ca.pem --from-file=server-key.pem --from-file=server.pem kubectl create secret generic nats-tls-routes-example --from-file=ca.pem --from-file=route-key.pem --from-file=route.pem kubectl create secret generic nats-tls-client-example --from-file=ca.pem --from-file=client-key.pem --from-file=client.pem
 ```
+
 ### Create the Auth secret
 
-```js
+```javascript
 {
   "users": [
     { "username": "CN=nats.io,OU=ACME" },
@@ -267,11 +268,11 @@ spec:
 ' | kubectl apply -f -
 ```
 
-#### Create APP using certs
+### Create APP using certs
 
-## Adding a new pod which uses the certificates
+#### Adding a new pod which uses the certificates
 
-Development
+**Development**
 
 ```go
 package main
@@ -375,8 +376,9 @@ docker run wallyqs/nats-client-app
 docker push wallyqs/nats-client-app
 ```
 
-Pod spec
-```
+#### Pod spec
+
+```text
 echo ' apiVersion: apps/v1beta2 kind: Deployment
 
 ## The name of the deployment
@@ -422,6 +424,5 @@ template: metadata: labels: name: nats-client-app spec: volumes:
     mountPath: "/etc/nats-client-tls-certs/"
 
     ' \| kubectl apply -f -
-
 ```
 
