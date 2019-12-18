@@ -1,5 +1,7 @@
 # NATS Cluster and Cert Manager
 
+First we need to install the cert-manager component from [jetstack](https://github.com/jetstack/cert-manager):
+
 ```text
 kubectl create namespace cert-manager
 kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
@@ -19,7 +21,10 @@ spec:
 clusterissuer.certmanager.k8s.io/selfsigning unchanged
 ```
 
+Next, let's create the CA for the certs:
+
 ``` yaml
+---
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
 metadata:
@@ -35,13 +40,7 @@ spec:
   organization:
   - Your organization
   isCA: true
-```
-
-```text
-certificate.certmanager.k8s.io/nats-ca configured
-```
-
-``` yaml
+---
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Issuer
 metadata:
@@ -51,11 +50,10 @@ spec:
     secretName: nats-ca
 ```
 
-```text
-issuer.certmanager.k8s.io/nats-ca created
-```
+Now create the certs that will match the DNS name used by the clients to connect, in this case traffic is within Kubernetes so we are using the name `nats` which is backed up by a headless service (here is an [example](https://github.com/nats-io/k8s/blob/master/nats-server/nats-server-plain.yml#L24-L47) of sample deployment)
 
 ``` yaml
+---
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
 metadata:
@@ -74,11 +72,10 @@ spec:
   - nats.default.svc
 ```
 
-```text
-certificate.certmanager.k8s.io/nats-server-tls created
-```
+In case of using the NATS operator, the Routes use a service named `$YOUR_CLUSTER-mgmt` (this may change in the future)
 
-``` yaml
+```yaml
+---
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
 metadata:
@@ -97,9 +94,7 @@ spec:
   - "*.nats-mgmt.default.svc"
 ```
 
-```
-certificate.certmanager.k8s.io/nats-routes-tls configured
-```
+Now let's create an example NATS cluster with the operator:
 
 ``` yaml 
 apiVersion: "nats.io/v1alpha2"
@@ -137,9 +132,7 @@ spec:
     routesSecretCertFileName: "tls.crt"
 ```
 
-```text
-natscluster.nats.io/nats created
-```
+Confirm that the pods were deployed:
 
 ``` sh
 kubectl get pods -o wide
@@ -152,17 +145,16 @@ nats-2   1/1     Running   0          3s    172.17.0.9    minikube   <none>
 nats-3   1/1     Running   0          2s    172.17.0.10   minikube   <none>
 ```
 
+Follow the logs:
+
 ``` sh
 kubectl logs nats-1
 ```
+
 ```text
-: [1] 2019/05/08 22:35:11.192781 [INF] Starting nats-server version 1.4.1
-: [1] 2019/05/08 22:35:11.192819 [INF] Git commit [3e64f0b]
-: [1] 2019/05/08 22:35:11.192952 [INF] Starting http monitor on 0.0.0.0:8222
-: [1] 2019/05/08 22:35:11.192981 [INF] Listening for client connections on 0.0.0.0:4222
-: [1] 2019/05/08 22:35:11.192987 [INF] TLS required for client connections
-: [1] 2019/05/08 22:35:11.192989 [INF] Server is ready
-: [1] 2019/05/08 22:35:11.193123 [INF] Listening for route connections on 0.0.0.0:6222
-: [1] 2019/05/08 22:35:12.487758 [INF] 172.17.0.9:49444 - rid:1 - Route connection created
-: [1] 2019/05/08 22:35:13.450067 [INF] 172.17.0.10:46286 - rid:2 - Route connection created
+[1] 2019/12/18 12:27:23.920417 [INF] Starting nats-server version 2.1.2
+[1] 2019/12/18 12:27:23.920590 [INF] Git commit [not set]
+[1] 2019/12/18 12:27:23.921024 [INF] Listening for client connections on 0.0.0.0:4222
+[1] 2019/12/18 12:27:23.921047 [INF] Server id is NDA6JC3TGEADLLBEPFAQ4BN4PM3WBN237KIXVTFCY3JSTDOSRRVOJCXN
+[1] 2019/12/18 12:27:23.921055 [INF] Server is ready
 ```
