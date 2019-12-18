@@ -188,7 +188,7 @@
 
 ## NATS on Kubernetes
 
-* [Introduction](nats-kubernetes/intro.md)
+* [Introduction](nats-kubernetes/README.md)
 * [NATS Streaming Cluster with FT Mode](nats-kubernetes/stan-ft-k8s-aws.md)
 * [NATS + Prometheus Operator](nats-kubernetes/prometheus-and-nats-operator)
 * [NATS + Cert Manager](nats-kubernetes/nats-cluster-and-cert-manager.md)
