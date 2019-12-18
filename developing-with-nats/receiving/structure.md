@@ -7,7 +7,10 @@ For example, to receive JSON you could do:
 {% tabs %}
 {% tab title="Go" %}
 ```go
-nc, err := nats.Connect("demo.nats.io")
+nc, err := nats.Connect("demo.nats.io",
+        nats.ErrorHandler(func(nc *nats.Conn, s *nats.Subscription, err error) {
+            log.Printf("Async error in %q/%q: %v", s.Subject, s.Queue, err)
+        }))
 if err != nil {
 	log.Fatal(err)
 }
@@ -28,6 +31,9 @@ wg := sync.WaitGroup{}
 wg.Add(1)
 
 // Subscribe
+// Decoding errors will be passed to the function supplied via
+// nats.ErrorHandler above, and the callback supplied here will
+// not be invoked.
 if _, err := ec.Subscribe("updates", func(s *stock) {
 	log.Printf("Stock: %s - Price: %v", s.Symbol, s.Price)
 	wg.Done()
