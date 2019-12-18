@@ -152,13 +152,9 @@ kubectl logs nats-1
 ```
 
 ```text
- [1] 2019/05/08 22:35:11.192781 [INF] Starting nats-server version 1.4.1
- [1] 2019/05/08 22:35:11.192819 [INF] Git commit [3e64f0b]
- [1] 2019/05/08 22:35:11.192952 [INF] Starting http monitor on 0.0.0.0:8222
- [1] 2019/05/08 22:35:11.192981 [INF] Listening for client connections on 0.0.0.0:4222
- [1] 2019/05/08 22:35:11.192987 [INF] TLS required for client connections
- [1] 2019/05/08 22:35:11.192989 [INF] Server is ready
- [1] 2019/05/08 22:35:11.193123 [INF] Listening for route connections on 0.0.0.0:6222
- [1] 2019/05/08 22:35:12.487758 [INF] 172.17.0.9:49444 - rid:1 - Route connection created
- [1] 2019/05/08 22:35:13.450067 [INF] 172.17.0.10:46286 - rid:2 - Route connection created
+[1] 2019/12/18 12:27:23.920417 [INF] Starting nats-server version 2.1.2
+[1] 2019/12/18 12:27:23.920590 [INF] Git commit [not set]
+[1] 2019/12/18 12:27:23.921024 [INF] Listening for client connections on 0.0.0.0:4222
+[1] 2019/12/18 12:27:23.921047 [INF] Server id is NDA6JC3TGEADLLBEPFAQ4BN4PM3WBN237KIXVTFCY3JSTDOSRRVOJCXN
+[1] 2019/12/18 12:27:23.921055 [INF] Server is ready
 ```
