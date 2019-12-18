@@ -1,4 +1,6 @@
-First need to install the cert-manager component from [jetstack](https://github.com/jetstack/cert-manager):
+# NATS Cluster and Cert Manager
+
+First you need to install the cert-manager component from [jetstack](https://github.com/jetstack/cert-manager):
 
 ```text
 kubectl create namespace cert-manager
