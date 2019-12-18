@@ -3,7 +3,7 @@
 In this section you can find several examples of how to deploy NATS, NATS Streaming 
 and other tools from the NATS ecosystem on Kubernetes.
 
- * [Getting Started](README.md/#getting-started)
+ * [Getting Started](README.md#getting-started)
  * [Creating a NATS Streaming Cluster in k8s with FT mode](stan-ft-k8s-aws.md)
  * [NATS + Prometheus Operator](prometheus-and-nats-operator)
  * [NATS + Cert Manager in k8s](nats-cluster-and-cert-manager.md)
