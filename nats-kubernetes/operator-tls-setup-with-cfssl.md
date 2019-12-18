@@ -1,5 +1,4 @@
-# Secure NATS Cluster in Kubernetes
-
+# Secure NATS Cluster in Kubernetes using the NATS Operator
 
 ## Features 
 
@@ -13,7 +12,7 @@
 
 #### Generating the Root CA Certs
 
-```js :tangle certs/ca-csr.json
+```js
 {
     "CN": "nats.io",
     "key": {
@@ -83,7 +82,7 @@ the full mesh routing connections between the servers.
 
 First we generate the certificates for the server.
 
-```js :tangle certs/server.json
+```js
 {
     "CN": "nats.io",
     "hosts": [
@@ -123,7 +122,7 @@ First we generate the certificates for the server.
 
 We will also be setting up TLS for the full mesh routes.
 
-```js :tangle certs/route.json
+```js
 {
     "CN": "nats.io",
     "hosts": [
@@ -161,7 +160,7 @@ We will also be setting up TLS for the full mesh routes.
 
 #### Generating the certs for the clients (CNCF && ACME)
 
-```js :tangle certs/client.json
+```js
 {
     "CN": "nats.io",
     "hosts": [""],
@@ -196,7 +195,7 @@ kubectl create secret generic nats-tls-client-example --from-file=ca.pem --from-
 
 ### Create the Auth secret
 
-```js :tangle users.json
+```js
 {
   "users": [
     { "username": "CN=nats.io,OU=ACME" },
@@ -220,7 +219,7 @@ kubectl create secret generic nats-tls-users --from-file=users.json
 
 ### Create a cluster with TLS
 
-```sh :results output
+```sh
 echo '
 apiVersion: "nats.io/v1alpha2"
 kind: "NatsCluster"
@@ -360,7 +359,7 @@ func main() {
 }
 ```
 
-```text :tangle app/Dockerfile
+```text
 FROM golang:1.11.0-alpine3.8 AS builder
 COPY . /go/src/github.com/nats-io/nats-kubernetes/examples/nats-cluster-routes-tls/app
 WORKDIR /go/src/github.com/nats-io/nats-kubernetes/examples/nats-cluster-routes-tls/app
