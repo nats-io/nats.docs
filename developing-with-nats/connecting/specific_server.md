@@ -15,7 +15,7 @@ For example, to connect to the demo server with a URL you can use:
 // nats.Connect("nats://demo.nats.io:4222")
 nc, err := nats.Connect("demo.nats.io")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 

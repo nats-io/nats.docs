@@ -23,7 +23,7 @@ clusterissuer.certmanager.k8s.io/selfsigning unchanged
 
 Next, let's create the CA for the certs:
 
-``` yaml
+```yaml
 ---
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
@@ -50,9 +50,9 @@ spec:
     secretName: nats-ca
 ```
 
-Now create the certs that will match the DNS name used by the clients to connect, in this case traffic is within Kubernetes so we are using the name `nats` which is backed up by a headless service (here is an [example](https://github.com/nats-io/k8s/blob/master/nats-server/nats-server-plain.yml#L24-L47) of sample deployment)
+Now create the certs that will match the DNS name used by the clients to connect, in this case traffic is within Kubernetes so we are using the name `nats` which is backed up by a headless service \(here is an [example](https://github.com/nats-io/k8s/blob/master/nats-server/nats-server-plain.yml#L24-L47) of sample deployment\)
 
-``` yaml
+```yaml
 ---
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
@@ -72,7 +72,7 @@ spec:
   - nats.default.svc
 ```
 
-In case of using the NATS operator, the Routes use a service named `$YOUR_CLUSTER-mgmt` (this may change in the future)
+In case of using the NATS operator, the Routes use a service named `$YOUR_CLUSTER-mgmt` \(this may change in the future\)
 
 ```yaml
 ---
@@ -96,7 +96,7 @@ spec:
 
 Now let's create an example NATS cluster with the operator:
 
-``` yaml 
+```yaml
 apiVersion: "nats.io/v1alpha2"
 kind: "NatsCluster"
 metadata:
@@ -134,11 +134,11 @@ spec:
 
 Confirm that the pods were deployed:
 
-``` sh
+```bash
 kubectl get pods -o wide
 ```
 
-``` sh
+```bash
 NAME     READY   STATUS    RESTARTS   AGE   IP            NODE       NOMINATED NODE
 nats-1   1/1     Running   0          4s    172.17.0.8    minikube   <none>
 nats-2   1/1     Running   0          3s    172.17.0.9    minikube   <none>
@@ -147,7 +147,7 @@ nats-3   1/1     Running   0          2s    172.17.0.10   minikube   <none>
 
 Follow the logs:
 
-``` sh
+```bash
 kubectl logs nats-1
 ```
 
@@ -158,3 +158,4 @@ kubectl logs nats-1
 [1] 2019/12/18 12:27:23.921047 [INF] Server id is NDA6JC3TGEADLLBEPFAQ4BN4PM3WBN237KIXVTFCY3JSTDOSRRVOJCXN
 [1] 2019/12/18 12:27:23.921055 [INF] Server is ready
 ```
+

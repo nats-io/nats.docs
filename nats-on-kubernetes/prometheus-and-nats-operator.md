@@ -1,16 +1,15 @@
-
-# Prometheus Operator + NATS Operator
+# NATS and Prometheus Operator
 
 ## Installing the Operators
 
 Install the NATS Operator:
 
-``` sh
+```bash
 $ kubectl apply -f https://raw.githubusercontent.com/nats-io/nats-operator/master/deploy/00-prereqs.yaml
 $ kubectl apply -f https://raw.githubusercontent.com/nats-io/nats-operator/master/deploy/10-deployment.yaml
 ```
 
-Install the Prometheus Operator along with its RBAC definition (prometheus-operator service account):
+Install the Prometheus Operator along with its RBAC definition \(prometheus-operator service account\):
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -285,13 +284,11 @@ spec:
 
 ## Confirm
 
-```
+```text
 kubectl port-forward prometheus-prometheus-0 9090:9090
 ```
 
-Results:
+### Results
 
-<img height="400" width="1000" src="https://user-images.githubusercontent.com/26195/59470419-2066fd80-8e27-11e9-9e3e-250296a091da.png">
-
-
+![](https://user-images.githubusercontent.com/26195/59470419-2066fd80-8e27-11e9-9e3e-250296a091da.png)
 

@@ -1,4 +1,4 @@
-# Configuration file
+# Configuration File
 
 You can use a configuration file to configure the options specific to the NATS Streaming Server.
 
@@ -73,7 +73,7 @@ In general the configuration parameters are the same as the command line argumen
 | encrypt | Specify if server should encrypt messages \(only the payload\) when storing them | `true` or `false` | `encrypt: true` |
 | encryption\_cipher | Cipher to use for encryption. Currently support AES and CHAHA \(ChaChaPoly\). Defaults to AES | `AES` or `CHACHA` | `encryption_cipher: "AES"` |
 | encryption\_key | Encryption key. It is recommended to specify the key through the `NATS_STREAMING_ENCRYPTION_KEY` environment variable instead | String | `encryption_key: "mykey"` |
-| credentials | Credentials file to connect to external NATS 2.0+ Server  | String | `credentials: "streaming_server.creds"` |
+| credentials | Credentials file to connect to external NATS 2.0+ Server | String | `credentials: "streaming_server.creds"` |
 
 ## TLS Configuration
 

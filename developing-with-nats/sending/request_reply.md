@@ -13,14 +13,14 @@ For example, updating the previous publish example we may request `time` with a 
 ```go
 nc, err := nats.Connect("demo.nats.io")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
 // Send the request
 msg, err := nc.Request("time", nil, time.Second)
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Use the response

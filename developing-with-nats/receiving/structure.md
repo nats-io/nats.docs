@@ -9,19 +9,19 @@ For example, to receive JSON you could do:
 ```go
 nc, err := nats.Connect("demo.nats.io")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 ec, err := nats.NewEncodedConn(nc, nats.JSON_ENCODER)
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer ec.Close()
 
 // Define the object
 type stock struct {
-	Symbol string
-	Price  int
+    Symbol string
+    Price  int
 }
 
 wg := sync.WaitGroup{}
@@ -29,10 +29,10 @@ wg.Add(1)
 
 // Subscribe
 if _, err := ec.Subscribe("updates", func(s *stock) {
-	log.Printf("Stock: %s - Price: %v", s.Symbol, s.Price)
-	wg.Done()
+    log.Printf("Stock: %s - Price: %v", s.Symbol, s.Price)
+    wg.Done()
 }); err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Wait for a message to come in
@@ -66,7 +66,7 @@ public class SubscribeJSON {
 
                 String json = new String(msg.getData(), StandardCharsets.UTF_8);
                 StockForJsonSub stk = gson.fromJson(json, StockForJsonSub.class);
-                
+
                 // Use the object
                 System.out.println(stk);
 

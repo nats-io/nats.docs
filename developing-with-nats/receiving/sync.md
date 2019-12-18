@@ -9,20 +9,20 @@ For example, to subscribe to the subject `updates` and receive a single message 
 ```go
 nc, err := nats.Connect("demo.nats.io")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
 // Subscribe
 sub, err := nc.SubscribeSync("updates")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Wait for a message
 msg, err := sub.NextMsg(10 * time.Second)
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Use the response

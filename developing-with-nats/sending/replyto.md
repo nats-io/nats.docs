@@ -7,7 +7,7 @@ The optional reply-to field when publishing a message can be used on the receivi
 ```go
 nc, err := nats.Connect("demo.nats.io")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
@@ -17,19 +17,19 @@ uniqueReplyTo := nats.NewInbox()
 // Listen for a single response
 sub, err := nc.SubscribeSync(uniqueReplyTo)
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Send the request.
 // If processing is synchronous, use Request() which returns the response message.
 if err := nc.PublishRequest("time", uniqueReplyTo, nil); err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Read the reply
 msg, err := sub.NextMsg(time.Second)
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Use the response

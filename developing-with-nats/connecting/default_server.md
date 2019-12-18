@@ -7,7 +7,7 @@ Some libraries also provide a special way to connect to a _default_ url, which i
 ```go
 nc, err := nats.Connect(nats.DefaultURL)
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 

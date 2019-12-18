@@ -68,30 +68,30 @@ authorization {
 
 Here's another example, where the `allow` and `deny` options are specified:
 
-```
+```text
 authorization: {
-	users = [
-	    {
-	    	user: admin
-	    	password: secret
-	    	permissions: {
-	    		publish: ">"
-	    		subscribe: ">"
-	    	}
-	    }
-		{ 
-			user: test
-			password: test
-			permissions: {
-				publish: {
-					deny: ">"
-				}, 
-				subscribe: {
-					allow: "client.>"
-				}
-			}
-		}
-	]
+    users = [
+        {
+            user: admin
+            password: secret
+            permissions: {
+                publish: ">"
+                subscribe: ">"
+            }
+        }
+        { 
+            user: test
+            password: test
+            permissions: {
+                publish: {
+                    deny: ">"
+                }, 
+                subscribe: {
+                    allow: "client.>"
+                }
+            }
+        }
+    ]
 }
 ```
 

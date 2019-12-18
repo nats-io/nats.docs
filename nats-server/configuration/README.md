@@ -124,7 +124,7 @@ authorization: {
 | `max_traced_msg_len` | Set a limit to the trace of the payload of a message |
 | `disable_sublist_cache` | Disable sublist cache globally for accounts. |
 | [`operator`](../../nats-tools/nsc/nsc.md#nats-server-configuration) | Path to an operator JWT |
-| [`ping_interval`](../../developing-with-nats/intro/pingpong.md) | Interval in seconds in which the server checks if a connection is active |
+| [`ping_interval`]() | Interval in seconds in which the server checks if a connection is active |
 | `port` | Port for client connections |
 | `reconnect_error_reports` | Number of failed attempt to reconnect a route, gateway or leaf node connection. Default is to report every attempt. |
 | [`resolver`](../../nats-tools/nsc/nsc.md#nats-server-configuration) | Resolver type `MEMORY` or `URL` for account JWTs |

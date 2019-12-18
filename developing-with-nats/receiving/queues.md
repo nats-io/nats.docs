@@ -13,7 +13,7 @@ As an example, to subscribe to the queue `workers` with the subject `updates`:
 ```go
 nc, err := nats.Connect("demo.nats.io")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
@@ -23,9 +23,9 @@ wg.Add(10)
 
 // Create a queue subscription on "updates" with queue name "workers"
 if _, err := nc.QueueSubscribe("updates", "worker", func(m *nats.Msg) {
-	wg.Done()
+    wg.Done()
 }); err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Wait for messages to come in
@@ -125,17 +125,17 @@ If you run this example with the publish examples that send to `updates`, you wi
 
 ## Queue Permissions
 
-Added in NATS Server v2.1.2, Queue Permissions allow you to express authorization for queue groups. As queue groups are integral to implementing horizontally scalable microservices, control of who is allowed to join a specific queue group is important to the overall security model. 
+Added in NATS Server v2.1.2, Queue Permissions allow you to express authorization for queue groups. As queue groups are integral to implementing horizontally scalable microservices, control of who is allowed to join a specific queue group is important to the overall security model.
 
-A Queue Permission can be defined with the syntax `<subject> <queue>`, where the name of the queue can also use wildcards, for example the following would allow clients to join queue groups v1 and v2.*, but won't allow plain subscriptions:
+A Queue Permission can be defined with the syntax `<subject> <queue>`, where the name of the queue can also use wildcards, for example the following would allow clients to join queue groups v1 and v2.\*, but won't allow plain subscriptions:
 
-```hcl
+```text
 allow = ["foo v1", "foo v2.*"]
 ```
 
 The full wildcard can also be used, for example the following would prevent plain subscriptions on `bar` but allow the client to join any queue:
 
-```
+```text
 allow = ["bar >"]
 ```
 
@@ -155,3 +155,4 @@ users = [
   }
 ]
 ```
+

@@ -166,12 +166,12 @@ When working with a cluster, servers may be added or changed. Some of the client
 // Be notified if a new server joins the cluster.
 // Print all the known servers and the only the ones that were discovered.
 nc, err := nats.Connect("demo.nats.io",
-	nats.DiscoveredServersHandler(func(nc *nats.Conn) {
-		log.Printf("Known servers: %v\n", nc.Servers())
-		log.Printf("Discovered servers: %v\n", nc.DiscoveredServers())
-	}))
+    nats.DiscoveredServersHandler(func(nc *nats.Conn) {
+        log.Printf("Known servers: %v\n", nc.Servers())
+        log.Printf("Discovered servers: %v\n", nc.DiscoveredServers())
+    }))
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
@@ -251,11 +251,11 @@ The client library may separate server-to-client errors from events. Many server
 ```go
 // Set the callback that will be invoked when an asynchronous error occurs.
 nc, err := nats.Connect("demo.nats.io",
-	nats.ErrorHandler(func(_ *nats.Conn, _ *nats.Subscription, err error) {
-		log.Printf("Error: %v", err)
-	}))
+    nats.ErrorHandler(func(_ *nats.Conn, _ *nats.Subscription, err error) {
+        log.Printf("Error: %v", err)
+    }))
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 

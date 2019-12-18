@@ -25,7 +25,7 @@ Given a creds file, a client can authenticate as a specific user belonging to a 
 ```go
 nc, err := nats.Connect("127.0.0.1", nats.UserCredentials("path_to_creds_file"))
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 

@@ -16,7 +16,7 @@ When detected at the client, the application is notified and messages are droppe
 
 ## Slow consumers identified in the client
 
-A [client can detect it is a slow consumer](../../developing-with-nats/intro-5/slow.md) on a local connection and notify the application through use of the asynchronous error callback. It is better to catch a slow consumer locally in the client rather than to allow the server to detect this condition. This example demonstrates how to define and register an asynchronous error handler that will handle slow consumer errors.
+A [client can detect it is a slow consumer]() on a local connection and notify the application through use of the asynchronous error callback. It is better to catch a slow consumer locally in the client rather than to allow the server to detect this condition. This example demonstrates how to define and register an asynchronous error handler that will handle slow consumer errors.
 
 ```go
 func natsErrHandler(nc *nats.Conn, sub *nats.Subscription, natsErr error) {
@@ -66,7 +66,7 @@ Apart from using [NATS streaming](../../nats-streaming-concepts/intro.md) or opt
 
 **Scaling with queue subscribers**
 
-This is ideal if you do not rely on message order. Ensure your NATS subscription belongs to a [queue group](../../concepts/queue.md), then scale as required by creating more instances of your service or application. This is a great approach for microservices - each instance of your microservice will receive a portion of the messages to process, and simply add more instances of your service to scale. No code changes, configuration changes, or downtime whatsoever.
+This is ideal if you do not rely on message order. Ensure your NATS subscription belongs to a [queue group](../../nats-concepts/queue.md), then scale as required by creating more instances of your service or application. This is a great approach for microservices - each instance of your microservice will receive a portion of the messages to process, and simply add more instances of your service to scale. No code changes, configuration changes, or downtime whatsoever.
 
 **Create a subject namespace that can scale**
 

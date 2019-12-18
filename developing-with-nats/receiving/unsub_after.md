@@ -17,26 +17,26 @@ The following example shows unsubscribe after a single message:
 ```go
 nc, err := nats.Connect("demo.nats.io")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
 // Sync Subscription
 sub, err := nc.SubscribeSync("updates")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 if err := sub.AutoUnsubscribe(1); err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Async Subscription
 sub, err = nc.Subscribe("updates", func(_ *nats.Msg) {})
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 if err := sub.AutoUnsubscribe(1); err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 ```
 {% endtab %}
@@ -126,7 +126,6 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
 
   end.resume
 end
-
 ```
 {% endtab %}
 

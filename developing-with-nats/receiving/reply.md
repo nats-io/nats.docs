@@ -9,20 +9,20 @@ For example, the following code will listen for that request and respond with th
 ```go
 nc, err := nats.Connect("demo.nats.io")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
 // Subscribe
 sub, err := nc.SubscribeSync("time")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Read a message
 msg, err := sub.NextMsg(10 * time.Second)
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Get the time
@@ -69,7 +69,6 @@ nc.subscribe('time', (msg, reply) => {
         nc.publish(msg.reply, new Date().toLocaleTimeString());
     }
 });
-
 ```
 {% endtab %}
 

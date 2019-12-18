@@ -28,7 +28,7 @@ When logging in with a password `nats-server` will take either a plain text pass
 // Set a user and plain text password
 nc, err := nats.Connect("127.0.0.1", nats.UserInfo("myname", "password"))
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
@@ -109,7 +109,7 @@ Using this format, you can connect to a server using authentication as easily as
 // Set a user and plain text password
 nc, err := nats.Connect("myname:password@127.0.0.1")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 

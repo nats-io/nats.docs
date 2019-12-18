@@ -18,7 +18,7 @@ The code uses localhost:4222 so that you can start the server on your machine to
 // Set a token
 nc, err := nats.Connect("127.0.0.1", nats.Name("API Token Example"), nats.Token("mytoken"))
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
@@ -85,7 +85,7 @@ Again, once you construct this URL you can connect as if this was a normal URL.
 // Token in URL
 nc, err := nats.Connect("mytoken@localhost")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 

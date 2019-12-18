@@ -11,7 +11,7 @@ For example, you can subscribe using `*` and then act based on the actual subjec
 ```go
 nc, err := nats.Connect("demo.nats.io")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
@@ -21,10 +21,10 @@ wg.Add(2)
 
 // Subscribe
 if _, err := nc.Subscribe("time.*.east", func(m *nats.Msg) {
-	log.Printf("%s: %s", m.Subject, m.Data)
-	wg.Done()
+    log.Printf("%s: %s", m.Subject, m.Data)
+    wg.Done()
 }); err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Wait for the 2 messages to come in
@@ -176,7 +176,7 @@ or do something similar with `>`:
 ```go
 nc, err := nats.Connect("demo.nats.io")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
@@ -186,10 +186,10 @@ wg.Add(4)
 
 // Subscribe
 if _, err := nc.Subscribe("time.>", func(m *nats.Msg) {
-	log.Printf("%s: %s", m.Subject, m.Data)
-	wg.Done()
+    log.Printf("%s: %s", m.Subject, m.Data)
+    wg.Done()
 }); err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Wait for the 4 messages to come in
@@ -346,13 +346,13 @@ The following example can be used to test these two subscribers. The `*` subscri
 ```go
 nc, err := nats.Connect("demo.nats.io")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
 zoneID, err := time.LoadLocation("America/New_York")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 now := time.Now()
 zoneDateTime := now.In(zoneID)
@@ -363,14 +363,13 @@ nc.Publish("time.us.east.atlanta", []byte(formatted))
 
 zoneID, err = time.LoadLocation("Europe/Warsaw")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 zoneDateTime = now.In(zoneID)
 formatted = zoneDateTime.String()
 
 nc.Publish("time.eu.east", []byte(formatted))
 nc.Publish("time.eu.east.warsaw", []byte(formatted))
-
 ```
 {% endtab %}
 
@@ -392,7 +391,6 @@ nc.publish("time.eu.east.warsaw", formatted.getBytes(StandardCharsets.UTF_8));
 
 nc.flush(Duration.ZERO);
 nc.close();
-
 ```
 {% endtab %}
 
@@ -402,7 +400,6 @@ nc.publish('time.us.east');
 nc.publish('time.us.central');
 nc.publish('time.us.mountain');
 nc.publish('time.us.west');
-
 ```
 {% endtab %}
 
@@ -419,7 +416,6 @@ await nc.publish("time.eu.east", b'...')
 await nc.publish("time.eu.east.warsaw", b'...')
 
 await nc.close()
-
 ```
 {% endtab %}
 
@@ -434,7 +430,6 @@ NATS.start do |nc|
 
    nc.drain
 end
-
 ```
 {% endtab %}
 
@@ -444,7 +439,6 @@ nc.publish('time.us.east');
 nc.publish('time.us.central');
 nc.publish('time.us.mountain');
 nc.publish('time.us.west');
-
 ```
 {% endtab %}
 {% endtabs %}

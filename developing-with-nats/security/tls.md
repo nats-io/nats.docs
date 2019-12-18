@@ -18,10 +18,10 @@ Connecting to a server with TLS is straightforward. Most clients will automatica
 {% tab title="Go" %}
 ```go
 nc, err := nats.Connect("localhost",
-	nats.ClientCert("resources/certs/cert.pem", "resources/certs/key.pem"),
-	nats.RootCAs("resources/certs/ca.pem"))
+    nats.ClientCert("resources/certs/cert.pem", "resources/certs/key.pem"),
+    nats.RootCAs("resources/certs/ca.pem"))
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
@@ -84,7 +84,7 @@ public class ConnectTLS {
                                 sslContext(ctx). // Set the SSL context
                                 build();
             Connection nc = Nats.connect(options);
-            
+
             // Do something with the connection
 
             nc.close();
@@ -206,7 +206,7 @@ Some clients may support the `tls` protocol as well as a manual setting to turn 
 ```go
 nc, err := nats.Connect("tls://localhost", nats.RootCAs("resources/certs/ca.pem")) // May need this if server is using self-signed certificate
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
@@ -269,7 +269,7 @@ public class ConnectTLS {
                                 sslContext(ctx). // Set the SSL context
                                 build();
             Connection nc = Nats.connect(options);
-            
+
             // Do something with the connection
 
             nc.close();

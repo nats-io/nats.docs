@@ -9,12 +9,12 @@ All of the NATS clients are designed to make sending a message simple. For examp
 ```go
 nc, err := nats.Connect("demo.nats.io", nats.Name("API PublishBytes Example"))
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
 if err := nc.Publish("updates", []byte("All is Well")); err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 ```
 {% endtab %}

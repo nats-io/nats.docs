@@ -1,3 +1,4 @@
+# NATS and Docker
 
 ## NATS Server Containerization
 
@@ -9,32 +10,32 @@ The NATS server is provided as a Docker image on [Docker Hub](https://hub.docker
 
 To use the Docker container image, install Docker and pull the public image:
 
-```sh
+```bash
 docker pull nats
 ```
 
 Run the NATS server image:
 
-```sh
+```bash
 docker run nats
 ```
 
 By default the NATS server exposes multiple ports:
 
-- 4222 is for clients.
-- 8222 is an HTTP management port for information reporting.
-- 6222 is a routing port for clustering.
-- Use -p or -P to customize.
+* 4222 is for clients.
+* 8222 is an HTTP management port for information reporting.
+* 6222 is a routing port for clustering.
+* Use -p or -P to customize.
 
 ### Creating a NATS Cluster
 
 First run a server with the ports exposed on a `docker network`:
 
-```sh
+```bash
 $ docker network create nats
 ```
 
-```sh
+```bash
 docker run --name nats --network nats --rm -p 4222:4222 -p 8222:8222 nats
 [INF] Starting nats-server version 2.1.0
 [INF] Git commit [1cc5ae0]
@@ -47,7 +48,7 @@ docker run --name nats --network nats --rm -p 4222:4222 -p 8222:8222 nats
 
 Next, start another couple of servers and point them to the seed server to make them form a cluster:
 
-```sh
+```bash
 docker run --name nats-1 --network nats --rm nats --cluster nats://0.0.0.0:6222 --routes=nats://ruser:T0pS3cr3t@nats:6222
 docker run --name nats-2 --network nats --rm nats --cluster nats://0.0.0.0:6222 --routes=nats://ruser:T0pS3cr3t@nats:6222
 ```
@@ -56,7 +57,7 @@ docker run --name nats-2 --network nats --rm nats --cluster nats://0.0.0.0:6222 
 
 To verify the routes are connected, you can make a request to the monitoring endpoint on `/routez` as follows and confirm that there are now 2 routes:
 
-```sh
+```bash
 curl http://127.0.0.1:8222/routez
 {
   "server_id": "ND34PZ64QLLJKSU5SLSWRS5EUXEKNHW5BUVLCNFWA56R4D7XKDYWJFP7",
@@ -99,7 +100,7 @@ curl http://127.0.0.1:8222/routez
 
 ### Creating a NATS Cluster with Docker Compose
 
-It is also straightforward to create a cluster using Docker Compose.  Below is a simple example that uses a network named `nats` to create a full mesh cluster.
+It is also straightforward to create a cluster using Docker Compose. Below is a simple example that uses a network named `nats` to create a full mesh cluster.
 
 ```yaml
 version: "3"
@@ -122,7 +123,7 @@ networks:
 
 Now we use Docker Compose to create the cluster that will be using the `nats` network:
 
-```sh
+```bash
 $ docker network create nats
 
 $ docker-compose -f nats-cluster.yaml up
@@ -146,20 +147,18 @@ nats-1_1  | [1] 2019/10/19 06:41:27.153078 [INF] 172.18.0.4:6222 - rid:3 - Route
 
 Now, the following should work: make a subscription on one of the nodes and publish it from another node. You should be able to receive the message without problems.
 
-```sh
+```bash
 $ docker run --network nats --rm -it synadia/nats-box
 ~ # nats-sub -s nats://nats:4222 hello &
 Listening on [hello]
 
 ~ # nats-pub -s "nats://nats-1:4222" hello first
 ~ # nats-pub -s "nats://nats-2:4222" hello second
-[#1] Received on [hello]: 'first'
-[#2] Received on [hello]: 'second'
 ```
 
 Also stopping the seed node to which the subscription was done, should trigger an automatic failover to the other nodes:
 
-```sh
+```bash
 $ docker stop nats
 
 ... 
@@ -169,7 +168,7 @@ Reconnected [nats://172.17.0.4:4222]
 
 Publishing again will continue to work after the reconnection:
 
-```sh
+```bash
 ~ # nats-pub -s "nats://nats-1:4222" hello again
 ~ # nats-pub -s "nats://nats-2:4222" hello again
 ```
@@ -177,3 +176,4 @@ Publishing again will continue to work after the reconnection:
 ## Tutorial
 
 See the [NATS Docker tutorial](nats-docker-tutorial.md) for more instructions on using the NATS server Docker image.
+

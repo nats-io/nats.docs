@@ -9,14 +9,13 @@ Leaf nodes are useful in IoT and edge scenarios and when the local server traffi
   * Subjects that the user is allowed to publish are exported to the cluster. 
   * Subjects the user is allowed to subscribe to, are imported into the leaf node.
 
-
 > Leaf Nodes are an important component as a way to bridge traffic between local NATS servers you control and servers that are managed by a third-party. Synadia's [NATS Global Service \(NGS\)](https://www.synadia.com/) allows accounts to use leaf nodes, but gain accessibility to the global network to inexpensively connect geographically distributed servers or small clusters.
 
 [LeafNode Configuration Options](leafnode_conf.md)
 
 ## LeafNode Configuration Tutorial
 
-The main server is just a standard NATS server. Clients to the main cluster are just using token authentication, but any kind of authentication can be used. The server allows leaf node connections at port 7422 (default port):
+The main server is just a standard NATS server. Clients to the main cluster are just using token authentication, but any kind of authentication can be used. The server allows leaf node connections at port 7422 \(default port\):
 
 ```text
 leafnodes {
@@ -28,6 +27,7 @@ authorization {
 ```
 
 Start the server:
+
 ```bash
 nats-server -c /tmp/server.conf
 ...
@@ -35,14 +35,13 @@ nats-server -c /tmp/server.conf
 ...
 ```
 
-
 We create a replier on the server to listen for requests on 'q', which it will aptly respond with '42':
+
 ```bash
 nats-rply -s nats://s3cr3t@localhost q 42
 ```
 
-
-The leaf node, allows local clients to connect to through port 4111, and doesn't require any kind of authentication. The configuration specifies where the remote cluster is located, and specifies how to connect to it (just a simple token in this case):
+The leaf node, allows local clients to connect to through port 4111, and doesn't require any kind of authentication. The configuration specifies where the remote cluster is located, and specifies how to connect to it \(just a simple token in this case\):
 
 ```text
 listen: "127.0.0.1:4111"
@@ -158,7 +157,6 @@ Check your email, verify the email, and specify an credit card, after that:
 ╰───────────────────────────┴──────────────────────────────────────────────────────────╯
 
 ....
-
 ```
 
 Note the limits on the account, specify that the account can have up-to 2 leaf node connections. Let's use them:
@@ -171,7 +169,6 @@ Note the limits on the account, specify that the account can have up-to 2 leaf n
 ```
 
 Let's craft a leaf node connection much like we did earlier:
-
 
 ```text
 leafnodes {
@@ -210,10 +207,7 @@ Published [q] : ''
 Received  [_INBOX.hgG0zVcVcyr4G5KBwOuyJw.uUYkEyKr] : '42'
 ```
 
-
 ## Leaf Authorization
 
 In some cases you may want to restrict what messages can be exported from the leaf node or imported from the leaf connection. You can specify restrictions by limiting what the leaf connection client can publish and subscribe to. See [NATS Authorization](../securing_nats/authorization.md) for how you can do this.
-
-
 

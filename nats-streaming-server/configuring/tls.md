@@ -32,7 +32,7 @@ The embedded NATS server specifies TLS server certificates with these:
 --tlscacert <file>           Client certificate CA for verification
 ```
 
-The server parameters are used the same way you'd [secure a typical NATS server](../../../nats-server/configuration/securing_nats/tls.md).
+The server parameters are used the same way you'd [secure a typical NATS server](../../nats-server/configuration/securing_nats/tls.md).
 
 Proper usage of the NATS Streaming Server requires the use of both client and server parameters.
 
@@ -42,7 +42,7 @@ For example:
 % nats-streaming-server -tls_client_cert client-cert.pem -tls_client_key client-key.pem -tls_client_cacert ca.pem -tlscert server-cert.pem -tlskey server-key.pem -tlscacert ca.pem
 ```
 
-Further TLS related functionality can be found in [Securing NATS &gt; TLS](../../../nats-server/configuration/securing_nats/tls.md). Note that if specifying cipher suites is required, a configuration file for the embedded NATS server can be passed through the `-config` command line parameter.
+Further TLS related functionality can be found in [Securing NATS &gt; TLS](../../nats-server/configuration/securing_nats/tls.md). Note that if specifying cipher suites is required, a configuration file for the embedded NATS server can be passed through the `-config` command line parameter.
 
 ### Connecting to Remote NATS Server with TLS Enabled
 

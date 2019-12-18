@@ -1,30 +1,28 @@
-# NSC
+# Basics
 
 NSC allows you to manage identities. Identities take the form of _nkeys_. Nkeys are a public-key signature system based on Ed25519 for the NATS ecosystem.
 
-The nkey identities are associated with NATS configuration in the form of a Jason Web Token (JWT). The JWT is digitally signed by the private key of an issuer forming a chain of trust. The `nsc` tool creates and manages these identities and allows you to deploy them to a JWT account server, which in turn makes the configurations available to nats-servers.
+The nkey identities are associated with NATS configuration in the form of a Jason Web Token \(JWT\). The JWT is digitally signed by the private key of an issuer forming a chain of trust. The `nsc` tool creates and manages these identities and allows you to deploy them to a JWT account server, which in turn makes the configurations available to nats-servers.
 
 There’s a logical hierarchy to the entities:
 
-- `Operators` are responsible for running nats-servers, and issuing account JWTs. Operators set the limits on what an account can do, such as the number of connections, data limits, etc.
-
-- `Accounts` are responsible for issuing user JWTs. An account defines streams and services that can be exported to other accounts. Likewise, they import streams and services from other accounts.
-
-- `Users` are issued by an account, and encode limits regarding usage and authorization over the account's subject space.
+* `Operators` are responsible for running nats-servers, and issuing account JWTs. Operators set the limits on what an account can do, such as the number of connections, data limits, etc.
+* `Accounts` are responsible for issuing user JWTs. An account defines streams and services that can be exported to other accounts. Likewise, they import streams and services from other accounts.
+* `Users` are issued by an account, and encode limits regarding usage and authorization over the account's subject space.
 
 NSC allows you to create, edit, and delete these entities, and will be central to all account-based configuration.
 
 In this guide, you’ll run end-to-end on some of the configuration scenarios:
 
-- Generate NKey identities and their associated JWTs
-- Make JWTs accessible to a nats-server
-- Configure a nats-server to use JWTs
+* Generate NKey identities and their associated JWTs
+* Make JWTs accessible to a nats-server
+* Configure a nats-server to use JWTs
 
 Let’s run through the process of creating some identities and JWTs and work through the process.
 
 ## Creating an Operator, Account and User
 
-Let’s create an operator called `O` (oh):
+Let’s create an operator called `O` \(oh\):
 
 ```bash
 > nsc add operator O
@@ -41,7 +39,6 @@ Lets add a service URL to the operator. Service URLs specify where the nats-serv
 [ OK ] added service url "nats://localhost:4222"
 [ OK ] edited operator "O"
 ```
-
 
 Creating an account is just as easy:
 
@@ -64,14 +61,13 @@ Finally, let's create a user:
 
 As expected, the tool generated an NKEY representing the user, and stored the private key safely in the keystore. In addition, the tool generated a _credentials_ file. A credentials file contains the JWT for the user and the private key for the user. Credential files are used by NATS clients to identify themselves to the system. The client will extract and present the JWT to the nats-server and use the private key to verify its identity.
 
-
 ### NSC Assets
 
 NSC manages three different directories:
 
-- The nsc home directory which stores nsc related data. By default nsc home lives in `~/.nsc` and can be changed via the `$NSC_HOME` environment variable.
-- An _nkeys_ directory, which stores all the private keys. This directory by default lives in `~/.nkeys` and can be changed via the `$NKEYS_PATH` environment variable. The contents of the nkeys directory should be treated as secrets.
-- A _stores_ directory, which contains JWTs representing the various entities. This directory lives in `$NSC_HOME/nats`, and can be changed using the command `nsc env -s <dir>`. The stores directory can stored under revision control. The JWTs themselves do not contain any secrets.
+* The nsc home directory which stores nsc related data. By default nsc home lives in `~/.nsc` and can be changed via the `$NSC_HOME` environment variable.
+* An _nkeys_ directory, which stores all the private keys. This directory by default lives in `~/.nkeys` and can be changed via the `$NKEYS_PATH` environment variable. The contents of the nkeys directory should be treated as secrets.
+* A _stores_ directory, which contains JWTs representing the various entities. This directory lives in `$NSC_HOME/nats`, and can be changed using the command `nsc env -s <dir>`. The stores directory can stored under revision control. The JWTs themselves do not contain any secrets.
 
 #### The NSC Stores Directory
 
@@ -97,26 +93,27 @@ The nkeys directory contains all the private keys and credential files. As menti
 
 The structure keys directory is machine friendly. All keys are sharded by their kind `O` for operators, `A` for accounts, `U` for users. These prefixes are also part of the public key. The second and third letters in the public key are used to create directories where other like-named keys are stored.
 
-```
+```text
 tree ~/.nkeys
 /Users/aricart/.nkeys
 ├── creds
-│   └── O
-│       └── A
-│           └── U.creds
+│   └── O
+│       └── A
+│           └── U.creds
 └── keys
     ├── A
-    │   └── DE
-    │       └── ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFTV5NGE.nk
+    │   └── DE
+    │       └── ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFTV5NGE.nk
     ├── O
-    │   └── AF
-    │       └── OAFEEYZSYYVI4FXLRXJTMM32PQEI3RGOWZJT7Y3YFM4HB7ACPE4RTJPG.nk
+    │   └── AF
+    │       └── OAFEEYZSYYVI4FXLRXJTMM32PQEI3RGOWZJT7Y3YFM4HB7ACPE4RTJPG.nk
     └── U
         └── DB
             └── UDBD5FNQPSLIO6CDMIS5D4EBNFKYWVDNULQTFTUZJXWFNYLGFF52VZN7.nk
 ```
 
 The `nk` files themselves are named after the complete public key, and stored in a single string - the private key in question:
+
 ```bash
 cat ~/.nkeys/keys/U/DB/UDBD5FNQPSLIO6CDMIS5D4EBNFKYWVDNULQTFTUZJXWFNYLGFF52VZN7.nk 
 SUAG35IAY2EF5DOZRV6MUSOFDGJ6O2BQCZHSRPLIK6J3GVCX366BFAYSNA
@@ -125,7 +122,6 @@ SUAG35IAY2EF5DOZRV6MUSOFDGJ6O2BQCZHSRPLIK6J3GVCX366BFAYSNA
 The private keys are encoded into a string, and always begin with an `S` for _seed_. The second letter starts with the type of key in question. `O` for operators, `A` for accounts, `U` for users.
 
 In addition to containing keys, the nkeys directory contains a `creds` directory. This directory is organized in a way friendly to humans. It stores user credential files or `creds` files for short. A credentials file contains a copy of the user JWT and the private key for the user. These files are used by NATS clients to connect to a NATS server:
-
 
 ```bash
 > cat ~/.nkeys/creds/O/A/U.creds
@@ -165,8 +161,7 @@ The different entity names are listed along with their public key, and whether t
 
 In some cases you may want to view the private keys:
 
-
-```
+```text
 > nsc list keys --show-seeds
 ╭───────────────────────────────────────────────────────────────────────────────────╮
 │                                    Seeds Keys                                     │
@@ -181,8 +176,7 @@ In some cases you may want to view the private keys:
 [ERR] error reading seed
 ```
 
-If you don't have the seed (perhaps you don't control the operator), nsc will decorate the row with a `!`.
-If you have more than one account, you can show them all by specifying the `--all` flag.
+If you don't have the seed \(perhaps you don't control the operator\), nsc will decorate the row with a `!`. If you have more than one account, you can show them all by specifying the `--all` flag.
 
 ## The Operator JWT
 
@@ -203,7 +197,8 @@ You can view a human readable version of the JWT by using `nsc`:
 ```
 
 Since the operator JWT is just a JWT you can use other tools, such as jwt.io to decode a JWT an inspect it's contents. All JWTs have a header, payload, and signature:
-```json
+
+```javascript
 {
   "typ": "jwt",
   "alg": "ed25519"
@@ -223,14 +218,9 @@ Since the operator JWT is just a JWT you can use other tools, such as jwt.io to 
 }
 ```
 
-All NATS JWTs will use the `algorithm` ed25519 for signature.
-The payload will list different things. On our basically empty operator, we will only have standard JWT `claim` fields:
+All NATS JWTs will use the `algorithm` ed25519 for signature. The payload will list different things. On our basically empty operator, we will only have standard JWT `claim` fields:
 
-`jti` - a jwt id
-`iat` - the timestamp when the JWT was issued in UNIX time
-`iss` - the issuer of the JWT, in this case the operator's public key
-`sub` - the subject or identity represented by the JWT, in this case the same operator
-`type` - since this is an operator JWT, `operator` is the type
+`jti` - a jwt id `iat` - the timestamp when the JWT was issued in UNIX time `iss` - the issuer of the JWT, in this case the operator's public key `sub` - the subject or identity represented by the JWT, in this case the same operator `type` - since this is an operator JWT, `operator` is the type
 
 NATS specific is the `nats` object, which is where we add NATS specific JWT configuration to the JWT claim.
 
@@ -293,7 +283,6 @@ The user id is the public key for the user, the issuer is the account. This user
 
 When a user connects to a nats-server, it presents it's user JWT and signs an nonce using its private key. The server verifies if the user is who they say they are by validating that the nonce was signed using the private key associated with the public key, representing the identify of the user. Next, the server fetches the issuer account and validates that the account was issued by a trusted operator completing the chain of trust verification.
 
-
 Let’s put all of this together, and create a simple server configuration that accepts sessions from `U`.
 
 ## Account Server Configuration
@@ -314,7 +303,7 @@ The account server has options to enable you to use an nsc directory directly. L
 > nats-account-server -nsc ~/.nsc/nats/O
 ```
 
-Above, we pointed the account server to our nsc data directory (more specifically to the `O` operator that we created earlier). By default, the server listens on the localhost at port 9090.
+Above, we pointed the account server to our nsc data directory \(more specifically to the `O` operator that we created earlier\). By default, the server listens on the localhost at port 9090.
 
 You can also run the account server with a data directory that is not your nsc folder. In this mode, you can upload account JWTs to the server. See the help for `nsc push` for more information about how to push JWTs to the account server.
 
@@ -364,14 +353,12 @@ Published [hello] : 'NATS'
 Subscriber shows:
 
 ```text
-[#1] Received on [hello]: ’NATS’
-```
 
+```
 
 ### NSC Embeds NATS tooling
 
-To make it easier to work, you can use the NATS clients built right into NSC. These tools know how to find the credential files in the keyring.
-For convenience, the tools are aliased to `sub`, `pub`, `req`, `reply`:
+To make it easier to work, you can use the NATS clients built right into NSC. These tools know how to find the credential files in the keyring. For convenience, the tools are aliased to `sub`, `pub`, `req`, `reply`:
 
 ```bash
 nsc sub --user U ">"
@@ -379,11 +366,9 @@ nsc sub --user U ">"
 
 nsc pub --user U hello NATS
 ...
-
 ```
 
 See `nsc tool -h` for more detailed information.
-
 
 ## User Authorization
 
@@ -455,7 +440,6 @@ Similarly, we can limit a client:
 
 The client has the opposite permissions of the service. It can publish on the request subject `q`, and receive replies on an inbox.
 
-
 ## The NSC Environment
 
 As your projects become more involved, you may work with one or more accounts. NSC tracks your current operator and account. If you are not in a directory containing an operator, account or user, it will use the last operator/account context.
@@ -480,3 +464,4 @@ To view your current environment:
 ```
 
 If you have multiple accounts, you can use `nsc env --account <account name>` to set the account as the current default. If you have defined `NKEYS_PATH` or `NSC_HOME` in the environment, you'll also see their current effective values. Finally, if you want to set the stores directory to anything other than the default, you can do `nsc env --store <dir containing an operator>`. If you have multiple accounts, you can try having multiple terminals, each in a directory for a different account.
+

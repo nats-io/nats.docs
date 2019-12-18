@@ -9,7 +9,7 @@ The following example subscribes to the subject `updates` and handles the incomi
 ```go
 nc, err := nats.Connect("demo.nats.io")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
@@ -19,9 +19,9 @@ wg.Add(1)
 
 // Subscribe
 if _, err := nc.Subscribe("updates", func(m *nats.Msg) {
-	wg.Done()
+    wg.Done()
 }); err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Wait for a message to come in

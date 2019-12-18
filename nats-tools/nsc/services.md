@@ -49,10 +49,10 @@ To review the service export:
 
 Importing a service enables you to send requests to the remote _Account_. To import a Service, you have to create an _Import_. To create an import you need to know:
 
-- The exporting account’s public key
-- The subject the service is listening on
-- You can map the service’s subject to a different subject
-- Self-imports are not valid; you can only import services from other accounts.
+* The exporting account’s public key
+* The subject the service is listening on
+* You can map the service’s subject to a different subject
+* Self-imports are not valid; you can only import services from other accounts.
 
 To learn how to inspect a JWT from an account server, [check this article](../nas/inspecting_jwts.md).
 
@@ -111,12 +111,12 @@ Let's also add a user to make requests from the service:
 [ OK ] added user "b" to account "B"
 ```
 
-
 ### Testing the Service
 
 To test the service, we can install the `nats-req` and `nats-rply` tools:
 
 Set up a process to handle the request. This process will run from account 'A' using user 'U':
+
 ```text
 > go get github.com/nats-io/nats.go/examples/nats-rply
 
@@ -128,6 +128,7 @@ nsc reply --account A --user U help "I will help"
 ```
 
 Send the request:
+
 ```text
 > go get github.com/nats-io/nats.go/examples/nats-req
 > nats-req -creds ~/.nkeys/creds/O/B/b.creds help me
@@ -135,11 +136,13 @@ Published [help] : 'me'
 ```
 
 The service receives the request:
+
 ```text
 Received on [help]: 'me'
 ```
 
 And the response is received by the requestor:
+
 ```text
 Received  [_INBOX.v6KAX0v1bu87k49hbg3dgn.StIGJF0D] : 'I will help'
 ```
@@ -200,14 +203,13 @@ As before, we declared an export, but this time we added the `--private` flag. T
 │ help           │ Service │ help           │ Yes    │ 0           │ -        │
 │ private.help.* │ Service │ private.help.* │ No     │ 0           │ -        │
 ╰────────────────┴─────────┴────────────────┴────────┴─────────────┴──────────╯
-
 ```
 
 ### Generating an Activation Token
 
 For the foreign account to _import_ a private service and be able to send requests, you have to generate an activation token. The activation token in addition to granting permission to the account allows you to subset the service’s subject:
 
-To generate a token, you’ll need to know the public key of the account importing the service. We can easily find the public key for account B by running: 
+To generate a token, you’ll need to know the public key of the account importing the service. We can easily find the public key for account B by running:
 
 ```bash
 > nsc list keys --account B
@@ -222,16 +224,13 @@ To generate a token, you’ll need to know the public key of the account importi
 ╰────────┴──────────────────────────────────────────────────────────┴─────────────┴────────╯
 ```
 
-
 ```text
 > nsc generate activation --account A --target-account AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H --subject private.help.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H -o /tmp/activation.jwt
 [ OK ] generated "private.help.*" activation for account "AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
 [ OK ] wrote account description to "/tmp/activation.jwt"
 ```
 
-The command took the account that has the export ('A'), the public key of account B, the subject where requests from account B will be handled, and an output file where the token can be stored.
-The subject for the export allows the service to handle all requests coming in on private.help.*, but account B can only request from a specific subject.
-
+The command took the account that has the export \('A'\), the public key of account B, the subject where requests from account B will be handled, and an output file where the token can be stored. The subject for the export allows the service to handle all requests coming in on private.help.\*, but account B can only request from a specific subject.
 
 For completeness, the contents of the JWT file looks like this:
 
@@ -267,9 +266,9 @@ When decoded it looks like this:
 ╰─────────────────┴───────────────────────────────────────────────────────────────────────╯
 ```
 
-The token can be shared directly with the client account. 
+The token can be shared directly with the client account.
 
-> If you manage many tokens for many accounts, you may want to host activation tokens on a web server and share the URL with the account. The benefit to the hosted approach is that any updates to the token would be available to the importing account whenever their account is updated, provided the URL you host them in is stable. When using a JWT account server, the tokens can be stored right on the server and shared by an URL that is printed when the token is generated. 
+> If you manage many tokens for many accounts, you may want to host activation tokens on a web server and share the URL with the account. The benefit to the hosted approach is that any updates to the token would be available to the importing account whenever their account is updated, provided the URL you host them in is stable. When using a JWT account server, the tokens can be stored right on the server and shared by an URL that is printed when the token is generated.
 
 ## Importing a Private Service
 
@@ -320,9 +319,8 @@ Testing a private service is no different than a public one:
 ```bash
 > nsc reply --account A --user U "private.help.*" "help is here"
 listening on [private.help.*]
-[#1] received on [private.help.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H]: 'help_me'
-
 > nsc req --account B --user b private.help help_me
 published request: [private.help] : 'help_me'
 received reply: [_INBOX.3MhS0iCHfqO8wUl1x59bHB.jpE2jvEj] : 'help is here'
 ```
+

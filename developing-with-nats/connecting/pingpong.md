@@ -14,7 +14,7 @@ If you have a connection that is going to be open a long time with few messages 
 // Set Ping Interval to 20 seconds
 nc, err := nats.Connect("demo.nats.io", nats.Name("API Ping Example"), nats.PingInterval(20*time.Second))
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
@@ -99,14 +99,14 @@ For example, to set the maximum number of outgoing pings to 5:
 {% tab title="Go" %}
 ```go
 // Set maximum number of PINGs out without getting a PONG back
-	// before the connection will be disconnected as a stale connection.
-	nc, err := nats.Connect("demo.nats.io", nats.Name("API MaxPing Example"), nats.MaxPingsOutstanding(5))
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer nc.Close()
+    // before the connection will be disconnected as a stale connection.
+    nc, err := nats.Connect("demo.nats.io", nats.Name("API MaxPing Example"), nats.MaxPingsOutstanding(5))
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer nc.Close()
 
-	// Do something with the connection
+    // Do something with the connection
 ```
 {% endtab %}
 

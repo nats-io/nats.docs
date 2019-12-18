@@ -8,7 +8,7 @@ You can disable automatic reconnect with connection options:
 // Disable reconnect attempts
 nc, err := nats.Connect("demo.nats.io", nats.NoReconnect())
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 

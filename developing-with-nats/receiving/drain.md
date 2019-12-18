@@ -30,15 +30,15 @@ errCh := make(chan error, 1)
 // so say: nats.DrainTimeout(10*time.Millisecond).
 
 nc, err := nats.Connect("demo.nats.io",
-	nats.DrainTimeout(10*time.Second),
-	nats.ErrorHandler(func(_ *nats.Conn, _ *nats.Subscription, err error) {
-		errCh <- err
-	}),
-	nats.ClosedHandler(func(_ *nats.Conn) {
-		wg.Done()
-	}))
+    nats.DrainTimeout(10*time.Second),
+    nats.ErrorHandler(func(_ *nats.Conn, _ *nats.Subscription, err error) {
+        errCh <- err
+    }),
+    nats.ClosedHandler(func(_ *nats.Conn) {
+        wg.Done()
+    }))
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Just to not collide using the demo server with other users.
@@ -46,19 +46,19 @@ subject := nats.NewInbox()
 
 // Subscribe, but add some delay while processing.
 if _, err := nc.Subscribe(subject, func(_ *nats.Msg) {
-	time.Sleep(200 * time.Millisecond)
+    time.Sleep(200 * time.Millisecond)
 }); err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Publish a message
 if err := nc.Publish(subject, []byte("hello")); err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Drain the connection, which will close it when done.
 if err := nc.Drain(); err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Wait for the connection to be closed.
@@ -67,7 +67,7 @@ wg.Wait()
 // Check if there was an error
 select {
 case e := <-errCh:
-	log.Fatal(e)
+    log.Fatal(e)
 default:
 }
 ```
@@ -215,61 +215,60 @@ The API for drain can generally be used instead of unsubscribe:
 {% tabs %}
 {% tab title="Go" %}
 ```go
+    nc, err := nats.Connect("demo.nats.io")
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer nc.Close()
 
-	nc, err := nats.Connect("demo.nats.io")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer nc.Close()
+    done := sync.WaitGroup{}
+    done.Add(1)
 
-	done := sync.WaitGroup{}
-	done.Add(1)
+    count := 0
+    errCh := make(chan error, 1)
 
-	count := 0
-	errCh := make(chan error, 1)
+    msgAfterDrain := "not this one"
 
-	msgAfterDrain := "not this one"
+    // Just to not collide using the demo server with other users.
+    subject := nats.NewInbox()
 
-	// Just to not collide using the demo server with other users.
-	subject := nats.NewInbox()
+    // This callback will process each message slowly
+    sub, err := nc.Subscribe(subject, func(m *nats.Msg) {
+        if string(m.Data) == msgAfterDrain {
+            errCh <- fmt.Errorf("Should not have received this message")
+            return
+        }
+        time.Sleep(100 * time.Millisecond)
+        count++
+        if count == 2 {
+            done.Done()
+        }
+    })
 
-	// This callback will process each message slowly
-	sub, err := nc.Subscribe(subject, func(m *nats.Msg) {
-		if string(m.Data) == msgAfterDrain {
-			errCh <- fmt.Errorf("Should not have received this message")
-			return
-		}
-		time.Sleep(100 * time.Millisecond)
-		count++
-		if count == 2 {
-			done.Done()
-		}
-	})
+    // Send 2 messages
+    for i := 0; i < 2; i++ {
+        nc.Publish(subject, []byte("hello"))
+    }
 
-	// Send 2 messages
-	for i := 0; i < 2; i++ {
-		nc.Publish(subject, []byte("hello"))
-	}
+    // Call Drain on the subscription. It unsubscribes but
+    // wait for all pending messages to be processed.
+    if err := sub.Drain(); err != nil {
+        log.Fatal(err)
+    }
 
-	// Call Drain on the subscription. It unsubscribes but
-	// wait for all pending messages to be processed.
-	if err := sub.Drain(); err != nil {
-		log.Fatal(err)
-	}
+    // Send one more message, this message should not be received
+    nc.Publish(subject, []byte(msgAfterDrain))
 
-	// Send one more message, this message should not be received
-	nc.Publish(subject, []byte(msgAfterDrain))
+    // Wait for the subscription to have processed the 2 messages.
+    done.Wait()
 
-	// Wait for the subscription to have processed the 2 messages.
-	done.Wait()
-
-	// Now check that the 3rd message was not received
-	select {
-	case e := <-errCh:
-		log.Fatal(e)
-	case <-time.After(200 * time.Millisecond):
-		// OK!
-	}
+    // Now check that the 3rd message was not received
+    select {
+    case e := <-errCh:
+        log.Fatal(e)
+    case <-time.After(200 * time.Millisecond):
+        // OK!
+    }
 ```
 {% endtab %}
 

@@ -1,12 +1,10 @@
-# Creating a NATS Streaming cluster in K8S with FT mode
+# NATS Streaming Cluster with FT Mode
 
 ## Preparation
 
-First, we need a Kubernetes cluster with a provider that offers a
-service with a `ReadWriteMany` filesystem available.  In this short guide,
-we will create the cluster on AWS and then use EFS for the filesystem: 
+First, we need a Kubernetes cluster with a provider that offers a service with a `ReadWriteMany` filesystem available. In this short guide, we will create the cluster on AWS and then use EFS for the filesystem:
 
-```
+```text
 # Create 3 nodes Kubernetes cluster
 eksctl create cluster --name nats-eks-cluster \
   --nodes 3 \
@@ -17,18 +15,17 @@ eksctl create cluster --name nats-eks-cluster \
 eksctl utils write-kubeconfig --name nats-eks-cluster --region us-east-2
 ```
 
-For the FT mode to work, we will need to create an EFS volume which
-can be shared by more than one pod. Go into the [AWS console](https://us-east-2.console.aws.amazon.com/efs/home?region=us-east-2#/wizard/1) and create one and make the sure that it is in a security group where the k8s nodes will have access to it.  In case of clusters created via eksctl, this will be a security group named `ClusterSharedNodeSecurityGroup`:
+For the FT mode to work, we will need to create an EFS volume which can be shared by more than one pod. Go into the [AWS console](https://us-east-2.console.aws.amazon.com/efs/home?region=us-east-2#/wizard/1) and create one and make the sure that it is in a security group where the k8s nodes will have access to it. In case of clusters created via eksctl, this will be a security group named `ClusterSharedNodeSecurityGroup`:
 
-<img width="1063" alt="Screen Shot 2019-12-04 at 11 25 08 AM" src="https://user-images.githubusercontent.com/26195/70177488-5ef0bd00-16d2-11ea-9cf3-e0c3196bc7da.png">
+![Screen Shot 2019-12-04 at 11 25 08 AM](https://user-images.githubusercontent.com/26195/70177488-5ef0bd00-16d2-11ea-9cf3-e0c3196bc7da.png)
 
-<img width="1177" alt="Screen Shot 2019-12-04 at 12 40 13 PM" src="https://user-images.githubusercontent.com/26195/70179769-9497a500-16d6-11ea-9e18-2a8588a71819.png">
+![Screen Shot 2019-12-04 at 12 40 13 PM](https://user-images.githubusercontent.com/26195/70179769-9497a500-16d6-11ea-9e18-2a8588a71819.png)
 
 ### Creating the EFS provisioner
 
 Confirm from the FilesystemID from the cluster and the DNS name, we will use those values to create an EFS provisioner controller within the K8S cluster:
 
-<img width="852" alt="Screen Shot 2019-12-04 at 12 08 35 PM" src="https://user-images.githubusercontent.com/26195/70177502-657f3480-16d2-11ea-9d00-b9a8c2f5320b.png">
+![Screen Shot 2019-12-04 at 12 08 35 PM](https://user-images.githubusercontent.com/26195/70177502-657f3480-16d2-11ea-9d00-b9a8c2f5320b.png)
 
 ```yaml
 ---
@@ -172,7 +169,7 @@ spec:
 
 Result of deploying the manifest:
 
-```sh
+```bash
 serviceaccount/efs-provisioner                                        created 
 clusterrole.rbac.authorization.k8s.io/efs-provisioner-runner          created 
 clusterrolebinding.rbac.authorization.k8s.io/run-efs-provisioner      created 
@@ -181,13 +178,12 @@ rolebinding.rbac.authorization.k8s.io/leader-locking-efs-provisioner  created
 configmap/efs-provisioner                                             created 
 deployment.extensions/efs-provisioner                                 created 
 storageclass.storage.k8s.io/aws-efs                                   created 
-persistentvolumeclaim/efs                                             created 
+persistentvolumeclaim/efs                                             created
 ```
 
 ### Setting up the NATS Streaming cluster
 
-Now create a NATS Streaming cluster with FT mode enabled and using NATS embedded mode
-that is mounting the EFS volume:
+Now create a NATS Streaming cluster with FT mode enabled and using NATS embedded mode that is mounting the EFS volume:
 
 ```yaml
 ---
@@ -218,7 +214,7 @@ metadata:
 data:
   stan.conf: |
     http: 8222
-    
+
     cluster {
       port: 6222
       routes [
@@ -342,7 +338,7 @@ spec:
 
 Your cluster now will look something like this:
 
-```
+```text
 kubectl get pods
 NAME                                     READY   STATUS    RESTARTS   AGE
 efs-provisioner-6b7866dd4-4k5wx          1/1     Running   0          21m
@@ -353,7 +349,7 @@ stan-2                                   2/2     Running   0          4m42s
 
 If everything was setup properly, one of the servers will be the active node.
 
-```
+```text
 $ kubectl logs stan-0 -c stan
 [1] 2019/12/04 20:40:40.429359 [INF] STREAM: Starting nats-streaming-server[test-cluster] version 0.16.2
 [1] 2019/12/04 20:40:40.429385 [INF] STREAM: ServerID: 7j3t3Ii7e2tifWqanYKwFX
@@ -388,3 +384,4 @@ $ kubectl logs stan-0 -c stan
 [1] 2019/12/04 20:40:41.671541 [INF] STREAM: ----------------------------------
 [1] 2019/12/04 20:40:41.671546 [INF] STREAM: Streaming Server is ready
 ```
+

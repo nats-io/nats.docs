@@ -9,26 +9,26 @@ This process requires an interaction with the server, so for an asynchronous sub
 ```go
 nc, err := nats.Connect("demo.nats.io")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
 // Sync Subscription
 sub, err := nc.SubscribeSync("updates")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 if err := sub.Unsubscribe(); err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Async Subscription
 sub, err = nc.Subscribe("updates", func(_ *nats.Msg) {})
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 if err := sub.Unsubscribe(); err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 ```
 {% endtab %}
@@ -92,7 +92,6 @@ await nc.unsubscribe(sid)
 
 # Won't be received...
 await nc.publish("updates", b'...')
-
 ```
 {% endtab %}
 

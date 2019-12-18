@@ -8,7 +8,7 @@ It doesn’t make much sense to try to connect to the same server over and over.
 // Set reconnect interval to 10 seconds
 nc, err := nats.Connect("demo.nats.io", nats.ReconnectWait(10*time.Second))
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 

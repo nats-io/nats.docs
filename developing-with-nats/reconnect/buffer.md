@@ -14,7 +14,7 @@ For clients that support this feature, you are able to configure the size of thi
 // Set reconnect buffer size in bytes (5 MB)
 nc, err := nats.Connect("demo.nats.io", nats.ReconnectBufSize(5*1024*1024))
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
@@ -57,7 +57,6 @@ nc.close();
 {% tab title="TypeScript" %}
 ```typescript
 // Reconnect buffer size is not configurable on NATS Typescript client
-
 ```
 {% endtab %}
 {% endtabs %}

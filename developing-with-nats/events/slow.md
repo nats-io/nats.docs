@@ -25,14 +25,14 @@ The first way that the incoming queue can be limited is by message count. The se
 ```go
 nc, err := nats.Connect("demo.nats.io")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
 // Subscribe
 sub1, err := nc.Subscribe("updates", func(m *nats.Msg) {})
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Set limits of 1000 messages or 5MB, whichever comes first
@@ -41,7 +41,7 @@ sub1.SetPendingLimits(1000, 5*1024*1024)
 // Subscribe
 sub2, err := nc.Subscribe("updates", func(m *nats.Msg) {})
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 
 // Set no limits for this subscription
@@ -124,7 +124,7 @@ Some libraries, like Java, will not send this notification on every dropped mess
 // Set the callback that will be invoked when an asynchronous error occurs.
 nc, err := nats.Connect("demo.nats.io", nats.ErrorHandler(logSlowConsumer))
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
@@ -173,13 +173,11 @@ public class SlowConsumerListener {
 {% tab title="JavaScript" %}
 ```javascript
 // slow consumer detection is not configurable on NATS JavaScript client.
-
 ```
 {% endtab %}
 
 {% tab title="Python" %}
 ```python
-
    nc = NATS()
 
    async def error_cb(e):
@@ -202,7 +200,7 @@ public class SlowConsumerListener {
 
        if len(msgs) == 3:
          # Head of line blocking on other messages caused
-	 # by single message proccesing taking long...
+     # by single message proccesing taking long...
          await asyncio.sleep(1)
 
    await nc.subscribe("updates", cb=cb, pending_msgs_limit=5)
@@ -235,3 +233,4 @@ public class SlowConsumerListener {
 ```
 {% endtab %}
 {% endtabs %}
+

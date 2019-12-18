@@ -8,7 +8,7 @@ Applications can set the maximum reconnect attempts. Generally, this will limit 
 // Set max reconnects attempts
 nc, err := nats.Connect("demo.nats.io", nats.MaxReconnects(10))
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 

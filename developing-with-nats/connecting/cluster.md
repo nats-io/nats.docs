@@ -24,7 +24,7 @@ servers := []string{"nats://127.0.0.1:1222", "nats://127.0.0.1:1223", "nats://12
 
 nc, err := nats.Connect(strings.Join(servers, ","))
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 

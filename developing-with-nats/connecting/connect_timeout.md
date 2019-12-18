@@ -7,7 +7,7 @@ Each library has its own, language preferred way, to pass connection options. On
 ```go
 nc, err := nats.Connect("demo.nats.io", nats.Name("API Options Example"), nats.Timeout(10*time.Second))
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 

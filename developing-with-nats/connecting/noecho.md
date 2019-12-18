@@ -14,7 +14,7 @@ Keep in mind that each connection will have to turn off echo, and that it is per
 // Turn off echo
 nc, err := nats.Connect("demo.nats.io", nats.Name("API NoEcho Example"), nats.NoEcho())
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 

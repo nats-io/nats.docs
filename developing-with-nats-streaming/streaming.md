@@ -12,7 +12,7 @@ Just be aware that using an at least once guarantee is the facet of messaging wi
 
 NATS streaming is ideal when:
 
-* A historical record of a stream is required.  This is when a replay of data
+* A historical record of a stream is required. This is when a replay of data
 
   is required by a consumer.
 
@@ -22,9 +22,9 @@ NATS streaming is ideal when:
 
 * A-priori knowledge of consumers is not available, but consumers must receive
 
-  messages.  This is often a false assumption.
+  messages. This is often a false assumption.
 
-* Data producers and consumers are highly decoupled.  They may be online at
+* Data producers and consumers are highly decoupled. They may be online at
 
   different times and consumers must receive messages.
 
@@ -45,7 +45,7 @@ These include:
 * Service patterns where there is a tightly coupled request/reply
   * A request is made, and the application handles error cases upon timeout
 
-    \(resends, errors, etc\).  \_\_Relying on a messaging system to resend here is
+    \(resends, errors, etc\). \_\_Relying on a messaging system to resend here is
 
     considered an anti-pattern.\_\_
 * Where only the last message received is important and new messages will
@@ -62,7 +62,7 @@ These include:
 
 * The expected consumer set for a message is available a-priori and consumers
 
-  are expected to be live.  The request/reply pattern works well here or
+  are expected to be live. The request/reply pattern works well here or
 
   consumers can send an application level acknowledgement.
 

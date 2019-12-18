@@ -53,10 +53,10 @@ Messages this account publishes on `a.b.c.>` will be forwarded to all accounts t
 
 Importing a stream enables you to receive messages that are published by a different _Account_. To import a Stream, you have to create an _Import_. To create an _Import_ you need to know:
 
-- The exporting account’s public key
-- The subject where the stream is published
-- You can map the stream’s subject to a different subject
-- Self-imports are not valid; you can only import streams from other accounts.
+* The exporting account’s public key
+* The subject where the stream is published
+* You can map the stream’s subject to a different subject
+* Self-imports are not valid; you can only import streams from other accounts.
 
 To learn how to inspect a JWT from an account server, [check this article](../nas/inspecting_jwts.md).
 
@@ -72,7 +72,7 @@ With the required information, we can add an import to the public stream.
 [ OK ] added stream import "a.b.c.>"
 ```
 
-> Notice that messages published by the remote account will be received on the same subject as they are originally published. Sometimes you would like to prefix messages received from a stream. To add a prefix specify `--local-subject`.  Subscribers in our account can listen to `abc.>`. For example if `--local-subject abc`, The message will be received as `abc.a.b.c.>`.
+> Notice that messages published by the remote account will be received on the same subject as they are originally published. Sometimes you would like to prefix messages received from a stream. To add a prefix specify `--local-subject`. Subscribers in our account can listen to `abc.>`. For example if `--local-subject abc`, The message will be received as `abc.a.b.c.>`.
 
 And verifying it:
 
@@ -119,14 +119,13 @@ Let's also add a user to make requests from the service:
 
 ### Testing the Stream
 
-```bash 
+```bash
 > nsc sub --account B --user b "a.b.c.>"
 Listening on [a.b.c.>]
 ...
 > nsc pub --account A --user U a.b.c.hello world
 Published [a.b.c.hello] : "world"
 ...
-[#1] received on [a.b.c.hello]: 'world'
 ```
 
 ## Securing Streams
@@ -177,12 +176,11 @@ Similarly when we defined an export, but this time we added the `--private` flag
 ╰───────────────┴────────┴───────────────┴────────┴─────────────┴──────────╯
 ```
 
-
 ### Generating an Activation Token
 
 For a foreign account to _import_ a private stream, you have to generate an activation token. In addition to granting permissions to the account, the activation token also allows you to subset the exported stream’s subject.
 
-To generate a token, you’ll need to know the public key of the account importing the service. We can easily find the public key for account B by running: 
+To generate a token, you’ll need to know the public key of the account importing the service. We can easily find the public key for account B by running:
 
 ```bash
 > nsc list keys --account B
@@ -203,7 +201,7 @@ To generate a token, you’ll need to know the public key of the account importi
 [ OK ] wrote account description to "/tmp/activation.jwt"
 ```
 
-The command took the account that has the export ('A'), the public key of account B, the subject where the stream will publish to account B.
+The command took the account that has the export \('A'\), the public key of account B, the subject where the stream will publish to account B.
 
 For completeness, the contents of the JWT file look like this:
 
@@ -239,7 +237,7 @@ When decoded it looks like this:
 ╰─────────────────┴──────────────────────────────────────────────────────────────────────╯
 ```
 
-The token can be shared directly with the client account. 
+The token can be shared directly with the client account.
 
 > If you manage many tokens for many accounts, you may want to host activation tokens on a web server and share the URL with the account. The benefit to the hosted approach is that any updates to the token would be available to the importing account whenever their account is updated, provided the URL you host them in is stable.
 
@@ -289,13 +287,12 @@ Importing a private stream is more natural than a public one as the activation t
 
 Testing a private stream is no different than a public one:
 
-```bash 
+```bash
 > nsc sub --account B --user b private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H
 Listening on [private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H]
 ...
 > nsc pub --account A --user U private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H hello
 Published [private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H] : "hello"
 ...
-[#1] received on [private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H]: 'hello'
 ```
 

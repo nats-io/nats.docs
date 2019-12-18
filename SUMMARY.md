@@ -6,13 +6,13 @@
 
 ## NATS Concepts
 
-* [What is NATS](concepts/intro.md)
-* [Subject-Based Messaging](concepts/subjects.md)
-* [Publish-Subscribe](concepts/pubsub.md)
-* [Request-Reply](concepts/reqreply.md)
-* [Queue Groups](concepts/queue.md)
-* [Acknowledgements](concepts/acks.md)
-* [Sequence Numbers](concepts/seq_num.md)
+* [What is NATS](nats-concepts/intro.md)
+* [Subject-Based Messaging](nats-concepts/subjects.md)
+* [Publish-Subscribe](nats-concepts/pubsub.md)
+* [Request-Reply](nats-concepts/reqreply.md)
+* [Queue Groups](nats-concepts/queue.md)
+* [Acknowledgements](nats-concepts/acks.md)
+* [Sequence Numbers](nats-concepts/seq_num.md)
 
 ## Developing With NATS
 
@@ -102,7 +102,7 @@
 
 ## NATS Tools
 
-* [Introduction](nats-tools/README.md)
+* [Introduction](nats-tools/nats-tools.md)
 * [mkpasswd](nats-tools/mkpasswd.md)
 * [nk](nats-tools/nk.md)
 * [nsc](nats-tools/nsc/README.md)
@@ -173,7 +173,7 @@
   * [Persistence](nats-streaming-server/configuring/persistence/README.md)
     * [File Store](nats-streaming-server/configuring/persistence/file_store.md)
     * [SQL Store](nats-streaming-server/configuring/persistence/sql_store.md)
-  * [Securing](nats-streaming-server/configuring/tls/README.md)
+  * [Securing](nats-streaming-server/configuring/tls.md)
 * [Process Signaling](nats-streaming-server/process-signaling.md)
 * [Windows Service](nats-streaming-server/windows-service.md)
 * [Embedding NATS Streaming Server](nats-streaming-server/embedding.md)
@@ -188,8 +188,9 @@
 
 ## NATS on Kubernetes
 
-* [Introduction](nats-kubernetes/README.md)
-* [NATS Streaming Cluster with FT Mode](nats-kubernetes/stan-ft-k8s-aws.md)
-* [NATS + Prometheus Operator](nats-kubernetes/prometheus-and-nats-operator.md)
-* [NATS + Cert Manager](nats-kubernetes/nats-cluster-and-cert-manager.md)
-* [Securing a NATS Cluster with cfssl](nats-kubernetes/operator-tls-setup-with-cfssl.md)
+* [Introduction](nats-on-kubernetes/nats-kubernetes.md)
+* [NATS Streaming Cluster with FT Mode](nats-on-kubernetes/stan-ft-k8s-aws.md)
+* [NATS and Prometheus Operator](nats-on-kubernetes/prometheus-and-nats-operator.md)
+* [NATS Cluster and Cert Manager](nats-on-kubernetes/nats-cluster-and-cert-manager.md)
+* [Securing a NATS Cluster with cfssl](nats-on-kubernetes/operator-tls-setup-with-cfssl.md)
+

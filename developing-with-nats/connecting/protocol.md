@@ -67,7 +67,7 @@ While the client can't control the maximum payload size, clients may provide a w
 ```go
 nc, err := nats.Connect("demo.nats.io")
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
@@ -160,7 +160,7 @@ opts.Url = "demo.nats.io"
 opts.Pedantic = true
 nc, err := opts.Connect()
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
@@ -245,7 +245,7 @@ opts.Url = "demo.nats.io"
 opts.Verbose = true
 nc, err := opts.Connect()
 if err != nil {
-	log.Fatal(err)
+    log.Fatal(err)
 }
 defer nc.Close()
 
