@@ -53,7 +53,7 @@ To make the server output more lively, you can specify the `-V` flag to enable l
 
 If you had created a subscriber, you should notice output on the subscriber telling you that it disconnected, and reconnected. The server output above is more interesting. You can see the subscriber send a `CONNECT` protocol message and a `PING` which was responded to by the server with a `PONG`.
 
-> You can learn more about the [NATS protocol here](../nats-protocol/nats-protocol/), but more intersting than the protocol description is [an interactive demo](../nats-protocol/nats-protocol-demo.md).
+> You can learn more about the [NATS protocol here](../nats-protocol/nats-protocol/), but more interesting than the protocol description is [an interactive demo](../nats-protocol/nats-protocol-demo.md).
 
 On a third terminal, publish your first message:
 
