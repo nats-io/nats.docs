@@ -56,8 +56,3 @@ Next, open the following URL in your browser:
     http://127.0.0.1:3000/d/nats/nats-surveyor?refresh=5s&orgId=1
 
 ![surveyor](https://user-images.githubusercontent.com/26195/69106844-79fdd480-0a24-11ea-8e0c-213f251fad90.gif)
-
-## License
-
-Unless otherwise noted, the NATS source files are distributed
-under the Apache Version 2.0 license found in the LICENSE file.
