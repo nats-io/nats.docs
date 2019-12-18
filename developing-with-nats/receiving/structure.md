@@ -9,7 +9,11 @@ For example, to receive JSON you could do:
 ```go
 nc, err := nats.Connect("demo.nats.io",
         nats.ErrorHandler(func(nc *nats.Conn, s *nats.Subscription, err error) {
-            log.Printf("Async error in %q/%q: %v", s.Subject, s.Queue, err)
+	    if s != nil {
+		log.Printf("Async error in %q/%q: %v", s.Subject, s.Queue, err)
+	    } else {
+		log.Printf("Async error outside subscription: %v", err)
+	    }
         }))
 if err != nil {
 	log.Fatal(err)
