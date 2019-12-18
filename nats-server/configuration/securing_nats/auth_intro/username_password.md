@@ -34,7 +34,7 @@ Username/password also supports bcrypted passwords using the [`mkpasswd`](../../
 
 ```text
 > mkpasswd
-ass: (Uffs#rG42PAu#Oxi^BNng
+pass: (Uffs#rG42PAu#Oxi^BNng
 bcrypt hash: $2a$11$V1qrpBt8/SLfEBr4NJq4T.2mg8chx8.MTblUiTBOLV3MKDeAy.f7u
 ```
 

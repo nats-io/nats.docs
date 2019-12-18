@@ -36,11 +36,11 @@ accounts: {
 > These two accounts are isolated from each other. Messages published by users in `A` are not visible to users in `B`.
 >
 > The user configuration map is the same as any other NATS [user configuration map](./#user-configuration-map). You can use:
-
-* username/password
-* nkeys
-* and add permissions
-
+>
+> * username/password
+> * nkeys
+> * and add permissions
+>
 > While the name _account_ implies one or more users, it is much simpler and enlightening to think of one account as a messaging container for one application. Users in the account are simply the minimum number of services that must work together to provide some functionality. In simpler terms, more accounts with few \(even one\) clients is a better design topology than a large account with many users with complex authorization configuration.
 
 ### Exporting and Importing

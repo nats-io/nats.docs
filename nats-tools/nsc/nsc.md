@@ -2,7 +2,7 @@
 
 NSC allows you to manage identities. Identities take the form of _nkeys_. Nkeys are a public-key signature system based on Ed25519 for the NATS ecosystem.
 
-The nkey identities are associated with NATS configuration in the form of a Jason Web Token \(JWT\). The JWT is digitally signed by the private key of an issuer forming a chain of trust. The `nsc` tool creates and manages these identities and allows you to deploy them to a JWT account server, which in turn makes the configurations available to nats-servers.
+The nkey identities are associated with NATS configuration in the form of a JSON Web Token \(JWT\). The JWT is digitally signed by the private key of an issuer forming a chain of trust. The `nsc` tool creates and manages these identities and allows you to deploy them to a JWT account server, which in turn makes the configurations available to nats-servers.
 
 There’s a logical hierarchy to the entities:
 
