@@ -50,7 +50,7 @@ spec:
     secretName: nats-ca
 ```
 
-Now create the certs that will match the DNS name used by the clients to connect, in this case traffic is within Kubernetes so using the name `nats` which is backed up by a headless service (here is an [example](https://github.com/nats-io/k8s/blob/master/nats-server/nats-server-plain.yml#L24-L47) of sample deployment)
+Now create the certs that will match the DNS name used by the clients to connect, in this case traffic is within Kubernetes so we are using the name `nats` which is backed up by a headless service (here is an [example](https://github.com/nats-io/k8s/blob/master/nats-server/nats-server-plain.yml#L24-L47) of sample deployment)
 
 ``` yaml
 ---
