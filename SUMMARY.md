@@ -186,3 +186,10 @@
   * [Developing a Client](nats-protocol/nats-protocol/nats-client-dev.md)
 * [NATS Cluster Protocol](nats-protocol/nats-server-protocol.md)
 
+## NATS on Kubernetes
+
+* [Introduction](nats-kubernetes/README.md)
+* [NATS Streaming Cluster with FT Mode](nats-kubernetes/stan-ft-k8s-aws.md)
+* [NATS + Prometheus Operator](nats-kubernetes/prometheus-and-nats-operator)
+* [NATS + Cert Manager](nats-kubernetes/nats-cluster-and-cert-manager.md)
+* [Securing a NATS Cluster with cfssl](nats-kubernetes/operator-tls-setup-with-cfssl.md)
