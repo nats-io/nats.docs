@@ -12,7 +12,7 @@
 
 ### Creating the Certificates
 
-### **Generating the Root CA Certs**
+### Generating the Root CA Certs
 
 ```javascript
 {
@@ -41,10 +41,44 @@
 Setup the profiles for the Root CA, we will have 3 main profiles: one for the clients connecting, one for the servers, and another one for the full mesh routing connections between the servers.
 
 ```bash
-{ "signing": { "default": { "expiry": "43800h" }, "profiles": { "server": { "expiry": "43800h", "usages": [ "signing", "key encipherment", "server auth", "client auth" ] }, "client": { "expiry": "43800h", "usages": [ "signing", "key encipherment", "client auth" ] }, "route": { "expiry": "43800h", "usages": [ "signing", "key encipherment", "server auth", "client auth" ] } } } }
+{
+    "signing": {
+        "default": {
+            "expiry": "43800h"
+        },
+        "profiles": {
+            "server": {
+                "expiry": "43800h",
+                "usages": [
+                    "signing",
+                    "key encipherment",
+                    "server auth",
+                    "client auth"
+                ]
+            },
+            "client": {
+                "expiry": "43800h",
+                "usages": [
+                    "signing",
+                    "key encipherment",
+                    "client auth"
+                ]
+            },
+            "route": {
+                "expiry": "43800h",
+                "usages": [
+                    "signing",
+                    "key encipherment",
+                    "server auth",
+                    "client auth"
+                ]
+            }
+        }
+    }
+}
 ```
 
-### **Generating the NATS server certs**
+### Generating the NATS server certs
 
 First we generate the certificates for the server.
 
@@ -84,7 +118,7 @@ First we generate the certificates for the server.
 )
 ```
 
-### **Generating the NATS server routes certs**
+### Generating the NATS server routes certs
 
 We will also be setting up TLS for the full mesh routes.
 
@@ -124,7 +158,7 @@ We will also be setting up TLS for the full mesh routes.
 )
 ```
 
-**Generating the certs for the clients \(CNCF && ACME\)**
+## Generating the certs for the clients \(CNCF && ACME\)
 
 ```javascript
 {
@@ -150,11 +184,11 @@ We will also be setting up TLS for the full mesh routes.
 )
 ```
 
-**Kubectl create**
+## Kubectl Create
 
-\`\`\`sh :results output cd certs kubectl create secret generic nats-tls-example --from-file=ca.pem --from-file=server-key.pem --from-file=server.pem kubectl create secret generic nats-tls-routes-example --from-file=ca.pem --from-file=route-key.pem --from-file=route.pem kubectl create secret generic nats-tls-client-example --from-file=ca.pem --from-file=client-key.pem --from-file=client.pem
-
-```text
+```
+cd certs kubectl create secret generic nats-tls-example --from-file=ca.pem --from-file=server-key.pem --from-file=server.pem kubectl create secret generic nats-tls-routes-example --from-file=ca.pem --from-file=route-key.pem --from-file=route.pem kubectl create secret generic nats-tls-client-example --from-file=ca.pem --from-file=client-key.pem --from-file=client.pem
+```
 ### Create the Auth secret
 
 ```js
@@ -235,7 +269,7 @@ spec:
 
 #### Create APP using certs
 
-**Adding a new pod which uses the certificates**
+## Adding a new pod which uses the certificates
 
 Development
 
@@ -342,8 +376,8 @@ docker push wallyqs/nats-client-app
 ```
 
 Pod spec
-
-\`\`\`sh :results output echo ' apiVersion: apps/v1beta2 kind: Deployment
+```
+echo ' apiVersion: apps/v1beta2 kind: Deployment
 
 ## The name of the deployment
 
@@ -389,5 +423,5 @@ template: metadata: labels: name: nats-client-app spec: volumes:
 
     ' \| kubectl apply -f -
 
-    \`\`\` 
+```
 
