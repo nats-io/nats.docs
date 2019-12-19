@@ -19,7 +19,7 @@ gateway {
 }
 ```
 
-One difference is that instead of `routes` you specify `gateways`. As expected _self-gateway_ connections are ignored, so you can share gateway configurations with minimal fuzz.
+One difference is that instead of `routes` you specify `gateways`. As expected _self-gateway_ connections are ignored, so you can share gateway configurations with minimal fuss.
 
 Starting a server:
 
@@ -60,15 +60,15 @@ Listening on [>]
 | Property | Description |
 | :--- | :--- |
 | `advertise` | Hostport `<host>:<port>` to advertise to other gateways. |
-| `authorization` | Authorization block \(same as other nats-server `authorization` configuration\). |
+| `authorization` | Authorization block \(same as other nats-server `authorization` configurations\). |
 | `connect_retries` | Number of times the server will try to connect to a discovered gateway. |
 | `gateways` | List of Gateway entries - see below. |
-| `host` | Interface where the gateway will listen for incomming gateway connections. |
+| `host` | Interface where the gateway will listen for incoming gateway connections. |
 | `listen` | Combines `host` and `port` as `<host>:<port>` |
 | `name` | Name for this cluster, all gateways belonging to the same cluster, should specify the same name. |
-| `port` | Port where the gateway will listen for incomming gateway connections. |
+| `port` | Port where the gateway will listen for incoming gateway connections. |
 | `reject_unknown` | If `true`, gateway will reject connections from gateways that are not configured in `gateways`. |
-| `tls` | TLS configuration block \(same as other [nats-server `tls` configuration](../securing_nats/tls.md#tls-configuration)\). |
+| `tls` | TLS configuration block \(same as other [nats-server `tls` configurations](../securing_nats/tls.md#tls-configuration)\). |
 
 ### `Gateway` Entry
 
@@ -78,7 +78,7 @@ The `gateways` configuration block is a list of gateway entries with the followi
 | :--- | :--- |
 | `name` | Gateway name. |
 | `url` | Hostport `<host>:<port>` describing where the remote gateway can be reached. If multiple IPs are returned, one is randomly selected. |
-| `urls` | A list of `url` |
+| `urls` | A list of `url` strings. |
 
 By using `urls` and an array, you can specify a list of endpoints that form part of a cluster as below. A NATS Server will pick one of those addresses randomly and only establish a single outbound gateway connection to one of the members from another cluster:
 

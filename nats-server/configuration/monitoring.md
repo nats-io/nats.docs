@@ -48,7 +48,8 @@ For example, to monitor this server locally, the endpoint would be [http://demo.
 
 ## Monitoring endpoints
 
-The following sections describe each supported monitoring endpoint: `varz`, `connz`, `routez`, `subsz`, and `gatewayz`. There are not any required arguments, however use of arguments can let you tailor monitoring to your environment and tooling.
+The following sections describe each supported monitoring endpoint: `varz`, `connz`, `routez`, `subsz`, `gatewayz`, and `leafz`.
+There are not any required arguments, however use of arguments can let you tailor monitoring to your environment and tooling.
 
 ### General Information
 
@@ -472,9 +473,9 @@ As noted above, the `leafz` endpoint does support the `subs` argument from the `
 
 ### Subscription Routing Information
 
-The `/subz` endpoint reports detailed information about the current subscriptions and the routing data structure. It is not normally used.
+The `/subsz` endpoint reports detailed information about the current subscriptions and the routing data structure. It is not normally used.
 
-**Endpoint:** `http://server:port/subz`
+**Endpoint:** `http://server:port/subsz`
 
 | Result | Return Code |
 | :--- | :--- |
