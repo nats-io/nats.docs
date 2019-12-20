@@ -65,3 +65,35 @@ curl 127.0.0.1:8222/streaming/channelsz
 }
 ```
 
+## Monitoring a NATS Streaming channel with Grafana and Prometheus
+
+Here you can find a few examples of monitoring NATS Streaming channels:
+
+### Pending Messages from Channel Foo
+
+```
+sum(nss_chan_subs_pending_count{channel="foo"}) by (client_id)
+```
+
+<img width="1580" alt="Pending" src="https://user-images.githubusercontent.com/26195/54960400-b0c52e80-4f19-11e9-9e92-88fba89fd55e.png">
+
+### Messages Per Sec Delivered on Channel Foo
+
+In this case, `3` is the size of the quorum of NATS Streaming Server nodes.  In case of a single instance backed by a relational database we would set it to `1`:
+
+```
+sum(rate(nss_chan_msgs_total{channel="foo"}[5m])) by (channel) / 3
+```
+
+<img width="1579" alt="msgs-per-sec" src="https://user-images.githubusercontent.com/26195/54960588-80ca5b00-4f1a-11e9-92d5-de59c81b6c63.png">
+
+### Msgs/Sec vs Pending on Channel
+
+Example of combining the rate of messages with the pending count to detect whether processing is getting behind:
+
+```
+sum(rate(nss_chan_msgs_total{channel="foo"}[5m])) by (channel) / 3
+sum(nss_chan_subs_pending_count{channel="foo"}) by (channel) / 3
+```
+
+<img width="1468" alt="combination" src="https://user-images.githubusercontent.com/26195/54960992-4235a000-4f1c-11e9-8e55-47515a5d944d.png">
