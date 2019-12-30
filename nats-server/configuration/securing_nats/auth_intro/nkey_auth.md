@@ -177,7 +177,7 @@ resolver_preload = {
 }
 ```
 
-**These two servers even though they have different auth mechanisms are able to route the accounts because the account public nkeys are the same.**
+Even though they have different authorization mechanisms, these two servers are able to route account messages because they share the same NKEY. 
 
 We have created at least one user, in this case with creds:
 

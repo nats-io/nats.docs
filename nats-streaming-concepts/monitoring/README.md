@@ -67,7 +67,7 @@ curl 127.0.0.1:8222/streaming/channelsz
 
 ## Monitoring a NATS Streaming channel with Grafana and Prometheus
 
-Here you can find a few examples of monitoring NATS Streaming channels:
+Here you'll find examples demonstrating how to use Prometheus query expressions to monitor NATS streaming channels.
 
 ### Pending Messages from Channel Foo
 
