@@ -103,3 +103,105 @@ To test your installation \(provided the $GOPATH/bin is set\):
 [41634] 2019/05/13 09:42:11.746252 [INF] Server is ready
 ```
 
+## NATS v2 and Go Modules
+
+If you are having issues when using the recent versions of NATS and Go modules such as:
+
+```
+go: github.com/nats-io/go-nats@v1.8.1: parsing go.mod: unexpected module path "github.com/nats-io/nats.go"
+go: github.com/nats-io/go-nats-streaming@v0.5.0: parsing go.mod: unexpected module path "github.com/nats-io/stan.go"
+```
+
+To fix it: 
+
+1) Update your `go.mod` using the latest tags, for example for both NATS and NATS Streaming clients:
+
+```ruby
+module github.com/wallyqs/hello-nats-go-mod
+
+go 1.12
+
+require (
+	github.com/nats-io/nats.go v1.8.1
+	github.com/nats-io/stan.go v0.5.0
+)
+```
+
+Or if you want to import the NATS Server v2 to embed it, notice the `/v2` after the nats-server module name. If that is not present, then go modules will not fetch it and would accidentally end up with 1.4.1 version of the server.
+
+```ruby
+require (
+	github.com/nats-io/nats-server/v2 v2.0.0
+	github.com/nats-io/nats.go v1.8.1
+)
+```
+
+If embedding both NATS Streaming and NATS Servers:
+
+```ruby
+require (
+	github.com/nats-io/nats-server/v2 v2.0.0 // indirect
+	github.com/nats-io/nats-streaming-server v0.15.1
+)	
+```
+
+2) Next, update the imports within the repo:
+
+```sh
+find ./ -type f -name "*.go" -exec sed -i -e 's/github.com\/nats-io\/go-nats-streaming/github.com\/nats-io\/stan.go/g' {} \;
+
+find ./ -type f -name "*.go" -exec sed -i -e 's/github.com\/nats-io\/go-nats/github.com\/nats-io\/nats.go/g' {} \;
+
+find ./ -type f -name "*.go" -exec sed -i -e 's/github.com\/nats-io\/gnatsd/github.com\/nats-io\/nats-server\/v2/g' {} \;
+
+find ./ -type f -name "*.go" -exec sed -i -e 's/github.com\/nats-io\/nats-server/github.com\/nats-io\/nats-server\/v2/g' {} \;
+```
+
+3) (Recommended) Run Go fmt as the rename will affect the proper ordering of the imports 
+
+###  Gotchas when using `go get`
+
+If using `go get` for the client, then have to be careful with adding an extra slash at the end of the repo for example:
+
+```
+GO111MODULE=on go get github.com/nats-io/nats.go/@latest
+GO111MODULE=on go get github.com/nats-io/nats.go/@v1.8.1
+```
+
+If trying to fetch the latest version of the server with `go get`, then have to add `v2` at the end:
+
+```
+GO111MODULE=on go get github.com/nats-io/nats-server/v2@latest
+```
+
+Otherwise, `go get` will fetch the `v1.4.1` version of the server, which is also named (`gnatsd`), the previous name for nats-server.
+
+```
+GO111MODULE=on go get github.com/nats-io/nats-server@latest
+go: finding github.com/nats-io/gnatsd/server latest
+go: finding golang.org/x/crypto/bcrypt latest
+go: finding golang.org/x/crypto latest
+```
+
+In order to use an older tag, you will also have to use the previous name (gnatsd) otherwise it would results in `go mod` parsing errors.
+
+```
+# OK
+GO111MODULE=on go get github.com/nats-io/go-nats/@v1.7.2
+
+# Not OK
+GO111MODULE=on go get github.com/nats-io/nats.go/@v1.7.2
+go: finding github.com/nats-io/nats.go v1.7.2
+go: downloading github.com/nats-io/nats.go v1.7.2
+go: extracting github.com/nats-io/nats.go v1.7.2
+go: finding github.com/nats-io/go-nats/encoders/builtin latest
+go: finding github.com/nats-io/go-nats/util latest
+go: finding github.com/nats-io/go-nats/encoders latest
+go: finding github.com/nats-io/go-nats v1.8.1
+go: downloading github.com/nats-io/go-nats v1.8.1
+go: extracting github.com/nats-io/go-nats v1.8.1
+go: github.com/nats-io/go-nats@v1.8.1: parsing go.mod: unexpected module path "github.com/nats-io/nats.go"
+go: error loading module requirements
+```
+
+For more information you can review the original issue in [GitHub](https://github.com/nats-io/nats.go/issues/478).
