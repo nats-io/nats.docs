@@ -1,7 +1,7 @@
 # Table of contents
 
 * [Introduction](README.md)
-* [What's New!]()
+* [What's New!](whats_new.md)
 * [NATS 2.0](whats_new_20.md)
 * [FAQ](faq.md)
 
