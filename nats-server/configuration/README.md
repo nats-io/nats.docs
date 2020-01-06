@@ -127,7 +127,7 @@ authorization: {
 | [`ping_interval`]() | Interval in seconds in which the server checks if a connection is active |
 | `port` | Port for client connections |
 | `reconnect_error_reports` | Number of failed attempt to reconnect a route, gateway or leaf node connection. Default is to report every attempt. |
-| [`resolver`](../../nats-tools/nsc/nsc.md#nats-server-configuration) | Resolver type `MEMORY` or `URL` for account JWTs |
+| [`resolver`]() | Resolver type `MEMORY` or `URL` for account JWTs |
 | [`tls`](securing_nats/tls.md#tls-configuration) | Configuration map for tls for client and http monitoring |
 | `trace` | If `true` enable protocol trace log messages |
 | `write_deadline` | Maximum number of seconds the server will block when writing a to a client \(slow consumer\) |
