@@ -42,7 +42,7 @@ Click the name to see more detailed information, including usage:
 | [`Ping`](protocol.md#ping) | Client | Ping sent to server to detect connection loss |
 | [`PingResponse`](protocol.md#pingresponse) | Server | Result of a Ping |
 | [`CloseRequest`](protocol.md#closerequest) | Client | Request sent to close the connection to the NATS Streaming Server |
-| [`CloseResp`](protocol.md#closeresponse) | Server | Result of the close request |
+| [`CloseResponse`](protocol.md#closeresponse) | Server | Result of the close request |
 
 The following sections explain each protocol message.
 
