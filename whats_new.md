@@ -2,6 +2,12 @@
 
 The NATS.io team is always working to bring you features to improve your NATS experience. Below you will find feature summaries for new implementations to NATS. Check back often for release highlights and updates.
 
+## Server release v2.1.2
+### Queue Permissions
+
+Queue Permissions allow you to express authorization for queue groups. As queue groups are integral to implementing horizontally scalable microservices, control of who is allowed to join a specific queue group is important to the overall security model. Original PR - <https://github.com/nats-io/nats-server/pull/1143>
+More information on Queue Permissions can be found in the [Developing with NATS](developing-with-nats/receiving/queues#queue-permissions) section.
+
 ## Server release v2.1.0
 ### Service Latency Tracking
 
