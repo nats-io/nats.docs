@@ -1,23 +1,23 @@
 # resolver
 
-The `resolver` configuration option is used in conjunction with [NATS JWT Authentication](securing_nats/auth_intro/jwt_auth.md) and [nsc](../../nats-tools/nsc/nsc). The `resolver` option specifies an URL where the nats-server can retrieve an account JWT. There are two built-in resolver implementations:
+The `resolver` configuration option is used in conjunction with [NATS JWT Authentication](securing_nats/auth_intro/jwt_auth.md) and [nsc](../../nats-tools/nsc/nsc). The `resolver` option specifies a URL where the nats-server can retrieve an account JWT. There are two built-in resolver implementations:
 
  - `URL`
  - `MEMORY`
  
-# URL Resolver
+## URL Resolver
 
-The `URL` resolver specifies an URL where the server can append an account public key to retrieve that accounts JWT. Convention for [NATS Account JWT Servers](../../nats-tools/nas) is to serve JWTs at: `http://localhost:9090/jwt/v1/accounts/`. For such a configuration you would specify the resolver as follows:
+The `URL` resolver specifies a URL where the server can append an account public key to retrieve that account's JWT. Convention for [NATS Account JWT Servers](../../nats-tools/nas) is to serve JWTs at: `http://localhost:9090/jwt/v1/accounts/`. For such a configuration you would specify the resolver as follows:
 
 ```yaml
 resolver: URL(http://localhost:9090/jwt/v1/accounts/)
 ```
 
-Note that if not using a nats-account-server, the URL can be anything so long as by appending the public key for an account, the requested JWT is returned.
+Note that if you are not using a nats-account-server, the URL can be anything as long as by appending the public key for an account, the requested JWT is returned.
 
 For more information on how to configure an account server, see [NATS Account JWT Server](../../nats-tools/nas).
 
-# MEMORY
+## MEMORY
 
 The `MEMORY` resolver is statically configured in the server's configuration file. The memory resolver makes use of the `resolver_preload` directive, which specifies a map of a public key to an account JWT:
 
