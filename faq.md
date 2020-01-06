@@ -7,6 +7,7 @@
 * [Who maintains NATS?](faq.md#who-maintains-nats)
 * [What clients does NATS support?](faq.md#what-client-support-exists-for-nats)
 * [What does the NATS acronym stand for?](faq.md#what-does-the-nats-acronym-stand-for)
+* [What does STAN stand for?](faq.md#what-does-stan-stand-for)
 
 ### Technical Questions
 
@@ -40,6 +41,10 @@ NATS was created by Derek Collison, who has over 25 years of experience designin
 ### What does the NATS acronym stand for?
 
 NATS stands for Neural Autonomic Transport System. Derek Collison conceived NATS as a messaging platform that functions like a central nervous system.
+
+### What does STAN stand for?
+
+NATS Streaming is also known as STAN, which is just NATS backward. NATS is at-most-once QoS messaging with no persistence, whereas NATS Streaming is at-least-once QoS, therefore, representing the opposite of NATS.
 
 ### What language is NATS written in?
 
