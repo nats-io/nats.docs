@@ -22,7 +22,7 @@ wg := sync.WaitGroup{}
 wg.Add(10)
 
 // Create a queue subscription on "updates" with queue name "workers"
-if _, err := nc.QueueSubscribe("updates", "worker", func(m *nats.Msg) {
+if _, err := nc.QueueSubscribe("updates", "workers", func(m *nats.Msg) {
     wg.Done()
 }); err != nil {
     log.Fatal(err)
@@ -139,7 +139,7 @@ The full wildcard can also be used, for example the following would prevent plai
 allow = ["bar >"]
 ```
 
-Permissions for Queue Subscriptions can be combined with plain subscriptions as well though, for example you could allow plain subscriptions on `foo` but constrain the queues to which a client can join, as well a preventing any service from using a queue subscription with the name `*.prod`:
+Permissions for Queue Subscriptions can be combined with plain subscriptions as well though, for example you could allow plain subscriptions on `foo` but constrain the queues to which a client can join, as well as preventing any service from using a queue subscription with the name `*.prod`:
 
 ```text
 users = [
