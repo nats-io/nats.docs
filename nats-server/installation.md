@@ -74,12 +74,12 @@ Download the zip file matching your systems architecture, and unzip. For this ex
 
 > unzip nats-server.zip -d nats-server
 Archive:  nats-server.zip
-   creating: nats-server-v2.0.0-darwin-amd64/
-  inflating: nats-server-v2.0.0-darwin-amd64/README.md
-  inflating: nats-server-v2.0.0-darwin-amd64/LICENSE
-  inflating: nats-server-v2.0.0darwin-amd64/nats-server
+   creating: nats-server-v2.0.0-linux-amd64/
+  inflating: nats-server-v2.0.0-linux-amd64/README.md
+  inflating: nats-server-v2.0.0-linux-amd64/LICENSE
+  inflating: nats-server-v2.0.0-linux-amd64/nats-server
 
-> cp nats-server-v2.0.0darwin-amd64/nats-server /usr/local/bin
+> sudo cp nats-server-v2.0.0-linux-amd64/nats-server /usr/bin
 ```
 
 ## Installing From the Source
