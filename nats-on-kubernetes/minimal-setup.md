@@ -11,17 +11,17 @@ kubectl apply -f https://raw.githubusercontent.com/nats-io/k8s/master/nats-serve
 kubectl apply -f https://raw.githubusercontent.com/nats-io/k8s/master/nats-streaming-server/single-server-stan.yml
 ```
 
-This will setup for you:
+This will setup:
 
 - A statefulset with a single NATS server (no auth nor TLS)
 
 - A single NATS Streaming node using file store with persistence
 
-- A `nats` headless service to which you can connect.
+- A `nats` headless service to which you can connect
 
-- A NATS Streaming Server that uses the cluster name `stan`.
+- A NATS Streaming Server that uses the cluster name `stan`
 
-Note that the only service that your applications have to connect is
+Note that the only service your applications have to connect to is
 the `nats` service, the NATS Streaming server will be available by
 using NATS as a transport.
 
@@ -48,12 +48,12 @@ Listening on [hello], clientID=[stan-sub], qgroup=[] durable=[]
 [#1] Received: sequence:1 subject:"hello" data:"world" timestamp:1579544643374163630 
 ```
 
-## HA setup using StatefulSets
+## HA Setup Using StatefulSets
 
 In order to have higher availability you can setup NATS and NATS
 Streaming (STAN) to run in clustering mode.  The following commands
 will setup a 3 node NATS cluster as well as a 3 node NATS Streaming
-cluster that has an attached volume for persistence. Note that you will need more than one node available in your Kubernetes cluster in order for this to work, so in case of deploying onto minikube or docker desktop, please try the single node installer instead.
+cluster that has an attached volume for persistence. Note, you will need more than one node available in your Kubernetes cluster in order for this to work, so in case of deploying onto minikube or docker desktop, please try the single node installer instead.
 
 ```sh
 # Create NATS cluster
@@ -66,4 +66,4 @@ kubectl apply -f https://raw.githubusercontent.com/nats-io/k8s/master/nats-strea
 For NATS Streaming, it is actually recommended to use the Fault
 Tolerance mode as that would show better performance than clustering
 mode and better failover.  You can follow this guide to setup
-[NATS Streaming with Fault Tolerance](https://docs.nats.io/nats-on-kubernetes/stan-ft-k8s-aws).
+[NATS Streaming with Fault Tolerance](/nats-on-kubernetes/stan-ft-k8s-aws).
