@@ -2,7 +2,7 @@
 
 ## Minimal NATS and NATS Streaming setup
 
-To try NATS with the minimal components, you can start with the following:
+To try NATS with the minimal number of components, you can start with the following:
 
 ```sh
 # Single server NATS
