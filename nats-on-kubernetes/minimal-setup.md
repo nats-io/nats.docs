@@ -53,7 +53,7 @@ Listening on [hello], clientID=[stan-sub], qgroup=[] durable=[]
 In order to have higher availability you can setup NATS and NATS
 Streaming (STAN) to run in clustering mode.  The following commands
 will setup a 3-node NATS cluster as well as a 3-node NATS Streaming
-cluster that has an attached volume for persistence.
+cluster that has an attached volume for persistence. Note that you will need more than one node available in your Kubernetes cluster in order for this to work, so in case of deploying onto minikube or docker desktop, please try the single node installer instead.
 
 ```sh
 # Create NATS cluster
