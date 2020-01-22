@@ -1,11 +1,11 @@
 # Creating a Kubernetes cluster
 
-Below you can find examples of creating a small 3 nodes Kubernetes
+Below you will find examples of creating a small 3 node Kubernetes
 cluster to try NATS on multiple clouds.
 
 ## Google Kubernetes Engine
 
-Using [gcloud](https://cloud.google.com/sdk/gcloud/) to create a 3 nodes Kubernetes cluster:
+Using [gcloud](https://cloud.google.com/sdk/gcloud/) to create a 3 node Kubernetes cluster:
 
 ```sh
 gcloud container clusters create nats-k8s-cluster \
@@ -22,7 +22,7 @@ tool to manage EKS clusters, you can find more docs on how to set it
 up [here](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html).
 
 ```sh
-# Create 3 nodes Kubernetes cluster
+# Create 3 node Kubernetes cluster
 eksctl create cluster --name nats-k8s-cluster \
   --nodes 3 \
   --node-type=t3.large \
@@ -56,7 +56,7 @@ az aks create   --resource-group nats --name nats  --node-count 3 --node-vm-size
 az aks get-credentials --resource-group nats --name nats
 ```
 
-*Note* that in order to be able to access NATS externally you need to
+*Note* In order to be able to access NATS externally you need to
 provision public IPs for your cluster installing the following component [dgkanatsios/AksNodePublicIPController](https://github.com/dgkanatsios/AksNodePublicIPController):
 
 ```sh
