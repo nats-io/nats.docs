@@ -191,6 +191,7 @@
 
 * [Introduction](nats-on-kubernetes/nats-kubernetes.md)
 * [Basic NATS and NATS Streaming Setup](nats-on-kubernetes/minimal-setup.md)
+* [Creating a Kubernetes Cluster](nats-on-kubernetes/create-k8s-cluster.md)
 * [NATS Streaming Cluster with FT Mode](nats-on-kubernetes/stan-ft-k8s-aws.md)
 * [NATS and Prometheus Operator](nats-on-kubernetes/prometheus-and-nats-operator.md)
 * [NATS Cluster and Cert Manager](nats-on-kubernetes/nats-cluster-and-cert-manager.md)
