@@ -5,9 +5,10 @@ cluster to try NATS on multiple clouds.
 
 ## Google Kubernetes Engine
 
-Using [gcloud](https://cloud.google.com/sdk/gcloud/) to create a 3 node Kubernetes cluster:
+Use [gcloud](https://cloud.google.com/sdk/gcloud/) to create a 3 node Kubernetes cluster:
 
 ```sh
+# Create a 3 node Kubernetes cluster. One node in each of the region's three zones.
 gcloud container clusters create nats-k8s-cluster \
   --project $YOUR_GOOGLE_CLOUD_PROJECT \
   --region us-west2 \
@@ -34,13 +35,15 @@ eksctl utils write-kubeconfig --name $YOUR_EKS_NAME --region eu-west-1
 
 ## Digital Ocean
 
-You can use [doctl](https://github.com/digitalocean/doctl) tool to create a cluster as follows:
+You can use [doctl](https://github.com/digitalocean/doctl) to create a cluster as follows:
 
 ```sh 
 doctl kubernetes cluster create nats-k8s-nyc2 --count 3 --region nyc1
 ```
 
 ## Azure Kubernetes Service
+
+Using [az](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) you can create a cluster like this:
 
 ```sh
 # In case not done already, register to use some services:
