@@ -21,7 +21,7 @@ curl -L https://raw.githubusercontent.com/nats-io/nsc/master/install.py | python
 
 The script will download the latest version of `nsc` and install it into your system.
 
-Alternatively, you can use `nsc` with using the [nats-box](https://hub.docker.com/r/synadia/nats-box) Docker image:
+Alternatively, you can use `nsc` with the [nats-box](https://hub.docker.com/r/synadia/nats-box) Docker image:
 
 ```sh
 $ docker run --rm -it -v $(pwd)/nsc:/nsc synadia/nats-box:latest
