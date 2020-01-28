@@ -12,7 +12,7 @@ Use [gcloud](https://cloud.google.com/sdk/gcloud/) to create a 3 node Kubernetes
 gcloud container clusters create nats-k8s-cluster \
   --project $YOUR_GOOGLE_CLOUD_PROJECT \
   --region us-west2 \
-  --num-nodes 1 \
+  --num-nodes 3 \
   --machine-type n1-standard-2
 ```
 
