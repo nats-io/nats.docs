@@ -198,7 +198,7 @@ To subscribe the current connection to the subject `BAR` as part of distribution
 
 ### Description
 
-`UNSUB` unsubcribes the connection from the specified subject, or auto-unsubscribes after the specified number of messages has been received.
+`UNSUB` unsubscribes the connection from the specified subject, or auto-unsubscribes after the specified number of messages has been received.
 
 ### Syntax
 
