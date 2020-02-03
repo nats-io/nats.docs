@@ -64,13 +64,13 @@ All of these settings are available in the configuration file as well.
 debug:   false
 trace:   true
 logtime: false
-log_size_limit: 1GB
+logfile_size_limit: 1GB
 log_file: "/tmp/nats-server.log"
 ```
 
 ### Log Rotation
 
-Introduced in NATS Server v2.1.4, NATS allows for auto-rotation of log files when the size is greater than the configured limit. The backup files will have the same name as the original log file with the suffix .yyyy.mm.dd.hh.mm.ss.micros.
+Introduced in NATS Server v2.1.4, NATS allows for auto-rotation of log files when the size is greater than the configured limit set in `logfile_size_limit`. The backup files will have the same name as the original log file with the suffix .yyyy.mm.dd.hh.mm.ss.micros.
 
 You can also use NATS-included mechanisms with [logrotate](https://github.com/logrotate/logrotate), a simple standard Linux utility to rotate logs available on most distributions like Debian, Ubuntu, RedHat \(CentOS\), etc., to make log rotation simple.
 
