@@ -40,4 +40,4 @@ Subject to your security configuration, wildcards can be used for monitoring by 
 
 ### Mix Wildcards 
 
-The wildcard `*` can appear multiple times in the same subject. Both types be used as well. For example, `*.*.*.>` will receive  `time.us.east.atlanta` as it is at least 4 tokens long.
+The wildcard `*` can appear multiple times in the same subject. Both types be used as well. For example, `*.*.east.>` will receive `time.us.east.atlanta`.

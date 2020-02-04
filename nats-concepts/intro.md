@@ -6,5 +6,4 @@ NATS makes it easy for programs to communicate across different environments, la
 
 ![](../.gitbook/assets/intro.svg)
 
-NATS core offers an **at most once** quality of service. If a subscriber is not listening on the subject \(no subject match\), or is not active when the message is sent, the message is not received. This is the same level of guarantee that TCP/IP provides. By default, NATS is a fire-and-forget messaging system. If you need higher levels of service, you can use [NATS Streaming](../nats-streaming-concepts/intro.md) or build additional reliability into your client applications with proven and scalable reference designs.
-
+NATS core offers an **at most once** quality of service. If a subscriber is not listening on the subject \(no subject match\), or is not active when the message is sent, the message is not received. This is the same level of guarantee that TCP/IP provides. By default, NATS is a fire-and-forget messaging system. If you need higher levels of service, you can use [NATS Streaming](../nats-streaming-concepts/intro.md) or build additional reliability into your client applications with proven and scalable reference designs such as [acks](acks.md) and [sequence numbers](seq_num.md).
