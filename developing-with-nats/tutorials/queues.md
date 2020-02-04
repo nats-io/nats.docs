@@ -1,10 +1,10 @@
 # Explore NATS Queueing
 
-NATS supports a form of load balancing using queue groups. Subscribers register a queue group name. A single subscriber in the group is randomly selected to receive the message.
+NATS supports a form of load balancing using [queue groups](../../nats-concepts/queue.md). Subscribers register a queue group name. A single subscriber in the group is randomly selected to receive the message.
 
 ## Prerequisites
 
-Go and the NATS server should be installed.
+Go, node.js, ruby and the NATS server should be installed.
 
 ### 1. Start the NATS server
 
@@ -20,7 +20,7 @@ git clone https://github.com/nats-io/nats.js.git
 git clone https://github.com/nats-io/nats.rb.git
 ```
 
-### 3. Run the Go client subscriber with queue group name
+### 3. Run the Go client subscriber, providing a queue group name
 
 ```bash
 cd $GOPATH/src/github.com/nats-io/nats.go/examples
@@ -58,9 +58,9 @@ go run nats-pub/main.go foo "Hello NATS!"
 
 ### 8. Verify message publication and receipt
 
-You should see that the publisher sends the message: _Published \[foo\] : 'Hello NATS!'_
+You should see that the publisher the message and prints: _Published \[foo\] : 'Hello NATS!'_
 
-You should see that only one of the my-queue group subscribers receives the message. In addition, the Go client subscriber not in the my-queue group should also receive the message.
+You should see that only one of the my-queue group subscribers receives the message and prints it. In addition, the Go client subscriber not in the my-queue group should also receive and print the message.
 
 ### 9. Publish another message
 

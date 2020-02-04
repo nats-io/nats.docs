@@ -1,6 +1,6 @@
 # Explore NATS Pub/Sub
 
-NATS is a publish subscribe messaging system. Subscribers listening on a subject receive messages on that subject. If the subscriber is not actively listening on the subject, the message is not received. Subscribers can use the wildcard tokens such as `*` and `>` to match a single token or to match the tail of a subject.
+NATS is a [publish subscribe](../../nats-concepts/pubsub.md) messaging system [based on subjects](../../nats-concepts/subjects.md). Subscribers listening on a subject receive messages published on that subject. If the subscriber is not actively listening on the subject, the message is not received. Subscribers can use the wildcard tokens such as `*` and `>` to match a single token or to match the tail of a subject.
 
 ![](../../.gitbook/assets/pubsubtut.svg)
 
@@ -82,9 +82,9 @@ or
 
 ### 8. Verify message publication and receipt
 
-You should see that the publisher sends the message: _Published \[msg.test\] : 'NATS MESSAGE'_
+You should see that the publisher sends the message and prints: _Published \[msg.test\] : 'NATS MESSAGE'_
 
-And that the subscriber receives the message: _\[\#1\] Received on \[msg.test\]: 'NATS MESSAGE'_
+And that the subscriber receives the message and prints: _\[\#1\] Received on \[msg.test\]: 'NATS MESSAGE'_
 
 Note that if the receiver does not get the message, check that you are using the same subject name for the publisher and the subscriber.
 
@@ -94,7 +94,7 @@ Note that if the receiver does not get the message, check that you are using the
 % go run nats-pub/main.go msg.test "NATS MESSAGE 2"
 ```
 
-You should see that the subscriber receive message 2. Note that the message count is incremented each time your subscribing client receives a message on that subject:
+You should see that the subscriber receives message 2. Note that the message count is incremented each time your subscribing client receives a message on that subject:
 
 ### 10. Start another shell or command prompt session
 
@@ -106,7 +106,7 @@ You will use this session to run a second NATS subscriber.
 % cd $GOPATH/src/github.com/nats-io/nats.go/examples
 ```
 
-### 12. Subscribe to the message
+### 12. Start a second client subscriber program
 
 ```bash
 % go run nats-sub/main.go msg.test
@@ -130,7 +130,7 @@ You will use this session to run a third NATS subscriber.
 % cd $GOPATH/src/github.com/nats-io/nats.go/examples
 ```
 
-### 16. Subscribe to a different message
+### 16. Subscribe to a different subject
 
 ```bash
 % go run nats-sub/main.go msg.test.new
@@ -140,7 +140,7 @@ All the but last subscriber receives the message. Why? Because that subscriber i
 
 ### 17. Update the last subscriber to use a wildcard
 
-NATS supports the use of wildcard characters for message subscribers. You cannot publish a message using a wildcard subject.
+NATS supports the use of wildcard characters for message subscribers only. You cannot publish a message using a wildcard subject.
 
 Change the last subscriber the listen on msg.\* and run it:
 
