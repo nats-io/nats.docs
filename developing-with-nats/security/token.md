@@ -50,7 +50,7 @@ let nc = NATS.connect({url: `nats://127.0.0.1:${port}`, token: "mytoken!"});
 ```python
 nc = NATS()
 
-await nc.connect(servers=["nats://mytoken@demo.nats.io:4222"])
+await nc.connect(servers=["nats://demo.nats.io:4222"], token="mytoken")
 
 # Do something with the connection.
 ```
@@ -58,7 +58,7 @@ await nc.connect(servers=["nats://mytoken@demo.nats.io:4222"])
 
 {% tab title="Ruby" %}
 ```ruby
-NATS.start(token: "deadbeef") do |nc|
+NATS.start(token: "mytoken") do |nc|
   puts "Connected using token"
 end
 ```
@@ -105,7 +105,7 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let url = `nats://mytoken!@127.0.0.1:${port}`;
+let url = `nats://mytoken@127.0.0.1:${port}`;
 let nc = NATS.connect({url: url});
 ```
 {% endtab %}
@@ -122,7 +122,7 @@ await nc.connect(servers=["nats://mytoken@demo.nats.io:4222"])
 
 {% tab title="Ruby" %}
 ```ruby
-NATS.start("deadbeef@127.0.0.1:4222") do |nc|
+NATS.start("mytoken@127.0.0.1:4222") do |nc|
   puts "Connected using token!"
 end
 ```
@@ -130,7 +130,7 @@ end
 
 {% tab title="TypeScript" %}
 ```typescript
-let url = `nats://:mytoken!@127.0.0.1:${port}`;
+let url = `nats://:mytoken@127.0.0.1:${port}`;
 let nc = await connect({url: url});
 ```
 {% endtab %}
