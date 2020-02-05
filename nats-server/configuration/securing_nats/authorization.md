@@ -31,14 +31,14 @@ The `permission` map provides additional properties for configuring a `permissio
 ## Allow Responses Map
 
 The `allow_responses` option dynamically allows publishing to reply subjects and works well for service responders.
-When set to `true`, excepting any `publish` permissions, implicitly all publish permissions are denied unless it is the reply subject in a request received by the client.
+When set to `true`, excepting any explicit `allow publish` permissions, implicitly all publish permissions are denied unless it is the reply subject in a request received by the client.
 
 The `allow_responses` map also allows you to configure a maximum number of responses and how long to allow the dynamic permission after a message is received.
 
 | Property | Description |
 | :--- | :--- |
 |  `max` | The maximum number of response messages that can be returned to a request. |
-| `expires` | The duration of time to allow a response. Values such as `1s`, `1m`, `1h` (1 second, minute, hour) etc can be specified. |
+| `expires` | The amount of time the permission is valid. Values such as `1s`, `1m`, `1h` (1 second, minute, hour) etc can be specified. Default doesn't have a time limit. |
 
 If `allow_responses` is set to `true` rather than a specific configuration, it defaults to the equivalent of `{ max: 1 }`.
 
