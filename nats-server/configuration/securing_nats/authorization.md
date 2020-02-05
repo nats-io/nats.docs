@@ -31,16 +31,14 @@ The `permission` map provides additional properties for configuring a `permissio
 ## Allow Responses Map
 
 The `allow_responses` option dynamically allows publishing to reply subjects and works well for service responders.
-When set to `true`, excepting any explicit `allow publish` permissions, implicitly all publish permissions are denied unless it is the reply subject in a request received by the client.
-
-The `allow_responses` map also allows you to configure a maximum number of responses and how long to allow the dynamic permission after a message is received.
+When set to `true`, only one response is allowed, meaning the permission to publish to the reply subject defaults to only once. The `allow_responses` map allows you to configure a maximum number of responses and how long the permission is valid.
 
 | Property | Description |
 | :--- | :--- |
-|  `max` | The maximum number of response messages that can be returned to a request. |
+|  `max` | The maximum number of response messages that can be published. |
 | `expires` | The amount of time the permission is valid. Values such as `1s`, `1m`, `1h` (1 second, minute, hour) etc can be specified. Default doesn't have a time limit. |
 
-If `allow_responses` is set to `true` rather than a specific configuration, it defaults to the equivalent of `{ max: 1 }`.
+When `allow_responses` is set to `true`, it defaults to the equivalent of `{ max: 1 }` and no time limit.
 
 **Important Note** When using `nsc` to configure your users, you can specify the `--allow-pub-response` and `--response-ttl` to control these settings.
 
@@ -125,6 +123,6 @@ authorization: {
 }
 ```
 
-User `a` has no restrictions. User `b` can listen on `q` for requests. If the received request has a reply subject it can reply at most with one message. User `c` can also listen on `q` for requests, but is able to return at most 5 reply messages, and the reply subject can be published at most for `1` minute.
+User `a` has no restrictions. User `b` can listen on `q` for requests and can only publish once to reply subjects. All other subjects will be denied. User `c` can also listen on `q` for requests, but is able to return at most 5 reply messages, and the reply subject can be published at most for `1` minute.
 
 
