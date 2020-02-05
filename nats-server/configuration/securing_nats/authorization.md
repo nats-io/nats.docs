@@ -14,6 +14,8 @@ The `permissions` map specify subjects that can be subscribed to or published by
 | :--- | :--- |
 | `publish` | subject, list of subjects, or permission map the client can publish |
 | `subscribe` | subject, list of subjects, or permission map the client can subscribe |
+| `allow_responses` | boolean or object |
+
 
 ## Permission Map
 
@@ -25,6 +27,20 @@ The `permission` map provides additional properties for configuring a `permissio
 | `deny` | List of subjects that are denied to the client |
 
 **Important Note** NATS Authorizations can be _allow lists_, _deny lists_, or both. It is important to not break request/reply patterns. In some cases \(as shown below\) you need to add rules as above with Alice and Bob for the `_INBOX.>` pattern. If an unauthorized client publishes or attempts to subscribe to a subject that has not been _allow listed_, the action fails and is logged at the server, and an error message is returned to the client.
+
+## Allow Responses Map
+
+The `allow_responses` option dynamically allows publishing to reply subjects and works well for service responders.
+When set to `true`, only one response is allowed, meaning the permission to publish to the reply subject defaults to only once. The `allow_responses` map allows you to configure a maximum number of responses and how long the permission is valid.
+
+| Property | Description |
+| :--- | :--- |
+|  `max` | The maximum number of response messages that can be published. |
+| `expires` | The amount of time the permission is valid. Values such as `1s`, `1m`, `1h` (1 second, minute, hour) etc can be specified. Default doesn't have a time limit. |
+
+When `allow_responses` is set to `true`, it defaults to the equivalent of `{ max: 1 }` and no time limit.
+
+**Important Note** When using `nsc` to configure your users, you can specify the `--allow-pub-response` and `--response-ttl` to control these settings.
 
 ## Example
 
@@ -94,4 +110,19 @@ authorization: {
     ]
 }
 ```
+
+Here's an example with `allow_responses`:
+
+```text
+authorization: {
+	users: [
+		{ user: a, password: a },
+		{ user: b, password: b, permissions: {subscribe: "q", allow_responses: true } },
+		{ user: c, password: c, permissions: {subscribe: "q", allow_responses: { max: 5, expires: "1m" } } }
+	]
+}
+```
+
+User `a` has no restrictions. User `b` can listen on `q` for requests and can only publish once to reply subjects. All other subjects will be denied. User `c` can also listen on `q` for requests, but is able to return at most 5 reply messages, and the reply subject can be published at most for `1` minute.
+
 
