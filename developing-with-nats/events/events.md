@@ -11,6 +11,20 @@ Connection events may include the connection being closed, disconnected or recon
 ```go
 // There is not a single listener for connection events in the NATS Go Client.
 // Instead, you can set individual event handlers using:
+nc, err := nats.Connect("demo.nats.io",
+    nats.DisconnectErrHandler(func(_ *nats.Conn, err error) {
+        log.Printf("client disconnected: %v", err)
+    }),
+    nats.ReconnectHandler(func(_ *nats.Conn) {
+        log.Printf("client reconnected")
+    }),
+    nats.ClosedHandler(func(_ *nats.Conn) {
+        log.Printf("client closed")
+    }))
+if err != nil {
+    log.Fatal(err)
+}
+defer nc.Close()
 
 DisconnectHandler(cb ConnHandler)
 ReconnectHandler(cb ConnHandler)
@@ -114,7 +128,7 @@ await nc.connect(**options)
 
 {% tab title="Ruby" %}
 ```ruby
-r# There is not a single listener for connection events in the Ruby NATS Client.
+# There is not a single listener for connection events in the Ruby NATS Client.
 # Instead, you can set individual event handlers using:
 
 NATS.on_disconnect do
@@ -229,7 +243,7 @@ nc.on('serversDiscovered', (urls) => {
 
 {% tab title="Ruby" %}
 ```ruby
-r# The Ruby NATS client does not support discovered servers handler right now
+# The Ruby NATS client does not support discovered servers handler right now
 ```
 {% endtab %}
 
@@ -354,4 +368,3 @@ nc.on('error', (err) => {
 ```
 {% endtab %}
 {% endtabs %}
-
