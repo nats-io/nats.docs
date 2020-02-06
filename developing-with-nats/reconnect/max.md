@@ -1,6 +1,6 @@
 # Set the Number of Reconnect Attempts
 
-Applications can set the maximum reconnect attempts per server. This includes server provided to the clients connect call, as well as server the client discovered through other server. Once re-connect to a server failed the specified amount of times in a row, it will be removed from the connect list. After a succesfull re-connect to a server, the client will reset this servers failed reconnect attempt count. If a server was removed from the connect list, it can be re-discovered on connect. This effectively resets the connect attempt count as well. If the client runs out of servers to re-connect, it will close the connection and [raise an error](events.md). 
+Applications can set the maximum reconnect attempts per server. This includes server provided to the clients connect call, as well as server the client discovered through other server. Once re-connect to a server failed the specified amount of times in a row, it will be removed from the connect list. After a successful re-connect to a server, the client will reset this servers failed reconnect attempt count. If a server was removed from the connect list, it can be re-discovered on connect. This effectively resets the connect attempt count as well. If the client runs out of servers to re-connect, it will close the connection and [raise an error](events.md). 
 
 {% tabs %}
 {% tab title="Go" %}

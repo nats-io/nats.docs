@@ -1,6 +1,6 @@
 # Setting a Connect Timeout
 
-Each library has its own, language preferred way, to pass connection options. One of the most common options is a connect timeout. It limits how long it can take to establishe a connection to a server. Should multiple urls be provided, this timeout applies to each cluster member individually. To set the maximum time to connect to a server to 10 seconds:
+Each library has its own, language preferred way, to pass connection options. One of the most common options is a connect timeout. It limits how long it can take to established a connection to a server. Should multiple urls be provided, this timeout applies to each cluster member individually. To set the maximum time to connect to a server to 10 seconds:
 
 {% tabs %}
 {% tab title="Go" %}
