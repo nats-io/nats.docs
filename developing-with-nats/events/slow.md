@@ -200,7 +200,7 @@ public class SlowConsumerListener {
 
        if len(msgs) == 3:
          # Head of line blocking on other messages caused
-         # by single message proccesing taking long...
+         # by single message processing taking too long...
          await asyncio.sleep(1)
 
    await nc.subscribe("updates", cb=cb, pending_msgs_limit=5)
