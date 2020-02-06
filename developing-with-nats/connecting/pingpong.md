@@ -1,6 +1,6 @@
 # Ping/Pong Protocol
 
-The client and server use a simple PING/PONG protocol to check that either of them are still connected to the other. On a regular interval he client will ping the server, which responds with a pong. Once a configurable maximum of outstanding pings without a single pong reply is hit, the connection is closed as stale. Together these two values define a timeout for the connection. In the presence of traffic, such as messages or client side pings, the server will not initiate the PING/PONG interaction. 
+The client and server use a simple PING/PONG protocol to check that either of them are still connected to the other. On a regular interval the client will ping the server, which responds with a pong. Once a configurable maximum of outstanding pings without a single pong reply is hit, the connection is closed as stale. Together these two values define a timeout for the connection. In the presence of traffic, such as messages or client side pings, the server will not initiate the PING/PONG interaction. 
 
 ![](../../.gitbook/assets/pingpong.svg)
 
