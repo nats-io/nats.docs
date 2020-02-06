@@ -113,6 +113,6 @@ nc.close();
 
 ## Flush and Ping/Pong
 
-Many of the client libraries use the [PING/PONG interaction](../connecting/pingpong.md) built into the NATS protocol to insure that flush pushed all of the buffered messages to the server. When an application calls flush, most libraries will put a PING on the outgoing queue of messages, and wait for the server to respond with a PONG before saying that the flush was successful.
+Many of the client libraries use the [PING/PONG interaction](../connecting/pingpong.md) built into the NATS protocol to ensure that flush pushed all of the buffered messages to the server. When an application calls flush, most libraries will put a PING on the outgoing queue of messages, and wait for the server to respond with a PONG before saying that the flush was successful.
 
 Even though the client may use PING/PONG for flush, pings sent this way do not count towards [max outgoing pings](../connecting/pingpong.md).
