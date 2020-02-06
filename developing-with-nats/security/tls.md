@@ -197,4 +197,4 @@ let nc = await connect({
 
 ## Connecting with the TLS Protocol
 
-Clients (such as go, java, javascript, ruby and type script) support providing a URL scontaining the `tls` protocol to the NATS connect call. This will turn on TLS without the need for further code changes. However, in that case there is likely some form of default or environmental settings to allow the TLS libraries of your programming language to find certificate and trusted CAs. Unless these settings are taken into accounts or otherwise modified this way of connecting is very likely to fail. 
+Clients (such as Go, Java, Javascript, Ruby and Type Script) support providing a URL containing the `tls` protocol to the NATS connect call. This will turn on TLS without the need for further code changes. However, in that case there is likely some form of default or environmental settings to allow the TLS libraries of your programming language to find certificate and trusted CAs. Unless these settings are taken into accounts or otherwise modified, this way of connecting is very likely to fail. 
