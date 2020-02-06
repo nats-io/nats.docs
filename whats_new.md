@@ -2,6 +2,14 @@
 
 The NATS.io team is always working to bring you features to improve your NATS experience. Below you will find feature summaries for new implementations to NATS. Check back often for release highlights and updates.
 
+## Server release v2.1.4
+### Log Rotation
+
+NATS introduces `logfile_size_limit` allowing auto-rotation of log files when the size is greater than the configured limit set in `logfile_size_limit` as a number of bytes. You can provide the size with units, such as MB, GB, etc. The backup files will have the same name as the original log file with the suffix .yyyy.mm.dd.hh.mm.ss.micros. For more information see Configuring Logging in the [NATS Server Configuration section](nats-server/configuration/logging.md#using-the-configuration-file).
+
+* Release notes [2.1.4](https://github.com/nats-io/nats-server/releases/tag/v2.1.4)
+* Full list of Changes [2.1.2...2.1.4](https://github.com/nats-io/nats-server/compare/v2.1.2...v2.1.4)
+ 
 ## Server release v2.1.2
 ### Queue Permissions
 
