@@ -1,6 +1,6 @@
 # Wildcard Subscriptions
 
-There is no special code to subscribe with a [wildcard subject](../../nats-concepts/subjects.md#wildcards). Wildcards are a normal part of the subject name. However, it is a common technique to use use the subject provided with the incoming message to determine what to do with the message.
+There is no special code to subscribe with a [wildcard subject](../../nats-concepts/subjects.md#wildcards). Wildcards are a normal part of the subject name. However, it is a common technique to use the subject provided with the incoming message to determine what to do with the message.
 
 For example, you can subscribe using `*` and then act based on the actual subject.
 
