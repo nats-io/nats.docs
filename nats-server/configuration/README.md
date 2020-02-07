@@ -107,6 +107,7 @@ authorization: {
 | Property | Description |
 | :--- | :--- |
 | [`authorization`](securing_nats/auth_intro/) | Configuration map for client authentication/authorization |
+| [`accounts`](securing_nats/auth_intro/accounts) | Configuration map for accounts |
 | [`cluster`](clustering/cluster_config.md) | Configuration map for clustering configuration |
 | `connect_error_reports` | Number of attempts at which a repeated failed route, gateway or leaf node connection is reported. Default is 3600, approx every hour. |
 | `debug` | If `true` enable debug log messages |
