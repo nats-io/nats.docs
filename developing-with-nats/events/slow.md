@@ -101,7 +101,7 @@ await nc.subscribe("updates", cb=cb, pending_bytes_limit=5*1024*1024, pending_ms
 
 {% tab title="Ruby" %}
 ```ruby
-# The Ruby NATS client currently does not have option to customize specify a subscribers pending limits.
+# The Ruby NATS client currently does not have option to specify a subscribers pending limits.
 ```
 {% endtab %}
 

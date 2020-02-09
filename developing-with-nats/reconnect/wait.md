@@ -1,6 +1,8 @@
 # Pausing Between Reconnect Attempts
 
-It doesn’t make much sense to try to connect to the same server over and over. To prevent this sort of thrashing, and wasted reconnect attempts, libraries provide a wait setting. Generally clients make sure that between two reconnect attempts to the **same** server at least a certain amount of time has passed. The concrete implementation depends on the library used.
+It doesn’t make much sense to try to connect to the same server over and over. To prevent this sort of thrashing, and wasted reconnect attempts, especially when using TLS, libraries provide a wait setting. Generally clients make sure that between two reconnect attempts to the **same** server at least a certain amount of time has passed. The concrete implementation depends on the library used.
+
+This setting not only prevents wasting client resources, it also alleviates a [_thundering herd_](random.md) situation when additional servers are not available.
 
 {% tabs %}
 {% tab title="Go" %}

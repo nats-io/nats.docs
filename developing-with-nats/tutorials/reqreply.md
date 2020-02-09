@@ -35,9 +35,9 @@ This means that the NATS receiver client is listening for requests messages on t
 ### 5. In the other terminal, run the request client
 
 ```bash
-% go run nats-req/main.go help.please "some message"
+% go run nats-req/main.go help.please "I need help!"
 ```
 
-The NATS requestor client makes a request by sending the message "some message" on the “help.please” subject.
+The NATS requestor client makes a request by sending the message "I need help!" on the “help.please” subject.
 
 The NATS receiver client receives the message, formulates the reply \("OK, I CAN HELP!!!"\), and sends it to the inbox of the requester.
