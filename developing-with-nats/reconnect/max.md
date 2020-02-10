@@ -1,6 +1,6 @@
 # Set the Number of Reconnect Attempts
 
-Applications can set the maximum reconnect attempts. Generally, this will limit the actual number of attempts total, but check your library documentation. For example, in Java, if the client knows about 3 servers and the maximum reconnects is set to 2, it will not try all of the servers. On the other hand, if the maximum is set to 6 it will try all of the servers twice before considering the reconnect a failure and closing.
+Applications can set the maximum reconnect attempts per server. This includes the server provided to the clients connect call, as well as the server the client discovered through another server. Once re-connect to a server fails the specified amount of times in a row, it will be removed from the connect list. After a successful re-connect to a server, the client will reset that servers failed reconnect attempt count. If a server was removed from the connect list, it can be re-discovered on connect. This effectively resets the connect attempt count as well. If the client runs out of servers to re-connect, it will close the connection and [raise an error](events.md). 
 
 {% tabs %}
 {% tab title="Go" %}
@@ -71,7 +71,6 @@ end
 // will throw an exception if connection fails
 let nc = await connect({
     maxReconnectAttempts: 10,
-    servers: ["nats://demo.nats.io:4222"]
 });
 nc.close();
 ```

@@ -1,6 +1,6 @@
 # Explore NATS Request/Reply
 
-NATS supports request/reply messaging. In this tutorial you explore how to exchange point-to-point messages using NATS.
+NATS supports [request/reply](../../nats-concepts/reqreply.md) messaging. In this tutorial you explore how to exchange point-to-point messages using NATS.
 
 ## Prerequisites
 
@@ -25,18 +25,19 @@ You will use these sessions to run the NATS request and reply clients.
 ### 4. In one terminal, run the reply client listener
 
 ```bash
-% go run nats-rply/main.go foo "this is my response"
+% go run nats-rply/main.go help.please "OK, I CAN HELP!!!"
 ```
 
-You should see the message `Receiver is listening`, and that the NATS receiver client is listening on the "help.please" subject. The reply client acts as a receiver, listening for message requests. In NATS, the receiver is a subscriber.
+You should see the message: _Listening on \[help.please\]_ 
+
+This means that the NATS receiver client is listening for requests messages on the "help.please" subject. In NATS, the receiver is a subscriber.
 
 ### 5. In the other terminal, run the request client
 
 ```bash
-% go run nats-req/main.go foo "request payload"
+% go run nats-req/main.go help.please "I need help!"
 ```
 
-The NATS requestor client makes a request by sending the message "some message" on the “help.please” subject.
+The NATS requestor client makes a request by sending the message "I need help!" on the “help.please” subject.
 
 The NATS receiver client receives the message, formulates the reply \("OK, I CAN HELP!!!"\), and sends it to the inbox of the requester.
-

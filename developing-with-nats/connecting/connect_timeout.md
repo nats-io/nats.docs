@@ -1,6 +1,6 @@
 # Setting a Connect Timeout
 
-Each library has its own, language preferred way, to pass connection options. One of the most common options is a connection timeout. To set the maximum time to connect to a server to 10 seconds:
+Each library has its own, language preferred way, to pass connection options. One of the most common options is a connect timeout. It limits how long it can take to establish a connection to a server. Should multiple URLs be provided, this timeout applies to each cluster member individually. To set the maximum time to connect to a server to 10 seconds:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -30,13 +30,29 @@ nc.close();
 {% endtab %}
 
 {% tab title="JavaScript" %}
-
+```javascript
+let nc = NATS.connect({
+    url: "nats://demo.nats.io:4222",
+    timeout: 10*1000 //10s
+});
+nc.on('connect', (c) => {
+    // Do something with the connection
+    doSomething();
+    // When done close it
+    nc.close();
+});
+nc.on('error', (err) => {
+    failed(err);
+});
+```
 {% endtab %}
 
 {% tab title="Python" %}
 ```python
 nc = NATS()
-await nc.connect(connect_timeout=2)
+await nc.connect(
+  servers=["nats://demo.nats.io:4222"],
+  connect_timeout=10)
 
 # Do something with the connection
 
@@ -49,7 +65,7 @@ await nc.close()
 # There is currently no connect timeout as part of the Ruby NATS client API, but you can use a timer to mimic it.
 require 'nats/client'
 
-timer = EM.add_timer(5) do
+timer = EM.add_timer(10) do
   NATS.connect do |nc|
     # Do something with the connection
 
@@ -65,7 +81,7 @@ EM.cancel_timer(timer)
 ```typescript
 let nc = await connect({
     url: "nats://demo.nats.io:4222",
-    timeout: 1000
+    timeout: 10*1000 //10s
 });
 ```
 {% endtab %}

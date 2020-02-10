@@ -1,6 +1,6 @@
-# Caches, Flush and Ping
+# Buffers and Flush
 
-For performance reasons, most if not all, of the client libraries will cache outgoing data so that bigger chunks can be written to the network at one time. This may be as simple as a byte buffer that stores up a few messages before being pushed to the network.
+For performance reasons, most if not all, of the client libraries will buffer outgoing data so that bigger chunks can be written to the network at one time. This may be as simple as a byte buffer that stores a few messages before being pushed to the network.
 
 These buffers do not hold messages forever, generally they are designed to hold messages in high throughput scenarios, while still providing good latency in low throughput situations.
 
@@ -113,5 +113,6 @@ nc.close();
 
 ## Flush and Ping/Pong
 
-Many of the client libraries use the PING/PONG interaction built into the NATS protocol to insure that flush pushed all of the cached messages to the server. When an application calls flush most libraries will put a PING on the outgoing queue of messages, and wait for the server to send PONG before saying that the flush was successful.
+Many of the client libraries use the [PING/PONG interaction](../connecting/pingpong.md) built into the NATS protocol to ensure that flush pushed all of the buffered messages to the server. When an application calls flush, most libraries will put a PING on the outgoing queue of messages, and wait for the server to respond with a PONG before saying that the flush was successful.
 
+Even though the client may use PING/PONG for flush, pings sent this way do not count towards [max outgoing pings](../connecting/pingpong.md).

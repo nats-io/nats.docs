@@ -1,8 +1,8 @@
 # Slow Consumers
 
-NATS is designed to move messages through the server quickly. As a result, NATS depends on the applications to consider and respond to changing message rates. The server will do a bit of impedance matching, but if a client is too slow the server will eventually cut them off. These cut off connections are called _slow consumers_.
+NATS is designed to move messages through the server quickly. As a result, NATS depends on the applications to consider and respond to changing message rates. The server will do a bit of impedance matching, but if a client is too slow the server will eventually cut them off by closing the connection. These cut off connections are called _slow consumers_.
 
-One way some of the libraries deal with bursty message traffic is to cache incoming messages for a subscription. So if an application can handle 10 messages per second and sometimes receives 20 messages per second, the library may hold the extra 10 to give the application time to catch up. To the server, the application will appear to be handling the messages and consider the connection healthy. It is up to the client library to decide what to do when the cache is too big, but most client libraries will drop incoming messages.
+One way some of the libraries deal with bursty message traffic is to buffer incoming messages for a subscription. So if an application can handle 10 messages per second and sometimes receives 20 messages per second, the library may hold the extra 10 to give the application time to catch up. To the server, the application will appear to be handling the messages and consider the connection healthy. Most client libraries will notify the application that there is a SlowConsumer error and discard messages.
 
 Receiving and dropping messages from the server keeps the connection to the server healthy, but creates an application requirement. There are several common patterns:
 
@@ -101,7 +101,7 @@ await nc.subscribe("updates", cb=cb, pending_bytes_limit=5*1024*1024, pending_ms
 
 {% tab title="Ruby" %}
 ```ruby
-# The Ruby NATS client currently does not have option to customize slow consumer limits per sub.
+# The Ruby NATS client currently does not have option to specify a subscribers pending limits.
 ```
 {% endtab %}
 
@@ -200,7 +200,7 @@ public class SlowConsumerListener {
 
        if len(msgs) == 3:
          # Head of line blocking on other messages caused
-     # by single message proccesing taking long...
+         # by single message processing taking too long...
          await asyncio.sleep(1)
 
    await nc.subscribe("updates", cb=cb, pending_msgs_limit=5)

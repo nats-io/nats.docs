@@ -1,6 +1,6 @@
 # Subject-Based Messaging
 
-Fundamentally NATS is about publishing and listening for messages. Both of these depend heavily on _Subjects_ which scope messages into streams or topics. At its simplest, a subject is just a string of characters that form a name the publisher and subscriber can use to find each other.
+Fundamentally, NATS is about publishing and listening for messages. Both of these depend heavily on _Subjects_ which scope messages into streams or topics. At its simplest, a subject is just a string of characters that form a name the publisher and subscriber can use to find each other.
 
 ![](../.gitbook/assets/subjects1.svg)
 
@@ -38,3 +38,6 @@ The second wildcard is `>` which will match one or more tokens, and can only app
 
 Subject to your security configuration, wildcards can be used for monitoring by creating something sometimes called a _wire tap_. In the simplest case you can create a subscriber for `>`. This application will receive all messages -- again, subject to security settings -- sent on your NATS cluster.
 
+### Mix Wildcards 
+
+The wildcard `*` can appear multiple times in the same subject. Both types be used as well. For example, `*.*.east.>` will receive `time.us.east.atlanta`.

@@ -2,7 +2,7 @@
 
 The NATS server supports authorization using subject-level permissions on a per-user basis. Permission-based authorization is available with multi-user authentication via the `users` list.
 
-Each permission specifies the subjects the user can publish to and subscribe to. The parser is generous at understanding what the intent is, so both arrays and singletons are processed. For more complex configuration, you can specify a `permission` object which explicitly allows or denies subjects. The specified subjects can specify wildcards. Permissions can make use of [variables](../#variables).
+Each permission specifies the subjects the user can publish to and subscribe to. The parser is generous at understanding what the intent is, so both arrays and singletons are processed. For more complex configuration, you can specify a `permission` object which explicitly allows or denies subjects. The specified subjects can specify wildcards. Permissions can make use of [variables](../README.md#variables).
 
 You configure authorization by creating a `permissions` entry in the `authorization` object.
 
@@ -125,4 +125,35 @@ authorization: {
 
 User `a` has no restrictions. User `b` can listen on `q` for requests and can only publish once to reply subjects. All other subjects will be denied. User `c` can also listen on `q` for requests, but is able to return at most 5 reply messages, and the reply subject can be published at most for `1` minute.
 
+## Queue Permissions
 
+Added in NATS Server v2.1.2, Queue Permissions allow you to express authorization for queue groups. As queue groups are integral to implementing horizontally scalable microservices, control of who is allowed to join a specific queue group is important to the overall security model.
+
+A Queue Permission can be defined with the syntax `<subject> <queue>`, where the name of the queue can also use wildcards, for example the following would allow clients to join queue groups v1 and v2.\*, but won't allow plain subscriptions:
+
+```text
+allow = ["foo v1", "foo v2.*"]
+```
+
+The full wildcard can also be used, for example the following would prevent plain subscriptions on `bar` but allow the client to join any queue:
+
+```text
+allow = ["bar >"]
+```
+
+Permissions for Queue Subscriptions can be combined with plain subscriptions as well though, for example you could allow plain subscriptions on `foo` but constrain the queues to which a client can join, as well as preventing any service from using a queue subscription with the name `*.prod`:
+
+```text
+users = [
+  {
+    user: "foo", permissions: {
+      sub: {
+        # Allow plain subscription foo, but only v1 groups or *.dev queue groups
+        allow: ["foo", "foo v1", "foo v1.>", "foo *.dev"]
+
+        # Prevent queue subscriptions on prod groups
+        deny: ["> *.prod"]
+     }
+  }
+]
+```
