@@ -16,7 +16,7 @@ gcloud container clusters create nats-k8s-cluster \
   --machine-type n1-standard-2
 ```
 
-Note that since this is a regional cluster we are specifying `--num-nodes 1` which will create a kubelet on 3 different zones.  In case of creating a [single-zone cluster](https://cloud.google.com/kubernetes-engine/docs/how-to/creating-a-cluster) but want 3 nodes then you have to specify `--num-nodes 3`.
+Note that since this is a regional cluster we are specifying `--num-nodes 1` which will create a kubelet on 3 different zones.  If you are creating a [single-zone cluster](https://cloud.google.com/kubernetes-engine/docs/how-to/creating-a-cluster) but want 3 nodes then you have to specify `--num-nodes 3`.
 
 
 ## Amazon Kubernetes Service
