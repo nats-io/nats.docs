@@ -183,7 +183,7 @@ go: finding golang.org/x/crypto/bcrypt latest
 go: finding golang.org/x/crypto latest
 ```
 
-In order to use an older tag, you will have to use the previous name (gnatsd) otherwise it will results in `go mod` parsing errors.
+In order to use an older tag, you will have to use the previous name (gnatsd) otherwise it will result in `go mod` parsing errors.
 
 ```
 # OK
