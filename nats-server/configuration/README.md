@@ -117,7 +117,7 @@ authorization: {
 | [`gateway`](gateways/gateway.md) | Configuration map for [Gateway](gateways/README.md) configuration. | |
 | [`leafnode`](leafnodes/leafnode_conf.md) | Configuration map for [leafnode](leafnodes/README.md). ||
 
-### Connection timeouts
+### Connection Timeouts
 | Property | Description | Default |
 | :--- | :--- | :--- |
 | `ping_interval` | Interval in seconds, at which pings are sent to clients, leaf nodes and routes. In the presence of client traffic, such as messages or client side pings, the server will not send pings. Therefore it is recommended to keep this value bigger than what [clients use](../../developing-with-nats/connecting/pingpong.md). |  `120`, 2 Minutes. |
@@ -135,7 +135,7 @@ authorization: {
 
 ### Authentication and Authorization
 | Property | Description | Default |
-| :--- | :--- | :--- | :---|
+| :--- | :--- | :--- |
 | [`authorization`](securing_nats/auth_intro/README.md) | Configuration map for client authentication/authorization. |
 | [`operator`](../../nats-tools/nsc/nsc.md#nats-server-configuration) | Path to an operator JWT. |
 | [`accounts`](securing_nats/accounts.md) | Configuration map for accounts. | |
