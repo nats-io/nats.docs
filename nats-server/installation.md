@@ -32,7 +32,7 @@ To run NATS on Docker:
 [1] 2019/05/24 15:42:58.229003 [INF] Listening for route connections on 0.0.0.0:6222
 ```
 
-More information on [containerized NATS is available here](nats_docker/).
+More information on [containerized NATS is available here](nats_docker/README.md).
 
 ## Installing on Kubernetes with NATS Operator
 
@@ -161,14 +161,14 @@ find ./ -type f -name "*.go" -exec sed -i -e 's/github.com\/nats-io\/nats-server
 
 ###  Gotchas when using `go get`
 
-If using `go get` for the client, then have to be careful with adding an extra slash at the end of the repo for example:
+When using `go get` to fetch the client, include an extra slash at the end of the repo. For example:
 
 ```
 GO111MODULE=on go get github.com/nats-io/nats.go/@latest
 GO111MODULE=on go get github.com/nats-io/nats.go/@v1.8.1
 ```
 
-If trying to fetch the latest version of the server with `go get`, then have to add `v2` at the end:
+When trying to fetch the latest version of the server with `go get`, you have to add `v2` at the end:
 
 ```
 GO111MODULE=on go get github.com/nats-io/nats-server/v2@latest
@@ -183,7 +183,7 @@ go: finding golang.org/x/crypto/bcrypt latest
 go: finding golang.org/x/crypto latest
 ```
 
-In order to use an older tag, you will also have to use the previous name (gnatsd) otherwise it would results in `go mod` parsing errors.
+In order to use an older tag, you will have to use the previous name (gnatsd) otherwise it will result in `go mod` parsing errors.
 
 ```
 # OK

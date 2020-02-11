@@ -8,11 +8,12 @@ When the server starts it will print some information including where the server
 
 ```text
 > nats-server
-[41634] 2019/05/13 09:42:11.745919 [INF] Starting nats-server version 2.0.0
-[41634] 2019/05/13 09:42:11.746240 [INF] Listening for client connections on 0.0.0.0:4222
+[9318] 2020/02/06 14:06:08.220885 [INF] Starting nats-server version 2.1.4
+[9318] 2020/02/06 14:06:08.221099 [INF] Git commit [fb009af]
+[9318] 2020/02/06 14:06:08.221466 [INF] Listening for client connections on 0.0.0.0:4222
+[9318] 2020/02/06 14:06:08.221476 [INF] Server id is NAINBEK336OZMOZUBNOFCJWG4Q2XNFEROWLF6FQWOGM4CBLI5Y6G33NW
+[9318] 2020/02/06 14:06:08.221478 [INF] Server is ready
 ...
-[41634] 2019/05/13 09:42:11.746249 [INF] Server id is NBNYNR4ZNTH4N2UQKSAAKBAFLDV3PZO4OUYONSUIQASTQT7BT4ZF6WX7
-[41634] 2019/05/13 09:42:11.746252 [INF] Server is ready
 ```
 
 ## Docker
@@ -20,15 +21,16 @@ When the server starts it will print some information including where the server
 If you are running your NATS server in a docker container:
 
 ```text
-> docker run -p 4222:4222 -ti nats:latest
-[1] 2019/05/13 14:55:11.981434 [INF] Starting nats-server version 2.0.0
-...
-[1] 2019/05/13 14:55:11.981545 [INF] Starting http monitor on 0.0.0.0:8222
-[1] 2019/05/13 14:55:11.981560 [INF] Listening for client connections on 0.0.0.0:4222
-[1] 2019/05/13 14:55:11.981565 [INF] Server is ready
-[1] 2019/05/13 14:55:11.982492 [INF] Listening for route connections on 0.0.0.0:6222
+docker run -p 4222:4222 -ti nats:latest
+[1] 2020/02/06 19:04:56.020658 [INF] Starting nats-server version 2.1.4
+[1] 2020/02/06 19:04:56.020712 [INF] Git commit [fb009af]
+[1] 2020/02/06 19:04:56.020833 [INF] Starting http monitor on 0.0.0.0:8222
+[1] 2020/02/06 19:04:56.020897 [INF] Listening for client connections on 0.0.0.0:4222
+[1] 2020/02/06 19:04:56.020919 [INF] Server id is NBSNFHIXGTZJ4OCMHU52UGVOLCJEKYTYEAFMABDJUAKZUQE2ULXBQGHX
+[1] 2020/02/06 19:04:56.020923 [INF] Server is ready
+[1] 2020/02/06 19:04:56.021174 [INF] Listening for route connections on 0.0.0.0:6222
 ...
 ```
 
-More information on [containerized NATS is available here](../nats_docker/).
+More information on [containerized NATS is available here](../nats_docker/README.md).
 

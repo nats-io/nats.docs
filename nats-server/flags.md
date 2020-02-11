@@ -64,6 +64,8 @@ You can read more about [logging configuration here](configuration/logging.md).
 | `--tlsverify` | Enable client TLS certificate verification |
 | `--tlscacert` | Client certificate CA for verification |
 
+You can read more about [tls configuration here](configuration/securing_nats/tls.md).
+
 ## Cluster Options
 
 The following flags are available on the server to configure clustering:
@@ -76,7 +78,7 @@ The following flags are available on the server to configure clustering:
 | `--cluster_advertise` | Cluster URL to advertise to other servers |
 | `--connect_retries` | For implicit routes, number of connect retries |
 
-You can read more about [clustering configuration here](configuration/clustering/).
+You can read more about [clustering configuration here](configuration/clustering/README.md).
 
 ## Common Options
 

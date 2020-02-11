@@ -20,6 +20,7 @@ The configuration parser is very forgiving, as you have seen:
 
 * values can be a primitive, or a list, or a map
 * strings and numbers typically do the right thing
+* numbers support units such as, 1K for 1000, 1Kb for 1024
 
 String values that start with a digit _can_ create issues. To force such values as strings, quote them.
 
@@ -104,34 +105,70 @@ authorization: {
 
 ## Configuration Properties
 
-| Property | Description |
-| :--- | :--- |
-| [`accounts`](securing_nats/auth_intro/accounts.md) | Configuration map for accounts |
-| [`authorization`](securing_nats/auth_intro/) | Configuration map for client authentication/authorization |
-| [`cluster`](clustering/cluster_config.md) | Configuration map for clustering configuration |
-| `connect_error_reports` | Number of attempts at which a repeated failed route, gateway or leaf node connection is reported. Default is 3600, approx every hour. |
-| `debug` | If `true` enable debug log messages |
-| [`gateway`](gateways/gateway.md) | Gateway configuration map |
-| `host` | Host for client connections |
-| [`http_port`](monitoring.md) | http port for server monitoring |
-| [`https_port`](monitoring.md) | https port for server monitoring |
-| [`leafnode`](leafnodes/leafnode_conf.md) | Leafnode configuration map |
-| `listen` | Host/port for client connections |
-| `max_connections` | Maximum number of active client connections |
-| `max_control_line` | Maximum length of a protocol line \(including subject length\) |
-| `max_payload` | Maximum number of bytes in a message payload |
-| `max_pending` | Maximum number of bytes buffered for a connection |
-| `max_subscriptions` | Maximum numbers of subscriptions for a client connection |
-| `max_traced_msg_len` | Set a limit to the trace of the payload of a message |
-| `disable_sublist_cache` | Disable sublist cache globally for accounts. |
-| [`operator`](../../nats-tools/nsc/nsc.md#nats-server-configuration) | Path to an operator JWT |
-| [`ping_interval`]() | Interval in seconds in which the server checks if a connection is active |
-| `port` | Port for client connections |
-| `reconnect_error_reports` | Number of failed attempt to reconnect a route, gateway or leaf node connection. Default is to report every attempt. |
-| [`resolver`]() | Resolver type `MEMORY` or `URL` for account JWTs |
-| [`tls`](securing_nats/tls.md#tls-configuration) | Configuration map for tls for client and http monitoring |
-| `trace` | If `true` enable protocol trace log messages |
-| `write_deadline` | Maximum number of seconds the server will block when writing a to a client \(slow consumer\) |
+### Connectivity
+| Property | Description | Default |
+| :--- | :--- | :--- |
+| `host` | Host for client connections. | `0.0.0.0` |
+| `port` | Port for client connections. | `4222` |
+| `listen` | Listen specification `<host>:<port>` for client connections. Either use this or the options `host` and/or `port`.  | same as `host`, `port` |
+| `client_advertise`| Alternative client listen specification `<host>:<port>` or just `<host>` to advertise to clients and other server. Useful in [cluster](clustering/cluster_config.md) setups with NAT. | Advertise what `host` and `port` specify.  |
+| [`tls`](securing_nats/tls.md) | Configuration map for tls for client and http monitoring. | |
+| [`cluster`](clustering/cluster_config.md) | Configuration map for [cluster](clustering/README.md) configuration. | |
+| [`gateway`](gateways/gateway.md) | Configuration map for [Gateway](gateways/README.md) configuration. | |
+| [`leafnode`](leafnodes/leafnode_conf.md) | Configuration map for [leafnode](leafnodes/README.md). ||
+
+### Connection Timeouts
+| Property | Description | Default |
+| :--- | :--- | :--- |
+| `ping_interval` | Interval in seconds, at which pings are sent to clients, leaf nodes and routes. In the presence of client traffic, such as messages or client side pings, the server will not send pings. Therefore it is recommended to keep this value bigger than what [clients use](../../developing-with-nats/connecting/pingpong.md). |  `120`, 2 Minutes. |
+| `ping_max` | After how many unanswered pings the server will allow before closing the connection. | `2` |
+| `write_deadline` | Maximum number of seconds the server will block when writing. Once this threshold is exceeded the connection will be closed. See [_slow consumer_](../../developing-with-nats/events/slow.md) on how to deal with this on the client. | `"2s"` |
+
+### Limits
+| Property | Description | Default |
+| :--- | :--- | :--- |
+| `max_connections` | Maximum number of active client connections. | `64K` |
+| `max_control_line` | Maximum length of a protocol line \(including combined length of subject and queue group\). Increasing this value may require [client changes](../../developing-with-nats/connecting/protocol.md#Set-the-Maximum-Control-Line-Size) to be used. Applies to all traffic. | `4Kb` |
+| `max_payload` | Maximum number of bytes in a message payload. Reducing this size may force you to implement [chunking](../../developing-with-nats/connecting/protocol.md#Get-the-Maximum-Payload-Siz) in your clients. Applies to client and leafnode payloads.| `1Mb` | 
+| `max_pending` | Maximum number of bytes buffered for a connection Applies to client connections.| `64Mb` |
+| `max_subscriptions` | Maximum numbers of subscriptions per client and leafnode accounts connection. | `0`, unlimited |
+
+### Authentication and Authorization
+| Property | Description | Default |
+| :--- | :--- | :--- |
+| [`authorization`](securing_nats/auth_intro/README.md) | Configuration map for client authentication/authorization. |
+| [`operator`](../../nats-tools/nsc/nsc.md#nats-server-configuration) | Path to an operator JWT. |
+| [`accounts`](securing_nats/accounts.md) | Configuration map for accounts. | |
+| [`resolver`](../../nats-tools/nas/README.md) | Resolver type `MEMORY` or `URL(<url>)` for account JWTs.  |  |
+| `resolver_tls` | [`tls` configuration map](securing_nats/tls.md) for tls connections to the resolver. (This is for an outgoing connection and therefore does not use `timeout`, `verify` and `map_and_verify`)    |  |
+| `resolver_preload` | Map to preload account public keys and their corresponding JWT. Keys consist of `<account public nkey>`, value is the `<corresponding jwt>`. | |
+
+### Runtime Configuration
+| Property | Description | Default |
+| :--- | :--- | :--- |
+| `disable_sublist_cache` | If `true` disable subscription caches for all accounts. This is saves resources in situations where different subjects are used all the time. | `false`, cache enabled |
+| `lame_duck_duration` | In lame duck mode the server rejects new clients and **slowly** closes client connections. After this duration is over the server shuts down. Start lame duck mode with: [`nats-server --signal ldm`](../nats_admin/signals.md). | `"2m"` |
+
+### Monitoring and Tracing
+| Property | Description | Default |
+| :--- | :--- | :--- |
+| `server_name`| The servers name, shows up in logging. Defaults to the server's id. | Generated Server ID |
+| `trace` | If `true` enable protocol trace log messages | `false`, disabled |
+| `debug` | If `true` enable debug log messages | `false`, disabled |
+| `logtime` | If set to `false`, log without timestamps | `true`, include timestamp|
+| `log_file` | Log file name, relative to... | No log file |
+| `log_size_limit` | Size in bytes after the log file rolls over to a new one  | `0`, unlimited |
+| `max_traced_msg_len` | Set a limit to the trace of the payload of a message. | `0`, unlimited | 
+| `syslog` | Log to syslog. | `false`, disabled |
+| `remote_syslog` |  Syslog server address.|  |
+| [`http_port`](monitoring.md) | http port for server monitoring. |  |
+| [`http`](monitoring.md) | Listen specification `<host>:<port>`for server monitoring. |  |
+| [`https_port`](monitoring.md) | https port for server monitoring. This is influenced by the tls property. |  |
+| [`https`](monitoring.md) | Listen specification `<host>:<port>`for TLS server monitoring. |  |
+| `pid_file` | File containing PID, relative to ... This can serve as input to [nats-server --signal](../nats_admin/signals.md) | |
+| `port_file_dir` | Directory to write a file containing the servers open ports to, relative to ... |  |
+| `connect_error_reports` | Number of attempts at which a repeated failed route, gateway or leaf node connection is reported. Connect attempts are made once every second.| `3600`, approx every hour |
+| `reconnect_error_reports` | Number of failed attempt to reconnect a route, gateway or leaf node connection. Default is to report every attempt. |  `1`, every failed attempt| 
 
 ## Configuration Reloading
 
@@ -140,4 +177,3 @@ A server can reload most configuration changes without requiring a server restar
 ```text
 > nats-server --signal reload
 ```
-
