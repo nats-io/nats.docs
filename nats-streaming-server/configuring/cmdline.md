@@ -32,7 +32,7 @@ Streaming Server Options:
     -sl,  --signal <signal>[=<pid>]      Send signal to nats-streaming-server process (stop, quit, reopen)
           --encrypt <bool>               Specify if server should use encryption at rest
           --encryption_cipher <string>   Cipher to use for encryption. Currently support AES and CHAHA (ChaChaPoly). Defaults to AES
-          --encryption_key <sting>       Encryption Key. It is recommended to specify it through the NATS_STREAMING_ENCRYPTION_KEY environment variable instead
+          --encryption_key <string>      Encryption Key. It is recommended to specify it through the NATS_STREAMING_ENCRYPTION_KEY environment variable instead
 
 Streaming Server Clustering Options:
     --clustered <bool>                   Run the server in a clustered configuration (default: false)
@@ -72,7 +72,8 @@ Streaming Server SQL Store Options:
     --sql_max_open_conns <int>       Maximum number of opened connections to the database
 
 Streaming Server TLS Options:
-    -secure <bool>                   Use a TLS connection to the NATS server without verification; weaker than specifying certificates.
+    -secure <bool>                   Use a TLS connection to the NATS server without
+                                     verification; weaker than specifying certificates.
     -tls_client_key <string>         Client key for the streaming server
     -tls_client_cert <string>        Client certificate for the streaming server
     -tls_client_cacert <string>      Client certificate CA for the streaming server
@@ -120,6 +121,6 @@ NATS Clustering Options:
 Common Options:
     -h, --help                       Show this message
     -v, --version                    Show version
-        --help_tls                   TLS help
+        --help_tls                   TLS help.
 ```
 

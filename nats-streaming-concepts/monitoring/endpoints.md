@@ -9,18 +9,22 @@ The endpoint [http://localhost:8222/streaming/serverz](http://localhost:8222/str
 ```text
 {
   "cluster_id": "test-cluster",
-  "server_id": "JEzjfVQS4JIEzM7lZmWHm9",
-  "version": "0.14.2",
-  "go": "go1.11.10",
+  "server_id": "h5MPY4SfSbqRnyk7Omgr35",
+  "version": "0.17.0",
+  "go": "go1.13.7",
   "state": "STANDALONE",
-  "now": "2019-05-21T11:09:35.364637-06:00",
-  "start_time": "2019-05-21T11:09:24.204869-06:00",
-  "uptime": "11s",
+  "now": "2020-02-11T16:17:33.101243-07:00",
+  "start_time": "2020-02-11T16:17:15.323466-07:00",
+  "uptime": "17s",
   "clients": 0,
   "subscriptions": 0,
   "channels": 0,
   "total_msgs": 0,
-  "total_bytes": 0
+  "total_bytes": 0,
+  "in_msgs": 0,
+  "in_bytes": 0,
+  "out_msgs": 0,
+  "out_bytes": 0
 }
 ```
 
@@ -29,19 +33,23 @@ In clustering mode, there is an additional field that indicates the RAFT role of
 ```text
 {
   "cluster_id": "test-cluster",
-  "server_id": "t9W9zbOIIi5Y9Guppxl0lF",
-  "version": "0.14.2",
-  "go": "go1.11.10",
+  "server_id": "UaHeX4HdFN57e63ULcifHQ",
+  "version": "0.17.0",
+  "go": "go1.13.7",
   "state": "CLUSTERED",
-  "role": "Follower",
-  "now": "2019-05-21T11:10:15.765261-06:00",
-  "start_time": "2019-05-21T11:10:12.21284-06:00",
-  "uptime": "3s",
+  "role": "Leader",
+  "now": "2020-02-11T16:19:30.761192-07:00",
+  "start_time": "2020-02-11T16:19:24.777221-07:00",
+  "uptime": "5s",
   "clients": 0,
   "subscriptions": 0,
   "channels": 0,
   "total_msgs": 0,
-  "total_bytes": 0
+  "total_bytes": 0,
+  "in_msgs": 0,
+  "in_bytes": 0,
+  "out_msgs": 0,
+  "out_bytes": 0
 }
 ```
 
