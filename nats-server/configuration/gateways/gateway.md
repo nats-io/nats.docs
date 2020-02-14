@@ -1,6 +1,6 @@
 # Configuration
 
-The `gateway` configuration block is similar to a `cluster` block:
+The `gateway` configuration block is similar to a [`cluster`](../clustering/cluster_config.md) block:
 
 ```text
 gateway {
@@ -47,28 +47,31 @@ Starting a server:
 Once all the gateways are up, these clusters of one will forward messages as expected:
 
 ```text
+> nats-sub -s localhost:4333 ">"
+Listening on [>]
+
+# On a different session...
 > nats-pub -s localhost:4444 foo bar
 Published [foo] : 'bar'
 
-# On a different session...
-> nats-sub -s localhost:4333 ">"
-Listening on [>]
+# nats-sub should print 
+[#1] Received on [foo] : 'bar'
 ```
 
 ## `Gateway` Configuration Block
 
 | Property | Description |
 | :--- | :--- |
-| `advertise` | Hostport `<host>:<port>` to advertise to other gateways. |
-| `authorization` | Authorization block \(same as other nats-server `authorization` configurations\). |
-| `connect_retries` | Number of times the server will try to connect to a discovered gateway. |
-| `gateways` | List of Gateway entries - see below. |
-| `host` | Interface where the gateway will listen for incoming gateway connections. |
-| `listen` | Combines `host` and `port` as `<host>:<port>` |
 | `name` | Name for this cluster, all gateways belonging to the same cluster, should specify the same name. |
-| `port` | Port where the gateway will listen for incoming gateway connections. |
 | `reject_unknown` | If `true`, gateway will reject connections from gateways that are not configured in `gateways`. |
-| `tls` | TLS configuration block \(same as other [nats-server `tls` configurations](../securing_nats/tls.md#tls-configuration)\). |
+| `gateways` | List of Gateway [entries](#Gateway-Entry) - see below. |
+| `host` | Interface where the gateway will listen for incoming gateway connections. |
+| `port` | Port where the gateway will listen for incoming gateway connections. |
+| `listen` | Combines `host` and `port` as `<host>:<port>` |
+| `tls` | A [`tls` configuration map](../securing_nats/tls.md) for securing gateway connections. |
+| `advertise` | Hostport `<host>:<port>` to advertise how this server can be contacted by other gateway members. This is useful in setups with NAT. |
+| `connect_retries` | After how many failed connect attempts to give up establishing a connection to a discovered gateway. Default is `0`, do not retry. When enabled, attempts will be made once a second. This, does not apply to explicitly configured gateways. |
+| `authorization` | [Authorization](../securing_nats/auth_intro/README.md#Authorization-Map) map for gateways. When `token` or a single `username`/`password` are used, they define the authentication mechanism this server expects. What authentication values other server have to provide when connecting. They also specify how this server will authenticate itself when establishing a connection to a discovered gateway. This will not be used for gateways explicitly listed in [`gateways`](#Gateway-Entry) and therefore have to be provided as part of the URL. If you use token or password based authentication, either use the same credentials throughout the system or list every gateway explicitly on every server. If the `tls` configuration map specifies `verify_and_map` only provide the expected `username`. Here different certificates can be used, but they do have to map to the same `username`. The authorization map also allows for `timeout` which is honored but `users` and `permissions` are ignored. |
 
 ### `Gateway` Entry
 

@@ -2,26 +2,30 @@
 
 ## Gateways
 
-Gateways enable connecting one or more clusters together; they allow the formation of super clusters from smaller clusters. Cluster and Gateway protocols listen in different ports. Clustering is used for adjacent servers; gateways are for joining clusters together. Typically all cluster nodes will also be gateway nodes, but this is not a requirement.
+Gateways enable connecting one or more clusters together into a full mesh; they allow the formation of super clusters from smaller clusters. Cluster and Gateway protocols listen on different ports. Clustering is used for adjacent servers; gateways are for joining clusters together. 
 
 Gateway configuration is similar to clustering:
 
 * gateways have a dedicated port where they listen for gateway requests
-* gateways gossip gateway members and remote discovered gateways
+* gateways gossip gateway nodes and remote discovered gateways
 
 Unlike clusters, gateways:
 
-* don't form a full mesh
+* have names, specifying the cluster they are in
+* don't form a full mesh between gateway nodes, but form a full mesh between cluster instead
 * are bound by uni-directional connections
+* don't gossip gateway nodes to clients
 
 Gateways exist to:
 
 * reduce the number of connections required between servers 
 * optimize the interest graph propagation
 
+If gateways are to be used in a cluster, **all** server of this cluster need to have a gateway configuration with the **same name**. Furthermore, every gateway node needs to be able to **connect to every** other gateway node and vice versa. Everything else is considered a miss configuration.
+
 ## Gateway Connections
 
-A nats-server in a gateway role will specify a port where it will accept gateways connections. If the configuration specifies other _external_ `gateways`, the gateway will create one outbound gateway connection for each gateway in its configuration. It will also gossip other gateways it knows or discovered.
+A nats-server in a gateway role will specify a port where it will accept gateway connections. If the configuration specifies other _external_ `gateways`, the gateway will create one outbound gateway connection for each gateway in its configuration. It will also gossip other gateways it knows or discovered. Fewer _external_ `gateways` mean less configuration. Ye, the ability to discover more gateways and gateway nodes depends on these server running. This is similar to _seed server_ in cluster. It is recommended to have all _seed server_ of a cluster listed in the `gateways` section.
 
 If the local cluster has three gateway nodes, this means there will be three outbound connections to each external gateway.
 
@@ -31,9 +35,9 @@ If the local cluster has three gateway nodes, this means there will be three out
 
 ![Gateway Discovered Gateways](../../../.gitbook/assets/three_gw.svg)
 
-> In this second example, again configured connections are shown with solid lines and discovered gateway connections are shown using dotted lines. Gateways _A_ and _C_ were both discovered via gossiping; _B_ discovered _A_ and _A_ discovered _C_.
+> In this second example, again configured connections are shown with solid lines and discovered gateway connections are shown using dotted lines. Gateways _A_ and _C_ were both discovered via gossiping; _B_ discovered _A_ and _A_ discovered _C_. 
 
-A key point in the description above is that each node in the cluster will make a connection to a single node in the remote cluster — a difference from the clustering protocol, where every node is directly connected to all other nodes.
+A key point in the description above is that each node in the cluster will make a connection to a single node in every remote cluster — a difference from the clustering protocol, where every node is directly connected to all other nodes. 
 
 For those mathematically inclined, cluster connections are `N(N-1)/2` where _N_ is the number of nodes in the cluster. On gateway configurations, outbound connections are the summation of `Ni(M-1)` where Ni is the number of nodes in a gateway _i_, and _M_ is the total number of gateways. Inbound connections are the summation of `U-Ni` where U is the sum of all gateway nodes in all gateways, and N is the number of nodes in a gateway _i_. It works out that both inbound and outbound connection counts are the same.
 
@@ -48,13 +52,16 @@ The number of connections required to join clusters using clustering vs. gateway
 | 5 | 105 | 30 |
 | 30 | 4005 | 180 |
 
-## Interest Propagation
+A cluster section is not needed for gateways, they work with single server as well. Yet, they start to be useful when participating cluster consist of more than one server and they reduce the number of connections.
 
-Gateways propagate interest using three different mechanisms:
+## Interest Propagation
+Messages from clients directly connected to a gateway node will be sent along outgoing gateway connections according to the following three interest propagation mechanisms:
 
 * Optimistic Mode
 * Interest-only Mode
 * Queue Subscriptions
+
+Local interest permitting, the receiving gateway node sends the messages directly to it's subscribing clients as well as server within the cluster that have subscribing clients.
 
 ### Optimistic Mode
 
@@ -70,7 +77,7 @@ When a gateway on _A_ sends many messages on various subjects for which _B_ has 
 
 When a queue subscriber creates a new subscription, the gateway propagates the subscription interest to other gateways. The subscription interest is only propagated _once_ per _Account_ and subject. When the last queue subscriber is gone, the cluster interest is removed.
 
-Queue subscriptions work on _Interest-only Mode_ to honor NATS' queue semantics across the _Super Cluster_. For each queue group, a message is only delivered to a single queue subscriber. Only when a local queue group member is not found, is a message forwarded to a different interested cluster; gateways will always try to serve local queue subscribers first and only failover when a local queue subscriber is not found.
+Queue subscriptions work on _Interest-only Mode_ to honor NATS' queue semantics across the _Super Cluster_. For each queue group, a message is only delivered to a single queue subscriber. Only when a local queue group member is not found, is a message forwarded to a different interested cluster; gateways will always try to serve local queue subscribers first and only failover when a local queue subscriber is not found. The interested cluster is picked based on lowest RTT.
 
 ### Gateway Configuration
 
