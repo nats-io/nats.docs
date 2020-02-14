@@ -21,11 +21,11 @@ Gateways exist to:
 * reduce the number of connections required between servers 
 * optimize the interest graph propagation
 
-If gateways are to be used in a cluster, **all** servers of this cluster need to have a gateway configuration with the **same name**. Furthermore, every gateway node needs to be able to **connect to every** other gateway node and vice versa. Everything else is considered a misconfiguration.
+If gateways are to be used in a cluster, **all** server of this cluster need to have a gateway configuration with the **same name**. Furthermore, every gateway node needs to be able to **connect to any** other gateway node and vice versa. Everything else is considered a misconfiguration.
 
 ## Gateway Connections
 
-A nats-server in a gateway role will specify a port where it will accept gateway connections. If the configuration specifies other _external_ `gateways`, the gateway will create one outbound gateway connection for each gateway in it's configuration. It will also gossip other gateways it knows or discovered. Fewer _external_ `gateways` mean less configuration. Ye, the ability to discover more gateways and gateway nodes depends on these servers running. This is similar to _seed server_ in cluster. It is recommended to have all _seed server_ of a cluster listed in the `gateways` section.
+A nats-server in a gateway role will specify a port where it will accept gateway connections. If the configuration specifies other _external_ `gateways`, the gateway will create one outbound gateway connection for each gateway in it's configuration. It will also gossip other gateways it knows or discovers. Fewer _external_ `gateways` mean less configuration. Yet, the ability to discover more gateways and gateway nodes depends on these servers running. This is similar to _seed server_ in cluster. It is recommended to have all _seed server_ of a cluster listed in the `gateways` section.
 
 If the local cluster has three gateway nodes, this means there will be three outbound connections to each external gateway.
 
@@ -61,8 +61,8 @@ Messages from clients directly connected to a gateway node will be sent along ou
 * Interest-only Mode
 * Queue Subscriptions
 
-Local interest permitting, the receiving gateway node sends the messages directly to it's subscribing clients as well as server within the cluster that have subscribing clients.
-
+Local interest permitting, the receiving gateway node sends the messages directly to it's subscribing clients as well as server within the cluster.
+ 
 ### Optimistic Mode
 
 When a publisher in _A_ publishes "foo", the _A_ gateway will check if cluster _B_ has registered _no_ interest in "foo". If not, it forwards "foo" to _B_. If upon receiving "foo", _B_ has no subscribers on "foo", _B_ will send a gateway protocol message to _A_ expressing that it has no interest on "foo", preventing future messages on "foo" from being forwarded.
@@ -77,7 +77,7 @@ When a gateway on _A_ sends many messages on various subjects for which _B_ has 
 
 When a queue subscriber creates a new subscription, the gateway propagates the subscription interest to other gateways. The subscription interest is only propagated _once_ per _Account_ and subject. When the last queue subscriber is gone, the cluster interest is removed.
 
-Queue subscriptions work on _Interest-only Mode_ to honor NATS' queue semantics across the _Super Cluster_. For each queue group, a message is only delivered to a single queue subscriber. Only when a local queue group member is not found, is a message forwarded to a different interested cluster; gateways will always try to serve local queue subscribers first and only failover when a local queue subscriber is not found. The interested cluster is picked based on lowest RTT.
+Queue subscriptions work on _Interest-only Mode_ to honor NATS' queue semantics across the _Super Cluster_. For each queue group, a message is only delivered to a single queue subscriber. If the same queue group exists in multiple clusters, the server will pick one member from the queue group in its cluster, only sending to a different cluster if there is no interest in its cluster. In other words, a server will always try to serve local queue subscribers first and only failover when a local queue subscriber is not found. The server will pick the cluster with the lowest RTT.
 
 ### Gateway Configuration
 
