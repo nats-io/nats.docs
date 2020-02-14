@@ -21,11 +21,11 @@ Gateways exist to:
 * reduce the number of connections required between servers 
 * optimize the interest graph propagation
 
-If gateways are to be used in a cluster, **all** server of this cluster need to have a gateway configuration with the **same name**. Furthermore, every gateway node needs to be able to **connect to every** other gateway node and vice versa. Everything else is considered a miss configuration.
+If gateways are to be used in a cluster, **all** servers of this cluster need to have a gateway configuration with the **same name**. Furthermore, every gateway node needs to be able to **connect to every** other gateway node and vice versa. Everything else is considered a misconfiguration.
 
 ## Gateway Connections
 
-A nats-server in a gateway role will specify a port where it will accept gateway connections. If the configuration specifies other _external_ `gateways`, the gateway will create one outbound gateway connection for each gateway in its configuration. It will also gossip other gateways it knows or discovered. Fewer _external_ `gateways` mean less configuration. Ye, the ability to discover more gateways and gateway nodes depends on these server running. This is similar to _seed server_ in cluster. It is recommended to have all _seed server_ of a cluster listed in the `gateways` section.
+A nats-server in a gateway role will specify a port where it will accept gateway connections. If the configuration specifies other _external_ `gateways`, the gateway will create one outbound gateway connection for each gateway in it's configuration. It will also gossip other gateways it knows or discovered. Fewer _external_ `gateways` mean less configuration. Ye, the ability to discover more gateways and gateway nodes depends on these servers running. This is similar to _seed server_ in cluster. It is recommended to have all _seed server_ of a cluster listed in the `gateways` section.
 
 If the local cluster has three gateway nodes, this means there will be three outbound connections to each external gateway.
 
