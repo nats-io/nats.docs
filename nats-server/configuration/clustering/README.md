@@ -21,22 +21,22 @@ Here is a simple cluster running on the same machine:
 
 ```bash
 # Server A - the 'seed server'
-> nats-server -p 4222 -cluster nats://0.0.0.0:5222
+> nats-server -p 4222 -cluster nats://localhost:4248
 
 # Server B
-> nats-server -p -1 -cluster nats://0.0.0.0:-1 -routes nats://localhost:5222
+> nats-server -p 5222 -cluster nats://localhost:5248 -routes nats://localhost:4248
 # Check the output of the server for the selected client and route ports.
 
 # Server C
-> nats-server -p -1 -cluster nats://0.0.0.0:-1 -routes nats://localhost:5222
+> nats-server -p 6222 -cluster nats://localhost:6248 -routes nats://localhost:4248
 # Check the output of the server for the selected client and route ports.
 ```
 
-The _seed server_ has a client and cluster port specified. Through the use of `-1` as port, the other server are configured to auto-select unused ports for both clients and cluster connections. They then establish a route to the seed server. Because the clustering protocol gossips members of the cluster, all servers are able to discover other server in the cluster. When a server is discovered, the discovering server will automatically attempt to connect to it in order to form a _full mesh_. Typically only one instance of the server will run per machine, so you can reuse the client port \(4222\) and the cluster port \(5222\), and simply the route to the host/port of the seed server.
+Each server has a client and cluster port specified. Servers with the routes option establish a route to the _seed server_. Because the clustering protocol gossips members of the cluster, all servers are able to discover other server in the cluster. When a server is discovered, the discovering server will automatically attempt to connect to it in order to form a _full mesh_. Typically only one instance of the server will run per machine, so you can reuse the client port \(4222\) and the cluster port \(4248\), and simply the route to the host/port of the seed server.
 
 Similarly, clients connecting to any server in the cluster will discover other servers in the cluster. If the connection to the server is interrupted, the client will attempt to connect to all other known servers.
 
-There is no explicit configuration for _seed server_. They simply serve as the starting point for server discovery by other members of the cluster as well as clients. As such these are the server that clients have in their list of connect urls and cluster members have in their list of routes. They reduce configuration as not every server needs to be in these lists. But the ability for other server and clients to successfully connect depends on _seed server_ running.
+There is no explicit configuration for _seed server_. They simply serve as the starting point for server discovery by other members of the cluster as well as clients. As such these are the servers that clients have in their list of connect urls and cluster members have in their list of routes. They reduce configuration as not every server needs to be in these lists. But the ability for other server and clients to successfully connect depends on _seed server_ running. If multiple _seed server_ are used, they make use of the routes option as well, so so they can establish routes to one another.
 
 ## Command Line Options
 
