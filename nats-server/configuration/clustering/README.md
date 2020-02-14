@@ -2,13 +2,18 @@
 
 ## NATS Server Clustering
 
-NATS supports running each server in clustered mode. You can cluster servers together for high volume messaging systems and resiliency and high availability. Clients are cluster-aware.
+NATS supports running each server in clustered mode. You can cluster servers together for high volume messaging systems and resiliency and high availability. 
 
-Note that NATS clustered servers have a forwarding limit of one hop. This means that each `nats-server` instance will **only** forward messages that it has received **from a client** to the immediately adjacent `nats-server` instances to which it has routes. Messages received **from** a route will only be distributed to local clients. Therefore a full mesh cluster, or complete graph, is recommended for NATS to function as intended and as described throughout the documentation.
+NATS servers achieve this by gossiping about and connecting to, all of the servers they know, thus dynamically forming a full mesh.
+Once clients [connect](../../../developing-with-nats/connecting/cluster.md) or [re-connect](../../../developing-with-nats/reconnect/README.md) to a particular server, they are informed about current cluster members. Because of this behavior, a cluster can grow, shrink and self heal. The full mesh does not necessarily have to be explicitly configured either.
+
+Note that NATS clustered servers have a forwarding limit of one hop. This means that each `nats-server` instance will **only** forward messages that it has received **from a client** to the immediately adjacent `nats-server` instances to which it has routes. Messages received **from** a route will only be distributed to local clients. 
+
+For the cluster to successfully form a full mesh and NATS to function as intended and described throughout the documentation - temporary errors permitting - it is necessary that servers can connect to each other and that clients can connect to each server in the cluster.
 
 ## Cluster URLs
 
-In addition to a port for listening for clients, `nats-server` can listen on a "cluster" URL \(the `-cluster` option\). Additional `nats-server` servers can then add that URL to their `-routes` argument to join the cluster. These options can also be specified in a config file, but only the command-line version is shown in this overview for simplicity.
+In addition to a port to listen for clients, `nats-server` listens on a "cluster" URL \(the `-cluster` option\). Additional `nats-server` servers can then add that URL to their `-routes` argument to join the cluster. These options can also be specified in a [config file](cluster_config.md), but only the command-line version is shown in this overview for simplicity.
 
 ## Running a Simple Cluster
 
@@ -16,20 +21,22 @@ Here is a simple cluster running on the same machine:
 
 ```bash
 # Server A - the 'seed server'
-> nats-server -p 4222 -cluster nats://0.0.0.0:5222
+> nats-server -p 4222 -cluster nats://localhost:4248
 
 # Server B
-> nats-server -p -1 -cluster nats://0.0.0.0:-1 -routes nats://localhost:5222
+> nats-server -p 5222 -cluster nats://localhost:5248 -routes nats://localhost:4248
 # Check the output of the server for the selected client and route ports.
 
 # Server C
-> nats-server -p -1 -cluster nats://0.0.0.0:-1 -routes nats://localhost:5222
+> nats-server -p 6222 -cluster nats://localhost:6248 -routes nats://localhost:4248
 # Check the output of the server for the selected client and route ports.
 ```
 
-The _seed server_ simply declares its client and clustering port. All other servers delegate to the nats-server to auto-select a port that is not in use for both clients and cluster connections, and route to the seed server. Because the clustering protocol gossips members of the cluster, all servers are able to discover other server servers in the cluster. When a server is discovered, the discovering server will automatically attempt to connect to it in order to form a _full mesh_. Typically only one instance of the server will run per machine, so you can reuse the client port \(4222\) and the cluster port \(5222\), and simply the route to the host/port of the seed server.
+Each server has a client and cluster port specified. Servers with the routes option establish a route to the _seed server_. Because the clustering protocol gossips members of the cluster, all servers are able to discover other server in the cluster. When a server is discovered, the discovering server will automatically attempt to connect to it in order to form a _full mesh_. Typically only one instance of the server will run per machine, so you can reuse the client port \(4222\) and the cluster port \(4248\), and simply the route to the host/port of the seed server.
 
 Similarly, clients connecting to any server in the cluster will discover other servers in the cluster. If the connection to the server is interrupted, the client will attempt to connect to all other known servers.
+
+There is no explicit configuration for _seed server_. They simply serve as the starting point for server discovery by other members of the cluster as well as clients. As such these are the servers that clients have in their list of connect urls and cluster members have in their list of routes. They reduce configuration as not every server needs to be in these lists. But the ability for other server and clients to successfully connect depends on _seed server_ running. If multiple _seed server_ are used, they make use of the routes option as well, so so they can establish routes to one another.
 
 ## Command Line Options
 
@@ -63,7 +70,7 @@ listen: 127.0.0.1:4222
 http: 8222
 
 cluster {
-  listen: 127.0.0.1:5222
+  listen: 127.0.0.1:4248
 }
 ```
 
@@ -76,10 +83,14 @@ nats-server -config ./seed.conf -D
 This will produce an output similar to:
 
 ```bash
-[75653] 2016/04/26 15:14:47.339321 [INF] Listening for route connections on 127.0.0.1:4248
-[75653] 2016/04/26 15:14:47.340787 [INF] Listening for client connections on 127.0.0.1:4222
-[75653] 2016/04/26 15:14:47.340822 [DBG] server id is xZfu3u7usAPWkuThomoGzM
-[75653] 2016/04/26 15:14:47.340825 [INF] server is ready
+[83329] 2020/02/12 16:04:52.369039 [INF] Starting nats-server version 2.1.4
+[83329] 2020/02/12 16:04:52.369130 [DBG] Go build version go1.13.6
+[83329] 2020/02/12 16:04:52.369133 [INF] Git commit [not set]
+[83329] 2020/02/12 16:04:52.369360 [INF] Starting http monitor on 127.0.0.1:8222
+[83329] 2020/02/12 16:04:52.369436 [INF] Listening for client connections on 127.0.0.1:4222
+[83329] 2020/02/12 16:04:52.369441 [INF] Server id is NDSGCS74MG5ZUMBOVWOUJ5S3HIOW
+[83329] 2020/02/12 16:04:52.369443 [INF] Server is ready
+[83329] 2020/02/12 16:04:52.369534 [INF] Listening for route connections on 127.0.0.1:4248
 ```
 
 It is also possible to specify the hostname and port independently. At the minimum, the port is required. If you leave the hostname off it will bind to all the interfaces \('0.0.0.0'\).
@@ -102,23 +113,26 @@ When running on the same host, we need to pick different ports for the client co
 Here is the log produced. See how it connects and registers a route to the seed server \(`...GzM`\).
 
 ```bash
-[75665] 2016/04/26 15:14:59.970014 [INF] Listening for route connections on localhost:5248
-[75665] 2016/04/26 15:14:59.971150 [INF] Listening for client connections on 0.0.0.0:5222
-[75665] 2016/04/26 15:14:59.971176 [DBG] server id is 53Yi78q96t52QdyyWLKIyE
-[75665] 2016/04/26 15:14:59.971179 [INF] server is ready
-[75665] 2016/04/26 15:14:59.971199 [DBG] Trying to connect to route on localhost:4248
-[75665] 2016/04/26 15:14:59.971551 [DBG] 127.0.0.1:4248 - rid:1 - Route connection created
-[75665] 2016/04/26 15:14:59.971559 [DBG] 127.0.0.1:4248 - rid:1 - Route connect msg sent
-[75665] 2016/04/26 15:14:59.971720 [DBG] 127.0.0.1:4248 - rid:1 - Registering remote route "xZfu3u7usAPWkuThomoGzM"
-[75665] 2016/04/26 15:14:59.971731 [DBG] 127.0.0.1:4248 - rid:1 - Route sent local subscriptions
+[83330] 2020/02/12 16:05:09.661047 [INF] Starting nats-server version 2.1.4
+[83330] 2020/02/12 16:05:09.661123 [DBG] Go build version go1.13.6
+[83330] 2020/02/12 16:05:09.661125 [INF] Git commit [not set]
+[83330] 2020/02/12 16:05:09.661341 [INF] Listening for client connections on 0.0.0.0:5222
+[83330] 2020/02/12 16:05:09.661347 [INF] Server id is NAABC2CKRVPZBIECMLZZA6L3PK
+[83330] 2020/02/12 16:05:09.661349 [INF] Server is ready
+[83330] 2020/02/12 16:05:09.662429 [INF] Listening for route connections on localhost:5248
+[83330] 2020/02/12 16:05:09.662676 [DBG] Trying to connect to route on localhost:4248
+[83330] 2020/02/12 16:05:09.663308 [DBG] 127.0.0.1:4248 - rid:1 - Route connect msg sent
+[83330] 2020/02/12 16:05:09.663370 [INF] 127.0.0.1:4248 - rid:1 - Route connection created
+[83330] 2020/02/12 16:05:09.663537 [DBG] 127.0.0.1:4248 - rid:1 - Registering remote route "NDSGCS74MG5ZUMBOVWOUJ5S3HIOW"
+[83330] 2020/02/12 16:05:09.663549 [DBG] 127.0.0.1:4248 - rid:1 - Sent local subscriptions to route
 ```
 
 From the seed's server log, we see that the route is indeed accepted:
 
 ```bash
-[75653] 2016/04/26 15:14:59.971602 [DBG] 127.0.0.1:52679 - rid:1 - Route connection created
-[75653] 2016/04/26 15:14:59.971733 [DBG] 127.0.0.1:52679 - rid:1 - Registering remote route "53Yi78q96t52QdyyWLKIyE"
-[75653] 2016/04/26 15:14:59.971739 [DBG] 127.0.0.1:52679 - rid:1 - Route sent local subscriptions
+[83329] 2020/02/12 16:05:09.663386 [INF] 127.0.0.1:62941 - rid:1 - Route connection created
+[83329] 2020/02/12 16:05:09.663665 [DBG] 127.0.0.1:62941 - rid:1 - Registering remote route "NAABC2CKRVPZBIECMLZZA6L3PK"
+[83329] 2020/02/12 16:05:09.663681 [DBG] 127.0.0.1:62941 - rid:1 - Sent local subscriptions to route
 ```
 
 Finally, let's start the third server:
@@ -130,57 +144,66 @@ nats-server -p 6222 -cluster nats://localhost:6248 -routes nats://localhost:4248
 Again, notice that we use a different client port and cluster address, but still point to the same seed server at the address `nats://localhost:4248`:
 
 ```bash
-[75764] 2016/04/26 15:19:11.528185 [INF] Listening for route connections on localhost:6248
-[75764] 2016/04/26 15:19:11.529787 [INF] Listening for client connections on 0.0.0.0:6222
-[75764] 2016/04/26 15:19:11.529829 [DBG] server id is IRepas80TBwJByULX1ulAp
-[75764] 2016/04/26 15:19:11.529842 [INF] server is ready
-[75764] 2016/04/26 15:19:11.529872 [DBG] Trying to connect to route on localhost:4248
-[75764] 2016/04/26 15:19:11.530272 [DBG] 127.0.0.1:4248 - rid:1 - Route connection created
-[75764] 2016/04/26 15:19:11.530281 [DBG] 127.0.0.1:4248 - rid:1 - Route connect msg sent
-[75764] 2016/04/26 15:19:11.530408 [DBG] 127.0.0.1:4248 - rid:1 - Registering remote route "xZfu3u7usAPWkuThomoGzM"
-[75764] 2016/04/26 15:19:11.530414 [DBG] 127.0.0.1:4248 - rid:1 - Route sent local subscriptions
-[75764] 2016/04/26 15:19:11.530595 [DBG] 127.0.0.1:52727 - rid:2 - Route connection created
-[75764] 2016/04/26 15:19:11.530659 [DBG] 127.0.0.1:52727 - rid:2 - Registering remote route "53Yi78q96t52QdyyWLKIyE"
-[75764] 2016/04/26 15:19:11.530664 [DBG] 127.0.0.1:52727 - rid:2 - Route sent local subscriptions
+[83331] 2020/02/12 16:05:12.838022 [INF] Listening for client connections on 0.0.0.0:6222
+[83331] 2020/02/12 16:05:12.838029 [INF] Server id is NBE7SLUDLFIMHS2U6347N3DQEJ
+[83331] 2020/02/12 16:05:12.838031 [INF] Server is ready
+...
+[83331] 2020/02/12 16:05:12.839203 [INF] Listening for route connections on localhost:6248
+[83331] 2020/02/12 16:05:12.839453 [DBG] Trying to connect to route on localhost:4248
+[83331] 2020/02/12 16:05:12.840112 [DBG] 127.0.0.1:4248 - rid:1 - Route connect msg sent
+[83331] 2020/02/12 16:05:12.840198 [INF] 127.0.0.1:4248 - rid:1 - Route connection created
+[83331] 2020/02/12 16:05:12.840324 [DBG] 127.0.0.1:4248 - rid:1 - Registering remote route "NDSGCS74MG5ZUMBOVWOUJ5S3HIOW"
+[83331] 2020/02/12 16:05:12.840342 [DBG] 127.0.0.1:4248 - rid:1 - Sent local subscriptions to route
+[83331] 2020/02/12 16:05:12.840717 [INF] 127.0.0.1:62946 - rid:2 - Route connection created
+[83331] 2020/02/12 16:05:12.840906 [DBG] 127.0.0.1:62946 - rid:2 - Registering remote route "NAABC2CKRVPZBIECMLZZA6L3PK"
+[83331] 2020/02/12 16:05:12.840915 [DBG] 127.0.0.1:62946 - rid:2 - Sent local subscriptions to route
 ```
 
-First a route is created to the seed server \(`...GzM`\) and after that, a route from `...IyE` - which is the ID of the second server - is accepted.
+First a route is created to the seed server \(`...IOW`\) and after that, a route from `...3PK` - which is the ID of the second server - is accepted.
 
 The log from the seed server shows that it accepted the route from the third server:
 
 ```bash
-[75653] 2016/04/26 15:19:11.530308 [DBG] 127.0.0.1:52726 - rid:2 - Route connection created
-[75653] 2016/04/26 15:19:11.530384 [DBG] 127.0.0.1:52726 - rid:2 - Registering remote route "IRepas80TBwJByULX1ulAp"
-[75653] 2016/04/26 15:19:11.530389 [DBG] 127.0.0.1:52726 - rid:2 - Route sent local subscriptions
+[83329] 2020/02/12 16:05:12.840111 [INF] 127.0.0.1:62945 - rid:2 - Route connection created
+[83329] 2020/02/12 16:05:12.840350 [DBG] 127.0.0.1:62945 - rid:2 - Registering remote route "NBE7SLUDLFIMHS2U6347N3DQEJ"
+[83329] 2020/02/12 16:05:12.840363 [DBG] 127.0.0.1:62945 - rid:2 - Sent local subscriptions to route
 ```
 
 And the log from the second server shows that it connected to the third.
 
 ```bash
-[75665] 2016/04/26 15:19:11.530469 [DBG] Trying to connect to route on 127.0.0.1:6248
-[75665] 2016/04/26 15:19:11.530565 [DBG] 127.0.0.1:6248 - rid:2 - Route connection created
-[75665] 2016/04/26 15:19:11.530570 [DBG] 127.0.0.1:6248 - rid:2 - Route connect msg sent
-[75665] 2016/04/26 15:19:11.530644 [DBG] 127.0.0.1:6248 - rid:2 - Registering remote route "IRepas80TBwJByULX1ulAp"
-[75665] 2016/04/26 15:19:11.530650 [DBG] 127.0.0.1:6248 - rid:2 - Route sent local subscriptions
+[83330] 2020/02/12 16:05:12.840529 [DBG] Trying to connect to route on 127.0.0.1:6248
+[83330] 2020/02/12 16:05:12.840684 [DBG] 127.0.0.1:6248 - rid:2 - Route connect msg sent
+[83330] 2020/02/12 16:05:12.840695 [INF] 127.0.0.1:6248 - rid:2 - Route connection created
+[83330] 2020/02/12 16:05:12.840814 [DBG] 127.0.0.1:6248 - rid:2 - Registering remote route "NBE7SLUDLFIMHS2U6347N3DQEJ"
+[83330] 2020/02/12 16:05:12.840827 [DBG] 127.0.0.1:6248 - rid:2 - Sent local subscriptions to route
 ```
 
 At this point, there is a full mesh cluster of NATS servers.
 
 ### Testing the Cluster
 
-Now, the following should work: make a subscription to Node A then publish to Node C. You should be able to to receive the message without problems.
+Now, the following should work: make a subscription to the first server (port 4222). Then publish to each server (ports 4222, 5222, 6222). You should be able to receive messages without problems.
 
 ```bash
-nats-sub -s "nats://192.168.59.103:7222" hello &
+nats-sub -s "nats://127.0.0.1:4222" hello &
+nats-pub -s "nats://127.0.0.1:4222" hello world_4222
 
-nats-pub -s "nats://192.168.59.105:7222" hello world
+[#1] Received on [hello] : 'world_4222'
 
-[#1] Received on [hello] : 'world'
+nats-pub -s "nats://127.0.0.1:5222" hello world_5222
 
-# nats-server on Node C logs:
-[1] 2015/06/23 05:20:31.100032 [TRC] 192.168.59.103:7244 - rid:2 - <<- [MSG hello RSID:8:2 5]
+[#2] Received on [hello] : 'world_5222'
 
-# nats-server on Node A logs:
-[1] 2015/06/23 05:20:31.100600 [TRC] 10.0.2.2:51007 - cid:8 - <<- [MSG hello 2 5]
+nats-pub -s "nats://127.0.0.1:6222" hello world_6222
+
+[#3] Received on [hello] : 'world_6222'
+
+nats-pub -s "nats://127.0.0.1:4222,nats://127.0.0.1:5222,nats://127.0.0.1:6222" hello whole_world
+
+[#4] Received on [hello] : 'whole_world'
+
+# A random server was picked: NATS server logs for the second server, port 5222
+[83330] 2020/02/12 16:22:56.384754 [DBG] 127.0.0.1:63210 - cid:9 - Client connection created
+[83330] 2020/02/12 16:22:56.386467 [DBG] 127.0.0.1:63210 - cid:9 - Client connection closed
 ```
-
