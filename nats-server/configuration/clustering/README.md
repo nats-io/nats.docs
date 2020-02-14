@@ -13,7 +13,7 @@ For the cluster to successfully form a full mesh and NATS to function as intende
 
 ## Cluster URLs
 
-In addition to a port to listening for clients, `nats-server` listen on a "cluster" URL \(the `-cluster` option\). Additional `nats-server` servers can then add that URL to their `-routes` argument to join the cluster. These options can also be specified in a [config file](cluster_config.md), but only the command-line version is shown in this overview for simplicity.
+In addition to a port to listen for clients, `nats-server` listens on a "cluster" URL \(the `-cluster` option\). Additional `nats-server` servers can then add that URL to their `-routes` argument to join the cluster. These options can also be specified in a [config file](cluster_config.md), but only the command-line version is shown in this overview for simplicity.
 
 ## Running a Simple Cluster
 
