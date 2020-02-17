@@ -9,7 +9,7 @@ Because reconnect is primarily under the covers many libraries provide an event 
 // and the state of the connection may have changed when
 // the callback is invoked.
 nc, err := nats.Connect("demo.nats.io",
-    nats.DisconnectErrHandler(func(nc *nats.Conn) {
+    nats.DisconnectErrHandler(func(nc *nats.Conn, err error) {
         // handle disconnect error event
     }),
     nats.ReconnectHandler(func(nc *nats.Conn) {
