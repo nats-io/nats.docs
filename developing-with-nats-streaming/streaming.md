@@ -97,8 +97,6 @@ NATS Streaming supports several types of subscriptions:
 * Queue
 * Durable/Queue
 
-Regular subscriptions pick the location of their channel position on creation and it is stored in the subscriber while the subscriber is active. Durable subscriptions store their position in the streaming server. Queue subscriptions share a channel position. Durable/Queue subscriptions share a channel position stored in the server. All subscriptions can be configured with a starting position, but only new durable subscriptions and new regular subscriptions respect the request.
-
 All subscriptions define their position on creation. Regular subscriptions lose their position if the application crashes, the app disconnects or they unsubscribe. Durable subscriptions maintain their position through disconnect, subscriber close, but not through unsubscribe. The position on reconnect comes from the server not the options in both cases. Queue subscriptions share a position. Regular queue subscriptions lose their position on the last disconnect/unsubscribe. Durable queue subscriptions maintain their position through disconnect, but not through the last unsubscribe. Positions provided in options are ignored after the position is set.
 
 ## Acknowledgements
