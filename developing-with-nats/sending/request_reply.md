@@ -119,10 +119,10 @@ sub, err := nc.SubscribeSync(replyTo)
 if err != nil {
     log.Fatal(err)
 }
-nc.Flush()
 
-// Send the request
+// Send the request immeditately
 nc.PublishRequest(subject, replyTo, []byte(input))
+nc.Flush()
 
 // Wait for a single response
 for {
