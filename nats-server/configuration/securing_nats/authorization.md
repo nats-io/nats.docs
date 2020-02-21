@@ -4,7 +4,7 @@ The NATS server supports authorization using subject-level permissions on a per-
 
 Each permission specifies the subjects the user can publish to and subscribe to. The parser is generous at understanding what the intent is, so both arrays and singletons are processed. For more complex configuration, you can specify a `permission` object which explicitly allows or denies subjects. The specified subjects can specify wildcards as well. Permissions can make use of [variables](../README.md#variables).
 
-A special field inside the authorization map is `default_permissions`. When present, it contains permissions that apply to user that do not have permissions associated with them.
+A special field inside the authorization map is `default_permissions`. When present, it contains permissions that apply to users that do not have permissions associated with them.
 
 ## Permissions Configuration Map
 
