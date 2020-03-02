@@ -142,7 +142,7 @@ authorization: {
 | [`resolver`](../../nats-tools/nas/README.md) | Resolver type `MEMORY` or `URL(<url>)` for account JWTs.  |  |
 | `resolver_tls` | [`tls` configuration map](securing_nats/tls.md) for tls connections to the resolver. (This is for an outgoing connection and therefore does not use `timeout`, `verify` and `map_and_verify`)    |  |
 | `resolver_preload` | Map to preload account public keys and their corresponding JWT. Keys consist of `<account public nkey>`, value is the `<corresponding jwt>`. | |
-| `system_account` | Name of the system account. See [System Accounts](nats_admin/sys_accounts/readme.md) for more details. | |
+| `system_account` | Name of the system account. See [System Accounts](../nats_admin/sys_accounts/README.md) for more details. | |
 
 ### Runtime Configuration
 | Property | Description | Default |
