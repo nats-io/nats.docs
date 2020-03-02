@@ -67,7 +67,7 @@ Success! - added user "SYSU" to "SYS"
 
 By default, the operator JWT can be found in `~/.nsc/nats/<operator_name>/<operator.name>.jwt`.
 
-### Nats-Account-Server
+### NATS-Account-Server
 
 To vend the credentials to the nats-server, we'll use a [nats-account-server](../../../nats-tools/nas/). Let's start a nats-account-server to serve the JWT credentials:
 
