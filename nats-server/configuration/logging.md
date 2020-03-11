@@ -15,7 +15,9 @@ The following logging operations are supported:
 -r, --remote_syslog              Syslog server address.
 -D, --debug                      Enable debugging output.
 -V, --trace                      Trace the raw protocol.
+-VV                              Verbose trace (traces system account as well)
 -DV                              Debug and Trace.
+-DVV                             Debug and verbose trace (traces system account as well)
 ```
 
 #### Debug and trace
@@ -41,7 +43,7 @@ If `-T false` then log entries are not timestamped. Default is true.
 You can configure syslog with `UDP`:
 
 ```bash
-nats-server -s udp://localhost:514
+nats-server -r udp://localhost:514
 ```
 
 or `syslog:`

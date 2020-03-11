@@ -13,11 +13,17 @@ To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP 
 
 All endpoints return a JSON object.
 
-The NATS monitoring endpoints support JSONP and CORS, making it easy to create single page monitoring web applications.
+The NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSONP) and [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing#How_CORS_works), making it easy to create single page monitoring web applications. Part of the NATS eco system is a tool called [nats-top](../../nats-tools/nats_top/README.md) that visualizes data from these endpoints on the command line.
+
+> Warning: `nats-server` does not have authentication/authorization for the monitoring endpoint.
+> When you plan to open your `nats-server` to the internet make sure to not expose the monitoring port as well. 
+> By default monitoring binds to every interface `0.0.0.0` so consider setting monitoring to `localhost` or have appropriate firewall rules.
+>
+> In other words don't do what `http://demo.nats.io:8222/` does! It is done on purpose to simplify the examples below.
 
 ### Enabling monitoring from the command line
 
-To enable the monitoring server, start the NATS server with the monitoring flag `-m` and the monitoring port, or turn it on in the [configuration file](./#configuration-properties).
+To enable the monitoring server, start the NATS server with the monitoring flag `-m` and the monitoring port, or turn it on in the [configuration file](#Enable-monitoring-from-the-configuration-file).
 
 ```text
 -m, --http_port PORT             HTTP PORT for monitoring
@@ -34,7 +40,7 @@ $ nats-server -m 8222
 [4528] 2019/06/01 20:09:58.573090 [INF] nats-server is ready</td>
 ```
 
-To test, run `nats-server -m 8222`, then go to [http://demo.nats.io:8222/](http://demo.nats.io:8222/)
+To test, run `nats-server -m 8222`, then go to [http://localhost:8222/](http://localhost:8222/)
 
 ### Enable monitoring from the configuration file
 
@@ -44,7 +50,13 @@ You can also enable monitoring using the configuration file as follows:
 http_port: 8222
 ```
 
-For example, to monitor this server locally, the endpoint would be [http://demo.nats.io:8222/varz](http://demo.nats.io:8222/varz) reports various general statistics.
+Binding to `localhost` as well:
+
+```yaml
+http: localhost:8222
+```
+
+For example, to monitor this server locally, the endpoint would be [http://localhost:8222/varz](http://localhost:8222/varz). It reports various general statistics.
 
 ## Monitoring endpoints
 
