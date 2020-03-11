@@ -8,7 +8,6 @@ The server can require TLS certificates from a client. When needed, you can use 
 > Note: To simplify the common scenario of maintainers looking at the monitoring endpoint, `verify` and `verify_and_map` do not apply to the monitoring port.
 
 The examples in the following sections make use of the certificates you [generated](../tls.md#Self-Signed-Certificates-for-Testing) locally.
-For simplicity it is assumed that you copied `rootCA.pem` into the same folder where the certificates are generated in and you start `nats-server`.
 
 ## Validating a Client Certificate
 

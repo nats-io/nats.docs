@@ -88,7 +88,7 @@ While this works for server and libraries from the NATS eco system, you will exp
 Another option is to configure your system's trust store to include self signed certificate(s).
 Which trust store needs to be configured depends on what you are testing.
 * This may be your OS for server and certain clients.
-* The runtime environment for other clients like Java or Python.
+* The runtime environment for other clients like Java, Python or Node.js.
 * Your browser for monitoring endpoints and websockets.
 
 Please check your system's documentation on how to trust a particular self signed certificate.
@@ -103,15 +103,14 @@ Meaning, if a client/browser/server connect via tls to `127.0.0.1`, the server n
 
 The simplest way to generate a CA as well as client and server certificates is [mkcert](https://github.com/FiloSottile/mkcert).
 This zero config tool generates and installs the CA into your **local** system trust store(s) and makes providing SAN straight forward. 
-Here is an example:
+Check it's [documentation](https://github.com/FiloSottile/mkcert/blob/master/README.md) for installation and your system's trust store. 
+Here is a simple example:
 
-Generate a CA and output the location of the root CA cert file `rootCA.pem`. 
-Next generate a certificate, valid for use by `localhost` and the IP `::1`(`-cert-file` and `-key-file` overwrite default file names).
+Generate a CA as well as a certificate, valid for use by `localhost` and the IP `::1`(`-cert-file` and `-key-file` overwrite default file names).
 Then start a nats server using the generated certificate.
 
 ```bash
 mkcert -install
-mkcert -CAROOT
 mkcert -cert-file server-cert.pem -key-file server-key.pem localhost ::1
 nats-server --tls --tlscert=server-cert.pem --tlskey=server-key.pem -ms 8222
 ```
@@ -128,6 +127,14 @@ Also add a SAN email for usage as user name in `verify_and_map`.
 
 ```bash
 mkcert -client -cert-file client-cert.pem -key-file client-key.pem localhost ::1 email@localhost
+```
+
+Examples in this document make use of the certificates generated so far. 
+To simplify examples using the CA certificate, copy `rootCA.pem` into the same folder where the certificates were generated.
+To obtain the CA certificate's location use this command:
+
+```bash
+mkcert -CAROOT
 ```
 
 Once you are done testing, remove the CA from your **local** system trust store(s).
