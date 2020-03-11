@@ -5,15 +5,20 @@ The server can require TLS certificates from a client. When needed, you can use 
 * Validate the client certificate matches a known or trusted CA
 * Extract information from a trusted certificate to provide authentication
 
+> Note: To simplify the common scenario of maintainers looking at the monitoring endpoint, `verify` and `verify_and_map` do not apply to the monitoring port.
+
+The examples in the following sections make use of the certificates you [generated](../tls.md#Self-Signed-Certificates-for-Testing) locally.
+For simplicity it is assumed that you copied `rootCA.pem` into the same folder where the certificates are generated in and you start `nats-server`.
+
 ## Validating a Client Certificate
 
 The server can verify a client certificate using a CA certificate. To require verification, add the option `verify` to the TLS configuration section as follows:
 
 ```text
 tls {
-  cert_file: "./configs/certs/server-cert.pem"
-  key_file:  "./configs/certs/server-key.pem"
-  ca_file:   "./configs/certs/ca.pem"
+  cert_file: "server-cert.pem"
+  key_file:  "server-key.pem"
+  ca_file:   "rootCA.pem"
   verify:    true
 }
 ```
@@ -21,10 +26,12 @@ tls {
 Or via the command line:
 
 ```bash
-> ./nats-server --tlsverify --tlscert=./test/configs/certs/server-cert.pem --tlskey=./test/configs/certs/server-key.pem --tlscacert=./test/configs/certs/ca.pem
+> ./nats-server --tlsverify --tlscert=server-cert.pem --tlskey=server-key.pem --tlscacert=rootCA.pem
 ```
 
 This option verifies the client's certificate is signed by the CA specified in the `ca_file` option.
+When `ca_file` is not present it will default to CAs in the system trust store.
+It also makes sure that the client provides a certificate with the extended key usage `TLS Web Client Authentication`.
 
 ## Mapping Client Certificates To A User
 
@@ -34,9 +41,9 @@ To have TLS Mutual Authentication map certificate attributes to the user's ident
 
 ```text
 tls {
-  cert_file: "./configs/certs/server-cert.pem"
-  key_file:  "./configs/certs/server-key.pem"
-  ca_file:   "./configs/certs/ca.pem"
+  cert_file: "server-cert.pem"
+  key_file:  "server-key.pem"
+  ca_file:   "rootCA.pem"
   # Require a client certificate and map user id from certificate
   verify_and_map: true
 }
@@ -44,49 +51,52 @@ tls {
 
 > Note that `verify` was changed to `verify_and_map`.
 
-There are two options for certificate attributes that can be mapped to user names. The first is the email address in the Subject Alternative Name \(SAN\) field of the certificate. While generating a certificate with this attribute is outside the scope of this document, you can view one with `openssl`:
+When present, the server will check if a Subject Alternative Name \(SAN\) maps to a user. It will search all email addresses first, then all DNS names. If no user could be found, it will try the certificate subject. 
+
+> Note: This mechanism will pick the user it finds first. There is no configuration to restrict this. 
 
 ```text
-$ openssl x509 -noout -text -in  test/configs/certs/client-id-auth-cert.pem
+$ openssl x509 -noout -text -in  client-cert.pem
 Certificate:
 ...
         X509v3 extensions:
             X509v3 Subject Alternative Name:
-                DNS:localhost, IP Address:127.0.0.1, email:derek@nats.io
+                DNS:localhost, IP Address:0:0:0:0:0:0:0:1, email:email@localhost
             X509v3 Extended Key Usage:
                 TLS Web Client Authentication
 ...
 ```
 
-The configuration to authorize this user would be as follows:
+The configuration to authorize this user would be as follow:
 
 ```text
 authorization {
   users = [
-    {user: "derek@nats.io"}
+    {user: "email@localhost"}
   ]
 }
 ```
 
-> Note: This configuration only works for the first email address if there are multiple emails in the SAN field.
-
-The second option is to use the RFC 2253 Distinguished Names syntax from the certificate subject as follows:
+Use the [RFC 2253 Distinguished Names](https://tools.ietf.org/html/rfc2253) syntax to specify a user corresponding to the certificate subject:
 
 ```text
-$ openssl x509 -noout -text -in  test/configs/certs/tlsauth/client2.pem
+$ openssl x509 -noout -text -in client-cert.pem
 Certificate:
     Data:
 ...
-        Subject: OU=CNCF, CN=example.com
+        Subject: O=mkcert development certificate, OU=testuser@MacBook-Pro.local (Test User)
 ...
 ```
+
+> Note that for this example to work you will have to modify the user to match what is in your certificates subject.
+> In doing so, watch out for the order of attributes!
 
 The configuration to authorize this user would be as follows:
 
 ```text
 authorization {
   users = [
-    {user: "CN=example.com,OU=CNCF"}
+    {user: "OU=testuser@MacBook-Pro.local (Test User),O=mkcert development certificate"}
   ]
 }
 ```
