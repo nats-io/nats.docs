@@ -36,7 +36,7 @@ Note that the user section sets the `nkey` property \(user/password/token proper
 
 ## Client Configuration
 
-Now that you have a user nkey, let's configure a client to use it for authentication. As an example, here are the connect options for the node client:
+Now that you have a user nkey, let's configure a [client](../../../../developing-with-nats/security/nkey.md) to use it for authentication. As an example, here are the connect options for the node client:
 
 ```javascript
 const NATS = require('nats');
@@ -69,7 +69,7 @@ that could be used in the future, and then base from that configuration to creat
 NKEYS static config using the same shared public nkeys for the accounts and then use
 clustering routes to bridge the two different auth setups during the transition.
 
-For example, creating the following initial setup using [NSC](/nsc/readme.md):
+For example, creating the following initial setup using [NSC](../../../../nats-tools/nsc/README.md):
 
 ```sh
         nsc add account --name SYS
