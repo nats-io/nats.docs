@@ -13,7 +13,7 @@ To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP 
 
 All endpoints return a JSON object.
 
-The NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSONP) and [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing#How_CORS_works), making it easy to create single page monitoring web applications. Part of the NATS eco system is a tool called [nats-top](../../nats-tools/nats_top/README.md) that visualizes data from these endpoints on the command line.
+The NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSONP) and [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing#How_CORS_works), making it easy to create single page monitoring web applications. Part of the NATS ecosystem is a tool called [nats-top](../../nats-tools/nats_top/README.md) that visualizes data from these endpoints on the command line.
 
 > Warning: `nats-server` does not have authentication/authorization for the monitoring endpoint.
 > When you plan to open your `nats-server` to the internet make sure to not expose the monitoring port as well. 
