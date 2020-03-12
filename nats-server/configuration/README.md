@@ -113,9 +113,9 @@ authorization: {
 | `listen` | Listen specification `<host>:<port>` for client connections. Either use this or the options `host` and/or `port`.  | same as `host`, `port` |
 | `client_advertise`| Alternative client listen specification `<host>:<port>` or just `<host>` to advertise to clients and other server. Useful in [cluster](clustering/cluster_config.md) setups with NAT. | Advertise what `host` and `port` specify.  |
 | [`tls`](securing_nats/tls.md) | Configuration map for tls for client and http monitoring. | |
-| [`cluster`](clustering/cluster_config.md) | Configuration map for [cluster](clustering/README.md) configuration. | |
-| [`gateway`](gateways/gateway.md) | Configuration map for [Gateway](gateways/README.md) configuration. | |
-| [`leafnode`](leafnodes/leafnode_conf.md) | Configuration map for [leafnode](leafnodes/README.md). ||
+| [`cluster`](clustering/cluster_config.md) | Configuration map for [cluster](clustering/README.md). | |
+| [`gateway`](gateways/gateway.md#Gateway-Configuration-Block) | Configuration map for [gateway](gateways/README.md). | |
+| [`leafnode`](leafnodes/leafnode_conf.md) | Configuration map for a [leafnode](leafnodes/README.md). ||
 
 ### Connection Timeouts
 | Property | Description | Default |
@@ -141,7 +141,7 @@ authorization: {
 | [`accounts`](securing_nats/accounts.md) | Configuration map for accounts. | |
 | [`resolver`](../../nats-tools/nas/README.md) | Resolver type `MEMORY` or `URL(<url>)` for account JWTs.  |  |
 | `resolver_tls` | [`tls` configuration map](securing_nats/tls.md) for tls connections to the resolver. (This is for an outgoing connection and therefore does not use `timeout`, `verify` and `map_and_verify`)    |  |
-| `resolver_preload` | Map to preload account public keys and their corresponding JWT. Keys consist of `<account public nkey>`, value is the `<corresponding jwt>`. | |
+| `resolver_preload` | Map to preload account public keys and their corresponding JWT. Keys consist of `<account public nkey>`, value is the `<corresponding jwt>`. Only used when `resolver=MEMORY`. | |
 | `system_account` | Name of the system account. See [System Accounts](../nats_admin/sys_accounts/README.md) for more details. | |
 
 ### Runtime Configuration
@@ -154,14 +154,15 @@ authorization: {
 | Property | Description | Default |
 | :--- | :--- | :--- |
 | `server_name`| The servers name, shows up in logging. Defaults to the server's id. | Generated Server ID |
-| `trace` | If `true` enable protocol trace log messages | `false`, disabled |
+| `trace` | If `true` enable protocol trace log messages. Excludes the system account. | `false`, disabled |
+| `trace_verbose` | If `true` enable protocol trace log messages. Includes the system account. | `false`, disabled |
 | `debug` | If `true` enable debug log messages | `false`, disabled |
 | `logtime` | If set to `false`, log without timestamps | `true`, include timestamp|
 | `log_file` | Log file name, relative to... | No log file |
-| `log_size_limit` | Size in bytes after the log file rolls over to a new one  | `0`, unlimited |
+| [`log_size_limit`](logging.md#log-rotation) | Size in bytes after the log file rolls over to a new one  | `0`, unlimited |
 | `max_traced_msg_len` | Set a limit to the trace of the payload of a message. | `0`, unlimited | 
 | `syslog` | Log to syslog. | `false`, disabled |
-| `remote_syslog` |  Syslog server address.|  |
+| `remote_syslog` | [Syslog server](logging.md#syslog) address.|  |
 | [`http_port`](monitoring.md) | http port for server monitoring. |  |
 | [`http`](monitoring.md) | Listen specification `<host>:<port>`for server monitoring. |  |
 | [`https_port`](monitoring.md) | https port for server monitoring. This is influenced by the tls property. |  |
