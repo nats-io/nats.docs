@@ -1,13 +1,17 @@
 # Leaf Nodes
 
-A _Leaf Node_ extends a cluster or supercluster by bridging security domains. A leaf node proxies local messages to the cluster and cluster messages to the local server through the leaf node's connection client. The leaf node authenticates and authorizes clients using a local policy. Messages are allowed to flow to the cluster or into the leaf node based on the leaf node's connection permissions.
+A _Leaf Node_ extends an existing NATS system of any size, optionally bridging both operator and security domains. A leafnode server will transparently route messages as needed from local clients to one or more remote NATS system(s) and vice versa. The leaf node authenticates and authorizes clients using a local policy. Messages are allowed to flow to the cluster or into the leaf node based on leaf node connection permissions of either.
 
-Leaf nodes are useful in IoT and edge scenarios and when the local server traffic should be low RTT and local unless routed to the super cluster. Messages flow in and out of the leaf node using the permissions available to the leaf node connection.
+Leaf nodes are useful in IoT and edge scenarios and when the local server traffic should be low RTT and local unless routed to the super cluster. NATS' queue semantics are honored across leaf connections by serving local queue consumer first. 
 
-* Leaf nodes clients authenticate locally \(or just connect if authentication is not required\)
+* Clients to leaf nodes authenticate locally \(or just connect if authentication is not required\)
 * Traffic between the leaf node and the cluster assumes the restrictions of the user configuration used to create the leaf connection. 
   * Subjects that the user is allowed to publish are exported to the cluster. 
   * Subjects the user is allowed to subscribe to, are imported into the leaf node.
+
+Unlike [cluster](../clustering/README.md) or [gateway](../gateways/README.md) nodes, leaf nodes do not need to be reachable themselves and can be used to explicitly configure any acyclic graph topologies.
+
+If a leaf node connects to a cluster, it is recommended to configure it with knowledge of **all** _seed server_ and have **each** _seed server_ accept connections from leaf nodes. Should the remote cluster's configuration change, the discovery protocol will gossip peers capable of accepting leaf connections. A leaf node can have multiple remotes, each connecting to a different cluster. Each URL in a remote needs to point to the same cluster. If one node in a cluster is configured as leaf node, **all** nodes need to. Likewise, if one server in a cluster accepts leaf node connections, **all** server need to.
 
 > Leaf Nodes are an important component as a way to bridge traffic between local NATS servers you control and servers that are managed by a third-party. Synadia's [NATS Global Service \(NGS\)](https://www.synadia.com/) allows accounts to use leaf nodes, but gain accessibility to the global network to inexpensively connect geographically distributed servers or small clusters.
 
