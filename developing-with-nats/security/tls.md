@@ -6,18 +6,18 @@ While authentication limits which clients can connect, TLS can be used to encryp
 
 Using TLS to connect to a server that verifies the client's identity is straightforward. The client has to provide a certificate and private key. The NATS client will use these to prove it's identity to the server. For the client to verify the server's identity, the CA certificate is provided as well.
 
-The [Java examples repository](https://github.com/nats-io/java-nats-examples/tree/master/src/main/resources) contains certificates and a server config for this example.
+Use example certificates created in [self signed certificates for testing](../../nats-server/configuration/securing_nats/tls.md#Creating-Self-Signed-Certificates-for-Testing).
 
 ```bash
-> nats-server -c /src/main/resources/tls_verify.conf
+> nats-server --tls --tlscert=server-cert.pem --tlskey=server-key.pem --tlscacert rootCA.pem --tlsverify 
 ```
 
 {% tabs %}
 {% tab title="Go" %}
 ```go
 nc, err := nats.Connect("localhost",
-    nats.ClientCert("resources/certs/cert.pem", "resources/certs/key.pem"),
-    nats.RootCAs("resources/certs/ca.pem"))
+    nats.ClientCert("client-cert.pem", "client-key.pem"),
+    nats.RootCAs("rootCA.pem"))
 if err != nil {
     log.Fatal(err)
 }
@@ -29,9 +29,18 @@ defer nc.Close()
 
 {% tab title="Java" %}
 ```java
+// This examples requires certificates to be in the java keystore format (.jks).
+// To do so openssl is used to generate a pkcs12 file (.p12) from client-cert.pem and client-key.pem.
+// The resulting file is then imported int a java keystore named keystore.jks using keytool which is part of java jdk.
+// keytool is also used to import the CA certificate rootCA.pem into truststore.jks.  
+// 
+// openssl pkcs12 -export -out keystore.p12 -inkey client-key.pem -in client-cert.pem -password pass:password
+// keytool -importkeystore -srcstoretype PKCS12 -srckeystore keystore.p12 -srcstorepass password -destkeystore keystore.jks -deststorepass password
+//
+// keytool -importcert -trustcacerts -file rootCA.pem -storepass password -noprompt -keystore truststore.jks
 class SSLUtils {
-    public static String KEYSTORE_PATH = "src/main/resources/keystore.jks";
-    public static String TRUSTSTORE_PATH = "src/main/resources/cacerts";
+    public static String KEYSTORE_PATH = "keystore.jks";
+    public static String TRUSTSTORE_PATH = "truststore.jks";
     public static String STORE_PASSWORD = "password";
     public static String KEY_PASSWORD = "password";
     public static String ALGORITHM = "SunX509";
@@ -96,9 +105,9 @@ public class ConnectTLS {
 
 {% tab title="JavaScript" %}
 ```javascript
-let caCert = fs.readFileSync(caCertPath);
-let clientCert = fs.readFileSync(clientCertPath);
-let clientKey = fs.readFileSync(clientKeyPath);
+let caCert = fs.readFileSync("rootCA.pem");
+let clientCert = fs.readFileSync("client-cert.pem");
+let clientKey = fs.readFileSync("client-key.pem");
 let nc = NATS.connect({
     url: url,
     tls: {
@@ -115,7 +124,7 @@ let nc = NATS.connect({
 nc = NATS()
 
 ssl_ctx = ssl.create_default_context(purpose=ssl.Purpose.SERVER_AUTH)
-ssl_ctx.load_verify_locations('ca.pem')
+ssl_ctx.load_verify_locations('rootCA.pem')
 ssl_ctx.load_cert_chain(certfile='client-cert.pem',
                         keyfile='client-key.pem')
 await nc.connect(io_loop=loop, tls=ssl_ctx)
@@ -135,8 +144,9 @@ EM.run do
       'nats://localhost:4222',
     ],
     :tls => {
-      :private_key_file => './spec/configs/certs/key.pem',
-      :cert_chain_file  => './spec/configs/certs/server.pem'
+      :private_key_file => 'client-key.pem',
+      :cert_chain_file  => 'client-cert.pem',
+      :ca_file => 'rootCA.pem'
     }
   }
 
@@ -180,9 +190,9 @@ end
 
 {% tab title="TypeScript" %}
 ```typescript
-let caCert = readFileSync(caCertPath);
-let clientCert = readFileSync(clientCertPath);
-let clientKey = readFileSync(clientKeyPath);
+let caCert = readFileSync("rootCA.pem");
+let clientCert = readFileSync("client-cert.pem");
+let clientKey = readFileSync("client-key.pem");
 let nc = await connect({
     url: url,
     tls: {
