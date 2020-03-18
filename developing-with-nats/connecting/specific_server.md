@@ -19,7 +19,7 @@ if err != nil {
 }
 defer nc.Close()
 
-// Do something with the connectioConnection nc = Nats.connect("nats://demo.nats.io:4222");
+// Do something with the connection nc = Nats.connect("nats://demo.nats.io:4222");
 ```
 {% endtab %}
 
