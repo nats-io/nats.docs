@@ -156,3 +156,56 @@ Let's take a look at the configuration options:
 | `cert` | filepath to the certificate. |
 | `cert` | filepath to the certificate key. |
 
+## Example Setup
+
+Below you can find an example of setting up a local environment 
+using nsc to create 4 accounts, one of them a system account, 
+and setting the account server URL to be used for the operator.
+
+```sh
+$ export NKEYS_PATH=$(pwd)/nsc/nkeys
+$ export NSC_HOME=$(pwd)/nsc/accounts
+$ curl -sSL https://nats-io.github.io/k8s/setup/nsc-setup.sh | sh
+
+$ nsc list accounts
+╭─────────────────────────────────────────────────────────────────╮
+│                            Accounts                             │
+├──────┬──────────────────────────────────────────────────────────┤
+│ Name │ Public Key                                               │
+├──────┼──────────────────────────────────────────────────────────┤
+│ A    │ AA6LOQIZRKEAC5FUGLMZHAXERZRQFAFQOO7YC6ZMQ325BYUAEPDUEIV5 │
+│ B    │ ACPD2M7QFV33HPPY563PI7C664LXG2YVWXQBB6EAHDXZR7EK7L52AWUG │
+│ STAN │ ABD4DPO745A5U2JKPWCI7LFGW4UCTN5LPUXDA5BCMXEYWLCU7J346NGU │
+│ SYS  │ AB25DCM6BL5SDWYR45F65MSVOVXATN64AZXGI7IGS3IXBPWWDB4FIR2H │
+╰──────┴──────────────────────────────────────────────────────────╯
+
+$ nsc edit operator --account-jwt-server-url http://localhost:9090/jwt/v1/ --service-url nats://localhost:4222
+
+$ echo '
+operatorjwtpath: "./nsc/accounts/nats/KO/KO.jwt"
+
+http {
+    port: 9090
+}
+' > nats-account-server.conf
+
+$ nats-account-server -c nats-account-server.conf &
+
+$ nsc push -A
+
+$ echo '
+operator: "./nsc/accounts/nats/KO/KO.jwt"
+resolver: URL(http://localhost:9090/jwt/v1/accounts/)
+system_account: AB25DCM6BL5SDWYR45F65MSVOVXATN64AZXGI7IGS3IXBPWWDB4FIR2H
+' > nats-server.conf
+
+$ nats-server -c nats-server.conf &
+
+$ nats-sub -creds nsc/nkeys/creds/KO/A/test.creds foo
+nats: Permissions Violation for Subscription to "foo"
+
+$ nats-sub -creds nsc/nkeys/creds/KO/A/test.creds test
+Listening on [test]
+
+$ nats-sub -creds nsc/nkeys/creds/KO/SYS/sys.creds '>'
+```
