@@ -158,13 +158,19 @@ Let's take a look at the configuration options:
 
 ## Example Setup
 
-Below you can find an example of setting up a local environment 
-using nsc to create 4 accounts, one of them a system account, 
-and setting the account server URL to be used for the operator.
+Provided a setup with 4 accounts, one of them a system account, this example shows how to set up the account server by:
+
+* adding the account server to the operator
+* configuring the account server
+* push the accounts to the account server
+* configure a `nats-server` to make use of the account server
+* test the setup
 
 ```sh
 $ export NKEYS_PATH=$(pwd)/nsc/nkeys
 $ export NSC_HOME=$(pwd)/nsc/accounts
+
+# Setup script that creates a few sample accounts and a system account
 $ curl -sSL https://nats-io.github.io/k8s/setup/nsc-setup.sh | sh
 
 $ nsc list accounts
@@ -179,8 +185,10 @@ $ nsc list accounts
 │ SYS  │ AB25DCM6BL5SDWYR45F65MSVOVXATN64AZXGI7IGS3IXBPWWDB4FIR2H │
 ╰──────┴──────────────────────────────────────────────────────────╯
 
+# Add the endpoint for the account server to which accounts can be published
 $ nsc edit operator --account-jwt-server-url http://localhost:9090/jwt/v1/ --service-url nats://localhost:4222
 
+# Generate account server config that references the operator jwt
 $ echo '
 operatorjwtpath: "./nsc/accounts/nats/KO/KO.jwt"
 
@@ -189,23 +197,34 @@ http {
 }
 ' > nats-account-server.conf
 
+# Start the account server
 $ nats-account-server -c nats-account-server.conf &
 
+# Upload the local accounts in the nsc directory structure
 $ nsc push -A
 
+# Generate the NATS Server config that points to the account server
 $ echo '
 operator: "./nsc/accounts/nats/KO/KO.jwt"
 resolver: URL(http://localhost:9090/jwt/v1/accounts/)
 system_account: AB25DCM6BL5SDWYR45F65MSVOVXATN64AZXGI7IGS3IXBPWWDB4FIR2H
 ' > nats-server.conf
 
+# Start the NATS Server in trusted operator mode
 $ nats-server -c nats-server.conf &
 
+# Try to subscribe on account without permissions, this should fail
 $ nats-sub -creds nsc/nkeys/creds/KO/A/test.creds foo
 nats: Permissions Violation for Subscription to "foo"
 
-$ nats-sub -creds nsc/nkeys/creds/KO/A/test.creds test
+# Subscribe then publish to subject should work on 'test' since enough permissions
+$ nats-sub -creds nsc/nkeys/creds/KO/A/test.creds test &
 Listening on [test]
 
+# Published message on 'test' subject would be received by started subscriber above
+$ nats-pub -creds nsc/nkeys/creds/KO/A/test.creds test foo &
+Listening on [test]
+
+# Subscribe using the system account user credentials can receive all system events
 $ nats-sub -creds nsc/nkeys/creds/KO/SYS/sys.creds '>'
 ```
