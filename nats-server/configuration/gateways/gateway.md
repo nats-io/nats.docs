@@ -82,6 +82,7 @@ The `gateways` configuration block is a list of gateway entries with the followi
 | `name` | Gateway name. |
 | `url` | Hostport `<host>:<port>` describing where the remote gateway can be reached. If multiple IPs are returned, one is randomly selected. |
 | `urls` | A list of `url` strings. |
+| `tls` | A [`tls` configuration map](../securing_nats/tls.md) for creating a secure gateway connection. If the top-level `gateway{}` tls block contains certificates that have both client and server purposes, it is possible to omit this one and the server will use the certificates from the `gateway{tls{}}` section. |
 
 By using `urls` and an array, you can specify a list of endpoints that form part of a cluster as below. A NATS Server will pick one of those addresses randomly and only establish a single outbound gateway connection to one of the members from another cluster:
 
