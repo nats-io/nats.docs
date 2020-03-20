@@ -99,6 +99,18 @@ Another common problem is failed [identity validation](https://tools.ietf.org/ht
 The IP or DNS name to connect to needs to match a [Subject Alternative Name (SAN)](https://tools.ietf.org/html/rfc4985) inside the certificate.
 Meaning, if a client/browser/server connect via tls to `127.0.0.1`, the server needs to present a certificate with a SAN containing the IP `127.0.0.1` or the connection will be closed with a handshake error.
 
+#### Wrong Key Usage
+
+When generating your certificate you need to make sure to include the right purpose for which you want to use the certificate.
+This is encoded in [key usage](https://tools.ietf.org/html/rfc5280#section-4.2.1.3) and [extended key usage](https://tools.ietf.org/html/rfc5280#section-4.2.1.12).
+The necessary values for key usage depend on the ciphers used. `Digital Signature` and `Key Encipherment` are an interoperable choice.
+
+With respect to NATS the relevant values for extended key usage are:
+* `TLS WWW server authentication` - To authenticate as server for incoming connections. A NATS server will need a certificate containing this.
+* `TLS WWW client authentication` - To authenticate as client for outgoing connections. Only needed when connecting to a server where `verify` or `verify_and_map` are specified. In these cases, a NATS client will need a certificate with this value. Server to server connections can be configured with `verify` as well. Then NATS server will have to present a certificate with this value too. Certificates containing both values are an option.
+
+Note that it's common practice for non-web protocols to use the `TLS WWW` authentication fields, as a matter of history those have become embedded as generic options.
+
 ### Creating Self Signed Certificates for Testing
 
 The simplest way to generate a CA as well as client and server certificates is [mkcert](https://github.com/FiloSottile/mkcert).
@@ -106,7 +118,7 @@ This zero config tool generates and installs the CA into your **local** system t
 Check it's [documentation](https://github.com/FiloSottile/mkcert/blob/master/README.md) for installation and your system's trust store. 
 Here is a simple example:
 
-Generate a CA as well as a certificate, valid for use by `localhost` and the IP `::1`(`-cert-file` and `-key-file` overwrite default file names).
+Generate a CA as well as a certificate, valid for server authentication by `localhost` and the IP `::1`(`-cert-file` and `-key-file` overwrite default file names).
 Then start a nats server using the generated certificate.
 
 ```bash
