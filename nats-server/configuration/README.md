@@ -142,7 +142,6 @@ authorization: {
 | [`resolver`](../../nats-tools/nas/README.md) | Resolver type `MEMORY` or `URL(<url>)` for account JWTs.  |  |
 | `resolver_tls` | [`tls` configuration map](securing_nats/tls.md) for tls connections to the resolver. (This is for an outgoing connection and therefore does not use `timeout`, `verify` and `map_and_verify`)    |  |
 | `resolver_preload` | Map to preload account public keys and their corresponding JWT. Keys consist of `<account public nkey>`, value is the `<corresponding jwt>`. Only used when `resolver=MEMORY`. | |
-| `system_account` | Name of the system account. See [System Accounts](../nats_admin/sys_accounts/README.md) for more details. | |
 
 ### Runtime Configuration
 | Property | Description | Default |
@@ -167,6 +166,7 @@ authorization: {
 | [`http`](monitoring.md) | Listen specification `<host>:<port>`for server monitoring. |  |
 | [`https_port`](monitoring.md) | https port for server monitoring. This is influenced by the tls property. |  |
 | [`https`](monitoring.md) | Listen specification `<host>:<port>`for TLS server monitoring. |  |
+| `system_account` | Name of the system account. Users of this account can subscribe to system events. See [System Accounts](../nats_admin/sys_accounts/README.md) for more details. | |
 | `pid_file` | File containing PID, relative to ... This can serve as input to [nats-server --signal](../nats_admin/signals.md) | |
 | `port_file_dir` | Directory to write a file containing the servers open ports to, relative to ... |  |
 | `connect_error_reports` | Number of attempts at which a repeated failed route, gateway or leaf node connection is reported. Connect attempts are made once every second.| `3600`, approx every hour |
