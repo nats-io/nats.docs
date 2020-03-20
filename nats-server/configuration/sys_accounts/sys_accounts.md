@@ -1,49 +1,11 @@
-# Configuration
-
-The following is a short tutorial on how you can activate a system account to:
-
-* receive periodic updates from the server
-* send requests to the server
-* send an account update to the server
-
-## Events and Services
-
-The system account publishes messages under well known subject patterns.
-
-Server initiated events:
-
-* `$SYS.ACCOUNT.<id>.CONNECT` \(client connects\)
-* `$SYS.ACCOUNT.<id>.DISCONNECT` \(client disconnects\)
-* `$SYS.SERVER.ACCOUNT.<id>.CONNS` \(connections for an account changed\)
-* `$SYS.SERVER.<id>.CLIENT.AUTH.ERR` \(authentication error\)
-* `$SYS.ACCOUNT.<id>.LEAFNODE.CONNECT` \(leaf node connnects\)
-* `$SYS.ACCOUNT.<id>.LEAFNODE.DISCONNECT` \(leaf node disconnects\)
-* `$SYS.SERVER.<id>.STATSZ` \(stats summary\)
-
-In addition other tools with system account privileges, can initiate requests:
-
-* `$SYS.REQ.SERVER.<id>.STATSZ` \(request server stat summary\)
-* `$SYS.REQ.SERVER.PING` \(discover servers - will return multiple messages\)
-
-Servers like `nats-account-server` publish system account messages when a claim is updated, the nats-server listens for them, and updates its account information accordingly:
-
-* `$SYS.ACCOUNT.<id>.CLAIMS.UPDATE`
-
-With these few messages you can build fairly surprisingly useful monitoring tools:
-
-* health/load of your servers
-* client connects/disconnects
-* account connections
-* authentication errors
-
-## Enabling System Events
+# Enabling System Events with Decentralized Authentication/Authorization
 
 To enable and access system events, you'll have to:
 
 * Create an Operator, Account and User
 * Run a NATS Account Server \(or Memory Resolver\)
 
-### Create an Operator, Account, User
+## Create an Operator, Account, User
 
 Let's create an operator, system account and system account user:
 
@@ -67,7 +29,7 @@ Success! - added user "SYSU" to "SYS"
 
 By default, the operator JWT can be found in `~/.nsc/nats/<operator_name>/<operator.name>.jwt`.
 
-### NATS-Account-Server
+## NATS-Account-Server
 
 To vend the credentials to the nats-server, we'll use a [nats-account-server](../../../nats-tools/nas/). Let's start a nats-account-server to serve the JWT credentials:
 
@@ -77,7 +39,7 @@ To vend the credentials to the nats-server, we'll use a [nats-account-server](..
 
 The server will by default vend JWT configurations on the an endpoint at: `http(s)://<server_url>/jwt/v1/accounts/`.
 
-### NATS Server Configuration
+## NATS Server Configuration
 
 The server configuration will need:
 
@@ -114,7 +76,7 @@ Let's start the nats-server:
 > nats-server -c server.conf
 ```
 
-## Inspecting Server Events
+# Inspecting Server Events
 
 Let's add a subscriber for all the events published by the system account:
 
@@ -173,6 +135,8 @@ The subscriber will print the connect and disconnect:
   "reason": "Client Closed"
 }'
 ```
+
+# System Services
 
 ## `$SYS.REQ.SERVER.PING` - Discovering Servers
 

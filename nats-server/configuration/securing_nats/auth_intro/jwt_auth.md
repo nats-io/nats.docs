@@ -71,11 +71,11 @@ Exports and imports from an account are explicit, and they are visible in the ac
 
 ## Configuration
 
-Entity JWT configuration is done using the [`nsc` tool](../../../../nats-tools/nsc/). The basic steps include:
+Entity JWT configuration is done using the [`nsc` tool](../../../../nats-tools/nsc/README.md). The basic steps include:
 
 * [Creation of an operator JWT](../../../../nats-tools/nsc/nsc.md#creating-an-operator)
 * [Configuring an Account Server](../../../../nats-tools/nsc/nsc.md#account-server-configuration)
 * [Setting up the NATS server to resolve Accounts](../../../../nats-tools/nsc/nsc.md#nats-server-configuration)
 
-After that, `nsc` is used to create and edit accounts and users.
+After that, [`nsc`](../../../../nats-tools/nsc/README.md) is used to create and edit accounts and users.
 
