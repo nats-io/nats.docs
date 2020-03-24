@@ -5,7 +5,7 @@ In this section you can find several examples of how to deploy NATS, NATS Stream
 * [Getting Started](nats-kubernetes.md#getting-started)
 * [Basic NATS and NATS Streaming Setup on k8s](minimal-setup.md)
 * [Creating a NATS Streaming Cluster in k8s with FT mode](stan-ft-k8s-aws.md)
-* [NATS + Prometheus Operator](https://github.com/nats-io/nats.docs/tree/ccb05cdf9225a46fc872a6deab55dca4e072e902/nats-kubernetes/prometheus-and-nats-operator/README.md)
+* [NATS + Prometheus Operator](prometheus-and-nats-operator.md)
 * [NATS + Cert Manager in k8s](nats-cluster-and-cert-manager.md)
 * [Securing a NATS Cluster using cfssl](operator-tls-setup-with-cfssl.md)
 
@@ -37,7 +37,7 @@ curl -sSL https://nats-io.github.io/k8s/setup.sh | sh -s -- --without-tls
 curl -sSL https://nats-io.github.io/k8s/setup.sh | sh -s -- --without-tls --without-auth
 ```
 
-**Note**: Since [NATS Streaming](https://github.com/nats-io/nats-streaming-server) will be running as a [leafnode](https://github.com/nats-io/docs/tree/master/leafnodes) to NATS \(under the STAN account\) and that [NATS Surveyor](https://github.com/nats-io/nats-surveyor) requires the [system account](https://github.com/nats-io/nats.docs/tree/ccb05cdf9225a46fc872a6deab55dca4e072e902/nats-kubernetes/,,/nats-server/nats_admin/sys_accounts/README.md) to monitor events, disabling auth also means that NATS Streaming and NATS Surveyor based monitoring will be disabled.
+**Note**: Since [NATS Streaming](https://github.com/nats-io/nats-streaming-server) will be running as a [leafnode](../nats-server/configuration/leafnodes/README.md) to NATS \(under the STAN account\) and that [NATS Surveyor](https://github.com/nats-io/nats-surveyor) requires the [system account](../nats-server/configuration/sys_accounts/README.md) to monitor events, disabling auth also means that NATS Streaming and NATS Surveyor based monitoring will be disabled.
 
 The monitoring dashboard setup using NATS Surveyor can be accessed by using port-forward:
 

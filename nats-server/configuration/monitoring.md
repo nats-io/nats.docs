@@ -153,11 +153,11 @@ The `/connz` endpoint reports more detailed information on current and recently 
 | :--- | :--- | :--- |
 | sort | \(_see sort options_\) | Sorts the results.  Default is connection ID. |
 | auth | true, 1, false, 0 | Include username.  Default is false. |
-| subs | true, 1, false, 0 | Include subscriptions.  Default is false. |
+| subs | true, 1, false, 0 or `detail` | Include subscriptions.  Default is false. When set to `detail` a list with more detailed subscription information will be returned. |
 | offset | number &gt; 0 | Pagination offset.  Default is 0. |
 | limit | number &gt; 0 | Number of results to return.  Default is 1024. |
 | cid | number, valid id | Return a connection by it's id |
-| state | open, \*closed,  any | Return connections of partular state.  Default is open. |
+| state | open, \*closed,  any | Return connections of particular state.  Default is open. |
 
 _The server will default to holding the last 10,000 closed connections._
 
@@ -263,7 +263,7 @@ The `/routez` endpoint reports information on active routes for a cluster. Route
 
 | Argument | Values | Description |
 | :--- | :--- | :--- |
-| subs | true, 1, false, 0 | Include internal subscriptions.  Default is false. |
+| subs | true, 1, false, 0 or `detail` | Include subscriptions. Default is false. When set to `detail` a list with more detailed subscription information will be returned. |
 
 As noted above, the `routez` endpoint does support the `subs` argument from the `/connz` endpoint. For example: [http://demo.nats.io:8222/routez?subs=1](http://demo.nats.io:8222/routez?subs=1)
 

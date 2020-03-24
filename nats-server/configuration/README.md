@@ -166,7 +166,7 @@ authorization: {
 | [`http`](monitoring.md) | Listen specification `<host>:<port>`for server monitoring. |  |
 | [`https_port`](monitoring.md) | https port for server monitoring. This is influenced by the tls property. |  |
 | [`https`](monitoring.md) | Listen specification `<host>:<port>`for TLS server monitoring. |  |
-| `system_account` | Name of the system account. Users of this account can subscribe to system events. See [System Accounts](../nats_admin/sys_accounts/README.md) for more details. | |
+| `system_account` | Name of the system account. Users of this account can subscribe to system events. See [System Accounts](monitoring/README.md) for more details. | |
 | `pid_file` | File containing PID, relative to ... This can serve as input to [nats-server --signal](../nats_admin/signals.md) | |
 | `port_file_dir` | Directory to write a file containing the servers open ports to, relative to ... |  |
 | `connect_error_reports` | Number of attempts at which a repeated failed route, gateway or leaf node connection is reported. Connect attempts are made once every second.| `3600`, approx every hour |
