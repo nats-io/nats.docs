@@ -39,7 +39,7 @@ Servers like `nats-account-server` publish system account messages when a claim 
 
 * `$SYS.ACCOUNT.<id>.CLAIMS.UPDATE`
 
-With these few messages you can build fairly surprisingly useful monitoring tools:
+With these few messages you can build useful monitoring tools:
 
 * health/load of your servers
 * client connects/disconnects
