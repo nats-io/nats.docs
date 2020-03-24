@@ -7,7 +7,7 @@ The `cluster` configuration map has the following configuration options:
 | `host` | Interface where the gateway will listen for incoming route connections. |
 | `port` | Port where the gateway will listen for incoming route connections. |
 | `listen` | Combines `host` and `port` as `<host>:<port>`. |
-| `tls` | A [`tls` configuration map](../securing_nats/tls.md) for securing the clustering connection. |
+| `tls` | A [`tls` configuration map](../securing_nats/tls.md) for securing the clustering connection. `verify` is always enabled and `cert_file` is used for client and server. [See](../securing_nats/tls.md#Wrong-Key-Usage) for certificate pitfalls. |
 | `advertise` | Hostport `<host>:<port>` to advertise how this server can be contacted by other cluster members. This is useful in setups with NAT. |
 | `no_advertise` |  When set to `true`, do not advertise this server to clients. |
 | `routes` | A list of other servers \(URLs\) to cluster with. Self-routes are ignored. Should authentication via `token` or `username`/`password` be required, specify them as part of the URL. |
