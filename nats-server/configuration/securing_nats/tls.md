@@ -107,7 +107,10 @@ The necessary values for key usage depend on the ciphers used. `Digital Signatur
 
 With respect to NATS the relevant values for extended key usage are:
 * `TLS WWW server authentication` - To authenticate as server for incoming connections. A NATS server will need a certificate containing this.
-* `TLS WWW client authentication` - To authenticate as client for outgoing connections. Only needed when connecting to a server where `verify` or `verify_and_map` are specified. In these cases, a NATS client will need a certificate with this value. Server to server connections can be configured with `verify` as well. Then NATS server will have to present a certificate with this value too. Certificates containing both values are an option.
+* `TLS WWW client authentication` - To authenticate as client for outgoing connections. Only needed when connecting to a server where `verify` or `verify_and_map` are specified. In these cases, a NATS client will need a certificate with this value. 
+  * [Leaf node](../leafnodes/README.md) connections can be configured with `verify` as well. Then connecting NATS server will have to present a certificate with this value too. Certificates containing both values are an option.
+  * [Cluster](../clustering/README.md) connections always have `verify` enabled. Which server acts as client and server comes down to timing and therefore can't be individually configured. Certificates containing both values are a must.
+  * [Gateway](../gateways/README.md) connections always have `verify` enabled. Unlike cluster outgoing connections can specify a separate cert. Certificates containing both values are an option that reduce configuration. 
 
 Note that it's common practice for non-web protocols to use the `TLS WWW` authentication fields, as a matter of history those have become embedded as generic options.
 
