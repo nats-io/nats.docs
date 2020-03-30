@@ -50,7 +50,7 @@ The server configuration will need:
 The only thing we don't have handy is the public key for the system account. We can get it easy enough:
 
 ```text
-> nsc list accounts -W
+> nsc list accounts 
 ╭─────────────────────────────────────────────────────────────────╮
 │                            Accounts                             │
 ├──────┬──────────────────────────────────────────────────────────┤

@@ -91,6 +91,8 @@ operator: /Users/synadia/.nsc/nats/Test/Test.jwt
 resolver: URL(http://localhost:9090/jwt/v1/accounts/)
 ```
 
+A step by step tutorial using directory configuration can be found [here](dir_store.md).
+
 ## Configuration File
 
 While the `-nsc` and `-dir` store flags are sufficient for some very simple developer setups, any production or non-read-only server will require a configuration file.

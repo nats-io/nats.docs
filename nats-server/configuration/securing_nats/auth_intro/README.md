@@ -6,8 +6,7 @@ The NATS server provides various ways of authenticating clients:
 * [Username/Password credentials](username_password.md)
 * [TLS Certificate](tls_mutual_auth.md)
 * [NKEY with Challenge](nkey_auth.md)
-* [Accounts](accounts.md)
-* [JWTs](jwt_auth.md)
+* [Decentralized JWT Authenticatin/Authorization](../jwt/README.md)
 
 Authentication deals with allowing a NATS client to connect to the server. Except for JWT authentication, authentication and authorization are configured in the `authorization` section of the configuration.
 

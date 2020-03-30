@@ -1,6 +1,6 @@
 # System Events and Services
 
-NATS servers leverage [Accounts](../../configuration/securing_nats/auth_intro/accounts.md) support and generate events such as:
+NATS servers leverage [Accounts](../../configuration/securing_nats/accounts.md) support and generate events such as:
 
 * account connect/disconnect
 * authentication errors
@@ -11,10 +11,10 @@ In addition the server supports a limited number of requests that can be used to
 
 These events are enabled by configuring `system_account` and [subscribing/requesting](#Available-Events-and-Services) using a _system account_ user.
 
-[Accounts](../../configuration/securing_nats/auth_intro/accounts.md) are used so that subscriptions from your applications, say `>`, do not receive system events and vice versa.
+[Accounts](../../configuration/securing_nats/accounts.md) are used so that subscriptions from your applications, say `>`, do not receive system events and vice versa.
 Using accounts requires either:
 * [Configuring authentication locally](#Local-Configuration) and listing one of the accounts in `system_account`
-* Or by using decentralized authentication and authorization via [jwt](../../configuration/securing_nats/auth_intro/jwt_auth.md) as shown in this [Tutorial](sys_accounts.md).
+* Or by using decentralized authentication and authorization via [jwt](../../configuration/securing_nats/jwt/README.md) as shown in this [Tutorial](sys_accounts.md). In this case `system_account` contains the account public key.
 
 ## Available Events and Services
 
@@ -66,5 +66,7 @@ accounts: {
 system_account: SYS
 ```
 
+Please note that applications now have to authenticate such that a connection can be associated with an account.
+In this example username and password were chosen for simplicity of the demonstration. 
 Subscribe to all system events like this `nats-sub -s nats://admin:changeit@localhost:4222 ">"` and observe what happens when you do something like `nats-pub -s "nats://a:a@localhost:4222" foo bar`. 
 Examples on how to use system services can be found [here](sys_accounts.md#System-Services).
