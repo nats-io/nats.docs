@@ -17,12 +17,12 @@ Claims are a fancy way of asserting information on a _subject_. In this context,
 NATS further restricts JWTs by requiring that JWTs be:
 
 * Digitally signed _always_ and only using [Ed25519](https://ed25519.cr.yp.to/). 
-* NATS adopts the convention that all _Issuer_ and _Subject_ fields in a JWT claim must be a public [NKEY](auth_intro/nkey_auth.md). 
+* NATS adopts the convention that all _Issuer_ and _Subject_ fields in a JWT claim must be a public [NKEY](../auth_intro/nkey_auth.md). 
 * _Issuer_ and _Subject_ must match specific roles depending on the claim [NKeys](https://github.com/nats-io/nkeys).
 
 ### NKey Roles
 
-[NKeys](auth_intro/nkey_auth.md) Roles are:
+[NKeys](../auth_intro/nkey_auth.md) Roles are:
 
 * Operators
 * Accounts
