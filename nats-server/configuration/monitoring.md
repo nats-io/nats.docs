@@ -112,6 +112,7 @@ N/A
   "uptime": "2s",
   "mem": 9617408,
   "cores": 4,
+  "gomaxprocs": 4,
   "cpu": 0,
   "connections": 0,
   "total_connections": 0,
