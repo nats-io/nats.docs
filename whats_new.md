@@ -15,7 +15,7 @@ resolver_tls {
 ```
 ### Additional Trace & Debug Verbosity Options
 
-`trace_verbose` and command line parameters `-VV` and `-DVV` added. See [NATS Logging Configuration](nats-server/configuration/logging)
+`trace_verbose` and command line parameters `-VV` and `-DVV` added. See [NATS Logging Configuration](nats-server/configuration/logging.md)
 
 ### Subscription Details in Monitoring Endpoints
 
