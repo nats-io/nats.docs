@@ -49,6 +49,7 @@ The following flags are available on the server to configure logging:
 | `-r`, `--remote_syslog` | The syslog server address, like `udp://localhost:514` |
 | `-D`, `--debug` | Enable debugging output |
 | `-V`, `--trace` | Enable protocol trace log messages |
+| `-VV` | Verbose trace (traces system account as well) |
 | `-DV` | Enable both debug and protocol trace messages |
 | `--max_traced_msg_len` | Maximum printable length for traced messages. 0 for unlimited |
 
