@@ -2,6 +2,28 @@
 
 The NATS.io team is always working to bring you features to improve your NATS experience. Below you will find feature summaries for new implementations to NATS. Check back often for release highlights and updates.
 
+## Server release v2.1.6
+### TLS Configuration for Account Resolver
+
+This release adds the ability to specify TLS configuration for the account resolver.
+```code
+resolver_tls {
+  cert_file: ...
+  key_file: ...
+  ca_file: ...
+}
+```
+### Additional Trace & Debug Verbosity Options
+
+`trace_verbose` and command line parameters `-VV` and `-DVV` added. See [NATS Logging Configuration](nats-server/configuration/logging.md)
+
+### Subscription Details in Monitoring Endpoints
+
+We've added the option to include subscription details in monitoring endpoints `/routez` and `/connz`. For instance `/connz?subs=detail` will now return not only the subjects of the subscription, but the queue name (if applicable) and some other details.
+
+* Release notes [2.1.6](https://github.com/nats-io/nats-server/releases/tag/v2.1.6)
+* Full list of Changes [2.1.4...2.1.6](https://github.com/nats-io/nats-server/compare/v2.1.4...v2.1.6)
+
 ## Server release v2.1.4
 ### Log Rotation
 
