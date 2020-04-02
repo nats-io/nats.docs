@@ -6,7 +6,7 @@ The server supports an number of stores which enable it to serve account [JWTs](
 * a [directory](nas_conf.md#directory-configuration)
 * an [NSC](../nsc/nsc.md) [directory](nas_conf.md#nsc-configuration)
 
-> For testing purposes the nats server can be configured with a [memory resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#memory) that avoids usage of the account server.
+> The nats server can be configured with a [memory resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#memory) as well. This avoids usage of the account server.
 
 The server can operate in a _READ ONLY_ mode where it serves content from a directory, or in [notification mode](notifications.md), where it can notify a NATS server that a JWT in the store has been modified, updating the NATS server with the updated JWT.
 
