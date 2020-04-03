@@ -1,6 +1,6 @@
 # Configuration
 
-The `gateway` configuration block is similar to a [`cluster`](../clustering/cluster_config.md) block:
+The `gateway` [configuration block](#gateway-configuration-block) is similar to a [`cluster`](../clustering/cluster_config.md) block:
 
 ```text
 gateway {

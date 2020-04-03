@@ -100,3 +100,4 @@ Quick check on nsc to verify the ids of the accounts on nsc, match the files:
 
 Note that the `@` before the file name is required for `curl` to read the specified file, and use it as the payload. Otherwise, it will simply post the path specified, which will result in an update error.
 
+Curl can also be used to [inspect](inspecting_jwts.md) JWTs.

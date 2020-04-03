@@ -134,14 +134,22 @@ authorization: {
 | `max_subscriptions` | Maximum numbers of subscriptions per client and leafnode accounts connection. | `0`, unlimited |
 
 ### Authentication and Authorization
-| Property | Description | Default |
-| :--- | :--- | :--- |
+
+#### Centralized Authentication and Authorization
+| Property | Description |
+| :--- | :--- |
 | [`authorization`](securing_nats/auth_intro/README.md) | Configuration map for client authentication/authorization. |
-| [`operator`](../../nats-tools/nsc/nsc.md#nats-server-configuration) | Path to an operator JWT. |
-| [`accounts`](securing_nats/accounts.md) | Configuration map for accounts. | |
-| [`resolver`](../../nats-tools/nas/README.md) | Resolver type `MEMORY` or `URL(<url>)` for account JWTs.  |  |
-| `resolver_tls` | [`tls` configuration map](securing_nats/tls.md) for tls connections to the resolver. (This is for an outgoing connection and therefore does not use `timeout`, `verify` and `map_and_verify`)    |  |
-| `resolver_preload` | Map to preload account public keys and their corresponding JWT. Keys consist of `<account public nkey>`, value is the `<corresponding jwt>`. Only used when `resolver=MEMORY`. | |
+| [`accounts`](securing_nats/accounts.md) | Configuration map for multi tenancy via accounts. |
+
+#### Decentralized Authentication and Authorization
+The Configuration options here refer to [JWT](./securing_nats/jwt/README.md) based authentication and authorization.
+
+| Property | Description | 
+| :--- | :--- | 
+| [`operator`](./securing_nats/jwt/README.md#Decentralized-Authentication-and-Authorization-Configuration) | Path to an operator JWT. |
+| [`resolver`](./securing_nats/jwt/README.md#Decentralized-Authentication-and-Authorization-Configuration) | Resolver type [`MEMORY`](securing_nats/jwt/resolver.md#memory) or [`URL(<url>)`](./securing_nats/jwt/resolver.md#url-resolver) for account JWTs. \(When the operator JWT contains an account URL, it will be used as default. In this case `resolver` is only needed to overwrite the default.\)|
+| [`resolver_tls`](./securing_nats/jwt/resolver.md#url-resolver) | [`tls` configuration map](securing_nats/tls.md) for tls connections to the resolver. (This is for an outgoing connection and therefore does not use `timeout`, `verify` and `map_and_verify`) |
+| [`resolver_preload`](./securing_nats/jwt/resolver.md#memory) | [Map](securing_nats/jwt/resolver.md#memory) to preload account public keys and their corresponding JWT. Keys consist of `<account public nkey>`, value is the `<corresponding jwt>`. Only used when `resolver=MEMORY`. |
 
 ### Runtime Configuration
 | Property | Description | Default |
