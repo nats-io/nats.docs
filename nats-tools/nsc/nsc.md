@@ -353,7 +353,7 @@ Published [hello] : 'NATS'
 Subscriber shows:
 
 ```text
-[#1] Received on [hello]: ’NATS’
+Received on [hello]: ’NATS’
 ```
 
 ### NSC Embeds NATS tooling
