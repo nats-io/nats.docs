@@ -168,7 +168,7 @@ Provided a setup with 4 accounts, one of them a system account, this example sho
 * configure a `nats-server` to make use of the account server
 * test the setup
 
-```sh
+```bash
 $ export NKEYS_PATH=$(pwd)/nsc/nkeys
 $ export NSC_HOME=$(pwd)/nsc/accounts
 
@@ -230,3 +230,4 @@ Listening on [test]
 # Subscribe using the system account user credentials can receive all system events
 $ nats-sub -creds nsc/nkeys/creds/KO/SYS/sys.creds '>'
 ```
+

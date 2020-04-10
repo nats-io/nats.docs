@@ -49,9 +49,9 @@ The following flags are available on the server to configure logging:
 | `-r`, `--remote_syslog` | The syslog server address, like `udp://localhost:514` |
 | `-D`, `--debug` | Enable debugging output |
 | `-V`, `--trace` | Enable protocol trace log messages |
-| `-VV` | Verbose trace (traces system account as well) |
+| `-VV` | Verbose trace \(traces system account as well\) |
 | `-DV` | Enable both debug and protocol trace messages |
-| `-DVV` | Debug and verbose trace (traces system account as well)|
+| `-DVV` | Debug and verbose trace \(traces system account as well\) |
 | `--max_traced_msg_len` | Maximum printable length for traced messages. 0 for unlimited |
 
 You can read more about [logging configuration here](configuration/logging.md).
@@ -80,7 +80,7 @@ The following flags are available on the server to configure clustering:
 | `--cluster_advertise` | Cluster URL to advertise to other servers |
 | `--connect_retries` | For implicit routes, number of connect retries |
 
-You can read more about [clustering configuration here](configuration/clustering/README.md).
+You can read more about [clustering configuration here](configuration/clustering/).
 
 ## Common Options
 

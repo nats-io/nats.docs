@@ -37,7 +37,7 @@ curl -sSL https://nats-io.github.io/k8s/setup.sh | sh -s -- --without-tls
 curl -sSL https://nats-io.github.io/k8s/setup.sh | sh -s -- --without-tls --without-auth
 ```
 
-**Note**: Since [NATS Streaming](https://github.com/nats-io/nats-streaming-server) will be running as a [leafnode](../nats-server/configuration/leafnodes/README.md) to NATS \(under the STAN account\) and that [NATS Surveyor](https://github.com/nats-io/nats-surveyor) requires the [system account](../nats-server/configuration/sys_accounts/README.md) to monitor events, disabling auth also means that NATS Streaming and NATS Surveyor based monitoring will be disabled.
+**Note**: Since [NATS Streaming](https://github.com/nats-io/nats-streaming-server) will be running as a [leafnode](../nats-server/configuration/leafnodes/) to NATS \(under the STAN account\) and that [NATS Surveyor](https://github.com/nats-io/nats-surveyor) requires the [system account](../nats-server/configuration/sys_accounts/) to monitor events, disabling auth also means that NATS Streaming and NATS Surveyor based monitoring will be disabled.
 
 The monitoring dashboard setup using NATS Surveyor can be accessed by using port-forward:
 

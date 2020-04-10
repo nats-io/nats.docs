@@ -2,7 +2,7 @@
 
 The NATS server supports authorization using subject-level permissions on a per-user basis. Permission-based authorization is available with multi-user authentication via the `users` list.
 
-Each permission specifies the subjects the user can publish to and subscribe to. The parser is generous at understanding what the intent is, so both arrays and singletons are processed. For more complex configuration, you can specify a `permission` object which explicitly allows or denies subjects. The specified subjects can specify wildcards as well. Permissions can make use of [variables](../README.md#variables).
+Each permission specifies the subjects the user can publish to and subscribe to. The parser is generous at understanding what the intent is, so both arrays and singletons are processed. For more complex configuration, you can specify a `permission` object which explicitly allows or denies subjects. The specified subjects can specify wildcards as well. Permissions can make use of [variables](../#variables).
 
 A special field inside the authorization map is `default_permissions`. When present, it contains permissions that apply to users that do not have permissions associated with them.
 
@@ -12,9 +12,9 @@ The `permissions` map specify subjects that can be subscribed to or published by
 
 | Property | Description |
 | :--- | :--- |
-| `publish` | subject, list of subjects, or [permission map](#permission-map) the client can publish |
-| `subscribe` | subject, list of subjects, or [permission map](#permission-map) the client can subscribe to. In this context it is possible to provide an optional queue name: `<subject> <queue>` to express queue group permissions. These permissions can also use wildcards such as `v2.*` or `>`.|
-| `allow_responses` | boolean or [responses map](#allow-responses-map), default is `false` |
+| `publish` | subject, list of subjects, or [permission map](authorization.md#permission-map) the client can publish |
+| `subscribe` | subject, list of subjects, or [permission map](authorization.md#permission-map) the client can subscribe to. In this context it is possible to provide an optional queue name: `<subject> <queue>` to express queue group permissions. These permissions can also use wildcards such as `v2.*` or `>`. |
+| `allow_responses` | boolean or [responses map](authorization.md#allow-responses-map), default is `false` |
 
 ## Permission Map
 
@@ -25,17 +25,16 @@ The `permission` map provides additional properties for configuring a `permissio
 | `allow` | List of subject names that are allowed to the client |
 | `deny` | List of subjects that are denied to the client |
 
-**Important Note** It is important to not break request/reply patterns. In some cases \(as shown [below](#variables)\) you need to add rules for the `_INBOX.>` pattern. If an unauthorized client publishes or attempts to subscribe to a subject that has not been _allow listed_, the action fails and is logged at the server, and an error message is returned to the client. The [allow responses](#allow-responses-map) option can simplify this.
+**Important Note** It is important to not break request/reply patterns. In some cases \(as shown [below](authorization.md#variables)\) you need to add rules for the `_INBOX.>` pattern. If an unauthorized client publishes or attempts to subscribe to a subject that has not been _allow listed_, the action fails and is logged at the server, and an error message is returned to the client. The [allow responses](authorization.md#allow-responses-map) option can simplify this.
 
 ## Allow Responses Map
 
-The `allow_responses` option dynamically allows publishing to reply subjects and works well for service responders.
-When set to `true`, only one response is allowed, meaning the permission to publish to the reply subject defaults to only once. The `allow_responses` map allows you to configure a maximum number of responses and how long the permission is valid.
+The `allow_responses` option dynamically allows publishing to reply subjects and works well for service responders. When set to `true`, only one response is allowed, meaning the permission to publish to the reply subject defaults to only once. The `allow_responses` map allows you to configure a maximum number of responses and how long the permission is valid.
 
 | Property | Description |
 | :--- | :--- |
 | `max` | The maximum number of response messages that can be published. |
-| `expires` | The amount of time the permission is valid. Values such as `1s`, `1m`, `1h` (1 second, minute, hour) etc can be specified. Default doesn't have a time limit. |
+| `expires` | The amount of time the permission is valid. Values such as `1s`, `1m`, `1h` \(1 second, minute, hour\) etc can be specified. Default doesn't have a time limit. |
 
 When `allow_responses` is set to `true`, it defaults to the equivalent of `{ max: 1 }` and no time limit.
 
@@ -74,7 +73,7 @@ authorization {
 }
 ```
 
- > `default_permissions` is a special entry. If defined, it applies to all users that don't have specific permissions set.
+> `default_permissions` is a special entry. If defined, it applies to all users that don't have specific permissions set.
 
 * _admin_ has `ADMIN` permissions and can publish/subscribe on any subject. We use the wildcard `>` to match any subject.
 * _client_ is a `REQUESTOR` and can publish requests on subjects `req.a` or `req.b`, and subscribe to anything that is a response \(`_INBOX.>`\).
@@ -114,17 +113,17 @@ authorization: {
 }
 ```
 
-### allow_responses
+### allow\_responses
 
 Here's an example with `allow_responses`:
 
 ```text
 authorization: {
-	users: [
-		{ user: a, password: a },
-		{ user: b, password: b, permissions: {subscribe: "q", allow_responses: true } },
-		{ user: c, password: c, permissions: {subscribe: "q", allow_responses: { max: 5, expires: "1m" } } }
-	]
+    users: [
+        { user: a, password: a },
+        { user: b, password: b, permissions: {subscribe: "q", allow_responses: true } },
+        { user: c, password: c, permissions: {subscribe: "q", allow_responses: { max: 5, expires: "1m" } } }
+    ]
 }
 ```
 
@@ -154,3 +153,4 @@ users = [
   }
 ]
 ```
+

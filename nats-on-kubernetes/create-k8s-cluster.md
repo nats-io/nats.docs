@@ -1,13 +1,12 @@
 # Creating a Kubernetes Cluster
 
-Below you will find examples of creating a small 3 node Kubernetes
-cluster to try NATS on multiple clouds.
+Below you will find examples of creating a small 3 node Kubernetes cluster to try NATS on multiple clouds.
 
 ## Google Kubernetes Engine
 
 Use [gcloud](https://cloud.google.com/sdk/gcloud/) to create a 3 node [regional](https://cloud.google.com/kubernetes-engine/docs/how-to/creating-a-regional-cluster) Kubernetes cluster on `us-west2`.
 
-```sh
+```bash
 # Create a 3 node Kubernetes cluster. One node in each of the region's three zones.
 gcloud container clusters create nats-k8s-cluster \
   --project $YOUR_GOOGLE_CLOUD_PROJECT \
@@ -16,16 +15,13 @@ gcloud container clusters create nats-k8s-cluster \
   --machine-type n1-standard-2
 ```
 
-Note that since this is a regional cluster we are specifying `--num-nodes 1` which will create a kubelet on 3 different zones.  If you are creating a [single-zone cluster](https://cloud.google.com/kubernetes-engine/docs/how-to/creating-a-cluster) but want 3 nodes then you have to specify `--num-nodes 3`.
-
+Note that since this is a regional cluster we are specifying `--num-nodes 1` which will create a kubelet on 3 different zones. If you are creating a [single-zone cluster](https://cloud.google.com/kubernetes-engine/docs/how-to/creating-a-cluster) but want 3 nodes then you have to specify `--num-nodes 3`.
 
 ## Amazon Kubernetes Service
 
-The [eksctl](https://github.com/weaveworks/eksctl) is a very helpful
-tool to manage EKS clusters, you can find more docs on how to set it
-up [here](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html).
+The [eksctl](https://github.com/weaveworks/eksctl) is a very helpful tool to manage EKS clusters, you can find more docs on how to set it up [here](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html).
 
-```sh
+```bash
 # Create 3 node Kubernetes cluster
 eksctl create cluster --name nats-k8s-cluster \
   --nodes 3 \
@@ -40,7 +36,7 @@ eksctl utils write-kubeconfig --name $YOUR_EKS_NAME --region eu-west-1
 
 You can use [doctl](https://github.com/digitalocean/doctl) to create a cluster as follows:
 
-```sh 
+```bash
 doctl kubernetes cluster create nats-k8s-nyc2 --count 3 --region nyc1
 ```
 
@@ -48,7 +44,7 @@ doctl kubernetes cluster create nats-k8s-nyc2 --count 3 --region nyc1
 
 Using [az](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) you can create a cluster like this:
 
-```sh
+```bash
 # In case not done already, register to use some services:
 az login
 az provider register -n Microsoft.Network
@@ -62,21 +58,19 @@ az aks create   --resource-group nats --name nats  --node-count 3 --node-vm-size
 az aks get-credentials --resource-group nats --name nats
 ```
 
-*Note* In order to be able to access NATS externally you need to
-provision public IPs for your cluster installing the following component [dgkanatsios/AksNodePublicIPController](https://github.com/dgkanatsios/AksNodePublicIPController):
+_Note_ In order to be able to access NATS externally you need to provision public IPs for your cluster installing the following component [dgkanatsios/AksNodePublicIPController](https://github.com/dgkanatsios/AksNodePublicIPController):
 
-```sh
+```bash
 kubectl create -n kube-system -f https://raw.githubusercontent.com/dgkanatsios/AksNodePublicIPController/7846c78f77dc5cd4b43629bb5cb7ff3818594aee/deploy.yaml
 ```
 
-After this component has been installed, eventually your cluster will
-be provided ExternalIPs that the NATS cluster can advertise to
-clients:
+After this component has been installed, eventually your cluster will be provided ExternalIPs that the NATS cluster can advertise to clients:
 
-```
+```text
 kubectl get nodes -o wide
 NAME                       STATUS   ROLES   AGE     VERSION    INTERNAL-IP   EXTERNAL-IP      OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
 aks-nodepool1-18657977-0   Ready    agent   5d16h   v1.13.12   10.240.0.6    52.191.186.114   Ubuntu 16.04.6 LTS   4.15.0-1060-azure   docker://3.0.7
 aks-nodepool1-18657977-1   Ready    agent   5d17h   v1.13.12   10.240.0.4    52.229.11.82     Ubuntu 16.04.6 LTS   4.15.0-1060-azure   docker://3.0.7
 aks-nodepool1-18657977-2   Ready    agent   5d17h   v1.13.12   10.240.0.5    13.77.149.235    Ubuntu 16.04.6 LTS   4.15.0-1060-azure   docker://3.0.7
 ```
+

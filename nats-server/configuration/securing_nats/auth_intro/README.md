@@ -6,7 +6,7 @@ The NATS server provides various ways of authenticating clients:
 * [Username/Password credentials](username_password.md)
 * [TLS Certificate](tls_mutual_auth.md)
 * [NKEY with Challenge](nkey_auth.md)
-* [Decentralized JWT Authenticatin/Authorization](../jwt/README.md)
+* [Decentralized JWT Authenticatin/Authorization](../jwt/)
 
 Authentication deals with allowing a NATS client to connect to the server. Except for JWT authentication, authentication and authorization are configured in the `authorization` section of the configuration.
 
@@ -19,7 +19,7 @@ The `authorization` block provides _authentication_ configuration as well as _au
 | [`token`](tokens.md) | Specifies a global token that can be used to authenticate to the server \(exclusive of user and password\) |
 | [`user`](username_password.md) | Specifies a single _global_ user name for clients to the server \(exclusive of token\) |
 | [`password`](username_password.md) | Specifies a single _global_ password for clients to the server \(exclusive of `token`\) |
-| `users` | A list of [user configuration](#user-configuration-map) maps |
+| `users` | A list of [user configuration](./#user-configuration-map) maps |
 | [`timeout`](auth_timeout.md) | Maximum number of seconds to wait for client authentication |
 
 For multiple username and password credentials, specify a `users` list.

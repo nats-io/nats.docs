@@ -1,11 +1,13 @@
-# Enabling System Events with Decentralized Authentication/Authorization
+# System Events & Decentralized JWT Tutorial
+
+## Enabling System Events with Decentralized Authentication/Authorization
 
 To enable and access system events, you'll have to:
 
 * Create an Operator, Account and User
 * Run a NATS Account Server \(or Memory Resolver\)
 
-## Create an Operator, Account, User
+### Create an Operator, Account, User
 
 Let's create an operator, system account and system account user:
 
@@ -29,7 +31,7 @@ Success! - added user "SYSU" to "SYS"
 
 By default, the operator JWT can be found in `~/.nsc/nats/<operator_name>/<operator.name>.jwt`.
 
-## NATS-Account-Server
+### NATS-Account-Server
 
 To vend the credentials to the nats-server, we'll use a [nats-account-server](../../../nats-tools/nas/). Let's start a nats-account-server to serve the JWT credentials:
 
@@ -39,7 +41,7 @@ To vend the credentials to the nats-server, we'll use a [nats-account-server](..
 
 The server will by default vend JWT configurations on the an endpoint at: `http(s)://<server_url>/jwt/v1/accounts/`.
 
-## NATS Server Configuration
+### NATS Server Configuration
 
 The server configuration will need:
 
@@ -76,7 +78,7 @@ Let's start the nats-server:
 > nats-server -c server.conf
 ```
 
-# Inspecting Server Events
+## Inspecting Server Events
 
 Let's add a subscriber for all the events published by the system account:
 
@@ -136,9 +138,9 @@ The subscriber will print the connect and disconnect:
 }'
 ```
 
-# System Services
+## System Services
 
-## `$SYS.REQ.SERVER.PING` - Discovering Servers
+### `$SYS.REQ.SERVER.PING` - Discovering Servers
 
 To discover servers in the cluster, and get a small heath summary, publish a request to `$SYS.REQ.SERVER.PING`. Note that while the example below uses `nats-req`, only the first answer for the request will be printed. You can easily modify the example to wait until no additional responses are received for a specific amount of time, thus allowing for all responses to be collected.
 
@@ -175,7 +177,7 @@ Received  [_INBOX.G5mbsf0k7l7nb4eWHa7GTT.omklmvnm] : '{
 }'
 ```
 
-## `$SYS.SERVER.<id>.STATSZ` - Requesting Server Stats Summary
+### `$SYS.SERVER.<id>.STATSZ` - Requesting Server Stats Summary
 
 If you know the server id for a particular server \(such as from a response to `$SYS.REQ.SERVER.PING`\), you can query the specific server for its health information:
 

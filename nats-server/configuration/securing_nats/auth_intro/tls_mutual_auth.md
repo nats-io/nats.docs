@@ -28,9 +28,7 @@ Or via the command line:
 > ./nats-server --tlsverify --tlscert=server-cert.pem --tlskey=server-key.pem --tlscacert=rootCA.pem
 ```
 
-This option verifies the client's certificate is signed by the CA specified in the `ca_file` option.
-When `ca_file` is not present it will default to CAs in the system trust store.
-It also makes sure that the client provides a certificate with the extended key usage `TLS Web Client Authentication`.
+This option verifies the client's certificate is signed by the CA specified in the `ca_file` option. When `ca_file` is not present it will default to CAs in the system trust store. It also makes sure that the client provides a certificate with the extended key usage `TLS Web Client Authentication`.
 
 ## Mapping Client Certificates To A User
 
@@ -50,9 +48,9 @@ tls {
 
 > Note that `verify` was changed to `verify_and_map`.
 
-When present, the server will check if a Subject Alternative Name \(SAN\) maps to a user. It will search all email addresses first, then all DNS names. If no user could be found, it will try the certificate subject. 
+When present, the server will check if a Subject Alternative Name \(SAN\) maps to a user. It will search all email addresses first, then all DNS names. If no user could be found, it will try the certificate subject.
 
-> Note: This mechanism will pick the user it finds first. There is no configuration to restrict this. 
+> Note: This mechanism will pick the user it finds first. There is no configuration to restrict this.
 
 ```text
 $ openssl x509 -noout -text -in  client-cert.pem
@@ -87,8 +85,7 @@ Certificate:
 ...
 ```
 
-> Note that for this example to work you will have to modify the user to match what is in your certificates subject.
-> In doing so, watch out for the order of attributes!
+> Note that for this example to work you will have to modify the user to match what is in your certificates subject. In doing so, watch out for the order of attributes!
 
 The configuration to authorize this user would be as follows:
 

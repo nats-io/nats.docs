@@ -1,15 +1,15 @@
-# resolver
+# Account lookup using Resolver
 
-The `resolver` configuration option is used in conjunction with [NATS JWT Authentication](README.md) and [nsc](../../nats-tools/nsc/nsc). The `resolver` option specifies a URL where the nats-server can retrieve an account JWT. There are two built-in resolver implementations:
+The `resolver` configuration option is used in conjunction with [NATS JWT Authentication](./) and [nsc](https://github.com/nats-io/nats.docs/tree/aecb86faf9be946a413d1c6200fc0ff5d1b0baef/nats-server/configuration/nats-tools/nsc/nsc/README.md). The `resolver` option specifies a URL where the nats-server can retrieve an account JWT. There are two built-in resolver implementations:
 
- - `URL`
- - `MEMORY`
- 
+* `URL`
+* `MEMORY`
+
 > If the operator JWT specified in `operator` contains an account resolver URL, `resolver` only needs to be specified in order to overwrite that default.
 
 ## URL Resolver
 
-The `URL` resolver specifies a URL where the server can append an account public key to retrieve that account's JWT. Convention for [NATS Account JWT Servers](../../nats-tools/nas) is to serve JWTs at: `http://localhost:9090/jwt/v1/accounts/`. For such a configuration you would specify the resolver as follows:
+The `URL` resolver specifies a URL where the server can append an account public key to retrieve that account's JWT. Convention for [NATS Account JWT Servers](https://github.com/nats-io/nats.docs/tree/aecb86faf9be946a413d1c6200fc0ff5d1b0baef/nats-server/configuration/nats-tools/nas/README.md) is to serve JWTs at: `http://localhost:9090/jwt/v1/accounts/`. For such a configuration you would specify the resolver as follows:
 
 ```yaml
 resolver: URL(http://localhost:9090/jwt/v1/accounts/)
@@ -17,8 +17,7 @@ resolver: URL(http://localhost:9090/jwt/v1/accounts/)
 
 > Note that if you are not using a nats-account-server, the URL can be anything as long as by appending the public key for an account, the requested JWT is returned.
 
-If the server used requires client authentication, or you want to specify which CA is trusted for the lookup of account information, specify `resolver_tls`.
-This [`tls` configuration map](securing_nats/tls.md) lets you further restrict TLS to the resolver.
+If the server used requires client authentication, or you want to specify which CA is trusted for the lookup of account information, specify `resolver_tls`. This [`tls` configuration map](https://github.com/nats-io/nats.docs/tree/aecb86faf9be946a413d1c6200fc0ff5d1b0baef/nats-server/configuration/securing_nats/jwt/securing_nats/tls.md) lets you further restrict TLS to the resolver.
 
 ## MEMORY
 
@@ -34,3 +33,4 @@ ACSU3Q6LTLBVLGAQUONAGXJHVNWGSKKAUA7IY5TB4Z7PLEKSR5O6JTGR: eyJ0eXAiOiJqd3QiLCJhbG
 The `MEMORY` resolver is recommended when the server has a small number of accounts that don't change very often.
 
 For more information on how to configure a memory resolver, see [this tutorial](mem_resolver.md).
+

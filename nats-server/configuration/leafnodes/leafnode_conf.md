@@ -9,11 +9,11 @@ The leaf node configuration block is used to configure incoming as well as outgo
 | `host` | Interface where the server will listen for incoming leafnode connections. |
 | `port` | Port where the server will listen for incoming leafnode connections \(default is 7422\). |
 | `listen` | Combines `host` and `port` as `<host>:<port>` |
-| `tls` | TLS configuration block \(same as other nats-server [`tls` configuration](../securing_nats/tls.md)\).|
+| `tls` | TLS configuration block \(same as other nats-server [`tls` configuration](../securing_nats/tls.md)\). |
 | `advertise` | Hostport `<host>:<port>` to advertise how this server can be contacted by leaf nodes. This is useful in cluster setups with NAT. |
 | `no_advertise` | if `true` the server shouldn't be advertised to leaf nodes. |
 | `authorization` | Authorization block. [**See Authorization Block section below**](leafnode_conf.md#authorization-block). |
-| `remotes` | List of [`remote`](#leafnode-remotes-entry-block) entries specifying servers where leafnode client connection can be made. |
+| `remotes` | List of [`remote`](leafnode_conf.md#leafnode-remotes-entry-block) entries specifying servers where leafnode client connection can be made. |
 | `reconnect` | Interval in seconds at which reconnect attempts to a remote server are made. |
 
 ## Authorization Block
@@ -92,7 +92,7 @@ If other form of credentials are used \(jwt, nkey or other\), then the server wi
 | `urls` | Leafnode URL array. Supports multiple URLs for discovery, e.g., urls: \[ "nats-leaf://host1:7422", "nats-leaf://host2:7422" \] |
 | `account` | Account public key identifying the leafnode. Account must be defined locally. |
 | `credentials` | Credential file for connecting to the leafnode server. |
-| `tls` | A [TLS configuration](#tls-configuration-block) block. Leafnode client will use specified TLS certificates when connecting/authenticating. |
+| `tls` | A [TLS configuration](leafnode_conf.md#tls-configuration-block) block. Leafnode client will use specified TLS certificates when connecting/authenticating. |
 
 ### `tls` Configuration Block
 
@@ -107,3 +107,4 @@ If other form of credentials are used \(jwt, nkey or other\), then the server wi
 | `cipher_suites` | When set, only the specified TLS cipher suites will be allowed. Values must match golang version used to build the server. |
 | `curve_preferences` | List of TLS cypher curves to use in order. |
 | `timeout` | TLS handshake timeout in fractional seconds. |
+

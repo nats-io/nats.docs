@@ -16,12 +16,7 @@ sub, err := sc.Subscribe("foo",
   }, stan.SetManualAckMode(), stan.AckWait(aw))
 ```
 
-> Note that if processing a particular message exceeds ack wait, the following behavior can be observed with [queue subscriptions](queues.md): 
-> 1. Subscriber A receives the message.
-> 2. Subscriber A exceeds ack wait time and Subscriber B receives the message.
-> 3. Subscriber B exceeds ack wait time and Subscriber C receives the message.
-> 6. Subscriber A finishes processing and acknowledges the message.
-> 7. Re-delivery of the message ceases.
+> Note that if processing a particular message exceeds ack wait, the following behavior can be observed with [queue subscriptions](queues.md): 1. Subscriber A receives the message. 2. Subscriber A exceeds ack wait time and Subscriber B receives the message. 3. Subscriber B exceeds ack wait time and Subscriber C receives the message. 6. Subscriber A finishes processing and acknowledges the message. 7. Re-delivery of the message ceases.
 >
 > How often the message is re-delivered depends on processing time for the message and available subscriber.
 

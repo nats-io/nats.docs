@@ -32,5 +32,5 @@ docker run -p 4222:4222 -ti nats:latest
 ...
 ```
 
-More information on [containerized NATS is available here](../nats_docker/README.md).
+More information on [containerized NATS is available here](../nats_docker/).
 

@@ -85,7 +85,7 @@ Note that the Streaming Server uses a connection to a NATS Server, and so the NA
 | client\_key | Client certificate for the streaming server | File path | `client_key: "/path/to/client/key_file"` |
 | client\_ca | Client certificate CA for the streaming server | File path | `client_ca: "/path/to/client/ca_file"` |
 | server\_name | Expected hostname returned in the NATS Server certificate | String | `server_name: "theserverhostname"` |
-| insecure | Skips the NATS server's certificate chain and host name verification. Should not be used in production | `true` or `false` (default `false`) | `insecure: true` |
+| insecure | Skips the NATS server's certificate chain and host name verification. Should not be used in production | `true` or `false` \(default `false`\) | `insecure: true` |
 
 ## Store Limits Configuration
 

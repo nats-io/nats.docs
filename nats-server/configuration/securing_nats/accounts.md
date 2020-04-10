@@ -1,23 +1,20 @@
-# Multi Tenancy 
+# Multi Tenancy using Accounts
 
-In modern microservice architecture it is common to share infrastructure - such as NATS - between services.
-[Accounts](#Accounts) are securely isolated communication contexts that allow multi-tenancy in a NATS deployment.
-They allow users to bifurcate technology from business driven use cases, where data silos are created by design, not software limitations. 
-Furthermore, they facilitate the [controlled exchange](#Exporting-and-Importing) of information between those data silos/Tenants/Accounts.
+In modern microservice architecture it is common to share infrastructure - such as NATS - between services. [Accounts](accounts.md#Accounts) are securely isolated communication contexts that allow multi-tenancy in a NATS deployment. They allow users to bifurcate technology from business driven use cases, where data silos are created by design, not software limitations. Furthermore, they facilitate the [controlled exchange](accounts.md#Exporting-and-Importing) of information between those data silos/Tenants/Accounts.
 
 ## Accounts
 
 _Accounts_ expand on the authorization foundation. With traditional authorization, all clients can publish and subscribe to anything unless explicitly configured otherwise. To protect clients and information, you have to carve the subject space and permission clients carefully.
 
-_Accounts_ allow the grouping of clients, _isolating_ them from clients in other accounts, thus enabling _multi-tenancy_ in the server. With accounts, the subject space is not globally shared, greatly simplifying the messaging environment. Instead of devising complicated subject name carving patterns, clients can use short subjects without explicit authorization rules. [System Events](../sys_accounts/README.md) are an example of this isolation at work.
+_Accounts_ allow the grouping of clients, _isolating_ them from clients in other accounts, thus enabling _multi-tenancy_ in the server. With accounts, the subject space is not globally shared, greatly simplifying the messaging environment. Instead of devising complicated subject name carving patterns, clients can use short subjects without explicit authorization rules. [System Events](../sys_accounts/) are an example of this isolation at work.
 
 Accounts configuration is done in `accounts` map. The contents of an account entry includes:
 
 | Property | Description |
 | :--- | :--- |
-| `users` | a list of [user configuration maps](auth_intro/README.md#user-configuration-map) |
-| `exports` | a list of [export maps](#Export-Configuration-Map) |
-| `imports` | a list of [import maps](#Import-Configuration-Map) |
+| `users` | a list of [user configuration maps](auth_intro/#user-configuration-map) |
+| `exports` | a list of [export maps](accounts.md#Export-Configuration-Map) |
+| `imports` | a list of [import maps](accounts.md#Import-Configuration-Map) |
 
 The `accounts` list is a map, where the keys on the map are an account name.
 
@@ -40,7 +37,7 @@ accounts: {
 >
 > These two accounts are isolated from each other. Messages published by users in `A` are not visible to users in `B`.
 >
-> The user configuration map is the same as any other NATS [user configuration map](auth_intro/README.md#user-configuration-map) . You can use:
+> The user configuration map is the same as any other NATS [user configuration map](auth_intro/#user-configuration-map) . You can use:
 >
 > * username/password
 > * nkeys
@@ -55,8 +52,7 @@ Messaging exchange between different accounts is enabled by _exporting_ streams 
 * **Streams** are messages your application publishes. Importing applications won't be able to make requests from your applications but will be able to consume messages you generate.
 * **Services** are messages your application can consume and act on, enabling other accounts to make requests that are fulfilled by your account.
 
-The `exports` configuration list enable you to define the services and streams that others can import. Exported services and streams are expressed as an [Export configuration map](#export-configuration-map).
-The `imports` configuration lists the services and streams that an Account imports. Imported services and streams are expressed as an [Import configuration map](#import-configuration-map).
+The `exports` configuration list enable you to define the services and streams that others can import. Exported services and streams are expressed as an [Export configuration map](accounts.md#export-configuration-map). The `imports` configuration lists the services and streams that an Account imports. Imported services and streams are expressed as an [Import configuration map](accounts.md#import-configuration-map).
 
 ### Export Configuration Map
 
@@ -100,15 +96,12 @@ An import enables an account to consume streams published by another account or 
 
 | Property | Description |
 | :--- | :--- |
-| `stream` | Stream import [source configuration](#source-configuration-map). \(exclusive of `service`\) |
-| `service` | Service import [source configuration](#source-configuration-map) \(exclusive of `stream`\) |
-| `prefix` | A local subject prefix mapping for the imported stream. \(applicable to `stream`\)|
-| `to` | A local subject mapping for imported service. \(applicable to `service`\)|
+| `stream` | Stream import [source configuration](accounts.md#source-configuration-map). \(exclusive of `service`\) |
+| `service` | Service import [source configuration](accounts.md#source-configuration-map) \(exclusive of `stream`\) |
+| `prefix` | A local subject prefix mapping for the imported stream. \(applicable to `stream`\) |
+| `to` | A local subject mapping for imported service. \(applicable to `service`\) |
 
-The `prefix` and `to` options are optional and allow you to remap the subject that is used locally to receive stream messages from or publish service requests to.
-This way the importing account does not depend on naming conventions picked by another.
-Currently, a service import can not make use of wildcards, which is why the import subject can be rewritten.
-A stream import may make use of wildcards. To retain information contained in the subject, it can thus only be prefixed with `prefix`...
+The `prefix` and `to` options are optional and allow you to remap the subject that is used locally to receive stream messages from or publish service requests to. This way the importing account does not depend on naming conventions picked by another. Currently, a service import can not make use of wildcards, which is why the import subject can be rewritten. A stream import may make use of wildcards. To retain information contained in the subject, it can thus only be prefixed with `prefix`...
 
 #### Source Configuration Map
 

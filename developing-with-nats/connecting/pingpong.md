@@ -6,7 +6,7 @@ The client and server use a simple PING/PONG protocol to check that either of th
 
 Once a configurable maximum of outstanding pings without a single pong reply is hit, the connection is closed as stale. Together these two values define a timeout for the connection which specifies how quickly the client will be notified of a problem. This will also help when there is a remote network partition where the operating system does not detect a socket error. Upon connection close the client will attempt to reconnect. When it knows about other servers, these will be tried next.
 
-In the presence of traffic, such as messages or client side pings, the server will not initiate the PING/PONG interaction. 
+In the presence of traffic, such as messages or client side pings, the server will not initiate the PING/PONG interaction.
 
 On connections with a lot of traffic, the client will often figure out there is a problem between PINGS, and as a result the default PING interval is often on the order of minutes. To set the interval to 20s and limit outstanding pings to 5, thus force a closed connection after 100s of inactivity:
 
@@ -94,3 +94,4 @@ nc.close();
 ```
 {% endtab %}
 {% endtabs %}
+

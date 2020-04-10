@@ -1,4 +1,4 @@
-# Setting the Connection Name
+# Connection Name
 
 Connections can be assigned a name which will appear in some of the server monitoring data. This name is not required, but is **highly recommended** as a friendly connection name will help in monitoring, error reporting, debugging, and testing.
 
@@ -87,3 +87,4 @@ nc.close();
 ```
 {% endtab %}
 {% endtabs %}
+

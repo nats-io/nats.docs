@@ -84,7 +84,7 @@
     * [Multi Tenancy using Accounts](nats-server/configuration/securing_nats/accounts.md)
     * [Decentralized JWT Authentication/Authorization](nats-server/configuration/securing_nats/jwt/README.md)
       * [Account lookup using Resolver](nats-server/configuration/securing_nats/jwt/resolver.md)
-      * [Memory Resolver Tutorial](nats-server/configuration/securing_nats/jwt/mem_resolver.md))
+      * [Memory Resolver Tutorial](nats-server/configuration/securing_nats/jwt/mem_resolver.md)
       * [Mixed Authentication/Authorization Setup](nats-server/configuration/securing_nats/jwt/jwt_nkey_auth.md)
   * [Clustering](nats-server/configuration/clustering/README.md)
     * [Configuration](nats-server/configuration/clustering/cluster_config.md)

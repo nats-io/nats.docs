@@ -139,8 +139,8 @@ On startup, the server will apply the store limits, which means that this channe
 We strongly recommend not raising the limit back to the higher limit if messages have been removed in the previous step because those removed messages may or may not become available again depending on the store implementation or if running in clustering mode or not.
 
 ## Clustering
-When running `--clustered`, messages are kept in a RAFT consensus log file (under `--cluster_log_path`) in addition to the configured store.
 
-This directory will grow as more messages keep coming within the 2-4 minute intervals of RAFT Snapshotting.
-After snapshotting the RAFT log will not shrink, but the space for more messages will be allocated internally.
-As a result - in addition to `max_bytes` multiplied by `max_channels` - disk space needs to be provisioned for RAFT Log, which can grow up to the size of payloads that channels could receive per minute * 4.
+When running `--clustered`, messages are kept in a RAFT consensus log file \(under `--cluster_log_path`\) in addition to the configured store.
+
+This directory will grow as more messages keep coming within the 2-4 minute intervals of RAFT Snapshotting. After snapshotting the RAFT log will not shrink, but the space for more messages will be allocated internally. As a result - in addition to `max_bytes` multiplied by `max_channels` - disk space needs to be provisioned for RAFT Log, which can grow up to the size of payloads that channels could receive per minute \* 4.
+

@@ -6,5 +6,6 @@ Managing a NATS server is simple, typical lifecycle operations include:
 * [Upgrading](upgrading_cluster.md) a server \(or cluster\)
 * Understanding [slow consumers](slow_consumers.md)
 * Monitoring the server via:
-   * The monitoring [endpoint](../configuration/monitoring.md) and tools like [nats-top](../../nats-tools/nats_top/README.md) 
-   * By subscribing to [system events](../configuration/sys_accounts/sys_accounts.md)
+  * The monitoring [endpoint](../configuration/monitoring.md) and tools like [nats-top](../../nats-tools/nats_top/) 
+  * By subscribing to [system events](https://github.com/nats-io/nats.docs/tree/e59525da15403e4a01839339b24d7804d4a26db9/nats-server/configuration/sys_accounts/sys_accounts.md)
+

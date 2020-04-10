@@ -23,7 +23,7 @@ The script will download the latest version of `nsc` and install it into your sy
 
 Alternatively, you can use `nsc` with the [nats-box](https://hub.docker.com/r/synadia/nats-box) Docker image:
 
-```sh
+```bash
 $ docker run --rm -it -v $(pwd)/nsc:/nsc synadia/nats-box:latest
 
 # In case NSC not initialized already:

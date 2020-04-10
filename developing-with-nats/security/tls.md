@@ -1,6 +1,6 @@
-# Encrypting and Authenticating Connections with TLS
+# Encrypting Connections with TLS
 
-While authentication limits which clients can connect, TLS can be used to encrypt traffic between client/server and check the server’s identity.  Additionally - in the most secure version of TLS with NATS - the server can be configured to verify the client's identity, thus authenticating it. When started in [TLS mode](../../nats-server/configuration/securing_nats/tls.md), a `nats-server` will require all clients to connect with TLS. Moreover, if configured to connect with TLS, client libraries will fail to connect to a server without TLS.
+While authentication limits which clients can connect, TLS can be used to encrypt traffic between client/server and check the server’s identity. Additionally - in the most secure version of TLS with NATS - the server can be configured to verify the client's identity, thus authenticating it. When started in [TLS mode](../../nats-server/configuration/securing_nats/tls.md), a `nats-server` will require all clients to connect with TLS. Moreover, if configured to connect with TLS, client libraries will fail to connect to a server without TLS.
 
 ## Connecting with TLS and verify client identity
 
@@ -9,7 +9,7 @@ Using TLS to connect to a server that verifies the client's identity is straight
 Use example certificates created in [self signed certificates for testing](../../nats-server/configuration/securing_nats/tls.md#Creating-Self-Signed-Certificates-for-Testing).
 
 ```bash
-> nats-server --tls --tlscert=server-cert.pem --tlskey=server-key.pem --tlscacert rootCA.pem --tlsverify 
+> nats-server --tls --tlscert=server-cert.pem --tlskey=server-key.pem --tlscacert rootCA.pem --tlsverify
 ```
 
 {% tabs %}
@@ -207,4 +207,5 @@ let nc = await connect({
 
 ## Connecting with the TLS Protocol
 
-Clients (such as Go, Java, Javascript, Ruby and Type Script) support providing a URL containing the `tls` protocol to the NATS connect call. This will turn on TLS without the need for further code changes. However, in that case there is likely some form of default or environmental settings to allow the TLS libraries of your programming language to find certificate and trusted CAs. Unless these settings are taken into accounts or otherwise modified, this way of connecting is very likely to fail. 
+Clients \(such as Go, Java, Javascript, Ruby and Type Script\) support providing a URL containing the `tls` protocol to the NATS connect call. This will turn on TLS without the need for further code changes. However, in that case there is likely some form of default or environmental settings to allow the TLS libraries of your programming language to find certificate and trusted CAs. Unless these settings are taken into accounts or otherwise modified, this way of connecting is very likely to fail.
+

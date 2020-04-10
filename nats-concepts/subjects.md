@@ -38,6 +38,7 @@ The second wildcard is `>` which will match one or more tokens, and can only app
 
 Subject to your security configuration, wildcards can be used for monitoring by creating something sometimes called a _wire tap_. In the simplest case you can create a subscriber for `>`. This application will receive all messages -- again, subject to security settings -- sent on your NATS cluster.
 
-### Mix Wildcards 
+### Mix Wildcards
 
 The wildcard `*` can appear multiple times in the same subject. Both types be used as well. For example, `*.*.east.>` will receive `time.us.east.atlanta`.
+

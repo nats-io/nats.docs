@@ -32,7 +32,7 @@ To run NATS on Docker:
 [1] 2019/05/24 15:42:58.229003 [INF] Listening for route connections on 0.0.0.0:6222
 ```
 
-More information on [containerized NATS is available here](nats_docker/README.md).
+More information on [containerized NATS is available here](nats_docker/).
 
 ## Installing on Kubernetes with NATS Operator
 
@@ -107,14 +107,14 @@ To test your installation \(provided the $GOPATH/bin is set\):
 
 If you are having issues when using the recent versions of NATS and Go modules such as:
 
-```
+```text
 go: github.com/nats-io/go-nats@v1.8.1: parsing go.mod: unexpected module path "github.com/nats-io/nats.go"
 go: github.com/nats-io/go-nats-streaming@v0.5.0: parsing go.mod: unexpected module path "github.com/nats-io/stan.go"
 ```
 
-To fix it: 
+To fix it:
 
-1) Update your `go.mod` using the latest tags, for example for both NATS and NATS Streaming clients:
+1\) Update your `go.mod` using the latest tags, for example for both NATS and NATS Streaming clients:
 
 ```ruby
 module github.com/wallyqs/hello-nats-go-mod
@@ -122,8 +122,8 @@ module github.com/wallyqs/hello-nats-go-mod
 go 1.12
 
 require (
-	github.com/nats-io/nats.go v1.8.1
-	github.com/nats-io/stan.go v0.5.0
+    github.com/nats-io/nats.go v1.8.1
+    github.com/nats-io/stan.go v0.5.0
 )
 ```
 
@@ -131,8 +131,8 @@ Or if you want to import the NATS Server v2 to embed it, notice the `/v2` after 
 
 ```ruby
 require (
-	github.com/nats-io/nats-server/v2 v2.0.0
-	github.com/nats-io/nats.go v1.8.1
+    github.com/nats-io/nats-server/v2 v2.0.0
+    github.com/nats-io/nats.go v1.8.1
 )
 ```
 
@@ -140,14 +140,14 @@ If embedding both NATS Streaming and NATS Servers:
 
 ```ruby
 require (
-	github.com/nats-io/nats-server/v2 v2.0.0 // indirect
-	github.com/nats-io/nats-streaming-server v0.15.1
-)	
+    github.com/nats-io/nats-server/v2 v2.0.0 // indirect
+    github.com/nats-io/nats-streaming-server v0.15.1
+)
 ```
 
-2) Next, update the imports within the repo:
+2\) Next, update the imports within the repo:
 
-```sh
+```bash
 find ./ -type f -name "*.go" -exec sed -i -e 's/github.com\/nats-io\/go-nats-streaming/github.com\/nats-io\/stan.go/g' {} \;
 
 find ./ -type f -name "*.go" -exec sed -i -e 's/github.com\/nats-io\/go-nats/github.com\/nats-io\/nats.go/g' {} \;
@@ -157,35 +157,35 @@ find ./ -type f -name "*.go" -exec sed -i -e 's/github.com\/nats-io\/gnatsd/gith
 find ./ -type f -name "*.go" -exec sed -i -e 's/github.com\/nats-io\/nats-server/github.com\/nats-io\/nats-server\/v2/g' {} \;
 ```
 
-3) (Recommended) Run Go fmt as the rename will affect the proper ordering of the imports 
+3\) \(Recommended\) Run Go fmt as the rename will affect the proper ordering of the imports
 
-###  Gotchas when using `go get`
+### Gotchas when using `go get`
 
 When using `go get` to fetch the client, include an extra slash at the end of the repo. For example:
 
-```
+```text
 GO111MODULE=on go get github.com/nats-io/nats.go/@latest
 GO111MODULE=on go get github.com/nats-io/nats.go/@v1.8.1
 ```
 
 When trying to fetch the latest version of the server with `go get`, you have to add `v2` at the end:
 
-```
+```text
 GO111MODULE=on go get github.com/nats-io/nats-server/v2@latest
 ```
 
-Otherwise, `go get` will fetch the `v1.4.1` version of the server, which is also named (`gnatsd`), the previous name for nats-server.
+Otherwise, `go get` will fetch the `v1.4.1` version of the server, which is also named \(`gnatsd`\), the previous name for nats-server.
 
-```
+```text
 GO111MODULE=on go get github.com/nats-io/nats-server@latest
 go: finding github.com/nats-io/gnatsd/server latest
 go: finding golang.org/x/crypto/bcrypt latest
 go: finding golang.org/x/crypto latest
 ```
 
-In order to use an older tag, you will have to use the previous name (gnatsd) otherwise it will result in `go mod` parsing errors.
+In order to use an older tag, you will have to use the previous name \(gnatsd\) otherwise it will result in `go mod` parsing errors.
 
-```
+```text
 # OK
 GO111MODULE=on go get github.com/nats-io/go-nats/@v1.7.2
 
@@ -205,3 +205,4 @@ go: error loading module requirements
 ```
 
 For more information you can review the original issue in [GitHub](https://github.com/nats-io/nats.go/issues/478).
+

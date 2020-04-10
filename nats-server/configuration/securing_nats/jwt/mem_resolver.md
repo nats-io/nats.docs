@@ -1,4 +1,4 @@
-# Memory Resolver
+# Memory Resolver Tutorial
 
 The `MEMORY` resolver is a server built-in resolver for account JWTs. If there are a small number of accounts, or they do not change too often this can be a simpler configuration that does not require an external account resolver. Server configuration reload is supported, meaning the preloads can be updated in the server configuration and reloaded without a server restart.
 
@@ -60,7 +60,7 @@ Success!! - generated "/tmp/server.conf"
             generated "/tmp/memory.jwt"
 ```
 
-If you require additional settings, you may want to consider using [`include`](../../nats-server/configuration/#include-directive) in your main configuration, to reference the generated files. Otherwise, you can start a server and reference the generated configuration:
+If you require additional settings, you may want to consider using [`include`](../../#include-directive) in your main configuration, to reference the generated files. Otherwise, you can start a server and reference the generated configuration:
 
 ```text
 > nats-server -c /tmp/server.conf

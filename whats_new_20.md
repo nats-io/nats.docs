@@ -10,27 +10,27 @@ It is difficult at best to combine identity management end-to-end \(or end-to-ed
 
 We decided to:
 
-* **Reduce total cost of ownership**:  Users want reduced TCO for their
+* **Reduce total cost of ownership**: Users want reduced TCO for their
 
-  distributed systems.  This is addressed by an easy to use technology that
+  distributed systems. This is addressed by an easy to use technology that
 
   can operate at global scale with simple configuration and a resilient
 
   and cloud-native architecture.
 
-* **Decrease Time to Value**:  As systems scale, _time to value_ increases.
+* **Decrease Time to Value**: As systems scale, _time to value_ increases.
 
   Operations resist change due to risk in touching a complex and fragile
 
-  system.  Providing isolation contexts can help mitigate this.
+  system. Providing isolation contexts can help mitigate this.
 
-* **Support manageable large scale deployments**:  No data silos defined by
+* **Support manageable large scale deployments**: No data silos defined by
 
   software, instead easily managed through software to provide exactly what the
 
-  business needs.  We wanted to provide easy to configure disaster recovery.
+  business needs. We wanted to provide easy to configure disaster recovery.
 
-* **Decentralize security**:  Provide security supporting one
+* **Decentralize security**: Provide security supporting one
 
   technology end-to-end where organizations may self-manage making it
 
@@ -106,7 +106,7 @@ While self healing features have been part of NATS 1.X releases, we ensured they
 
   other and with clients, in real time with zero configuration changes and
 
-  zero downtime while being entirely transparent to clients.  Clients can
+  zero downtime while being entirely transparent to clients. Clients can
 
   failover to servers they were not originally configured with.
 
@@ -160,7 +160,7 @@ NATS 2.0 Security consists of defining Operators, Accounts, and Users within a N
 
     within the NATS deployment, for example an IT system monitoring group, a
 
-    set of microservices, or a regional IoT deployment.  Account creation
+    set of microservices, or a regional IoT deployment. Account creation
 
     would likely be managed by a central group.
 
@@ -174,7 +174,7 @@ PKI \(NKeys encoded [Ed25519](https://ed25519.cr.yp.to/)\) and signed JWTs creat
 
 * **Operators** are represented by a self signed JWT and is the only thing that
 
-  is required to be configured in the server.  This JWT is usually signed by a
+  is required to be configured in the server. This JWT is usually signed by a
 
   master key that is kept offline. The JWT will contain valid signing keys that
 

@@ -58,3 +58,4 @@ const nc = NATS.connect({
 ```
 
 The client provides a function that it uses to parse the seed \(the private key\) and sign the connection challenge.
+

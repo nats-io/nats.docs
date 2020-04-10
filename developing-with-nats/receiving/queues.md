@@ -122,3 +122,4 @@ await nc.subscribe('updates', (err, msg) => {
 {% endtabs %}
 
 If you run this example with the publish examples that send to `updates`, you will see that one of the instances gets a message while the others you run won't. But the instance that receives the message will change.
+

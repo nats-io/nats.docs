@@ -1,8 +1,8 @@
-# Gateways
+# Super-cluster with Gateways
 
 ## Gateways
 
-Gateways enable connecting one or more clusters together into a full mesh; they allow the formation of super clusters from smaller clusters. Cluster and Gateway protocols listen on different ports. Clustering is used for adjacent servers; gateways are for joining clusters together. 
+Gateways enable connecting one or more clusters together into a full mesh; they allow the formation of super clusters from smaller clusters. Cluster and Gateway protocols listen on different ports. Clustering is used for adjacent servers; gateways are for joining clusters together.
 
 Gateway configuration is similar to clustering:
 
@@ -35,9 +35,9 @@ If the local cluster has three gateway nodes, this means there will be three out
 
 ![Gateway Discovered Gateways](../../../.gitbook/assets/three_gw.svg)
 
-> In this second example, again configured connections are shown with solid lines and discovered gateway connections are shown using dotted lines. Gateways _A_ and _C_ were both discovered via gossiping; _B_ discovered _A_ and _A_ discovered _C_. 
+> In this second example, again configured connections are shown with solid lines and discovered gateway connections are shown using dotted lines. Gateways _A_ and _C_ were both discovered via gossiping; _B_ discovered _A_ and _A_ discovered _C_.
 
-A key point in the description above is that each node in the cluster will make a connection to a single node in every remote cluster — a difference from the clustering protocol, where every node is directly connected to all other nodes. 
+A key point in the description above is that each node in the cluster will make a connection to a single node in every remote cluster — a difference from the clustering protocol, where every node is directly connected to all other nodes.
 
 For those mathematically inclined, cluster connections are `N(N-1)/2` where _N_ is the number of nodes in the cluster. On gateway configurations, outbound connections are the summation of `Ni(M-1)` where Ni is the number of nodes in a gateway _i_, and _M_ is the total number of gateways. Inbound connections are the summation of `U-Ni` where U is the sum of all gateway nodes in all gateways, and N is the number of nodes in a gateway _i_. It works out that both inbound and outbound connection counts are the same.
 
@@ -55,6 +55,7 @@ The number of connections required to join clusters using clustering vs. gateway
 A cluster section is not needed for gateways, they work with single server as well. Yet, they start to be useful when participating cluster consist of more than one server and they reduce the number of connections.
 
 ## Interest Propagation
+
 Messages from clients directly connected to a gateway node will be sent along outgoing gateway connections according to the following three interest propagation mechanisms:
 
 * Optimistic Mode
@@ -62,7 +63,7 @@ Messages from clients directly connected to a gateway node will be sent along ou
 * Queue Subscriptions
 
 Local interest permitting, the receiving gateway node sends the messages directly to its subscribing clients as well as server within the cluster.
- 
+
 ### Optimistic Mode
 
 When a publisher in _A_ publishes "foo", the _A_ gateway will check if cluster _B_ has registered _no_ interest in "foo". If not, it forwards "foo" to _B_. If upon receiving "foo", _B_ has no subscribers on "foo", _B_ will send a gateway protocol message to _A_ expressing that it has no interest on "foo", preventing future messages on "foo" from being forwarded.

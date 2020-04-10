@@ -1,16 +1,12 @@
-# Mixing NKEYS and Decentralized JWT Authentication/Authorization setup
+# Mixed Authentication/Authorization Setup
 
-Mixing both [nkeys](../auth_intro/nkey_auth.md) static config and [decentralized JWT Authenticatin/Authorization](README.md) 
-is possible but needs some preparation in order to be able to do it.
+Mixing both [nkeys](../auth_intro/nkey_auth.md) static config and [decentralized JWT Authenticatin/Authorization](./) is possible but needs some preparation in order to be able to do it.
 
-The way this can be done is by **first** preparing a basic trusted operator setup
-that could be used in the future, and then base from that configuration to create the
-NKEYS static config using the same shared public nkeys for the accounts and then use
-clustering routes to bridge the two different auth setups during the transition.
+The way this can be done is by **first** preparing a basic trusted operator setup that could be used in the future, and then base from that configuration to create the NKEYS static config using the same shared public nkeys for the accounts and then use clustering routes to bridge the two different auth setups during the transition.
 
-For example, creating the following initial setup using [NSC](../../../../nats-tools/nsc/README.md):
+For example, creating the following initial setup using [NSC](../../../../nats-tools/nsc/):
 
-```sh
+```bash
         nsc add account --name SYS
         nsc add user    --name sys
         nsc add account --name A
@@ -21,7 +17,7 @@ For example, creating the following initial setup using [NSC](../../../../nats-t
 
 This will then generate something like the following:
 
-```sh
+```bash
  nsc list accounts
 ╭─────────────────────────────────────────────────────────────────╮
 │                            Accounts                             │
@@ -43,15 +39,14 @@ This will then generate something like the following:
 ╰──────┴──────────────────────────────────────────────────────────╯
 ```
 
-We could use this configuration as the initial starting configuration for an nkeys config now,
-where all the NKEYS users public nkeys are explicitly listed (centralized auth model).
+We could use this configuration as the initial starting configuration for an nkeys config now, where all the NKEYS users public nkeys are explicitly listed \(centralized auth model\).
 
-```hcl
+```text
 port = 4222
 
 cluster {
   port = 6222
-  
+
   # We will bridge two different servers with different auth models via routes
   # routes [ nats://127.0.0.1:6223 ]
 }
@@ -77,16 +72,15 @@ accounts {
 }
 ```
 
-
 By using `nsc` it is possible to create a mem based resolver for the trusted operator setup:
 
-```
+```text
 nsc generate config --mem-resolver --sys-account SYS
 ```
 
 An example configuration from the second node with the trusted operator setup could then be:
 
-```hcl
+```text
 port = 4223
 
 cluster {
@@ -116,11 +110,11 @@ resolver_preload = {
 }
 ```
 
-Even though they have different authorization mechanisms, these two servers are able to route account messages because they share the same NKEY. 
+Even though they have different authorization mechanisms, these two servers are able to route account messages because they share the same NKEY.
 
 We have created at least one user, in this case with creds:
 
-```conf
+```text
 -----BEGIN NATS USER JWT-----
 eyJ0eXAiOiJqd3QiLCJhbGciOiJlZDI1NTE5In0.eyJqdGkiOiJNRkM3V1E1N0hKUE9aWUVOTEhVRTZTWFVQTDVKTURWSkxIQzJRTkpYNUVJS0RGR1U1REhRIiwiaWF0IjoxNTc0Mzc1OTE2LCJpc3MiOiJBREZCMkpYWVRYT0pFTDZMTkFYRFJFVUdSWDM1Qk9MWkkzQjRQRkZBQzdJUlBSM09BNFFOS0JOMiIsIm5hbWUiOiJ0ZXN0Iiwic3ViIjoiVUFQT0syUDdFTjNVRkJMN1NCSlBRSzNNM0pNTEFMWVJZS1g1WFdTVk1WWUs2M1pNQkhUT0hWSlIiLCJ0eXBlIjoidXNlciIsIm5hdHMiOnsicHViIjp7ImFsbG93IjpbIl9JTkJPWC5cdTAwM2UiLCJfUl8iLCJfUl8uXHUwMDNlIiwidGVzdCIsInRlc3QuXHUwMDNlIl19LCJzdWIiOnsiYWxsb3ciOlsiX0lOQk9YLlx1MDAzZSIsIl9SXyIsIl9SXy5cdTAwM2UiLCJsYXRlbmN5Lm9uLnRlc3QiLCJ0ZXN0IiwidGVzdC5cdTAwM2UiXX19fQ.MSU2aUIBK1iUsg7h52lLrfEfTwVMF_wB3HDq75ECskxSyyDDMtk9_3957UtQF-3yoGCIhKOkWjzX8C-WXnLADw
 ------END NATS USER JWT------
@@ -133,7 +127,7 @@ SUANVBWRHHFMGHNIT6UJHPN2TGVBVIILE7VPVNEQ7DGCJ26ZD2V3KAHT4M
 *************************************************************
 ```
 
-And this same user is able to connect to either one of the servers (bound to 4222 and 4223 respectively):
+And this same user is able to connect to either one of the servers \(bound to 4222 and 4223 respectively\):
 
 Subscriber Service:
 
@@ -141,34 +135,34 @@ Subscriber Service:
 package main
 
 import (
-	"log"
+    "log"
 
-	"github.com/nats-io/nats.go"
+    "github.com/nats-io/nats.go"
 )
 
 func main() {
-	opts := make([]nats.Option, 0)
+    opts := make([]nats.Option, 0)
 
-	// Extract public nkey from seed
-	//
-	// Public:  UAPOK2P7EN3UFBL7SBJPQK3M3JMLALYRYKX5XWSVMVYK63ZMBHTOHVJR
-	// Private: SUANVBWRHHFMGHNIT6UJHPN2TGVBVIILE7VPVNEQ7DGCJ26ZD2V3KAHT4M
-	// 
-	nkey, err := nats.NkeyOptionFromSeed("path/to/seed.nkey")
-	if err != nil {
-		log.Fatal(err)
-	}
-	opts = append(opts, nkey)
-	nc, err := nats.Connect("127.0.0.1:4222", opts...)
-	if err != nil {
-		log.Fatal(err)
-	}
-	nc.Subscribe("test", func(m *nats.Msg){
-		log.Printf("[Received] %q, replying... \n", string(m.Data))
-		m.Respond([]byte("pong from nkeys based server"))
-	})
+    // Extract public nkey from seed
+    //
+    // Public:  UAPOK2P7EN3UFBL7SBJPQK3M3JMLALYRYKX5XWSVMVYK63ZMBHTOHVJR
+    // Private: SUANVBWRHHFMGHNIT6UJHPN2TGVBVIILE7VPVNEQ7DGCJ26ZD2V3KAHT4M
+    // 
+    nkey, err := nats.NkeyOptionFromSeed("path/to/seed.nkey")
+    if err != nil {
+        log.Fatal(err)
+    }
+    opts = append(opts, nkey)
+    nc, err := nats.Connect("127.0.0.1:4222", opts...)
+    if err != nil {
+        log.Fatal(err)
+    }
+    nc.Subscribe("test", func(m *nats.Msg){
+        log.Printf("[Received] %q, replying... \n", string(m.Data))
+        m.Respond([]byte("pong from nkeys based server"))
+    })
 
-	select {}
+    select {}
 }
 ```
 
@@ -178,25 +172,26 @@ Requestor:
 package main
 
 import (
-	"log"
-	"time"
+    "log"
+    "time"
 
-	"github.com/nats-io/nats.go"
+    "github.com/nats-io/nats.go"
 )
 
 func main() {
-	nc, err := nats.Connect("127.0.0.1:4223", nats.UserCredentials("path/to/user.creds"))
-	if err != nil {
-		log.Fatal(err)
-	}
+    nc, err := nats.Connect("127.0.0.1:4223", nats.UserCredentials("path/to/user.creds"))
+    if err != nil {
+        log.Fatal(err)
+    }
 
-	for range time.NewTicker(1 * time.Second).C {
-		resp, err := nc.Request("test", []byte("test"), 1*time.Second)
-		if err != nil {
-			log.Println("[Error]", err)
-			continue
-		}
-		log.Println("[Received]", string(resp.Data))
-	}
+    for range time.NewTicker(1 * time.Second).C {
+        resp, err := nc.Request("test", []byte("test"), 1*time.Second)
+        if err != nil {
+            log.Println("[Error]", err)
+            continue
+        }
+        log.Println("[Received]", string(resp.Data))
+    }
 }
 ```
+
