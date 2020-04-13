@@ -22,7 +22,7 @@ The leaf node configuration block is used to configure incoming as well as outgo
 | :--- | :--- |
 | `user` | Username for the leaf node  connection. |
 | `password` | Password for the user entry. |
-| `account` | Account this leaf node  connection should be bound to. |
+| `account` | [Account](../securing_nats/accounts.md) this leaf node connection should be bound to. |
 | `timeout` | Maximum number of seconds to wait for leaf node  authentication. |
 | `users` | List of credentials and account to bind to leaf node  connections. [**See User Block section below**](leafnode_conf.md#users-block). |
 
@@ -32,7 +32,7 @@ The leaf node configuration block is used to configure incoming as well as outgo
 | :--- | :--- |
 | `user` | Username for the leaf node connection. |
 | `password` | Password for the user entry. |
-| `account` | Account this leaf node connection should be bound to. |
+| `account` | [Account](../securing_nats/accounts.md) this leaf node connection should be bound to. |
 
 Here are some examples of using basic user/password authentication for leaf nodes \(note while this is using accounts it is not using JWTs\)
 
@@ -90,7 +90,7 @@ If other form of credentials are used \(jwt, nkey or other\), then the server wi
 | :--- | :--- |
 | `url` | Leafnode URL \(URL protocol should be `nats-leaf`\). |
 | `urls` | Leafnode URL array. Supports multiple URLs for discovery, e.g., urls: \[ "nats-leaf://host1:7422", "nats-leaf://host2:7422" \] |
-| `account` | Account public key identifying the leafnode. Account must be defined locally. |
+| `account` | [Account](../securing_nats/accounts.md) name or jwt public key identifying the leafnode. Account must be defined locally. |
 | `credentials` | Credential file for connecting to the leafnode server. |
 | `tls` | A [TLS configuration](leafnode_conf.md#tls-configuration-block) block. Leafnode client will use specified TLS certificates when connecting/authenticating. |
 
