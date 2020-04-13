@@ -1,6 +1,6 @@
 # Multi Tenancy using Accounts
 
-In modern microservice architecture it is common to share infrastructure - such as NATS - between services. [Accounts](accounts.md#Accounts) are securely isolated communication contexts that allow multi-tenancy in a NATS deployment. They allow users to bifurcate technology from business driven use cases, where data silos are created by design, not software limitations. Furthermore, they facilitate the [controlled exchange](accounts.md#Exporting-and-Importing) of information between those data silos/Tenants/Accounts.
+In modern microservice architecture it is common to share infrastructure - such as NATS - between services. [Accounts](accounts.md#accounts) are securely isolated communication contexts that allow multi-tenancy in a NATS deployment. They allow users to bifurcate technology from business driven use cases, where data silos are created by design, not software limitations. Furthermore, they facilitate the [controlled exchange](accounts.md#exporting-and-importing) of information between those data silos/Tenants/Accounts.
 
 ## Accounts
 
@@ -13,8 +13,8 @@ Accounts configuration is done in `accounts` map. The contents of an account ent
 | Property | Description |
 | :--- | :--- |
 | `users` | a list of [user configuration maps](auth_intro/#user-configuration-map) |
-| `exports` | a list of [export maps](accounts.md#Export-Configuration-Map) |
-| `imports` | a list of [import maps](accounts.md#Import-Configuration-Map) |
+| `exports` | a list of [export maps](accounts.md#export-configuration-map) |
+| `imports` | a list of [import maps](accounts.md#import-configuration-map) |
 
 The `accounts` list is a map, where the keys on the map are an account name.
 

@@ -13,7 +13,7 @@ To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP 
 
 All endpoints return a JSON object.
 
-The NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSONP) and [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing#How_CORS_works), making it easy to create single page monitoring web applications. Part of the NATS ecosystem is a tool called [nats-top](../../nats-tools/nats_top/) that visualizes data from these endpoints on the command line.
+The NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSONP) and [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing#How_CORS_works), making it easy to create single page monitoring web applications. Part of the NATS ecosystem is a tool called [nats-top](../../nats-tools/nats_top/README.md) that visualizes data from these endpoints on the command line.
 
 > Warning: `nats-server` does not have authentication/authorization for the monitoring endpoint. When you plan to open your `nats-server` to the internet make sure to not expose the monitoring port as well. By default monitoring binds to every interface `0.0.0.0` so consider setting monitoring to `localhost` or have appropriate firewall rules.
 >
@@ -21,7 +21,7 @@ The NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSON
 
 ### Enabling monitoring from the command line
 
-To enable the monitoring server, start the NATS server with the monitoring flag `-m` and the monitoring port, or turn it on in the [configuration file](monitoring.md#Enable-monitoring-from-the-configuration-file).
+To enable the monitoring server, start the NATS server with the monitoring flag `-m` and the monitoring port, or turn it on in the [configuration file](#enable-monitoring-from-the-configuration-file).
 
 ```text
 -m, --http_port PORT             HTTP PORT for monitoring
