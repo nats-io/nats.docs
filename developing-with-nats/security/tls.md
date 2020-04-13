@@ -6,7 +6,7 @@ While authentication limits which clients can connect, TLS can be used to encryp
 
 Using TLS to connect to a server that verifies the client's identity is straightforward. The client has to provide a certificate and private key. The NATS client will use these to prove it's identity to the server. For the client to verify the server's identity, the CA certificate is provided as well.
 
-Use example certificates created in [self signed certificates for testing](../../nats-server/configuration/securing_nats/tls.md#Creating-Self-Signed-Certificates-for-Testing).
+Use example certificates created in [self signed certificates for testing](../../nats-server/configuration/securing_nats/tls.md#creating-self-signed-certificates-for-festing).
 
 ```bash
 > nats-server --tls --tlscert=server-cert.pem --tlskey=server-key.pem --tlscacert rootCA.pem --tlsverify

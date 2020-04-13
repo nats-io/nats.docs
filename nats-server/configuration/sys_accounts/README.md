@@ -9,12 +9,12 @@ NATS servers leverage [Accounts](../securing_nats/accounts.md) support and gener
 
 In addition the server supports a limited number of requests that can be used to query for account connections, server stat summaries, and pinging servers in the cluster.
 
-These events are enabled by configuring `system_account` and [subscribing/requesting](./#Available-Events-and-Services) using a _system account_ user.
+These events are enabled by configuring `system_account` and [subscribing/requesting](#available-events-and-services) using a _system account_ user.
 
 [Accounts](../securing_nats/accounts.md) are used so that subscriptions from your applications, say `>`, do not receive system events and vice versa. Using accounts requires either:
 
-* [Configuring authentication locally](./#Local-Configuration) and listing one of the accounts in `system_account`
-* Or by using decentralized authentication and authorization via [jwt](../securing_nats/jwt/) as shown in this [Tutorial](https://github.com/nats-io/nats.docs/tree/aecb86faf9be946a413d1c6200fc0ff5d1b0baef/nats-server/configuration/sys_accounts/sys_accounts.md). In this case `system_account` contains the account public key.
+* [Configuring authentication locally](#local-configuration) and listing one of the accounts in `system_account`
+* Or by using decentralized authentication and authorization via [jwt](../securing_nats/jwt/README.md) as shown in this [Tutorial](sys_accounts.md). In this case `system_account` contains the account public key.
 
 ## Available Events and Services
 
@@ -30,7 +30,7 @@ Server initiated events:
 * `$SYS.ACCOUNT.<id>.LEAFNODE.DISCONNECT` \(leaf node disconnects\)
 * `$SYS.SERVER.<id>.STATSZ` \(stats summary\)
 
-In addition other tools with system account privileges, can initiate requests \(Examples can be found [here](https://github.com/nats-io/nats.docs/tree/aecb86faf9be946a413d1c6200fc0ff5d1b0baef/nats-server/configuration/sys_accounts/sys_accounts.md#System-Services)\):
+In addition other tools with system account privileges, can initiate requests \(Examples can be found [here](sys_accounts.md#system-services)\):
 
 * `$SYS.REQ.SERVER.<id>.STATSZ` \(request server stat summary\)
 * `$SYS.REQ.SERVER.PING` \(discover servers - will return multiple messages\)

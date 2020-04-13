@@ -10,9 +10,9 @@ The NATS server uses modern TLS semantics to encrypt client, route, and monitori
 | `cipher_suites` | When set, only the specified TLS cipher suites will be allowed. Values must match the golang version used to build the server. |
 | `curve_preferences` | List of TLS cipher curves to use in order. |
 | `insecure` | Skip certificate verification. **NOT Recommended** |
-| `timeout` | TLS handshake [timeout](tls.md#TLS-Timeout) in fractional seconds. Default set to `0.5` seconds. |
-| `verify` | If `true`, require and [verify](auth_intro/tls_mutual_auth.md#Validating-a-Client-Certificate) client certificates. To support use by Browser, this option does not apply to monitoring. |
-| `verify_and_map` | If `true`, require and verify client certificates and [map](auth_intro/tls_mutual_auth.md#Mapping-Client-Certificates-To-A-User) certificate values for authentication purposes. Does not apply to monitoring either. |
+| `timeout` | TLS handshake [timeout](#tls-timeout) in fractional seconds. Default set to `0.5` seconds. |
+| `verify` | If `true`, require and [verify](auth_intro/tls_mutual_auth.md#validating-a-client-certificate) client certificates. To support use by Browser, this option does not apply to monitoring. |
+| `verify_and_map` | If `true`, require and verify client certificates and [map](auth_intro/tls_mutual_auth.md#mapping-client-certificates-to-a-user) certificate values for authentication purposes. Does not apply to monitoring either. |
 
 The simplest configuration:
 
@@ -116,7 +116,7 @@ nats-server --tls --tlscert=server-cert.pem --tlskey=server-key.pem -ms 8222
 ```
 
 Now you should be able to access the monitoring endpoint `https://localhost:8222` with your browser.  
-`https://127.0.0.1:8222` however should result in an error as `127.0.0.1` is not listed as SAN. You will not be able to establish a connection from another computer either. For that to work you have to provide appropriate DNS and/or IP [SAN\(s\)](tls.md#Missing-Subject-Alternative-Name)
+`https://127.0.0.1:8222` however should result in an error as `127.0.0.1` is not listed as SAN. You will not be able to establish a connection from another computer either. For that to work you have to provide appropriate DNS and/or IP [SAN\(s\)](#missing-subject-alternative-name)
 
 To generate certificates that work with `verify` provide the `-client` option. This will cause it to add an appropriate key usage for client authentication. Please note that client refers to connecting process, not necessarily a NATS client. Also add a SAN email for usage as user name in `verify_and_map`.
 

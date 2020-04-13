@@ -13,5 +13,5 @@ The server supports replica mode, which allows load balancing, fault tolerance a
 
 The account server can host activation tokens as well as account JWTs. These tokens are used when one account needs to give permission to another account to access a private export. Tokens can be configured as full tokens, or URLs. By hosting them in the account server you can avoid the copy/paste process of embedding tokens. They can also be updated more easily on expiration. The account serer furthermore allows for jwt inspection.
 
-All account server configuration options can be found [here](nas_conf.md#Configuration-File). It futhermore allows [inspection](inspecting_jwts.md) of JWT.
+All account server configuration options can be found [here](nas_conf.md#configuration-file). It futhermore allows [inspection](inspecting_jwts.md) of JWT.
 

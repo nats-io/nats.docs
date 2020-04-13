@@ -115,7 +115,7 @@ authorization: {
 | `client_advertise` | Alternative client listen specification `<host>:<port>` or just `<host>` to advertise to clients and other server. Useful in [cluster](clustering/cluster_config.md) setups with NAT. | Advertise what `host` and `port` specify. |
 | [`tls`](securing_nats/tls.md) | Configuration map for tls for client and http monitoring. |  |
 | [`cluster`](clustering/cluster_config.md) | Configuration map for [cluster](clustering/). |  |
-| [`gateway`](gateways/gateway.md#Gateway-Configuration-Block) | Configuration map for [gateway](gateways/). |  |
+| [`gateway`](gateways/gateway.md#gateway-configuration-block) | Configuration map for [gateway](gateways/). |  |
 | [`leafnode`](leafnodes/leafnode_conf.md) | Configuration map for a [leafnode](leafnodes/). |  |
 
 ### Connection Timeouts
@@ -131,8 +131,8 @@ authorization: {
 | Property | Description | Default |
 | :--- | :--- | :--- |
 | `max_connections` | Maximum number of active client connections. | `64K` |
-| `max_control_line` | Maximum length of a protocol line \(including combined length of subject and queue group\). Increasing this value may require [client changes](https://github.com/nats-io/nats.docs/tree/542bb62cfd07aef621e53479ed9946f26e514ce6/developing-with-nats/connecting/protocol.md#Set-the-Maximum-Control-Line-Size) to be used. Applies to all traffic. | `4Kb` |
-| `max_payload` | Maximum number of bytes in a message payload. Reducing this size may force you to implement [chunking](https://github.com/nats-io/nats.docs/tree/542bb62cfd07aef621e53479ed9946f26e514ce6/developing-with-nats/connecting/protocol.md#Get-the-Maximum-Payload-Siz) in your clients. Applies to client and leafnode payloads. | `1Mb` |
+| `max_control_line` | Maximum length of a protocol line \(including combined length of subject and queue group\). Increasing this value may require [client changes](../../developing-with-nats/connecting/misc.md#set-the-maximum-control-line-size) to be used. Applies to all traffic. | `4Kb` |
+| `max_payload` | Maximum number of bytes in a message payload. Reducing this size may force you to implement [chunking](../../developing-with-nats/connecting/misc.md#get-the-maximum-payload-size) in your clients. Applies to client and leafnode payloads. | `1Mb` |
 | `max_pending` | Maximum number of bytes buffered for a connection Applies to client connections. | `64Mb` |
 | `max_subscriptions` | Maximum numbers of subscriptions per client and leafnode accounts connection. | `0`, unlimited |
 
@@ -151,8 +151,8 @@ The Configuration options here refer to [JWT](securing_nats/jwt/) based authenti
 
 | Property | Description |
 | :--- | :--- |
-| [`operator`](securing_nats/jwt/#Decentralized-Authentication-and-Authorization-Configuration) | Path to an operator JWT. |
-| [`resolver`](securing_nats/jwt/#Decentralized-Authentication-and-Authorization-Configuration) | Resolver type [`MEMORY`](securing_nats/jwt/resolver.md#memory) or [`URL(<url>)`](securing_nats/jwt/resolver.md#url-resolver) for account JWTs. \(When the operator JWT contains an account URL, it will be used as default. In this case `resolver` is only needed to overwrite the default.\) |
+| [`operator`](securing_nats/jwt/README.md#decentralized-authentication-and-authorization-configuration) | Path to an operator JWT. |
+| [`resolver`](securing_nats/jwt/README.md#decentralized-authentication-and-authorization-configuration) | Resolver type [`MEMORY`](securing_nats/jwt/resolver.md#memory) or [`URL(<url>)`](securing_nats/jwt/resolver.md#url-resolver) for account JWTs. \(When the operator JWT contains an account URL, it will be used as default. In this case `resolver` is only needed to overwrite the default.\) |
 | [`resolver_tls`](securing_nats/jwt/resolver.md#url-resolver) | [`tls` configuration map](securing_nats/tls.md) for tls connections to the resolver. \(This is for an outgoing connection and therefore does not use `timeout`, `verify` and `map_and_verify`\) |
 | [`resolver_preload`](securing_nats/jwt/resolver.md#memory) | [Map](securing_nats/jwt/resolver.md#memory) to preload account public keys and their corresponding JWT. Keys consist of `<account public nkey>`, value is the `<corresponding jwt>`. Only used when `resolver=MEMORY`. |
 
@@ -181,7 +181,7 @@ The Configuration options here refer to [JWT](securing_nats/jwt/) based authenti
 | [`http`](monitoring.md) | Listen specification `<host>:<port>`for server monitoring. |  |
 | [`https_port`](monitoring.md) | https port for server monitoring. This is influenced by the tls property. |  |
 | [`https`](monitoring.md) | Listen specification `<host>:<port>`for TLS server monitoring. |  |
-| `system_account` | Name of the system account. Users of this account can subscribe to system events. See [System Accounts](https://github.com/nats-io/nats.docs/tree/542bb62cfd07aef621e53479ed9946f26e514ce6/nats-server/configuration/monitoring/README.md) for more details. |  |
+| `system_account` | Name of the system account. Users of this account can subscribe to system events. See [System Accounts](sys_accounts/README.md) for more details. |  |
 | `pid_file` | File containing PID, relative to ... This can serve as input to [nats-server --signal](../nats_admin/signals.md) |  |
 | `port_file_dir` | Directory to write a file containing the servers open ports to, relative to ... |  |
 | `connect_error_reports` | Number of attempts at which a repeated failed route, gateway or leaf node connection is reported. Connect attempts are made once every second. | `3600`, approx every hour |
