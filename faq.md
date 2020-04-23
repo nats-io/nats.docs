@@ -56,7 +56,7 @@ NATS is sponsored and supported by Synadia, a company founded by Derek Collison.
 
 ### What client support exists for NATS?
 
-Please see the [Download](https://nats.io/download) page for the latest list of Synadia- and community-sponsored NATS clients.
+Please see the [Download](https://nats.io/download) page for the latest list of Synadia and Community maintained NATS clients.
 
 ## Technical Questions
 
