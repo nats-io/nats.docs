@@ -120,7 +120,7 @@ if err != nil {
     log.Fatal(err)
 }
 
-// Send the request immeditately
+// Send the request immediately
 nc.PublishRequest(subject, replyTo, []byte(input))
 nc.Flush()
 
