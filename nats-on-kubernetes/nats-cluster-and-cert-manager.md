@@ -5,11 +5,12 @@ First we need to install the cert-manager component from [jetstack](https://gith
 ```text
 kubectl create namespace cert-manager
 kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
-kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.7/deploy/manifests/cert-manager.yaml
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.14.0/cert-manager.yaml
 ```
+If you are running Kubernetes < 1.15, use `cert-manager-legacy.yaml` instead.
 
 ```yaml
-apiVersion: certmanager.k8s.io/v1alpha1
+apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
 metadata:
   name: selfsigning
@@ -25,7 +26,7 @@ Next, let's create the CA for the certs:
 
 ```yaml
 ---
-apiVersion: certmanager.k8s.io/v1alpha1
+apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: nats-ca
@@ -37,11 +38,13 @@ spec:
     name: selfsigning
     kind: ClusterIssuer
   commonName: nats-ca
+  usages:
+  - cert sign
   organization:
   - Your organization
   isCA: true
 ---
-apiVersion: certmanager.k8s.io/v1alpha1
+apiVersion: cert-manager.io/v1alpha2
 kind: Issuer
 metadata:
   name: nats-ca
@@ -54,7 +57,7 @@ Now create the certs that will match the DNS name used by the clients to connect
 
 ```yaml
 ---
-apiVersion: certmanager.k8s.io/v1alpha1
+apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: nats-server-tls
@@ -65,6 +68,10 @@ spec:
   issuerRef:
     name: nats-ca
     kind: Issuer
+  usages:
+  - signing
+  - key encipherment
+  - server auth
   organization:
   - Your organization
   commonName: nats.default.svc.cluster.local
@@ -87,6 +94,11 @@ spec:
   issuerRef:
     name: nats-ca
     kind: Issuer
+  usages:
+  - signing
+  - key encipherment
+  - server auth
+  - client auth
   organization:
   - Your organization
   commonName: "*.nats-mgmt.default.svc.cluster.local"
@@ -104,7 +116,7 @@ metadata:
 spec:
   # Number of nodes in the cluster
   size: 3
-  version: "1.4.1"
+  version: "2.1.4"
 
   tls:
     # Certificates to secure the NATS client connections:
@@ -152,7 +164,7 @@ kubectl logs nats-1
 ```
 
 ```text
-[1] 2019/12/18 12:27:23.920417 [INF] Starting nats-server version 2.1.2
+[1] 2019/12/18 12:27:23.920417 [INF] Starting nats-server version 2.1.4
 [1] 2019/12/18 12:27:23.920590 [INF] Git commit [not set]
 [1] 2019/12/18 12:27:23.921024 [INF] Listening for client connections on 0.0.0.0:4222
 [1] 2019/12/18 12:27:23.921047 [INF] Server id is NDA6JC3TGEADLLBEPFAQ4BN4PM3WBN237KIXVTFCY3JSTDOSRRVOJCXN
