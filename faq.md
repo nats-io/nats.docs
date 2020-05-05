@@ -72,7 +72,7 @@ Yes. NATS is a publish and subscribe system that also has distributed queueing f
 
 ### How can I monitor my NATS cluster?
 
-NATS can be deployed to have an HTTP\(s\) monitoring port - see the demo server here: [http://demo.nats.io:8222/](https://demo.nats.io:8222/). Alternately, there are several options available, including some from the active NATS community:
+NATS can be deployed to have an HTTP\(s\) monitoring port - see the demo server here: [http://demo.nats.io:8222/](http://demo.nats.io:8222/). Alternately, there are several options available, including some from the active NATS community:
 
 * [Prometheus NATS Exporter](https://github.com/nats-io/prometheus-nats-exporter) Use Prometheus to configure metrics and Grafana to create a visual display.
 * [nats-top](https://github.com/nats-io/nats-top) A top-like monitoring tool developed by Wally Quevedo of Synadia.
