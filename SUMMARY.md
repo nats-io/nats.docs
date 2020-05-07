@@ -199,4 +199,4 @@
 * [NATS and Prometheus Operator](nats-on-kubernetes/prometheus-and-nats-operator.md)
 * [NATS Cluster and Cert Manager](nats-on-kubernetes/nats-cluster-and-cert-manager.md)
 * [Securing a NATS Cluster with cfssl](nats-on-kubernetes/operator-tls-setup-with-cfssl.md)
-
+* [Using a Load Balancer for External Access to NATS](nats-on-kubernetes/nats-external-nlb.md)
