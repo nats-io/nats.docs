@@ -35,6 +35,20 @@ In addition other tools with system account privileges, can initiate requests \(
 * `$SYS.REQ.SERVER.<id>.STATSZ` \(request server stat summary\)
 * `$SYS.REQ.SERVER.PING` \(discover servers - will return multiple messages\)
 
+[Monitoring endpoints](../monitoring.md) as listed in the table below are accessible as system services using the following subject pattern:
+
+* `$SYS.REQ.SERVER.<id>.<endpoint-name>` \(request server monitoring endpoint corresponding to endpoint name.\)
+* `$SYS.REQ.SERVER.PING.<endpoint-name>` \(from all server request server monitoring endpoint corresponding to endpoint name - will return multiple messages\)
+
+| Endpoint | Endpoint Name |
+| :--- | :--- | 
+| [General Server Information](../monitoring.md#general-information)| `VARZ` |
+| [Connections](../monitoring.md#connection-information)| `CONNZ` |
+| [Routing](../monitoring.md#route-information)| `ROUTEZ` |
+| [Gateways](../monitoring.md#gateway-information)| `GATEWAYZ` |
+| [Leaf Nodes](../monitoring.md#leaf-nodes-information)| `LEAFZ` |
+| [Subscription Routing](../monitoring.md#subscription-routing-information)| `SUBSZ` |
+
 Servers like `nats-account-server` publish system account messages when a claim is updated, the nats-server listens for them, and updates its account information accordingly:
 
 * `$SYS.ACCOUNT.<id>.CLAIMS.UPDATE`
