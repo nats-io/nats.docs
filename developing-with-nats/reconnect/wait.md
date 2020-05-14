@@ -99,13 +99,13 @@ natsOptions_Destroy(opts);
 {% endtab %}
 {% endtabs %}
 
-Some libraries will allow you to specify some random jitter to add to the reconnect wait specified above.
+Some libraries will allow you to specify some random jitter to add to the reconnect wait specified above. If not specified, the library will default to 100 milliseconds for non TLS connections and 1 second for TLS connections. After all servers in the list have been tried, the library will get a random value between 0 and the reconnect jitter, and add that to the reconnect wait option.
 
 {% tabs %}
 {% tab title="Go" %}
 ```go
-// Set some jitter up to 100 millisecond for non TLS connections and 1 second for TLS connections.
-nc, err := nats.Connect("demo.nats.io", nats.ReconnectJitter(100*time.Millisecond, 1*time.Second))
+// Set some jitter to add to the reconnect wait duration: up to 500 milliseconds for non TLS connections and up to 2 seconds for TLS connections.
+nc, err := nats.Connect("demo.nats.io", nats.ReconnectJitter(500*time.Millisecond, 2*time.Second))
 if err != nil {
     log.Fatal(err)
 }
