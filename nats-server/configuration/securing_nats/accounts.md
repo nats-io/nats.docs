@@ -166,3 +166,27 @@ It is important to reiterate that:
 * service `q.b` is private; only account `B` can send requests to the service.
 * When `C` publishes a request to `Q`, local `C` clients will see `Q` messages. However, the server will remap `Q` to `pubq.C` and forward the requests to account `A`.
 
+## No Auth User
+
+Clients connecting without authentication can be associated with a particular user within an account.
+
+```
+accounts: {
+    A: {
+        users: [
+            {user: a, password: a}
+        ]
+    },
+    B: {
+        users: [
+            {user: b, password: b}
+        ]
+    }
+}
+no_auth_user: a
+```
+
+The above example shows how clients without authentication can be associated with the user `a` within account `A`.
+
+> Please note that the `no_auth_user` will not work with nkeys.
+> The user referenced can also be part of the [authorization](authorization.md) block.

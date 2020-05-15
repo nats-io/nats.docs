@@ -144,6 +144,7 @@ authorization: {
 | :--- | :--- |
 | [`authorization`](securing_nats/auth_intro/) | Configuration map for client authentication/authorization. |
 | [`accounts`](securing_nats/accounts.md) | Configuration map for multi tenancy via accounts. |
+| [`no_auth_user`](securing_nats/accounts.md#No-Auth-User) | [Username](securing_nats/auth_intro/username_password.md) present in the [authorization block](securing_nats/auth_intro/README.md) or an [`account`](securing_nats/accounts.md). A client connecting without any form of authentication will be associated with this user, its permissions and account. |
 
 #### Decentralized Authentication and Authorization
 
