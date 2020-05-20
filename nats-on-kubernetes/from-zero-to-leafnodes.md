@@ -1,4 +1,4 @@
-# From zero to communicating across K8S regions using NATS leafnodes
+# From Zero to Communicating Across K8S Regions using NATS Leafnodes
 
 First, we need a number of Kubernetes clusters to be setup already. In
 this case we'll create a few in Digital Ocean using the `doctl` tool but
