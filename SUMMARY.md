@@ -200,3 +200,4 @@
 * [NATS Cluster and Cert Manager](nats-on-kubernetes/nats-cluster-and-cert-manager.md)
 * [Securing a NATS Cluster with cfssl](nats-on-kubernetes/operator-tls-setup-with-cfssl.md)
 * [Using a Load Balancer for External Access to NATS](nats-on-kubernetes/nats-external-nlb.md)
+* [Creating a NATS Super Cluster in Digital Ocean with Helm](nats-on-kubernetes/super-cluster-on-digital-ocean.md)
