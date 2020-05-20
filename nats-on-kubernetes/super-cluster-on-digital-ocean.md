@@ -121,13 +121,7 @@ done
 The Helm definition would look as follows for the 3 clusters:
 
 ```yaml
-# super-cluster-with-leafnodes.yaml
-nats:
-  externalAccess: true
-  logging:
-    debug: false
-    trace: false
-
+# nats.yaml
 leafnodes:
   enabled: true
   remotes:
@@ -136,9 +130,6 @@ leafnodes:
         secret:
           name: ngs-creds
           key: NGS.creds
-
-cluster:
-  enabled: true
 
 natsbox:
   enabled: true
@@ -149,7 +140,7 @@ Let's deploy the super cluster with Helm using the name of cluster as the name o
 ```sh
 for ctx in do-ams3-nats-k8s-ams3 do-nyc1-nats-k8s-nyc1 do-sfo2-nats-k8s-sfo2; do
   kubectl --context $ctx create secret generic ngs-creds --from-file $HOME/.nkeys/creds/synadia/NGS/NGS.creds
-  helm --kube-context $ctx install nats nats/nats -f super-cluster-with-leafnodes.yaml
+  helm --kube-context $ctx install nats nats/nats -f nats.yaml
 done
 ```
 
