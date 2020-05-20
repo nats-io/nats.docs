@@ -21,7 +21,7 @@ done
 
 For this setup, we will create a super cluster using the external IPs
 from the nodes of the 3 clusters.  For a production type of setup, it
-is recommended to use a DNS entry and a A record for each one of the
+is recommended to use a DNS entry and an A record for each one of the
 servers.
 
 ```sh
@@ -84,7 +84,7 @@ for ctx in do-ams3-nats-k8s-ams3 do-nyc1-nats-k8s-nyc1 do-sfo2-nats-k8s-sfo2; do
 done
 ```
 
-That's it! It should be now possible to send some messages across regions:
+That's it! It should now be possible to send some messages across regions:
 
 ```sh
 # Start subscription in Amsterdam
