@@ -6,16 +6,15 @@ you could use any K8S solution available:
 
 ```
 brew install doctl
-doctl kubernetes cluster create nats-k8s-nyc1 --count 3 --region nyc1
 doctl kubernetes cluster create nats-k8s-sfo2 --count 3 --region sfo2
 doctl kubernetes cluster create nats-k8s-ams3 --count 3 --region ams3
 ```
 
-Next, get your NGS credentials with leafnodes enabled.  For this follow the instructions at: https://synadia.com/ngs/signup
+Next, get your NGS credentials with leafnodes enabled.  For this follow [these instructions](https://synadia.com/ngs/signup) and choose the `Developer` plan which is free and will allow you to create leafnode connections for a couple of clusters.
 Once you got the credentials, upload them as a secret to your K8S clusters:
 
 ```sh
-for ctx in do-ams3-nats-k8s-ams3 do-nyc1-nats-k8s-nyc1 do-sfo2-nats-k8s-sfo2; do
+for ctx in do-ams3-nats-k8s-ams3 do-sfo2-nats-k8s-sfo2; do
   kubectl --context $ctx create secret generic ngs-creds --from-file $HOME/.nkeys/creds/synadia/NGS/NGS.creds
 done
 ```
@@ -47,7 +46,7 @@ natsbox:
 Deploy it to your K8S regions:
 
 ```sh
-for ctx in do-ams3-nats-k8s-ams3 do-nyc1-nats-k8s-nyc1 do-sfo2-nats-k8s-sfo2; do
+for ctx in do-ams3-nats-k8s-ams3 do-sfo2-nats-k8s-sfo2; do
   helm --kube-context $ctx install nats nats/nats -f nats.yaml
 done
 ```
