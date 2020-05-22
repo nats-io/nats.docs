@@ -104,6 +104,7 @@
 * [NATS and Docker](nats-server/nats_docker/README.md)
   * [Tutorial](nats-server/nats_docker/nats-docker-tutorial.md)
   * [Docker Swarm](nats-server/nats_docker/docker_swarm.md)
+  * [Python and NGS Running in Docker](nats-server/nats_docker/ngs-docker-python.md)
 
 ## NATS Tools
 
