@@ -144,7 +144,7 @@ authorization: {
 | :--- | :--- |
 | [`authorization`](securing_nats/auth_intro/) | Configuration map for client authentication/authorization. |
 | [`accounts`](securing_nats/accounts.md) | Configuration map for multi tenancy via accounts. |
-| [`no_auth_user`](securing_nats/accounts.md#No-Auth-User) | [Username](securing_nats/auth_intro/username_password.md) present in the [authorization block](securing_nats/auth_intro/README.md) or an [`account`](securing_nats/accounts.md). A client connecting without any form of authentication will be associated with this user, its permissions and account. |
+| [`no_auth_user`](securing_nats/accounts.md#No-Auth-User) | [Username](securing_nats/auth_intro/username_password.md) present in the [authorization block](securing_nats/auth_intro/) or an [`account`](securing_nats/accounts.md). A client connecting without any form of authentication will be associated with this user, its permissions and account. |
 
 #### Decentralized Authentication and Authorization
 
@@ -152,8 +152,8 @@ The Configuration options here refer to [JWT](securing_nats/jwt/) based authenti
 
 | Property | Description |
 | :--- | :--- |
-| [`operator`](securing_nats/jwt/README.md#decentralized-authentication-and-authorization-configuration) | Path to an operator JWT. |
-| [`resolver`](securing_nats/jwt/README.md#decentralized-authentication-and-authorization-configuration) | Resolver type [`MEMORY`](securing_nats/jwt/resolver.md#memory) or [`URL(<url>)`](securing_nats/jwt/resolver.md#url-resolver) for account JWTs. \(When the operator JWT contains an account URL, it will be used as default. In this case `resolver` is only needed to overwrite the default.\) |
+| [`operator`](securing_nats/jwt/#decentralized-authentication-and-authorization-configuration) | Path to an operator JWT. |
+| [`resolver`](securing_nats/jwt/#decentralized-authentication-and-authorization-configuration) | Resolver type [`MEMORY`](securing_nats/jwt/resolver.md#memory) or [`URL(<url>)`](securing_nats/jwt/resolver.md#url-resolver) for account JWTs. \(When the operator JWT contains an account URL, it will be used as default. In this case `resolver` is only needed to overwrite the default.\) |
 | [`resolver_tls`](securing_nats/jwt/resolver.md#url-resolver) | [`tls` configuration map](securing_nats/tls.md) for tls connections to the resolver. \(This is for an outgoing connection and therefore does not use `timeout`, `verify` and `map_and_verify`\) |
 | [`resolver_preload`](securing_nats/jwt/resolver.md#memory) | [Map](securing_nats/jwt/resolver.md#memory) to preload account public keys and their corresponding JWT. Keys consist of `<account public nkey>`, value is the `<corresponding jwt>`. Only used when `resolver=MEMORY`. |
 
@@ -182,7 +182,7 @@ The Configuration options here refer to [JWT](securing_nats/jwt/) based authenti
 | [`http`](monitoring.md) | Listen specification `<host>:<port>`for server monitoring. |  |
 | [`https_port`](monitoring.md) | https port for server monitoring. This is influenced by the tls property. |  |
 | [`https`](monitoring.md) | Listen specification `<host>:<port>`for TLS server monitoring. |  |
-| `system_account` | Name of the system account. Users of this account can subscribe to system events. See [System Accounts](sys_accounts/README.md) for more details. |  |
+| `system_account` | Name of the system account. Users of this account can subscribe to system events. See [System Accounts](sys_accounts/) for more details. |  |
 | `pid_file` | File containing PID, relative to ... This can serve as input to [nats-server --signal](../nats_admin/signals.md) |  |
 | `port_file_dir` | Directory to write a file containing the servers open ports to, relative to ... |  |
 | `connect_error_reports` | Number of attempts at which a repeated failed route, gateway or leaf node connection is reported. Connect attempts are made once every second. | `3600`, approx every hour |

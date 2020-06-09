@@ -10,7 +10,7 @@ The NATS server uses modern TLS semantics to encrypt client, route, and monitori
 | `cipher_suites` | When set, only the specified TLS cipher suites will be allowed. Values must match the golang version used to build the server. |
 | `curve_preferences` | List of TLS cipher curves to use in order. |
 | `insecure` | Skip certificate verification. **NOT Recommended** |
-| `timeout` | TLS handshake [timeout](#tls-timeout) in fractional seconds. Default set to `0.5` seconds. |
+| `timeout` | TLS handshake [timeout](tls.md#tls-timeout) in fractional seconds. Default set to `0.5` seconds. |
 | `verify` | If `true`, require and [verify](auth_intro/tls_mutual_auth.md#validating-a-client-certificate) client certificates. To support use by Browser, this option does not apply to monitoring. |
 | `verify_and_map` | If `true`, require and verify client certificates and [map](auth_intro/tls_mutual_auth.md#mapping-client-certificates-to-a-user) certificate values for authentication purposes. Does not apply to monitoring either. |
 
@@ -97,9 +97,9 @@ With respect to NATS the relevant values for extended key usage are:
 
 * `TLS WWW server authentication` - To authenticate as server for incoming connections. A NATS server will need a certificate containing this.
 * `TLS WWW client authentication` - To authenticate as client for outgoing connections. Only needed when connecting to a server where `verify` or `verify_and_map` are specified. In these cases, a NATS client will need a certificate with this value. 
-  * [Leaf node](../leafnodes/README.md) connections can be configured with `verify` as well. Then the connecting NATS server will have to present a certificate with this value too. Certificates containing both values are an option.
-  * [Cluster](../clustering/README.md) connections always have `verify` enabled. Which server acts as client and server comes down to timing and therefore can't be individually configured. Certificates containing both values are a must.
-  * [Gateway](../gateways/README.md) connections always have `verify` enabled. Unlike cluster outgoing connections can specify a separate cert. Certificates containing both values are an option that reduce configuration. 
+  * [Leaf node](../leafnodes/) connections can be configured with `verify` as well. Then the connecting NATS server will have to present a certificate with this value too. Certificates containing both values are an option.
+  * [Cluster](../clustering/) connections always have `verify` enabled. Which server acts as client and server comes down to timing and therefore can't be individually configured. Certificates containing both values are a must.
+  * [Gateway](../gateways/) connections always have `verify` enabled. Unlike cluster outgoing connections can specify a separate cert. Certificates containing both values are an option that reduce configuration. 
 
 Note that it's common practice for non-web protocols to use the `TLS WWW` authentication fields, as a matter of history those have become embedded as generic options.
 
@@ -116,15 +116,16 @@ nats-server --tls --tlscert=server-cert.pem --tlskey=server-key.pem -ms 8222
 ```
 
 Now you should be able to access the monitoring endpoint `https://localhost:8222` with your browser.  
-`https://127.0.0.1:8222` however should result in an error as `127.0.0.1` is not listed as SAN. You will not be able to establish a connection from another computer either. For that to work you have to provide appropriate DNS and/or IP [SAN\(s\)](#missing-subject-alternative-name)
+`https://127.0.0.1:8222` however should result in an error as `127.0.0.1` is not listed as SAN. You will not be able to establish a connection from another computer either. For that to work you have to provide appropriate DNS and/or IP [SAN\(s\)](tls.md#missing-subject-alternative-name)
 
-To generate certificates that work with `verify`/[`cluster`](../cluster/README.md)/[`gateway`](../gateway/README.md)/[`leaf_nodes`](../leafnodes/README.md) provide the `-client` option. It will cause the appropriate key usage for client authentication to be added. This example also adds a SAN email for usage as user name in `verify_and_map`.
+To generate certificates that work with `verify`/[`cluster`](https://github.com/nats-io/nats.docs/tree/3a28d211cf69cf56df02d958abc40be790c367df/nats-server/configuration/cluster/README.md)/[`gateway`](https://github.com/nats-io/nats.docs/tree/3a28d211cf69cf56df02d958abc40be790c367df/nats-server/configuration/gateway/README.md)/[`leaf_nodes`](../leafnodes/) provide the `-client` option. It will cause the appropriate key usage for client authentication to be added. This example also adds a SAN email for usage as user name in `verify_and_map`.
 
 ```bash
 mkcert -client -cert-file client-cert.pem -key-file client-key.pem localhost ::1 email@localhost
 ```
 
 > Please note:
+>
 > * That client refers to connecting process, not necessarily a NATS client.
 > * `mkcert -client` will generate a certificate with key usage suitable for client **and** server authentication.
 

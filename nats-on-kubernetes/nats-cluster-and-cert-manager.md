@@ -7,7 +7,8 @@ kubectl create namespace cert-manager
 kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
 kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.14.0/cert-manager.yaml
 ```
-If you are running Kubernetes < 1.15, use `cert-manager-legacy.yaml` instead.
+
+If you are running Kubernetes &lt; 1.15, use `cert-manager-legacy.yaml` instead.
 
 ```yaml
 apiVersion: cert-manager.io/v1alpha2

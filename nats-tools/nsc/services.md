@@ -172,7 +172,7 @@ If you want to create a service that is only accessible to accounts you designat
 
 As before, we declared an export, but this time we added the `--private` flag. The other thing to note is that the subject for the request has a wildcard. This enables the account to map specific subjects to specifically authorized accounts.
 
-```text
+```bash
 > nsc describe account A
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │

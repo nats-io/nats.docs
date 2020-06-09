@@ -2,7 +2,7 @@
 
 The `nats-account-server` can notify a nats-server about [JWT](../../nats-server/configuration/securing_nats/jwt/) updates, enabling the NATS server to update itself to the newly updated JWT.
 
-To push notifications, the nats-account-server makes use of [system accounts](../../nats-server/configuration/sys_accounts/README.md).
+To push notifications, the nats-account-server makes use of [system accounts](../../nats-server/configuration/sys_accounts/).
 
 Here's a nats-account-server configuration with updates enabled:
 

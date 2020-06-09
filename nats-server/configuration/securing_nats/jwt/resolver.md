@@ -1,6 +1,6 @@
 # Account lookup using Resolver
 
-The `resolver` configuration option is used in conjunction with [NATS JWT Authentication](README.md) and [nsc](../../../../nats-tools/nsc/README.md). The `resolver` option specifies a URL where the nats-server can retrieve an account JWT. There are two built-in resolver implementations:
+The `resolver` configuration option is used in conjunction with [NATS JWT Authentication](./) and [nsc](../../../../nats-tools/nsc/). The `resolver` option specifies a URL where the nats-server can retrieve an account JWT. There are two built-in resolver implementations:
 
 * `URL`
 * `MEMORY`
@@ -9,7 +9,7 @@ The `resolver` configuration option is used in conjunction with [NATS JWT Authen
 
 ## URL Resolver
 
-The `URL` resolver specifies a URL where the server can append an account public key to retrieve that account's JWT. Convention for [NATS Account JWT Servers](../../../../nats-tools/nas/README.md) is to serve JWTs at: `http://localhost:9090/jwt/v1/accounts/`. For such a configuration you would specify the resolver as follows:
+The `URL` resolver specifies a URL where the server can append an account public key to retrieve that account's JWT. Convention for [NATS Account JWT Servers](../../../../nats-tools/nas/) is to serve JWTs at: `http://localhost:9090/jwt/v1/accounts/`. For such a configuration you would specify the resolver as follows:
 
 ```yaml
 resolver: URL(http://localhost:9090/jwt/v1/accounts/)

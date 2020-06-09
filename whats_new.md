@@ -11,7 +11,7 @@ Monitoring endpoints as listed in the table below are accessible as system servi
 * `$SYS.REQ.SERVER.<id>.<endpoint-name>` \(request server monitoring endpoint corresponding to endpoint name.\)
 * `$SYS.REQ.SERVER.PING.<endpoint-name>` \(from all server request server monitoring endpoint corresponding to endpoint name - will return multiple messages\)
 
-For more information on monitoring endpoints see [NATS Server Configurations System Events](nats-server/configuration/sys_accounts#available-events-and-services).
+For more information on monitoring endpoints see [NATS Server Configurations System Events](nats-server/configuration/sys_accounts/#available-events-and-services).
 
 ### Addition of `no_auth_user` Configuration
 
@@ -20,9 +20,9 @@ Configuration of `no_auth_user` allows you to refer to a configured user/account
 For more information and example, see [Securing NATS](nats-server/configuration/securing_nats/accounts.md#no-auth-user)
 
 For full release information, see links below;
+
 * Release notes [2.1.7](https://github.com/nats-io/nats-server/releases/tag/v2.1.7)
 * Full list of Changes [2.1.6...2.1.7](https://github.com/nats-io/nats-server/compare/v2.1.6...v2.1.7)
-
 
 ## Server release v2.1.6
 

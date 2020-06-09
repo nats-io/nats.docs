@@ -33,7 +33,7 @@ Regardless of channel limits, you can configure message logs to be split in indi
 When messages accumulate in a channel, and limits are reached, older messages are removed. When the first file slice becomes empty, the server removes this file slice \(and corresponding index file\).
 
 However, if you specify a script \(`--file_slice_archive_script`\), then the server will rename the slice files \(data and index\) with a `.bak` extension and invoke the script with the channel name, data and index file names.  
- The files are left in the channel's directory and therefore it is the script responsibility to delete those files when done. At any rate, those files will not be recovered on a server restart, but having lots of unused files in the directory may slow down the server restart.
+The files are left in the channel's directory and therefore it is the script responsibility to delete those files when done. At any rate, those files will not be recovered on a server restart, but having lots of unused files in the directory may slow down the server restart.
 
 For instance, suppose the server is about to delete file slice `datastore/foo/msgs.1.dat` \(and `datastore/foo/msgs.1.idx`\), and you have configured the script `/home/nats-streaming/archive_script.sh`. The server will invoke:
 
@@ -56,7 +56,7 @@ Since dataloss is likely to occur, the default behavior for the server on startu
 With the `-file_truncate_bad_eof` parameter, the server will still print those bad records but truncate each file at the position of the first corrupted record in order to successfully start.
 
 To prevent the use of this parameter as the default value, this option is not available in the configuration file. Moreover, the server will fail to start if started more than once with that parameter.  
- This flag may help recover from a store failure, but since data may be lost in that process, we think that the operator needs to be aware and make an informed decision.
+This flag may help recover from a store failure, but since data may be lost in that process, we think that the operator needs to be aware and make an informed decision.
 
 Note that this flag will not help with file corruption due to bad CRC for instance. You have the option to disable CRC on recovery with the `-file_crc=false` option.
 

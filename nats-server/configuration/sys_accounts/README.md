@@ -9,12 +9,12 @@ NATS servers leverage [Accounts](../securing_nats/accounts.md) support and gener
 
 In addition the server supports a limited number of requests that can be used to query for account connections, server stat summaries, and pinging servers in the cluster.
 
-These events are enabled by configuring `system_account` and [subscribing/requesting](#available-events-and-services) using a _system account_ user.
+These events are enabled by configuring `system_account` and [subscribing/requesting](./#available-events-and-services) using a _system account_ user.
 
 [Accounts](../securing_nats/accounts.md) are used so that subscriptions from your applications, say `>`, do not receive system events and vice versa. Using accounts requires either:
 
-* [Configuring authentication locally](#local-configuration) and listing one of the accounts in `system_account`
-* Or by using decentralized authentication and authorization via [jwt](../securing_nats/jwt/README.md) as shown in this [Tutorial](sys_accounts.md). In this case `system_account` contains the account public key.
+* [Configuring authentication locally](./#local-configuration) and listing one of the accounts in `system_account`
+* Or by using decentralized authentication and authorization via [jwt](../securing_nats/jwt/) as shown in this [Tutorial](sys_accounts.md). In this case `system_account` contains the account public key.
 
 ## Available Events and Services
 
@@ -41,13 +41,13 @@ In addition other tools with system account privileges, can initiate requests \(
 * `$SYS.REQ.SERVER.PING.<endpoint-name>` \(from all server request server monitoring endpoint corresponding to endpoint name - will return multiple messages\)
 
 | Endpoint | Endpoint Name |
-| :--- | :--- | 
-| [General Server Information](../monitoring.md#general-information)| `VARZ` |
-| [Connections](../monitoring.md#connection-information)| `CONNZ` |
-| [Routing](../monitoring.md#route-information)| `ROUTEZ` |
-| [Gateways](../monitoring.md#gateway-information)| `GATEWAYZ` |
-| [Leaf Nodes](../monitoring.md#leaf-nodes-information)| `LEAFZ` |
-| [Subscription Routing](../monitoring.md#subscription-routing-information)| `SUBSZ` |
+| :--- | :--- |
+| [General Server Information](../monitoring.md#general-information) | `VARZ` |
+| [Connections](../monitoring.md#connection-information) | `CONNZ` |
+| [Routing](../monitoring.md#route-information) | `ROUTEZ` |
+| [Gateways](../monitoring.md#gateway-information) | `GATEWAYZ` |
+| [Leaf Nodes](../monitoring.md#leaf-nodes-information) | `LEAFZ` |
+| [Subscription Routing](../monitoring.md#subscription-routing-information) | `SUBSZ` |
 
 Servers like `nats-account-server` publish system account messages when a claim is updated, the nats-server listens for them, and updates its account information accordingly:
 

@@ -1,19 +1,16 @@
-# From Zero to Communicating Across K8S Regions using NATS Leafnodes
+# From Zero to K8S to Leafnodes using Helm
 
-First, we need a number of Kubernetes clusters to be setup already. In
-this case we'll create a few in Digital Ocean using the `doctl` tool but
-you could use any K8S solution available:
+First, we need a number of Kubernetes clusters to be setup already. In this case we'll create a few in Digital Ocean using the `doctl` tool but you could use any K8S solution available:
 
-```
+```text
 brew install doctl
 doctl kubernetes cluster create nats-k8s-sfo2 --count 3 --region sfo2
 doctl kubernetes cluster create nats-k8s-ams3 --count 3 --region ams3
 ```
 
-Next, get your NGS credentials with leafnodes enabled.  For this follow [these instructions](https://synadia.com/ngs/signup) and choose the `Developer` plan which is free and will allow you to create leafnode connections for a couple of clusters.
-Once you got the credentials, upload them as a secret to your K8S clusters:
+Next, get your NGS credentials with leafnodes enabled. For this follow [these instructions](https://synadia.com/ngs/signup) and choose the `Developer` plan which is free and will allow you to create leafnode connections for a couple of clusters. Once you got the credentials, upload them as a secret to your K8S clusters:
 
-```sh
+```bash
 for ctx in do-ams3-nats-k8s-ams3 do-sfo2-nats-k8s-sfo2; do
   kubectl --context $ctx create secret generic ngs-creds --from-file $HOME/.nkeys/creds/synadia/NGS/NGS.creds
 done
@@ -21,7 +18,7 @@ done
 
 Install Helm3 and add the NATS helm chart repo:
 
-```
+```text
 brew install helm
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm repo update
@@ -29,7 +26,7 @@ helm repo update
 
 Create the config that adds the leafnode connection to NGS:
 
-```
+```text
 # nats.yaml
 leafnodes:
   enabled: true
@@ -45,7 +42,7 @@ natsbox:
 
 Deploy it to your K8S regions:
 
-```sh
+```bash
 for ctx in do-ams3-nats-k8s-ams3 do-sfo2-nats-k8s-sfo2; do
   helm --kube-context $ctx install nats nats/nats -f nats.yaml
 done
@@ -53,7 +50,7 @@ done
 
 To test the multi-region connectivity by using the `nats-box` container that got deployed in each cluster:
 
-```
+```text
 kubectl --context do-ams3-nats-k8s-ams3  exec -it nats-box -- nats-sub -s nats hello
 Listening on [hello]
 
@@ -64,7 +61,7 @@ done
 
 Results from the subscribe session:
 
-```
+```text
 [#1] Received on [hello]: 'Hello World!'
 [#2] Received on [hello]: 'Hello World!'
 [#3] Received on [hello]: 'Hello World!'
@@ -75,3 +72,4 @@ Results from the subscribe session:
 [#8] Received on [hello]: 'Hello World!'
 [#9] Received on [hello]: 'Hello World!'
 ```
+
