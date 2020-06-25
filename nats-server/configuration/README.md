@@ -181,6 +181,7 @@ The Configuration options here refer to [JWT](securing_nats/jwt/) based authenti
 | [`http_port`](monitoring.md) | http port for server monitoring. |  |
 | [`http`](monitoring.md) | Listen specification `<host>:<port>`for server monitoring. |  |
 | [`https_port`](monitoring.md) | https port for server monitoring. This is influenced by the tls property. |  |
+| [`http_base_path`](monitoring.md) | base path for monitoring endpoints. | `/` |
 | [`https`](monitoring.md) | Listen specification `<host>:<port>`for TLS server monitoring. |  |
 | `system_account` | Name of the system account. Users of this account can subscribe to system events. See [System Accounts](sys_accounts/) for more details. |  |
 | `pid_file` | File containing PID, relative to ... This can serve as input to [nats-server --signal](../nats_admin/signals.md) |  |
