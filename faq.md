@@ -52,7 +52,8 @@ The NATS server \(`nats-server`\) is written in Go. There is client support for 
 
 ### Who maintains NATS?
 
-NATS is sponsored and supported by Synadia, a company founded by Derek Collison. The Synadia team maintain the NATS server, as well as the Go, Ruby, Node.js, C, C\#, Java and several other client libraries. Our very active user community also contributes client libraries for several other implementation languages. Please see the [download](https://nats.io/download) page for the complete list, and links to the relevant source repositories and documentation.
+NATS is maintained by a select group of Maintainers following a Governance process as part of the [Cloud Native Computing Foundation (CNCF)](http://cncf.io).
+The team of engineers at [Synadia](https://synadia.com) in conjunction with Community Maintainers, maintain the NATS server, NATS Streaming Server, as well as the official Go, Ruby, Node.js, C, C\#, Java and several other client libraries. Our very active user community also contributes client libraries and connectors for several other implementation languages. Please see the [download](https://nats.io/download) page for the complete list, and links to the relevant source repositories and documentation.
 
 ### What client support exists for NATS?
 
