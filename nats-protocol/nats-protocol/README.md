@@ -59,7 +59,7 @@ The following sections explain each protocol message.
 
 ### Description
 
-A client will need to start as a plain TCP connection, then wehn the server accepts a connection from the client, it will send information about itself, the configuration and security requirements are necessary for the client to successfully authenticate with the server and exchange messages. 
+A client will need to start as a plain TCP connection, then when the server accepts a connection from the client, it will send information about itself, the configuration and security requirements are necessary for the client to successfully authenticate with the server and exchange messages. 
 
 When using the updated client protocol \(see [`CONNECT`](./#connect) below\), `INFO` messages can be sent anytime by the server. This means clients with that protocol level need to be able to asynchronously handle `INFO` messages.
 
