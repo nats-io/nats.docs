@@ -348,9 +348,10 @@ When that same durable goes offline, `is_offline` is be set to `true`. Although 
 
 ## /isFTActive
 
-The endpoint [http://localhost:8222/streaming/isFTActive](http://localhost:8222/streaming/isFTActive) indicates, through the HTTP response code, if this server is running as the active server of a fault tolerant (FT) group. If the server is the active server, the HTTP response code returned is 200, otherwise 204 (which indicates either that the server is running as a FT standby server, or simply not running in FT mode).
+The endpoint [http://localhost:8222/streaming/isFTActive](http://localhost:8222/streaming/isFTActive) indicates, through the HTTP response code, if this server is running as the active server of a fault tolerant \(FT\) group. If the server is the active server, the HTTP response code returned is 200, otherwise 204 \(which indicates either that the server is running as a FT standby server, or simply not running in FT mode\).
 
 If the server is FT active:
+
 ```text
 curl -i http://localhost:8222/streaming/isFTActive
 HTTP/1.1 200 OK
@@ -359,8 +360,10 @@ Content-Length: 0
 ```
 
 If not:
+
 ```text
 curl -i http://localhost:8222/streaming/isFTActive
 HTTP/1.1 204 No Content
 Date: Wed, 24 Jun 2020 14:44:37 GMT
 ```
+
