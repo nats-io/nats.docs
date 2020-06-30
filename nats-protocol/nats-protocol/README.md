@@ -126,6 +126,8 @@ The valid options are as follows:
 * `version`: The version of the client.
 * `protocol`: _optional int_. Sending `0` \(or absent\) indicates client supports original protocol. Sending `1` indicates that the client supports dynamic reconfiguration of cluster topology changes by asynchronously receiving [`INFO`](./#info) messages with known servers it can reconnect to.
 * `echo`: Optional boolean. If set to `true`, the server \(version 1.2.0+\) will not send originating messages from this connection to its own subscriptions. Clients should set this to `true` only for server supporting this feature, which is when `proto` in the `INFO` protocol is set to at least `1`.
+* `sig`: In case the server has responded with a `nonce` on `INFO`, then a NATS client must use this field to reply with the signed `nonce`.
+* `jwt`: The JWT that identifies a user permissions and acccount.
 
 ### Example
 
