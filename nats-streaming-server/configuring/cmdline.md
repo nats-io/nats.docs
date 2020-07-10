@@ -2,6 +2,8 @@
 
 The NATS Streaming Server accepts command line arguments to control its behavior. There is a set of parameters specific to the NATS Streaming Server and some to the embedded NATS Server.
 
+Command line parameters override corresponding config options in a configuration file, which themselves override configuration defaults. Configuration defaults can be found on the [Configuration File](cfgfile.md) page.
+
 _**Note about parameters types**_
 
 | Type | Remark |
