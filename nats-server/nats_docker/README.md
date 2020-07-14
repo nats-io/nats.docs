@@ -103,29 +103,33 @@ curl http://127.0.0.1:8222/routez
 It is also straightforward to create a cluster using Docker Compose. Below is a simple example that uses a network named `nats` to create a full mesh cluster.
 
 ```yaml
-version: "3"
+version: "3.5"
 services:
   nats:
     image: nats
     ports:
       - "8222:8222"
+    networks: ["nats"]
   nats-1:
     image: nats
     command: "--cluster nats://0.0.0.0:6222 --routes=nats://ruser:T0pS3cr3t@nats:6222"
+    networks: ["nats"]
+    depends_on: ["nats"]
   nats-2:
     image: nats
     command: "--cluster nats://0.0.0.0:6222 --routes=nats://ruser:T0pS3cr3t@nats:6222"
+    networks: ["nats"]
+    depends_on: ["nats"]
+
 networks:
-  default:
-    external:
-      name: nats
+  nats:
+    name: nats
+
 ```
 
 Now we use Docker Compose to create the cluster that will be using the `nats` network:
 
 ```bash
-$ docker network create nats
-
 $ docker-compose -f nats-cluster.yaml up
 Recreating docs_nats_1   ... done
 Recreating docs_nats-2_1 ... done
