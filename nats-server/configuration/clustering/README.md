@@ -35,7 +35,7 @@ Each server has a client and cluster port specified. Servers with the routes opt
 
 Similarly, clients connecting to any server in the cluster will discover other servers in the cluster. If the connection to the server is interrupted, the client will attempt to connect to all other known servers.
 
-There is no explicit configuration for _seed server_. They simply serve as the starting point for server discovery by other members of the cluster as well as clients. As such these are the servers that clients have in their list of connect urls and cluster members have in their list of routes. They reduce configuration as not every server needs to be in these lists. But the ability for other server and clients to successfully connect depends on _seed server_ running. If multiple _seed server_ are used, they make use of the routes option as well, so so they can establish routes to one another.
+There is no explicit configuration for _seed server_. They simply serve as the starting point for server discovery by other members of the cluster as well as clients. As such these are the servers that clients have in their list of connect urls and cluster members have in their list of routes. They reduce configuration as not every server needs to be in these lists. But the ability for other server and clients to successfully connect depends on _seed server_ running. If multiple _seed server_ are used, they make use of the routes option as well, so they can establish routes to one another.
 
 ## Command Line Options
 
