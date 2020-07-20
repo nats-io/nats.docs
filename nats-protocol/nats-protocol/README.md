@@ -81,6 +81,7 @@ The valid options are as follows:
 * `tls_required`: If this is set, then the client must perform the TLS/1.2 handshake. Note, this used to be `ssl_required` and has been updated along with the protocol from SSL to TLS.
 * `tls_verify`: If this is set, the client must provide a valid certificate during the TLS handshake.
 * `connect_urls` : An optional list of server urls that a client can connect to.  
+* `ldm`: If the server supports _Lame Duck Mode_ notifications, and the current server has transitioned to lame duck, `ldm` will be set to `true`.
 
 #### connect\_urls
 
