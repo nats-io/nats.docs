@@ -11,7 +11,7 @@ Subscriptions come in several forms:
 
 For more details on the various types, check the [concepts](../nats-streaming-concepts/channels/subscriptions/) section.
 
-_**Note: message callbacks are invoked serially, one message at a time. If your application does not care about processing ordering and would prefer the messages to be dispatched concurrently, it is the application's responsibility to move them to some internal queue to be picked up by threads/go routines.**_
+_**Note: For a given subscription, messages are dispatched serially, one message at a time. If your application does not care about processing ordering and would prefer the messages to be dispatched concurrently, it is the application's responsibility to move them to some internal queue to be picked up by threads/go routines.**_
 
 Subscriptions set their starting position on creation using position or time. For example, in Go you can start at:
 
