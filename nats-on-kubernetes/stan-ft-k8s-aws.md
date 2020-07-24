@@ -1,4 +1,4 @@
-# NATS Streaming Cluster with FT Mode
+# NATS Streaming Cluster with FT Mode on AWS
 
 ## Preparation
 
@@ -6,13 +6,13 @@ First, we need a Kubernetes cluster with a provider that offers a service with a
 
 ```text
 # Create 3 nodes Kubernetes cluster
-eksctl create cluster --name nats-eks-cluster \
+eksctl create cluster --name stan-k8s \
   --nodes 3 \
-  --node-type=t3.large \
+  --node-type=t3.large \ # t3.small
   --region=us-east-2
 
 # Get the credentials for your cluster
-eksctl utils write-kubeconfig --name nats-eks-cluster --region us-east-2
+eksctl utils write-kubeconfig --name stan-k8s --region us-east-2
 ```
 
 For the FT mode to work, we will need to create an EFS volume which can be shared by more than one pod. Go into the [AWS console](https://us-east-2.console.aws.amazon.com/efs/home?region=us-east-2#/wizard/1) and create one and make the sure that it is in a security group where the k8s nodes will have access to it. In case of clusters created via eksctl, this will be a security group named `ClusterSharedNodeSecurityGroup`:
@@ -223,6 +223,7 @@ data:
       cluster_advertise: $CLUSTER_ADVERTISE
       connect_retries: 10
     }
+
     streaming {
       id: test-cluster
       store: file
@@ -256,15 +257,6 @@ spec:
   serviceName: stan
   replicas: 3
   volumeClaimTemplates:
-  - metadata:
-      name: efs
-      annotations:
-        volume.beta.kubernetes.io/storage-class: "aws-efs"
-    spec:
-      accessModes: [ "ReadWriteMany" ]
-      resources:
-        requests:
-          storage: 1Mi
   template:
     metadata:
       labels:
@@ -275,7 +267,7 @@ spec:
 
       containers:
       - name: stan
-        image: nats-streaming:latest
+        image: nats-streaming:alpine
 
         ports:
         # In case of NATS embedded mode expose these ports
@@ -334,6 +326,9 @@ spec:
       - name: config-volume
         configMap:
           name: stan-config
+      - name: efs
+        persistentVolumeClaim:
+          claimName: efs
 ```
 
 Your cluster now will look something like this:
@@ -384,4 +379,3 @@ $ kubectl logs stan-0 -c stan
 [1] 2019/12/04 20:40:41.671541 [INF] STREAM: ----------------------------------
 [1] 2019/12/04 20:40:41.671546 [INF] STREAM: Streaming Server is ready
 ```
-
