@@ -281,7 +281,7 @@ Finally the user JWT:
 
 The user id is the public key for the user, the issuer is the account. This user can publish and subscribe to anything, as no limits are set.
 
-When a user connects to a nats-server, it presents it's user JWT and signs an nonce using its private key. The server verifies if the user is who they say they are by validating that the nonce was signed using the private key associated with the public key, representing the identify of the user. Next, the server fetches the issuer account and validates that the account was issued by a trusted operator completing the chain of trust verification.
+When a user connects to a nats-server, it presents it's user JWT and signs a nonce using its private key. The server verifies if the user is who they say they are by validating that the nonce was signed using the private key associated with the public key, representing the identify of the user. Next, the server fetches the issuer account and validates that the account was issued by a trusted operator completing the chain of trust verification.
 
 Let’s put all of this together, and create a simple server configuration that accepts sessions from `U`.
 
