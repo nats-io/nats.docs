@@ -218,7 +218,9 @@ data:
     cluster {
       port: 6222
       routes [
-        nats://stan:6222
+        nats://stan-0.stan:6222
+        nats://stan-1.stan:6222
+        nats://stan-2.stan:6222
       ]
       cluster_advertise: $CLUSTER_ADVERTISE
       connect_retries: 10
