@@ -2,7 +2,7 @@
 
 You can use a configuration file to configure the options specific to the NATS Streaming Server.
 
-Use the `-sc` or `-stan_config` command line parameter to specify the file to use.
+Use the `-sc` or `--stan_config` command line parameter to specify the file to use.
 
 For the embedded NATS Server, you can use another configuration file and pass it to the Streaming Server using `-c` or `--config` command line parameters.
 
