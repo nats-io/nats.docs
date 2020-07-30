@@ -54,3 +54,12 @@ kubectl apply -f https://raw.githubusercontent.com/nats-io/k8s/master/nats-strea
 
 For NATS Streaming, it is actually recommended to use the Fault Tolerance mode as that would show better performance than clustering mode and better failover. You can follow this guide to setup [NATS Streaming with Fault Tolerance.](stan-ft-k8s-aws.md)
 
+## Using Helm Charts
+
+Both NATS and NATS Streaming have officially supported Helm charts as well:
+
+- [NATS Helm Chart](https://github.com/nats-io/k8s/tree/master/helm/charts/nats)
+- [NATS Streaming Helm Chart](https://github.com/nats-io/k8s/tree/master/helm/charts/stan)
+
+
+
