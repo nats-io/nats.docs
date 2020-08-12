@@ -90,7 +90,7 @@ If other form of credentials are used \(jwt, nkey or other\), then the server wi
 | :--- | :--- |
 | `url` | Leafnode URL \(URL protocol should be `nats-leaf`\). |
 | `urls` | Leafnode URL array. Supports multiple URLs for discovery, e.g., urls: \[ "nats-leaf://host1:7422", "nats-leaf://host2:7422" \] |
-| `account` | [Account](../securing_nats/accounts.md) name or jwt public key identifying the leafnode. Account must be defined locally. |
+| `account` | [Account](../securing_nats/accounts.md) name or jwt public key identifying the local account to bind to this remote server. Any traffic locally on this account will be forwarded to the remote server.
 | `credentials` | Credential file for connecting to the leafnode server. |
 | `tls` | A [TLS configuration](leafnode_conf.md#tls-configuration-block) block. Leafnode client will use specified TLS certificates when connecting/authenticating. |
 
