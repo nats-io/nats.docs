@@ -52,12 +52,11 @@ Success! - added user "TA" to "A"
 
 ## Create the Server Config
 
-The `nsc` tool can generate a configuration file automatically. You provide a path to the server configuration and operator jwt. The `nsc` tool will copy the operator JWT to the file specified, and generate the server config for you:
+The `nsc` tool can generate a configuration file automatically. You provide a path to the server configuration. The `nsc` tool will generate the server config for you:
 
 ```text
-> nsc generate config --mem-resolver --config-file /tmp/server.conf --operator-jwt /tmp/memory.jwt
+> nsc generate config --mem-resolver --config-file /tmp/server.conf 
 Success!! - generated "/tmp/server.conf"
-            generated "/tmp/memory.jwt"
 ```
 
 If you require additional settings, you may want to consider using [`include`](../../#include-directive) in your main configuration, to reference the generated files. Otherwise, you can start a server and reference the generated configuration:
@@ -70,7 +69,7 @@ You can then [test it](mem_resolver.md#testing-the-configuration).
 
 ## Manual Server Config
 
-While generating a configuration file is easy, you may want to craft one by hand to know the details. With the entities created, and a standard location for the `.nsc` directory. You can reference the operator JWT and the account JWT in a server configuration. Remember that your configuration will be in `$NSC_HOME/nats/<operator_name>/<operator_name>.jwt` for the operator. The account JWT will be in `$NSC_HOME/nats/<operator_name>/accounts/<account_name>/<account_name>.jwt`
+While generating a configuration file is easy, you may want to craft one by hand to know the details. With the entities created, and a standard location for the `.nsc` directory. You can reference the operator JWT and the account JWT in a server configuration or the JWT string directly. Remember that your configuration will be in `$NSC_HOME/nats/<operator_name>/<operator_name>.jwt` for the operator. The account JWT will be in `$NSC_HOME/nats/<operator_name>/accounts/<account_name>/<account_name>.jwt`
 
 For the configuration you'll need:
 
@@ -80,7 +79,7 @@ For the configuration you'll need:
 The format of the file is:
 
 ```text
-operator: <path to the operator jwt>
+operator: <path to the operator jwt or jwt itself>
 resolver: MEMORY
 resolver_preload: {
     <public key for an account>: <contents of the account jwt>
