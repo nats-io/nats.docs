@@ -111,7 +111,7 @@ You can then [test it](mem_resolver.md#testing-the-configuration).
 To test the configuration, simply use one of the standard tools:
 
 ```text
-> nats-pub -creds ~/.nkeys/memory/accounts/A/users/TA.creds hello world
+> nats-pub -creds ~/.nkeys/creds/memory/accounts/A/TA.creds hello world
 Published [hello] : 'world'
 ```
 
