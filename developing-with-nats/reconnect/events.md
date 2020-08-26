@@ -112,5 +112,46 @@ nc.on('reconnect', (conn, server) => {
 nc.close();
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+static void
+disconnectedCB(natsConnection *conn, void *closure)
+{
+    // Handle disconnect error event
+}
+
+static void
+reconnectedCB(natsConnection *conn, void *closure)
+{
+    // Handle reconnect event
+}
+
+(...)
+
+natsConnection      *conn      = NULL;
+natsOptions         *opts      = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsOptions_Create(&opts);
+
+// Connection event handlers are invoked asynchronously
+// and the state of the connection may have changed when
+// the callback is invoked.
+if (s == NATS_OK)
+    s = natsOptions_SetDisconnectedCB(opts, disconnectedCB, NULL);
+if (s == NATS_OK)
+    s = natsOptions_SetReconnectedCB(opts, reconnectedCB, NULL);
+
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
+```
+{% endtab %}
 {% endtabs %}
 

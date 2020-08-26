@@ -109,6 +109,29 @@ await nc.flush();
 nc.close();
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn      = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsConnection_ConnectTo(&conn, NATS_DEFAULT_URL);
+
+// Send a request and wait for up to 1 second
+if (s == NATS_OK)
+    s = natsConnection_PublishString(conn, "foo", "All is Well");
+
+// Sends a PING and wait for a PONG from the server, up to the given timeout.
+// This gives guarantee that the server has processed the above message.
+if (s == NATS_OK)
+    s = natsConnection_FlushTimeout(conn, 1000);
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+```
+{% endtab %}
 {% endtabs %}
 
 ## Flush and Ping/Pong

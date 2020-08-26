@@ -140,5 +140,29 @@ let sub = await nc.subscribe(createInbox(), (err, msg) => {
 sub.unsubscribe();
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn      = NULL;
+natsSubscription    *sub       = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsConnection_ConnectTo(&conn, NATS_DEFAULT_URL);
+
+// Subscribe
+if (s == NATS_OK)
+    s = natsConnection_SubscribeSync(&sub, conn, "updates");
+
+// Unsubscribe
+if (s == NATS_OK)
+    s = natsSubscription_Unsubscribe(sub);
+
+(...)
+
+// Destroy objects that were created
+natsSubscription_Destroy(sub);
+natsConnection_Destroy(conn);
+```
+{% endtab %}
 {% endtabs %}
 

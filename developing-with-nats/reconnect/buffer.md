@@ -59,6 +59,27 @@ nc.close();
 // Reconnect buffer size is not configurable on NATS Typescript client
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn      = NULL;
+natsOptions         *opts      = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsOptions_Create(&opts);
+if (s == NATS_OK)
+    // Set reconnect buffer size in bytes (5 MB)
+    s = natsOptions_SetReconnectBufSize(opts, 5*1024*1024);
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
+```
+{% endtab %}
 {% endtabs %}
 
 > _As mentioned throughout this document, each client library may behave slightly differently. Please check the documentation for the library you are using._

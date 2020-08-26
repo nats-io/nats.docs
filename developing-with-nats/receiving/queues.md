@@ -119,6 +119,42 @@ await nc.subscribe('updates', (err, msg) => {
 }, {queue: "workers"});
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+static void
+onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg, void *closure)
+{
+    printf("Received msg: %s - %.*s\n",
+           natsMsg_GetSubject(msg),
+           natsMsg_GetDataLength(msg),
+           natsMsg_GetData(msg));
+
+    // Need to destroy the message!
+    natsMsg_Destroy(msg);
+}
+
+
+(...)
+
+natsConnection      *conn = NULL;
+natsSubscription    *sub  = NULL;
+natsStatus          s;
+
+s = natsConnection_ConnectTo(&conn, NATS_DEFAULT_URL);
+
+// Create a queue subscription on "updates" with queue name "workers"
+if (s == NATS_OK)
+    s = natsConnection_QueueSubscribe(&sub, conn, "updates", "workers", onMsg, NULL);
+
+(...)
+
+
+// Destroy objects that were created
+natsSubscription_Destroy(sub);
+natsConnection_Destroy(conn);
+```
+{% endtab %}
 {% endtabs %}
 
 If you run this example with the publish examples that send to `updates`, you will see that one of the instances gets a message while the others you run won't. But the instance that receives the message will change.

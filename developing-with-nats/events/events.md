@@ -168,6 +168,53 @@ nc.on('reconnect', (nc, url) => {
 });
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+static void
+disconnectedCB(natsConnection *conn, void *closure)
+{
+    // Do something
+    printf("Connection disconnected\n");
+}
+
+static void
+reconnectedCB(natsConnection *conn, void *closure)
+{
+    // Do something
+    printf("Connection reconnected\n");
+}
+
+static void
+closedCB(natsConnection *conn, void *closure)
+{
+    // Do something
+    printf("Connection closed\n");
+}
+
+(...)
+
+natsConnection      *conn      = NULL;
+natsOptions         *opts      = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsOptions_Create(&opts);
+if (s == NATS_OK)
+    s = natsOptions_SetDisconnectedCB(opts, disconnectedCB, NULL);
+if (s == NATS_OK)
+    s = natsOptions_SetReconnectedCB(opts, reconnectedCB, NULL);
+if (s == NATS_OK)
+    s = natsOptions_SetClosedCB(opts, closedCB, NULL);
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
+```
+{% endtab %}
 {% endtabs %}
 
 ## Listen for New Servers
@@ -252,6 +299,52 @@ nc.on('serversDiscovered', (urls) => {
 nc.on('serversChanged', (ce) => {
     t.log('servers changed\n', 'added: ',ce.added, 'removed:', ce.removed);
 });
+```
+{% endtab %}
+
+{% tab title="C" %}
+```c
+static void
+discoveredServersCB(natsConnection *conn, void *closure)
+{
+    natsStatus  s         = NATS_OK;
+    char        **servers = NULL;
+    int         count     = 0;
+
+    s = natsConnection_GetDiscoveredServers(conn, &servers, &count);
+    if (s == NATS_OK)
+    {
+        int i;
+
+        // Do something...
+        for (i=0; i<count; i++)
+            printf("Discovered server: %s\n", servers[i]);
+
+        // Free allocated memory
+        for (i=0; i<count; i++)
+            free(servers[i]);
+        free(servers);
+    }
+}
+
+(...)
+
+natsConnection      *conn      = NULL;
+natsOptions         *opts      = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsOptions_Create(&opts);
+if (s == NATS_OK)
+    s = natsOptions_SetDiscoveredServersCB(opts, discoveredServersCB, NULL);
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+(...)
+
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
@@ -365,6 +458,35 @@ end
 nc.on('error', (err) => {
     t.log('client got an out of band error:', err);
 });
+```
+{% endtab %}
+
+{% tab title="C" %}
+```c
+static void
+errorCB(natsConnection *conn, natsSubscription *sub, natsStatus s, void *closure)
+{
+    // Do something
+    printf("Error: %d - %s\n", s, natsStatus_GetText(s));
+}
+
+(...)
+
+natsConnection      *conn      = NULL;
+natsOptions         *opts      = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsOptions_Create(&opts);
+if (s == NATS_OK)
+    s = natsOptions_SetErrorHandler(opts, errorCB, NULL);
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}

@@ -202,6 +202,73 @@ await nc.drain();
 nc.close();
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+static void
+onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg, void *closure)
+{
+    printf("Received msg: %s - %.*s\n",
+           natsMsg_GetSubject(msg),
+           natsMsg_GetDataLength(msg),
+           natsMsg_GetData(msg));
+
+    // Add some delay while processing
+    nats_Sleep(200);
+
+    // Need to destroy the message!
+    natsMsg_Destroy(msg);
+}
+
+static void
+closeHandler(natsConnection *conn, void *closure)
+{
+    cond_variable cv = (cond_variable) closure;
+
+    notify_cond_variable(cv);
+}
+
+(...)
+
+
+natsConnection      *conn      = NULL;
+natsOptions         *opts      = NULL;
+natsSubscription    *sub       = NULL;
+natsStatus          s          = NATS_OK;
+cond_variable       cv         = new_cond_variable(); // some fictuous way to notify between threads.
+
+s = natsOptions_Create(&opts);
+if (s == NATS_OK)
+    // Setup a close handler and pass a reference to our condition variable.
+    s = natsOptions_SetClosedCB(opts, closeHandler, (void*) cv);
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+// Subscribe
+if (s == NATS_OK)
+    s = natsConnection_Subscribe(&sub, conn, "foo", onMsg, NULL);
+
+// Publish a message
+if (s == NATS_OK)
+    s = natsConnection_PublishString(conn, "foo", "hello");
+
+// Drain the connection, which will close it when done.
+if (s == NATS_OK)
+    s = natsConnection_Drain(conn);
+
+// Wait for the connection to be closed
+if (s == NATS_OK)
+    cond_variable_wait(cv);
+
+(...)
+
+// Destroy objects that were created
+natsSubscription_Destroy(sub);
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
+```
+{% endtab %}
+
 {% endtabs %}
 
 The mechanics of drain for a subscription are simpler:
@@ -364,6 +431,41 @@ async def example(loop):
 let sub = await nc.subscribe('updates', (err, msg) => {
     t.log('worker got message', msg.data);
 }, {queue: "workers"});
+```
+{% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn      = NULL;
+natsSubscription    *sub       = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsConnection_ConnectTo(&conn, NATS_DEFAULT_URL);
+
+// Subscribe
+if (s == NATS_OK)
+    s = natsConnection_Subscribe(&sub, conn, "foo", onMsg, NULL);
+
+// Publish 2 messages
+if (s == NATS_OK)
+{
+    int i;
+    for (i=0; (s == NATS_OK) && (i<2); i++)
+    {
+        s = natsConnection_PublishString(conn, "foo", "hello");
+    }
+}
+
+// Call Drain on the subscription. It unsubscribes but
+// wait for all pending messages to be processed.
+if (s == NATS_OK)
+    s = natsSubscription_Drain(sub);
+
+(...)
+
+// Destroy objects that were created
+natsSubscription_Destroy(sub);
+natsConnection_Destroy(conn);
 ```
 {% endtab %}
 {% endtabs %}

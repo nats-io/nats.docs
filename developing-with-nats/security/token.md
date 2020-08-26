@@ -69,6 +69,26 @@ end
 let nc = await connect({url: server.nats, token: "mytoken"});
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn      = NULL;
+natsOptions         *opts      = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsOptions_Create(&opts);
+if (s == NATS_OK)
+    s = natsOptions_SetToken(opts, "mytoken");
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
+```
+{% endtab %}
 {% endtabs %}
 
 ## Connecting with a Token in the URL
@@ -132,6 +152,26 @@ end
 ```typescript
 let url = `nats://:mytoken@127.0.0.1:${port}`;
 let nc = await connect({url: url});
+```
+{% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn      = NULL;
+natsOptions         *opts      = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsOptions_Create(&opts);
+if (s == NATS_OK)
+    s = natsOptions_SetURL(opts, "nats://mytoken@127.0.0.1:4222");
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}

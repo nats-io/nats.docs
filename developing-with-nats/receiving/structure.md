@@ -168,5 +168,11 @@ nc.subscribe('updates', (err, msg) => {
 });
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+// Structured data is not configurable in C NATS Client.
+```
+{% endtab %}
 {% endtabs %}
 

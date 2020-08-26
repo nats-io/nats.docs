@@ -134,5 +134,43 @@ await nc.subscribe('time', (err, msg) => {
 });
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn      = NULL;
+natsSubscription    *sub       = NULL;
+natsMsg             *msg       = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsConnection_ConnectTo(&conn, NATS_DEFAULT_URL);
+
+// Subscribe
+if (s == NATS_OK)
+    s = natsConnection_SubscribeSync(&sub, conn, "time");
+
+// Wait for messages
+if (s == NATS_OK)
+    s = natsSubscription_NextMsg(&msg, sub, 10000);
+
+if (s == NATS_OK)
+{
+    char buf[64];
+
+    snprintf(buf, sizeof(buf), "%lld", nats_Now());
+
+    // Send the time as a response
+    s = natsConnection_Publish(conn, natsMsg_GetReply(msg), buf, (int) strlen(buf));
+
+    // Destroy message that was received
+    natsMsg_Destroy(msg);
+}
+
+(...)
+
+// Destroy objects that were created
+natsSubscription_Destroy(sub);
+natsConnection_Destroy(conn);
+```
+{% endtab %}
 {% endtabs %}
 

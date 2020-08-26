@@ -155,5 +155,23 @@ await nc.subscribe(inbox, (err, msg) => {
 nc.publish('time', "", inbox);
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn      = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsConnection_ConnectTo(&conn, NATS_DEFAULT_URL);
+// Publish a message and provide a reply subject
+if (s == NATS_OK)
+    s = natsConnection_PublishRequestString(conn, "request", "reply", "this is the request");
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+```
+{% endtab %}
+
 {% endtabs %}
 

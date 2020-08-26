@@ -165,6 +165,40 @@ await nc.subscribe('time.us.*', (err, msg) => {
 });
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+static void
+onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg, void *closure)
+{
+    printf("Received msg: %s - %.*s\n",
+           natsMsg_GetSubject(msg),
+           natsMsg_GetDataLength(msg),
+           natsMsg_GetData(msg));
+
+    // Need to destroy the message!
+    natsMsg_Destroy(msg);
+}
+
+
+(...)
+
+natsConnection      *conn = NULL;
+natsSubscription    *sub  = NULL;
+natsStatus          s;
+
+s = natsConnection_ConnectTo(&conn, NATS_DEFAULT_URL);
+if (s == NATS_OK)
+    s = natsConnection_Subscribe(&sub, conn, "time.*.east", onMsg, NULL);
+
+(...)
+
+
+// Destroy objects that were created
+natsSubscription_Destroy(sub);
+natsConnection_Destroy(conn);
+```
+{% endtab %}
 {% endtabs %}
 
 or do something similar with `>`:
@@ -333,6 +367,40 @@ await nc.subscribe('time.>', (err, msg) => {
     }
     t.log(msg.subject, time);
 });
+```
+{% endtab %}
+
+{% tab title="C" %}
+```c
+static void
+onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg, void *closure)
+{
+    printf("Received msg: %s - %.*s\n",
+           natsMsg_GetSubject(msg),
+           natsMsg_GetDataLength(msg),
+           natsMsg_GetData(msg));
+
+    // Need to destroy the message!
+    natsMsg_Destroy(msg);
+}
+
+
+(...)
+
+natsConnection      *conn = NULL;
+natsSubscription    *sub  = NULL;
+natsStatus          s;
+
+s = natsConnection_ConnectTo(&conn, NATS_DEFAULT_URL);
+if (s == NATS_OK)
+    s = natsConnection_Subscribe(&sub, conn, "time.>", onMsg, NULL);
+
+(...)
+
+
+// Destroy objects that were created
+natsSubscription_Destroy(sub);
+natsConnection_Destroy(conn);
 ```
 {% endtab %}
 {% endtabs %}

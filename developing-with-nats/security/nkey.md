@@ -105,5 +105,45 @@ let nc = await connect({
 });
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+static natsStatus
+sigHandler(
+    char            **customErrTxt,
+    unsigned char   **signature,
+    int             *signatureLength,
+    const char      *nonce,
+    void            *closure)
+{
+    // Sign the given `nonce` and return the signature as `signature`.
+    // This needs to allocate memory. The length of the signature is
+    // returned as `signatureLength`.
+    // If an error occurs the user can return specific error text through
+    // `customErrTxt`. The library will free this pointer.
+
+    return NATS_OK;
+}
+
+(...)
+
+natsConnection      *conn      = NULL;
+natsOptions         *opts      = NULL;
+natsStatus          s          = NATS_OK;
+const char          *pubKey    = "my public key......";
+
+s = natsOptions_Create(&opts);
+if (s == NATS_OK)
+    s = natsOptions_SetNKey(opts, pubKey, sigHandler, NULL);
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
+```
+{% endtab %}
 {% endtabs %}
 

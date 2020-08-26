@@ -110,6 +110,40 @@ await nc.subscribe("updates", cb=cb, pending_bytes_limit=5*1024*1024, pending_ms
 // slow pending limits are not configurable on TypeScript NATS client.
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn      = NULL;
+natsSubscription    *sub1      = NULL;
+natsSubscription    *sub2      = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsConnection_ConnectTo(&conn, NATS_DEFAULT_URL);
+
+// Subscribe
+if (s == NATS_OK)
+    s = natsConnection_Subscribe(&sub1, conn, "updates", onMsg, NULL);
+
+// Set limits of 1000 messages or 5MB, whichever comes first
+if (s == NATS_OK)
+    s = natsSubscription_SetPendingLimits(sub1, 1000, 5*1024*1024);
+
+// Subscribe
+if (s == NATS_OK)
+    s = natsConnection_Subscribe(&sub2, conn, "updates", onMsg, NULL);
+
+// Set no limits for this subscription
+if (s == NATS_OK)
+    s = natsSubscription_SetPendingLimits(sub2, -1, -1);
+
+(...)
+
+// Destroy objects that were created
+natsSubscription_Destroy(sub1);
+natsSubscription_Destroy(sub2);
+natsConnection_Destroy(conn);
+```
+{% endtab %}
 {% endtabs %}
 
 ## Detect a Slow Consumer and Check for Dropped Messages
@@ -230,6 +264,36 @@ public class SlowConsumerListener {
 {% tab title="TypeScript" %}
 ```typescript
 // slow consumer detection is not configurable on NATS TypeScript client.
+```
+{% endtab %}
+
+{% tab title="C" %}
+```c
+static void
+errorCB(natsConnection *conn, natsSubscription *sub, natsStatus s, void *closure)
+{
+    
+    // Do something
+    printf("Error: %d - %s", s, natsStatus_GetText(s));
+}
+
+(...)
+
+natsConnection      *conn      = NULL;
+natsOptions         *opts      = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsOptions_Create(&opts);
+if (s == NATS_OK)
+    s = natsOptions_SetErrorHandler(opts, errorCB, NULL);
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
