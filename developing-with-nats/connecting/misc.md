@@ -89,6 +89,25 @@ nc.on('connect', (nc: Client, url: string, options: ServerInfo) => {
 });
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn    = NULL;
+natsStatus          s        = NATS_OK;
+
+s = natsConnection_ConnectTo(&conn, NATS_DEFAULT_URL);
+if (s == NATS_OK)
+{
+    int64_t mp = natsConnection_GetMaxPayload(conn);
+    printf("Max payload: %d\n", (int) mp);
+}
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+```
+{% endtab %}
 {% endtabs %}
 
 ## Turn On Pedantic Mode
@@ -178,6 +197,26 @@ let nc = await connect({
 nc.close();
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn    = NULL;
+natsOptions         *opts    = NULL;
+natsStatus          s        = NATS_OK;
+
+s = natsOptions_Create(&opts);
+if (s == NATS_OK)
+    s = natsOptions_SetPedantic(opts, true);
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
+```
+{% endtab %}
 {% endtabs %}
 
 ## Set the Maximum Control Line Size
@@ -234,6 +273,12 @@ let nc = NATS.connect({
 {% tab title="TypeScript" %}
 ```typescript
 // control line size is not configurable on TypeScript NATS client.
+```
+{% endtab %}
+
+{% tab title="C" %}
+```c
+// control line is not configurable on C NATS client.
 ```
 {% endtab %}
 {% endtabs %}
@@ -323,6 +368,26 @@ let nc = await connect({
 });
 
 nc.close();
+```
+{% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn    = NULL;
+natsOptions         *opts    = NULL;
+natsStatus          s        = NATS_OK;
+
+s = natsOptions_Create(&opts);
+if (s == NATS_OK)
+    s = natsOptions_SetVerbose(opts, true);
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}

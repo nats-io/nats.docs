@@ -110,6 +110,36 @@ t.log('the time is', msg.data);
 nc.close();
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn      = NULL;
+natsMsg             *msg       = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsConnection_ConnectTo(&conn, NATS_DEFAULT_URL);
+
+// Send a request and wait for up to 1 second
+if (s == NATS_OK)
+    s = natsConnection_RequestString(&msg, conn, "request", "this is the request", 1000);
+
+if (s == NATS_OK)
+{
+    printf("Received msg: %s - %.*s\n",
+           natsMsg_GetSubject(msg),
+           natsMsg_GetDataLength(msg),
+           natsMsg_GetData(msg));
+
+    // Destroy the message that was received
+    natsMsg_Destroy(msg);
+}
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+```
+{% endtab %}
 {% endtabs %}
 
 You can think of request-reply in the library as a subscribe, get one message, unsubscribe pattern. In Go this might look something like:

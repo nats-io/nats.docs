@@ -93,6 +93,26 @@ end
 let nc = await connect({url: server.nats, user: "myname", pass: "password"});
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn      = NULL;
+natsOptions         *opts      = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsOptions_Create(&opts);
+if (s == NATS_OK)
+    s = natsOptions_SetUserInfo(opts, "myname", "password");
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
+```
+{% endtab %}
 {% endtabs %}
 
 ## Connecting with a User/Password in the URL
@@ -170,6 +190,26 @@ end
 ```typescript
 let url = `nats://myname:password@127.0.0.1:${port}`;
 let nc = await connect({url: url});
+```
+{% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn      = NULL;
+natsOptions         *opts      = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsOptions_Create(&opts);
+if (s == NATS_OK)
+    s = natsOptions_SetURL(opts, "nats://myname:password@127.0.0.1:4222");
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}

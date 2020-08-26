@@ -106,5 +106,11 @@ let nc = await connect({
 nc.publish('updates', {ticker: 'GOOG', price: 1200});
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+// Structured data is not configurable in C NATS Client.
+```
+{% endtab %}
 {% endtabs %}
 

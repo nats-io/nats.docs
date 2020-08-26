@@ -88,5 +88,28 @@ let nc = await connect({
 });
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn      = NULL;
+natsOptions         *opts      = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsOptions_Create(&opts);
+if (s == NATS_OK)
+    // Pass the credential file this way if the file contains both user JWT and seed.
+    // Otherwise, if the content is split, the first file is the user JWT, the second
+    // contains the seed.
+    s = natsOptions_SetUserCredentialsFromFiles(opts, "path_to_creds_file", NULL);
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
+```
+{% endtab %}
 {% endtabs %}
 

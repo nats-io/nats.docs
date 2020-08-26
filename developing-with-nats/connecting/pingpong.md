@@ -93,5 +93,29 @@ let nc = await connect({
 nc.close();
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn    = NULL;
+natsOptions         *opts    = NULL;
+natsStatus          s        = NATS_OK;
+
+s = natsOptions_Create(&opts);
+if (s == NATS_OK)
+    // Set Ping interval to 20 seconds (20,000 milliseconds)
+    s = natsOptions_SetPingInterval(opts, 20000);
+if (s == NATS_OK)
+    // Set the limit to 5
+    s = natsOptions_SetMaxPingsOut(opts, 5);
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
+```
+{% endtab %}
 {% endtabs %}
 

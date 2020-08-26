@@ -143,5 +143,45 @@ let sub2 = await nc.subscribe(createInbox(), (err, msg) => {
 sub2.unsubscribe(10);
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn      = NULL;
+natsSubscription    *sub       = NULL;
+natsMsg             *msg       = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsConnection_ConnectTo(&conn, NATS_DEFAULT_URL);
+
+// Subscribe
+if (s == NATS_OK)
+    s = natsConnection_SubscribeSync(&sub, conn, "updates");
+
+// Unsubscribe after 1 message is received
+if (s == NATS_OK)
+    s = natsSubscription_AutoUnsubscribe(sub, 1);
+
+// Wait for messages
+if (s == NATS_OK)
+    s = natsSubscription_NextMsg(&msg, sub, 10000);
+
+if (s == NATS_OK)
+{
+    printf("Received msg: %s - %.*s\n",
+            natsMsg_GetSubject(msg),
+            natsMsg_GetDataLength(msg),
+            natsMsg_GetData(msg));
+
+    // Destroy message that was received
+    natsMsg_Destroy(msg);
+}
+
+(...)
+
+// Destroy objects that were created
+natsSubscription_Destroy(sub);
+natsConnection_Destroy(conn);
+```
+{% endtab %}
 {% endtabs %}
 

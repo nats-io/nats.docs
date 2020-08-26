@@ -114,5 +114,44 @@ nc.subscribe("updates", (err, msg) => {
 });
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+static void
+onMsg(natsConnection *conn, natsSubscription *sub, natsMsg *msg, void *closure)
+{
+    printf("Received msg: %s - %.*s\n",
+           natsMsg_GetSubject(msg),
+           natsMsg_GetDataLength(msg),
+           natsMsg_GetData(msg));
+
+    // Need to destroy the message!
+    natsMsg_Destroy(msg);
+}
+
+(...)
+
+natsConnection      *conn = NULL;
+natsSubscription    *sub  = NULL;
+natsStatus          s;
+
+s = natsConnection_ConnectTo(&conn, NATS_DEFAULT_URL);
+if (s == NATS_OK)
+{
+    // Creates an asynchronous subscription on subject "foo".
+    // When a message is sent on subject "foo", the callback
+    // onMsg() will be invoked by the client library.
+    // You can pass a closure as the last argument.
+    s = natsConnection_Subscribe(&sub, conn, "foo", onMsg, NULL);
+}
+
+(...)
+
+
+// Destroy objects that were created
+natsSubscription_Destroy(sub);
+natsConnection_Destroy(conn);
+```
+{% endtab %}
 {% endtabs %}
 

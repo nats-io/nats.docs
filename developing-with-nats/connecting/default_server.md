@@ -85,5 +85,19 @@ connect()
     // add a .catch/.finally
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn = NULL;
+natsStatus          s;
+
+s = natsConnection_ConnectTo(&conn, NATS_DEFAULT_URL);
+if (s != NATS_OK)
+  // handle error
+
+// Destroy connection, no-op if conn is NULL.
+natsConnection_Destroy(conn);
+```
+{% endtab %}
 {% endtabs %}
 

@@ -82,5 +82,23 @@ end
     nc.close();
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn = NULL;
+natsStatus          s;
+
+// If connecting to the default port, the URL can be simplified
+// to just the hostname/IP.
+// That is, the connect below is equivalent to:
+// natsConnection_ConnectTo(&conn, "nats://demo.nats.io:4222");
+s = natsConnection_ConnectTo(&conn, "demo.nats.io");
+if (s != NATS_OK)
+  // handle error
+
+// Destroy connection, no-op if conn is NULL.
+natsConnection_Destroy(conn);
+```
+{% endtab %}
 {% endtabs %}
 
