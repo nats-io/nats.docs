@@ -598,7 +598,7 @@ NATS supports the Adaptive Edge architecture which allows for large, flexible de
     
 </table>
 <h3>References</h3>
-<p><sup>1</sup> https://docs.cloudera.com/HDPDocuments/HDF3/HDF-3.1.0/bk_planning-your-deployment/content/ch_hardware-sizing.html#:~:text=Kafka%20Broker%20Node%3A%20eight%20cores,and%20a%2010%2D%20Gige%20Nic%20.&text=75%20MB%2Fsec%20per%20node,therefore%2010GB%20Nic%20is%20required%20).</p>
+<p><sup>1</sup> https://docs.cloudera.com/HDPDocuments/HDF3/HDF-3.1.0/bk_planning-your-deployment/content/ch_hardware-sizing.html#:~:text=Kafka%20Broker%20Node%3A%20eight%20cores,and%20a%2010%2D%20Gige%20Nic%20.&text=75%20MB%2Fsec%20per%20node,therefore%2010GB%20Nic%20is%20required%20</p>
 <p><sup>2</sup> https://pulsar.apache.org/docs/v1.21.0-incubating/deployment/cluster/ </p>
 <p><sup>3</sup> https://github.com/grpc-ecosystem</p>
 </body>
