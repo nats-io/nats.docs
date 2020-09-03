@@ -65,7 +65,7 @@ In this comparison, we will be using NATS, Apache Kafka, RabbitMQ, Apache Pulsar
             </b>
         </td>
         <td>
-            Streams and Services through built in publish/subscribe, request/reply, and load balanced queue subscriber patterns.
+            Streams and Services through built in publish/subscribe, request/reply, and load balanced queue subscriber patterns. Dynamic request permissioning and request subject obfuscation is supported.
         </td>
     </tr>
     <tr>
@@ -190,7 +190,7 @@ In this comparison, we will be using NATS, Apache Kafka, RabbitMQ, Apache Pulsar
             </b>
         </td>
         <td>
-            Multi-tenancy is implemented through tenants; data sharing across tenants is not supported.  
+            Multi-tenancy is implemented through tenants; built-in data sharing across tenants is not supported.  Each tenant can have it’s own authentication and authorization scheme.  
         </td>
     </tr>
     <tr>
@@ -297,7 +297,7 @@ In this comparison, we will be using NATS, Apache Kafka, RabbitMQ, Apache Pulsar
             </b>
         </td>
         <td>
-            Users can configure call credentials to authorize individual calls on a service.
+            Users can configure call credentials to authorize fine grained individual calls on a service.
         </td>
     </tr>
     <tr>
@@ -445,7 +445,7 @@ NATS supports the Adaptive Edge architecture which allows for large, flexible de
             </b>
         </td>
         <td>
-            gRPC is point to point and does not have a server or broker to deploy, but always requires additional pieces for production deployments.
+            gRPC is point to point and does not have a server or broker to deploy or manage, but always requires additional pieces for production deployments.
         </td>
     </tr>
     <tr>
@@ -507,7 +507,7 @@ NATS supports the Adaptive Edge architecture which allows for large, flexible de
             </b>
         </td>
         <td>
-            NATS separates operations from security.  Accounts are made available to a deployment through a number of mechanisms and user management may be decentralized and managed through a CLI.  Server configuration is command line and configuration file which can be reloaded with changes at runtime.
+            NATS separates operations from security.  User and Account management in a deployment may be decentralized and managed through a CLI.  Server (network element) configuration is separated from security with a command line and configuration file which can be reloaded with changes at runtime.
         </td>
     </tr>
     <tr>
