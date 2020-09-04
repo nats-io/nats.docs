@@ -268,7 +268,6 @@ natsConnection_Destroy(conn);
 natsOptions_Destroy(opts);
 ```
 {% endtab %}
-
 {% endtabs %}
 
 The mechanics of drain for a subscription are simpler:

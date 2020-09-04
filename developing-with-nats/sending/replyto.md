@@ -172,6 +172,5 @@ if (s == NATS_OK)
 natsConnection_Destroy(conn);
 ```
 {% endtab %}
-
 {% endtabs %}
 

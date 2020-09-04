@@ -124,7 +124,6 @@ services:
 networks:
   nats:
     name: nats
-
 ```
 
 Now we use Docker Compose to create the cluster that will be using the `nats` network:

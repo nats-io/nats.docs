@@ -60,16 +60,16 @@ In general the configuration parameters are the same as the command line argumen
 | sv | Enable trace logging | `true` or `false` | `sv: true` | `false` |
 | nats\_server\_url | If specified, connects to an external NATS Server, otherwise starts an embedded one | NATS URL | `nats_server_url: "nats://localhost:4222"` | N/A |
 | secure | If true, creates a TLS connection to the server but without the need to use TLS configuration \(no NATS Server certificate verification\) | `true` or `false` | `secure: true` | `false` |
-| tls | TLS Configuration | Map: `tls: { ... }` | [**See details below**](cfgfile.md#tls-configuration) |
-| store\_limits | Store Limits | Map: `store_limits: { ... }` | [**See details below**](cfgfile.md#store-limits-configuration) |
-| file\_options | File Store specific options | Map: `file_options: { ... }` | [**See details below**](cfgfile.md#file-options-configuration) |
-| sql\_options | SQL Store specific options | Map: `sql_options: { ... }` | [**See details below**](cfgfile.md#sql-options-configuration) |
+| tls | TLS Configuration | Map: `tls: { ... }` | [**See details below**](cfgfile.md#tls-configuration) |  |
+| store\_limits | Store Limits | Map: `store_limits: { ... }` | [**See details below**](cfgfile.md#store-limits-configuration) |  |
+| file\_options | File Store specific options | Map: `file_options: { ... }` | [**See details below**](cfgfile.md#file-options-configuration) |  |
+| sql\_options | SQL Store specific options | Map: `sql_options: { ... }` | [**See details below**](cfgfile.md#sql-options-configuration) |  |
 | hb\_interval | Interval at which the server sends an heartbeat to a client | Duration | `hb_interval: "10s"` | `30s` |
 | hb\_timeout | How long the server waits for a heartbeat response from the client before considering it a failed heartbeat | Duration | `hb_timeout: "10s"` | `10s` |
 | hb\_fail\_count | Count of failed heartbeats before server closes the client connection. The actual total wait is: \(fail count + 1\) \* \(hb interval + hb timeout\) | Number | `hb_fail_count: 2` | `10` |
 | ft\_group | In Fault Tolerance mode, you can start a group of streaming servers with only one server being active while others are running in standby mode. This is the name of this FT group | String | `ft_group: "my_ft_group"` | N/A |
 | partitioning | If set to true, a list of channels must be defined in store\_limits/channels section. This section then serves two purposes, overriding limits for a given channel or adding it to the partition | `true` or `false` | `partitioning: true` | `false` |
-| cluster | Cluster Configuration | Map: `cluster: { ... }` | [**See details below**](cfgfile.md#cluster-configuration) |
+| cluster | Cluster Configuration | Map: `cluster: { ... }` | [**See details below**](cfgfile.md#cluster-configuration) |  |
 | encrypt | Specify if server should encrypt messages \(only the payload\) when storing them | `true` or `false` | `encrypt: true` | `false` |
 | encryption\_cipher | Cipher to use for encryption. Currently support AES and CHAHA \(ChaChaPoly\). Defaults to AES | `AES` or `CHACHA` | `encryption_cipher: "AES"` | Depends on platform |
 | encryption\_key | Encryption key. It is recommended to specify the key through the `NATS_STREAMING_ENCRYPTION_KEY` environment variable instead | String | `encryption_key: "mykey"` | N/A |
@@ -97,7 +97,7 @@ Note that the Streaming Server uses a connection to a NATS Server, and so the NA
 | max\_bytes | Total size of messages per channel, 0 means unlimited | Number &gt;= 0 | `max_bytes: 1GB` | 1GB |
 | max\_age | How long messages can stay in the log | Duration | `max_age: "24h"` | Unlimited |
 | max\_inactivity | How long without any subscription and any new message before a channel can be automatically deleted | Duration | `max_inactivity: "24h"` | Unlimited |
-| channels | A map of channel names with specific limits | Map: `channels: { ... }` | [**See details below**](cfgfile.md#channels) |
+| channels | A map of channel names with specific limits | Map: `channels: { ... }` | [**See details below**](cfgfile.md#channels) |  |
 
 ## Channels
 
@@ -166,6 +166,6 @@ For a given channel, the possible parameters are:
 | :--- | :--- | :--- | :--- | :--- |
 | driver | Name of the SQL driver to use | `mysql` or `postgres` | `driver: "mysql"` | N/A |
 | source | How to connect to the database. This is driver specific | String | `source: "ivan:pwd@/nss_db"` | N/A |
-| no\_caching | Enable/Disable caching for messages and subscriptions operations. | `true` or `false` | `no_caching: false` | `false` (caching enabled) |
+| no\_caching | Enable/Disable caching for messages and subscriptions operations. | `true` or `false` | `no_caching: false` | `false` \(caching enabled\) |
 | max\_open\_conns | Maximum number of opened connections to the database. Value &lt;= 0 means no limit. | Number | `max_open_conns: 5` | unlimited |
 

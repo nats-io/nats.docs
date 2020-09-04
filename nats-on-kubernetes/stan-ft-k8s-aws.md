@@ -1,4 +1,4 @@
-# NATS Streaming Cluster with FT Mode on AWS
+# NATS Streaming Cluster with FT Mode
 
 ## Preparation
 
@@ -381,3 +381,4 @@ $ kubectl logs stan-0 -c stan
 [1] 2019/12/04 20:40:41.671541 [INF] STREAM: ----------------------------------
 [1] 2019/12/04 20:40:41.671546 [INF] STREAM: Streaming Server is ready
 ```
+

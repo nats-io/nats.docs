@@ -90,6 +90,7 @@ let nc = await connect({
 nc.close();
 ```
 {% endtab %}
+
 {% tab title="C" %}
 ```c
 natsConnection      *conn      = NULL;

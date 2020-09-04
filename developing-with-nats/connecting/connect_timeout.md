@@ -91,16 +91,16 @@ let nc = await connect({
 nnatsConnection      *conn    = NULL;
  natsOptions         *opts    = NULL;
  natsStatus          s        = NATS_OK;
- 
+
  s = natsOptions_Create(&opts);
  if (s == NATS_OK)
      // Set the timeout to 10 seconds (10,000 milliseconds)
      s = natsOptions_SetTimeout(opts, 10000);
  if (s == NATS_OK)
      s = natsConnection_Connect(&conn, opts);
- 
+
  (...)
- 
+
  // Destroy objects that were created
  natsConnection_Destroy(conn);
  natsOptions_Destroy(opts);

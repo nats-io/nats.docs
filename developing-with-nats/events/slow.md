@@ -272,7 +272,7 @@ public class SlowConsumerListener {
 static void
 errorCB(natsConnection *conn, natsSubscription *sub, natsStatus s, void *closure)
 {
-    
+
     // Do something
     printf("Error: %d - %s", s, natsStatus_GetText(s));
 }

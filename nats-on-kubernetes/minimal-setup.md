@@ -58,8 +58,6 @@ For NATS Streaming, it is actually recommended to use the Fault Tolerance mode a
 
 Both NATS and NATS Streaming have officially supported Helm charts as well:
 
-- [NATS Helm Chart](https://github.com/nats-io/k8s/tree/master/helm/charts/nats)
-- [NATS Streaming Helm Chart](https://github.com/nats-io/k8s/tree/master/helm/charts/stan)
-
-
+* [NATS Helm Chart](https://github.com/nats-io/k8s/tree/master/helm/charts/nats)
+* [NATS Streaming Helm Chart](https://github.com/nats-io/k8s/tree/master/helm/charts/stan)
 
