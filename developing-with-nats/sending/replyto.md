@@ -22,7 +22,7 @@ if err != nil {
 
 // Send the request.
 // If processing is synchronous, use Request() which returns the response message.
-if err := nc.PublishRequest("time", uniqueReplyTo, nil); err != nil {
+if err := nc.PublishRequest(uniqueReplyTo, "time", nil); err != nil {
     log.Fatal(err)
 }
 
