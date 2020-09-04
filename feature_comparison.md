@@ -3,7 +3,7 @@ This feature comparison is a summary of a few of the major components in several
 
 This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
 
-
+<html>
 <body>
 <table>
     <tr>
