@@ -1,6 +1,6 @@
 # Mixed Authentication/Authorization Setup
 
-Mixing both [nkeys](../auth_intro/nkey_auth.md) static config and [decentralized JWT Authenticatin/Authorization](./) is possible but needs some preparation in order to be able to do it.
+Mixing both [nkeys](../auth_intro/nkey_auth.md) static config and [decentralized JWT Authentication/Authorization](./) is possible but needs some preparation in order to be able to do it.
 
 The way this can be done is by **first** preparing a basic trusted operator setup that could be used in the future, and then base from that configuration to create the NKEYS static config using the same shared public nkeys for the accounts and then use clustering routes to bridge the two different auth setups during the transition.
 
