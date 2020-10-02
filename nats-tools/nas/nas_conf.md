@@ -119,7 +119,7 @@ Let's take a look at the configuration options:
 | `dir` | Configures a directory as a store. |
 | `nsc` | Configures an nsc read-only store. The value should be the path to an operator _directory_. Option is mutually exclusive with `dir`. |
 | `readonly` | If `true`, the store will not accept POST requests. Note that to receive requests, the store must also have `operatorjwtpath` specified as a root option. |
-| `shared` | If `true`, JWTs are shared in the store directory. |
+| `shard` | If `true`, JWTs will be stored in multiple sub directories of the store directory. |
 
 ## `logging` Options
 
