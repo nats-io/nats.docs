@@ -1,4 +1,4 @@
-# NATS Streaming Cluster with FT Mode
+# NATS Streaming Cluster with FT Mode on AWS
 
 ## Preparation
 
@@ -382,3 +382,77 @@ $ kubectl logs stan-0 -c stan
 [1] 2019/12/04 20:40:41.671546 [INF] STREAM: Streaming Server is ready
 ```
 
+# NATS Streaming Cluster with FT Mode on Azure
+
+First need to create a PVC (PersistentVolumeClaim), in Azure we can use azurefile to get a volume with `ReadWriteMany`:
+
+```yaml
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: stan-efs
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "azurefile"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
+```
+
+Next create a NATS cluster using the Helm charts:
+
+```yaml
+helm repo add nats https://nats-io.github.io/k8s/helm/charts/
+helm install nats nats/nats
+```
+
+To create an FT setup using AzureFile you can use the following Helm chart values file:
+
+```yaml
+stan:
+  image: nats-streaming:alpine
+  replicas: 2
+  nats:
+    url: nats://nats:4222
+store:
+  type: file
+  ft:
+    group: my-group
+  file:
+    path: /data/stan/store
+  volume:
+    enabled: true
+
+    # Mount path for the volume.
+    mount: /data/stan
+
+    # FT mode requires a single shared ReadWriteMany PVC volume.
+    persistentVolumeClaim:
+      claimName: stan-efs
+```
+
+
+Now deploy with Helm:
+
+```sh
+helm install stan nats/stan -f ./examples/deploy-stan-ft-file.yaml 
+```
+
+Send a few commands to the NATS Server to which STAN/NATS Streaming is connected:
+
+```sh
+kubectl port-forward nats-0 4222:4222 &
+
+stan-pub -c stan foo bar.1
+stan-pub -c stan foo bar.2
+stan-pub -c stan foo bar.3
+```
+
+Subscribe to get all the messages:
+
+```sh
+stan-sub -c stan  -all foo 
+```
