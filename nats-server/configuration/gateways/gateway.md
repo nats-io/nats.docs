@@ -82,7 +82,7 @@ The `gateways` configuration block is a list of gateway entries with the followi
 | `name` | Gateway name. |
 | `url` | Hostport `<host>:<port>` describing where the remote gateway can be reached. If multiple IPs are returned, one is randomly selected. |
 | `urls` | A list of `url` strings. |
-| `tls` | A [`tls` configuration map](../securing_nats/tls.md) for creating a secure gateway connection. If the top-level `gateway{}` tls block contains certificates that have both client and server purposes, it is possible to omit this one and the server will use the certificates from the `gateway{tls{}}` section. |
+| `tls` | A [`tls` configuration map](../securing_nats/tls.md) for creating a secure gateway connection. If the top-level `gateway{}` tls block contains certificates that have both client and server purposes, it is possible to omit this one and the server will use the certificates from the `gateway{tls{}}` section. See additional advice below. |
 
 By using `urls` and an array, you can specify a list of endpoints that form part of a cluster as below. A NATS Server will pick one of those addresses randomly and only establish a single outbound gateway connection to one of the members from another cluster:
 
@@ -99,3 +99,18 @@ gateway {
 }
 ```
 
+### TLS Entry
+
+In addition to the normal TLS configuration advice, bear in mind that
+TLS keys and certificates for multiple clusters, or servers in different
+locations, rarely rotate at the exact same time and that Certificate
+Authorities do roll between multiple Intermediate certificates.
+
+If using a certificate bundle which accompanied the issuance of a certificate
+then the CA in that bundle will typically be for just that certificate.
+Using _only_ that CA as the CA for gateway authentication is ill-advised.
+You should ensure that you allow for rolling between Certificate Authorities,
+even if only between multiple CAs from the same organization entity,
+and use a separate certificate bundle for _verification_ of peers.
+This way when DC-B rolls before DC-A, it will not be cut off from your
+supercluster.
