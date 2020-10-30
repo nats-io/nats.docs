@@ -136,7 +136,7 @@ nats-server --tls --tlscert=server-cert.pem --tlskey=server-key.pem -ms 8222
 Now you should be able to access the monitoring endpoint `https://localhost:8222` with your browser.  
 `https://127.0.0.1:8222` however should result in an error as `127.0.0.1` is not listed as SAN. You will not be able to establish a connection from another computer either. For that to work you have to provide appropriate DNS and/or IP [SAN\(s\)](tls.md#missing-subject-alternative-name)
 
-To generate certificates that work with `verify`/[`cluster`](https://github.com/nats-io/nats.docs/tree/3a28d211cf69cf56df02d958abc40be790c367df/nats-server/configuration/cluster/README.md)/[`gateway`](https://github.com/nats-io/nats.docs/tree/3a28d211cf69cf56df02d958abc40be790c367df/nats-server/configuration/gateway/README.md)/[`leaf_nodes`](../leafnodes/) provide the `-client` option. It will cause the appropriate key usage for client authentication to be added. This example also adds a SAN email for usage as user name in `verify_and_map`.
+To generate certificates that work with `verify` and [`cluster`](../clustering/README.md)/[`gateway`](../gateways/README.md)/[`leaf_nodes`](../leafnodes/) provide the `-client` option. It will cause the appropriate key usage for client authentication to be added. This example also adds a SAN email for usage as user name in `verify_and_map`.
 
 ```bash
 mkcert -client -cert-file client-cert.pem -key-file client-key.pem localhost ::1 email@localhost
