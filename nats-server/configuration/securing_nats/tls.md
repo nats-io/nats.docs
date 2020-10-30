@@ -6,7 +6,7 @@ The NATS server uses modern TLS semantics to encrypt client, route, and monitori
 | :--- | :--- |
 | `cert_file` | TLS certificate file. |
 | `key_file` | TLS certificate key file. |
-| `ca_file` | TLS certificate authority file. When not present, default to the system trust store. |
+| `ca_file` | TLS [certificate authority file](tls.md#certificate-authorities). When not present, default to the system trust store. |
 | `cipher_suites` | When set, only the specified TLS cipher suites will be allowed. Values must match the golang version used to build the server. |
 | `curve_preferences` | List of TLS cipher curves to use in order. |
 | `insecure` | Skip certificate verification. **NOT Recommended** |
@@ -58,6 +58,24 @@ tls: {
   timeout: 0.0001
 }
 ```
+
+## Certificate Authorities
+
+The `ca_file` file should contain one or more Certificate Authorities in PEM
+format, in a bundle.  This is a common format.
+
+When a certificate is issued, it is often accompanied by a copy of the
+intermediate certificate used to issue it.  This is useful for validating that
+certificate.  It is not necessarily a good choice as the only CA suitable for
+use in verifying other certificates a server may see.
+
+Do consider though that organizations issuing certificates will change the
+intermediate they use.  For instance, a CA might issue intermediates in pairs,
+with an active and a standby, and reserve the right to switch to the standby
+without notice.  You probably would want to trust _both_ of those for the
+`ca_file` directive, to be prepared for such a day, and then after the first
+CA has been compromised you can remove it.  This way the roll from one CA to
+another will not break your NATS server deployment.
 
 ## Self Signed Certificates for Testing
 
