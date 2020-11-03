@@ -74,6 +74,19 @@ In general the configuration parameters are the same as the command line argumen
 | encryption\_cipher | Cipher to use for encryption. Currently support AES and CHAHA \(ChaChaPoly\). Defaults to AES | `AES` or `CHACHA` | `encryption_cipher: "AES"` | Depends on platform |
 | encryption\_key | Encryption key. It is recommended to specify the key through the `NATS_STREAMING_ENCRYPTION_KEY` environment variable instead | String | `encryption_key: "mykey"` | N/A |
 | credentials | Credentials file to connect to external NATS 2.0+ Server | String | `credentials: "streaming_server.creds"` | N/A |
+| username | Username is used to connect to a NATS Server when authentication with multiple users is enabled | String | `username: "streaming_server"` | N/A |
+| password | Password used with above `username` | String | `password: "password"` | N/A |
+| token | Authentication token if the NATS Server requires a token | String | `token: "some_token"` | N/A |
+| nkey_seed_file | Path to an NKey seed file (1) if NKey authentication is used | File Path | `nkey_seed_file: "/path/to/some/seedfile"` | N/A |
+
+Notes:
+
+(1) The seed file contains the NKey seed from which the Streaming server can extract the public key and the private key used to sign the nonce sent by the NATS Server when accepting connections from the Streaming server. The file is read during the connection process, the key is used to sign but then wiped from memory. The file must contain the seed file with the following format:
+```
+-----BEGIN USER NKEY SEED-----
+SU<rest of the seed>
+------END USER NKEY SEED------
+```
 
 ## TLS Configuration
 
