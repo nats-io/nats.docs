@@ -79,7 +79,7 @@ Archive:  nats-server.zip
   inflating: nats-server-v2.0.0-linux-amd64/LICENSE
   inflating: nats-server-v2.0.0-linux-amd64/nats-server
 
-> sudo cp nats-server-v2.0.0-linux-amd64/nats-server /usr/bin
+> sudo cp nats-server/nats-server-v2.0.0-linux-amd64/nats-server /usr/bin
 ```
 
 ## Installing From the Source
