@@ -2,7 +2,7 @@
 
 Using a SQL Database for persistence is another option.
 
-In order to do so, `-store` simply needs to be set to `sql` and `-sql_driver` set to `mysql` or `postgres` \(the two drivers supported at the moment\). The parameter `-sql_source` is driver specific, but generally contains the information required to connect to a specific database on the given SQL database server. You can find the connect options in the respective driver repositories: [MySQL](https://github.com/go-sql-driver/mysql#dsn-data-source-name) and [Postgres](https://godoc.org/github.com/lib/pq#hdr-Connection_String_Parameters).
+In order to do so, `-store` simply needs to be set to `sql` and `-sql_driver` set to `mysql` or `postgres` \(the two drivers supported at the moment\). The parameter `-sql_source` is driver specific, but generally contains the information required to connect to a specific database on the given SQL database server. You can find the connect options in the respective driver repositories: [MySQL](https://github.com/go-sql-driver/mysql#dsn-data-source-name) and [Postgres](https://pkg.go.dev/github.com/lib/pq#hdr-Connection_String_Parameters).
 
 Note that the NATS Streaming Server does not need root privileges to connect to the database since it does not create the database, tables or indexes. This has to be done by the Database Administrator.
 
