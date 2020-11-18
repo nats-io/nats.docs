@@ -9,7 +9,7 @@ The NATS server uses modern TLS semantics to encrypt client, route, and monitori
 | `ca_file` | TLS [certificate authority file](tls.md#certificate-authorities). When not present, default to the system trust store. |
 | `cipher_suites` | When set, only the specified TLS cipher suites will be allowed. Values must match the golang version used to build the server. |
 | `curve_preferences` | List of TLS cipher curves to use in order. |
-| `insecure` | Skip certificate verification. **NOT Recommended** |
+| `insecure` | Skip certificate verification. This only applies to outgoing connections, NOT incoming client connections. **NOT Recommended** |
 | `timeout` | TLS handshake [timeout](tls.md#tls-timeout) in fractional seconds. Default set to `0.5` seconds. |
 | `verify` | If `true`, require and [verify](auth_intro/tls_mutual_auth.md#validating-a-client-certificate) client certificates. To support use by Browser, this option does not apply to monitoring. |
 | `verify_and_map` | If `true`, require and verify client certificates and [map](auth_intro/tls_mutual_auth.md#mapping-client-certificates-to-a-user) certificate values for authentication purposes. Does not apply to monitoring either. |
