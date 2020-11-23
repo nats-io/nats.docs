@@ -40,7 +40,8 @@ nc.close();
 ```javascript
 let nc = NATS.connect({
     noRandomize: true,
-    servers: ["nats://127.0.0.1:4443",
+    servers: [
+        "nats://127.0.0.1:4443",
         "nats://demo.nats.io:4222"
     ]
 });
@@ -83,7 +84,8 @@ end
 // will throw an exception if connection fails
 let nc = await connect({
     noRandomize: true,
-    servers: ["nats://127.0.0.1:4443",
+    servers: [
+        "nats://127.0.0.1:4443",
         "nats://demo.nats.io:4222"
     ]
 });

@@ -38,7 +38,7 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-// Reconnect buffer size is not configurable on NATS Javascript client
+// Reconnect buffer size is not configurable on NATS JavaScript client
 ```
 {% endtab %}
 
@@ -56,7 +56,7 @@ nc.close();
 
 {% tab title="TypeScript" %}
 ```typescript
-// Reconnect buffer size is not configurable on NATS Typescript client
+// Reconnect buffer size is not configurable on NATS TypeScript client
 ```
 {% endtab %}
 
