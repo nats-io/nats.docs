@@ -13,6 +13,7 @@ The NATS server uses modern TLS semantics to encrypt client, route, and monitori
 | `timeout` | TLS handshake [timeout](tls.md#tls-timeout) in fractional seconds. Default set to `0.5` seconds. |
 | `verify` | If `true`, require and [verify](auth_intro/tls_mutual_auth.md#validating-a-client-certificate) client certificates. To support use by Browser, this option does not apply to monitoring. |
 | `verify_and_map` | If `true`, require and verify client certificates and [map](auth_intro/tls_mutual_auth.md#mapping-client-certificates-to-a-user) certificate values for authentication purposes. Does not apply to monitoring either. |
+| `verify_cert_and_check_known_urls` | Only settable in a non client context where `verify: true` is the default ([cluster](../clustering/)/[gateway](../gateways/)). The incoming connections certificate's `X509v3 Subject Alternative Name` `DNS` entries will be matched against all urls in the configuration context that contains this tls map. If a match is found, the connection is accepted and rejected otherwise. Meaning for gateways we will match all DNS entries in the certificate against all gateway urls. For cluster we will match against all route urls. As a consequence of this, dynamic cluster growth may require config changes in other cluster where this flag is true. DNS name checking is performed according to [rfc6125](https://tools.ietf.org/html/rfc6125#section-6.4.1). Only the full wildcard `*` is supported for the left most label. This would be one way to keep cluster growth flexible. | 
 
 The simplest configuration:
 
@@ -93,7 +94,7 @@ If anybody outside your organization needs to connect, get certs from a public c
 
 As they should, these are **not trusted** by the system your server or clients are running on.
 
-One option is to specify the CA in every client you are using. In case you make use of `verify` and `verify_and_map` you need to specify `ca_file` in the server. If you are having a more complex setup involving cluster, gateways or leaf nodes, `ca_file` needs to be present in `tls` maps used to connect to the server with self signed certificates. While this works for server and libraries from the NATS eco system, you will experience issues when connecting with other tools such as your Browser.
+One option is to specify the CA in every client you are using. In case you make use of `verify`, `verify_and_map` or `verify_cert_and_check_known_urls` you need to specify `ca_file` in the server. If you are having a more complex setup involving cluster, gateways or leaf nodes, `ca_file` needs to be present in `tls` maps used to connect to the server with self signed certificates. While this works for server and libraries from the NATS eco system, you will experience issues when connecting with other tools such as your Browser.
 
 Another option is to configure your system's trust store to include self signed certificate\(s\). Which trust store needs to be configured depends on what you are testing.
 
@@ -107,6 +108,8 @@ Please check your system's documentation on how to trust a particular self signe
 
 Another common problem is failed [identity validation](https://tools.ietf.org/html/rfc6125). The IP or DNS name to connect to needs to match a [Subject Alternative Name \(SAN\)](https://tools.ietf.org/html/rfc4985) inside the certificate. Meaning, if a client/browser/server connect via tls to `127.0.0.1`, the server needs to present a certificate with a SAN containing the IP `127.0.0.1` or the connection will be closed with a handshake error.
 
+When `verify_cert_and_check_known_urls` is specified, [Subject Alternative Name \(SAN\)](https://tools.ietf.org/html/rfc4985) `DNS` records are necessary. In order to succesfully connect there must be an overlap between the `DNS` records provided as part of the certificate and the urls configured. If you dynaimcally grow your cluster and use a new certificate, this route or gateway the server connects to will have to be reconfigured to include a url for the new server. Only then can the new server connect. If the `DNS` record is a wildcard, matching according to [rfc6125](https://tools.ietf.org/html/rfc6125#section-6.4.1) will be performed. Using certificates with a wildcard [Subject Alternative Name \(SAN\)](https://tools.ietf.org/html/rfc4985) and configuration with url(s) that would match are a way to keep the flexibility of dynamic cluster growth without configuration changes in ohter cluster.
+
 #### Wrong Key Usage
 
 When generating your certificate you need to make sure to include the right purpose for which you want to use the certificate. This is encoded in [key usage](https://tools.ietf.org/html/rfc5280#section-4.2.1.3) and [extended key usage](https://tools.ietf.org/html/rfc5280#section-4.2.1.12). The necessary values for key usage depend on the ciphers used. `Digital Signature` and `Key Encipherment` are an interoperable choice.
@@ -114,8 +117,8 @@ When generating your certificate you need to make sure to include the right purp
 With respect to NATS the relevant values for extended key usage are:
 
 * `TLS WWW server authentication` - To authenticate as server for incoming connections. A NATS server will need a certificate containing this.
-* `TLS WWW client authentication` - To authenticate as client for outgoing connections. Only needed when connecting to a server where `verify` or `verify_and_map` are specified. In these cases, a NATS client will need a certificate with this value. 
-  * [Leaf node](../leafnodes/) connections can be configured with `verify` as well. Then the connecting NATS server will have to present a certificate with this value too. Certificates containing both values are an option.
+* `TLS WWW client authentication` - To authenticate as client for outgoing connections. Only needed when connecting to a server where `verify`, `verify_and_map` or `verify_cert_and_check_known_urls` are specified. In these cases, a NATS client will need a certificate with this value. 
+  * [Leaf node](../leafnodes/) connections can be configured with `verify` as well. Then the connecting NATS server will have to present a certificate with this value too. Certificates containing both values are an option. 
   * [Cluster](../clustering/) connections always have `verify` enabled. Which server acts as client and server comes down to timing and therefore can't be individually configured. Certificates containing both values are a must.
   * [Gateway](../gateways/) connections always have `verify` enabled. Unlike cluster outgoing connections can specify a separate cert. Certificates containing both values are an option that reduce configuration. 
 
