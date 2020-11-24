@@ -40,10 +40,22 @@ Run the appropriate database migrations for Postgres:
 cat scripts/postgres.db.sql | docker exec -i $ID psql -h 127.0.1.1 -U postgres
 ```
 
-Run the nats streaming server with postgres at the sql\_source:
+Capture the hostname/IP of Postgres:
 
 ```text
-DOCKER_BRIDGE_IP=$(docker inspect --format '{{(index .IPAM.Config 0).Gateway}}' bridge) docker run -d --name nats-streaming -p 4222:4222 -p 8222:32768 nats-streaming-local -SDV --store sql --sql_driver postgres --sql_source="user=postgres password=postgres host=$DOCKER_BRIDGE_IP port=5432 sslmode=disable"
+export DOCKER_BRIDGE_IP=$(docker inspect --format '{{(index .IPAM.Config 0).Gateway}}' bridge)
+```
+
+Run the nats streaming server with postgres at the `sql_source`:
+
+```text
+docker run -d --name nats-streaming -p 4222:4222 -p 8222:8222 nats-streaming -m 8222 --store sql --sql_driver postgres --sql_source="user=postgres password=password host=$DOCKER_BRIDGE_IP port=5432 sslmode=disable"
+```
+
+Note that if you want to enable debug and tracing you can pass the `-SDV` option to the command line. You may not want to leave this setting on in production because it can be too verbose and affect performance.
+
+```text
+docker run -d (..) nats-streaming -SDV -m 8222 --store ...
 ```
 
 ## Read and Write Timeouts
