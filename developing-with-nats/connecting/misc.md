@@ -43,7 +43,7 @@ nc.on('error', (err) => {
     t.log('client got an error:', err);
 });
 nc.on('connect', () => {
-   t.log(nc.info.max_payload);
+    t.log(nc.info.max_payload);
 });
 ```
 {% endtab %}
@@ -65,7 +65,7 @@ print("Maximum payload is %d bytes" % nc.max_payload)
 require 'nats/client'
 
 NATS.start(max_outstanding_pings: 5) do |nc|
-   nc.on_reconnect do
+  nc.on_reconnect do
     puts "Got reconnected to #{nc.connected_server}"
   end
 

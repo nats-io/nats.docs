@@ -32,7 +32,7 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-llet nc = NATS.connect({
+let nc = NATS.connect({
     reconnect: false,
     servers: ["nats://demo.nats.io:4222"]
 });
