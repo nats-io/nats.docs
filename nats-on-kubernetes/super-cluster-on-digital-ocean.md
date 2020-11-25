@@ -23,7 +23,7 @@ For this setup, we will create a super cluster using the external IPs from the n
 ```bash
 for ctx in do-ams3-nats-k8s-ams3 do-nyc1-nats-k8s-nyc1 do-sfo2-nats-k8s-sfo2; do
   echo "name: $ctx"
-  for externalIP in `kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="ExternalIP")].address}'`; do 
+  for externalIP in `kubectl --context $ctx get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="ExternalIP")].address}'`; do 
     echo "- nats://$externalIP:7522"; 
   done
   echo
