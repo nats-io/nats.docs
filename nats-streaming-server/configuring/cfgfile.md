@@ -102,6 +102,17 @@ Note that the Streaming Server uses a connection to a NATS Server, and so the NA
 
 ## Store Limits Configuration
 
+```text
+{
+    streaming: {
+        cluster_id: my_cluster
+        store_limits {
+            max_msgs: 10000
+        }
+    }
+}
+```
+
 | Parameter | Meaning | Possible Values | Usage Example | Default Value |
 | :--- | :--- | :--- | :--- | :--- |
 | max\_channels | Maximum number of channels, 0 means unlimited | Number &gt;= 0 | `max_channels: 100` | `100` |
@@ -117,11 +128,18 @@ Note that the Streaming Server uses a connection to a NATS Server, and so the NA
 The `channels` section is a map with the key being the channel name. For instance:
 
 ```text
-   channels: {
-       "foo": {
-           max_msgs: 100
-       }
-   }
+{
+    streaming: {
+        cluster_id: my_cluster
+        store_limits {
+            channels: {
+                "foo": {
+                    max_msgs: 100
+                }
+            }
+        }
+    }
+}
 ```
 
 For a given channel, the possible parameters are:
