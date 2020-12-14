@@ -16,7 +16,7 @@ When detected at the client, the application is notified and messages are droppe
 
 ## Slow consumers identified in the client
 
-A [client can detect it is a slow consumer]() on a local connection and notify the application through use of the asynchronous error callback. It is better to catch a slow consumer locally in the client rather than to allow the server to detect this condition. This example demonstrates how to define and register an asynchronous error handler that will handle slow consumer errors.
+A [client can detect it is a slow consumer](../../developing-with-nats/events/slow) on a local connection and notify the application through use of the asynchronous error callback. It is better to catch a slow consumer locally in the client rather than to allow the server to detect this condition. This example demonstrates how to define and register an asynchronous error handler that will handle slow consumer errors.
 
 ```go
 func natsErrHandler(nc *nats.Conn, sub *nats.Subscription, natsErr error) {
