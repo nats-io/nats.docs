@@ -27,6 +27,7 @@
 * [How do I create subjects?](faq.md#how-do-i-create-subjects)
 * [Does adding a “max\_age” to a “channel” for NATS streaming server connected to a SQL store, retroactively delete messages?](faq.md#does-adding-a-max_age-to-a-channel-for-nats-streaming-server-connected-to-a-sql-store-retroactively-delete-messages)
 * [What is the upgrade path from NATS 1.x to 2.x?](faq.md#what-is-the-upgrade-path-from-nats-1-x-to-2-x)
+* [How many clients can connect simultaneously?](faq.md#how-many-clients-can-connect-simultaneously)
 
 ## General
 
@@ -153,4 +154,14 @@ Yes, any channel limit will be applied on startup. For more information, see [St
 ### What is the upgrade path from NATS 1.x to 2.x?
 
 NATS 2.0 is completely backwards compatible with NATS &lt; 2.x configure files and clients. Just run the new server. Be sure to review the [What's New in 2.0](whats_new_20.md) for great new features.
+
+### How many clients can connect simultaneously?
+
+The default setting for a single server is 65,536. Although there is no specified limit to the number of connections supported by NATS, there are some environmental factors that will influence your decision as to how many connections to allow per server.
+
+Most systems can handle several thousand NATS connections per server without any changes although some have a very low default such as OS X. You'll want to look at kernel/OS settings to increase that limit.  You'll also want to look at default TCP buffer sizes to best optimize your machine for your traffic characteristics.
+
+If you are using TLS you'll want to be sure the hardware can handle the CPU load created by TLS negotiation when there is the thundering herd of inbound connections after an outage or network partition event.  This often overlooked factor is usually the constraint limiting the number of connections a single server should support.  Choosing a cipher suite that is supported by TLS acceleration can mitigate this (e.g. AES with x86).  Thinking of the entire system, you'll also want to look at a range of reconnect delay times or add reconnect jitter to the NATS clients to even out the distribution of connection attempts over time and reduce CPU spikes.
+
+All said, each server can be tuned to handle a large number of clients, and given the flexibility and scalability of NATS with clusters, superclusters, and leaf nodes one can build a NATS deployment supporting many millions of connections.
 
