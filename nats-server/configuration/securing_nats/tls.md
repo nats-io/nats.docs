@@ -13,7 +13,7 @@ The NATS server uses modern TLS semantics to encrypt client, route, and monitori
 | `timeout` | TLS handshake [timeout](tls.md#tls-timeout) in fractional seconds. Default set to `0.5` seconds. |
 | `verify` | If `true`, require and [verify](auth_intro/tls_mutual_auth.md#validating-a-client-certificate) client certificates. To support use by Browser, this option does not apply to monitoring. |
 | `verify_and_map` | If `true`, require and verify client certificates and [map](auth_intro/tls_mutual_auth.md#mapping-client-certificates-to-a-user) certificate values for authentication purposes. Does not apply to monitoring either. |
-| `verify_cert_and_check_known_urls` | Only settable in a non client context where `verify: true` is the default ([cluster](../clustering/)/[gateway](../gateways/)). The incoming connections certificate's `X509v3 Subject Alternative Name` `DNS` entries will be matched against all urls in the configuration context that contains this tls map. If a match is found, the connection is accepted and rejected otherwise. Meaning for gateways we will match all DNS entries in the certificate against all gateway urls. For cluster we will match against all route urls. As a consequence of this, dynamic cluster growth may require config changes in other cluster where this flag is true. DNS name checking is performed according to [rfc6125](https://tools.ietf.org/html/rfc6125#section-6.4.1). Only the full wildcard `*` is supported for the left most label. This would be one way to keep cluster growth flexible. | 
+| `verify_cert_and_check_known_urls` | Only settable in a non client context where `verify: true` is the default \([cluster](../clustering/)/[gateway](../gateways/)\). The incoming connections certificate's `X509v3 Subject Alternative Name` `DNS` entries will be matched against all urls in the configuration context that contains this tls map. If a match is found, the connection is accepted and rejected otherwise. Meaning for gateways we will match all DNS entries in the certificate against all gateway urls. For cluster we will match against all route urls. As a consequence of this, dynamic cluster growth may require config changes in other cluster where this flag is true. DNS name checking is performed according to [rfc6125](https://tools.ietf.org/html/rfc6125#section-6.4.1). Only the full wildcard `*` is supported for the left most label. This would be one way to keep cluster growth flexible. |
 
 The simplest configuration:
 
@@ -62,21 +62,11 @@ tls: {
 
 ## Certificate Authorities
 
-The `ca_file` file should contain one or more Certificate Authorities in PEM
-format, in a bundle.  This is a common format.
+The `ca_file` file should contain one or more Certificate Authorities in PEM format, in a bundle. This is a common format.
 
-When a certificate is issued, it is often accompanied by a copy of the
-intermediate certificate used to issue it.  This is useful for validating that
-certificate.  It is not necessarily a good choice as the only CA suitable for
-use in verifying other certificates a server may see.
+When a certificate is issued, it is often accompanied by a copy of the intermediate certificate used to issue it. This is useful for validating that certificate. It is not necessarily a good choice as the only CA suitable for use in verifying other certificates a server may see.
 
-Do consider though that organizations issuing certificates will change the
-intermediate they use.  For instance, a CA might issue intermediates in pairs,
-with an active and a standby, and reserve the right to switch to the standby
-without notice.  You probably would want to trust _both_ of those for the
-`ca_file` directive, to be prepared for such a day, and then after the first
-CA has been compromised you can remove it.  This way the roll from one CA to
-another will not break your NATS server deployment.
+Do consider though that organizations issuing certificates will change the intermediate they use. For instance, a CA might issue intermediates in pairs, with an active and a standby, and reserve the right to switch to the standby without notice. You probably would want to trust _both_ of those for the `ca_file` directive, to be prepared for such a day, and then after the first CA has been compromised you can remove it. This way the roll from one CA to another will not break your NATS server deployment.
 
 ## Self Signed Certificates for Testing
 
@@ -108,7 +98,7 @@ Please check your system's documentation on how to trust a particular self signe
 
 Another common problem is failed [identity validation](https://tools.ietf.org/html/rfc6125). The IP or DNS name to connect to needs to match a [Subject Alternative Name \(SAN\)](https://tools.ietf.org/html/rfc4985) inside the certificate. Meaning, if a client/browser/server connect via tls to `127.0.0.1`, the server needs to present a certificate with a SAN containing the IP `127.0.0.1` or the connection will be closed with a handshake error.
 
-When `verify_cert_and_check_known_urls` is specified, [Subject Alternative Name \(SAN\)](https://tools.ietf.org/html/rfc4985) `DNS` records are necessary. In order to succesfully connect there must be an overlap between the `DNS` records provided as part of the certificate and the urls configured. If you dynaimcally grow your cluster and use a new certificate, this route or gateway the server connects to will have to be reconfigured to include a url for the new server. Only then can the new server connect. If the `DNS` record is a wildcard, matching according to [rfc6125](https://tools.ietf.org/html/rfc6125#section-6.4.1) will be performed. Using certificates with a wildcard [Subject Alternative Name \(SAN\)](https://tools.ietf.org/html/rfc4985) and configuration with url(s) that would match are a way to keep the flexibility of dynamic cluster growth without configuration changes in ohter cluster.
+When `verify_cert_and_check_known_urls` is specified, [Subject Alternative Name \(SAN\)](https://tools.ietf.org/html/rfc4985) `DNS` records are necessary. In order to succesfully connect there must be an overlap between the `DNS` records provided as part of the certificate and the urls configured. If you dynaimcally grow your cluster and use a new certificate, this route or gateway the server connects to will have to be reconfigured to include a url for the new server. Only then can the new server connect. If the `DNS` record is a wildcard, matching according to [rfc6125](https://tools.ietf.org/html/rfc6125#section-6.4.1) will be performed. Using certificates with a wildcard [Subject Alternative Name \(SAN\)](https://tools.ietf.org/html/rfc4985) and configuration with url\(s\) that would match are a way to keep the flexibility of dynamic cluster growth without configuration changes in ohter cluster.
 
 #### Wrong Key Usage
 
@@ -139,7 +129,7 @@ nats-server --tls --tlscert=server-cert.pem --tlskey=server-key.pem -ms 8222
 Now you should be able to access the monitoring endpoint `https://localhost:8222` with your browser.  
 `https://127.0.0.1:8222` however should result in an error as `127.0.0.1` is not listed as SAN. You will not be able to establish a connection from another computer either. For that to work you have to provide appropriate DNS and/or IP [SAN\(s\)](tls.md#missing-subject-alternative-name)
 
-To generate certificates that work with `verify` and [`cluster`](../clustering/README.md)/[`gateway`](../gateways/README.md)/[`leaf_nodes`](../leafnodes/) provide the `-client` option. It will cause the appropriate key usage for client authentication to be added. This example also adds a SAN email for usage as user name in `verify_and_map`.
+To generate certificates that work with `verify` and [`cluster`](../clustering/)/[`gateway`](../gateways/)/[`leaf_nodes`](../leafnodes/) provide the `-client` option. It will cause the appropriate key usage for client authentication to be added. This example also adds a SAN email for usage as user name in `verify_and_map`.
 
 ```bash
 mkcert -client -cert-file client-cert.pem -key-file client-key.pem localhost ::1 email@localhost

@@ -77,12 +77,13 @@ In general the configuration parameters are the same as the command line argumen
 | username | Username is used to connect to a NATS Server when authentication with multiple users is enabled | String | `username: "streaming_server"` | N/A |
 | password | Password used with above `username` | String | `password: "password"` | N/A |
 | token | Authentication token if the NATS Server requires a token | String | `token: "some_token"` | N/A |
-| nkey_seed_file | Path to an NKey seed file (1) if NKey authentication is used | File Path | `nkey_seed_file: "/path/to/some/seedfile"` | N/A |
+| nkey\_seed\_file | Path to an NKey seed file \(1\) if NKey authentication is used | File Path | `nkey_seed_file: "/path/to/some/seedfile"` | N/A |
 
 Notes:
 
-(1) The seed file contains the NKey seed from which the Streaming server can extract the public key and the private key used to sign the nonce sent by the NATS Server when accepting connections from the Streaming server. The file is read during the connection process, the key is used to sign but then wiped from memory. The file must contain the seed file with the following format:
-```
+\(1\) The seed file contains the NKey seed from which the Streaming server can extract the public key and the private key used to sign the nonce sent by the NATS Server when accepting connections from the Streaming server. The file is read during the connection process, the key is used to sign but then wiped from memory. The file must contain the seed file with the following format:
+
+```text
 -----BEGIN USER NKEY SEED-----
 SU<rest of the seed>
 ------END USER NKEY SEED------

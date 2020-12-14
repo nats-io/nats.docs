@@ -1,6 +1,8 @@
-# NATS Streaming Cluster with FT Mode on AWS
+# NATS Streaming Cluster with FT Mode
 
-## Preparation
+## NATS Streaming Cluster with FT Mode on AWS
+
+### Preparation
 
 First, we need a Kubernetes cluster with a provider that offers a service with a `ReadWriteMany` filesystem available. In this short guide, we will create the cluster on AWS and then use EFS for the filesystem:
 
@@ -21,7 +23,7 @@ For the FT mode to work, we will need to create an EFS volume which can be share
 
 ![Screen Shot 2019-12-04 at 12 40 13 PM](https://user-images.githubusercontent.com/26195/70179769-9497a500-16d6-11ea-9e18-2a8588a71819.png)
 
-### Creating the EFS provisioner
+#### Creating the EFS provisioner
 
 Confirm from the FilesystemID from the cluster and the DNS name, we will use those values to create an EFS provisioner controller within the K8S cluster:
 
@@ -181,7 +183,7 @@ storageclass.storage.k8s.io/aws-efs                                   created
 persistentvolumeclaim/efs                                             created
 ```
 
-### Setting up the NATS Streaming cluster
+#### Setting up the NATS Streaming cluster
 
 Now create a NATS Streaming cluster with FT mode enabled and using NATS embedded mode that is mounting the EFS volume:
 
@@ -382,9 +384,9 @@ $ kubectl logs stan-0 -c stan
 [1] 2019/12/04 20:40:41.671546 [INF] STREAM: Streaming Server is ready
 ```
 
-# NATS Streaming Cluster with FT Mode on Azure
+## NATS Streaming Cluster with FT Mode on Azure
 
-First need to create a PVC (PersistentVolumeClaim), in Azure we can use azurefile to get a volume with `ReadWriteMany`:
+First need to create a PVC \(PersistentVolumeClaim\), in Azure we can use azurefile to get a volume with `ReadWriteMany`:
 
 ```yaml
 ---
@@ -434,16 +436,15 @@ store:
       claimName: stan-efs
 ```
 
-
 Now deploy with Helm:
 
-```sh
-helm install stan nats/stan -f ./examples/deploy-stan-ft-file.yaml 
+```bash
+helm install stan nats/stan -f ./examples/deploy-stan-ft-file.yaml
 ```
 
 Send a few commands to the NATS Server to which STAN/NATS Streaming is connected:
 
-```sh
+```bash
 kubectl port-forward nats-0 4222:4222 &
 
 stan-pub -c stan foo bar.1
@@ -453,6 +454,7 @@ stan-pub -c stan foo bar.3
 
 Subscribe to get all the messages:
 
-```sh
-stan-sub -c stan  -all foo 
+```bash
+stan-sub -c stan  -all foo
 ```
+

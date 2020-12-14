@@ -186,7 +186,7 @@ The `MsgProto` message is received by client from the NATS Streaming Server, con
 * `sequence`: Globally ordered sequence number for the subject's channel
 * `subject`: Subject
 * `data`: Payload
-* `timestamp`: Time the message was stored in the server. Represented as Unix time (number of nanoseconds elapsed since January 1, 1970 UTC)
+* `timestamp`: Time the message was stored in the server. Represented as Unix time \(number of nanoseconds elapsed since January 1, 1970 UTC\)
 * `redelivered`: Flag specifying if the message is being redelivered
 
 [Back to table](protocol.md#protocols)
