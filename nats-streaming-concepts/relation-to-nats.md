@@ -2,7 +2,7 @@
 
 NATS Streaming Server by default embeds a [NATS](https://github.com/nats-io/nats-server) server. That is, the Streaming server is not a server per-se, but instead, a client to a NATS Server.
 
-It means that Streaming clients are not directly connected to the streaming server, but instead communicate with the streaming server _through_ NATS Server.
+It means that Streaming clients are not directly connected to the streaming server, but instead communicate with the NATS Server _through_ streaming server.
 
 This detail is important when it comes to Streaming clients connections to the Streaming server. Indeed, since there is no direct connection, the server knows if a client is connected based on heartbeats.
 
