@@ -17,7 +17,7 @@ sc, err := stan.Connect(clusterID, clientID)
 If the server runs on port `1234`:
 
 ```go
-sc, err := stan.Connect(clusterID, clientID, stan.NatsURL(“nats://localhost:1234))
+sc, err := stan.Connect(clusterID, clientID, stan.NatsURL("nats://localhost:1234"))
 ```
 
 Sometimes you may want to provide NATS settings that aren't available in the streaming libraries connect method. Or, you may want to reuse a NATS connection instead of creating a new one. In this case the libraries generally provide a way to connect to streaming with an existing NATS connection:
