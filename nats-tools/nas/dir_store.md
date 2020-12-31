@@ -63,7 +63,7 @@ Success! - added account "B"
 With the account and a couple of users in place, let's push all the accounts to the nats-account-server:
 
 ```text
-> nsc push -A
+> nsc push -u http://localhost:9090/jwt/v1/ -A
 successfully pushed all accounts [A,B]
 ```
 
