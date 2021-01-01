@@ -36,7 +36,7 @@ Let's get one client, so we can observe it moving between servers as servers get
 nats-sub -s nats://localhost:4222 ">"
 ```
 
-`nats-sub` is a subscriber sample included with all NATS clients. `nats-sub` subscribes to a subject and prints out any messages received. You can find the source code to the go version of `nats-sub` \[here\)\([https://github.com/nats-io/nats.go/tree/master/examples](https://github.com/nats-io/nats.go/tree/master/examples)\). After starting the subscriber you should see a message on 'A' that a new client connected.
+`nats-sub` is a subscriber sample included with all NATS clients. `nats-sub` subscribes to a subject and prints out any messages received. You can find [the source code to the go version of `nats-sub`](https://github.com/nats-io/nats.go/tree/master/examples). After starting the subscriber you should see a message on 'A' that a new client connected.
 
 We have two servers and a client. Time to simulate our rolling upgrade. But wait, before we upgrade 'A', let's introduce a new server 'C'. Server 'C' will join the existing cluster while we perform the upgrade. Its sole purpose is to provide an additional place where clients can go other than 'A' and ensure we don't end up with a single server serving all the clients after the upgrade procedure. Clients will randomly select a server when connecting unless a special option is provided that disables that functionality \(usually called 'DontRandomize' or 'noRandomize'\). You can read more about ["Avoiding the Thundering Herd"](). Suffice it to say that clients redistribute themselves about evenly between all servers in the cluster. In our case 1/2 of the clients on 'A' will jump over to 'B' and the remaining half to 'C'.
 
