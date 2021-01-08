@@ -136,13 +136,13 @@ User `a` can ony subscribe to `foo` as part of the queue subscriptions `queue`. 
 ```text
 users = [
   {
-    user: "a", permissions: {
+    user: "a", password: "a", permissions: {
       sub: {
         allow: ["foo queue"]
      }
   }
   {
-    user: "b", permissions: {
+    user: "b", password: "b", permissions: {
       sub: {
         # Allow plain subscription foo, but only v1 groups or *.dev queue groups
         allow: ["foo", "foo v1", "foo v1.>", "foo *.dev"]
