@@ -54,17 +54,18 @@ az provider register -n Microsoft.ContainerService
 
 # Create resource group and 3 node cluster
 az group create --name nats --location westus
-az aks create   --resource-group nats --name nats  --node-count 3 --node-vm-size Standard_DS1_v2
+az aks create \
+    --resource-group nats \
+    --name nats  \
+    --node-count 3 \
+    --node-vm-size Standard_DS2_v2 \
+    --load-balancer-sku basic \
+    --enable-node-public-ip 
+
 az aks get-credentials --resource-group nats --name nats
 ```
 
-_Note_ In order to be able to access NATS externally you need to provision public IPs for your cluster installing the following component [dgkanatsios/AksNodePublicIPController](https://github.com/dgkanatsios/AksNodePublicIPController):
-
-```bash
-kubectl create -n kube-system -f https://raw.githubusercontent.com/dgkanatsios/AksNodePublicIPController/7846c78f77dc5cd4b43629bb5cb7ff3818594aee/deploy.yaml
-```
-
-After this component has been installed, eventually your cluster will be provided ExternalIPs that the NATS cluster can advertise to clients:
+Eventually your cluster will be provided ExternalIPs that the NATS cluster can advertise to clients:
 
 ```text
 kubectl get nodes -o wide
