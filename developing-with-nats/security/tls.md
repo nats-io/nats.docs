@@ -212,9 +212,9 @@ natsStatus          s          = NATS_OK;
 
 s = natsOptions_Create(&opts);
 if (s == NATS_OK)
-    s = natsOptions_SetCertificatesChain(opts, "client-cert.pem", "client-key.pem");
+    s = natsOptions_LoadCertificatesChain(opts, "client-cert.pem", "client-key.pem");
 if (s == NATS_OK)
-    s = natsOptions_SetCATrustedCertificates(opts, "rootCA.pem");
+    s = natsOptions_LoadCATrustedCertificates(opts, "rootCA.pem");
 if (s == NATS_OK)
     s = natsConnection_Connect(&conn, opts);
 
