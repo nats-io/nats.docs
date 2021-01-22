@@ -1,6 +1,6 @@
 # Queue Group
 
-When consumers want to consume from the same channel but each receive a different message, as opposed to all receiving the same messages, they need to create a queue subscription. When a queue group name is specified, the server will send each messages from the log to a single consumer in the group. The distribution of these messages is not specified, therefore applications should not rely on an expected delivery scheme.
+When consumers want to consume from the same channel but each receive a different message, as opposed to all receiving the same messages, they need to create a queue subscription. When a queue group name is specified, the server will send each message from the log to a single consumer in the group. The distribution of these messages is not specified, therefore applications should not rely on an expected delivery scheme.
 
 After the first queue member is created, any other member joining the group will receive messages based on where the server is in the message log for that particular group. That means that the starting position given by joining members is ignored by the server.
 
