@@ -9,15 +9,15 @@ A utility for creating `bcrypt` hashes is included with the nats-server distribu
 If you have [go installed](https://golang.org/doc/install), you can easily install the `mkpasswd` tool by doing:
 
 ```text
-> go get github.com/nats-io/nats-server/util/mkpasswd
+go get github.com/nats-io/nats-server/util/mkpasswd
 ```
 
 Alternatively, you can:
 
 ```text
-> git clone git@github.com:nats-io/nats-server
-> cd nats-server/util/mkpasswd
-> go install mkpasswd.go
+git clone git@github.com:nats-io/nats-server
+cd nats-server/util/mkpasswd
+go install mkpasswd.go
 ```
 
 ## Generating bcrypted passwords
