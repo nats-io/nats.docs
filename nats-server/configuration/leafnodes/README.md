@@ -58,7 +58,7 @@ leafnodes {
 }
 ```
 
-In case the remote leaf connection is connecting with `tls`:
+In the case where the remote leaf connection is connecting with `tls`:
 
 ```text
 listen: "127.0.0.1:4111"
