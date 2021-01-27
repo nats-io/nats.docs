@@ -52,7 +52,20 @@ listen: "127.0.0.1:4111"
 leafnodes {
     remotes = [ 
         { 
-          url: "nats-leaf://s3cr3t@localhost"
+          url: "nats://s3cr3t@localhost"
+        },
+    ]
+}
+```
+
+In the case where the remote leaf connection is connecting with `tls`:
+
+```text
+listen: "127.0.0.1:4111"
+leafnodes {
+    remotes = [ 
+        { 
+          url: "tls://s3cr3t@localhost"
         },
     ]
 }
@@ -178,7 +191,7 @@ Let's craft a leaf node connection much like we did earlier:
 leafnodes {
     remotes = [ 
         { 
-          url: "nats-leaf://connect.ngs.global"
+          url: "tls://connect.ngs.global"
           credentials: "/Users/alberto/.nkeys/creds/synadia/leaftest/leaftestuser.creds"
         },
     ]
