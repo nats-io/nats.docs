@@ -25,8 +25,6 @@ getStatusTxt := func(nc *nats.Conn) string {
 }
 log.Printf("The connection is %v\n", getStatusTxt(nc))
 
-nc.Close()
-
 log.Printf("The connection is %v\n", getStatusTxt(nc))
 ```
 {% endtab %}
