@@ -60,8 +60,9 @@ metadata:
   name: run-efs-provisioner
 subjects:
   - kind: ServiceAccount
-    name: efs-provisioner
-     # replace with namespace where provisioner is deployed
+    name:
+      efs-provisioner
+      # replace with namespace where provisioner is deployed
     namespace: default
 roleRef:
   kind: ClusterRole
@@ -102,13 +103,16 @@ data:
   dns.name: ""
 ---
 kind: Deployment
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1beta1
 metadata:
   name: efs-provisioner
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: efs-provisioner
   strategy:
-    type: Recreate 
+    type: Recreate
   template:
     metadata:
       labels:
@@ -172,14 +176,14 @@ spec:
 Result of deploying the manifest:
 
 ```bash
-serviceaccount/efs-provisioner                                        created 
-clusterrole.rbac.authorization.k8s.io/efs-provisioner-runner          created 
-clusterrolebinding.rbac.authorization.k8s.io/run-efs-provisioner      created 
-role.rbac.authorization.k8s.io/leader-locking-efs-provisioner         created 
-rolebinding.rbac.authorization.k8s.io/leader-locking-efs-provisioner  created 
-configmap/efs-provisioner                                             created 
-deployment.extensions/efs-provisioner                                 created 
-storageclass.storage.k8s.io/aws-efs                                   created 
+serviceaccount/efs-provisioner                                        created
+clusterrole.rbac.authorization.k8s.io/efs-provisioner-runner          created
+clusterrolebinding.rbac.authorization.k8s.io/run-efs-provisioner      created
+role.rbac.authorization.k8s.io/leader-locking-efs-provisioner         created
+rolebinding.rbac.authorization.k8s.io/leader-locking-efs-provisioner  created
+configmap/efs-provisioner                                             created
+deployment.extensions/efs-provisioner                                 created
+storageclass.storage.k8s.io/aws-efs                                   created
 persistentvolumeclaim/efs                                             created
 ```
 
@@ -200,14 +204,14 @@ spec:
     app: stan
   clusterIP: None
   ports:
-  - name: client
-    port: 4222
-  - name: cluster
-    port: 6222
-  - name: monitor
-    port: 8222
-  - name: metrics
-    port: 7777
+    - name: client
+      port: 4222
+    - name: cluster
+      port: 6222
+    - name: monitor
+      port: 8222
+    - name: metrics
+      port: 7777
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -270,69 +274,69 @@ spec:
       terminationGracePeriodSeconds: 30
 
       containers:
-      - name: stan
-        image: nats-streaming:alpine
+        - name: stan
+          image: nats-streaming:alpine
 
-        ports:
-        # In case of NATS embedded mode expose these ports
-        - containerPort: 4222
-          name: client
-        - containerPort: 6222
-          name: cluster
-        - containerPort: 8222
-          name: monitor
-        args:
-         - "-sc"
-         - "/etc/stan-config/stan.conf"
+          ports:
+            # In case of NATS embedded mode expose these ports
+            - containerPort: 4222
+              name: client
+            - containerPort: 6222
+              name: cluster
+            - containerPort: 8222
+              name: monitor
+          args:
+            - "-sc"
+            - "/etc/stan-config/stan.conf"
 
-        # Required to be able to define an environment variable
-        # that refers to other environment variables.  This env var
-        # is later used as part of the configuration file.
-        env:
-        - name: POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        - name: POD_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        - name: CLUSTER_ADVERTISE
-          value: $(POD_NAME).stan.$(POD_NAMESPACE).svc
-        volumeMounts:
-          - name: config-volume
-            mountPath: /etc/stan-config
-          - name: efs
-            mountPath: /data/stan
-        resources:
-          requests:
-            cpu: 0
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 8222
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
-      - name: metrics
-        image: synadia/prometheus-nats-exporter:0.5.0
-        args:
-        - -connz
-        - -routez
-        - -subz
-        - -varz
-        - -channelz
-        - -serverz
-        - http://localhost:8222
-        ports:
-        - containerPort: 7777
-          name: metrics
+          # Required to be able to define an environment variable
+          # that refers to other environment variables.  This env var
+          # is later used as part of the configuration file.
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: CLUSTER_ADVERTISE
+              value: $(POD_NAME).stan.$(POD_NAMESPACE).svc
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/stan-config
+            - name: efs
+              mountPath: /data/stan
+          resources:
+            requests:
+              cpu: 0
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8222
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+        - name: metrics
+          image: synadia/prometheus-nats-exporter:0.5.0
+          args:
+            - -connz
+            - -routez
+            - -subz
+            - -varz
+            - -channelz
+            - -serverz
+            - http://localhost:8222
+          ports:
+            - containerPort: 7777
+              name: metrics
       volumes:
-      - name: config-volume
-        configMap:
-          name: stan-config
-      - name: efs
-        persistentVolumeClaim:
-          claimName: efs
+        - name: config-volume
+          configMap:
+            name: stan-config
+        - name: efs
+          persistentVolumeClaim:
+            claimName: efs
 ```
 
 Your cluster now will look something like this:
@@ -457,4 +461,3 @@ Subscribe to get all the messages:
 ```bash
 stan-sub -c stan  -all foo
 ```
-
