@@ -103,7 +103,7 @@ data:
   dns.name: ""
 ---
 kind: Deployment
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 metadata:
   name: efs-provisioner
 spec:
