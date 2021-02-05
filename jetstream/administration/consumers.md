@@ -184,11 +184,11 @@ Acknowledged message
 
 You can prevent ACKs by supplying `--no-ack`.
 
-To do this from code you'd send a `Request()` to `$JS.NEXT.ORDERS.DISPATCH`:
+To do this from code you'd send a `Request()` to `$JS.API.CONSUMER.MSG.NEXT.ORDERS.DISPATCH`:
 
 ```
-$ nats req '$JS.NEXT.ORDERS.DISPATCH' ''
-Published [$JS.NEXT.ORDERS.DISPATCH] : ''
+$ nats req '$JS.API.CONSUMER.MSG.NEXT.ORDERS.DISPATCH' ''
+Published [$JS.API.CONSUMER.MSG.NEXT.ORDERS.DISPATCH] : ''
 Received [ORDERS.processed] : 'order 3'
 ```
 
