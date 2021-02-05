@@ -1,4 +1,4 @@
-### Using Docker
+# Using Docker
 
 The `synadia/jsm:latest` docker image contains both the JetStream enabled NATS Server and the `nats` utility this guide covers.
 
