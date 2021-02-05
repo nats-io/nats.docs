@@ -2,6 +2,10 @@
 
 The NATS.io team is always working to bring you features to improve your NATS experience. Below you will find feature summaries for new implementations to NATS. Check back often for release highlights and updates.
 
+## Server release v2.2.0
+
+See [Whats's new in 2.2](whats_new_22.md)
+
 ## Server release v2.1.7
 
 ### Monitoring Endpoints Available via System Services

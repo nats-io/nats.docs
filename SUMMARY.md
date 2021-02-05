@@ -2,6 +2,7 @@
 
 * [Introduction](README.md)
 * [What's New!](whats_new.md)
+* [NATS 2.2](whats_new_22.md)
 * [NATS 2.0](whats_new_20.md)
 * [Compare NATS](compare-nats.md)
 * [FAQ](faq.md)
