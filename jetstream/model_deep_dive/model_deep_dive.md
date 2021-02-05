@@ -30,16 +30,16 @@ The `WorkQueuePolicy` mode is a specialized mode where a message, once consumed 
 
 ### Message Deduplication
 
-JetStream support idempotent message writes by ignoring duplicate messages as indicated by the `Msg-Id` header.
+JetStream support idempotent message writes by ignoring duplicate messages as indicated by the `Nats-Msg-Id` header.
 
 ```nohighlight
-% nats req -H Msg-Id:1 ORDERS.new hello1
-% nats req -H Msg-Id:1 ORDERS.new hello2
-% nats req -H Msg-Id:1 ORDERS.new hello3
-% nats req -H Msg-Id:1 ORDERS.new hello4
+% nats req -H Nats-Msg-Id:1 ORDERS.new hello1
+% nats req -H Nats-Msg-Id:1 ORDERS.new hello2
+% nats req -H Nats-Msg-Id:1 ORDERS.new hello3
+% nats req -H Nats-Msg-Id:1 ORDERS.new hello4
 ```
  
-Here we set a `Msg-Id:1` header which tells JetStream to ensure we do not have duplicates of this message - we only consult the message ID not the body.
+Here we set a `Nats-Msg-Id:1` header which tells JetStream to ensure we do not have duplicates of this message - we only consult the message ID not the body.
 
 ```nohighlight
 $ nats str info ORDERS
