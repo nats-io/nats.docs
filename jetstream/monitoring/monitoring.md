@@ -24,6 +24,10 @@ All these events have JSON Schemas that describe them, schemas can be viewed on 
 |Consumer maximum delivery reached|`$JS.EVENT.ADVISORY.CONSUMER.MAX_DELIVERIES.<STREAM>.<CONSUMER>`|`io.nats.jetstream.advisory.v1.max_deliver`|
 |Message delivery terminated using AckTerm|`$JS.EVENT.ADVISORY.CONSUMER.MSG_TERMINATED.<STREAM>.<CONSUMER>`|`io.nats.jetstream.advisory.v1.terminated`|
 |Message acknowledged in a sampled Consumer|`$JS.EVENT.METRIC.CONSUMER.ACK.<STREAM>.<CONSUMER>`|`io.nats.jetstream.metric.v1.consumer_ack`|
+|Clustered Stream elected a new leader|`$JS.EVENT.ADVISORY.STREAM.LEADER_ELECTED.<STREAM>`|`io.nats.jetstream.advisory.v1.stream_leader_elected`|
+|Clustered Stream lost quorum|`$JS.EVENT.ADVISORY.STREAM.QUORUM_LOST.<STREAM>`|`io.nats.jetstream.advisory.v1.stream_quorum_lost`
+|Clustered Consumer elected a new leader|`$JS.EVENT.ADVISORY.CONSUMER.LEADER_ELECTED.<STREAM>.<CONSUMER>`|`io.nats.jetstream.advisory.v1.consumer_leader_elected`|
+|Clustered Consumer lost quorum|`$JS.EVENT.ADVISORY.CONSUMER.QUORUM_LOST.<STREAM>.<CONSUMER>`|`io.nats.jetstream.advisory.v1.consumer_quorum_lost`|
 
 ### Dashboards
 
