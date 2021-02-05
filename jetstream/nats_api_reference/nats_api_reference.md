@@ -143,9 +143,24 @@ Events and Advisories:
 ```
 $JS.EVENT.METRIC.CONSUMER_ACK.<stream>.<consumer>
 $JS.EVENT.ADVISORY.MAX_DELIVERIES.<stream>.<consumer>
+$JS.EVENT.ADVISORY.CONSUMER.MSG_TERMINATED.<stream>.<consumer>
+$JS.EVENT.ADVISORY.STREAM.CREATED.<stream>
+$JS.EVENT.ADVISORY.STREAM.DELETED.<stream>
+$JS.EVENT.ADVISORY.STREAM.UPDATED.<stream>
+$JS.EVENT.ADVISORY.CONSUMER.CREATED.<stream>.<consumer>
+$JS.EVENT.ADVISORY.CONSUMER.DELETED.<stream>.<consumer>
+$JS.EVENT.ADVISORY.STREAM.SNAPSHOT_CREATE.<stream>
+$JS.EVENT.ADVISORY.STREAM.SNAPSHOT_COMPLETE.<stream>
+$JS.EVENT.ADVISORY.STREAM.RESTORE_CREATE.<stream>
+$JS.EVENT.ADVISORY.STREAM.RESTORE_COMPLETE.<stream>
+$JS.EVENT.ADVISORY.STREAM.LEADER_ELECTED.<stream>
+$JS.EVENT.ADVISORY.STREAM.QUORUM_LOST.<stream>
+$JS.EVENT.ADVISORY.CONSUMER.LEADER_ELECTED.<stream>.<consumer>
+$JS.EVENT.ADVISORY.CONSUMER.QUORUM_LOST.<stream>.<consumer>
+$JS.EVENT.ADVISORY.API
 ```
 
-This allow you to easily create ACL rules that limit users to a specific Stream or Consumer and to specific verbs for administration purposes. For ensuring only the receiver of a message can Ack it we have response permissions ensuring you can only Publish to Response subject for messages you received.
+This design allows you to easily create ACL rules that limit users to a specific Stream or Consumer and to specific verbs for administration purposes. For ensuring only the receiver of a message can Ack it we have response permissions ensuring you can only Publish to Response subject for messages you received.
 
 ### Acknowledging Messages
 
