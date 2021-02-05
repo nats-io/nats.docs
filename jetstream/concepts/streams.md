@@ -10,7 +10,7 @@ Streams can consume many subjects. Here we have `ORDERS.*` but we could also con
 
 Streams support various retention policies - they can be kept based on limits like max count, size or age but also more novel methods like keeping them as long as any Consumers have them unacknowledged, or work queue like behavior where a message is removed after first ack.
 
-Streams support deduplication using a `Msg-Id` header and a sliding window within which to track duplicate messages. See the [Message Deduplication](#message-deduplication) section.
+Streams support deduplication using a `Nats-Msg-Id` header and a sliding window within which to track duplicate messages. See the [Message Deduplication](#message-deduplication) section.
 
 When defining Streams the items below make up the entire configuration of the set.
 
