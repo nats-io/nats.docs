@@ -1,11 +1,13 @@
 ## Administration and Usage from the CLI
 
-Once the server is running it's time to use the management tool. This can be downloaded from the [GitHub Release Page](https://github.com/nats-io/jetstream/releases/) or you can use the `synadia/jsm:latest` docker image.
+Once the server is running it's time to use the management tool. This can be downloaded from the [GitHub Release Page](https://github.com/nats-io/natscli/releases/) or you can use the `synadia/jsm:latest` docker image. On OS X homebrew can be used to install the latest version:
 
-```
+```nohighlight
+$ brew tap nats-io/nats-tools
+$ brew install nats-io/nats-tools/nats
 $ nats --help
 usage: nats [<flags>] <command> [<args> ...]
-NATS Management Utility
+NATS Utility
 
 Flags:
       --help                     Show context-sensitive help (also try --help-long and --help-man).
