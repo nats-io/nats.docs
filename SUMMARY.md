@@ -206,6 +206,7 @@
 
 ## JetStream
 
+* [About Jetstream](jetstream/about_jetstream/jetstream.md)
 * [Concepts](jetstream/concepts/concepts.md)
     * [Streams](jetstream/concepts/streams.md)
     * [Consumes](jetstream/concepts/consumers.md)
@@ -219,8 +220,10 @@
     * [Streams](jetstream/administration/streams.md)
     * [Consumers](jetstream/administration/consumers.md)
 * [Monitoring](jetstream/monitoring/monitoring.md)
+* [Clustering](jetstream/clustering/clustering.md)
+    * [Administration](jetstream/clustering/administration.md)
 * [Configuration Management](jetstream/configuration_mgmt/configuration_mgmt.md)
-    * [nats Admin CLI](jetstream/configuration_mgmt/configuration_mgmt.md#nats-admin-cli)
+    * [NATS Admin CLI](jetstream/configuration_mgmt/configuration_mgmt.md#nats-admin-cli)
     * [Terraform](jetstream/configuration_mgmt/configuration_mgmt.md#terraform)
     * [GitHub Actions](jetstream/configuration_mgmt/github_actions.md)
     * [Kubernetes Controller](jetstream/configuration_mgmt/kubernetes_controller.md)

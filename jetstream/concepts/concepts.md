@@ -4,7 +4,7 @@ In JetStream the configuration for storing messages is defined separately from h
 
 We'll discuss these 2 subjects in the context of this architecture.
 
-![Orders](../.gitbook/assets/images/streams-and-consumers-75p.png)
+![Orders](../../assets/images/streams-and-consumers-75p.png)
 
 While this is an incomplete architecture it does show a number of key points:
 
