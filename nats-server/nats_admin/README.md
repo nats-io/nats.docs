@@ -8,4 +8,5 @@ Managing a NATS server is simple, typical lifecycle operations include:
 * Monitoring the server via:
   * The monitoring [endpoint](../configuration/monitoring.md) and tools like [nats-top](../../nats-tools/nats_top/) 
   * By subscribing to [system events](../configuration/sys_accounts/)
+* Gracefully shut down a server with [Lame Duck Mode](lame_duck_mode.md)
 
