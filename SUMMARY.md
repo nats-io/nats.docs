@@ -102,6 +102,7 @@
   * [Upgrading a Cluster](nats-server/nats_admin/upgrading_cluster.md)
   * [Slow Consumers](nats-server/nats_admin/slow_consumers.md)
   * [Signals](nats-server/nats_admin/signals.md)
+  * [Lame Duck Mode](nats-server/nats_admin/lame_duck_mode.md)
 * [NATS and Docker](nats-server/nats_docker/README.md)
   * [Tutorial](nats-server/nats_docker/nats-docker-tutorial.md)
   * [Docker Swarm](nats-server/nats_docker/docker_swarm.md)
