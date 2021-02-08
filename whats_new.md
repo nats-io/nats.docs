@@ -4,7 +4,7 @@ The NATS.io team is always working to bring you features to improve your NATS ex
 
 ## Server release v2.2.0
 
-See [Whats's new in 2.2](whats_new_22.md)
+See [NATS 2.2](whats_new_22.md) for new features.
 
 ## Server release v2.1.7
 
