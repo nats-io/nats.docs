@@ -94,6 +94,7 @@
     * [Configuration](nats-server/configuration/gateways/gateway.md)
   * [Leaf Nodes](nats-server/configuration/leafnodes/README.md)
     * [Configuration](nats-server/configuration/leafnodes/leafnode_conf.md)
+  * [WebSockets](nats-server/configuration/websockets/README.md)
   * [Logging](nats-server/configuration/logging.md)
   * [Monitoring](nats-server/configuration/monitoring.md)
   * [System Events](nats-server/configuration/sys_accounts/README.md)
