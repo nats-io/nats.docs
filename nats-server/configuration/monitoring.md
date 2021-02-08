@@ -10,6 +10,7 @@ To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP 
 * [Gateways](monitoring.md#gateway-information)
 * [Leaf Nodes](monitoring.md#leaf-nodes-information)
 * [Subscription Routing](monitoring.md#subscription-routing-information)
+* [Account Information](monitoring.md#account-information)
 
 All endpoints return a JSON object.
 
@@ -517,6 +518,111 @@ The `/subsz` endpoint reports detailed information about the current subscriptio
   "cache_hit_rate": 0,
   "max_fanout": 0,
   "avg_fanout": 0
+}
+```
+
+### Account Information
+
+The `/accountz` endpoint reports information on a servers active accounts. 
+The default behavior is to return a list of all accounts known to the server. 
+
+**Endpoint:** `http://server:port/accountz`
+
+| Result | Return Code |
+| :--- | :--- |
+| Success | 200 \(OK\) |
+| Error | 400 \(Bad Request\) |
+
+#### Arguments
+
+| Argument | Values | Description |
+| :--- | :--- | :--- |
+| acc | account name | Include metrics for the specified account. Default is empty. When not set, a list of all accounts is included. |
+
+#### Example
+
+* Get list of all accounts:  [http://demo.nats.io:8222/accountz](http://demo.nats.io:8222/accountz)
+* Get details for specific account `$G`:  [http://demo.nats.io:8222/accountz?acc=\$G](http://demo.nats.io:8222/accountz?acc=$G)
+
+#### Response
+
+Default behavior:
+
+```javascript
+{
+  "server_id": "NAB2EEQ3DLS2BHU4K2YMXMPIOOOAOFOAQAC5NQRIEUI4BHZKFBI4ZU4A",
+  "now": "2021-02-08T17:31:29.551146-05:00",
+  "system_account": "AAAXAUVSGK7TCRHFIRAS4SYXVJ76EWDMNXZM6ARFGXP7BASNDGLKU7A5",
+  "accounts": [
+    "AAAXAUVSGK7TCRHFIRAS4SYXVJ76EWDMNXZM6ARFGXP7BASNDGLKU7A5",
+    "$G"
+  ]
+}
+```
+
+Retrieve specific account:
+
+```javascript
+{
+  "server_id": "NAB2EEQ3DLS2BHU4K2YMXMPIOOOAOFOAQAC5NQRIEUI4BHZKFBI4ZU4A",
+  "now": "2021-02-08T17:37:55.80856-05:00",
+  "system_account": "AAAXAUVSGK7TCRHFIRAS4SYXVJ76EWDMNXZM6ARFGXP7BASNDGLKU7A5",
+  "account_detail": {
+    "account_name": "AAAXAUVSGK7TCRHFIRAS4SYXVJ76EWDMNXZM6ARFGXP7BASNDGLKU7A5",
+    "update_time": "2021-02-08T17:31:22.390334-05:00",
+    "is_system": true,
+    "expired": false,
+    "complete": true,
+    "jetstream_enabled": false,
+    "leafnode_connections": 0,
+    "client_connections": 0,
+    "subscriptions": 42,
+    "exports": [
+      {
+        "subject": "$SYS.DEBUG.SUBSCRIBERS",
+        "type": "service",
+        "response_type": "Singleton"
+      }
+    ],
+    "jwt": "eyJ0eXAiOiJqd3QiLCJhbGciOiJlZDI1NTE5In0.eyJqdGkiOiJVVlU2VEpXRU8zS0hYWTZVMkgzM0RCVklET1A3U05DTkJPMlM0M1dPNUM2T1RTTDNVSUxBIiwiaWF0IjoxNjAzNDczNzg4LCJpc3MiOiJPQlU1TzVGSjMyNFVEUFJCSVZSR0Y3Q05FT0hHTFBTN0VZUEJUVlFaS1NCSElJWklCNkhENjZKRiIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBQUFYQVVWU0dLN1RDUkhGSVJBUzRTWVhWSjc2RVdETU5YWk02QVJGR1hQN0JBU05ER0xLVTdBNSIsInR5cGUiOiJhY2NvdW50IiwibmF0cyI6eyJsaW1pdHMiOnsic3VicyI6LTEsImNvbm4iOi0xLCJsZWFmIjotMSwiaW1wb3J0cyI6LTEsImV4cG9ydHMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsIndpbGRjYXJkcyI6dHJ1ZX19fQ.CeGo16i5oD0b1uBJ8UdGmLH-l9dL8yNqXHggkAt2T5c88fM7k4G08wLguMAnlvzrdlYvdZvOx_5tHLuDZmGgCg",
+    "issuer_key": "OBU5O5FJ324UDPRBIVRGF7CNEOHGLPS7EYPBTVQZKSBHIIZIB6HD66JF",
+    "name_tag": "SYS",
+    "decoded_jwt": {
+      "jti": "UVU6TJWEO3KHXY6U2H33DBVIDOP7SNCNBO2S43WO5C6OTSL3UILA",
+      "iat": 1603473788,
+      "iss": "OBU5O5FJ324UDPRBIVRGF7CNEOHGLPS7EYPBTVQZKSBHIIZIB6HD66JF",
+      "name": "SYS",
+      "sub": "AAAXAUVSGK7TCRHFIRAS4SYXVJ76EWDMNXZM6ARFGXP7BASNDGLKU7A5",
+      "nats": {
+        "limits": {
+          "subs": -1,
+          "data": -1,
+          "payload": -1,
+          "imports": -1,
+          "exports": -1,
+          "wildcards": true,
+          "conn": -1,
+          "leaf": -1
+        },
+        "default_permissions": {
+          "pub": {},
+          "sub": {}
+        },
+        "type": "account",
+        "version": 1
+      }
+    },
+    "sublist_stats": {
+      "num_subscriptions": 42,
+      "num_cache": 6,
+      "num_inserts": 42,
+      "num_removes": 0,
+      "num_matches": 6,
+      "cache_hit_rate": 0,
+      "max_fanout": 1,
+      "avg_fanout": 0.8333333333333334
+    }
+  }
 }
 ```
 
