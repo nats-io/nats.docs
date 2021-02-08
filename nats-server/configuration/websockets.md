@@ -72,7 +72,7 @@ websocket {
     # This setting is useful when generating NATS `Bearer` client JWTs as the
     # result of some authentication mechanism. The HTTP server after correct
     # authentication can issue a JWT for the user, that is set securely preventing
-    # access by unintended scripts. Note these JWTs must be [NATS JWTs](securing_nats/jwt).
+    # access by unintended scripts. Note these JWTs must be [NATS JWTs](https://docs.nats.io/nats-server/configuration/securing_nats/jwt).
     #
     # jwt_cookie: "my_jwt_cookie_name"
 
