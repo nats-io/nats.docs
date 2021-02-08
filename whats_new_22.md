@@ -18,7 +18,7 @@ JetStream:
 - is account aware
 - allows for detailed granularity of security, by stream, by consumer, by function
 
-Get started with JetStream [here](jetstream/about_jetstream/jetstream.md).
+Get started with [JetStream](../jetstream/about_jetstream/jetstream.md).
 
 
 ## Security and Simplified Account Management
@@ -37,9 +37,9 @@ Scoped to the user, you can now [specify a specific block of time](TODO Link) du
 
 Now you can specify [default user permissions](TODO Link) within an account.  This significantly reduces efforts around policy, reduces chances for error in permissioning, and simplifies the provisioning of user credentials.
 
-## Websockets
+## WebSockets
 
-Connect mobile and web applications to any NATS server using [Websockets](TODO Link).  Built to more easily traverse firewalls and load balancers, NATS websocket support provides even more flexibility to NATS deployments and makes it easier to communicate to the edge and endpoints.  This is currently supported in NATS server leaf nodes, nats.ts, nats.deno, and the nats.js clients.
+Connect mobile and web applications to any NATS server using [WebSockets](TODO Link).  Built to more easily traverse firewalls and load balancers, NATS WebSocket support provides even more flexibility to NATS deployments and makes it easier to communicate to the edge and endpoints.  This is currently supported in NATS server leaf nodes, nats.ts, nats.deno, and the nats.js clients.
 
 ## Build Better Systems
 
@@ -51,9 +51,9 @@ We’ve added the ability to optionally use [headers](TODO Link), following the 
 
 ### Seamless Maintenance with Lame Duck Notifications
 
-When taking down a server for maintenance, servers can be signaled to enter [Lame Duck Mode](https://docs.nats.io/nats-server/nats_admin/signals) where they do not accept new connections and evict existing connections over a period of time.  Maintainer supported clients will notify applications that a server has entered this state and will be shutting down, allowing a client to smoothly transition to another server or cluster and better maintain business continuity during scheduled maintenance periods. 
+When taking down a server for maintenance, servers can be signaled to enter [Lame Duck Mode](../nats-server/nats_admin/signals) where they do not accept new connections and evict existing connections over a period of time.  Maintainer supported clients will notify applications that a server has entered this state and will be shutting down, allowing a client to smoothly transition to another server or cluster and better maintain business continuity during scheduled maintenance periods. 
 
-### React quicker with No-Responder notifications
+### React Quicker with No-Responder Notifications
 
 Why wait for timeouts when services aren’t available?  When a request is made to a service (request/reply) and the NATS Server knows there are no services available the server will short circuit the request.  A “no-responders” protocol message will be sent back to the requesting client which will break from blocking API calls.  This allows applications to immediately react which further enables building a highly responsive system at scale, even in the face of application failures and network partitions.
 
@@ -61,7 +61,7 @@ Why wait for timeouts when services aren’t available?  When a request is made 
 
 Reduce risk when onboarding new services.  Canary deployments, A/B testing, and transparent teeing of data streams are now fully supported in NATS.  The NATS Server allows accounts to form subject mappings from one subject to another for both client inbound and service import invocations and allows weighted sets for the destinations.  Map any percentage - 1 to 100 percent of your traffic - to other subjects, and change this at runtime with a server configuration reload.  You can even artificially drop a percentage of traffic to introduce into your system.
 
-### Account Monitoring - more meaningful metrics 
+### Account Monitoring - More Meaningful Metrics 
 
 NATS now allows for fine-grained monitoring to identify usage metrics tied to a particular account.  Inspect messages and bytes sent or received and various connection statistics for a particular account.  Accounts can represent anything - a group of applications, a team or organization, a geographic location, or even roles.  If NATS is enabling your SaaS solution you could use NATS account scoped metrics to bill users.
 
