@@ -1,6 +1,6 @@
 # Websocket Support
 
-*Supported since NATS server version 2.2*
+*Supported since NATS Server version 2.2*
 
 Websocket support can be enabled in the server and may be used alongside the
 traditional TCP socket connections.  TLS, compression and
