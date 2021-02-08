@@ -12,18 +12,22 @@ block in the server's configuration file like the following:
 ```
 websocket {
     # Specify a host and port to listen for websocket connections
+    #
     # listen: "host:port"
 
     # It can also be configured with individual parameters,
     # namely host and port.
+    #
     # host: "hostname"
     port: 443
 
     # This will optionally specify what host:port for websocket
-    # connections to be advertised in the cluster
+    # connections to be advertised in the cluster.
+    #
     # advertise: "host:port"
 
     # TLS configuration is required by default
+    #
     tls {
       cert_file: "/path/to/cert.pem"
       key_file: "/path/to/key.pem"
@@ -31,17 +35,19 @@ websocket {
 
     # For test environments, you can disable the need for TLS
     # by explicitly setting this option to `true`
+    #
     # no_tls: true
 
-    # If same_origin is true, then the Origin header of the
-    # client request must match the request's Host.
+    # [Cross-origin resource sharing option](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS). When set to `true`, the HTTP origin header must match the request’s hostname.
+    # The default is `false`.
+    #
     # same_origin: true
 
-    # This list specifies the only accepted values for
-    # the client's request Origin header. The scheme,
-    # host and port must match. By convention, the
-    # absence of TCP port in the URL will be port 80
+    # [Cross-origin resource sharing option](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS). List of accepted origins. When empty, and `same_origin` is `false`, clients from any origin are allowed to connect.
+    # This list specifies the only accepted values for the client's request Origin header. The scheme,
+    # host and port must match. By convention, the absence of TCP port in the URL will be port 80
     # for an "http://" scheme, and 443 for "https://".
+    #
     # allowed_origins [
     #    "http://www.example.com"
     #    "https://www.other-example.com"
@@ -50,19 +56,24 @@ websocket {
     # This enables support for compressed websocket frames
     # in the server. For compression to be used, both server
     # and client have to support it.
+    #
     # compression: true
 
     # This is the total time allowed for the server to
     # read the client request and write the response back
     # to the client. This includes the time needed for the
     # TLS handshake.
+    #
     # handshake_timeout: "2s"
 
-    # Name of the cookie, which if present in WebSocket upgrade headers,
-    # will be treated as the JWT during CONNECT phase as long as
-    # the "jwt" field specified in the CONNECT protocol is missing or empty.
-    # Note that the server needs to be running in operator mode for this
-    # option to be used.
+    # Name for an HTTP cookie, that if present will be used as a client JWT.
+    # If the client specifies a JWT in the CONNECT protocol, this option is ignored.
+    # The cookie should be set by the HTTP server as described [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#restrict_access_to_cookies).
+    # This setting is useful when generating NATS `Bearer` client JWTs as the
+    # result of some authentication mechanism. The HTTP server after correct
+    # authentication can issue a JWT for the user, that is set securely preventing
+    # access by unintended scripts. Note these JWTs must be [NATS JWTs](https://docs.nats.io/nats-server/configuration/securing_nats/jwt).
+    #
     # jwt_cookie: "my_jwt_cookie_name"
 
     # If no user name is provided when a websocket client connects, will default
@@ -70,6 +81,7 @@ websocket {
     # override, for websocket clients, any `no_auth_user` value defined in the
     # main configuration file.
     # Note that this is not compatible with running the server in operator mode.
+    #
     # no_auth_user: "my_username_for_apps_not_providing_credentials"
 
     # See below to know what is the normal way of limiting websocket clients
@@ -77,6 +89,7 @@ websocket {
     # If there are no users specified in the configuration, this simple authorization
     # block allows you to override the values that would be configured in the
     # equivalent block in the main section.
+    #
     # authorization {
     #     # If this is specified, the client has to provide the same username
     #     # and password to be able to connect.
