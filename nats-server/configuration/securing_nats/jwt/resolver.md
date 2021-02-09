@@ -45,7 +45,7 @@ Their commonalities are that they exchange/lookup account jwt via nats and the s
 
 This resolver stores all jwt and exchanges them in an eventually consistent way with other resolver of the same type.
 [`nsc`](../../../../nats-tools/nsc/README.md) supports push/pull/purge with this resolver type. 
-Jwt, uploaded this way, are stored in a directory the server has exclusive access to. 
+[JWTs](../../nats-server/configuration/securing_nats/jwt/), uploaded this way, are stored in a directory the server has exclusive access to. 
 
 ```yaml
 resolver: {
@@ -75,7 +75,7 @@ You need enough to still serve your workload adequately, while some server are o
 
 ### cache
 
-This resolver only stores a subset of jwt and evicts extra ones based on an LRU scheme. 
+This resolver only stores a subset of [JWT](../../nats-server/configuration/securing_nats/jwt/) and evicts extra ones based on an LRU scheme. 
 Missing jwt are downloaded from `full` nats based resolver. 
 This resolver is essentially the URL Resolver in nats.
 
@@ -93,10 +93,10 @@ resolver: {
 
 ### nats based resolver - integration
 
-nats based resolver utilize the system account for lookup and upload of account jwt.
+nats based resolver utilize the system account for lookup and upload of account [JWTs](../../nats-server/configuration/securing_nats/jwt/) .
 If your application requires tighter integration you can make use of these subjects for tighter integration.
 
-To upload or update a possibly on the fly generated account jwt without `nsc`, send it as request to `$SYS.REQ.CLAIMS.UPDATE`.
+To upload or update a possibly on the fly generated account jwt without [`nsc`](../../../../nats-tools/nsc/README.md), send it as request to `$SYS.REQ.CLAIMS.UPDATE`.
 Each participating `full` nats based account resolver will respond with a message detailing success or failure.
 
-To serve a requested account jwt yourself, subscribe to `$SYS.REQ.ACCOUNT.*.CLAIMS.LOOKUP` and respond with the account jwt corresponding to the requested account id (wildcard).
+To serve a requested account [JWT](../../nats-server/configuration/securing_nats/jwt/) yourself and essentially implement an account server, subscribe to `$SYS.REQ.ACCOUNT.*.CLAIMS.LOOKUP` and respond with the account jwt corresponding to the requested account id (wildcard).
