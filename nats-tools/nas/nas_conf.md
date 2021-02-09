@@ -9,62 +9,6 @@ Basic configuration revolves around 4 settings:
 
 For complete information on please refer to the project's [Github](https://github.com/nats-io/nats-account-server).
 
-## `nsc` Configuration
-
-For a basic usage of the server you can specify the `-nsc` flag, and specify the path to an operator in your environment.
-
-> If you have not yet created an operator or accounts, you'll need to do so before continuing. See [NSC](../nsc/)
-
-You can easily locate the path by running `nsc env` to print your `nsc` settings:
-
-```text
-> nsc env
-╭──────────────────────────────────────────╮
-│             NSC Environment              │
-├──────────────────┬─────┬─────────────────┤
-│ Setting          │ Set │ Effective Value │
-├──────────────────┼─────┼─────────────────┤
-│ $NKEYS_PATH      │ No  │ ~/.nkeys        │
-│ $NSC_HOME        │ No  │ ~/.nsc          │
-│ Config           │     │ ~/.nsc/nsc.json │
-├──────────────────┼─────┼─────────────────┤
-│ Stores Dir       │     │ ~/.nsc/nats     │
-│ Default Operator │     │ Test            │
-│ Default Account  │     │ TestAccount     │
-│ Default Cluster  │     │                 │
-╰──────────────────┴─────┴─────────────────╯
-```
-
-The path you are interested in the `Stores Dir`. This is the root of all operators, you'll also need the name of your operator. If your current operator is not listed, you can list all your available operators by doing:
-
-```text
-> nsc list operators
-```
-
-To start the `nats-account-server` with the operator `Test`:
-
-```text
-> nats-account-server -nsc ~/.nsc/nats/Test
-2019/05/10 11:22:41.845148 [INF] starting NATS Account server, version 0.0-dev
-2019/05/10 11:22:41.845241 [INF] server time is Fri May 10 11:22:41 CDT 2019
-2019/05/10 11:22:41.845245 [INF] loading operator from /Users/synadia/.nsc/nats/Test/Test.jwt
-2019/05/10 11:22:41.846367 [INF] creating a read-only store for the NSC folder at /Users/synadia/.nsc/nats/Test
-2019/05/10 11:22:41.846459 [INF] NATS is not configured, server will not fire notifications on update
-2019/05/10 11:22:41.855291 [INF] http listening on port 9090
-2019/05/10 11:22:41.855301 [INF] nats-account-server is running
-2019/05/10 11:22:41.855303 [INF] configure the nats-server with:
-2019/05/10 11:22:41.855306 [INF]   resolver: URL(http://localhost:9090/jwt/v1/accounts/)
-```
-
-By default the server will serve JWTs on the localhost at port 9090. The last line in the shown in the printout is important, that is the resolver URL you'll have to provide on your NATS server configuration. You'll also need the matching operator JWT which is on `~/.nsc/nats/Test/Test.jwt` if you are following the example above. On the server configuration you'll need to expand the `~` as necessary. Here's what my NATS server configuration looks like:
-
-```text
-operator: /Users/synadia/.nsc/nats/Test/Test.jwt
-resolver: URL(http://localhost:9090/jwt/v1/accounts/)
-```
-
-Note that servers you create with the `-nsc` option \(or store option\) are read-only. This means that the server will not accept POST requests to update the JWT store.
-
 ## Directory Configuration
 
 You can start a server using a plain directory. In this case you'll be responsible for adding any JWT that you want resolved.
@@ -95,7 +39,7 @@ A step by step tutorial using directory configuration can be found [here](dir_st
 
 ## Configuration File
 
-While the `-nsc` and `-dir` store flags are sufficient for some very simple developer setups, any production or non-read-only server will require a configuration file.
+While the `-dir` store flag is sufficient for some very simple developer setups, any production or non-read-only server will require a configuration file.
 
 Let's take a look at the configuration options:
 
@@ -117,7 +61,6 @@ Let's take a look at the configuration options:
 | Option | Description |
 | :--- | :--- |
 | `dir` | Configures a directory as a store. |
-| `nsc` | Configures an nsc read-only store. The value should be the path to an operator _directory_. Option is mutually exclusive with `dir`. |
 | `readonly` | If `true`, the store will not accept POST requests. Note that to receive requests, the store must also have `operatorjwtpath` specified as a root option. |
 | `shard` | If `true`, JWTs will be stored in multiple sub directories of the store directory. |
 
