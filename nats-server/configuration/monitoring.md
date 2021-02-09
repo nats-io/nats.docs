@@ -10,6 +10,7 @@ To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP 
 * [Gateways](monitoring.md#gateway-information)
 * [Leaf Nodes](monitoring.md#leaf-nodes-information)
 * [Subscription Routing](monitoring.md#subscription-routing-information)
+* [Jetstream Information](monitoring.md#jetstream-information)
 
 All endpoints return a JSON object.
 
@@ -517,6 +518,147 @@ The `/subsz` endpoint reports detailed information about the current subscriptio
   "cache_hit_rate": 0,
   "max_fanout": 0,
   "avg_fanout": 0
+}
+```
+
+## Jetstream Information
+
+The `/jsz` endpoint reports more detailed information on jetstream. For accounts it uses a paging mechanism which defaults to 1024 connections.
+
+**Endpoint:** `http://server:port/connz`
+
+| Result | Return Code |
+| :--- | :--- |
+| Success | 200 \(OK\) |
+| Error | 400 \(Bad Request\) |
+
+#### Arguments
+
+| Argument | Values | Description |
+| :--- | :--- | :--- |
+| acc | account name | Include metrics for the specified account. Default is unset. |
+| accounts | true, 1, false, 0 | Include account specific jetstream information. Default is false. |
+| streams | true, 1, false, 0 | Include streams. When set, implies `accounts=true`. Default is false. |
+| consumers | true, 1, false, 0 | Include consumer. When set, implies `streams=true`. Default is false. |
+| config | true, 1, false, 0 | When stream or consumer are requested, include their respective configuration. Default is false. |
+| leader-only | true, 1, false, 0 | Only the leader responds. Default is false.|
+| offset | number &gt; 0 | Pagination offset. Default is 0. |
+| limit | number &gt; 0 | Number of results to return. Default is 1024. |
+
+#### Examples
+
+Get basic jetstream information: [http://demo.nats.io:8222/jsz](http://demo.nats.io:8222/jsz)
+
+Request accounts and control limit and offset: [http://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128](http://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128).
+
+You can also report detailed consumer information on a per connection basis using consumer=true. For example: [http://demo.nats.io:8222/jsz?consumers=true](http://demo.nats.io:8222/jsz/consumer=true).
+
+#### Response
+
+```javascript
+{
+  "server_id": "NCVIDODSZ45C5OD67ZD7EJUIJPQDP6CM74SJX6TJIF2G7NLYS5LCVYHS",
+  "now": "2021-02-08T19:08:30.555533-05:00",
+  "config": {
+    "max_memory": 10485760,
+    "max_storage": 10485760,
+    "store_dir": "/var/folders/9h/6g_c9l6n6bb8gp331d_9y0_w0000gn/T/srv_7500251552558"
+  },
+  "memory": 0,
+  "storage": 66,
+  "api": {
+    "total": 5,
+    "errors": 0
+  },
+  "total_streams": 1,
+  "total_consumers": 1,
+  "total_messages": 1,
+  "total_message_bytes": 33,
+  "meta_cluster": {
+    "name": "cluster_name",
+    "replicas": [
+      {
+        "name": "server_5500",
+        "current": false,
+        "active": 2932926000
+      }
+    ]
+  },
+  "account_details": [
+    {
+      "name": "BCC_TO_HAVE_ONE_EXTRA",
+      "id": "BCC_TO_HAVE_ONE_EXTRA",
+      "memory": 0,
+      "storage": 0,
+      "api": {
+        "total": 0,
+        "errors": 0
+      }
+    },
+    {
+      "name": "ACC",
+      "id": "ACC",
+      "memory": 0,
+      "storage": 66,
+      "api": {
+        "total": 5,
+        "errors": 0
+      },
+      "stream_detail": [
+        {
+          "name": "my-stream-replicated",
+          "cluster": {
+            "name": "cluster_name",
+            "replicas": [
+              {
+                "name": "server_5500",
+                "current": false,
+                "active": 2931517000
+              }
+            ]
+          },
+          "state": {
+            "messages": 1,
+            "bytes": 33,
+            "first_seq": 1,
+            "first_ts": "2021-02-09T00:08:27.623735Z",
+            "last_seq": 1,
+            "last_ts": "2021-02-09T00:08:27.623735Z",
+            "consumer_count": 1
+          },
+          "consumer_detail": [
+            {
+              "stream_name": "my-stream-replicated",
+              "name": "my-consumer-replicated",
+              "created": "2021-02-09T00:08:27.427631Z",
+              "delivered": {
+                "consumer_seq": 0,
+                "stream_seq": 0
+              },
+              "ack_floor": {
+                "consumer_seq": 0,
+                "stream_seq": 0
+              },
+              "num_ack_pending": 0,
+              "num_redelivered": 0,
+              "num_waiting": 0,
+              "num_pending": 1,
+              "cluster": {
+                "name": "cluster_name",
+                "replicas": [
+                  {
+                    "name": "server_5500",
+                    "current": false,
+                    "active": 2933232000
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
 ```
 
