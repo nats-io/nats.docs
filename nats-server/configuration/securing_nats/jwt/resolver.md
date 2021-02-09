@@ -1,9 +1,10 @@
 # Account lookup using Resolver
 
-The `resolver` configuration option is used in conjunction with [NATS JWT Authentication](./) and [nsc](../../../../nats-tools/nsc/). The `resolver` option specifies a URL where the nats-server can retrieve an account JWT. There are two built-in resolver implementations:
+The `resolver` configuration option is used in conjunction with [NATS JWT Authentication](./) and [nsc](../../../../nats-tools/nsc/). The `resolver` option specifies a URL where the nats-server can retrieve an account JWT. There are three built-in resolver implementations:
 
-* `URL`
-* `MEMORY`
+* [`URL`](resolver.md#URL-Resolver)
+* [`MEMORY`](resolver.md#Memory)
+* [nats based resolver](resolver.md#nats-based-resolver)
 
 > If the operator JWT specified in `operator` contains an account resolver URL, `resolver` only needs to be specified in order to overwrite that default.
 
@@ -34,3 +35,68 @@ The `MEMORY` resolver is recommended when the server has a small number of accou
 
 For more information on how to configure a memory resolver, see [this tutorial](mem_resolver.md).
 
+## nats based resolver
+
+Nats based resolver embed the functionality of the [account server](https://github.com/nats-io/nats-account-server) inside the nats-server.
+To not have to store all account jwt on every server, this resolver has two sub types `full` and `cache`.
+Their commonalities are that they exchange/lookup account jwt via nats and the system account and store them in a local (not shared) directory.
+
+### full
+
+This resolver stores all jwt and exchanges them in an eventually consistent way with other resolver of the same type.
+[`nsc`](../../../../nats-tools/nsc/README.md) supports push/pull/purge with this resolver type. 
+Jwt, uploaded this way, are stored in a directory the server has exclusive access to. 
+
+```yaml
+resolver: {
+    type: full
+    # Directory in which account jwt will be stored
+    dir: './jwt'
+    # In order to support jwt deletion, set to true
+    # If the resolver type is full delete will rename the jwt.
+    # This is to allow manual restoration in case of inadvertent deletion.
+    # To restore a jwt, remove the added suffix .delete and restart or send a reload signal.
+    # To free up storage you must manually delete files with the suffix .delete.
+    allow_delete: false
+    # Interval at which a nats-server with a nats based account resolver will compare
+    # it's state with one random nats based account resolver in the cluster and if needed,
+    # exchange jwt and converge on the same set of jwt.
+    interval: "2m"
+    # limit on the number of jwt stored, will reject new jwt once limit is hit.
+    limit: 1000
+}
+```
+
+This resolver type also supports `resolver_preload`. When present jwt listed are stored in the resolver.
+There, they may be subject to updates. Restarts of the `nats-server` will hold on to these more recent versions.
+
+Not every server in a cluster needs to be set to `full`.
+You need enough to still serve your workload adequately, while some server are offline.
+
+### cache
+
+This resolver only stores a subset of jwt and evicts extra ones based on an LRU scheme. 
+Missing jwt are downloaded from `full` nats based resolver. 
+This resolver is essentially the URL Resolver in nats.
+
+```yaml
+resolver: {
+    type: cache
+    # Directory in which account jwt will be store
+    dir: "./"
+    # limit on the number of jwt stored, will evict old jwt once limit is hit.
+    limit: 1000
+    # How long to hold on to a jwt before discarding it. 
+    ttl: "2m"
+}
+```
+
+### nats based resolver - integration
+
+nats based resolver utilize the system account for lookup and upload of account jwt.
+If your application requires tighter integration you can make use of these subjects for tighter integration.
+
+To upload or update a possibly on the fly generated account jwt without `nsc`, send it as request to `$SYS.REQ.CLAIMS.UPDATE`.
+Each participating `full` nats based account resolver will respond with a message detailing success or failure.
+
+To serve a requested account jwt yourself, subscribe to `$SYS.REQ.ACCOUNT.*.CLAIMS.LOOKUP` and respond with the account jwt corresponding to the requested account id (wildcard).
