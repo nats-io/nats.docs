@@ -5,7 +5,7 @@ The [NATS Account Server](https://github.com/nats-io/nats-account-server) is an 
 > The nats server can be configured with a [memory resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#memory) as well. This avoids usage of the account server.
 > The NATS server can be configured with a [NATS based resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#nats-based-resolver) for the same purpose as well.
 > 
-> Usage of [full nats based resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#nats-based-resolver) over [NATS Account Server](https://github.com/nats-io/nats-account-server) is recommended.
+> Usage of [full NATS based resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#nats-based-resolver) over [NATS Account Server](https://github.com/nats-io/nats-account-server) is recommended.
 > 
 > The [NATS Account Server](https://github.com/nats-io/nats-account-server) also speaks the [full nats based resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#nats-based-resolver) protocol and
 > can be used as such.
