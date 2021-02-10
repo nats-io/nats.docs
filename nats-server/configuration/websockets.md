@@ -6,6 +6,11 @@ Websocket support can be enabled in the server and may be used alongside the
 traditional TCP socket connections.  TLS, compression and
 Origin Header checking are supported.
 
+**Important**
+
+- NATS Supports only Websocket data frames in Binary, not Text format (https://tools.ietf.org/html/rfc6455#section-5.6). The server will always send in Binary and your clients MUST send in Binary too.
+- For writers of client libraries: a Websocket frame is not guaranteed to contain a full NATS protocol (actually will generally not). Any data from a frame must be going through a parser that can handle partial protocols. See the protocol description [here](../../nats-protocol/nats-protocol/README.md).
+
 To enable websocket support in the server, add a `websockets` configuration
 block in the server's configuration file like the following:
 
