@@ -96,7 +96,7 @@ resolver: {
 The NATS based resolver utilizes the system account for lookup and upload of account [JWTs](../../nats-server/configuration/securing_nats/jwt/) .
 If your application requires tighter integration you can make use of these subjects for tighter integration.
 
-To upload or update a possibly on the fly generated account jwt without [`nsc`](../../../../nats-tools/nsc/README.md), send it as request to `$SYS.REQ.CLAIMS.UPDATE`.
+To upload or update any generated account jwt without [`nsc`](../../../../nats-tools/nsc/README.md), send it as request to `$SYS.REQ.CLAIMS.UPDATE`.
 Each participating `full` nats based account resolver will respond with a message detailing success or failure.
 
 To serve a requested account [JWT](../../nats-server/configuration/securing_nats/jwt/) yourself and essentially implement an account server, subscribe to `$SYS.REQ.ACCOUNT.*.CLAIMS.LOOKUP` and respond with the account jwt corresponding to the requested account id (wildcard).
