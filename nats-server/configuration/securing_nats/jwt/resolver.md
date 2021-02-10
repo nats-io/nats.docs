@@ -67,7 +67,7 @@ resolver: {
 }
 ```
 
-This resolver type also supports `resolver_preload`. When present jwt listed are stored in the resolver.
+This resolver type also supports `resolver_preload`. When present, JWTs are listed are stored in the resolver.
 There, they may be subject to updates. Restarts of the `nats-server` will hold on to these more recent versions.
 
 Not every server in a cluster needs to be set to `full`.
