@@ -3,7 +3,7 @@
 The [NATS Account Server](https://github.com/nats-io/nats-account-server) is an HTTP server that hosts and vends [JWTs](../../nats-server/configuration/securing_nats/jwt/) for nats-server 2.0 account authentication. The server supports an number of stores which enable it to serve account [JWTs](../../nats-server/configuration/securing_nats/jwt/) from a [directory](nas_conf.md#directory-configuration)
 
 > The nats server can be configured with a [memory resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#memory) as well. This avoids usage of the account server.
-> The nats server can be configured with a [nats based resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#nats-based-resolver) for the same purpose as well.
+> The NATS server can be configured with a [NATS based resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#nats-based-resolver) for the same purpose as well.
 > 
 > Usage of [full nats based resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#nats-based-resolver) over [NATS Account Server](https://github.com/nats-io/nats-account-server) is recommended.
 > 
@@ -17,4 +17,3 @@ The server supports replica mode, which allows load balancing, fault tolerance a
 The account server can host activation tokens as well as account JWTs. These tokens are used when one account needs to give permission to another account to access a private export. Tokens can be configured as full tokens, or URLs. By hosting them in the account server you can avoid the copy/paste process of embedding tokens. They can also be updated more easily on expiration. The account serer furthermore allows for jwt inspection.
 
 All account server configuration options can be found [here](nas_conf.md#configuration-file). It futhermore allows [inspection](inspecting_jwts.md) of JWT.
-
