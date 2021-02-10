@@ -75,7 +75,7 @@ You need enough to still serve your workload adequately, while some server are o
 
 ### Cache
 
-This resolver only stores a subset of [JWT](../../nats-server/configuration/securing_nats/jwt/) and evicts extra ones based on an LRU scheme. 
+This resolver only stores a subset of [JWT](../../nats-server/configuration/securing_nats/jwt/) and evicts others based on an LRU scheme. 
 Missing jwt are downloaded from `full` nats based resolver. 
 This resolver is essentially the URL Resolver in nats.
 
