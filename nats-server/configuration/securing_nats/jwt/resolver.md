@@ -73,7 +73,7 @@ There, they may be subject to updates. Restarts of the `nats-server` will hold o
 Not every server in a cluster needs to be set to `full`.
 You need enough to still serve your workload adequately, while some server are offline.
 
-### cache
+### Cache
 
 This resolver only stores a subset of [JWT](../../nats-server/configuration/securing_nats/jwt/) and evicts extra ones based on an LRU scheme. 
 Missing jwt are downloaded from `full` nats based resolver. 
