@@ -91,7 +91,7 @@ resolver: {
 }
 ```
 
-### nats based resolver - integration
+### NATS Based Resolver - Integration
 
 nats based resolver utilize the system account for lookup and upload of account [JWTs](../../nats-server/configuration/securing_nats/jwt/) .
 If your application requires tighter integration you can make use of these subjects for tighter integration.
