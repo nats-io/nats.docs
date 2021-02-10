@@ -41,7 +41,7 @@ NATS based resolver embed the functionality of the [account server](https://gith
 To not have to store all account jwt on every server, this resolver has two sub types `full` and `cache`.
 Their commonalities are that they exchange/lookup account jwt via NATS and the system account and store them in a local (not shared) directory.
 
-### full
+### Full
 
 This resolver stores all jwt and exchanges them in an eventually consistent way with other resolver of the same type.
 [`nsc`](../../../../nats-tools/nsc/README.md) supports push/pull/purge with this resolver type. 
