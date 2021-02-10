@@ -4,7 +4,7 @@ The `resolver` configuration option is used in conjunction with [NATS JWT Authen
 
 * [`URL`](resolver.md#URL-Resolver)
 * [`MEMORY`](resolver.md#Memory)
-* [nats based resolver](resolver.md#nats-based-resolver)
+* [NATS Based Resolver](resolver.md#nats-based-resolver)
 
 > If the operator JWT specified in `operator` contains an account resolver URL, `resolver` only needs to be specified in order to overwrite that default.
 
@@ -35,11 +35,11 @@ The `MEMORY` resolver is recommended when the server has a small number of accou
 
 For more information on how to configure a memory resolver, see [this tutorial](mem_resolver.md).
 
-## nats based resolver
+## NATS Based Resolver
 
-Nats based resolver embed the functionality of the [account server](https://github.com/nats-io/nats-account-server) inside the nats-server.
+NATS based resolver embed the functionality of the [account server](https://github.com/nats-io/nats-account-server) inside the nats-server.
 To not have to store all account jwt on every server, this resolver has two sub types `full` and `cache`.
-Their commonalities are that they exchange/lookup account jwt via nats and the system account and store them in a local (not shared) directory.
+Their commonalities are that they exchange/lookup account jwt via NATS and the system account and store them in a local (not shared) directory.
 
 ### full
 
