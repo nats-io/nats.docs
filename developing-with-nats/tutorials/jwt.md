@@ -160,7 +160,7 @@ This configuration is typically controlled by one organization or the administra
 #### Key Takeaways
 
 * Accounts are isolated from each other
-* ability to selectively combine accounts
+* One can selectively combine accounts
 * Need to modify a config file to add/remove/modify accounts and user
 
 ### What are NKEYs?
