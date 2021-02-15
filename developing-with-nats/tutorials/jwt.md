@@ -301,7 +301,7 @@ Relying on a hierarchial chain of trust between three distinct NKEYs and associa
 2. Account: corresponds to the set of a single account's configuration
 3. User: corresponds to one user's configuration
 
-Each of the NKEY is referenced together with additional configuration in a JWT document.
+Each NKEY is referenced, with additional configuration in a JWT document.
 Each JWT has a subject and it's value is the public portion of an NKEY and serves as identity.
 Names exist in JWT but as of now are only used by tooling, `nats-server` does not read this value.
 The referenced NKEY's role determines the JWT content.
