@@ -1,6 +1,6 @@
 # JWT in NATS - Deep Dive
 
-This document provides a step by step deep dive into JWT. 
+This document provides a step by step deep dive into JWT usage within NATS. 
 Starting with related concepts it will introduce JWT and how the can be used in NATS.
 This will NOT list every JWT/nsc option. Instead it focuses on important ones and concepts.
 
