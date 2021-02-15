@@ -159,7 +159,7 @@ This configuration is typically controlled by one organization or the administra
 
 #### Key Takeaways
 
-* accounts are isolated from each other
+* Accounts are isolated from each other
 * ability to selectively combine accounts
 * Need to modify a config file to add/remove/modify accounts and user
 
