@@ -132,7 +132,7 @@ accounts: {
 }
 ```
 
-Same example, this time with messages crossing explicit account boundaries.
+Here is a similar example, this time with messages crossing explicit account boundaries.
 
 ```text
 > nats -s nats://a:a@localhost:4222 sub ">" &
