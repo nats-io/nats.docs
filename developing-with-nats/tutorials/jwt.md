@@ -281,7 +281,7 @@ Connection closed by foreign host.
 In a large organization the centralized config approach can lead to less flexibility/resistance to change when controlled by one entity.
 Alternatively, instead of operating one infrastructure, it can be deployed more often (say per team) thus making import/export relationships harder as they have to bridge separate systems.
 In order to make accounts truly powerful, they should ideally be configured separately from the infrastructure, only constrained by limits.
-Similar for user. An account contains user but this relationship could be a reference as well, such that alterations to user do not alter the account. 
+This is similar for user. An account contains the user but this relationship could be a reference as well, such that alterations to user do not alter the account. 
 User of the same account should be able to connect from anywhere in the same infrastructure and be able to exchange messages as long as they are in the same authentication domain.
 
 #### Key Takeaways
