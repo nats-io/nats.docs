@@ -1,6 +1,6 @@
 # NATS 2.2
 
-NATS 2.2 is the largest feature release since version 2.0. The 2.2 release provides highly scalable, highly performant, secure and easy-to-use next generation streaming in the form of JetStream, allows remote access via websockets, has simplified NATS account management, and further enables NATS toward our goal of securely democratizing streams and services for the hyperconnected world we live in.
+NATS 2.2 is the largest feature release since version 2.0. The 2.2 release provides highly scalable, highly performant, secure and easy-to-use next generation streaming in the form of JetStream, allows remote access via websockets, has simplified NATS account management, native MQTT support, and further enables NATS toward our goal of securely democratizing streams and services for the hyperconnected world we live in.
 
 ## Next Generation Streaming
 
@@ -40,6 +40,12 @@ Now you can specify [default user permissions](TODO Link) within an account.  Th
 ## WebSockets
 
 Connect mobile and web applications to any NATS server using [WebSockets](TODO Link).  Built to more easily traverse firewalls and load balancers, NATS WebSocket support provides even more flexibility to NATS deployments and makes it easier to communicate to the edge and endpoints.  This is currently supported in NATS server leaf nodes, nats.ts, nats.deno, and the nats.js clients.
+
+## Native MQTT Support
+
+With the [Adaptive Edge architecture](https://nats.io/blog/synadia-adaptive-edge/) and the ease in which NATS can extend a cloud deployment to the edge, it makes perfect sense to leverage existing investments in IoT deployments.  It’s expensive to update devices and large edge deployments.  Our goal is to enable the hyperconnected world, so we added first-class support for MQTT 3.1.1 directly into the NATS Server.
+
+Seamlessly integrate existing IoT deployments using MQTT 3.1.1 with a cloud-native NATS deployment.  Add a leaf node that is MQTT enabled and instantly send and receive messages to your MQTT applications and devices from a NATS deployment whether it be edge, single-cloud, multi-cloud, on-premise, or any combination thereof.
 
 ## Build Better Systems
 
