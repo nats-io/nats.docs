@@ -286,7 +286,7 @@ User of the same account should be able to connect from anywhere in the same inf
 
 #### Key Takeaways
 
-* Break up config into separate artifacts manageable by different entities
+* Configuration is broken up into separate artifacts manageable by different entities
 * Separate accounts from config and user from accounts
 * Accounts do NOT correspond to infrastructure, they correspond to teams or applications. 
 * Connect to any cluster in the same infrastructure and be able to communicate with all other user in your account.
