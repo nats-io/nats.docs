@@ -312,7 +312,7 @@ The referenced NKEY's role determines the JWT content.
 
 In addition, JWT can contain settings related to their decentralized nature, such as expiration/revocation/signing.
 At no point will a JWT contain the private portion of an NKEY.  Signatures are verified with public NKEY.
-JWT content can be viewed as public, although it's content may reveal which subjects/limits/permissions exist.
+JWT content can be viewed as public, although the content may reveal which subjects/limits/permissions exist.
 
 #### Key Takeaways
 
