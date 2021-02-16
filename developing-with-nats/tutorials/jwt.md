@@ -1531,7 +1531,7 @@ Alternatively you can also remove the account using `nsc delete account --name` 
 
 ##### Signing keys
 
-Accounts/Activations/User can be revoked in bulk by removing the respective signing key.
+Accounts, Activations, and Users can be revoked in bulk by removing the respective signing key.
 
 Remove an operator signing key: `nsc edit operator --rm-sk <signing key>`
 As a modification of the operator, in order to take effect, all dependent [`nsc`](#nsc) installations as well as `nats-server` will need this new version of the operator jwt.
