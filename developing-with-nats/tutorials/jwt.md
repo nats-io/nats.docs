@@ -525,7 +525,7 @@ resolver: URL(http://localhost:9090/jwt/v1/accouts/)
 
 #### Key Takeaways
 
-* JWT are secure 
+* JWTs are secure 
 * JWTs carry configuration corresponding to Operator/Accounts/User
 * Basis for operating one nats-infrastructure to serve separate yet optionally connected entities without introducing separate systems
 * Account resolver are way to obtain unknown Account JWT
