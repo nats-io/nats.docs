@@ -580,7 +580,7 @@ JWT feature accounts pretty heavily, thus a few thing need to be clarified.
     These are JWT that an importer can embed. 
     They comply to similar verification rules as user JWT, thus enabling a `nats-server` to check if the exporting account gave explicit consent. 
     Due to the use of a token the exporting account's JWT does not have to be modified.
-* Updates of JWT are applied as `nats-server` discover them. 
+* Updates of JWTs are applied as `nats-server` discover them. 
   * How this is done depends on the resolver.
     * `mem-resolver` require `nats-server --signal reload` to re-read all configured account JWTs.
       * `url-resolver` and `nats-resolver` listen on a dedicated update subject of the system account and applied if the file is valid.
