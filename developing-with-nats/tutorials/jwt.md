@@ -326,7 +326,7 @@ JWT content can be viewed as public, although the content may reveal which subje
 A `nats-server` is configured to trust an operator. 
 Meaning, the Operator JWT is part of its server configuration and requires a restart or `nats-server --signal reload` once changed.
 It is also configured with a way to obtain account JWT in one of 3 ways (explained below).
-Clients provide user JWT on connect. Again the server or Account JWT is not configured with them.
+Clients provide a user JWT on connect. Again the server or Account JWT is not configured with them.
 They also posses the private NKEY corresponding the the JWT identity so they can proof their identity as described [above](#what-are-nkeys).
 
 Through NKEY signature verification involved JWT are validated and the hierarchy between them can be verified.
