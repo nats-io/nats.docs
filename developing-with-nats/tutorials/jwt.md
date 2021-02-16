@@ -605,7 +605,7 @@ Key Management and how to do so using `nsc` will also be part of this section.
 
 #### Environment
 
-`nsc` is a tool that uses [JWT](https://github.com/nats-io/jwt) and [NKEY](https://github.com/nats-io/nkeys) libraries to create NKEYs (if asked to) and all types of JWT.
+`nsc` is a tool that uses the [JWT](https://github.com/nats-io/jwt) and [NKEY](https://github.com/nats-io/nkeys) libraries to create NKEYs (if asked to) and all types of JWT.
 It then stores these artefact in separate directories.
 
 It keeps track of the last operator/account used. Most commands provide 
