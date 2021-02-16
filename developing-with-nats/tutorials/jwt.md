@@ -271,7 +271,7 @@ Connection closed by foreign host.
 #### Key Takeaways
 
 * NKEYS are a secure way to authenticate clients
-* Secret private key is never exchanged, only evidence of possession is
+* Private keys are never accessed or stored in the NATS server
 * The public key still needs to be configured
 
 ## JSON Web Tokens (JWT) 
