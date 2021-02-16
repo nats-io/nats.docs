@@ -365,7 +365,7 @@ Furthermore JWT documents have an issuer, this may be an (identity) NKEY or a de
 A key is a signing key if it is listed as such in the JWT (above). 
 Signing NKEYs adhere to same NKEY roles and are additional keys that unlike identity NKEY may change over time.
 In the hierarchy, signing keys can only be used to sign JWT for the role right below them. 
-User JWT have no signing keys for this reason.
+User JWTs have no signing keys for this reason.
 To modify one role's set of signing keys, the identity NKEY needs to be used.
 
 Each JWT is signed as follows: `jwt.sig = sign(hash(jwt.header+jwt.body), private-key(jwt.issuer))` (jwt.issuer is part of jwt.body)
