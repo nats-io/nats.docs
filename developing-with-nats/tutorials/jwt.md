@@ -577,7 +577,7 @@ JWT feature accounts pretty heavily, thus a few thing need to be clarified.
     It is possible to start out with less granular accounts and as applications grow in importance or scale become more fine grain.
 * Compared to file based config, Imports and Exports change slightly.
     To control who gets to import an export, activation tokens are introduced. 
-    These are JWT that an importer can embed. 
+    These are JWTs that an importer can embed. 
     They comply to similar verification rules as user JWT, thus enabling a `nats-server` to check if the exporting account gave explicit consent. 
     Due to the use of a token the exporting account's JWT does not have to be modified.
 * Updates of JWTs are applied as `nats-server` discover them. 
