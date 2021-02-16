@@ -640,7 +640,7 @@ However, organization may not wish to make those public outright and thus has to
 
 When restoring an older version, be aware that:
 * All changes made since will be lost. Specifically revocations may be undone.
-* Time has moved on and thus JWT that used to be valid at the time of the backup/commit may be expired now. Thus
+* Time has moved on and thus JWTs that were once valid at the time of the backup or commit may be expired now. Thus
     You may have to be edit them to match your expectations again.
 * NKEYS are stored in a separate directory, so to not restore a JWT for which the NKEY has been deleted since:
   * Either keep all keys around or 
