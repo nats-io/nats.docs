@@ -1,4 +1,4 @@
-# JWT in NATS - Deep Dive
+# A Deep Dive and Tutorial into NATS Operator Mode with JWTs
 
 This document provides a step by step deep dive into JWT usage within NATS. 
 Starting with related concepts it will introduce JWT and how the can be used in NATS.
