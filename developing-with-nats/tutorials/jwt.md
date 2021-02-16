@@ -311,7 +311,7 @@ The referenced NKEY's role determines the JWT content.
 3. User JWT: Contain User specific [configuration](https://github.com/nats-io/jwt/blob/e11ce317263cef69619fc1ca743b195d02aa1d8a/user_claims.go#L25) such as Permissions/Limits
 
 In addition, JWT can contain settings related to their decentralized nature, such as expiration/revocation/signing.
-At no point do JWT contain the private portion of an NKEY, only signatures that can be verified with public NKEY.
+At no point will a JWT contain the private portion of an NKEY.  Signatures are verified with public NKEY.
 JWT content can be viewed as public, although it's content may reveal which subjects/limits/permissions exist.
 
 #### Key Takeaways
