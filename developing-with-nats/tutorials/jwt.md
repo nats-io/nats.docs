@@ -1471,7 +1471,7 @@ When signing keys where used, the account identity NKEY would only be needed to 
 
 #### Revocations
 
-JWT for user, activations and accounts can be explicitly revoked. 
+JWTs for user, activations and accounts can be explicitly revoked. 
 Furthermore can signing keys be removed, thus invalidating all JWTs signed by the removed NKEY.
 
 ##### User
