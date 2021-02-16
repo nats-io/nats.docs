@@ -574,7 +574,7 @@ A deeper understanding of accounts will help you to best setup NATS JWT based se
     Our official suggestion is to scope accounts by application/service offered.
     This is very fine grain and will require some configuration.
     This is why some users gravitate to accounts per team. One account for all Applications of a team.
-    It is possible to start out with less granular accounts and as applications grow in importance or scale become more fine grain.
+    It is possible to start out with less granular accounts and as applications grow in importance or scale become more fine grained.
 * Compared to file based config, Imports and Exports change slightly.
     To control who gets to import an export, activation tokens are introduced. 
     These are JWTs that an importer can embed. 
