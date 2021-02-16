@@ -17,7 +17,7 @@ This will NOT list every JWT/nsc option. Instead it focuses on important ones an
   - [Hierarchical JWT](#hierarchical-jwt)
     - [Decentralized Chain of Trust](#decentralized-chain-of-trust)
       - [Obtain an Account JWT](#obtain-an-account-jwt)
-      - [JWT and Chain of Trust Verification](#jwt-and-chain-of-trust-verification)
+      - [JWTs and Chain of Trust Verification](#jwt-and-chain-of-trust-verification)
       - [Obtain a User JWT - Client Connect](#obtain-a-user-jwt---client-connect)
     - [Key Takeaways](#key-takeaways-4)
   - [Deployment Models Enabled by Chain of Trust](#deployment-models-enabled-by-chain-of-trust)
