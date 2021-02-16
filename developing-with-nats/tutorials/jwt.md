@@ -1377,7 +1377,7 @@ Between export/import/activation token there are many subjects in use. Their rel
 ##### Import Remapping
 
 In order to be independent of subject names chosen by the exporter, importing allows to remap the imported subject.
-To do sos provide the option `--remote-subject <subject name>` to the import command.
+To do so provide the option `--remote-subject <subject name>` to the import command.
 
 This example will change the subject name the importing account uses locally from the exporter picked subject `foo` to `bar`.
 
