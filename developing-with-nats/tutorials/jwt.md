@@ -1451,7 +1451,7 @@ The altered operator JWT will have to be deployed to all affected `nats-server` 
 Once all `nats-server` have been restarted with the new operator, push the altered accounts.
 Depending on your deployment mode you may have to distribute the operator JWT and altered account JWT to all other [`nsc`](#nsc) environments.
 
-This process will be a lot easier when operator signing keys where used throughout and no account will be re signed because of this.
+This process will be a lot easier when operator signing keys where used throughout and no account will be re-signed because of this.
 If they where not, you can convert the old identity NKEY into a signing key using `nsc reissue operator --convert-to-signing-key`.
 On your own time - you can then remove the then signing NKEY using `nsc edit operator --rm-sk O.. ` and re deploy the operator jwt to all `nats-server`.
 
