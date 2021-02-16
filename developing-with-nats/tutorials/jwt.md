@@ -1346,7 +1346,7 @@ leafnodes {
 ### Connecting Accounts 
 
 As shown in [what are accounts](#what-are-accounts), they can be connected via exports and imports.
-While in config this is straight forward, in jwt this becomes a bit more complicated.
+While in configuration files this is straight forward, this becomes a bit more complicated when using JWTs
 In part this is due to the addition of new concepts such as public/private/activation tokens that do not make sense in a config based context.
 
 #### Exports
