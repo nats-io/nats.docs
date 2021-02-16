@@ -632,7 +632,7 @@ Thus, depending on your scenario, relevant identity NKEYS need to only exist in 
 
 ###### JWT store directory
 
-The store directory contains JWT fora operator/account/user and does not contain key material.
+The store directory contains JWTs for operators, accounts, and users.  It does not contain private keys.
 Therefore it is ok to back these up or even store them in a VCS such as git.
 But be aware that depending on content, JWT may reveal which permissions/subjects/public-nkeys exist.
 Knowing the content of a JWT does not grant access; only private keys will.
