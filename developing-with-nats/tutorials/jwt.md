@@ -585,7 +585,7 @@ JWT feature accounts pretty heavily, thus a few thing need to be clarified.
     * `mem-resolver` require `nats-server --signal reload` to re-read all configured account JWT.
       * `url-resolver` and `nats-resolver` listen on a dedicated update subject of the system account and applied if the file is valid.
     * `nats-resolver` will also also update the corresponding JWT file and compensate in case the update message was not received due to temporary disconnect.
-  * User JWT do only depend on the issuing Account NKEY only, they do NOT depend on a particular version of an Account JWT.
+  * User JWTs do only depend on the issuing Account NKEY only, they do NOT depend on a particular version of an Account JWT.
   * Depending on the change, the internal Account representation will be updated and existing connections re-evaluated.
 * The System Account is the account under which `nats-server` offer (administrative) services and monitoring events. (more detail later) 
   
