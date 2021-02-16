@@ -1297,7 +1297,7 @@ Examples in sub sections below assume that the cluster to connect into is in ope
 
 ##### Non Operator Mode
 
-Outgoing connection is not in Operator mode. Thus it's system account account differs. This shows how to connect them still.
+The outgoing connection is not in Operator mode, thus the system account may differ from the user account. This example shows how to configure a user account and the system account in a leaf node.
 Credentials files provided have to contain credentials that are valid server/cluster reachable by `url`.
 In the example no accounts are explicitly configured, yet some are referenced. These are the default Account `$G` and the default system account `$SYS`
 
