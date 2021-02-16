@@ -568,7 +568,7 @@ This allows the implementation of sign-up services.
 
 ## Accounts Re-visited
 
-JWT feature accounts pretty heavily, thus a few thing need to be clarified.
+A deeper understanding of accounts will help you to best setup NATS JWT based security.
 
 * What entity do accounts correspond to:
     Our official suggestion is to scope accounts by application/service offered.
