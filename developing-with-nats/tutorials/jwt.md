@@ -1494,7 +1494,7 @@ Use `nsc revocations list-users --account <account name>` to inspect the result 
 ```
 
 Please note that the revocation created only applies to JWTs issued before the time listed. 
-User created or edited after, will be valid as they are outside of the revocation time.
+Users created or updated after revocation will be valid as they are outside of the revocation time.
 Please be also aware that adding a revocation will modify the account and therefore has to be pushed in order to publicize the revocation.
 
 ##### Activations
