@@ -316,7 +316,7 @@ JWT content can be viewed as public, although the content may reveal which subje
 
 #### Key Takeaways
 
-* JWT are hierarchically organized in operator, account and user.
+* JWTs are hierarchically organized in operator, account and user.
 * Carry corresponding configuration and config dedicated to decentralized nature of JWT.
 
 ### Hierarchical JWT
