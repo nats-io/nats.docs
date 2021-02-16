@@ -118,7 +118,7 @@ Therefore this would be considered an invalid configuration:
 
 Note that the decision to make a TLS connection is not based on `wss://` (as opposed to `ws://`) but instead in the presence of a TLS configuration in the `leafnodes{}` or the specific remote configuration block.
 
-To configure Websocket in the remote server, check the [Websocket](../websockets.md) secion.
+To configure Websocket in the remote server, check the [Websocket](../websocket/websocket_conf.md) secion.
 
 ### `tls` Configuration Block
 
