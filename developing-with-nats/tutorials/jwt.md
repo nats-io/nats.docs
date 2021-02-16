@@ -359,7 +359,7 @@ Then safe yourself the complexity and do not use JWT. Regular config - possibly 
 ##### JWT and Chain of Trust Verification
 
 Each JWT document has a subject it represents. This is the public identity NKEY represented by the JWT document.
-JWT documents contain an issueAt time when it was signed. 
+JWT documents contain an `issueAt` time when it was signed. 
 This time is in seconds since Unix epoch. It is also used to determine which two JWT for the same subject is more recent.
 Furthermore JWT documents have an issuer, this may be an (identity) NKEY or a dedicated signing NKEY above it in the trust hierarchy.
 A key is a signing key if it is listed as such in the JWT (above). 
