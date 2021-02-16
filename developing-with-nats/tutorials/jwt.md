@@ -14,10 +14,10 @@ This will NOT list every JWT/nsc option. Instead it focuses on important ones an
     - [Key Takeaways](#key-takeaways-2)
   - [Decentralized Authentication/Authorization using JWT](#decentralized-authenticationauthorization-using-jwt)
     - [Key Takeaways](#key-takeaways-3)
-  - [Hierarchical JWT](#hierarchical-jwt)
+  - [NATS JWT Hierarchy](#nats-jwt-hierarchy)
     - [Decentralized Chain of Trust](#decentralized-chain-of-trust)
       - [Obtain an Account JWT](#obtain-an-account-jwt)
-      - [JWTs and Chain of Trust Verification](#jwt-and-chain-of-trust-verification)
+      - [JWT and Chain of Trust Verification](#jwt-and-chain-of-trust-verification)
       - [Obtain a User JWT - Client Connect](#obtain-a-user-jwt---client-connect)
     - [Key Takeaways](#key-takeaways-4)
   - [Deployment Models Enabled by Chain of Trust](#deployment-models-enabled-by-chain-of-trust)
@@ -286,8 +286,8 @@ User of the same account should be able to connect from anywhere in the same inf
 
 #### Key Takeaways
 
-* Configuration is broken up into separate artifacts manageable by different entities
-* Separate accounts from config and user from accounts
+* Break up config into separate artifacts manageable by different entities
+* Management of Accounts, Configuration, and Users are separated.
 * Accounts do NOT correspond to infrastructure, they correspond to teams or applications. 
 * Connect to any cluster in the same infrastructure and be able to communicate with all other user in your account.
 * Infrastructure and its topology have nothing to do with Accounts and where an Account's User connect from.
@@ -310,9 +310,9 @@ The referenced NKEY's role determines the JWT content.
 2. Account JWTs contain Account specific [configuration](https://github.com/nats-io/jwt/blob/e11ce317263cef69619fc1ca743b195d02aa1d8a/account_claims.go#L57) such as exports, imports, limits, and default user permissions
 3. User JWTs contain user specific [configuration](https://github.com/nats-io/jwt/blob/e11ce317263cef69619fc1ca743b195d02aa1d8a/user_claims.go#L25) such as permissions and limits
 
-In addition, JWTs can contain settings related to their decentralized nature, such as expiration/revocation/signing.
-At no point will a JWT contain the private portion of an NKEY.  Signatures are verified with public NKEY.
-JWT content can be viewed as public, although the content may reveal which subjects/limits/permissions exist.
+In addition, JWT can contain settings related to their decentralized nature, such as expiration/revocation/signing.
+At no point do JWTs contain the private portion of an NKEY, only signatures that can be verified with public NKEY.
+JWT content can be viewed as public, although it's content may reveal which subjects/limits/permissions exist.
 
 #### Key Takeaways
 
@@ -1537,4 +1537,4 @@ Remove an operator signing key: `nsc edit operator --rm-sk <signing key>`
 As a modification of the operator, in order to take effect, all dependent [`nsc`](#nsc) installations as well as `nats-server` will need this new version of the operator jwt.
 
 Remove an account signing key: `nsc edit account --name <account name> --rm-sk <signing key>` 
-In order to take effect, a modification of an account needs to be pushed: `nsc push --all` 
+In order to take effect, a modification of an account needs to be pushed: `nsc push --all`
