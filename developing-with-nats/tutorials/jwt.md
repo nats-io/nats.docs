@@ -1396,7 +1396,7 @@ If the diagram is cut off, increase available memory and image size limit with t
 
 ### Managing Keys
 
-Not every key used in ngs is equally important. 
+Identity keys are extremely important, so you may want to keep them safe and instead hand out more easily replaceable signing keys to operators.
 Their importance generally follows the chain of trust with operator keys being more important than account keys.
 Furthermore identity keys are more important than signing keys. 
 
