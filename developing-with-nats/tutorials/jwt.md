@@ -561,7 +561,7 @@ This allows the implementation of sign-up services.
 
 #### Key Takeaways
 
-* JWT and associated chain of trust allows for centralized/decentralized/self-service account configuration
+* JWTs and the associated chain of trust allows for centralized, decentralized, or self-service account configuration
 * It is important to pick the deployment model that fits your needs, NOT the most complicated one.
 * Distributing Operator/Account JWT NKEYs between Administrators and teams enable these deployment model
 * Sign up services for Accounts/User can be implemented by programs in possession of signing keys
