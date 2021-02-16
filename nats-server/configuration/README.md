@@ -117,6 +117,7 @@ authorization: {
 | [`cluster`](clustering/cluster_config.md) | Configuration map for [cluster](clustering/). |  |
 | [`gateway`](gateways/gateway.md#gateway-configuration-block) | Configuration map for [gateway](gateways/). |  |
 | [`leafnode`](leafnodes/leafnode_conf.md) | Configuration map for a [leafnode](leafnodes/). |  |
+| [`mqtt`](mqtt/mqtt_conf.md) | Configuration map for a [mqtt](mqtt/). |  |
 
 ### Connection Timeouts
 

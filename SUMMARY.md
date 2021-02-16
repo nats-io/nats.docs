@@ -96,6 +96,7 @@
     * [Configuration](nats-server/configuration/leafnodes/leafnode_conf.md)
   * [Logging](nats-server/configuration/logging.md)
   * [Monitoring](nats-server/configuration/monitoring.md)
+  * [MQTT](nats-server/configuration/mqtt/README.md)
   * [System Events](nats-server/configuration/sys_accounts/README.md)
     * [System Events & Decentralized JWT Tutorial](nats-server/configuration/sys_accounts/sys_accounts.md)
 * [Managing A NATS Server](nats-server/nats_admin/README.md)
