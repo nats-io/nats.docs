@@ -582,7 +582,7 @@ JWT feature accounts pretty heavily, thus a few thing need to be clarified.
     Due to the use of a token the exporting account's JWT does not have to be modified.
 * Updates of JWT are applied as `nats-server` discover them. 
   * How this is done depends on the resolver.
-    * `mem-resolver` require `nats-server --signal reload` to re-read all configured account JWT.
+    * `mem-resolver` require `nats-server --signal reload` to re-read all configured account JWTs.
       * `url-resolver` and `nats-resolver` listen on a dedicated update subject of the system account and applied if the file is valid.
     * `nats-resolver` will also also update the corresponding JWT file and compensate in case the update message was not received due to temporary disconnect.
   * User JWTs do only depend on the issuing Account NKEY only, they do NOT depend on a particular version of an Account JWT.
