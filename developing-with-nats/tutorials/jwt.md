@@ -669,7 +669,7 @@ The output will display the public portion of the signing key, use that to assig
 `nsc generate nkey -o --store` followed by `nsc edit operator --sk OB742OV63OE2U55Z7UZHUB2DUVGQHRA5QVR4RZU6NXNOKBKJGKF6WRTZ `.
 To pick the operator signing key for account generation, provide the `-i` option when doing so. 
 
-The system account is the account under which `nats-server` offer system services and will be explained [later](#system-account).
+The system account is the account under which `nats-server` offer system services and will be explained in the [system-account](#system-account) section.
 To access these services a user with credentials for the system account is needed. 
 Unless this user is restricted with appropriate permissions, this user is essentially the admin user.
 They are create like any other user. 
