@@ -530,7 +530,7 @@ resolver: URL(http://localhost:9090/jwt/v1/accouts/)
 * Basis for operating one nats-infrastructure to serve separate yet optionally connected entities without introducing separate systems
 * Account resolver are way to obtain unknown Account JWT
 * On connect clients provide User JWT
-* JWT can be issued programmatically
+* JWTs can be issued programmatically
   
 ### Deployment Models Enabled by Chain of Trust
 
