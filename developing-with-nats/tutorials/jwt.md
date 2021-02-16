@@ -1400,7 +1400,7 @@ Identity keys are extremely important, so you may want to keep them safe and ins
 Key importance generally follows the chain of trust with operator keys being more important than account keys.
 Furthermore identity keys are more important than signing keys. 
 
-In the instances where regenerating a completely new identity key of either type is not an option, such as a) too many devices deployed b) too much institutional overhead c) ..., we suggest to backup identity nkeys, take them offline and use exchangeable signing keys instead.
+There are instances where regenerating a completely new identity key of either type is not a feasible option.  For example, you might have an extremely large deployment (IoT) where there is simply too much institutional overhead.  In this case we suggest to you securely backup identity keys offline and use exchangeable signing keys instead.
 Depending on which key got compromised, you may have to exchange signing keys and re-sign all JWT signed with the compromised key.
 The compromised key may also have to be revoked.
 
