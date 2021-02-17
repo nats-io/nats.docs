@@ -111,7 +111,7 @@
 ## NATS Tools
 
 * [Introduction](nats-tools/nats-tools.md)
-* [mkpasswd](nats-tools/mkpasswd.md)
+* [nats](nats-tools/natscli.md)
 * [nk](nats-tools/nk.md)
 * [nsc](nats-tools/nsc/README.md)
   * [Basics](nats-tools/nsc/nsc.md)

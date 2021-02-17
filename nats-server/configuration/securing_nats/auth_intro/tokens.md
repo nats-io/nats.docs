@@ -29,12 +29,14 @@ Listening on [>]
 
 Tokens can be bcrypted enabling an additional layer of security, as the clear-text version of the token would not be persisted on the server configuration file.
 
-You can generate bcrypted tokens and passwords using the [`mkpasswd`](../../../../nats-tools/mkpasswd.md) tool:
+You can generate bcrypted tokens and passwords using the [`nats`](../../../../nats-tools/natscli.md) tool:
 
 ```text
-> mkpasswd
-pass: dag0HTXl4RGg7dXdaJwbC8
-bcrypt hash: $2a$11$PWIFAL8RsWyGI3jVZtO9Nu8.6jOxzxfZo7c/W0eLk017hjgUKWrhy
+> nats server passwd
+? Enter password [? for help] **********************
+? Reenter password [? for help] **********************
+
+$2a$11$PWIFAL8RsWyGI3jVZtO9Nu8.6jOxzxfZo7c/W0eLk017hjgUKWrhy
 ```
 
 Here's a simple configuration file:
