@@ -4,6 +4,23 @@
 
 NATS follows as close as possible the MQTT v3.1.1 [specification](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html).
 
+## When to use MQTT
+
+MQTT support in NATS is intended to be an enabling technology allowing users to leverage existing
+investments in their IoT deployments.  Updating software on the edge or endpoints can be onerous
+and risky, especially when embedded applications are involved.
+
+In greenfield IoT deployments, when possible, we prefer NATS extended out to endpoints and devices
+for a few reasons.  There are significant advantages with security and observability when using a
+single technology end to end.  Compared to MQTT, NATS is nearly as lightweight in terms of protocol
+bandwidth and maintainer supported clients efficiently utilize resources so we consider NATS to be a
+good choice to use end to end, including use on resource constrained devices.
+
+In existing MQTT deployments or in situations when endpoints can only support MQTT, using a NATS server
+as a drop-in MQTT server replacement to securely connect to a remote NATS cluster or supercluster is
+compelling.   You can keep your existing IoT investment and use NATS for secure, resilient, and
+scalable access to your streams and services.
+
 ## JetStream Requirements
 
 In order for an MQTT client to connect to the NATS Server, the user's account must be JetStream enabled.
