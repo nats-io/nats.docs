@@ -25,6 +25,8 @@ For Docker:
 
 ```
 docker pull synadia/nats-box:latest
+
+docker run -ti synadia/nats-box
 ```
 
 Binaries are also available as [GitHub Releases](https://github.com/nats-io/natscli/releases).
