@@ -171,7 +171,7 @@ Ed25519 is:
 * a public key signature system. (can sign and verify signatures)
 * resistant to side channel attacks (no conditional jumps in algorithm)
 
-Nats server can be configured with public NKEYs as user (identities).
+NATS -server can be configured with public NKEYs as user (identities).
 When a client connects the nats-server sends a challenge for the client to sign in order to proof it is in possession of the corresponding private key.
 The nats-server then verifies the signed challenge. Unlike with a password based scheme, the secret never left the client.
 
@@ -271,14 +271,14 @@ Connection closed by foreign host.
 #### Key Takeaways
 
 * NKEYS are a secure way to authenticate clients
-* Private keys are never accessed or stored in the NATS server
+* Private keys are never accessed or stored by the NATS server
 * The public key still needs to be configured
 
 ## JSON Web Tokens (JWT) 
 
 ### Motivation for JWT
 
-In a large organization the centralized config approach can lead to less flexibility/resistance to change when controlled by one entity.
+In a large organization the centralized configuration approach can lead to less flexibility/resistance to change when controlled by one entity.
 Alternatively, instead of operating one infrastructure, it can be deployed more often (say per team) thus making import/export relationships harder as they have to bridge separate systems.
 In order to make accounts truly powerful, they should ideally be configured separately from the infrastructure, only constrained by limits.
 This is similar for user. An account contains the user but this relationship could be a reference as well, such that alterations to user do not alter the account. 
@@ -286,7 +286,7 @@ User of the same account should be able to connect from anywhere in the same inf
 
 #### Key Takeaways
 
-* Break up config into separate artifacts manageable by different entities
+* JWT breaks a nats-server configuration into separate artifacts manageable by different entities.
 * Management of Accounts, Configuration, and Users are separated.
 * Accounts do NOT correspond to infrastructure, they correspond to teams or applications. 
 * Connect to any cluster in the same infrastructure and be able to communicate with all other user in your account.
@@ -359,7 +359,7 @@ Then safe yourself the complexity and do not use JWT. Regular config - possibly 
 ##### JWT and Chain of Trust Verification
 
 Each JWT document has a subject it represents. This is the public identity NKEY represented by the JWT document.
-JWT documents contain an `issueAt` time when it was signed. 
+JWT documents contain an issued at (`iat`) time of signing.
 This time is in seconds since Unix epoch. It is also used to determine which two JWTs for the same subject is more recent.
 Furthermore JWT documents have an issuer, this may be an (identity) NKEY or a dedicated signing NKEY above it in the trust hierarchy.
 A key is a signing key if it is listed as such in the JWT (above). 
