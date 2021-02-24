@@ -27,7 +27,7 @@ If gateways are to be used in a cluster, **all** servers of this cluster need to
 
 A nats-server in a gateway role will specify a port where it will accept gateway connections. If the configuration specifies other _external_ `gateways`, the gateway will create one outbound gateway connection for each gateway in its configuration. It will also gossip other gateways it knows or discovers. Fewer _external_ `gateways` mean less configuration. Yet, the ability to discover more gateways and gateway nodes depends on these servers running. This is similar to _seed server_ in cluster. It is recommended to have all _seed server_ of a cluster listed in the `gateways` section.
 
-If the local cluster has three gateway nodes, this means there will be three outbound connections to each external gateway.
+If the local cluster has three gateway nodes, this means there will be three outbound connections from the local cluster to each external gateway cluster.
 
 ![Gateway Connections](../../../.gitbook/assets/simple.svg)
 
