@@ -10,7 +10,7 @@ To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP 
 * [Gateways](monitoring.md#gateway-information)
 * [Leaf Nodes](monitoring.md#leaf-nodes-information)
 * [Subscription Routing](monitoring.md#subscription-routing-information)
-* [Jetstream Information](monitoring.md#jetstream-information)
+* [JetStream Information](monitoring.md#jetstream-information)
 
 All endpoints return a JSON object.
 
@@ -57,7 +57,7 @@ http: localhost:8222
 
 For example, to monitor this server locally, the endpoint would be [http://localhost:8222/varz](http://localhost:8222/varz). It reports various general statistics.
 
-## Monitoring endpoints
+## Monitoring Endpoints
 
 The following sections describe each supported monitoring endpoint: `varz`, `connz`, `routez`, `subsz`, `gatewayz`, and `leafz`. There are not any required arguments, however use of arguments can let you tailor monitoring to your environment and tooling.
 
@@ -433,7 +433,7 @@ The `/gatewayz` endpoint reports information about gateways used to create a NAT
 }
 ```
 
-### Leaf Nodes Information
+### Leaf Node Information
 
 The `/leafz` endpoint reports detailed information about the leaf node connections.
 
@@ -521,9 +521,9 @@ The `/subsz` endpoint reports detailed information about the current subscriptio
 }
 ```
 
-## Jetstream Information
+## JetStream Information
 
-The `/jsz` endpoint reports more detailed information on jetstream. For accounts it uses a paging mechanism which defaults to 1024 connections.
+The `/jsz` endpoint reports more detailed information on JetStream. For accounts it uses a paging mechanism which defaults to 1024 connections.
 
 **Endpoint:** `http://server:port/connz`
 
@@ -537,7 +537,7 @@ The `/jsz` endpoint reports more detailed information on jetstream. For accounts
 | Argument | Values | Description |
 | :--- | :--- | :--- |
 | acc | account name | Include metrics for the specified account. Default is unset. |
-| accounts | true, 1, false, 0 | Include account specific jetstream information. Default is false. |
+| accounts | true, 1, false, 0 | Include account specific JetStream information. Default is false. |
 | streams | true, 1, false, 0 | Include streams. When set, implies `accounts=true`. Default is false. |
 | consumers | true, 1, false, 0 | Include consumer. When set, implies `streams=true`. Default is false. |
 | config | true, 1, false, 0 | When stream or consumer are requested, include their respective configuration. Default is false. |
@@ -547,7 +547,7 @@ The `/jsz` endpoint reports more detailed information on jetstream. For accounts
 
 #### Examples
 
-Get basic jetstream information: [http://demo.nats.io:8222/jsz](http://demo.nats.io:8222/jsz)
+Get basic JetStream information: [http://demo.nats.io:8222/jsz](http://demo.nats.io:8222/jsz)
 
 Request accounts and control limit and offset: [http://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128](http://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128).
 
