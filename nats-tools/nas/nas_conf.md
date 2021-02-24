@@ -7,7 +7,7 @@ Basic configuration revolves around 4 settings:
 * NATS \(for cases where updates are enabled\)
 * Logging
 
-For complete information on please refer to the project's [Github](https://github.com/nats-io/nats-account-server).
+For complete information, please refer to the project's [Github](https://github.com/nats-io/nats-account-server).
 
 ## Directory Configuration
 
