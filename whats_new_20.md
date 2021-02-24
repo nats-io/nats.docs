@@ -54,12 +54,10 @@ Services and streams are mechanisms to share messages between accounts.
 
 Think of a service as an RPC endpoint into an account. Behind that account there might be many microservices working in concert to handle requests, but from outside the account there is simply one subject exposed.
 
-**Services** definition to share an endpoint:
+**Service** definitions share an endpoint:
 
 * Export a service to allow other accounts to import
-* Import a service to allow requests to be sent securely and seamlessly to
-
-  another account
+* Import a service to allow requests to be sent securely and seamlessly to another account
 
 Use cases include most applications - anything that accepts a request and returns a response.
 
