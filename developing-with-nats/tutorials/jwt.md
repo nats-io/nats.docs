@@ -609,7 +609,7 @@ Key Management and how to do so using `nsc` will also be part of this section.
 `nsc` is a tool that uses the [JWT](https://github.com/nats-io/jwt) and [NKEY](https://github.com/nats-io/nkeys) libraries to create NKEYs (if asked to) and all types of JWT.
 It then stores these artefact in separate directories.
 
-It keeps track of the last operator/account used. Most commands provide 
+It keeps track of the last operator/account used.
 Because of this, commands do not need to reference operator/accounts but can be instructed to do so. (recommended for scripts)
 It supports an interactive mode when `-i` is provided. When used, referencing accounts/keys is easier.
 
@@ -794,13 +794,13 @@ How accounts can be publicized wholly depends on the resolver you are using:
 
 `nsc generate config <resolver-type>` as a utility that generates the relevant nats config. 
 Where `<resolver-type>` can be `--mem-resolver` or `--nats-resolver` for the corresponding resolver.
-Typically the generated output is stored in a file that is then [included](link to doc) by the nats config.
+Typically the generated output is stored in a file that is then [included](../nats-server/../../nats-server/configuration/README.md#include-directive) by the nats config.
 Every server within the same authentication domain needs to be configured with this configuration
 
 ##### nats-resolver setup and push example - Operator Environment/Environment with push permissions - All Deployment Modes 
 
 This is a quick demo of the nats-based resolver from operator creation to publishing a message.
-Please be aware that the ability to push is only relates to permissions to dos so and does not require an account keys.
+Please be aware that the ability to push is only relates to permissions to do so and does not require an account keys.
 Thus, how accounts to be pushed came to be in the environment (outright creation/import) does not matter.
 For simplicity, this example uses the operator environment.
 
@@ -957,7 +957,8 @@ In case you generate a user on behalf of another entity that has no nsc environm
 
 `nsc` essentially uses the [NKEY](https://github.com/nats-io/nkeys) and [JWT](https://github.com/nats-io/jwt) libraries to generate operator/accounts/users.
 You can use these libraries to generate the necessary artifacts as too.
-Generating the operator makes little sense, Accounts only if you need them dynamically, say for everyone of your customer. 
+Because there is only one, generating the operator this way makes little sense.
+Accounts only if you need them dynamically, say for everyone of your customer.
 Dynamically provision user and integrate that process with your existing infrastructure, say LDAP, is the most common use case for these libraries.
 
 The next sub sections demonstrate dynamic user generation.
