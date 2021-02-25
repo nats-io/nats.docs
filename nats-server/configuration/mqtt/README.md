@@ -2,9 +2,9 @@
 
 *Supported since NATS Server version 2.2*
 
-NATS follows as close as possible the MQTT v3.1.1 [specification](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html).
+NATS follows as closely as possible to the MQTT v3.1.1 [specification](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html).
 
-## When to use MQTT
+## When to Use MQTT
 
 MQTT support in NATS is intended to be an enabling technology allowing users to leverage existing
 investments in their IoT deployments.  Updating software on the edge or endpoints can be onerous
@@ -18,14 +18,14 @@ good choice to use end to end, including use on resource constrained devices.
 
 In existing MQTT deployments or in situations when endpoints can only support MQTT, using a NATS server
 as a drop-in MQTT server replacement to securely connect to a remote NATS cluster or supercluster is
-compelling.   You can keep your existing IoT investment and use NATS for secure, resilient, and
+compelling. You can keep your existing IoT investment and use NATS for secure, resilient, and
 scalable access to your streams and services.
 
 ## JetStream Requirements
 
-In order for an MQTT client to connect to the NATS Server, the user's account must be JetStream enabled.
-This is because persistence is needed for the sessions and retained messages (since even retained messages
-of QoS 0 are persisted).
+For an MQTT client to connect to the NATS server, the user's account must be JetStream enabled.
+This is because persistence is needed for the sessions and retained messages since even retained messages
+of QoS 0 are persisted.
 
 ## MQTT Topics and NATS Subjects
 
@@ -72,9 +72,9 @@ The wildcard `+` matches a single level, which means `foo/+` can receive message
 `foo/baz`, but not on `foo/bar/baz` nor `foo`. This is the same with NATS subscriptions using
 the wildcard `*`. Therefore `foo/+` would translate to `foo.*`.
 
-## Communication between MQTT and NATS
+## Communication Between MQTT and NATS
 
-When an MQTT client creates a subscription on a topic, the NATS Server creates the similar
+When an MQTT client creates a subscription on a topic, the NATS server creates the similar
 NATS subscription (with conversion from MQTT topic to NATS subject) so that the interest
 is registered in the cluster and known to any NATS publishers.
 
@@ -106,13 +106,13 @@ The total of subscriptions' `max_ack_pending` on a given session cannot exceed 6
 to create a subscription that would bring the total above the limit would result in the server
 returning a failure code in the SUBACK for this subscription.
 
-Due to how the NATS Server handles the MQTT "`#`" wildcard, each subscription ending with "`#`"
+Due to how the NATS server handles the MQTT "`#`" wildcard, each subscription ending with "`#`"
 will use 2 times the `max_ack_pending` value.
 
 ## Sessions
 
-NATS Server will persist all sessions, even if they are created with the "clean session" flag, which means
-that session last only for the duration of the network connection between the client and the server.
+NATS Server will persist all sessions, even if they are created with the "clean session" flag, meaning
+that sessions only last for the duration of the network connection between the client and the server.
 
 A session is identified by a client identifier. If two connections try to use the same client identifier,
 the server, per specification, will close the existing connection and accept the new one.
@@ -120,7 +120,7 @@ the server, per specification, will close the existing connection and accept the
 If the user incorrectly starts two applications that use the same client identifier, this would result
 in a very quick flapping if the MQTT client has a reconnect feature and quickly reconnects.
 
-To prevent this, the NATS Server will accept the new session and will delay the closing of the
+To prevent this, the NATS server will accept the new session and will delay the closing of the
 old connection to reduce the flapping rate.
 
 Detection of the concurrent use of sessions also works in cluster mode.
@@ -138,17 +138,16 @@ A PUBLISH Packet with a RETAIN flag set to 1 and a payload containing zero bytes
 NATS supports MQTT in a NATS cluster. The replication factor is automatically set based on the size
 of the cluster.
 
-### Connections with same client ID
+### Connections with Same Client ID
 
 If a client is connected to a server "A" in the cluster and another client connects to a server "B" and
-uses the same client identifier, server "A" will close its client upon discovering the use of
+uses the same client identifier, server "A" will close its client connection upon discovering the use of
 an active client identifier.
 
-Of course, this is not as easy and immediate than if the two applications are connected to the same server.
-So users should avoid as much as possible this situation.
+Users should avoid this situation as this is not as easy and immediate as if the two applications are connected to the same server.
 
 There may be cases where the server will reject the new connection if there is no safe way to
-close the existing connection if it is in the middle of processing some MQTT packets.
+close the existing connection, such as when it is in the middle of processing some MQTT packets.
 
 ### Retained Messages
 
@@ -169,6 +168,6 @@ it will close the connection.
 - MQTT published messages on topic names containing "` `" or "`.`" characters will cause the
 connection to be closed. Presence of those characters in MQTT subscriptions will result in error
 code in the SUBACK packet.
-- MQTT wildcard `#` may cause the NATS Server to create two subscriptions.
+- MQTT wildcard `#` may cause the NATS server to create two subscriptions.
 - MQTT concurrent sessions may result in the new connection to be evicted instead of the existing one.
 - MQTT retained messages in clustering mode is best effort.
