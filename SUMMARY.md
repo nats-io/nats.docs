@@ -122,6 +122,7 @@
     * [Streams](jetstream/administration/streams.md)
     * [Consumers](jetstream/administration/consumers.md)
 * [Monitoring](jetstream/monitoring/monitoring.md)
+* [Data Replication](jetstream/data_replication/replication.md)
 * [Clustering](jetstream/clustering/clustering.md)
     * [Administration](jetstream/clustering/administration.md)
 * [Configuration Management](jetstream/configuration_mgmt/configuration_mgmt.md)
