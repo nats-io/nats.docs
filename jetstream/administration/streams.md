@@ -42,7 +42,7 @@ Statistics:
 You can get prompted interactively for missing information as above, or do it all on one command. Pressing `?` in the CLI will help you map prompts to CLI options:
 
 ```
-$ nats str add ORDERS --subjects "ORDERS.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size=-1 --discard old
+nats str add ORDERS --subjects "ORDERS.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size=-1 --discard old --dupe-window="0s" --replicas 1
 ```
 
 Additionally one can store the configuration in a JSON file, the format of this is the same as `$ nats str info ORDERS -j | jq .config`:
@@ -68,26 +68,29 @@ Information about the configuration of the Stream can be seen, and if you did no
 
 ```nohighlight
 $ nats str info ORDERS
-Information for Stream ORDERS
+Information for Stream ORDERS created 2021-02-27T16:49:36-07:00
 
 Configuration:
 
              Subjects: ORDERS.*
-  No Acknowledgements: false
+     Acknowledgements: true
             Retention: File - Limits
              Replicas: 1
-     Maximum Messages: -1
-        Maximum Bytes: -1
-          Maximum Age: 8760h0m0s
-    Maximum Consumers: -1
+       Discard Policy: Old
+     Duplicate Window: 2m0s
+     Maximum Messages: unlimited
+        Maximum Bytes: unlimited
+          Maximum Age: 1y0d0h0m0s
+ Maximum Message Size: unlimited
+    Maximum Consumers: unlimited
 
-Statistics:
+State:
 
-            Messages: 0
-               Bytes: 0 B
-            FirstSeq: 0
-             LastSeq: 0
-    Active Consumers: 0
+             Messages: 0
+                Bytes: 0 B
+             FirstSeq: 0
+              LastSeq: 0
+     Active Consumers: 0
 ```
 
 Most commands that show data as above support `-j` to show the results as JSON:
@@ -105,14 +108,20 @@ $ nats str info ORDERS -j
     "max_msgs": -1,
     "max_bytes": -1,
     "max_age": 31536000000000000,
+    "max_msg_size": -1,
     "storage": "file",
-    "num_replicas": 1
+    "discard": "old",
+    "num_replicas": 1,
+    "duplicate_window": 120000000000
   },
-  "stats": {
+  "created": "2021-02-27T23:49:36.700424Z",
+  "state": {
     "messages": 0,
     "bytes": 0,
     "first_seq": 0,
+    "first_ts": "0001-01-01T00:00:00Z",
     "last_seq": 0,
+    "last_ts": "0001-01-01T00:00:00Z",
     "consumer_count": 0
   }
 }
@@ -128,14 +137,29 @@ A stream can be copied into another, which also allows the configuration of the 
 $ nats str cp ORDERS ARCHIVE --subjects "ORDERS_ARCVHIVE.*" --max-age 2y
 Stream ORDERS was created
 
-Information for Stream ARCHIVE
+Information for Stream ORDERS created 2021-02-27T16:52:46-07:00
 
 Configuration:
 
-             Subjects: ORDERS_ARCVHIVE.*
-...
-          Maximum Age: 17520h0m0s
-...
+             Subjects: ORDERS_ARCHIVE.*
+     Acknowledgements: true
+            Retention: File - Limits
+             Replicas: 1
+       Discard Policy: Old
+     Duplicate Window: 2m0s
+     Maximum Messages: unlimited
+        Maximum Bytes: unlimited
+          Maximum Age: 2y0d0h0m0s
+ Maximum Message Size: unlimited
+    Maximum Consumers: unlimited
+
+State:
+
+             Messages: 0
+                Bytes: 0 B
+             FirstSeq: 0
+              LastSeq: 0
+     Active Consumers: 0
 ```
 
 #### Editing
@@ -208,7 +232,7 @@ To delete all data in a stream use `purge`:
 ```nohighlight
 $ nats str purge ORDERS -f
 ...
-Statistics:
+State:
 
             Messages: 0
                Bytes: 0 B
@@ -231,5 +255,5 @@ Finally for demonstration purposes, you can also delete the whole Stream and rec
 
 ```
 $ nats str rm ORDERS -f
-$ nats str add ORDERS --subjects "ORDERS.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size=-1
+$ nats str add ORDERS --subjects "ORDERS.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size=-1 --discard old --dupe-window="0s" --replicas 1
 ```

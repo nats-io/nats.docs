@@ -17,7 +17,7 @@ Starting the server you can use the `-js` flag. This will setup the server to re
 ```
 $ ./nats-server -js
 
-[16928] 2019/12/04 19:16:29.596968 [INF] Starting nats-server version 2.2.0-beta
+[16928] 2019/12/04 19:16:29.596968 [INF] Starting nats-server version 2.2.0
 [16928] 2019/12/04 19:16:29.597056 [INF] Git commit [not set]
 [16928] 2019/12/04 19:16:29.597072 [INF] Starting JetStream
 [16928] 2019/12/04 19:16:29.597444 [INF] ----------- JETSTREAM (Beta) -----------
@@ -35,7 +35,7 @@ You can override the storage directory if you want.
 ```
 $ ./nats-server -js -sd /tmp/test
 
-[16943] 2019/12/04 19:20:00.874148 [INF] Starting nats-server version 2.2.0-beta
+[16943] 2019/12/04 19:20:00.874148 [INF] Starting nats-server version 2.2.0
 [16943] 2019/12/04 19:20:00.874247 [INF] Git commit [not set]
 [16943] 2019/12/04 19:20:00.874273 [INF] Starting JetStream
 [16943] 2019/12/04 19:20:00.874605 [INF] ----------- JETSTREAM (Beta) -----------

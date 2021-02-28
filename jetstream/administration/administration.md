@@ -1,6 +1,6 @@
 ## Administration and Usage from the CLI
 
-Once the server is running it's time to use the management tool. This can be downloaded from the [GitHub Release Page](https://github.com/nats-io/natscli/releases/) or you can use the `synadia/jsm:latest` docker image. On OS X homebrew can be used to install the latest version:
+Once the server is running it's time to use the management tool. This can be downloaded from the [GitHub Release Page](https://github.com/nats-io/natscli/releases/) or you can use the `natsio/nats-box:latest` docker image. On OS X homebrew can be used to install the latest version:
 
 ```nohighlight
 $ brew tap nats-io/nats-tools

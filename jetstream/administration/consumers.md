@@ -156,7 +156,7 @@ More details about the `State` section will be shown later when discussing the a
 
 #### Consuming Pull-Based Consumers
 
-Pull-based Consumers require you to specifically ask for messages and ack them, typically you would do this with the client library `Request()` feature, but the `jsm` utility has a helper:
+Pull-based Consumers require you to specifically ask for messages and ack them, typically you would do this with the client library `Request()` feature, but the `nats` utility has a helper:
 
 First we ensure we have a message:
 
