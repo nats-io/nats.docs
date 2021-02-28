@@ -1,6 +1,6 @@
 # Using Docker
 
-The `synadia/nats-box:latest` docker image contains the `nats` utility this guide covers.
+The `natsio/nats-box:latest` docker image contains the `nats` utility this guide covers.
 
 In one window start a JetStream enabled nats server:
 
@@ -11,7 +11,7 @@ $ docker run --network host -p 4222:4222 nats -js
 And in another log into the utilities:
 
 ```
-$ docker run -ti --network host synadia/nats-box
+$ docker run -ti --network host natsio/nats-box
 ```
 
 This shell has the `nats` utility and all other NATS cli tools used in the rest of this guide.
