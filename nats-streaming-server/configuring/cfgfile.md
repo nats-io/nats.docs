@@ -197,6 +197,9 @@ For a given channel, the possible parameters are:
 | raft\_commit\_timeout | Specifies the time without an Apply\(\) operation before sending an heartbeat to ensure timely commit. Due to random staggering, may be delayed as much as 2x this value | Duration | `raft_commit_timeout: "100ms"` | `100ms` | v0.11.2 |
 | proceed\_on\_restore\_failure | Allow a non leader node to proceed with restore failures, do not use unless you understand the risks! | `true` or `false` | `proceed_on_restore_failure: true` | `false` | v0.17.0 |
 | allow_add_remove_node| Enable the ability to send NATS requests to the leader to add/remove cluster nodes | `true` or `false` | `allow_add_remove_node: true` | `false` | v0.19.0 |
+| bolt_free_list_sync | Causes the RAFT log to synchronize the free list on write operations. Reduces performance at runtime, but makes the recovery faster | `true` or `false` | `bolt_free_list_sync: true` | `false` | v0.21.0 |
+| bolt_free_list_map | Sets the backend freelist type to use a map instead of the default array type. Improves performance for large RAFT logs, with fragmented free list | `true` or `false` | `bolt_free_list_map: true` | `false` | v0.21.0 |
+| nodes_connections | Enable creation of dedicated NATS connections to communicate with other nodes | `true` or `false` | `nodes_connections: true` | `false` | v0.21.0 |
 
 ## SQL Options Configuration
 

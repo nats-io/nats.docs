@@ -98,7 +98,8 @@ You can control these via URL arguments \(limit and offset\). For example: [http
   "clients": [
     {
       "id": "benchmark-sub-0",
-      "hb_inbox": "_INBOX.jAHSY3hcL5EGFQGYmfayQK"
+      "hb_inbox": "_INBOX.jAHSY3hcL5EGFQGYmfayQK",
+      "subs_count": 1
     }
   ]
 }
@@ -119,6 +120,7 @@ You can also report detailed subscription information on a per client basis usin
     {
       "id": "benchmark-sub-0",
       "hb_inbox": "_INBOX.jAHSY3hcL5EGFQGYmfayQK",
+      "subs_count": 1,
       "subscriptions": {
         "foo": [
           {
@@ -146,6 +148,7 @@ You can select a specific client based on its client ID with `client=<id>`, and 
 {
   "id": "me",
   "hb_inbox": "_INBOX.HG0uDuNtAPxJQ1lVjIC2sr",
+  "subs_count": 1,
   "subscriptions": {
     "foo": [
       {
@@ -222,6 +225,7 @@ You can also get the list of subscriptions with `subs=1`. For example: [http://l
       "bytes": 0,
       "first_seq": 0,
       "last_seq": 0,
+      "subs_count": 1,
       "subscriptions": [
         {
           "client_id": "me",
@@ -249,7 +253,8 @@ You can select a specific channel based on its name with `channel=name`. For exa
   "msgs": 649234,
   "bytes": 97368590,
   "first_seq": 1,
-  "last_seq": 649234
+  "last_seq": 649234,
+  "subs_count": 1
 }
 ```
 
@@ -262,6 +267,7 @@ And again, you can get detailed subscriptions with `subs=1`. For example: [http:
   "bytes": 105698990,
   "first_seq": 1,
   "last_seq": 704770,
+  "subs_count": 10,
   "subscriptions": [
     {
       "client_id": "me",
@@ -301,6 +307,7 @@ For durables that are currently running, the `is_offline` field is set to `false
   "bytes": 0,
   "first_seq": 0,
   "last_seq": 0,
+  "subs_count": 1,
   "subscriptions": [
     {
       "client_id": "me",
@@ -328,6 +335,7 @@ When that same durable goes offline, `is_offline` is be set to `true`. Although 
   "bytes": 0,
   "first_seq": 0,
   "last_seq": 0,
+  "subs_count": 1,
   "subscriptions": [
     {
       "client_id": "me",
