@@ -274,7 +274,7 @@ As noted above, the `routez` endpoint does support the `subs` argument from the 
 
 #### Example
 
-* Get Jetstream information:  http://host:port/jsz?accounts=1&streams=1&consumers=1&config=1
+* Get JetStream information:  http://host:port/jsz?accounts=1&streams=1&consumers=1&config=1
 
 #### Response
 
