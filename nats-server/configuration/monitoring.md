@@ -246,6 +246,61 @@ You can also report detailed subscription information on a per connection basis 
 }
 ```
 
+### JetStream Information
+
+The `/jsz` endpoint reports information about the JetStream subsystem.
+
+**Endpoint:** `http://server:port/jsm`
+
+| Result | Return Code |
+| :--- | :--- |
+| Success | 200 \(OK\) |
+| Error | 400 \(Bad Request\) |
+
+#### Arguments
+
+| Argument | Values | Description |
+| :--- | :--- | :--- |
+| acc | account name | Provide information for a specfic account |
+| accounts | true, 1, false, 0 | Provide information for all accounts. The default is false. |
+| streams | true, 1, false, 0 | Include stream information. The default is false. |
+| consumers | true, 1, false, 0 | Include consumer information. The default is false. |
+| config | true, false | Include configuration with streams and consumers. The default is false. |
+| offset | integer &gt; 0 | Pagination offset.  Default is 0. |
+| limit | integer &gt; 0 | Number of results to return.  Default is 1024. |
+| leader-only | true, false | TODO |
+
+As noted above, the `routez` endpoint does support the `subs` argument from the `/connz` endpoint. For example: [http://demo.nats.io:8222/routez?subs=1](http://demo.nats.io:8222/jsz?accounts=1&streams=1&consumers=1&config=1)
+
+#### Example
+
+* Get Jetstream information:  http://host:port/jsz?accounts=1&streams=1&consumers=1&config=1
+
+#### Response
+
+```javascript
+{
+  "server_id": "NACDVKFBUW4C4XA24OOT6L4MDP56MW76J5RJDFXG7HLABSB46DCMWCOW",
+  "now": "2019-06-24T14:29:16.046656-07:00",
+  "num_routes": 1,
+  "routes": [
+    {
+      "rid": 1,
+      "remote_id": "de475c0041418afc799bccf0fdd61b47",
+      "did_solicit": true,
+      "ip": "127.0.0.1",
+      "port": 61791,
+      "pending_size": 0,
+      "in_msgs": 0,
+      "out_msgs": 0,
+      "in_bytes": 0,
+      "out_bytes": 0,
+      "subscriptions": 0
+    }
+  ]
+}
+```
+
 ### Route Information
 
 The `/routez` endpoint reports information on active routes for a cluster. Routes are expected to be low, so there is no paging mechanism with this endpoint.
