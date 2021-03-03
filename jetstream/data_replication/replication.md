@@ -1,6 +1,6 @@
 ## Data Replication
 
-Replication allow you to move data between streams in either a 1:1 mirror style or by multiplexing multiple source streams into a new stream.  In future builds this will allow data to be replicated between accounts as well, ideal for sending data from a Leafnode into a central store.
+Replication allows you to move data between streams in either a 1:1 mirror style or by multiplexing multiple source streams into a new stream.  In future builds this will allow data to be replicated between accounts as well, ideal for sending data from a Leafnode into a central store.
 
 ![](../../assets/images/replication.png)
 
@@ -20,7 +20,7 @@ A *source* is a stream where data is copied from, one stream can have multiple s
 
 A Stream with sources may also listen on subjects, but could have no listening subject.  When using the `nats` CLI to create sourced streams use `--subjects` to supply subjects to listen on.
 
-A source can have start time or start sequence and can filter by a subject. 
+A source can have Start Time or Start Sequence and can filter by a subject. 
 
 ### Configuration
 
