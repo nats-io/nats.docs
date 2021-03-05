@@ -61,7 +61,7 @@ allowed only for subscriptions, not for published messages.
 | `#` | `>` |
 | `+` | `*` |
 
-The wilcard `#` matches any number of levels within a topic, which means that a subscription
+The wildcard `#` matches any number of levels within a topic, which means that a subscription
 on `foo/#` would receive messages on `foo/bar`, or `foo/bar/baz`, but also on `foo`.
 This is not the case in NATS where a subscription on `foo.>` can receive messages on `foo/bar`
 or `foo/bar/baz`, but not on `foo`. To solve this, NATS Server will create two subscriptions,
