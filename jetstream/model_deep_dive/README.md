@@ -91,7 +91,7 @@ State:
     Redelivered Messages: 0
 ```
 
-The Consumer has no messages oustanding and has never had any \(Consumer sequence is 1\).
+The Consumer has no messages outstanding and has never had any \(Consumer sequence is 1\).
 
 We publish one message to the Stream and see that the Stream received it:
 
@@ -149,7 +149,7 @@ State:
     Redelivered Messages: 0
 ```
 
-Now we can see the Consumer have processed 2 messages \(obs sequence is 3, next message will be 3\) but the Ack floor is still 1 - thus 1 message is pending acknowledgement. Indeed this is confirmed in the `Pending messages`.
+Now we can see the Consumer has processed 2 messages \(obs sequence is 3, next message will be 3\) but the Ack floor is still 1 - thus 1 message is pending acknowledgement. Indeed this is confirmed in the `Pending messages`.
 
 If I fetch it again and again do not ack it:
 
@@ -167,9 +167,9 @@ State:
     Redelivered Messages: 1
 ```
 
-The Consumer sequence increases - each delivery attempt increase the sequence - and our redelivered count also goes up.
+The Consumer sequence increases - each delivery attempt increases the sequence - and our redelivered count also goes up.
 
-Finally if I then fetch it again and ack it this time:
+Finally, if I then fetch it again and ack it this time:
 
 ```text
 $ nats con next ORDERS DISPATCH 
@@ -188,7 +188,7 @@ State:
 
 Having now Acked the message there are no more pending.
 
-Additionally there are a few types of acknowledgements:
+Additionally, there are a few types of acknowledgements:
 
 | Type | Bytes | Description |
 | :--- | :--- | :--- |
@@ -198,11 +198,11 @@ Additionally there are a few types of acknowledgements:
 | `AckNext` | `+NXT` | Acknowledges the message was handled and requests delivery of the next message to the reply subject. Only applies to Pull-mode. |
 | `AckTerm` | `+TERM` | Instructs the server to stop redelivery of a message without acknowledging it as successfully processed |
 
-So far all the examples was the `AckAck` type of acknowledgement, by replying to the Ack with the body as indicated in `Bytes` you can pick what mode of acknowledgement you want.
+So far all of the examples were the `AckAck` type of acknowledgement, by replying to the Ack with the body as indicated in `Bytes` you can pick what mode of acknowledgement you want.
 
 All of these acknowledgement modes, except `AckNext`, support double acknowledgement - if you set a reply subject when acknowledging the server will in turn acknowledge having received your ACK.
 
-The `+NXT` acknowledgement can have a few formats: `+NXT 10` requests 10 messages and `+NXT {"no_wait": true}` which is the same data that can be sent in a Pull request.
+The `+NXT` acknowledgement can have a few formats: `+NXT 10` requests 10 messages and `+NXT {"no_wait": true}` which is the same data that can be sent in a Pull Request.
 
 ## Exactly Once Delivery
 
@@ -214,7 +214,7 @@ Consumers can be 100% sure a message was correctly processed by requesting the s
 
 ## Consumer Starting Position
 
-When setting up an Consumer you can decide where to start, the system supports the following for the `DeliverPolicy`:
+When setting up a Consumer you can decide where to start, the system supports the following for the `DeliverPolicy`:
 
 | Policy | Description |
 | :--- | :--- |
@@ -226,7 +226,7 @@ When setting up an Consumer you can decide where to start, the system supports t
 
 Regardless of what mode you set, this is only the starting point. Once started it will always give you what you have not seen or acknowledged. So this is merely how it picks the very first message.
 
-Lets look at each of these, first we make a new Stream `ORDERS` and add 100 messages to it.
+Let's look at each of these, first we make a new Stream `ORDERS` and add 100 messages to it.
 
 Now create a `DeliverAll` pull-based Consumer:
 
@@ -272,7 +272,7 @@ do
 done
 ```
 
-Then create an Consumer that starts 2 minutes ago:
+Then create a Consumer that starts 2 minutes ago:
 
 ```text
 $ nats con add ORDERS 2MIN --pull --filter ORDERS.processed --ack none --replay instant --deliver 2m
@@ -285,7 +285,7 @@ Acknowledged message
 
 ## Ephemeral Consumers
 
-So far, all the Consumers you have seen were Durable, meaning they exist even after you disconnect from JetStream. In our Orders scenario, though the `MONITOR` Consumer could very well be a short-lived thing there just while an operator is debugging the system, there is no need to remember the last seen position if all you are doing is wanting to observe the real-time state.
+So far, all the Consumers you have seen were Durable, meaning they exist even after you disconnect from JetStream. In our Orders scenario, though the `MONITOR` a Consumer could very well be a short-lived thing there just while an operator is debugging the system, there is no need to remember the last seen position if all you are doing is wanting to observe the real-time state.
 
 In this case, we can make an Ephemeral Consumer by first subscribing to the delivery subject, then creating a durable and giving it no durable name. An Ephemeral Consumer exists as long as any subscription is active on its delivery subject. It is automatically be removed, after a short grace period to handle restarts, when there are no subscribers.
 
@@ -320,7 +320,7 @@ $ nats con add ORDERS REPLAY --target out.original --filter ORDERS.processed --a
 ...
 ```
 
-Now lets publish messages into the Set 10 seconds apart:
+Now let's publish messages into the Set 10 seconds apart:
 
 ```text
 $ for i in 1 2 3                                                                                                                                                      <15:15:35
@@ -346,7 +346,7 @@ Listening on [out.original]
 
 ## Stream Templates
 
-When you have many similar streams it can be helpful to auto create them, lets say you have a service by client and they are on subjects `CLIENT.*`, you can construct a template that will auto generate streams for any matching traffic.
+When you have many similar streams it can be helpful to auto-create them, let's say you have a service by client and they are on subjects `CLIENT.*`, you can construct a template that will auto-generate streams for any matching traffic.
 
 ```text
 $ nats str template add CLIENTS --subjects "CLIENT.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size 2048 --max-streams 1024 --discard old
@@ -393,15 +393,15 @@ When the template is deleted all the streams it created will be deleted too.
 
 In the earlier sections we saw that samples are being sent to a monitoring system. Let's look at that in depth; how the monitoring system works and what it contains.
 
-As messages pass through an Consumer you'd be interested in knowing how many are being redelivered and how many times but also how long it takes for messages to be acknowledged.
+As messages pass through a Consumer you'd be interested in knowing how many are being redelivered and how many times but also how long it takes for messages to be acknowledged.
 
-Consumers can sample Ack'ed messages for you and publish samples so your monitoring system can observe the health of an Consumer. We will add support for this to [NATS Surveyor](https://github.com/nats-io/nats-surveyor).
+Consumers can sample Ack'ed messages for you and publish samples so your monitoring system can observe the health of a Consumer. We will add support for this to [NATS Surveyor](https://github.com/nats-io/nats-surveyor).
 
 ### Configuration
 
-You can configure an Consumer for sampling by passing the `--sample 80` option to `nats consumer add`, this tells the system to sample 80% of Acknowledgements.
+You can configure a Consumer for sampling bypassing the `--sample 80` option to `nats consumer add`, this tells the system to sample 80% of Acknowledgements.
 
-When viewing info of an Consumer you can tell if it's sampled or not:
+When viewing info of a Consumer you can tell if it's sampled or not:
 
 ```text
 $ nats con info ORDERS NEW
@@ -449,7 +449,7 @@ $ nats con events ORDERS NEW --json
 
 ## Storage Overhead
 
-JetStream file storage is very efficient storing as little extra information about the message as possible.
+JetStream file storage is very efficient, storing as little extra information about the message as possible.
 
 **NOTE:** This might change once clustering is supported.
 
@@ -461,7 +461,7 @@ We do store some message data with each message, namely:
 * The message payload
 * A hash of the message
 * The message sequence
-* A few other bits like length of the subject and lengh of headers
+* A few other bits like the length of the subject and the length of headers
 
 Without any headers the size is:
 
@@ -477,5 +477,5 @@ With headers:
 length of the message record (4bytes) + seq(8) + ts(8) + subj_len(2) + subj + hdr_len(4) + hdr + msg + hash(8)
 ```
 
-So if you are publishing many small messages the overhead will be, relatively speaking, quite large, but for larger messages the overhead is very small. If you publish many small messages it's worth trying to optimise the subject length.
+So if you are publishing many small messages the overhead will be, relatively speaking, quite large, but for larger messages the overhead is very small. If you publish many small messages it's worth trying to optimize the subject length.
 
