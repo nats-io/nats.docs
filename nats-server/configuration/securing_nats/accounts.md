@@ -63,6 +63,7 @@ The export configuration map binds a subject for use as a `service` or `stream` 
 | `stream` | A subject or subject with wildcards that the account will publish. \(exclusive of `service`\) |
 | `service` | A subject or subject with wildcards that the account will subscribe to. \(exclusive of `stream`\) |
 | `accounts` | A list of account names that can import the stream or service. If not specified, the service or stream is public and any account can import it. |
+| `response_type` | Indicates if a response to a `service` request consists of a `single` or a `stream` of messages. Possible values are: `single` or `stream`. \(Default value is `singleton`\) |
 
 Here are some example exports:
 
