@@ -2,7 +2,7 @@
 
 Thus far we saw a lot of CLI interactions. The CLI works by sending and receiving specially crafted messages over core NATS to configure the JetStream system. In time we will look to add file based configuration but for now the only method is the NATS API.
 
-**NOTE:** Some NATS client libraries may need to enable an option to use old style requests when interacting withe JetStream server. Consult the libraries README's for more information.
+**NOTE:** Some NATS client libraries may need to enable an option to use old style requests when interacting with the JetStream server. Consult the libraries README's for more information.
 
 ## Reference
 
