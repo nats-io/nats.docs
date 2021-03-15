@@ -98,6 +98,7 @@
   * [Monitoring](nats-server/configuration/monitoring.md)
   * [System Events](nats-server/configuration/sys_accounts/README.md)
     * [System Events & Decentralized JWT Tutorial](nats-server/configuration/sys_accounts/sys_accounts.md)
+  * [Websocket](nats-server/configuration/websocket/README.md)
 * [Managing A NATS Server](nats-server/nats_admin/README.md)
   * [Upgrading a Cluster](nats-server/nats_admin/upgrading_cluster.md)
   * [Slow Consumers](nats-server/nats_admin/slow_consumers.md)
