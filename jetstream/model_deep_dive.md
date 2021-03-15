@@ -2,7 +2,7 @@
 
 The Orders example touched on a lot of features, but some like different Ack models and message limits, need a bit more detail. This section will expand on the above and fill in some blanks.
 
-## Stream Limits, Retention Modes and Discard Policy
+## Stream Limits, Retention, and Policy
 
 Streams store data on disk, but we cannot store all data forever so we need ways to control their size automatically.
 

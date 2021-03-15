@@ -596,7 +596,7 @@ The `/jsz` endpoint reports more detailed information on JetStream. For accounts
 | streams | true, 1, false, 0 | Include streams. When set, implies `accounts=true`. Default is false. |
 | consumers | true, 1, false, 0 | Include consumer. When set, implies `streams=true`. Default is false. |
 | config | true, 1, false, 0 | When stream or consumer are requested, include their respective configuration. Default is false. |
-| leader-only | true, 1, false, 0 | Only the leader responds. Default is false.|
+| leader-only | true, 1, false, 0 | Only the leader responds. Default is false. |
 | offset | number &gt; 0 | Pagination offset. Default is 0. |
 | limit | number &gt; 0 | Number of results to return. Default is 1024. |
 
