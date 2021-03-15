@@ -1,14 +1,14 @@
-### Consumers
+# Consumers
 
 Consumers is how messages are read or consumed from the Stream. We support pull and push-based Consumers and the example scenario has both, lets walk through that.
 
-#### Creating Pull-Based Consumers
+## Creating Pull-Based Consumers
 
-The `NEW` and `DISPATCH` Consumers are pull-based, meaning the services consuming data from them have to ask the system for the next available message.  This means you can easily scale your services up by adding more workers and the messages will get spread across the workers based on their availability.
+The `NEW` and `DISPATCH` Consumers are pull-based, meaning the services consuming data from them have to ask the system for the next available message. This means you can easily scale your services up by adding more workers and the messages will get spread across the workers based on their availability.
 
 Pull-based Consumers are created the same as push-based Consumers, just don't specify a delivery target.
 
-```
+```text
 $ nats con ls ORDERS
 No Consumers defined
 ```
@@ -17,7 +17,7 @@ We have no Consumers, lets add the `NEW` one:
 
 I supply the `--sample` options on the CLI as this is not prompted for at present, everything else is prompted. The help in the CLI explains each:
 
-```
+```text
 $ nats con add --sample 100
 ? Select a Stream ORDERS
 ? Consumer name NEW
@@ -48,29 +48,29 @@ State:
     Redelivered Messages: 0
 ```
 
-This is a pull-based Consumer (empty Delivery Target), it gets messages from the first available message and requires specific acknowledgement of each and every message.
+This is a pull-based Consumer \(empty Delivery Target\), it gets messages from the first available message and requires specific acknowledgement of each and every message.
 
 It only received messages that originally entered the Stream on `ORDERS.received`. Remember the Stream subscribes to `ORDERS.*`, this lets us select a subset of messages from the Stream.
- 
+
 A Maximum Delivery limit of 20 is set, this means if the message is not acknowledged it will be retried but only up to this maximum total deliveries.
 
 Again this can all be done in a single CLI call, lets make the `DISPATCH` Consumer:
 
-```
+```text
 $ nats con add ORDERS DISPATCH --filter ORDERS.processed --ack explicit --pull --deliver all --sample 100 --max-deliver 20
 ```
 
 Additionally, one can store the configuration in a JSON file, the format of this is the same as `$ nats con info ORDERS DISPATCH -j | jq .config`:
 
-```
+```text
 $ nats con add ORDERS MONITOR --config monitor.json
 ```
 
-#### Creating Push-Based Consumers
+## Creating Push-Based Consumers
 
 Our `MONITOR` Consumer is push-based, has no ack and will only get new messages and is not sampled:
 
-```
+```text
 $ nats con add
 ? Select a Stream ORDERS
 ? Consumer name MONITOR
@@ -101,21 +101,21 @@ State:
 
 Again you can do this with a single non interactive command:
 
-```
+```text
 $ nats con add ORDERS MONITOR --ack none --target monitor.ORDERS --deliver last --replay instant --filter ''
 ```
 
 Additionally one can store the configuration in a JSON file, the format of this is the same as `$ nats con info ORDERS MONITOR -j | jq .config`:
 
-```
+```text
 $ nats con add ORDERS --config monitor.json
 ```
 
-#### Listing
+## Listing
 
 You can get a quick list of all the Consumers for a specific Stream:
 
-```
+```text
 $ nats con ls ORDERS
 Consumers for Stream ORDERS:
 
@@ -124,11 +124,11 @@ Consumers for Stream ORDERS:
         NEW
 ```
 
-#### Querying
+## Querying
 
 All details for an Consumer can be queried, lets first look at a pull-based Consumer:
 
-```
+```text
 $ nats con info ORDERS DISPATCH
 Information for Consumer ORDERS > DISPATCH
 
@@ -154,13 +154,13 @@ State:
 
 More details about the `State` section will be shown later when discussing the ack models in depth.
 
-#### Consuming Pull-Based Consumers
+## Consuming Pull-Based Consumers
 
 Pull-based Consumers require you to specifically ask for messages and ack them, typically you would do this with the client library `Request()` feature, but the `nats` utility has a helper:
 
 First we ensure we have a message:
 
-```
+```text
 $ nats pub ORDERS.processed "order 1"
 $ nats pub ORDERS.processed "order 2"
 $ nats pub ORDERS.processed "order 3"
@@ -168,7 +168,7 @@ $ nats pub ORDERS.processed "order 3"
 
 We can now read them using `nats`:
 
-```
+```text
 $ nats con next ORDERS DISPATCH
 --- received on ORDERS.processed
 order 1
@@ -186,7 +186,7 @@ You can prevent ACKs by supplying `--no-ack`.
 
 To do this from code you'd send a `Request()` to `$JS.API.CONSUMER.MSG.NEXT.ORDERS.DISPATCH`:
 
-```
+```text
 $ nats req '$JS.API.CONSUMER.MSG.NEXT.ORDERS.DISPATCH' ''
 Published [$JS.API.CONSUMER.MSG.NEXT.ORDERS.DISPATCH] : ''
 Received [ORDERS.processed] : 'order 3'
@@ -194,11 +194,11 @@ Received [ORDERS.processed] : 'order 3'
 
 Here `nats req` cannot ack, but in your code you'd respond to the received message with a nil payload as an Ack to JetStream.
 
-#### Consuming Push-Based Consumers
+## Consuming Push-Based Consumers
 
 Push-based Consumers will publish messages to a subject and anyone who subscribes to the subject will get them, they support different Acknowledgement models covered later, but here on the `MONITOR` Consumer we have no Acknowledgement.
 
-```
+```text
 $ nats con info ORDERS MONITOR
 ...
   Delivery Subject: monitor.ORDERS
@@ -207,7 +207,7 @@ $ nats con info ORDERS MONITOR
 
 The Consumer is publishing to that subject, so lets listen there:
 
-```
+```text
 $ nats sub monitor.ORDERS
 Listening on [monitor.ORDERS]
 [#3] Received on [ORDERS.processed]: 'order 3'
@@ -217,3 +217,4 @@ Listening on [monitor.ORDERS]
 Note the subject here of the received message is reported as `ORDERS.processed` this helps you distinguish what you're seeing in a Stream covering a wildcard, or multiple subject, subject space.
 
 This Consumer needs no ack, so any new message into the ORDERS system will show up here in real time.
+

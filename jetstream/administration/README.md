@@ -1,8 +1,8 @@
-## Administration and Usage from the CLI
+# Administration & Usage from CLI
 
 Once the server is running it's time to use the management tool. This can be downloaded from the [GitHub Release Page](https://github.com/nats-io/natscli/releases/) or you can use the `natsio/nats-box:latest` docker image. On OS X homebrew can be used to install the latest version:
 
-```nohighlight
+```text
 $ brew tap nats-io/nats-tools
 $ brew install nats-io/nats-tools/nats
 $ nats --help
@@ -30,3 +30,4 @@ We'll walk through the above scenario and introduce features of the CLI and of J
 Throughout this example, we'll show other commands like `nats pub` and `nats sub` to interact with the system. These are normal existing core NATS commands and JetStream is fully usable by only using core NATS.
 
 We'll touch on some additional features but please review the section on the design model to understand all possible permutations.
+

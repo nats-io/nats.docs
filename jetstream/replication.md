@@ -1,32 +1,32 @@
-## Data Replication
+# Data Replication
 
-Replication allows you to move data between streams in either a 1:1 mirror style or by multiplexing multiple source streams into a new stream.  In future builds this will allow data to be replicated between accounts as well, ideal for sending data from a Leafnode into a central store.
+Replication allows you to move data between streams in either a 1:1 mirror style or by multiplexing multiple source streams into a new stream. In future builds this will allow data to be replicated between accounts as well, ideal for sending data from a Leafnode into a central store.
 
-![](../../assets/images/replication.png)
+![](../.gitbook/assets/replication.png)
 
 Here we have 2 main streams - _ORDERS_ and _RETURNS_ - these streams are clustered across 3 nodes. These Streams have short retention periods and are memory based.
 
-We create a _ARCHIVE_ stream that has 2 _sources_ set, the _ARCHIVE_ will pull data from the sources into itself.  This stream has a very long retention period and is file based and replicated across 3 nodes.  Additional messages can be added to the ARCHIVE by sending to it directly.
+We create a _ARCHIVE_ stream that has 2 _sources_ set, the _ARCHIVE_ will pull data from the sources into itself. This stream has a very long retention period and is file based and replicated across 3 nodes. Additional messages can be added to the ARCHIVE by sending to it directly.
 
-Finally, we create a _REPORT_ stream mirrored from _ARCHIVE_ that is not clustered and retains data for a month.  The _REPORT_ Stream does not listen for any incoming messages, it can only consume data from _ARCHIVE_.
+Finally, we create a _REPORT_ stream mirrored from _ARCHIVE_ that is not clustered and retains data for a month. The _REPORT_ Stream does not listen for any incoming messages, it can only consume data from _ARCHIVE_.
 
-### Mirrors
+## Mirrors
 
-A *mirror* copies data from 1 other stream, as far as possible IDs and ordering will match exactly the source. A *mirror* does not listen on a subject for any data to be added. The Start Sequence and Start Time can be set, but no subject filter. A stream can only have 1 *mirror* and if it is a mirror it cannot also have any *source*.
+A _mirror_ copies data from 1 other stream, as far as possible IDs and ordering will match exactly the source. A _mirror_ does not listen on a subject for any data to be added. The Start Sequence and Start Time can be set, but no subject filter. A stream can only have 1 _mirror_ and if it is a mirror it cannot also have any _source_.
 
-### Sources
+## Sources
 
-A *source* is a stream where data is copied from, one stream can have multiple sources and will read data in from them all. The stream will also listen for messages on it's own subject. We can therefore not maintain absolute ordering, but data from 1 single source will be in the correct order but mixed in with other streams. You might also find the timestamps of streams can be older and newer mixed in together as a result.
+A _source_ is a stream where data is copied from, one stream can have multiple sources and will read data in from them all. The stream will also listen for messages on it's own subject. We can therefore not maintain absolute ordering, but data from 1 single source will be in the correct order but mixed in with other streams. You might also find the timestamps of streams can be older and newer mixed in together as a result.
 
-A Stream with sources may also listen on subjects, but could have no listening subject.  When using the `nats` CLI to create sourced streams use `--subjects` to supply subjects to listen on.
+A Stream with sources may also listen on subjects, but could have no listening subject. When using the `nats` CLI to create sourced streams use `--subjects` to supply subjects to listen on.
 
-A source can have Start Time or Start Sequence and can filter by a subject. 
+A source can have Start Time or Start Sequence and can filter by a subject.
 
-### Configuration
+## Configuration
 
 The ORDERS and RETURNS streams as normal, I will not show how to create them.
 
-```nohighlight
+```text
 $ nats s report
 Obtaining Stream stats
 
@@ -40,7 +40,7 @@ Obtaining Stream stats
 
 We now add the ARCHIVE:
 
-```nohighlight
+```text
 $ nats s add ARCHIVE --source ORDERS --source RETURNS
 ? Storage backend file
 ? Retention Policy Limits
@@ -61,7 +61,7 @@ $ nats s add ARCHIVE --source ORDERS --source RETURNS
 
 And we add the REPORT:
 
-```nohighlight
+```text
 $ nats s add REPORT --mirror ARCHIVE
 ? Storage backend file
 ? Retention Policy Limits
@@ -79,7 +79,7 @@ $ nats s add REPORT --mirror ARCHIVE
 
 When configured we'll see some additional information in a `nats stream info` output:
 
-```nohighlight
+```text
 $ nats stream info ARCHIVE
 ...
 Source Information:
@@ -107,7 +107,7 @@ Here the `Lag` is how far behind we were reported as being last time we saw a me
 
 We can confirm all our setup using a `nats stream report`:
 
-```nohighlight
+```text
 $ nats s report
 +-------------------------------------------------------------------------------------------------------------------+
 |                                                   Stream Report                                                   |
@@ -133,14 +133,14 @@ $ nats s report
 
 We then create some data in both ORDERS and RETURNS:
 
-```nohighlight
+```text
 $ nats req ORDERS.new "ORDER {{Count}}" --count 100
 $ nats req RETURNS.new "RETURN {{Count}}" --count 100
 ```
 
 We can now see from a Stream Report that the data has been replicated:
 
-```nohighlight
+```text
 $ nats s report --dot replication.dot
 Obtaining Stream stats
 
@@ -166,4 +166,5 @@ Obtaining Stream stats
 
 Here we also pass the `--dot replication.dot` argument that writes a GraphViz format map of the replication setup.
 
-![](../../assets/images/replication-setup.png)
+![](../.gitbook/assets/replication-setup.png)
+

@@ -60,7 +60,7 @@ Generated account key - private key stored "~/.nkeys/AAA/accounts/B/B.nk"
 Success! - added account "B"
 ```
 
-With the account and a couple of users in place, let's push all the accounts to the nats-account-server. If the account JWT server URL is not set on the operator, you may want to set it. Note that account servers typically require the path `/jwt/v1` in addition to the protocol and hostport (or you can specify the `--account-jwt-server-url` flag to nsc's `push` command). 
+With the account and a couple of users in place, let's push all the accounts to the nats-account-server. If the account JWT server URL is not set on the operator, you may want to set it. Note that account servers typically require the path `/jwt/v1` in addition to the protocol and hostport \(or you can specify the `--account-jwt-server-url` flag to nsc's `push` command\).
 
 ```text
 ❯ nsc edit operator --account-jwt-server-url http://localhost:9090/jwt/v1

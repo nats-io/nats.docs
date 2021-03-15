@@ -1,4 +1,4 @@
-# natscli
+# nats
 
 A command line utility to interact with and manage NATS.
 
@@ -10,20 +10,20 @@ Check out the repo for more details: [github.com/nats-io/natscli](https://github
 
 For macOS:
 
-```
+```text
 > brew tap nats-io/nats-tools
 > brew install nats-io/nats-tools/nats
 ```
 
 For Arch Linux:
 
-```
+```text
 > yay natscli
 ```
 
 For Docker:
 
-```
+```text
 docker pull synadia/nats-box:latest
 
 docker run -ti synadia/nats-box
@@ -39,7 +39,7 @@ The `nats` utility has a command for creating `bcrypt` hashes. This can be used 
 
 With `nats` installed:
 
-```plain
+```text
 > nats server passwd
 ? Enter password [? for help] **********************
 ? Reenter password [? for help] **********************
@@ -49,7 +49,7 @@ $2a$11$3kIDaCxw.Glsl1.u5nKa6eUnNDLV5HV9tIuUp7EHhMt6Nm9myW1aS
 
 To use the password on the server, add the hash into the server configuration file's authorization section.
 
-```
+```text
   authorization {
     user: derek
     password: $2a$11$3kIDaCxw.Glsl1.u5nKa6eUnNDLV5HV9tIuUp7EHhMt6Nm9myW1aS
@@ -57,3 +57,4 @@ To use the password on the server, add the hash into the server configuration fi
 ```
 
 Note the client will still have to provide the plain text version of the password, the server however will only store the hash to verify that the password is correct when supplied.
+

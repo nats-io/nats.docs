@@ -68,20 +68,20 @@ Note: You may need to scroll horizontally to see all columns.
 | hb\_interval | Interval at which the server sends an heartbeat to a client | Duration | `hb_interval: "10s"` | `30s` | v0.3.6 |
 | hb\_timeout | How long the server waits for a heartbeat response from the client before considering it a failed heartbeat | Duration | `hb_timeout: "10s"` | `10s` | v0.3.6 |
 | hb\_fail\_count | Count of failed heartbeats before server closes the client connection. The actual total wait is: \(fail count + 1\) \* \(hb interval + hb timeout\) | Number | `hb_fail_count: 2` | `10` | v0.3.6 |
-| ft\_group | In Fault Tolerance mode, you can start a group of streaming servers with only one server being active while others are running in standby mode. This is the name of this FT group | String | `ft_group: "my_ft_group"` | N/A | v0.4.0|
+| ft\_group | In Fault Tolerance mode, you can start a group of streaming servers with only one server being active while others are running in standby mode. This is the name of this FT group | String | `ft_group: "my_ft_group"` | N/A | v0.4.0 |
 | partitioning | If set to true, a list of channels must be defined in store\_limits/channels section. This section then serves two purposes, overriding limits for a given channel or adding it to the partition | `true` or `false` | `partitioning: true` | `false` | v0.5.0 |
 | sql\_options | SQL Store specific options | Map: `sql_options: { ... }` | [**See details below**](cfgfile.md#sql-options-configuration) |  | v0.7.0 |
 | cluster | Cluster Configuration | Map: `cluster: { ... }` | [**See details below**](cfgfile.md#cluster-configuration) |  | v0.9.0 |
-| syslog_name | On Windows, when running several servers as a service, use this name for the event source | String |  | v0.11.0 |
+| syslog\_name | On Windows, when running several servers as a service, use this name for the event source | String |  | v0.11.0 |  |
 | encrypt | Specify if server should encrypt messages \(only the payload\) when storing them | `true` or `false` | `encrypt: true` | `false` | v0.12.0 |
 | encryption\_cipher | Cipher to use for encryption. Currently support AES and CHAHA \(ChaChaPoly\). Defaults to AES | `AES` or `CHACHA` | `encryption_cipher: "AES"` | Depends on platform | v0.12.0 |
 | encryption\_key | Encryption key. It is recommended to specify the key through the `NATS_STREAMING_ENCRYPTION_KEY` environment variable instead | String | `encryption_key: "mykey"` | N/A | v0.12.0 |
 | credentials | Credentials file to connect to external NATS 2.0+ Server | String | `credentials: "streaming_server.creds"` | N/A | v0.16.2 |
 | username | Username is used to connect to a NATS Server when authentication with multiple users is enabled | String | `username: "streaming_server"` | N/A | v0.19.0 |
-| password | Password used with above `username` | String | `password: "password"` | N/A | v0.19.0  |
+| password | Password used with above `username` | String | `password: "password"` | N/A | v0.19.0 |
 | token | Authentication token if the NATS Server requires a token | String | `token: "some_token"` | N/A | v0.19.0 |
 | nkey\_seed\_file | Path to an NKey seed file \(1\) if NKey authentication is used | File Path | `nkey_seed_file: "/path/to/some/seedfile"` | N/A | v0.19.0 |
-| replace_durable | Replace the existing durable subscription instead of reporting a duplicate durable error | `true` or `false` | `replace_durable: true` | `false` | v0.20.0 |
+| replace\_durable | Replace the existing durable subscription instead of reporting a duplicate durable error | `true` or `false` | `replace_durable: true` | `false` | v0.20.0 |
 
 Notes:
 
@@ -196,10 +196,10 @@ For a given channel, the possible parameters are:
 | raft\_lease\_timeout | Specifies how long a leader waits without being able to contact a quorum of nodes before stepping down as leader | Duration | `raft_lease_timeout: "1s"` | `1s` | v0.11.2 |
 | raft\_commit\_timeout | Specifies the time without an Apply\(\) operation before sending an heartbeat to ensure timely commit. Due to random staggering, may be delayed as much as 2x this value | Duration | `raft_commit_timeout: "100ms"` | `100ms` | v0.11.2 |
 | proceed\_on\_restore\_failure | Allow a non leader node to proceed with restore failures, do not use unless you understand the risks! | `true` or `false` | `proceed_on_restore_failure: true` | `false` | v0.17.0 |
-| allow_add_remove_node| Enable the ability to send NATS requests to the leader to add/remove cluster nodes | `true` or `false` | `allow_add_remove_node: true` | `false` | v0.19.0 |
-| bolt_free_list_sync | Causes the RAFT log to synchronize the free list on write operations. Reduces performance at runtime, but makes the recovery faster | `true` or `false` | `bolt_free_list_sync: true` | `false` | v0.21.0 |
-| bolt_free_list_map | Sets the backend freelist type to use a map instead of the default array type. Improves performance for large RAFT logs, with fragmented free list | `true` or `false` | `bolt_free_list_map: true` | `false` | v0.21.0 |
-| nodes_connections | Enable creation of dedicated NATS connections to communicate with other nodes | `true` or `false` | `nodes_connections: true` | `false` | v0.21.0 |
+| allow\_add\_remove\_node | Enable the ability to send NATS requests to the leader to add/remove cluster nodes | `true` or `false` | `allow_add_remove_node: true` | `false` | v0.19.0 |
+| bolt\_free\_list\_sync | Causes the RAFT log to synchronize the free list on write operations. Reduces performance at runtime, but makes the recovery faster | `true` or `false` | `bolt_free_list_sync: true` | `false` | v0.21.0 |
+| bolt\_free\_list\_map | Sets the backend freelist type to use a map instead of the default array type. Improves performance for large RAFT logs, with fragmented free list | `true` or `false` | `bolt_free_list_map: true` | `false` | v0.21.0 |
+| nodes\_connections | Enable creation of dedicated NATS connections to communicate with other nodes | `true` or `false` | `nodes_connections: true` | `false` | v0.21.0 |
 
 ## SQL Options Configuration
 
@@ -209,5 +209,5 @@ For a given channel, the possible parameters are:
 | source | How to connect to the database. This is driver specific | String | `source: "ivan:pwd@/nss_db"` | N/A | v0.7.0 |
 | no\_caching | Enable/Disable caching for messages and subscriptions operations. | `true` or `false` | `no_caching: false` | `false` \(caching enabled\) | v0.7.0 |
 | max\_open\_conns | Maximum number of opened connections to the database. Value &lt;= 0 means no limit. | Number | `max_open_conns: 5` | unlimited | v0.7.0 |
-| bulk\_insert\_limit | Maximum number of messages stored with a single SQL "INSERT" statement. The default behavior is to send individual insert commands as part of a SQL transaction. | Number | `bulk_insert_limit: 1000` | `0` (not enabled) | v0.20.0 |
+| bulk\_insert\_limit | Maximum number of messages stored with a single SQL "INSERT" statement. The default behavior is to send individual insert commands as part of a SQL transaction. | Number | `bulk_insert_limit: 1000` | `0` \(not enabled\) | v0.20.0 |
 

@@ -1,6 +1,6 @@
-# Cluster Administration
+# Administration
 
-Once a JetStream cluster is operating interactions with the CLI and with `nats` CLI is the same as before.  For these examples, lets assume we have a 5 server cluster, n1-n5 in a cluster named C1. 
+Once a JetStream cluster is operating interactions with the CLI and with `nats` CLI is the same as before. For these examples, lets assume we have a 5 server cluster, n1-n5 in a cluster named C1.
 
 ## Account Level
 
@@ -8,9 +8,9 @@ Within an account there are operations and reports that show where users data is
 
 ## Creating clustered streams
 
-When adding a stream using the `nats` CLI the number of replicas will be asked, when you choose a number more than 1, (we suggest 1, 3 or 5), the data will be stored o multiple nodes in your cluster using the RAFT protocol as above.  The replica count must be less than the maximum number of servers.
+When adding a stream using the `nats` CLI the number of replicas will be asked, when you choose a number more than 1, \(we suggest 1, 3 or 5\), the data will be stored o multiple nodes in your cluster using the RAFT protocol as above. The replica count must be less than the maximum number of servers.
 
-```nohighlight
+```text
 $ nats str add ORDERS --replicas 3
 ....
 Information for Stream ORDERS created 2021-02-05T12:07:34+01:00
@@ -18,14 +18,13 @@ Information for Stream ORDERS created 2021-02-05T12:07:34+01:00
 Configuration:
 ....
              Replicas: 3
-             
+
 Cluster Information:
 
                  Name: C1
                Leader: n1-c1
               Replica: n4-c1, current, seen 0.07s ago
               Replica: n3-c1, current, seen 0.07s ago
-
 ```
 
 Above you can see that the cluster information will be reported in all cases where Stream info is shown such as after add or using `nats stream info`.
@@ -40,7 +39,7 @@ The replica count cannot be edited once configured.
 
 Users can get overall statistics about their streams and also where these streams are placed:
 
-```
+```text
 $ nats stream report
 Obtaining Stream stats
 +----------+-----------+----------+--------+---------+------+---------+----------------------+----------+
@@ -57,11 +56,11 @@ Obtaining Stream stats
 
 #### Forcing Stream and Consumer leader election
 
-Every RAFT group has a leader that's elected by the group when needed. Generally there is no reason to interfere with this process, but you might want to trigger a leader change at a convenient time.  Leader elections will represent short interruptions to the stream so if you know you will work on a node later it might be worth moving leadership away from it ahead of time.
+Every RAFT group has a leader that's elected by the group when needed. Generally there is no reason to interfere with this process, but you might want to trigger a leader change at a convenient time. Leader elections will represent short interruptions to the stream so if you know you will work on a node later it might be worth moving leadership away from it ahead of time.
 
 Moving leadership away from a node does not remove it from the cluster and does not prevent it from becoming a leader again, this is merely a triggered leader election.
 
-```nohighlight
+```text
 $ nats stream cluster step-down ORDERS
 14:32:17 Requesting leader step down of "n1-c1" in a 3 peer RAFT group
 14:32:18 New leader elected "n4-c1"
@@ -86,7 +85,7 @@ Systems users can view state of the Meta Group - but not individual Stream or Co
 
 We have a high level report of cluster state:
 
-```nohighlight
+```text
 $ nats server report jetstream --user system
 +--------------------------------------------------------------------------------------------------+
 |                                        JetStream Summary                                         |
@@ -124,7 +123,7 @@ In the Meta Group report the server `n2-c1` is not current and has not been seen
 
 This report is built using raw data that can be obtained from the monitor port on the `/jsz` url, or over nats using:
 
-```nohightlight
+```text
 $ nats server req jetstream --help
 ...
       --name=NAME               Limit to servers matching a server name
@@ -147,7 +146,7 @@ This will produce a wealth of raw information about the current state of your cl
 
 Similar to Streams and Consumers above the Meta Group allows leader stand down. The Meta Group is cluster wide and spans all accounts, therefore to manage the meta group you have to use a `SYSTEM` user.
 
-```nohighlight
+```text
 $ nats server raft step-down --user system
 17:44:24 Current leader: n2-c2
 17:44:24 New leader: n1-c2
@@ -157,11 +156,11 @@ $ nats server raft step-down --user system
 
 Generally when shutting down NATS, including using Lame Duck Mode, the cluster will notice this and continue to function. A 5 node cluster can withstand 2 nodes being down.
 
-There might be a case though where you know a machine will never return, and you want to signal to JetStream that the machine will not return.  This will remove it from the Stream in question and all it's Consumers.
+There might be a case though where you know a machine will never return, and you want to signal to JetStream that the machine will not return. This will remove it from the Stream in question and all it's Consumers.
 
-After the node is removed the cluster will notice that the replica count is not honored anymore and will immediately pick a new node and start replicating data to it.  The new node will be selected using the same placement rules as the existing stream.
+After the node is removed the cluster will notice that the replica count is not honored anymore and will immediately pick a new node and start replicating data to it. The new node will be selected using the same placement rules as the existing stream.
 
-```nohighlight
+```text
 $ nats s cluster peer-remove ORDERS
 ? Select a Peer n4-c1
 14:38:50 Removing peer "n4-c1"
@@ -170,7 +169,7 @@ $ nats s cluster peer-remove ORDERS
 
 At this point the stream and all consumers will have removed `n4-c1` from the group, they will all start new peer selection and data replication.
 
-```nohighlight
+```text
 $ nats stream info ORDERS
 ....
 Cluster Information:

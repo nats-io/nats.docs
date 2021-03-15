@@ -8,5 +8,5 @@ When the last member of the group leaves \(subscription unsubscribed/closed/or c
 
 A queue subscription can also be durable. For that, the client needs to provide a queue and durable name. The behavior is, as you would expect, a combination of queue and durable subscription. Though unlike a durable subscription, the client ID is not part of the queue group name since the client ID must be unique, and would prevent more than one connection to participate in the queue group. The main difference between a queue subscription and a durable one, is that when the last member leaves the group, the state of the group will be maintained by the server. Later, when a member rejoins the group, the delivery will resume.
 
-_**Note: For a durable queue subscription, the last member to**_  **unsubscribe**  _**\(not simply close\) causes the group to be removed from the server.**_
+_**Note: For a durable queue subscription, the last member to**_ **unsubscribe** _**\(not simply close\) causes the group to be removed from the server.**_
 

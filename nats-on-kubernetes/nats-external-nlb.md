@@ -1,3 +1,5 @@
+# Using a Load Balancer for External Access to NATS
+
 ## Using a Load Balancer for External Access to NATS
 
 In the example below, you can find how to use an [AWS Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html) to connect externally to a cluster that has TLS setup.
@@ -42,7 +44,7 @@ Also, it would be recommended to set [no\_advertise](../nats-server/configuratio
 
 With the following, you can create a 3-node NATS Server cluster:
 
-```sh
+```bash
 kubectl apply -f https://raw.githubusercontent.com/nats-io/k8s/b55687a97a5fd55485e1af302fbdbe43d2d3b968/nats-server/leafnodes/nats-cluster.yaml
 ```
 
@@ -85,13 +87,13 @@ data:
 
 Now let's expose the NATS Server by creating an L4 load balancer on Azure:
 
-```sh
+```bash
 kubectl apply -f https://raw.githubusercontent.com/nats-io/k8s/b55687a97a5fd55485e1af302fbdbe43d2d3b968/nats-server/leafnodes/lb.yaml
 ```
 
 Confirm the public IP that was allocated to the `nats-lb` service that was created, in this case it is `52.155.49.45`:
 
-```
+```text
 $ kubectl get svc -o wide
 NAME         TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)                                                 AGE     SELECTOR
 kubernetes   ClusterIP      10.0.0.1      <none>         443/TCP                                                 81d     <none>
@@ -113,13 +115,13 @@ leaf {
 
 You can also add a NATS Streaming cluster into the cluster connecting to the port 4222:
 
-```sh
+```bash
 kubectl apply -f https://raw.githubusercontent.com/nats-io/k8s/b55687a97a5fd55485e1af302fbdbe43d2d3b968/nats-server/leafnodes/stan-server.yaml
 ```
 
 Now if you create two NATS Servers that connect to the same leafnode port, they will be able to receive messages to each other:
 
-```sh
+```bash
 nats-server -c leafnodes/leaf.conf -p 4222 &
 nats-server -c leafnodes/leaf.conf -p 4223 &
 

@@ -1,8 +1,10 @@
-### Account Information
+# Account Information
+
+## Account Information
 
 JetStream is multi-tenant so you will need to check that your account is enabled for JetStream and is not limited. You can view your limits as follows:
 
-```nohighlight
+```text
 $ nats account info
 Connection Information:
                Client ID: 8
@@ -20,13 +22,13 @@ JetStream Account Information:
    Max Consumers: unlimited
 ```
 
-### Streams
+## Streams
 
 The first step is to set up storage for our `ORDERS` related messages, these arrive on a wildcard of subjects all flowing into the same Stream and they are kept for 1 year.
 
-#### Creating
+### Creating
 
-```nohighlight
+```text
 $ nats str add ORDERS
 ? Subjects to consume ORDERS.*
 ? Storage backend file
@@ -64,31 +66,32 @@ Statistics:
 
 You can get prompted interactively for missing information as above, or do it all on one command. Pressing `?` in the CLI will help you map prompts to CLI options:
 
+```text
+$ nats str add ORDERS --subjects "ORDERS.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size=-1 --discard old --replicas 3
 ```
-$ nats str add ORDERS --subjects "ORDERS.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size=-1 --discard old --replicas 3```
 
 Additionally, one can store the configuration in a JSON file, the format of this is the same as `$ nats str info ORDERS -j | jq .config`:
 
-```
+```text
 $ nats str add ORDERS --config orders.json
 ```
 
-#### Listing
+### Listing
 
 We can confirm our Stream was created:
 
-```nohighlight
+```text
 $ nats str ls
 Streams:
 
-	ORDERS
+    ORDERS
 ```
 
-#### Querying
+### Querying
 
 Information about the configuration of the Stream can be seen, and if you did not specify the Stream like below, it will prompt you based on all known ones:
 
-```nohighlight
+```text
 $ nats str info ORDERS
 Information for Stream ORDERS
 
@@ -114,7 +117,7 @@ Statistics:
 
 Most commands that show data as above support `-j` to show the results as JSON:
 
-```nohighlight
+```text
 $ nats str info ORDERS -j
 {
   "config": {
@@ -144,7 +147,7 @@ This is the general pattern for the entire `nats` utility as it relates to JetSt
 
 In clustered mode additional information will be included:
 
-```nohighlight
+```text
 $ nats str info ORDERS
 ...
 Cluster Information:
@@ -156,11 +159,11 @@ Cluster Information:
 
 Here the cluster name is configured as `JSC`, there is a server `S1` that's the current leader with `S3` and `S2` are replicas. Both replicas are current and have been seen recently.
 
-#### Copying
+### Copying
 
 A stream can be copied into another, which also allows the configuration of the new one to be adjusted via CLI flags:
 
-```nohighlight
+```text
 $ nats str cp ORDERS ARCHIVE --subjects "ORDERS_ARCVHIVE.*" --max-age 2y
 Stream ORDERS was created
 
@@ -174,11 +177,11 @@ Configuration:
 ...
 ```
 
-#### Editing
+### Editing
 
-A stream configuration can be edited, which allows the configuration to be adjusted via CLI flags.  Here I have a incorrectly created ORDERS stream that I fix:
+A stream configuration can be edited, which allows the configuration to be adjusted via CLI flags. Here I have a incorrectly created ORDERS stream that I fix:
 
-```nohighlight
+```text
 $ nats str info ORDERS -j | jq .config.subjects
 [
   "ORDERS.new"
@@ -197,24 +200,24 @@ Configuration:
 
 Additionally one can store the configuration in a JSON file, the format of this is the same as `$ nats str info ORDERS -j | jq .config`:
 
-```
+```text
 $ nats str edit ORDERS --config orders.json
 ```
 
-#### Publishing Into a Stream
+### Publishing Into a Stream
 
 Now let's add in some messages to our Stream. You can use `nats pub` to add messages, pass the `--wait` flag to see the publish ack being returned.
 
 You can publish without waiting for acknowledgement:
 
-```nohighlight
+```text
 $ nats pub ORDERS.scratch hello
 Published [sub1] : 'hello'
 ```
 
 But if you want to be sure your messages got to JetStream and were persisted you can make a request:
 
-```nohighlight
+```text
 $ nats req ORDERS.scratch hello
 13:45:03 Sending request on [ORDERS.scratch]
 13:45:03 Received on [_INBOX.M8drJkd8O5otORAo0sMNkg.scHnSafY]: '+OK'
@@ -222,7 +225,7 @@ $ nats req ORDERS.scratch hello
 
 Keep checking the status of the Stream while doing this and you'll see it's stored messages increase.
 
-```nohighlight
+```text
 $ nats str info ORDERS
 Information for Stream ORDERS
 ...
@@ -237,11 +240,11 @@ Statistics:
 
 After putting some throw away data into the Stream, we can purge all the data out - while keeping the Stream active:
 
-#### Deleting All Data
+### Deleting All Data
 
 To delete all data in a stream use `purge`:
 
-```nohighlight
+```text
 $ nats str purge ORDERS -f
 ...
 Statistics:
@@ -253,19 +256,20 @@ Statistics:
     Active Consumers: 0
 ```
 
-#### Deleting A Message
+### Deleting A Message
 
 A single message can be securely removed from the stream:
 
-```nohighlight
+```text
 $ nats str rmm ORDERS 1 -f
 ```
 
-#### Deleting Sets
+### Deleting Sets
 
 Finally for demonstration purposes, you can also delete the whole Stream and recreate it so then we're ready for creating the Consumers:
 
-```
+```text
 $ nats str rm ORDERS -f
 $ nats str add ORDERS --subjects "ORDERS.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size=-1
 ```
+

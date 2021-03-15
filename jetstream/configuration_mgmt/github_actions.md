@@ -1,4 +1,4 @@
-### GitHub Actions
+# GitHub Actions
 
 We have a pack of GitHub Actions that let you manage an already running JetStream Server, useful for managing releases or standing up test infrastructure.
 
@@ -53,3 +53,4 @@ jobs:
           message: Published new deployment via "${{ github.event_name }}" in "${{ github.repository }}"
           server: js.example.net
 ```
+
