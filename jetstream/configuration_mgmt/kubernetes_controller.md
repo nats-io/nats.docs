@@ -1,6 +1,6 @@
 # Kubernetes Controller
 
-The JetStream controllers allows you to manage NATS JetStream Streams and Consumers via K8S CRDs. You can find more info on how to deploy and usage [here](https://github.com/nats-io/nack#getting-started). Below you can find an example on how to create a stream and a couple of consumers:
+The JetStream controllers allow you to manage NATS JetStream Streams and Consumers via K8S CRDs. You can find more info on how to deploy and usage [here](https://github.com/nats-io/nack#getting-started). Below you can find an example of how to create a stream and a couple of consumers:
 
 ```yaml
 ---
