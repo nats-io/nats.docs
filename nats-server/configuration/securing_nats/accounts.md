@@ -190,3 +190,6 @@ The above example shows how clients without authentication can be associated wit
 
 > Please note that the `no_auth_user` will not work with nkeys. The user referenced can also be part of the [authorization](authorization.md) block.
 
+> Despite `no_auth_user` being set, clients still need to communicate that they will not be using credentials.
+> The [authentication timeout](auth_intro/auth_timeout.md) applies to this process as well.
+> When your connection is slow, you may run into this timeout and the resulting `Authentication Timeout` error, despite not providing credentials.
