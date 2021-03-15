@@ -31,11 +31,11 @@ By specifying a CIDR block restriction for a user, policy can be applied to limi
 
 ### Time-Based Account Restrictions
 
-Scoped to the user, you can now specify a specific block of time during the day when applications can connect. For example, permit certain users or applications to access the system during specified business hours, or protect business operations during the busiest parts of the day from batch driven back-office applications that could adversely impact the system when run at the wrong time.
+Scoped to the user, you can now [specify a specific block of time](nats-tools/nsc/basics.md#user-authorization) during the day when applications can connect. For example, permit certain users or applications to access the system during specified business hours, or protect business operations during the busiest parts of the day from batch driven back-office applications that could adversely impact the system when run at the wrong time.
 
 ### Default User Permissions
 
-Now you can specify [default user permissions](https://github.com/nats-io/nats.docs/tree/4009a69741789af8606c9fd475f92f2bed40ede3/TODO%20Link/README.md) within an account. This significantly reduces efforts around policy, reduces chances for error in permissioning, and simplifies the provisioning of user credentials.
+Now you can specify [default user permissions](nats-server/configuration/securing_nats/authorization.md#examples) within an account. This significantly reduces efforts around policy, reduces chances for error in permissioning, and simplifies the provisioning of user credentials.
 
 ## WebSockets
 
