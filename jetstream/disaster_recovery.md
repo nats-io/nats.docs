@@ -1,4 +1,4 @@
-# Disaster Recovery
+# Disaser Recovery
 
 Disaster Recovery of the JetStream system is a topic we are still exploring and fleshing out and that will be impacted by the clustering work. For example replication will extend the options available to you.
 

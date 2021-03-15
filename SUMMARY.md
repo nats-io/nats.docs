@@ -146,7 +146,7 @@
 * [nats](nats-tools/natscli.md)
 * [nk](nats-tools/nk.md)
 * [nsc](nats-tools/nsc/README.md)
-  * [Basics](nats-tools/nsc/nsc.md)
+  * [Basics](nats-tools/nsc/basics.md)
   * [Streams](nats-tools/nsc/streams.md)
   * [Services](nats-tools/nsc/services.md)
   * [Signing Keys](nats-tools/nsc/signing_keys.md)

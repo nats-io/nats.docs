@@ -44,7 +44,7 @@ nsc/
 
 You can find various task-oriented tutorials to working with the tool here:
 
-* [Basic Usage](nsc.md)
+* [Basic Usage](basics.md)
 * [Configuring Streams](streams.md)
 * [Configuring Services](services.md)
 * [Signing Keys](signing_keys.md)
