@@ -63,7 +63,7 @@ Published [foo] : 'bar'
 | Property | Description |
 | :--- | :--- |
 | `name` | Name for this cluster, all gateways belonging to the same cluster, should specify the same name. |
-| `reject_unknown` | If `true`, gateway will reject connections from gateways that are not configured in `gateways`. |
+| `reject_unknown_cluster` | If `true`, gateway will reject connections from cluster that are not configured in `gateways`. It does so by checking if the cluster name, provided by the incomming connection, exists as named gateway. This effectively disables gossiping of new cluster. It does not restrict a configured gateway, thus cluster, from dynamically growing. |
 | `gateways` | List of Gateway [entries](gateway.md#gateway-entry) - see below. |
 | `host` | Interface where the gateway will listen for incoming gateway connections. |
 | `port` | Port where the gateway will listen for incoming gateway connections. |
