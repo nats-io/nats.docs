@@ -113,7 +113,7 @@
 * [About Jetstream](jetstream/jetstream.md)
 * [Concepts](jetstream/concepts/README.md)
   * [Streams](jetstream/concepts/streams.md)
-  * [Consumes](jetstream/concepts/consumers.md)
+  * [Consumers](jetstream/concepts/consumers.md)
   * [Configuration](jetstream/concepts/configuration.md)
 * [Getting Started](jetstream/getting_started/README.md)
   * [Using Docker](jetstream/getting_started/using_docker.md)

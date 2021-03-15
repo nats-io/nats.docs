@@ -1,4 +1,4 @@
-# Consumes
+# Consumers
 
 Each Consumer, or related group of Consumers, of a Stream will need an Consumer defined. It's ok to define thousands of these pointing at the same Stream.
 
