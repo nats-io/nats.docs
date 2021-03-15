@@ -117,7 +117,6 @@
   * [Example Configuration](jetstream/concepts/configuration.md)
 * [Getting Started](jetstream/getting_started/README.md)
   * [Using Docker](jetstream/getting_started/using_docker.md)
-  * [Using Docker with NGS](jetstream/getting_started/using-docker-with-ngs.md)
   * [Using Source](jetstream/getting_started/using_source.md)
 * [Administration & Usage from CLI](jetstream/administration/README.md)
   * [Account Information](jetstream/administration/account.md)
