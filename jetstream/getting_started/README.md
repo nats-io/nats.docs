@@ -1,8 +1,8 @@
 # Getting Started
 
-Getting started with JetStream is straightforward. While we speak of Jetstream as if it is a seperate component, it's actually a subsystem built into the NATS server that needs to be enabled.
+Getting started with JetStream is straightforward. While we speak of JetStream as if it is a separate component, it's actually a subsystem built into the NATS server that needs to be enabled.
 
-## Command line
+## Command Line
 
 Enable JetStream by specifying the `-js` flag when starting the NATS server.
 
@@ -10,7 +10,7 @@ Enable JetStream by specifying the `-js` flag when starting the NATS server.
 
 ## Configuration File
 
-Enable JetStream through a configuration file. By default, the JetStream subsytem will store data in the /tmp directory. Here's a minimal file that will store data in a local "nats" directory, suitable for development and local testing.
+You can also enable JetStream through a configuration file. By default, the JetStream subsytem will store data in the /tmp directory. Here's a minimal file that will store data in a local "nats" directory, suitable for development and local testing.
 
 `$ nats-server -c js.conf`
 
