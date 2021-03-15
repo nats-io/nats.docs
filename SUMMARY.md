@@ -114,7 +114,7 @@
 * [Concepts](jetstream/concepts/README.md)
   * [Streams](jetstream/concepts/streams.md)
   * [Consumers](jetstream/concepts/consumers.md)
-  * [Configuration](jetstream/concepts/configuration.md)
+  * [Example Configuration](jetstream/concepts/configuration.md)
 * [Getting Started](jetstream/getting_started/README.md)
   * [Using Docker](jetstream/getting_started/using_docker.md)
   * [Using Docker with NGS](jetstream/getting_started/using-docker-with-ngs.md)

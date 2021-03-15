@@ -1,6 +1,6 @@
-# Configuration
+# Example Configuration
 
-The rest of this document introduces the `nats` utility, but for completeness and reference this is how you'd create the ORDERS scenario. We'll configure a 1 year retention for order related messages:
+[Addition documentation](../clustering/administration.md) introduces the `nats` utility, but for completeness and reference this is how you'd create the ORDERS scenario. We'll configure a 1 year retention for order related messages:
 
 ```bash
 $ nats str add ORDERS --subjects "ORDERS.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size=-1 --discard=old
