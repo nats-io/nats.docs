@@ -1,9 +1,10 @@
-# Account lookup using Resolver
+# Account Lookup Using a Resolver
 
-The `resolver` configuration option is used in conjunction with [NATS JWT Authentication](./) and [nsc](../../../../nats-tools/nsc/). The `resolver` option specifies a URL where the nats-server can retrieve an account JWT. There are two built-in resolver implementations:
+The `resolver` configuration option is used in conjunction with [NATS JWT Authentication](./) and [nsc](../../../../nats-tools/nsc/). The `resolver` option specifies a URL where the nats-server can retrieve an account JWT. There are three built-in resolver implementations:
 
-* `URL`
-* `MEMORY`
+* [`URL`](resolver.md#URL-Resolver)
+* [`MEMORY`](resolver.md#Memory)
+* [NATS Based Resolver](resolver.md#nats-based-resolver)
 
 > If the operator JWT specified in `operator` contains an account resolver URL, `resolver` only needs to be specified in order to overwrite that default.
 
@@ -34,3 +35,68 @@ The `MEMORY` resolver is recommended when the server has a small number of accou
 
 For more information on how to configure a memory resolver, see [this tutorial](mem_resolver.md).
 
+## NATS Based Resolver
+
+The NATS based resolver embeds the functionality of the [account server](https://github.com/nats-io/nats-account-server) inside the nats-server.
+In order to avoid having to store all account JWT on every server, this resolver has two sub types `full` and `cache`.
+Their commonalities are that they exchange/lookup account JWT via NATS and the system account, and store them in a local (not shared) directory.
+
+### Full
+
+The Full resolver stores all JWTs and exchanges them in an eventually consistent way with other resolvers of the same type.
+[`nsc`](../../../../nats-tools/nsc/README.md) supports push/pull/purge with this resolver type. 
+[JWTs](../../nats-server/configuration/securing_nats/jwt/), uploaded this way, are stored in a directory the server has exclusive access to. 
+
+```yaml
+resolver: {
+    type: full
+    # Directory in which account jwt will be stored
+    dir: './jwt'
+    # In order to support jwt deletion, set to true
+    # If the resolver type is full delete will rename the jwt.
+    # This is to allow manual restoration in case of inadvertent deletion.
+    # To restore a jwt, remove the added suffix .delete and restart or send a reload signal.
+    # To free up storage you must manually delete files with the suffix .delete.
+    allow_delete: false
+    # Interval at which a nats-server with a nats based account resolver will compare
+    # it's state with one random nats based account resolver in the cluster and if needed,
+    # exchange jwt and converge on the same set of jwt.
+    interval: "2m"
+    # limit on the number of jwt stored, will reject new jwt once limit is hit.
+    limit: 1000
+}
+```
+
+This resolver type also supports `resolver_preload`. When present, JWTs are listed and stored in the resolver.
+There, they may be subject to updates. Restarts of the `nats-server` will hold on to these more recent versions.
+
+Not every server in a cluster needs to be set to `full`.
+You need enough to still serve your workload adequately, while some servers are offline.
+
+### Cache
+
+The Cache resolver only stores a subset of [JWT](../../nats-server/configuration/securing_nats/jwt/) and evicts others based on an LRU scheme. 
+Missing JWTs are downloaded from `full` nats based resolver. 
+This resolver is essentially the URL Resolver in NATS.
+
+```yaml
+resolver: {
+    type: cache
+    # Directory in which account jwt will be store
+    dir: "./"
+    # limit on the number of jwt stored, will evict old jwt once limit is hit.
+    limit: 1000
+    # How long to hold on to a jwt before discarding it. 
+    ttl: "2m"
+}
+```
+
+### NATS Based Resolver - Integration
+
+The NATS based resolver utilizes the system account for lookup and upload of account [JWTs](../../nats-server/configuration/securing_nats/jwt/) .
+If your application requires tighter integration you can make use of these subjects for tighter integration.
+
+To upload or update any generated account JWT without [`nsc`](../../../../nats-tools/nsc/README.md), send it as a request to `$SYS.REQ.CLAIMS.UPDATE`.
+Each participating `full` NATS based account resolver will respond with a message detailing success or failure.
+
+To serve a requested account [JWT](../../nats-server/configuration/securing_nats/jwt/) yourself and essentially implement an account server, subscribe to `$SYS.REQ.ACCOUNT.*.CLAIMS.LOOKUP` and respond with the account JWT corresponding to the requested account id (wildcard).

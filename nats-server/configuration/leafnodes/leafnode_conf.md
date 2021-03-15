@@ -93,6 +93,32 @@ If other form of credentials are used \(jwt, nkey or other\), then the server wi
 | `account` | [Account](../securing_nats/accounts.md) name or jwt public key identifying the local account to bind to this remote server. Any traffic locally on this account will be forwarded to the remote server. |
 | `credentials` | Credential file for connecting to the leafnode server. |
 | `tls` | A [TLS configuration](leafnode_conf.md#tls-configuration-block) block. Leafnode client will use specified TLS certificates when connecting/authenticating. |
+| `ws_compression` | If connecting with [Websocket](leafnode_conf#connecting-using-websocket-protocol) protocol, this boolean (`true` or `false`) indicates to the remote server that it wishes to use compression. The default is `false`. |
+| `ws_no_masking` | If connecting with [Websocket](leafnode_conf#connecting-using-websocket-protocol) protocol, this boolean indicates to the remote server that it wishes not to mask outbound websocket frames. The default is `false`, which means that outbound frames will be masked. |
+
+### Connecting using Websocket protocol
+
+Since NATS 2.2.0, Leaf nodes support outbound websocket connections by specifying `ws` as the scheme component of the remote server URLs:
+```
+leafnodes {
+  remotes [
+    {urls: ["ws://hostname1:443", "ws://hostname2:443"]}
+  ]
+}
+```
+
+Note that if a URL has the `ws` scheme, all URLs the list must be `ws`. You cannot mix and match.
+Therefore this would be considered an invalid configuration:
+```
+  remotes [
+    # Invalid configuration that will prevent the server from starting
+    {urls: ["ws://hostname1:443", "nats-leaf://hostname2:7422"]}
+  ]
+```
+
+Note that the decision to make a TLS connection is not based on `wss://` (as opposed to `ws://`) but instead in the presence of a TLS configuration in the `leafnodes{}` or the specific remote configuration block.
+
+To configure Websocket in the remote server, check the [Websocket](../websocket/websocket_conf.md) secion.
 
 ### `tls` Configuration Block
 

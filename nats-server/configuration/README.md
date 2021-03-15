@@ -118,6 +118,8 @@ authorization: {
 | [`gateway`](gateways/gateway.md#gateway-configuration-block) | Configuration map for [gateway](gateways/). |  |
 | [`leafnode`](leafnodes/leafnode_conf.md) | Configuration map for a [leafnode](leafnodes/). |  |
 | [`mqtt`](mqtt/mqtt_conf.md) | Configuration map for a [mqtt](mqtt/). |  |
+| [`websocket`](websocket/websocket_conf.md) | Configuration map for [websocket](websocket/). | |
+
 
 ### Connection Timeouts
 

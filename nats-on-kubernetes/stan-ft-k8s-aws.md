@@ -461,3 +461,4 @@ Subscribe to get all the messages:
 ```bash
 stan-sub -c stan  -all foo
 ```
+

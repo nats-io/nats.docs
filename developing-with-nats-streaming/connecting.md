@@ -6,7 +6,7 @@ NATS Streaming is a service on top of NATS. To connect to the service you first 
 
 Connecting to a streaming server requires a cluster id, defined by the server configuration, and a client ID defined by the client.
 
-_Client ID should contain only alphanumeric characters, `-` or `_`_
+_Client ID should contain only alphanumeric characters, `-` or \`_\`\_
 
 Connecting to a server running locally on the default port is as simple as this:
 
