@@ -1,6 +1,6 @@
 # Clustering
 
-Clustering in Jetstream is required for a highly available and scalable system. Behind clustering is RAFT. There's no need to understand RAFT in depth to use clustering, but knowing a little explains some of the requirements behind setting up Jetstream clusters.
+Clustering in JetStream is required for a highly available and scalable system. Behind clustering is RAFT. There's no need to understand RAFT in depth to use clustering, but knowing a little explains some of the requirements behind setting up JetStream clusters.
 
 ## RAFT
 
@@ -8,7 +8,7 @@ JetStream uses a NATS optimized RAFT algorithm for clustering. Typically raft ge
 
 ### Raft groups
 
-The RAFT groups include API handlers sstreams, consumers, and an internal algorithm designates which servers handle which streams and consumers.
+The RAFT groups include API handlers, streams, consumers, and an internal algorithm designates which servers handle which streams and consumers.
 
 The raft algorithm has a few requirements:
 
@@ -29,23 +29,23 @@ In order to ensure data consistency across complete restarts, a quorum of server
 
 ![Stream Groups](../../.gitbook/assets/stream-groups.png)
 
-**Consumer Group** - each Consumer creates a RAFT group, this group synchronizes consumer state between its members. The group will live on the machines where the Stream Group is and handle consumption ACKs etc. Each Consumer will have its own group.
+**Consumer Group** - each Consumer creates a RAFT group, this group synchronizes consumer state between its members. The group will live on the machines where the Stream Group is and handle consumption ACKs etc. Each Consumer will have their own group.
 
 ![Consumer Groups](../../.gitbook/assets/consumer-groups.png)
 
 ### Cluster Size
 
-Generally we recommend 3 or 5 Jetstream enabled servers in a NATS cluster. This balances scalability with a tolerance for failure. For example, if 5 servers are Jetstream enabled You would want two servers is one “zone”, two servers in another, and the remaining server in a third. This means you can lose any one “zone” at any time and continue operating.
+Generally, we recommend 3 or 5 JetStream enabled servers in a NATS cluster. This balances scalability with a tolerance for failure. For example, if 5 servers are JetStream enabled You would want two servers is one “zone”, two servers in another, and the remaining server in a third. This means you can lose any one “zone” at any time and continue operating.
 
-### Mixing Jetstream enabled servers with standard NATS servers
+### Mixing JetStream enabled servers with standard NATS servers
 
-This is possible, and even recommended in some cases. By mixing server types you can dedicate certain machines optimized for storage for Jetstream and others optimized solely for compute for standard NATS servers, reducing operational expense. With the right configuration, the standard servers would handle non-persistent NATS traffic and the Jetstream enabled servers would handle Jetstream traffic.
+This is possible and even recommended in some cases. By mixing server types you can dedicate certain machines optimized for storage for Jetstream and others optimized solely for compute for standard NATS servers, reducing operational expense. With the right configuration, the standard servers would handle non-persistent NATS traffic and the JetStream enabled servers would handle JetStream traffic.
 
 ## Configuration
 
-To configure Jetstream clusters, just configure clusters as you normally would by specifying a cluster block in the configuration. Any Jetstream enabled servers in the list of clusters will automatically chatter and set themselves up. Unlike core NATS clustering though, each Jetstream node **must specify** a server name and cluster name.
+To configure JetStream clusters, just configure clusters as you normally would by specifying a cluster block in the configuration. Any JetStream enabled servers in the list of clusters will automatically chatter and set themselves up. Unlike core NATS clustering though, each JetStream node **must specify** a server name and cluster name.
 
-Below are explicity listed server configuration for a three node cluster across three machines, `n1-c1`, `n2-c1`, and `n3-c1`.
+Below are explicitly listed server configuration for a three-node cluster across three machines, `n1-c1`, `n2-c1`, and `n3-c1`.
 
 ### Server 1 \(host\_a\)
 
@@ -107,5 +107,5 @@ cluster {
 }
 ```
 
-Add nodes as necessary. Choose a data directory that makes sense for your environment, ideally a fast SDD, and launch each server. After two servers are running you'll be ready to use Jetstream.
+Add nodes as necessary. Choose a data directory that makes sense for your environment, ideally a fast SDD, and launch each server. After two servers are running you'll be ready to use JetStream.
 
