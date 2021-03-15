@@ -6,12 +6,14 @@ For this example, start the server using:
 > nats-server --user myname --pass password
 ```
 
-You can encrypt passwords to pass to `nats-server` using a simple [tool](../../nats-tools/mkpasswd.md) provided by the server:
+You can encrypt passwords to pass to `nats-server` using a simple [tool](../../nats-tools/natscli.md):
 
 ```bash
-> go run mkpasswd.go -p
-> password: password
-> bcrypt hash: $2a$11$1oJy/wZYNTxr9jNwMNwS3eUGhBpHT3On8CL9o7ey89mpgo88VG6ba
+> nats server passwd
+? Enter password [? for help] **********************
+? Reenter password [? for help] **********************
+
+$2a$11$qbtrnb0mSG2eV55xoyPqHOZx/lLBlryHRhU3LK2oOPFRwGF/5rtGK
 ```
 
 and use the hashed password in the server config. The client still uses the plain text version.

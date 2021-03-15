@@ -2,7 +2,7 @@
 
 The NATS Ecosystem has many tools to support server configuration, enhance monitoring or tune performance:
 
-- [mkpasswd](nats_tools/mkpasswd.md) - Generates or bcrypts passwords
+- [nats](nats_tools/natscli.md) - Interact with and manage NATS
 - [nk](nats_tools/nk.md) - Generate NKeys
 - [nsc](nats_tools/nsc/README.md) - Configure Operators, Accounts and Users
 - [nats account server](nats_tools/nas/README.md) - Serve Account JWTs

@@ -11,6 +11,7 @@ To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP 
 * [Leaf Nodes](monitoring.md#leaf-nodes-information)
 * [Subscription Routing](monitoring.md#subscription-routing-information)
 * [Account Information](monitoring.md#account-information)
+* [JetStream Information](monitoring.md#jetstream-information)
 
 All endpoints return a JSON object.
 
@@ -57,7 +58,7 @@ http: localhost:8222
 
 For example, to monitor this server locally, the endpoint would be [http://localhost:8222/varz](http://localhost:8222/varz). It reports various general statistics.
 
-## Monitoring endpoints
+## Monitoring Endpoints
 
 The following sections describe each supported monitoring endpoint: `varz`, `connz`, `routez`, `subsz`, `gatewayz`, and `leafz`. There are not any required arguments, however use of arguments can let you tailor monitoring to your environment and tooling.
 
@@ -242,6 +243,61 @@ You can also report detailed subscription information on a per connection basis 
       "subscriptions_list": [
         "foo.bar"
       ]
+    }
+  ]
+}
+```
+
+### JetStream Information
+
+The `/jsz` endpoint reports information about the JetStream subsystem.
+
+**Endpoint:** `http://server:port/jsm`
+
+| Result | Return Code |
+| :--- | :--- |
+| Success | 200 \(OK\) |
+| Error | 400 \(Bad Request\) |
+
+#### Arguments
+
+| Argument | Values | Description |
+| :--- | :--- | :--- |
+| acc | account name | Provide information for a specfic account |
+| accounts | true, 1, false, 0 | Provide information for all accounts. The default is false. |
+| streams | true, 1, false, 0 | Include stream information. The default is false. |
+| consumers | true, 1, false, 0 | Include consumer information. The default is false. |
+| config | true, false | Include configuration with streams and consumers. The default is false. |
+| offset | integer &gt; 0 | Pagination offset.  Default is 0. |
+| limit | integer &gt; 0 | Number of results to return.  Default is 1024. |
+| leader-only | true, false | TODO |
+
+As noted above, the `routez` endpoint does support the `subs` argument from the `/connz` endpoint. For example: [http://demo.nats.io:8222/routez?subs=1](http://demo.nats.io:8222/jsz?accounts=1&streams=1&consumers=1&config=1)
+
+#### Example
+
+* Get JetStream information:  [http://host:port/jsz?accounts=1&streams=1&consumers=1&config=1](http://host:port/jsz?accounts=1&streams=1&consumers=1&config=1)
+
+#### Response
+
+```javascript
+{
+  "server_id": "NACDVKFBUW4C4XA24OOT6L4MDP56MW76J5RJDFXG7HLABSB46DCMWCOW",
+  "now": "2019-06-24T14:29:16.046656-07:00",
+  "num_routes": 1,
+  "routes": [
+    {
+      "rid": 1,
+      "remote_id": "de475c0041418afc799bccf0fdd61b47",
+      "did_solicit": true,
+      "ip": "127.0.0.1",
+      "port": 61791,
+      "pending_size": 0,
+      "in_msgs": 0,
+      "out_msgs": 0,
+      "in_bytes": 0,
+      "out_bytes": 0,
+      "subscriptions": 0
     }
   ]
 }
@@ -433,7 +489,7 @@ The `/gatewayz` endpoint reports information about gateways used to create a NAT
 }
 ```
 
-### Leaf Nodes Information
+### Leaf Node Information
 
 The `/leafz` endpoint reports detailed information about the leaf node connections.
 
@@ -520,7 +576,6 @@ The `/subsz` endpoint reports detailed information about the current subscriptio
   "avg_fanout": 0
 }
 ```
-
 ### Account Information
 
 The `/accountz` endpoint reports information on a servers active accounts. 
@@ -528,15 +583,6 @@ The default behavior is to return a list of all accounts known to the server.
 
 **Endpoint:** `http://server:port/accountz`
 
-| Result | Return Code |
-| :--- | :--- |
-| Success | 200 \(OK\) |
-| Error | 400 \(Bad Request\) |
-
-#### Arguments
-
-| Argument | Values | Description |
-| :--- | :--- | :--- |
 | acc | account name | Include metrics for the specified account. Default is empty. When not set, a list of all accounts is included. |
 
 #### Example
@@ -623,6 +669,147 @@ Retrieve specific account:
       "avg_fanout": 0.8333333333333334
     }
   }
+}
+```
+
+### JetStream Information
+
+The `/jsz` endpoint reports more detailed information on JetStream. For accounts it uses a paging mechanism which defaults to 1024 connections.
+
+**Endpoint:** `http://server:port/jsz`
+
+| Result | Return Code |
+| :--- | :--- |
+| Success | 200 \(OK\) |
+| Error | 400 \(Bad Request\) |
+
+#### Arguments
+
+| Argument | Values | Description |
+| :--- | :--- | :--- |
+| acc | account name | Include metrics for the specified account. Default is unset. |
+| accounts | true, 1, false, 0 | Include account specific JetStream information. Default is false. |
+| streams | true, 1, false, 0 | Include streams. When set, implies `accounts=true`. Default is false. |
+| consumers | true, 1, false, 0 | Include consumer. When set, implies `streams=true`. Default is false. |
+| config | true, 1, false, 0 | When stream or consumer are requested, include their respective configuration. Default is false. |
+| leader-only | true, 1, false, 0 | Only the leader responds. Default is false. |
+| offset | number &gt; 0 | Pagination offset. Default is 0. |
+| limit | number &gt; 0 | Number of results to return. Default is 1024. |
+
+#### Examples
+
+Get basic JetStream information: [http://demo.nats.io:8222/jsz](http://demo.nats.io:8222/jsz)
+
+Request accounts and control limit and offset: [http://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128](http://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128).
+
+You can also report detailed consumer information on a per connection basis using consumer=true. For example: [http://demo.nats.io:8222/jsz?consumers=true](http://demo.nats.io:8222/jsz/consumer=true).
+
+#### Response
+
+```javascript
+{
+  "server_id": "NCVIDODSZ45C5OD67ZD7EJUIJPQDP6CM74SJX6TJIF2G7NLYS5LCVYHS",
+  "now": "2021-02-08T19:08:30.555533-05:00",
+  "config": {
+    "max_memory": 10485760,
+    "max_storage": 10485760,
+    "store_dir": "/var/folders/9h/6g_c9l6n6bb8gp331d_9y0_w0000gn/T/srv_7500251552558"
+  },
+  "memory": 0,
+  "storage": 66,
+  "api": {
+    "total": 5,
+    "errors": 0
+  },
+  "total_streams": 1,
+  "total_consumers": 1,
+  "total_messages": 1,
+  "total_message_bytes": 33,
+  "meta_cluster": {
+    "name": "cluster_name",
+    "replicas": [
+      {
+        "name": "server_5500",
+        "current": false,
+        "active": 2932926000
+      }
+    ]
+  },
+  "account_details": [
+    {
+      "name": "BCC_TO_HAVE_ONE_EXTRA",
+      "id": "BCC_TO_HAVE_ONE_EXTRA",
+      "memory": 0,
+      "storage": 0,
+      "api": {
+        "total": 0,
+        "errors": 0
+      }
+    },
+    {
+      "name": "ACC",
+      "id": "ACC",
+      "memory": 0,
+      "storage": 66,
+      "api": {
+        "total": 5,
+        "errors": 0
+      },
+      "stream_detail": [
+        {
+          "name": "my-stream-replicated",
+          "cluster": {
+            "name": "cluster_name",
+            "replicas": [
+              {
+                "name": "server_5500",
+                "current": false,
+                "active": 2931517000
+              }
+            ]
+          },
+          "state": {
+            "messages": 1,
+            "bytes": 33,
+            "first_seq": 1,
+            "first_ts": "2021-02-09T00:08:27.623735Z",
+            "last_seq": 1,
+            "last_ts": "2021-02-09T00:08:27.623735Z",
+            "consumer_count": 1
+          },
+          "consumer_detail": [
+            {
+              "stream_name": "my-stream-replicated",
+              "name": "my-consumer-replicated",
+              "created": "2021-02-09T00:08:27.427631Z",
+              "delivered": {
+                "consumer_seq": 0,
+                "stream_seq": 0
+              },
+              "ack_floor": {
+                "consumer_seq": 0,
+                "stream_seq": 0
+              },
+              "num_ack_pending": 0,
+              "num_redelivered": 0,
+              "num_waiting": 0,
+              "num_pending": 1,
+              "cluster": {
+                "name": "cluster_name",
+                "replicas": [
+                  {
+                    "name": "server_5500",
+                    "current": false,
+                    "active": 2933232000
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
 ```
 

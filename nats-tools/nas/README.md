@@ -1,11 +1,12 @@
 # nats-account-server
 
-The [NATS Account Server](https://github.com/nats-io/nats-account-server) is an HTTP server that hosts and vends [JWTs](../../nats-server/configuration/securing_nats/jwt/) for nats-server 2.0 account authentication. The server supports an number of stores which enable it to serve account [JWTs](../../nats-server/configuration/securing_nats/jwt/) from:
+The [NATS Account Server](https://github.com/nats-io/nats-account-server) is an HTTP server that hosts and vends [JWTs](../../nats-server/configuration/securing_nats/jwt/) for nats-server 2.0 account authentication. The server supports an number of stores which enable it to serve account [JWTs](../../nats-server/configuration/securing_nats/jwt/) from a [directory](nas_conf.md#directory-configuration)
 
-* a [directory](nas_conf.md#directory-configuration)
-* an [NSC](../nsc/nsc.md) [directory](nas_conf.md#nsc-configuration)
-
-> The nats server can be configured with a [memory resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#memory) as well. This avoids usage of the account server.
+> The nats server can be configured with a [memory resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#memory) as well. This avoids usage of the account server. The NATS server can be configured with a [NATS based resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#nats-based-resolver) for the same purpose as well.
+>
+> Usage of [full NATS based resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#nats-based-resolver) over [NATS Account Server](https://github.com/nats-io/nats-account-server) is recommended.
+>
+> The [NATS Account Server](https://github.com/nats-io/nats-account-server) also speaks the [full nats based resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#nats-based-resolver) protocol and can be used as such.
 
 The server can operate in a _READ ONLY_ mode where it serves content from a directory, or in [notification mode](notifications.md), where it can notify a NATS server that a JWT in the store has been modified, updating the NATS server with the updated JWT.
 
