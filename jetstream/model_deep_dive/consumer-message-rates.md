@@ -1,2 +1,0 @@
-# Consumer Message Rates
-

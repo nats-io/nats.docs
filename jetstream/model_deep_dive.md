@@ -24,9 +24,9 @@ In both `WorkQueuePolicy` and `InterestPolicy` the age, size and count limits wi
 
 A final control is the Maximum Size any single message may have. NATS have it's own limit for maximum size \(1 MiB by default\), but you can say a Stream will only accept messages up to 1024 bytes using `MaxMsgSize`.
 
-The `Discard Policy` sets how messages are discard when limits set by `LimitsPolicy` are reached. The `DiscardOld` option removes old messages making space for new, while `DiscardNew` refuses any new messages.
+The `Discard Policy` sets how messages are discarded when limits set by `LimitsPolicy` are reached. The `DiscardOld` option removes old messages making space for new, while `DiscardNew` refuses any new messages.
 
-The `WorkQueuePolicy` mode is a specialized mode where a message, once consumed and acknowledged, is discarded from the Stream. In this mode there are a few limits on consumers. Inherently it's about 1 message to one consumer, this means you cannot have overlapping consumers defined on the Stream - needs unique filter subjects.
+The `WorkQueuePolicy` mode is a specialized mode where a message, once consumed and acknowledged, is discarded from the Stream. In this mode, there are a few limits on consumers. Inherently it's about 1 message to one consumer, this means you cannot have overlapping consumers defined on the Stream - needs unique filter subjects.
 
 ## Message Deduplication
 
@@ -208,7 +208,7 @@ The `+NXT` acknowledgement can have a few formats: `+NXT 10` requests 10 message
 
 JetStream supports Exactly Once delivery by combining Message Deduplication and double acks.
 
-On the publishing side you can avoid duplicate message ingestion using the [Message Deduplication](./#message-deduplication) feature.
+On the publishing side you can avoid duplicate message ingestion using the [Message Deduplication](model_deep_dive.md#message-deduplication) feature.
 
 Consumers can be 100% sure a message was correctly processed by requesting the server Acknowledge having received your acknowledgement by setting a reply subject on the Ack. If you receive this response you will never receive that message again.
 

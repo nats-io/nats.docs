@@ -1,2 +1,0 @@
-# Exactly Once Delivery
-

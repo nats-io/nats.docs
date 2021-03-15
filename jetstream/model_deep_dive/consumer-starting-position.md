@@ -1,2 +1,0 @@
-# Consumer Starting Position
-
