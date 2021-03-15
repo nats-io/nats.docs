@@ -114,7 +114,7 @@
 
 ## JetStream
 
-* [About Jetstream](jetstream/jetstream.md)
+* [About JetStream](jetstream/jetstream.md)
 * [Concepts](jetstream/concepts/README.md)
   * [Streams](jetstream/concepts/streams.md)
   * [Consumers](jetstream/concepts/consumers.md)

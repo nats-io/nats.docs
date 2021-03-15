@@ -1,4 +1,4 @@
-# About Jetstream
+# About JetStream
 
 JetStream was created to solve the problems identified with streaming in technology today - complexity, fragility, and a lack of scalability. Some technologies address these better than others, but no current streaming technology is truly multi-tenant, horizontally scalable, and supports multiple deployment models. No technology we are aware of can scale from edge to cloud under the same security context while having complete deployment observability for operations.
 
