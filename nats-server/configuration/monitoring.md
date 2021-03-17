@@ -626,7 +626,7 @@ Retrieve specific account:
 
 ### JetStream Information
 
-The `/jsz` endpoint reports more detailed information on JetStream. For accounts it uses a paging mechanism which defaults to 1024 connections.
+The `/jsz` endpoint reports more detailed information on JetStream. For accounts, it uses a paging mechanism that defaults to 1024 connections.
 
 **Endpoint:** `http://server:port/jsz`
 
