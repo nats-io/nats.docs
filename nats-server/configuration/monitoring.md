@@ -60,7 +60,7 @@ For example, to monitor this server locally, the endpoint would be [http://local
 
 ## Monitoring Endpoints
 
-The following sections describe each supported monitoring endpoint: `varz`, `connz`, `routez`, `subsz`, `gatewayz`, and `leafz`. There are not any required arguments, however use of arguments can let you tailor monitoring to your environment and tooling.
+The following sections describe each supported monitoring endpoint: `varz`, `connz`, `routez`, `subsz`, `gatewayz`, `leafz`, `accountz`, and `jsz`. There are not any required arguments, however use of arguments can let you tailor monitoring to your environment and tooling.
 
 ### General Information
 
