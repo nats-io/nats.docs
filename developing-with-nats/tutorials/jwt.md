@@ -1,4 +1,4 @@
-# In Depth JWT guide
+# In Depth JWT Guide
 
 This document provides a step by step deep dive into JWT usage within NATS. Starting with related concepts, it will introduce JWTs and how they can be used in NATS. This will NOT list every JWT/nsc option, but will focus on the important options and concepts.
 

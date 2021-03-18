@@ -65,7 +65,7 @@
   * [Explore NATS Request/Reply](developing-with-nats/tutorials/reqreply.md)
   * [Explore NATS Queueing](developing-with-nats/tutorials/queues.md)
   * [Advanced Connect and Custom Dialer in Go](developing-with-nats/tutorials/custom_dialer.md)
-  * [In Depth JWT guide](developing-with-nats/tutorials/jwt.md)
+  * [In Depth JWT Guide](developing-with-nats/tutorials/jwt.md)
 
 ## NATS Server
 
