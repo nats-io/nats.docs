@@ -42,7 +42,7 @@ nsc/
 
 **IMPORTANT**: `nsc` version 2.2.0 has been released. This version of nsc only supports
 `nats-server` v2.2.0 and `nats-account-server` v1.0.0. For more information please refer
-to [nsc's 2.2.0 release notes](https://github.com/nats-io/nsc/releases/tag/2.2.0).
+to the [nsc 2.2.0 release notes](https://github.com/nats-io/nsc/releases/tag/2.2.0).
 
 
 ## Tutorials
