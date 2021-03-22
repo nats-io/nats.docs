@@ -491,9 +491,10 @@ resolver: URL(http://localhost:9090/jwt/v1/accouts/)
 
     ```text
 
-    > nats -s localhost:4222 "--creds=user.creds" pub "foo" "hello world" 16:56:02 Published 11 bytes to "foo"
+    > nats -s localhost:4222 "--creds=user.creds" pub "foo" "hello world" 
+    > 16:56:02 Published 11 bytes to "foo"
     >
-    ```text
+    ```
 
 11. Output if `user.creds` where to contain a JWT where the maximum message payload is limited to 5 bytes
 
