@@ -151,7 +151,7 @@ user a
 >
 ```
 
-Accounts are a lot more powerful than what has been demonstrated here. Take a look at the complete documentation of [accounts](../../nats-server/configuration/securing_nats/accounts/README.md) and the [users](../../nats-server/configuration/securing_nats/auth_intro/) associated with them. All of this is in a plain NATS config file. \(Copy the above config and try it using this command: `nats-server -c <filename>`\) In order to make any changes, every participating nats-server config file in the same security domain has to change. This configuration is typically controlled by one organization or the administrator.
+Accounts are a lot more powerful than what has been demonstrated here. Take a look at the complete documentation of [accounts](../../nats-server/configuration/securing_nats/accounts.md#accounts) and the [users](../../nats-server/configuration/securing_nats/auth_intro/) associated with them. All of this is in a plain NATS config file. \(Copy the above config and try it using this command: `nats-server -c <filename>`\) In order to make any changes, every participating nats-server config file in the same security domain has to change. This configuration is typically controlled by one organization or the administrator.
 
 #### Key Takeaways
 
@@ -237,7 +237,7 @@ When the nats-server was started with `-V` tracing, you can see the signature in
 }]
 ```
 
-On connect, clients are instantly sent the nonce to sign as part of the `INFO` message \(formatting added manually\). Since `telnet` will not authenticate, the server closes the connection after hitting the [authorization](../../developing-with-nats/nats-server/configuration/securing_nats/auth_intro/README.md#authorization-map) timeout.
+On connect, clients are instantly sent the nonce to sign as part of the `INFO` message \(formatting added manually\). Since `telnet` will not authenticate, the server closes the connection after hitting the [authorization ](../../nats-server/configuration/securing_nats/authorization.md)timeout.
 
 ```text
 > telnet localhost 4222
@@ -316,18 +316,18 @@ The issuer field of the User JWT identifies the Account, and the `nats-server` t
 
 **Obtain an Account JWT**
 
-To obtain an Account JWT, the nats-server is configured with one of three [resolver](../../developing-with-nats/nats-server/configuration/securing_nats/jwt/resolver/README.md) types. Which one to pick depends upon your needs:
+To obtain an Account JWT, the nats-server is configured with one of three [resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md) types. Which one to pick depends upon your needs:
 
-* [mem-resolver](../../developing-with-nats/nats-server/configuration/securing_nats/jwt/resolver/README.md#memory): Very few or very static accounts
+* [mem-resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#memory): Very few or very static accounts
   * You are comfortable changing the server config if the operator or any accounts change.
   * You can generate a user programmatically using NKEYs and a JWT library \(more about that later\).
   * Users do not need to be known by nats-server.
-* [url-resolver](../../developing-with-nats/nats-server/configuration/securing_nats/jwt/resolver/README.md#url-resolver): Very large volume of accounts
+* [url-resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#url-resolver): Very large volume of accounts
   * Same as `mem-resolver`, except you do not have to modify server config if accounts are added/changed.
   * Changes to the operator still require reloading \(only a few operations require that\).
   * Will download Accounts from a web server.
     * Allows for easy publication of account JWTs programmatically generated using NKEYs and the JWT library.
-    * The [`nats-account-server`](../../developing-with-nats/nats-tools/nas/README.md) is such a webserver. When set up correctly, it will inform `nats-server` of Account JWT changes.
+    * The [`nats-account-server`](https://github.com/nats-io/nats.docs/tree/3fbe9e253a7b2fbf18766cd6f41fe0e866548868/developing-with-nats/nats-tools/nas/README.md) is such a webserver. When set up correctly, it will inform `nats-server` of Account JWT changes.
   * Depending on configuration, requires read and/or write access to persistent storage.
 * `nats-resolver`: Same as `url-resolver`, just uses NATS instead of http
   * No separate binary to run/config/monitor.
@@ -492,7 +492,6 @@ resolver: URL(http://localhost:9090/jwt/v1/accouts/)
 10. If all of the above holds true, the above invocation will succeed, only if the user JWT does not contain permissions or limits restricting the operation otherwise.
 
     ```text
-
     > nats -s localhost:4222 "--creds=user.creds" pub "foo" "hello world" 
     > 16:56:02 Published 11 bytes to "foo"
     ```
@@ -520,7 +519,7 @@ Depending on which entity has access to private Operator/Account identity or sig
 
 1. Centralized config: one \(set of\) user\(s\) has access to all private operator and account NKEYs.
 
-    Administrators operating the shared infrastructure call all the shots
+   Administrators operating the shared infrastructure call all the shots
 
 2. Decentralized config \(with multiple `nsc` environments, explained later\):
 
@@ -531,17 +530,17 @@ Depending on which entity has access to private Operator/Account identity or sig
 
 3. Self-service, decentralized config \(shared dev cluster\):
 
-    Is similar to 2, but sets of users 2.i have access to an operator private signing NKEY.
+   Is similar to 2, but sets of users 2.i have access to an operator private signing NKEY.
 
-    This allows teams to add/modify their own accounts.
+   This allows teams to add/modify their own accounts.
 
-    Since administrators give up control over limits, there should be at least one organizational mechanism to prevent unchecked usage.
+   Since administrators give up control over limits, there should be at least one organizational mechanism to prevent unchecked usage.
 
-    Administrators operating the infrastructure can add/revoke access by controlling the set of operator signing keys.
+   Administrators operating the infrastructure can add/revoke access by controlling the set of operator signing keys.
 
 4. Mix of the above - as needed: separate sets of users \(with multiple `nsc` environments\).
 
-    For some user/teams the Administrator operates everything.
+   For some user/teams the Administrator operates everything.
 
 Signing keys can not only be used by individuals in one or more `nsc` environments, but also by programs facilitating [JWT](https://github.com/nats-io/jwt) and [NKEY](https://github.com/nats-io/nkeys) libraries. This allows the implementation of sign-up services.
 
@@ -563,23 +562,23 @@ A deeper understanding of accounts will help you to best setup NATS JWT based se
 
 * What entity do accounts correspond to:
 
-    Our official suggestion is to scope accounts by application/service offered.
+  Our official suggestion is to scope accounts by application/service offered.
 
-    This is very fine grained and will require some configuration.
+  This is very fine grained and will require some configuration.
 
-    This is why some users gravitate to accounts per team. One account for all Applications of a team.
+  This is why some users gravitate to accounts per team. One account for all Applications of a team.
 
-    It is possible to start out with less granular accounts and as applications grow in importance or scale become more fine grained.
+  It is possible to start out with less granular accounts and as applications grow in importance or scale become more fine grained.
 
 * Compared to file based config, Imports and Exports change slightly.
 
-    To control who gets to import an export, activation tokens are introduced.
+  To control who gets to import an export, activation tokens are introduced.
 
-    These are JWTs that an importer can embed.
+  These are JWTs that an importer can embed.
 
-    They comply to similar verification rules as user JWT, thus enabling a `nats-server` to check if the exporting account gave explicit consent.
+  They comply to similar verification rules as user JWT, thus enabling a `nats-server` to check if the exporting account gave explicit consent.
 
-    Due to the use of a token, the exporting account's JWT does not have to be modified for each importing account.
+  Due to the use of a token, the exporting account's JWT does not have to be modified for each importing account.
 
 * Updates of JWTs are applied as `nats-server` discover them.
   * How this is done depends on the resolver.
@@ -722,8 +721,8 @@ This environment is set up with a signing key, thus the account is already [crea
 
 How accounts can be publicized wholly depends on the resolver you are using:
 
-* [mem-resolver](../../developing-with-nats/nats-server/configuration/securing_nats/jwt/resolver/README.md#memory): The operator has to have all accounts imported and generate a new config.
-* [url-resolver](../../developing-with-nats/nats-server/configuration/securing_nats/jwt/resolver/README.md#url-resolver): `nsc push` will send an HTTP POST request to the hosting webserver or `nats-account-server`.
+* [mem-resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#memory): The operator has to have all accounts imported and generate a new config.
+* [url-resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#url-resolver): `nsc push` will send an HTTP POST request to the hosting webserver or `nats-account-server`.
 * `nats-resolver`: Every environment with a system account user that has permissions to send properly signed account JWT as requests to:
   * `$SYS.REQ.CLAIMS.UPDATE` can upload and update all accounts. Currently, `nsc push` uses this subject.
   * `$SYS.REQ.ACCOUNT.*.CLAIMS.UPDATE` can upload and update specific accounts.
@@ -862,9 +861,9 @@ Push the account, or push all accounts
               [ OK ] pushed to a total of 1 nats-server
 ```
 
-For the NATS resolver, each `nats-server` that responds will be listed. In case you get fewer responses than you have servers or a server reports an error, it is best practice to resolve this issue and retry. The NATS resolver will gossip missing JWTs in an eventual consistent way. Servers without a copy will perform a lookup from servers that do. If during an initial push only one server responds there is a window where this server goes down or worse, loses it's disk. During that time the pushed account is not available to the network at large. Because of this, it is important to make sure that initially, more servers respond than what you are comfortable with losing in such a way at once.
+For the NATS resolver, each `nats-server` that responds will be listed. In case you get fewer responses than you have servers or a server reports an error, it is best practice to resolve this issue and retry. The NATS resolver will gossip missing JWTs in an eventually consistent way. Servers without a copy will perform a lookup from servers that do. If during an initial push only one server responds there is a window where this server goes down or worse, loses its disk. During that time the pushed account is not available to the network at large. Because of this, it is important to make sure that initially, more servers respond than what you are comfortable with losing in such a way at once.
 
-Once the account is pushed, it's user can be used:
+Once the account is pushed, its user can be used:
 
 ```text
 > nats -s nats://localhost:4222 pub --creds=/DEMO/TEST/foo.creds  "hello" "world"
@@ -1394,15 +1393,15 @@ NSC can generate diagrams of inter account relationships using: `nsc generate di
 
 ### Managing Keys
 
-Identity keys are extremely important, so you may want to keep them safe and instead hand out more easily replaceable signing keys to operators. Key importance generally follows the chain of trust with operator keys being more important than account keys. Furthermore identity keys are more important than signing keys.
+Identity keys are extremely important, so you may want to keep them safe and instead hand out more easily replaceable signing keys to operators. Key importance generally follows the chain of trust with operator keys being more important than account keys. Furthermore, identity keys are more important than signing keys.
 
-There are instances where regenerating a completely new identity key of either type is not a feasible option. For example, you might have an extremely large deployment \(IoT\) where there is simply too much institutional overhead. In this case we suggest to you securely backup identity keys offline and use exchangeable signing keys instead. Depending on which key was compromised, you may have to exchange signing keys and re-sign all JWTs signed with the compromised key. The compromised key may also have to be revoked.
+There are instances where regenerating a completely new identity key of either type is not a feasible option. For example, you might have an extremely large deployment \(IoT\) where there is simply too much institutional overhead. In this case, we suggest you securely backup identity keys offline and use exchangeable signing keys instead. Depending on which key was compromised, you may have to exchange signing keys and re-sign all JWTs signed with the compromised key. The compromised key may also have to be revoked.
 
-Wether you simply plan to regenerate new NKEY/JWT or exchange signing NKEYs and re-sign JWTs, in either case, you need to prepare and try this out beforehand and not wait until disaster strikes.
+Whether you simply plan to regenerate new NKEY/JWT or exchange signing NKEYs and re-sign JWTs, in either case, you need to prepare and try this out beforehand and not wait until disaster strikes.
 
 #### Protect Identity NKEYs
 
-Usage of signing keys for Operator and Account have been shown in the [`nsc`](jwt.md#nsc) section. This shows how to take an identity key offline. Identity NKEY of the operator/account is the only one allowed to modify the corresponding JWT and thus add/remove signing keys. Thus, initial signing keys are best created and assigned prior to removing the private identity NKEY.
+Usage of signing keys for Operator and Account has been shown in the [`nsc`](jwt.md#nsc) section. This shows how to take an identity key offline. Identity NKEY of the operator/account is the only one allowed to modify the corresponding JWT and thus add/remove signing keys. Thus, initial signing keys are best created and assigned prior to removing the private identity NKEY.
 
 Basic strategy: take them offline & delete in [`nsc`](jwt.md#nsc) NKEY directory.
 
@@ -1488,8 +1487,8 @@ Account identity NKEYS can not be revoked like user or activations. Instead lock
 
 Alternatively you can also remove the account using `nsc delete account --name` and keep it from found by the account resolver. How to do this depends on your resolver type:
 
-* [mem-resolver](../../nats-server/configuration/securing_nats/jwt/resolver#memory): Remove the JWT from the configuration field `resolver_preload` and restart all `nats-server`
-* [url-resolver](../../nats-server/configuration/securing_nats/jwt/resolver#url-resolver): Manually delete the JWT from the `nats-account-server` store directory.
+* [mem-resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#memory): Remove the JWT from the configuration field `resolver_preload` and restart all `nats-server`
+* [url-resolver:](../../nats-server/configuration/securing_nats/jwt/resolver.md#url-resolver) Manually delete the JWT from the `nats-account-server` store directory.
 * `nats-resolver`: Prune removed accounts using: `nsc push --all --prune`. For this to work, the resolver has to have deletion enabled \(`allow_delete: true`\) and you need to be in possession of an operator signing key.
 
 **Signing keys**
