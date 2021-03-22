@@ -489,11 +489,11 @@ resolver: URL(http://localhost:9090/jwt/v1/accouts/)
 9. Server verifies that a user JWT issuer is either identical to the account JWT subject or part of the account JWT signing keys.
 10. If all of the above holds true, the above invocation will succeed, only if the user JWT does not contain permissions or limits restricting the operation otherwise.
 
-    \`\`\`text
+    ```text
 
     > nats -s localhost:4222 "--creds=user.creds" pub "foo" "hello world" 16:56:02 Published 11 bytes to "foo"
     >
-    > \`\`\`text
+    ```text
 
 11. Output if `user.creds` where to contain a JWT where the maximum message payload is limited to 5 bytes
 
