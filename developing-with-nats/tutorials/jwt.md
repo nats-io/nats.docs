@@ -1,4 +1,4 @@
-# In Depth JWT guide
+# In Depth JWT Guide
 
 This document provides a step by step deep dive into JWT usage within NATS. Starting with related concepts, it will introduce JWTs and how they can be used in NATS. This will NOT list every JWT/nsc option, but will focus on the important options and concepts.
 
@@ -489,12 +489,12 @@ resolver: URL(http://localhost:9090/jwt/v1/accouts/)
 7. Server verifies if an account JWT issuer is in configured list of trusted operator keys \(derived from operator JWT in configuration\).
 8. Server verifies that a user JWT subject is not in the account's revoked list, or if jwt.issuedAt field has a higher value.
 9. Server verifies that a user JWT issuer is either identical to the account JWT subject or part of the account JWT signing keys.
-10. If all of the above holds true, the connection is authenticated; however, attributes in the User JWT (permissions and limits) might still block authorization.
+10. If all of the above holds true, the above invocation will succeed, only if the user JWT does not contain permissions or limits restricting the operation otherwise.
 
     ```text
-    > nats -s localhost:4222 "--creds=user.creds" pub "foo" "hello world"
-    16:56:02 Published 11 bytes to "foo"
-    >
+
+    > nats -s localhost:4222 "--creds=user.creds" pub "foo" "hello world" 
+    > 16:56:02 Published 11 bytes to "foo"
     ```
 
 11. Output if `user.creds` were to contain a JWT where the maximum message payload is limited to 5 bytes

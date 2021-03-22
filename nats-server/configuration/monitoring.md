@@ -528,7 +528,7 @@ The `/accountz` endpoint reports information on a server's active accounts. The 
 
 **Endpoint:** `http://server:port/accountz`
 
-| Result | Return Code  |
+| Result | Return Code |
 | :--- | :--- |
 | Success | 200 \(OK\) |
 | Error | 400 \(Bad Request\) |

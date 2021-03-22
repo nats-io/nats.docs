@@ -2,11 +2,11 @@
 
 ## Server Metrics
 
-Typically, NATS is monitored via HTTP endpoints like `/varz`, we do not at this moment have a JetStream equivelant, but it's planned that server and account level metrics will be made available.
+JetStream has a /[jsz ](../nats-server/configuration/monitoring.md#jetstream-information)HTTP endpoint and advisories available.
 
 ## Advisories
 
-JetStream publish a number of advisories that can inform operations about health and state of the Streams. These advisories are published to normal NATS subjects below `$JS.EVENT.ADVISORY.>` and one can store these advisories in JetStream Streams if desired.
+JetStream publishes a number of advisories that can inform operations about the health and the state of the Streams. These advisories are published to normal NATS subjects below `$JS.EVENT.ADVISORY.>` and one can store these advisories in JetStream Streams if desired.
 
 The command `nats event --js-advisory` can view all these events on your console. The Golang package [jsm.go](https://github.com/nats-io/jsm.go) can consume and render these events and have data types for each of these events.
 
