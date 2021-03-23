@@ -1,12 +1,12 @@
 # Consumers
 
-Consumers is how messages are read or consumed from the Stream. We support pull and push-based Consumers and the example scenario has both, lets walk through that.
+Messages are read or consumed from the Stream by Consumers. We support pull and push-based Consumers and the example scenario has both, let's walk through that.
 
 ## Creating Pull-Based Consumers
 
 The `NEW` and `DISPATCH` Consumers are pull-based, meaning the services consuming data from them have to ask the system for the next available message. This means you can easily scale your services up by adding more workers and the messages will get spread across the workers based on their availability.
 
-Pull-based Consumers are created the same as push-based Consumers, just don't specify a delivery target.
+Pull-based Consumers are created the same as push-based Consumers, you just don't specify a delivery target.
 
 ```text
 $ nats con ls ORDERS
@@ -99,7 +99,7 @@ State:
     Redelivered Messages: 0
 ```
 
-Again you can do this with a single non interactive command:
+Again you can do this with a single non-interactive command:
 
 ```text
 $ nats con add ORDERS MONITOR --ack none --target monitor.ORDERS --deliver last --replay instant --filter ''
@@ -126,7 +126,7 @@ Consumers for Stream ORDERS:
 
 ## Querying
 
-All details for an Consumer can be queried, lets first look at a pull-based Consumer:
+All details for a Consumer can be queried, lets first look at a pull-based Consumer:
 
 ```text
 $ nats con info ORDERS DISPATCH
@@ -158,7 +158,7 @@ More details about the `State` section will be shown later when discussing the a
 
 Pull-based Consumers require you to specifically ask for messages and ack them, typically you would do this with the client library `Request()` feature, but the `nats` utility has a helper:
 
-First we ensure we have a message:
+First, we ensure we have a message:
 
 ```text
 $ nats pub ORDERS.processed "order 1"
@@ -205,7 +205,7 @@ $ nats con info ORDERS MONITOR
 ...
 ```
 
-The Consumer is publishing to that subject, so lets listen there:
+The Consumer is publishing to that subject, so let's listen there:
 
 ```text
 $ nats sub monitor.ORDERS
@@ -214,7 +214,7 @@ Listening on [monitor.ORDERS]
 [#4] Received on [ORDERS.processed]: 'order 4'
 ```
 
-Note the subject here of the received message is reported as `ORDERS.processed` this helps you distinguish what you're seeing in a Stream covering a wildcard, or multiple subject, subject space.
+Note the subject here of the received message is reported as `ORDERS.processed` this helps you distinguish what you're seeing in a Stream covering a wildcard, or multiple subjects, subject space.
 
-This Consumer needs no ack, so any new message into the ORDERS system will show up here in real time.
+This Consumer needs no ack, so any new message into the ORDERS system will show up here in real-time.
 
