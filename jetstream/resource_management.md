@@ -1,8 +1,6 @@
-# Multi-tenancy & Resource Mgmt
+# Multi-Tenancy & Resource Management
 
-## Multi Tenancy and Resource Management
-
-JetStream is compatible with NATS 2.0 Multi Tenancy using Accounts. A JetStream enabled server supports creating fully isolated JetStream environments for different accounts.
+JetStream is compatible with NATS 2.0 Multi-Tenancy using Accounts. A JetStream enabled server supports creating fully isolated JetStream environments for different accounts.
 
 To enable JetStream in a server we have to configure it at the top level first:
 
@@ -20,7 +18,7 @@ jetstream {
 }
 ```
 
-At this point JetStream will be enabled and if you have a server that does not have accounts enabled all users in the server would have access to JetStream
+At this point JetStream will be enabled and if you have a server that does not have accounts enabled, all users in the server would have access to JetStream
 
 ```text
 jetstream {
@@ -61,9 +59,19 @@ Now the `HR` account it limited in various dimensions.
 
 If you try to configure JetStream for an account without enabling it globally you'll get a warning and the account designated as System cannot have JetStream enabled.
 
+### `nsc` CLI
+
+If your setup is in operator mode, JetStream specific account configuration can be stored in account JWT.
+The earlier account named HR can be configured as follows:
+
+```bash
+nsc add account --name HR
+nsc edit account --name HR --js-mem-storage 1G --js-disk-storage 512M  --js-streams 10 --js-consumer 100
+```
+ 
 ## `nats` CLI
 
-As part of the JetStream efforts a new `nats` CLI is being developed to act as a single point of access to the NATS eco system.
+As part of the JetStream efforts a new `nats` CLI has been developed to act as a single point of access to the NATS ecosystem.
 
 This CLI has been seen throughout the guide, it's available in the Docker containers today and downloadable on the [Releases](https://github.com/nats-io/jetstream/releases) page.
 
@@ -87,9 +95,9 @@ $ nats --help
 ...
 ```
 
-You can set these using the CLI flag, the environmet variable - like **NATS\_URL** - or using our context feature.
+You can set these using the CLI flag, the environment variable - like **NATS\_URL** - or using our context feature.
 
-A context is a named configuration that stores all these settings, you can switch between access configurations and designate a default.
+A context is a named configuration that stores all of these settings, you can switch between access configurations and designate a default.
 
 Creating one is easy, just specify the same settings to the `nats context save`
 
@@ -124,7 +132,7 @@ The `nats context select` command can be used to set the default context.
 
 All `nats` commands are context aware and the `nats context` command has various commands to view, edit and remove contexts.
 
-Server URLs and Credential paths can be resolved via the `nsc` command by specifying an url, for example to find user `new` within the `orders` account of the `acme` operator you can use this:
+Server URLs and Credential paths can be resolved via the `nsc` command by specifying an URL, for example to find user `new` within the `orders` account of the `acme` operator you can use this:
 
 ```text
 $ nats context save example --description 'Example.Net Server' --nsc nsc://acme/orders/new
