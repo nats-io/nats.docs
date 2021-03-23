@@ -61,6 +61,16 @@ Now the `HR` account it limited in various dimensions.
 
 If you try to configure JetStream for an account without enabling it globally you'll get a warning and the account designated as System cannot have JetStream enabled.
 
+### `nsc` CLI
+
+If your setup is in opertor mode, JetStream specific account configuration can be stored in account jwt.
+The earlier acount named HR can be configured as follows:
+
+```bash
+nsc add account --name HR
+nsc edit account --name HR --js-mem-storage 1G --js-disk-storage 512M  --js-streams 10 --js-consumer 100
+```
+ 
 ## `nats` CLI
 
 As part of the JetStream efforts a new `nats` CLI is being developed to act as a single point of access to the NATS eco system.
