@@ -82,7 +82,7 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 
 | Project | HA and FT Support |
 | :--- | :--- |
-| **NATS** | Core NATS supports full mesh clustering with self-healing features to provide high availability to clients. NATS streaming has warm failover backup servers with two modes \(FT and full clustering\). JetStream will support horizontal scalability with built-in mirroring. |
+| **NATS** | Core NATS supports full mesh clustering with self-healing features to provide high availability to clients. NATS streaming has warm failover backup servers with two modes \(FT and full clustering\). JetStream supports horizontal scalability with built-in mirroring. |
 | **gRPC** | N/A. gRPC relies on external resources for HA/FT. |
 | **Kafka** | Fully replicated cluster members are coordinated via Zookeeper. |
 | **Pulsar** | Pulsar supports clustered brokers with geo-replication. |
