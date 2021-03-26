@@ -8,7 +8,7 @@ This feature comparison is a summary of a few of the major components in several
 
 In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
 
-### Language and Platform Coverage
+## Language and Platform Coverage
 
 | Project | Client Languages and Platforms |
 | :--- | :--- |
@@ -18,7 +18,7 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 | **Pulsar** | 7 client languages, 5 third-party clients - tested on macOS and Linux. |
 | **Rabbit** | At least 10 client platforms that are maintainer-supported with over 50 community supported client types. Servers are supported on the following platforms: Linux Windows, NT. |
 
-### Built-in Patterns
+## Built-in Patterns
 
 | Project | Supported Patterns |
 | :--- | :--- |
@@ -28,7 +28,7 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 | **Pulsar** | Streams through publish/subscribe. Multiple competing consumer patterns support load balancing. Application code must correlate requests with replies over multiple topics for a service \(request/reply\) pattern. |
 | **Rabbit** | Streams through publish/subscribe, and services with a direct reply-to feature. Load balancing can be achieved with a Work Queue. Applications must correlate requests with replies over multiple topics for a service \(request/reply\) pattern. |
 
-### Delivery Guarantees
+## Delivery Guarantees
 
 | Project | Quality of Service / Guarantees |
 | :--- | :--- |
@@ -38,9 +38,9 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 | **Pulsar** | At most once, at least once, and exactly once. |
 | **Rabbit** | At most once, at least once. |
 
-### Multi-tenancy and Sharing
+## Multi-tenancy and Sharing
 
-| Project  | Multi-tenancy Support |
+| Project | Multi-tenancy Support |
 | :--- | :--- |
 | **NATS** | NATS supports true multi-tenancy and decentralized security through accounts and defining shared streams and services. |
 | **gRPC** | N/A |
@@ -48,7 +48,7 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 | **Pulsar** | Multi-tenancy is implemented through tenants; built-in data sharing across tenants is not supported. Each tenant can have its own authentication and authorization scheme. |
 | **Rabbit** | Multi-tenancy is supported with vhosts; data sharing is not supported. |
 
-### AuthN
+## AuthN
 
 | Project | Authentication |
 | :--- | :--- |
@@ -58,7 +58,7 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 | **Pulsar** | TLS Authentication, Athenz, Kerberos, JSON Web Token Authentication. |
 | **Rabbit** | TLS, SASL, username and password, and pluggable authorization. |
 
-### AuthZ
+## AuthZ
 
 | Project | Authorization |
 | :--- | :--- |
@@ -68,7 +68,7 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 | **Pulsar** | Permissions may be granted to specific roles for lists of operations such as produce and consume. |
 | **Rabbit** | ACLs dictate permissions for configure, write, and read operations on resources like exchanges, queues, transactions, and others. Authentication is pluggable. |
 
-### Message Retention and Persistence
+## Message Retention and Persistence
 
 | Project | Message Retention and Persistence Support |
 | :--- | :--- |
@@ -78,7 +78,7 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 | **Pulsar** | Supports tiered storage including file, Amazon S3 or Google Cloud Storage \(GCS\). Pulsar can replay messages from a specific position and supports durable subscriptions. Pulsar SQL and topic compaction is supported, as well as Pulsar functions. |
 | **Rabbit** | Supports file-based persistence. Rabbit supported queue-based semantics \(vs log\), so no message replay is available. |
 
-### High Availability and Fault Tolerance
+## High Availability and Fault Tolerance
 
 | Project | HA and FT Support |
 | :--- | :--- |
@@ -88,7 +88,7 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 | **Pulsar** | Pulsar supports clustered brokers with geo-replication. |
 | **Rabbit** | Clustering Support with full data replication via federation plugins. Clusters require low-latency networks where network partitions are rare. |
 
-### Deployment
+## Deployment
 
 | Project | Supported Deployment Models |
 | :--- | :--- |
@@ -98,7 +98,7 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 | **Pulsar** | Pulsar supports clustering and built-in geo-replication between clusters. Clients may connect to any cluster with an appropriately configured tenant and namespace. Pulsar requires a JVM and requires at least 6 Linux machines or VMs. 3 running ZooKeeper. 3 running a Pulsar broker and a BookKeeper bookie. [_\(2\)_](compare-nats.md#references)\_\_ |
 | **Rabbit** | Rabbit supports clusters and cross-cluster message propagation through a federation plugin. Clients are unaware of topology and may connect to any cluster. The server requires the Erlang VM and dependencies. |
 
-### Monitoring
+## Monitoring
 
 | Project | Monitoring Tooling |
 | :--- | :--- |
@@ -108,7 +108,7 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 | **Pulsar** | CLI tools, per-topic dashboards, and third-party tools. |
 | **Rabbit** | CLI tools, a plugin-based management system with dashboards and third-party tools. |
 
-### Management
+## Management
 
 | Project | Management Tooling |
 | :--- | :--- |
@@ -118,7 +118,7 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 | **Pulsar** | CLI tools, per-topic dashboards, and third-party tools. |
 | **Rabbit** | CLI tools, a plugin-based management system with dashboards and third-party tools. |
 
-### Integrations
+## Integrations
 
 | Project | Built-in and Third Party Integrations |
 | :--- | :--- |
@@ -128,9 +128,9 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 | **Pulsar** | Pulsar has many integrations, including ActiveMQ, Cassandra, Debezium, Flume, Elasticsearch, Kafka, Redis, and others. |
 | **Rabbit** | RabbitMQ has many plugins, including protocols \(MQTT, STOMP\), WebSockets, and various authorization and authentication plugins. |
 
-### References
+## References
 
-1. [ https://docs.cloudera.com/HDPDocuments/HDF3/HDF-3.1.0/bk\_planning-your-deployment/content/ch\_hardware-sizing.html\#:~:text=Kafka%20Broker%20Node%3A%20eight%20cores,and%20a%2010%2D%20Gige%20Nic%20.&text=75%20MB%2Fsec%20per%20node,therefore%2010GB%20Nic%20is%20required%20](%20https://docs.cloudera.com/HDPDocuments/HDF3/HDF-3.1.0/bk_planning-your-deployment/content/ch_hardware-sizing.html#:~:text=Kafka%20Broker%20Node%3A%20eight%20cores,and%20a%2010%2D%20Gige%20Nic%20.&text=75%20MB%2Fsec%20per%20node,therefore%2010GB%20Nic%20is%20required%20)
+1. [ https://docs.cloudera.com/HDPDocuments/HDF3/HDF-3.1.0/bk\_planning-your-deployment/content/ch\_hardware-sizing.html\#:~:text=Kafka%20Broker%20Node%3A%20eight%20cores,and%20a%2010%2D%20Gige%20Nic%20.&text=75%20MB%2Fsec%20per%20node,therefore%2010GB%20Nic%20is%20required%20](https://github.com/nats-io/nats.docs/tree/2f63683873099948516e99fae28f6bca9f937343/HDPDocuments/HDF3/HDF-3.1.0/bk_planning-your-deployment/content/ch_hardware-sizing.html#:~:text=Kafka%20Broker%20Node%3A%20eight%20cores,and%20a%2010-%20Gige%20Nic%20.&text=75%20MB%2Fsec%20per%20node,therefore%2010GB%20Nic%20is%20required)
 2. [https://pulsar.apache.org/docs/v1.21.0-incubating/deployment/cluster/](https://pulsar.apache.org/docs/v1.21.0-incubating/deployment/cluster/)
 3. [https://github.com/grpc-ecosystem](https://github.com/grpc-ecosystem)
 

@@ -1,4 +1,4 @@
-# Multi-Tenancy & Resource Management
+# Multi-tenancy & Resource Mgmt
 
 JetStream is compatible with NATS 2.0 Multi-Tenancy using Accounts. A JetStream enabled server supports creating fully isolated JetStream environments for different accounts.
 
@@ -61,14 +61,13 @@ If you try to configure JetStream for an account without enabling it globally yo
 
 ### `nsc` CLI
 
-If your setup is in operator mode, JetStream specific account configuration can be stored in account JWT.
-The earlier account named HR can be configured as follows:
+If your setup is in operator mode, JetStream specific account configuration can be stored in account JWT. The earlier account named HR can be configured as follows:
 
 ```bash
 nsc add account --name HR
 nsc edit account --name HR --js-mem-storage 1G --js-disk-storage 512M  --js-streams 10 --js-consumer 100
 ```
- 
+
 ## `nats` CLI
 
 As part of the JetStream efforts a new `nats` CLI has been developed to act as a single point of access to the NATS ecosystem.

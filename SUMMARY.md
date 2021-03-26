@@ -135,7 +135,7 @@
   * [Terraform](jetstream/configuration_mgmt/terraform.md)
   * [GitHub Actions](jetstream/configuration_mgmt/github_actions.md)
   * [Kubernetes Controller](jetstream/configuration_mgmt/kubernetes_controller.md)
-* [Disaser Recovery](jetstream/disaster_recovery.md)
+* [Disaster Recovery](jetstream/disaster_recovery.md)
 * [Model Deep Dive](jetstream/model_deep_dive.md)
 * [NATS API Reference](jetstream/nats_api_reference.md)
 * [Multi-tenancy & Resource Mgmt](jetstream/resource_management.md)
