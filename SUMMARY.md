@@ -102,7 +102,7 @@
     * [Configuration](nats-server/configuration/mqtt/mqtt_config.md)
   * [System Events](nats-server/configuration/sys_accounts/README.md)
     * [System Events & Decentralized JWT Tutorial](nats-server/configuration/sys_accounts/sys_accounts.md)
-  * [WebSocket](nats-server/configuration/websocket.md)
+  * [WebSocket](nats-server/configuration/websocket/README.md)
     * [Configuration](nats-server/configuration/websocket/websocket_conf.md)
 * [Managing A NATS Server](nats-server/nats_admin/README.md)
   * [Upgrading a Cluster](nats-server/nats_admin/upgrading_cluster.md)

@@ -1,9 +1,12 @@
+---
+description: WebSocket Configuration Example
+---
+
 # Configuration
 
-To enable websocket support in the server, add a `websocket` configuration
-block in the server's configuration file like the following:
+To enable WebSocket support in the server, add a `websocket` configuration block in the server's configuration file like the following:
 
-```
+```text
 websocket {
     # Specify a host and port to listen for websocket connections
     #
@@ -102,13 +105,13 @@ websocket {
 }
 ```
 
-## Authorization of Websocket Users
+## Authorization of WebSocket Users
 
 A new field when configuring users allows you to restrict which type of connections are allowed for a specific user.
 
 Consider this configuration:
 
-```
+```text
 authorization {
   users [
     {user: foo password: foopwd, permission: {...}}
@@ -117,12 +120,9 @@ authorization {
 }
 ```
 
-If a websocket client were to connect and use the username `foo` and password `foopwd`, it would be accepted.
-Now suppose that you would want websocket client to only be accepted if it connected using the username `bar`
-and password `barpwd`, then you would use the option `allowed_connection_types` to restrict which type
-of connections can bind to this user.
+If a WebSocket client were to connect and use the username `foo` and password `foopwd`, it would be accepted. Now suppose that you would want the WebSocket client to only be accepted if it connected using the username `bar` and password `barpwd`, then you would use the option `allowed_connection_types` to restrict which type of connections can bind to this user.
 
-```
+```text
 authorization {
   users [
     {user: foo password: foopwd, permission: {...}}
@@ -131,11 +131,9 @@ authorization {
 }
 ```
 
-The option `allowed_connection_types` (also can be named `connection_types` or `clients`) as you can see
-is a list, and you can allow several type of clients. Suppose you want the user `bar` to accept both
-standard NATS clients and websocket clients, you would configure the user like this:
+The option `allowed_connection_types` \(also can be named `connection_types` or `clients`\) as you can see is a list, and you can allow several types of clients. Suppose you want the user `bar` to accept both standard NATS clients and WebSocket clients, you would configure the user like this:
 
-```
+```text
 authorization {
   users [
     {user: foo password: foopwd, permission: {...}}
@@ -144,9 +142,10 @@ authorization {
 }
 ```
 
-The absence of `allowed_connection_types` means that all type of connections are allowed (the default behavior).
+The absence of `allowed_connection_types` means that all types of connections are allowed \(the default behavior\).
 
 The possible values are currently:
+
 * `STANDARD`
 * `WEBSOCKET`
 * `LEAFNODE`
@@ -154,5 +153,5 @@ The possible values are currently:
 
 ## Leaf nodes connections
 
-You can configure remote Leaf node connections so that they connect to the Websocket port instead of the Leaf node port.
-See [Leafnode](../leafnodes/leafnode_conf.md#connecting-using-websocket-protocol) section.
+You can configure remote Leaf node connections so that they connect to the Websocket port instead of the Leaf node port. See [Leafnode](../leafnodes/leafnode_conf.md#connecting-using-websocket-protocol) section.
+

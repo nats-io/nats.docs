@@ -39,7 +39,7 @@ Now you can specify [default user permissions](nats-server/configuration/securin
 
 ## WebSockets
 
-Connect mobile and web applications to any NATS server using [WebSockets](nats-server/configuration/websocket.md). Built to more easily traverse firewalls and load balancers, NATS WebSocket support provides even more flexibility to NATS deployments and makes it easier to communicate to the edge and endpoints. This is currently supported in NATS server leaf nodes, nats.ts, nats.deno, and the nats.js clients.
+Connect mobile and web applications to any NATS server using [WebSockets](nats-server/configuration/websocket/). Built to more easily traverse firewalls and load balancers, NATS WebSocket support provides even more flexibility to NATS deployments and makes it easier to communicate to the edge and endpoints. This is currently supported in NATS server leaf nodes, nats.ts, nats.deno, and the nats.js clients.
 
 ## Native MQTT Support
 
