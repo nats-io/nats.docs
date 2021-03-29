@@ -117,7 +117,7 @@ authorization: {
 | [`cluster`](clustering/cluster_config.md) | Configuration map for [cluster](clustering/). |  |
 | [`gateway`](gateways/gateway.md#gateway-configuration-block) | Configuration map for [gateway](gateways/). |  |
 | [`leafnode`](leafnodes/leafnode_conf.md) | Configuration map for a [leafnode](leafnodes/). |  |
-| [`mqtt`](https://github.com/nats-io/nats.docs/tree/53202d44215a11c4c4ad7caea03a703d302bc954/nats-server/configuration/mqtt/mqtt_conf.md) | Configuration map for a [mqtt](mqtt.md). |  |
+| [`mqtt`](https://github.com/nats-io/nats.docs/tree/53202d44215a11c4c4ad7caea03a703d302bc954/nats-server/configuration/mqtt/mqtt_conf.md) | Configuration map for a [mqtt](mqtt/). |  |
 | [`websocket`](https://github.com/nats-io/nats.docs/tree/53202d44215a11c4c4ad7caea03a703d302bc954/nats-server/configuration/websocket/websocket_conf.md) | Configuration map for [websocket](websocket.md). |  |
 
 ### Connection Timeouts
