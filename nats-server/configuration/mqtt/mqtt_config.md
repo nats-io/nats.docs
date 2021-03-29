@@ -72,11 +72,11 @@ mqtt {
     #}
 
     # This is the amount of time after which a QoS 1 message sent to
-	# a client is redelivered as a DUPLICATE if the server has not
-	# received the PUBACK packet on the original Packet Identifier.
-	# The value has to be positive.
-	# Zero will cause the server to use the default value (30 seconds).
-	# Note that changes to this option is applied only to new MQTT subscriptions.
+    # a client is redelivered as a DUPLICATE if the server has not
+    # received the PUBACK packet on the original Packet Identifier.
+    # The value has to be positive.
+    # Zero will cause the server to use the default value (30 seconds).
+    # Note that changes to this option is applied only to new MQTT subscriptions.
     #
     # Expressed as a time duration, with "s", "m", "h" indicating seconds,
     # minutes and hours respectively. For instance "10s" for 10 seconds,
@@ -85,16 +85,16 @@ mqtt {
     # ack_wait: "1m"
 
     # This is the amount of QoS 1 messages the server can send to
-	# a subscription without receiving any PUBACK for those messages.
+    # a subscription without receiving any PUBACK for those messages.
     # The valid range is [0..65535].
     #
-	# The total of subscriptions' max_ack_pending on a given session cannot
-	# exceed 65535. Attempting to create a subscription that would bring
-	# the total above the limit would result in the server returning 0x80
-	# in the SUBACK for this subscription.
-	# Due to how the NATS Server handles the MQTT "#" wildcard, each
-	# subscription ending with "#" will use 2 times the max_ack_pending value.
-	# Note that changes to this option is applied only to new subscriptions.
+    # The total of subscriptions' max_ack_pending on a given session cannot
+    # exceed 65535. Attempting to create a subscription that would bring
+    # the total above the limit would result in the server returning 0x80
+    # in the SUBACK for this subscription.
+    # Due to how the NATS Server handles the MQTT "#" wildcard, each
+    # subscription ending with "#" will use 2 times the max_ack_pending value.
+    # Note that changes to this option is applied only to new subscriptions.
     #
     # max_ack_pending: 100
 }
