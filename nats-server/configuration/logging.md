@@ -67,7 +67,7 @@ debug:   false
 trace:   true
 logtime: false
 logfile_size_limit: 1GB
-log_file: "/tmp/nats-server.log"
+log_file: "/var/log/nats-server.log"
 ```
 
 ### Log Rotation
