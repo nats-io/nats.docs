@@ -100,7 +100,8 @@ The rest of the file specifies that the logs will rotate daily \("daily" option\
 
 The "postrotate" section tells NATS server to reload the log files once the rotation is complete. The command ```kill -SIGUSR1``cat /var/run/nats-server.pid\`\`\` does not kill the NATS server process, but instead sends it a signal causing it to reload its log files. This will cause new requests to be logged to the refreshed log file.
 
-The `/var/run/nats-server.pid` file is where NATS server stores the master process's pid.
+The `/var/run/nats-server.pid` file is where NATS server stores the master process's pid. To force NATS server using it, you  should add in the NATS configuration file the next line:
+`pid_file:    /var/run/nats-server.pid`
 
 ## Some Logging Notes
 
@@ -112,4 +113,9 @@ sudo chown nss:nss /path/to/nats-server.log
 ```
 Else, it can fail to start the nats service with the next error message: "error opening file: open /var/log/nats-server.log: permission
  denied"
+* If you encounter a failure after enable logrotate for nats, with the following error message: `nats-streaming-server[pid]: Could not write pidfile: open /var/run/nats-server.pid: permission denied`, you should manually create a pid file with the appropriate permission settings:
+```bash
+sudo touch /var/run/nats-server.pid
+sudo chown nss:nss /var/run/nats-server.pid
+```
 
