@@ -21,7 +21,7 @@ When defining Streams the items below make up the entire configuration of the se
 | MaxMsgSize | The largest message that will be accepted by the Stream |
 | MaxMsgs | How many messages may be in a Stream, oldest messages will be removed if the Stream exceeds this size |
 | MaxConsumers | How many Consumers can be defined for a given Stream, `-1` for unlimited |
-| Name | A name for the Stream that may not have spaces, tabs or `.` |
+| Name | A name for the Stream that may not have spaces, tabs, period (`.`), greater than (`>`) or asterix (`*`) |
 | NoAck | Disables acknowledging messages that are received by the Stream |
 | Replicas | How many replicas to keep for each message in a clustered JetStream, maximum 5 |
 | Retention | How message retention is considered, `LimitsPolicy` \(default\), `InterestPolicy` or `WorkQueuePolicy` |
