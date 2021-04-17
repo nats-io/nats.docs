@@ -16,7 +16,7 @@ When defining Streams the items below make up the entire configuration of the se
 
 | Item | Description |
 | :--- | :--- |
-| MaxAge | Maximum age of any message in the stream, expressed in microseconds |
+| MaxAge | Maximum age of any message in the stream, expressed in nanoseconds |
 | MaxBytes | How big the Stream may be, when the combined stream size exceeds this old messages are removed |
 | MaxMsgSize | The largest message that will be accepted by the Stream |
 | MaxMsgs | How many messages may be in a Stream, oldest messages will be removed if the Stream exceeds this size |
