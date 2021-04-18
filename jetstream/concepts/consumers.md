@@ -1,8 +1,8 @@
 # Consumers
 
-Each Consumer, or related group of Consumers, of a Stream will need an Consumer defined. It's ok to define thousands of these pointing at the same Stream.
+Each Consumer, or related group of Consumers, of a Stream will need a Consumer defined. It's ok to define thousands of these pointing at the same Stream.
 
-Consumers can either be `push` based where JetStream will deliver the messages as fast as possible to a subject of your choice or `pull` based for typical work queue like behavior. The rate of message delivery in both cases is subject to `ReplayPolicy`. A `ReplayInstant` Consumer will receive all messages as fast as possible while a `ReplayOriginal` Consumer will receive messages at the rate they were received, which is great for replaying production traffic in staging.
+Consumers can either be `push` based where JetStream will deliver the messages as fast as possible to a subject of your choice or `pull` to have control by asking the server for messages. The rate of message delivery in both cases is subject to `ReplayPolicy`. A `ReplayInstant` Consumer will receive all messages as fast as possible while a `ReplayOriginal` Consumer will receive messages at the rate they were received, which is great for replaying production traffic in staging.
 
 In the orders example above we have 3 Consumers. The first two select a subset of the messages from the Stream by specifying a specific subject like `ORDERS.processed`. The Stream consumes `ORDERS.*` and this allows you to receive just what you need. The final Consumer receives all messages in a `push` fashion.
 
@@ -21,8 +21,8 @@ When defining Consumers the items below make up the entire configuration of the 
 | AckPolicy | How messages should be acknowledged, `AckNone`, `AckAll` or `AckExplicit` |
 | AckWait | How long to allow messages to remain un-acknowledged before attempting redelivery |
 | DeliverPolicy | The initial starting mode of the consumer, `DeliverAll`, `DeliverLast`, `DeliverNew`, `DeliverByStartSequence` or `DeliverByStartTime` |
-| DeliverySubject | The subject to deliver observed messages, when not set, a pull-based Consumer is created |
-| Durable | The name of the Consumer |
+| DeliverySubject | The subject to deliver observed messages. Useful to setup an alternate subject for a regular NatsSubcriber can listen on that subject. Not allowed for pull subscriptions. |
+| Durable | The name of the Consumer, which the server will track, allowing resuming consumption where left off. |
 | FilterSubject | When consuming from a Stream with many subjects, or wildcards, select only a specific incoming subjects, supports wildcards |
 | MaxDeliver | Maximum amount times a specific message will be delivered.  Use this to avoid poison pills crashing all your services forever |
 | OptStartSeq | When first consuming messages from the Stream start at this particular message in the set |
