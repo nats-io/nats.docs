@@ -16,10 +16,10 @@ When defining Streams the items below make up the entire configuration of the se
 
 | Item | Description |
 | :--- | :--- |
-| MaxAge | Maximum age of any message in the stream, expressed in nanoseconds |
-| MaxBytes | How big the Stream may be, when the combined stream size exceeds this old messages are removed |
+| MaxAge | Maximum age of any message in the stream, expressed in nanoseconds. |
+| MaxBytes | How big the Stream may be. Adheres to Discard Policy, removing oldest or refusing new messages if the Stream exceeds this number of messages. |
 | MaxMsgSize | The largest message that will be accepted by the Stream |
-| MaxMsgs | How many messages may be in a Stream, oldest messages will be removed if the Stream exceeds this size |
+| MaxMsgs | How many messages may be in a Stream. Adheres to Discard Policy, removing oldest or refusing new messages if the Stream exceeds this size |
 | MaxConsumers | How many Consumers can be defined for a given Stream, `-1` for unlimited |
 | Name | A name for the Stream that may not have spaces, tabs, period (`.`), greater than (`>`) or asterix (`*`) |
 | NoAck | Disables acknowledging messages that are received by the Stream |
