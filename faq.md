@@ -28,6 +28,7 @@
 * [Does adding a “max\_age” to a “channel” for NATS streaming server connected to a SQL store, retroactively delete messages?](faq.md#does-adding-a-max_age-to-a-channel-for-nats-streaming-server-connected-to-a-sql-store-retroactively-delete-messages)
 * [What is the upgrade path from NATS 1.x to 2.x?](faq.md#what-is-the-upgrade-path-from-nats-1-x-to-2-x)
 * [How many clients can connect simultaneously?](faq.md#how-many-clients-can-connect-simultaneously)
+* [Does JetStream replace NATS Streaming?](faq.md#does-jetstream-replace-nats-streaming)
 
 ## General
 
@@ -130,14 +131,13 @@ No. As of `nats-server` v0.8.0, there is no hard limit on the maximum number of 
 
 ### Does NATS guarantee message delivery?
 
-NATS is offered as two components: the core server \(referred to simply as "NATS" or "NATS Server"\) and [NATS Streaming](nats-streaming-concepts/intro.md), which is a data streaming service that sits atop NATS core like a client.
-
-* **NATS** implements what is commonly referred to as "at-most-once" delivery. This means that messages are guaranteed to arrive intact, in order from a given publisher, but not across different publishers. NATS does everything required to remain on and provide a dial-tone. However, if a subscriber is problematic or goes offline it will not receive messages, as the basic NATS platform is a simple pub-sub transport system that offers only TCP reliability.
-* [**NATS Streaming**](nats-streaming-concepts/intro.md) offers _at-least-once_ delivery guarantees by implementing publish and delivery acknowledgements, and persisting messages to memory or a secondary store until messages have been successfully delivered, or until resource limits or other administrator-defined limits have been reached.
+NATS Core Server, simply referred to as NATS Server, offers "at-most-once" delivery. This means messages are guaranteed to arrive intact, in order from a given publisher, but not across different publishers. NATS does everything required to remain available and provide a dial-tone. However, if a subscriber is problematic or goes offline it will not receive messages, as the basic NATS platform is a simple pub-sub transport system that offers only TCP reliability.  
+  
+As of NATS Server 2.2, NATS JetStream offers persistence as "at-least-once" delivery. See the [JetStream](jetstream/jetstream.md) documentation for detailed information.
 
 ### Does NATS support replay/redelivery of historical data?
 
-Yes, historical data may be persisted to memory or secondary storage and replayed using [NATS Streaming](nats-streaming-concepts/intro.md), an event streaming service based on \(and compatible with\) NATS.
+NATS [JetStream](jetstream/jetstream.md) offers message store and replay by time or sequence.
 
 ### How do I gracefully shut down an asynchronous subscriber?
 
@@ -164,4 +164,8 @@ Most systems can handle several thousand NATS connections per server without any
 If you are using TLS you'll want to be sure the hardware can handle the CPU load created by TLS negotiation when there is the thundering herd of inbound connections after an outage or network partition event. This often overlooked factor is usually the constraint limiting the number of connections a single server should support. Choosing a cipher suite that is supported by TLS acceleration can mitigate this \(e.g. AES with x86\). Thinking of the entire system, you'll also want to look at a range of reconnect delay times or add reconnect jitter to the NATS clients to even out the distribution of connection attempts over time and reduce CPU spikes.
 
 All said, each server can be tuned to handle a large number of clients, and given the flexibility and scalability of NATS with clusters, superclusters, and leaf nodes one can build a NATS deployment supporting many millions of connections.
+
+### Does JetStream replace NATS Streaming?
+
+As of NATS Server 2.2, NATS [JetStream](jetstream/jetstream.md) is the recommended option for persistence and message guarantees. See [NATS Streaming](https://github.com/nats-io/nats-streaming-server) README for the deprecation notice.
 
