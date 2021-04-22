@@ -38,7 +38,7 @@ NATS is an open source, lightweight, high-performance cloud native infrastructur
 
 NATS is offered in two interoperable modules: core NATS \(referred to simply as "NATS" or "NATS Server" throughout this site\), and [NATS Streaming](nats-streaming-concepts/intro.md), an event streaming service that can be employed to add event streaming, delivery guarantees, and historical data replay to NATS.
 
-NATS was created by Derek Collison, who has over 25 years of experience designing, building, and using publish-subscribe messaging systems. NATS is maintained by an amazing OpenSource Ecosystem, find more at [GitHub](https://www.github.com/nats-io).
+NATS was created by Derek Collison, who has over 25 years of experience designing, building, and using publish-subscribe messaging systems. NATS is maintained by an amazing Open Source Ecosystem, find more at [GitHub](https://www.github.com/nats-io).
 
 ### What does the NATS acronym stand for?
 
