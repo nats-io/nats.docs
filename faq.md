@@ -131,8 +131,8 @@ No. As of `nats-server` v0.8.0, there is no hard limit on the maximum number of 
 
 ### Does NATS guarantee message delivery?
 
-NATS Core Server, simply referred to as NATS Server, offers "at-most-once" delivery. This means messages are guaranteed to arrive intact, in order from a given publisher, but not across different publishers. NATS does everything required to remain available and provide a dial-tone. However, if a subscriber is problematic or goes offline it will not receive messages, as the basic NATS platform is a simple pub-sub transport system that offers only TCP reliability.  
-  
+NATS Core Server, simply referred to as NATS Server, offers "at-most-once" delivery. This means messages are guaranteed to arrive intact, in order from a given publisher, but not across different publishers. NATS does everything required to remain available and provide a dial-tone. However, if a subscriber is problematic or goes offline it will not receive messages, as the basic NATS platform is a simple pub-sub transport system that offers only TCP reliability.
+
 As of NATS Server 2.2, NATS JetStream offers persistence as "at-least-once" delivery. See the [JetStream](jetstream/jetstream.md) documentation for detailed information.
 
 ### Does NATS support replay/redelivery of historical data?
