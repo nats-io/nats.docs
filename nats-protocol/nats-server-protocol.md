@@ -12,7 +12,7 @@ The NATS cluster protocol is very similar to that of the NATS client protocol. I
 
 **Subject names and wildcards**: The NATS cluster protocol has the same features and restrictions as the client with respect to subject names and wildcards. Clients are bound to a single account, however the cluster protocol handles all accounts.
 
-**Field Delimiters**: The fields of NATS protocol messages are delimited by whitespace characters '```' (space) or``\t\` \(tab\). Multiple whitespace characters will be treated as a single field delimiter.
+**Field Delimiters**: The fields of NATS protocol messages are delimited by whitespace characters '` `'\(space\) or`\t` \(tab\). Multiple whitespace characters will be treated as a single field delimiter.
 
 **Newlines**: Like other text-based protocols, NATS uses `CR` followed by `LF` \(`CR+LF`, `\r\n`, `0x0D0A`\) to terminate protocol messages. This newline sequence is also used to mark the beginning of the actual message payload in a `RMSG` protocol message.
 
