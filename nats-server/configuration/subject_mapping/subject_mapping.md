@@ -143,3 +143,7 @@ and the unaccounted for 2% would simulate message loss.
     # the remaining 2% is "lost"
   ]
 ```
+
+*Note:  Subject Mapping and Traffic Shaping are also supported in the NATS
+JWT model, although only through the [JWT API](https://github.com/nats-io/jwt).
+`nsc` tooling support for subject mapping is coming soon.*
