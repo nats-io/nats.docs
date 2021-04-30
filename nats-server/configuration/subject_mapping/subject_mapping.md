@@ -19,7 +19,7 @@ mappings = {
   # In this example bar.a.b would be mapped to baz.b.a.
   bar.*.*: baz.$2.$1
 
-  # You can scope mappings to to a particular cluster
+  # You can scope mappings to a particular cluster
   foo.cluster.scoped : [
     { destination: bar.cluster.scoped, weight:100%, cluster: us-west-1 }
   ]
@@ -62,7 +62,7 @@ With this mapping:
 Messages that were originally published to `bar.a.b`  are remapped in the server to `baz.b.a`.
 Messages arriving at the server on `bar.one.two` would be mapped to `baz.two.one`, and so forth.
 
-## Weighted Mappings for A/B Testing or Canary Releases.
+## Weighted Mappings for A/B Testing or Canary Releases
 
 Traffic can be split by percentage from one subject to multiple subjects.  Here's an example
 for canary deployments, starting with version 1 of your service.
@@ -110,7 +110,7 @@ Now shutdown the version 1 instances of your service.
 
 ## Traffic Shaping in Testing
 
-Traffic shaping is useful in testing.   You might have a service that runs in QA 
+Traffic shaping is useful in testing. You might have a service that runs in QA 
 that simulates failure scenarios which could receive 20% of the traffic to test
 the service requestor.
 
@@ -145,5 +145,5 @@ and the unaccounted for 2% would simulate message loss.
 ```
 
 *Note:  Subject Mapping and Traffic Shaping are also supported in the NATS
-JWT model, although only through the [JWT API](https://github.com/nats-io/jwt).
+JWT model, although currently only through the [JWT API](https://github.com/nats-io/jwt).
 `nsc` tooling support for subject mapping is coming soon.*
