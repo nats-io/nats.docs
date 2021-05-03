@@ -16,7 +16,7 @@ When defining Streams the items below make up the entire configuration of the se
 
 | Item | Description |
 | :--- | :--- |
-| Name | A name for the Stream that may not have spaces, tabs, period (`.`), greater than (`>`) or asterix (`*`) |
+| Name | A name for the Stream that may not have spaces, tabs, period \(`.`\), greater than \(`>`\) or asterix \(`*`\) |
 | Storage | The type of storage backend, `File` and `Memory` |
 | Subjects | A list of subjects to consume, supports wildcards |
 | Replicas | How many replicas to keep for each message in a clustered JetStream, maximum 5 |
