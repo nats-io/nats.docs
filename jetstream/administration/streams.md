@@ -127,7 +127,7 @@ $ nats str info ORDERS -j
 }
 ```
 
-This is the general pattern for the entire `nats` utility as it relates to JetStream - prompting for needed information but every action can be run non-interactively making it usable as a cli api. All information output like seen above can be turned into JSON using `-j`.
+This is the general pattern for the entire `nats` utility as it relates to JetStream - prompting for needed information but every action can be run non-interactively making it usable as a CLI API. All information output like seen above can be turned into JSON using `-j`.
 
 ## Copying
 
@@ -164,7 +164,7 @@ State:
 
 ## Editing
 
-A stream configuration can be edited, which allows the configuration to be adjusted via CLI flags. Here I have a incorrectly created ORDERS stream that I fix:
+A stream configuration can be edited, which allows the configuration to be adjusted via CLI flags. Here I have an incorrectly created ORDERS stream that I fix:
 
 ```text
 $ nats str info ORDERS -j | jq .config.subjects
@@ -183,7 +183,7 @@ Configuration:
 ....
 ```
 
-Additionally one can store the configuration in a JSON file, the format of this is the same as `$ nats str info ORDERS -j | jq .config`:
+Additionally, one can store the configuration in a JSON file, the format of this is the same as `$ nats str info ORDERS -j | jq .config`:
 
 ```text
 $ nats str edit ORDERS --config orders.json
@@ -191,7 +191,7 @@ $ nats str edit ORDERS --config orders.json
 
 ## Publishing Into a Stream
 
-Now let's add in some messages to our Stream. You can use `nats pub` to add messages, pass the `--wait` flag to see the publish ack being returned.
+Now let's add some messages to our Stream. You can use `nats pub` to add messages, pass the `--wait` flag to see the publish ack being returned.
 
 You can publish without waiting for acknowledgement:
 
@@ -208,7 +208,7 @@ $ nats req ORDERS.scratch hello
 13:45:03 Received on [_INBOX.M8drJkd8O5otORAo0sMNkg.scHnSafY]: '+OK'
 ```
 
-Keep checking the status of the Stream while doing this and you'll see it's stored messages increase.
+Keep checking the status of the Stream while doing this and you'll see its stored messages increase.
 
 ```text
 $ nats str info ORDERS
@@ -223,7 +223,7 @@ Statistics:
     Active Consumers: 0
 ```
 
-After putting some throw away data into the Stream, we can purge all the data out - while keeping the Stream active:
+After putting some throwaway data into the Stream, we can purge all the data out - while keeping the Stream active:
 
 ## Deleting All Data
 
@@ -251,7 +251,7 @@ $ nats str rmm ORDERS 1 -f
 
 ## Deleting Sets
 
-Finally for demonstration purposes, you can also delete the whole Stream and recreate it so then we're ready for creating the Consumers:
+Finally, for demonstration purposes, you can also delete the whole Stream and recreate it so then we're ready for creating the Consumers:
 
 ```text
 $ nats str rm ORDERS -f
