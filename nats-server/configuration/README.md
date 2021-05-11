@@ -14,6 +14,8 @@ The NATS configuration file supports the following syntax:
 * Maps can be assigned with no key separator
 * Semicolons can be used as terminators
 
+The NATS configuration file is parsed with UTF-8 encoding.
+
 ## Strings and Numbers
 
 The configuration parser is very forgiving, as you have seen:
