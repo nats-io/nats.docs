@@ -35,12 +35,24 @@ websocket {
     #
     # no_tls: true
 
-    # [Cross-origin resource sharing option](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS). When set to `true`, the HTTP origin header must match the request’s hostname.
+    # [Cross-origin resource sharing option](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
+    #
+    # IMPORTANT! This option is used only when the http request presents an Origin
+    # header, which is the case for web browsers. If no Origin header is present,
+    # this check will not be performed.
+    #
+    # When set to `true`, the HTTP origin header must match the request’s hostname.
     # The default is `false`.
     #
     # same_origin: true
 
-    # [Cross-origin resource sharing option](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS). List of accepted origins. When empty, and `same_origin` is `false`, clients from any origin are allowed to connect.
+    # [Cross-origin resource sharing option](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
+    #
+    # IMPORTANT! This option is used only when the http request presents an Origin
+    # header, which is the case for web browsers. If no Origin header is present,
+    # this check will not be performed.
+    #
+    # List of accepted origins. When empty, and `same_origin` is `false`, clients from any origin are allowed to connect.
     # This list specifies the only accepted values for the client's request Origin header. The scheme,
     # host and port must match. By convention, the absence of TCP port in the URL will be port 80
     # for an "http://" scheme, and 443 for "https://".
