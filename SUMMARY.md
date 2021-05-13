@@ -127,6 +127,7 @@
   * [Using Source](jetstream/getting_started/using_source.md)
 * [Administration & Usage from CLI](jetstream/administration/README.md)
   * [Account Information](jetstream/administration/account.md)
+  * [Naming Streams, Consumers, and Accounts](jetstream/administration/naming.md)
   * [Streams](jetstream/administration/streams.md)
   * [Consumers](jetstream/administration/consumers.md)
 * [Monitoring](jetstream/monitoring.md)
