@@ -16,7 +16,9 @@ NATS manages addressing and discovery based on subjects and not hostname and por
 
 NATS can be deployed nearly anywhere; on bare metal, in a VM, as a container, inside K8S, on a device, or whichever environment you choose. NATS runs well within deployment frameworks or without.
 
-Similarly, NATS is secure by default and makes no requirements on network perimeter security models. When you start considering mobilizing your backend microservices and stream processors, many times the biggest roadblock is security. Scalable, Future-Proof Deployments
+Similarly, NATS is secure by default and makes no requirements on network perimeter security models. When you start considering mobilizing your backend microservices and stream processors, many times the biggest roadblock is security.
+
+### Scalable, Future-Proof Deployments
 
 NATS infrastructure and clients communicate all topology changes in real-time. This means that NATS clients do not need to change when NATS deployments change. Having to change clients with deployments would be like having to reboot your phone every time your cell provider added or changed a cell tower. This sounds ridiculous of course, but think about how many systems today have their front ends tied so closely to the backend, that any change requires a complete front end reboot or at least a reconfiguration. NATS clients and applications need no such change when backend servers are added and removed and changed. Even DNS is only used to bootstrap first contact, after that, NATS handles endpoint locations transparently.
 
