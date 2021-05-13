@@ -9,7 +9,7 @@ friendly to the file system.
 We recommend the following guideline for stream, consumer, and account names:
 
 * Alphanumeric values are recommended.
-* Spaces, tabs, period \(`.`\), greater than \(`>`\) or asterix \(`*`\) are prohibited.
+* Spaces, tabs, period \(`.`\), greater than \(`>`\) or asterisk \(`*`\) are prohibited.
 * Limit names to 255 characters or less.
 * Do not use reserved file names like NUL, LPT1, etc.
 * Be aware that some file systems are case insentitive so do not
