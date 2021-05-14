@@ -9,10 +9,15 @@ friendly to the file system.
 We recommend the following guideline for stream, consumer, and account names:
 
 * Alphanumeric values are recommended.
+<<<<<<< HEAD
 * Spaces, tabs, period \(`.`\), greater than \(`>`\) or asterix \(`*`\) are prohibited.
 * Limit name length.  The JetStream storage directories will include the account,
 stream name, and consumer name, so a generally safe approach would be to keep names
 under 32 characters.
+=======
+* Spaces, tabs, period \(`.`\), greater than \(`>`\) or asterisk \(`*`\) are prohibited.
+* Limit names to 255 characters or less.
+>>>>>>> 60f3fbb79fa5c1aa9c6d18b3d45321820e228b77
 * Do not use reserved file names like NUL, LPT1, etc.
 * Be aware that some file systems are case insentitive so do not
   use stream or account names that would collide in a file system.
