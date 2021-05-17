@@ -21,8 +21,8 @@ When defining Consumers the items below make up the entire configuration of the 
 | AckPolicy | How messages should be acknowledged, `AckNone`, `AckAll` or `AckExplicit` |
 | AckWait | How long to allow messages to remain un-acknowledged before attempting redelivery |
 | DeliverPolicy | The initial starting mode of the consumer, `DeliverAll`, `DeliverLast`, `DeliverNew`, `DeliverByStartSequence` or `DeliverByStartTime` |
-| DeliverySubject | The subject to deliver observed messages. Useful to setup an alternate subject for a regular NatsSubcriber can listen on that subject. Not allowed for pull subscriptions. |
-| Durable | The name of the Consumer, which the server will track, allowing resuming consumption where left off. See \[naming\]\(../../administration/naming.md\]. |
+| DeliverySubject | The subject to deliver observed messages. Useful to set up an alternate subject for a regular NatsSubcriber can listen on that subject. Not allowed for pull subscriptions. |
+| Durable | The name of the Consumer, which the server will track, allowing resuming consumption where left off. See [naming](../administration/naming.md). |
 | FilterSubject | When consuming from a Stream with many subjects, or wildcards, select only a specific incoming subjects, supports wildcards |
 | MaxDeliver | Maximum amount times a specific message will be delivered.  Use this to avoid poison pills crashing all your services forever |
 | OptStartSeq | When first consuming messages from the Stream start at this particular message in the set |
