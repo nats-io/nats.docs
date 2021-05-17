@@ -19,7 +19,7 @@ under 32 characters.
 * Limit names to 255 characters or less.
 >>>>>>> 60f3fbb79fa5c1aa9c6d18b3d45321820e228b77
 * Do not use reserved file names like NUL, LPT1, etc.
-* Be aware that some file systems are case insentitive so do not
+* Be aware that some file systems are case insensitive so do not
   use stream or account names that would collide in a file system.
   For example, `Foo` and `foo` would collide on a Windows or Mac OSx System.
 
