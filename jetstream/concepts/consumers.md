@@ -38,7 +38,6 @@ All the previous messages received are automatically acknowledged.
 Ack Wait is the time in nanoseconds that the server will wait for an ack for any individual message.
 If an ack is not received in time, the message will be redelivered.
 
-
 ### DeliverPolicy / OptStartSeq / OptStartTime
 
 When a consumer is first created, it can specify where in the stream it wants to start receiving messages.
@@ -66,10 +65,8 @@ When first consuming messages from the Stream start with messages on or after th
 
 ### DeliverSubject
 
-The subject to deliver observed messages. Useful to set up an alternate subject for a regular NatsSubcriber can listen on that subject. Not allowed for pull subscriptions.
-Deliver subject essentially creates an alias core NATS subject for the stream. This means a core NATS subscriber could be set up to receive messages on the DeliverSubject,
-starting wherever the DeliverPolicy was configured for the consumer. You could use a core NATS subscriber to access the stream by its original subject, but that would always start at
-the next message that appears on the subject, instead of where the consumer configured start sequence or start time. This is only allowed for push subscriptions.
+The subject to deliver observed messages. Not allowed for pull subscriptions.
+Deliver subject is required for queue subscribing as it configures a subject that all the queue consumers should listen on.
 
 ### Durable (Name)
 
