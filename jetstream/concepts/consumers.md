@@ -86,13 +86,15 @@ When consuming from a stream with a wildcard subject, this allows you to select 
 Flow control is another way for the consumer to manage back pressure. Instead of relying on the rate limit, it relies on the pending limits of max messages and/or max bytes.
 If the server sends the number of messages or bytes without receiving an ack, it will send a status message letting you know it has reached this limit.
 Once flow control is tripped, the server will not start sending messages again until the client tells the server, even if all messages have been acknowledged.
-The message status header will have a code of 100 and the description "FlowControl Request"
+The message status header will have a code of 100 and have an address in the message reply to field. The reply to address is where (the subject) 
+to publish an empty message to. The status message may have a description like "FlowControl Request"
 
 ### IdleHeartbeat
 
 If the idle heartbeat period is set, the server will send a status message with to the client when the period has elapsed but it has not received any new messages.
 This lets the client know that it's still there, but just isn't receiving messages.
-The message status header will have a code of 100 and the description "Idle Heartbeat"
+The message status header will have a code of 100. Unlike FlowControl, it will have no reply to address. 
+It may have a description like "Idle Heartbeat"
 
 ### MaxAckPending
 
