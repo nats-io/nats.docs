@@ -115,3 +115,4 @@ If the policy is `ReplayInstant` (the default), the messages will be pushed to t
 ### SampleFrequency
 
 Sets the percentage of acknowledgements that should be sampled for observability, 0-100
+This value is a string and for example allows both `30` and `30%` as valid values.
