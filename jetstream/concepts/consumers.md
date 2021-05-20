@@ -2,7 +2,7 @@
 
 Each Consumer, or related group of Consumers, of a Stream will need a Consumer defined. It's ok to define thousands of these pointing at the same Stream.
 
-Consumers can either be `push` based where JetStream will deliver the messages as fast as possible to a subject of your choice or `pull` to have control by asking the server for messages. The rate of message delivery in both cases is subject to `ReplayPolicy`. A `ReplayInstant` Consumer will receive all messages as fast as possible while a `ReplayOriginal` Consumer will receive messages at the rate they were received, which is great for replaying production traffic in staging.
+Consumers can either be `push` based where JetStream will deliver the messages as fast as possible (while adhering to the rate limit policy) to a subject of your choice or `pull` to have control by asking the server for messages. The rate of message delivery in both cases is subject to `ReplayPolicy`. A `ReplayInstant` Consumer will receive all messages as fast as possible while a `ReplayOriginal` Consumer will receive messages at the rate they were received, which is great for replaying production traffic in staging.
 
 In the orders example above we have 3 Consumers. The first two select a subset of the messages from the Stream by specifying a specific subject like `ORDERS.processed`. The Stream consumes `ORDERS.*` and this allows you to receive just what you need. The final Consumer receives all messages in a `push` fashion.
 
@@ -17,8 +17,12 @@ To assist with creating monitoring applications, one can set a `SampleFrequency`
 When defining Consumers the items below make up the entire configuration of the Consumer:
 
 ### AckPolicy
-How messages should be acknowledged. The server will consider an ack ony if it comes within the Ack Wait window.
-If the ack is not received in time, the message(s) will be redelivered.
+How messages should be acknowledged. If an ack is required but is not received within the AckWait window, the message will be redelivered.
+> IMPORTANT
+> 
+> The server may consider an ack arriving out of the window. If a first process fails to ack within the window
+> it's entirely possible, for instance in queue situation, that the message has been redelivered to another consumer.
+> Since this will technically restart the window, the ack from the first consumer will be considered.
 
 #### AckExplicit
 
@@ -49,19 +53,19 @@ All is the default policy. The consumer will start receiving from the earliest a
 
 #### DeliverLast
 
-The consumer will start receiving messages with the last message added to the stream, so the very last message in the stream when the server realizes the consumer is ready.
+When first consuming messages, the consumer will start receiving messages with the last message added to the stream, so the very last message in the stream when the server realizes the consumer is ready.
 
 #### DeliverNew
 
-The consumer will only start receiving messages that were created after the consumer was created.
+When first consuming messages, the consumer will only start receiving messages that were created after the consumer was created.
 
 #### DeliverByStartSequence
 
-When first consuming messages from the Stream, start at this particular message in the set. The consumer is required to specify `OptStartSeq`, the sequence number to start on. It will receive the closest available sequence if that message was removed based on the stream limit policy.
+When first consuming messages, start at this particular message in the set. The consumer is required to specify `OptStartSeq`, the sequence number to start on. It will receive the closest available sequence if that message was removed based on the stream limit policy.
 
 #### DeliverByStartTime
 
-When first consuming messages from the Stream start with messages on or after this time. The consumer is required to specify `OptStartTime`, the time in the stream to start at. It will receive the closest available message on or after that time.
+When first consuming messages, start with messages on or after this time. The consumer is required to specify `OptStartTime`, the time in the stream to start at. It will receive the closest available message on or after that time.
 
 ### DeliverSubject
 
