@@ -61,7 +61,7 @@ When first consuming messages, the consumer will only start receiving messages t
 
 #### DeliverByStartSequence
 
-When first consuming messages, start at this particular message in the set. The consumer is required to specify `OptStartSeq`, the sequence number to start on. It will receive the closest available sequence if that message was removed based on the stream limit policy.
+When first consuming messages, start at this particular message in the set. The consumer is required to specify `OptStartSeq`, the sequence number to start on. It will receive the closest available message moving forward in the sequence should the message specified have been removed based on the stream limit policy.
 
 #### DeliverByStartTime
 
@@ -110,7 +110,7 @@ Used to throttle the delivery of messages to the consumer, in bits per second.
 
 ### ReplayPolicy
 
-The replay policy applies when the DeliverPolicy is `All`, `ByStartSequence` or `ByStartTime` since those deliver policies begin reading the stream at a position other than the end.
+The replay policy applies when the DeliverPolicy is `DeliverAll`, `DeliverByStartSequence` or `DeliverByStartTime` since those deliver policies begin reading the stream at a position other than the end.
 If the policy is `ReplayOriginal`, the messages in the stream will be pushed to the client at the same rate that they were originally received, simulating the original timing of messages.
 If the policy is `ReplayInstant` (the default), the messages will be pushed to the client as fast as possible while adhering to the Ack Policy, Max Ack Pending and the client's ability to consume those messages.
 
