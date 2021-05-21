@@ -98,7 +98,7 @@ It may have a description like "Idle Heartbeat"
 
 ### MaxAckPending
 
-The maximum number of messages without an acknowledgement that can be outstanding, once this limit is reached message delivery will be suspended.
+The maximum number of messages without an acknowledgement that can be outstanding, once this limit is reached message delivery will be suspended. It cannot be used with AckNone ack policy.
 
 ### MaxDeliver
 
