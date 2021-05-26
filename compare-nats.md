@@ -122,7 +122,7 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 
 | Project | Built-in and Third Party Integrations |
 | :--- | :--- |
-| **NATS** | NATS supports WebSockets, a Kafka bridge, an IBM MQ Bridge, a Redis Connector, Apache Spark, Apache Flink, CoreOS, Elastic, Elasticsearch, Prometheus, Telegraf, Logrus, Fluent Bit, Fluentd, OpenFAAS, HTTP, and MQTT \(coming soon\), and [more](https://nats.io/download/#connectors-and-utilities). |
+| **NATS** | NATS supports WebSockets, a Kafka bridge, an IBM MQ Bridge, a Redis Connector, Apache Spark, Apache Flink, CoreOS, Elastic, Elasticsearch, Prometheus, Telegraf, Logrus, Fluent Bit, Fluentd, OpenFAAS, HTTP, and MQTT, and [more](https://nats.io/download/#connectors-and-utilities). |
 | **gRPC** | There are a number of third party integrations including HTTP, JSON, Prometheus, Grift and others. [_\(3\)_](compare-nats.md#references)\_\_ |
 | **Kafka** | Kafka has a large number of integrations in its ecosystem, including stream processing \(Storm, Samza, Flink\), Hadoop, database \(JDBC, Oracle Golden Gate\), Search and Query \(ElasticSearch, Hive\), and a variety of logging and other integrations. |
 | **Pulsar** | Pulsar has many integrations, including ActiveMQ, Cassandra, Debezium, Flume, Elasticsearch, Kafka, Redis, and others. |
