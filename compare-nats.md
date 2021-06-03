@@ -130,7 +130,7 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 
 ## References
 
-1. [ https://docs.cloudera.com/HDPDocuments/HDF3/HDF-3.1.0/bk\_planning-your-deployment/content/ch\_hardware-sizing.html\#:~:text=Kafka%20Broker%20Node%3A%20eight%20cores,and%20a%2010%2D%20Gige%20Nic%20.&text=75%20MB%2Fsec%20per%20node,therefore%2010GB%20Nic%20is%20required%20](https://github.com/nats-io/nats.docs/tree/2f63683873099948516e99fae28f6bca9f937343/HDPDocuments/HDF3/HDF-3.1.0/bk_planning-your-deployment/content/ch_hardware-sizing.html#:~:text=Kafka%20Broker%20Node%3A%20eight%20cores,and%20a%2010-%20Gige%20Nic%20.&text=75%20MB%2Fsec%20per%20node,therefore%2010GB%20Nic%20is%20required)
+1.  [https://docs.cloudera.com/HDPDocuments/HDF3/HDF-3.1.0/bk\_planning-your-deployment/content/ch\_hardware-sizing.html](https://docs.cloudera.com/HDPDocuments/HDF3/HDF-3.1.0/bk_planning-your-deployment/content/ch_hardware-sizing.html)
 2. [https://pulsar.apache.org/docs/v1.21.0-incubating/deployment/cluster/](https://pulsar.apache.org/docs/v1.21.0-incubating/deployment/cluster/)
 3. [https://github.com/grpc-ecosystem](https://github.com/grpc-ecosystem)
 
