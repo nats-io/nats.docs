@@ -41,7 +41,7 @@ The NATS based resolver embeds the functionality of the [account server](https:/
 
 ### Full
 
-The Full resolver stores all JWTs and exchanges them in an eventually consistent way with other resolvers of the same type. [`nsc`](../../../../nats-tools/nsc/) supports push/pull/purge with this resolver type. [JWTs](https://github.com/nats-io/nats.docs/tree/8c85d9c047d2203c7867b62a8415cdfa4d117f04/nats-server/configuration/nats-server/configuration/securing_nats/jwt/README.md), uploaded this way, are stored in a directory the server has exclusive access to.
+The Full resolver stores all JWTs and exchanges them in an eventually consistent way with other resolvers of the same type. [`nsc`](../../../../nats-tools/nsc/) supports push/pull/purge with this resolver type. [JWTs](./), uploaded this way, are stored in a directory the server has exclusive access to.
 
 ```yaml
 resolver: {
@@ -85,7 +85,7 @@ resolver: {
 
 ### NATS Based Resolver - Integration
 
-The NATS based resolver utilizes the system account for lookup and upload of account [JWTs](https://github.com/nats-io/nats.docs/tree/8c85d9c047d2203c7867b62a8415cdfa4d117f04/nats-server/configuration/nats-server/configuration/securing_nats/jwt/README.md) . If your application requires tighter integration you can make use of these subjects for tighter integration.
+The NATS based resolver utilizes the system account for lookup and upload of account [JWTs](./) . If your application requires tighter integration you can make use of these subjects for tighter integration.
 
 To upload or update any generated account JWT without [`nsc`](../../../../nats-tools/nsc/), send it as a request to `$SYS.REQ.CLAIMS.UPDATE`. Each participating `full` NATS based account resolver will respond with a message detailing success or failure.
 

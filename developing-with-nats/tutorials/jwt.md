@@ -327,7 +327,7 @@ To obtain an Account JWT, the nats-server is configured with one of three [resol
   * Changes to the operator still require reloading \(only a few operations require that\).
   * Will download Accounts from a web server.
     * Allows for easy publication of account JWTs programmatically generated using NKEYs and the JWT library.
-    * The [`nats-account-server`](https://github.com/nats-io/nats.docs/tree/3fbe9e253a7b2fbf18766cd6f41fe0e866548868/developing-with-nats/nats-tools/nas/README.md) is such a webserver. When set up correctly, it will inform `nats-server` of Account JWT changes.
+    * The [`nats-account-server`](../../nats-tools/nas/) is such a webserver. When set up correctly, it will inform `nats-server` of Account JWT changes.
   * Depending on configuration, requires read and/or write access to persistent storage.
 * `nats-resolver`: Same as `url-resolver`, just uses NATS instead of http
   * No separate binary to run/config/monitor.
