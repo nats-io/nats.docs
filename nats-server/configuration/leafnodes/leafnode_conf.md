@@ -90,15 +90,15 @@ If other form of credentials are used \(jwt, nkey or other\), then the server wi
 | :--- | :--- |
 | `url` | Leafnode URL \(URL protocol should be `nats-leaf`\). |
 | `urls` | Leafnode URL array. Supports multiple URLs for discovery, e.g., urls: \[ "nats-leaf://host1:7422", "nats-leaf://host2:7422" \] |
-| `account` | [Account](../securing_nats/accounts.md) name or jwt public key identifying the local account to bind to this remote server. Any traffic locally on this account will be forwarded to the remote server. |
+| `account` | [Account](../securing_nats/accounts.md) name or JWT public key identifying the local account to bind to this remote server. Any traffic locally on this account will be forwarded to the remote server. |
 | `credentials` | Credential file for connecting to the leafnode server. |
 | `tls` | A [TLS configuration](leafnode_conf.md#tls-configuration-block) block. Leafnode client will use specified TLS certificates when connecting/authenticating. |
-| `ws_compression` | If connecting with [Websocket](https://github.com/nats-io/nats.docs/tree/0ab2bb72b305dcf4817b8f1fc4f37ab9b0c8a2db/nats-server/configuration/leafnodes/leafnode_conf/README.md#connecting-using-websocket-protocol) protocol, this boolean \(`true` or `false`\) indicates to the remote server that it wishes to use compression. The default is `false`. |
-| `ws_no_masking` | If connecting with [Websocket](https://github.com/nats-io/nats.docs/tree/0ab2bb72b305dcf4817b8f1fc4f37ab9b0c8a2db/nats-server/configuration/leafnodes/leafnode_conf/README.md#connecting-using-websocket-protocol) protocol, this boolean indicates to the remote server that it wishes not to mask outbound websocket frames. The default is `false`, which means that outbound frames will be masked. |
+| `ws_compression` | If connecting with [Websocket](leafnode_conf.md#connecting-using-websocket-protocol) protocol, this boolean \(`true` or `false`\) indicates to the remote server that it wishes to use compression. The default is `false`. |
+| `ws_no_masking` | If connecting with [Websocket](leafnode_conf.md#connecting-using-websocket-protocol) protocol, this boolean indicates to the remote server that it wishes not to mask outbound WebSocket frames. The default is `false`, which means that outbound frames will be masked. |
 
-### Connecting using Websocket protocol
+### Connecting using WebSocket protocol
 
-Since NATS 2.2.0, Leaf nodes support outbound websocket connections by specifying `ws` as the scheme component of the remote server URLs:
+Since NATS 2.2.0, Leaf nodes support outbound WebSocket connections by specifying `ws` as the scheme component of the remote server URLs:
 
 ```text
 leafnodes {
@@ -119,7 +119,7 @@ Note that if a URL has the `ws` scheme, all URLs the list must be `ws`. You cann
 
 Note that the decision to make a TLS connection is not based on `wss://` \(as opposed to `ws://`\) but instead in the presence of a TLS configuration in the `leafnodes{}` or the specific remote configuration block.
 
-To configure Websocket in the remote server, check the [Websocket](https://github.com/nats-io/nats.docs/tree/0ab2bb72b305dcf4817b8f1fc4f37ab9b0c8a2db/nats-server/configuration/websocket/websocket_conf.md) secion.
+To configure Websocket in the remote server, check the [Websocket](../websocket/) section.
 
 ### `tls` Configuration Block
 
