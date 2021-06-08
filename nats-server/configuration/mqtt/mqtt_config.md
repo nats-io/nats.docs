@@ -104,9 +104,11 @@ mqtt {
 
 ### Operator mode
 
-In operator mode, all users need to provide a JWT in order to connect. For MQTT clients, it means that you need to pass the JWT token as the MQTT password and use any username since MQTT protocol requires a username to be set if a password is set.
+In operator mode, all users need to provide a JWT in order to connect. In the standard authentication procedure of this mode, NATS clients are required to sign a `nonce` sent by the server using their private key \(see [JWTs and Privacy](../securing_nats/jwt/#jwts-and-privacy)\). MQTT clients cannot do that, therefore, the JWT is used for authentication, removing the need of the seed. It means that you need to pass the JWT token as the MQTT password and use any username (except empty, since MQTT protocol requires a username to be set if a password is set). The JWT has to have the `Bearer` boolean set to true, which can be done with nsc:
 
-In this mode, NATS clients are required to sign a `nonce` sent by the server using their private key \(see [JWTs and Privacy](../securing_nats/jwt/#jwts-and-privacy)\). Of course MQTT clients cannot do that, therefore, in order for the JWT to be accepted by the server without the need of signing the `nonce`, the JWT has to have the `Bearer` boolean set to true.
+```
+nsc edit user --name U --account A --bearer
+```
 
 ### Local mode
 
