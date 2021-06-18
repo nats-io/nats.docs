@@ -28,7 +28,7 @@ $ docker run --rm -it -v $(pwd)/nsc:/nsc synadia/nats-box:latest
 
 # In case NSC not initialized already:
 nats-box:~# nsc init
-nats-box:~# chmod -R 1000:1000 /nsc
+nats-box:~# chown -R 1000:1000 /nsc
 $ tree -L 2 nsc/
 nsc/
 ├── accounts
