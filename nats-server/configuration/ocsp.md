@@ -19,7 +19,7 @@ tlsfeature = status_request
 The NATS server will make a request to the OCSP responder to fetch a new staple which will then be presented to
 any TLS connection that is accepted by the server during the TLS handshake.
 
-OCSP Stapling can be explicitly enabled or disabled in the NATS Server by setting the following flag in the NATS configuration file:
+OCSP Stapling can be explicitly enabled or disabled in the NATS Server by setting the following flag in the NATS configuration file at the top-level:
 
 ```hcl
 ocsp: false
@@ -71,7 +71,10 @@ to allow the server to resume in case of restarts without having to make another
 if the staple is still valid.
                     
 ```hcl
+ocsp: true
+
 store_dir: "/path/to/store/dir"
+
 tls {
 	cert_file: "configs/certs/ocsp/server-status-request-url.pem"
 	key_file: "configs/certs/ocsp/server-status-request-url-key.pem"
