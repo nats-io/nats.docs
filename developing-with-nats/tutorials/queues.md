@@ -68,5 +68,5 @@ You should see that only one of the my-queue group subscribers receives the mess
 go run nats-pub/main.go foo "Hello NATS Again!"
 ```
 
-You should see that a different queue group subscriber receives the message this time, chosen at random among the 3 queue group members.
+You should see that a different queue group subscriber receives the message this time, chosen at random among the 2 queue group members.
 
