@@ -1,27 +1,27 @@
-# Jetstream in LeafNodes 
+# JetStream in LeafNodes 
 
 If you want to see a demonstration of the full range of this functionality, check out our [video](https://youtu.be/0MkS_S7lyHk)
 
-One of the use cases for leaf nodes is to provide a local nats network even when the connection to a hub or the cloud is down.
-To support such a disconnected use case with JetStream, independent JetStream islands are also supported and available through the same nats network.
+One of the use cases for leafnodes is to provide a local NATS network even when the connection to a hub or the cloud is down.
+To support such a disconnected use case with JetStream, independent JetStream islands are also supported and available through the same NATS network.
 
 The general issue with multiple, independent JetStreams, accessible from the same client is that you need to be able to tell them apart. 
-As an example, consider a leaf node with a non clustered JetStream in each server. 
+As an example, consider a leafnode with a non-clustered JetStream in each server. 
 You connect to one of them, but which JetStream responds when you use the JetStream API `$JS.API.>` ?
 
 To disambiguate that, the option `domain` was added to the JetStream configuration block. 
 When using it, follow these rules:
 Every server in a cluster and super cluster needs to have the same domain name. 
-This means that domain names can only change between two servers if they are connected via a leaf node connection.
+This means that domain names can only change between two servers if they are connected via a leafnode connection.
 As a result of this the JetStream API `$JS.API.>` will also be available under a disambiguated name `$JS.<domain>.API.>`.
 Needless to say, domain names need to be unique.
 
-There are reasons to connect system accounts on either end of your leaf node connection.
-You probably don't want to connect your cloud and edge device system accounts, but you might connect them when the only reason keeping you from using a super cluster are fire wall rules.
+There are reasons to connect system accounts on either end of your leafnode connection.
+You probably don't want to connect your cloud and edge device system accounts, but you might connect them when the only reason keeping you from using a super cluster are firewall rules.
 The benefits are: 
-1) monitoring of all connected nats-servers.
-2) nats-account-resolver working on the entire network.
-3) extended JetStream cluster.
+1) monitoring of all connected nats-servers
+2) nats-account-resolver working on the entire network
+3) extended JetStream cluster
 
 When `domain` is set, JetStream-related traffic on the system account is suppressed. 
 This is what causes JetStream to not be extended.
@@ -34,18 +34,18 @@ Please be aware that each domain is an independent name space.
 Meaning, inside the same account it is legal to use the same stream name in different domains.
 
 Furthermore, regular message flow is not restricted. 
-Thus, if the same subject is subscribed to by different streams in the same account in different domains, as long as the underlying leaf node was connected at the time, each stream will store the message.
+Thus, if the same subject is subscribed to by different streams in the same account in different domains, as long as the underlying leafnode was connected at the time, each stream will store the message.
 This can be resolved by using the same account but use different subjects in each domain or use different accounts in each domain or [isolate accounts](https://youtu.be/0MkS_S7lyHk?t=1151) used in leaf nodes.
 
-> *known issue*: if you have more than one JetStream enabled leaf node in a different cluster, the cluster you connect to also needs JetStream enabled and a domain set. 
-> *known issue*: when you intend to extend a central JetStream, by not supplying a domain name in leaf nodes, that central JetStream needs to be in clustered mode.
+> *Known issue*: if you have more than one JetStream enabled leafnode in a different cluster, the cluster you connect to also needs JetStream enabled and a domain set. 
+> *Known issue*: when you intend to extend a central JetStream, by not supplying a domain name in leafnodes, that central JetStream needs to be in clustered mode.
 
 ## Configuration
 
-Below is the config needed to connect two JetStream enabled servers via a leaf node connection.
+Below is the config needed to connect two JetStream enabled servers via a leafnode connection.
 In the example, the system accounts are connected for demonstration purposes (you do not have to do that).
 
-### `accounts.conf` imported by both server
+### `accounts.conf` Imported by Both Servers
 
 ```txt
 accounts {
@@ -250,7 +250,7 @@ Obtaining Stream stats
 #### Copying across domains via `source` or `mirror`
 
 In order to copy a stream from one domain into another, specify the JetStream domain when creating a `mirror`.
-If you want to connect a leaf to the hub and get commands, even when the leaf node connection is offline, mirroring a stream located in the hub is the way to go.
+If you want to connect a leaf to the hub and get commands, even when the leafnode connection is offline, mirroring a stream located in the hub is the way to go.
 
 ```bash
 > nats  --server nats://acc:acc@localhost:4222 stream add --js-domain hub --mirror test
@@ -295,7 +295,7 @@ State:
      Active Consumers: 0
 ```
 
-Similarly, if you want to aggregate streams located in any number of leaf nodes use `source`. 
+Similarly, if you want to aggregate streams located in any number of leafnodes use `source`. 
 If the streams located in each leaf are used for the same reasons, it is recommended to aggregate them in the hub for processing via `source`.
 
 ```bash
@@ -343,7 +343,7 @@ State:
 ```
 
 `source` as well as `mirror` take a copy of the messages.
-Once copied, accessing the data is independent of the leaf node connection being online.
+Once copied, accessing the data is independent of the leafnode connection being online.
 Copying this way also avoids having to run a dedicated program of your own. 
 This is the recommended way to exchange persistent data across domains.
 
@@ -428,7 +428,7 @@ accounts {
 system_account: SYS
 ```
 
-##### Copying via `source` an `mirror`
+##### Copying via `source` and `mirror`
 
 Once the servers have been restarted or reloaded, a `mirror` can be created as follows (same applies to `source`):
 On import from a different account the renamed prefix `JS.acc@hub.API` is provided.
@@ -572,7 +572,7 @@ Obtaining Stream stats
 ╰──────────┴──────┴────────────┴──────────┴─────────────┴─────────────┴─────────────┴───────────┴─────────────╯
 ```
 
-To retrieve the messages stored in the domain `hub` using `nats` while connected to the leaf node, provide the correct stream and durable name as well as the API prefix `JS.acc@hub.API` 
+To retrieve the messages stored in the domain `hub` using `nats` while connected to the leafnode, provide the correct stream and durable name as well as the API prefix `JS.acc@hub.API` 
 
 ```
 nats --server nats://import_client:import_client@localhost:4111 consumer next aggregate-test-leaf dur --js-api-prefix JS.acc@hub.API
@@ -608,7 +608,7 @@ To avoid waiting for the ack timeout, a new message is sent on `test` from where
 17:51:05 Published 13 bytes to "test"
 ```
 
-The client is connected to the leaf node and receives the message just sent.
+The client is connected to the leafnode and receives the message just sent.
 
 ```
 ./main nats://import_client:import_client@localhost:4111
