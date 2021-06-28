@@ -144,6 +144,7 @@
 * [Model Deep Dive](jetstream/model_deep_dive.md)
 * [NATS API Reference](jetstream/nats_api_reference.md)
 * [Multi-tenancy & Resource Mgmt](jetstream/resource_management.md)
+* [Leaf Nodes](jetstream/leafnodes.md)
 
 ## NATS Tools
 
