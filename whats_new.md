@@ -4,7 +4,7 @@ The NATS.io team is always working to bring you features to improve your NATS ex
 
 ## Server release v2.3.0
 
-* [OCSP support](nats-server/configuration/ocsp)
+* [OCSP support](nats-server/configuration/ocsp.md)
 
 ### JetStream
 * Richer API errors. JetStream errors now contain an ErrCode that uniquely describes the error. 
