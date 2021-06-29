@@ -247,7 +247,7 @@ Obtaining Stream stats
 
 ```
 
-#### Copying across domains via `source` or `mirror`
+### Copying across domains via `source` or `mirror`
 
 In order to copy a stream from one domain into another, specify the JetStream domain when creating a `mirror`.
 If you want to connect a leaf to the hub and get commands, even when the leaf node connection is offline, mirroring a stream located in the hub is the way to go.
@@ -371,7 +371,7 @@ Obtaining Stream stats
 ╰─────────────────────┴────────┴──────────────┴───────────────┴────────┴─────┴───────╯
 ```
 
-#### Cross account & domain import 
+### Cross account & domain import 
 
 All of the above happened in the same account.
 To share domain access across accounts the `account.conf` from above needs to be modified and the server restarted or reloaded.
@@ -428,7 +428,7 @@ accounts {
 system_account: SYS
 ```
 
-##### Copying via `source` and `mirror`
+#### Copying via `source` and `mirror`
 
 Once the servers have been restarted or reloaded, a `mirror` can be created as follows (same applies to `source`):
 On import from a different account the renamed prefix `JS.acc@hub.API` is provided.
@@ -503,7 +503,7 @@ Obtaining Stream stats
 ╰──────────────────────────────┴────────┴────────────────┴─────────────────────┴────────┴─────┴───────╯
 ```
 
-##### Direct access of a durable pull consumer 
+#### Direct access of a durable pull consumer 
 
 The modified `accounts.conf` also includes a separate import for an existing pull consumer.
 Let's create a consumer by the name `dur` in the stream `aggregate-test-leaf` in the account `acc`.
