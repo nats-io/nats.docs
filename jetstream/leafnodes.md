@@ -90,8 +90,8 @@ leafnodes {
             account: "SYS"
         },
         {
-            urls: ["nats-leaf://rmt:rmt@0.0.0.0:7422"]
-            account: "RMT"
+            urls: ["nats-leaf://acc:acc@0.0.0.0:7422"]
+            account: "ACC"
         }
     ]
 }
