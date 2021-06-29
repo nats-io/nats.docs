@@ -2,6 +2,21 @@
 
 The NATS.io team is always working to bring you features to improve your NATS experience. Below you will find feature summaries for new implementations to NATS. Check back often for release highlights and updates.
 
+## Server release v2.3.0
+
+* [OCSP support](nats-server/configuration/ocsp.md)
+
+### JetStream
+* Richer API errors. JetStream errors now contain an ErrCode that uniquely describes the error. 
+* Ability to send more advanced Stream purge requests that can purge all messages for a specific subject
+* Stream can now be configured with a per-subject message limit
+* Encryption of JetStream data at rest
+
+For full release information, see links below;
+
+* Release notes [2.3.0](https://github.com/nats-io/nats-server/releases/tag/v2.3.0)
+* Full list of Changes [2.2.6...2.3.0](https://github.com/nats-io/nats-server/compare/v2.2.6...v2.3.0)
+
 ## Server release v2.2.0
 
 See [NATS 2.2](whats_new_22.md) for new features.
