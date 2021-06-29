@@ -247,10 +247,6 @@ Obtaining Stream stats
 
 ### Copying across domains via `source` or `mirror`
 
-#### Copying across domains via `source` or `mirror`
-
-### Copying across domains via `source` or `mirror`
-
 In order to copy a stream from one domain into another, specify the JetStream domain when creating a `mirror`. If you want to connect a leaf to the hub and get commands, even when the leaf node connection is offline, mirroring a stream located in the hub is the way to go.
 
 ```bash
@@ -367,10 +363,6 @@ Obtaining Stream stats
 │ aggregate-test-leaf │ Source │ $JS.leaf.API │ test          │ 1.23s  │ 0   │       │
 ╰─────────────────────┴────────┴──────────────┴───────────────┴────────┴─────┴───────╯
 ```
-
-### Cross account & domain import
-
-#### Cross account & domain import
 
 ### Cross account & domain import
 
