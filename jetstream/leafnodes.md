@@ -49,13 +49,13 @@ In the example, the system accounts are connected for demonstration purposes (yo
 
 ```txt
 accounts {
-	SYS: {
-		users: [{user: admin, password: admin}]
-	},
-	ACC: {
-		users: [{user: acc, password: acc}],
-		jetstream: enabled
-	}
+    SYS: {
+        users: [{user: admin, password: admin}]
+    },
+    ACC: {
+        users: [{user: acc, password: acc}],
+        jetstream: enabled
+    }
 }
 system_account: SYS
 ```
@@ -68,11 +68,11 @@ To be started with `nats-server -c hub.conf`:
 port: 4222
 server_name: hub-server
 jetstream {
-	store_dir="./store_server"
-	domain=hub
+    store_dir="./store_server"
+    domain=hub
 }
 leafnodes {
-	port: 7422
+    port: 7422
 }
 include ./accounts.conf
 ```
@@ -85,8 +85,8 @@ To be started with `nats-server -c leaf.conf`:
 port: 4111
 server_name: leaf-server
 jetstream {
-	store_dir="./store_leaf"
-	domain=leaf
+    store_dir="./store_leaf"
+    domain=leaf
 }
 leafnodes {
     remotes = [
@@ -391,12 +391,12 @@ It is possible to give access to the entire consumer API `$JS.hub.API.CONSUMER.>
 
 ```txt
 accounts {
-	SYS: {
-		users: [{user: admin, password: admin}]
-	},
-	ACC: {
-		users: [{user: acc, password: acc}],
-		jetstream: enabled
+    SYS: {
+        users: [{user: admin, password: admin}]
+    },
+    ACC: {
+        users: [{user: acc, password: acc}],
+        jetstream: enabled
         exports: [
             # minimum export needed to allow source/mirror to create a consumer on the fly
             {service: "$JS.hub.API.CONSUMER.CREATE.*", response_type: "stream"}
@@ -407,23 +407,23 @@ accounts {
             # minimum export needed to ack messages for durable consumer `dur` in stream `aggregate-test-leaf`. (clients only - source and mirror do not use this)
             {service: "$JS.ACK.aggregate-test-leaf.dur.>"}
         ]
-	}
-	IMPORT_MIRROR: {
-		users: [{user: import_mirror, password: import_mirror}],
-		jetstream: enabled
+    }
+    IMPORT_MIRROR: {
+        users: [{user: import_mirror, password: import_mirror}],
+        jetstream: enabled
         imports: [
             {service: {account: ACC, subject: "$JS.hub.API.CONSUMER.CREATE.*"}, to: "JS.acc@hub.API.CONSUMER.CREATE.*" }
             {stream: {account: ACC, subject: deliver.acc.hub.import_mirror.>}}
         ]
-	}
+    }
     IMPORT_CLIENT: {
-		users: [{user: import_client, password: import_client}],
-		jetstream: enabled
+        users: [{user: import_client, password: import_client}],
+        jetstream: enabled
         imports: [
             {service: {account: ACC, subject: "$JS.hub.API.CONSUMER.MSG.NEXT.aggregate-test-leaf.dur"}, to: "JS.acc@hub.API.CONSUMER.MSG.NEXT.aggregate-test-leaf.dur" }
             {service: {account: ACC, subject: "$JS.ACK.aggregate-test-leaf.dur.>"}}
         ]
-	}
+    }
 }
 system_account: SYS
 ```
