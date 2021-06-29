@@ -9,7 +9,7 @@ The general issue with multiple, independent JetStreams, accessible from the sam
 As an example, consider a leafnode with a non-clustered JetStream in each server. 
 You connect to one of them, but which JetStream responds when you use the JetStream API `$JS.API.>` ?
 
-To disambiguate that, the option `domain` was added to the JetStream configuration block. 
+To disambiguate between servers, the option `domain` was added to the JetStream configuration block. 
 When using it, follow these rules:
 Every server in a cluster and super cluster needs to have the same domain name. 
 This means that domain names can only change between two servers if they are connected via a leafnode connection.
@@ -377,7 +377,7 @@ All of the above happened in the same account.
 To share domain access across accounts the `account.conf` from above needs to be modified and the server restarted or reloaded.
 This example exports the consumer API as well as a delivery subject which is used by the internal push consumer created by `source` and `mirror`.
 
-In support of an example on how to share a durable consumer for client access across domains and accounts, the `NEXT` and `ACK` API are exported as well.
+In support of another example on how to share a durable consumer for client access across domains and accounts, the `NEXT` and `ACK` API are exported as well.
 
 On import, the JetStream API prefix `$JS.hub.API` is renamed to `JS.test@hub.API`.
 This is to, once more, disambiguate which JetStream a client in the importing account might want to interact with. 
