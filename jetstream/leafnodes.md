@@ -12,13 +12,9 @@ The general issue with multiple, independent JetStreams, accessible from the sam
 
 To disambiguate between servers, the option `domain` was added to the JetStream configuration block. When using it, follow these rules: Every server in a cluster and super cluster needs to have the same domain name. This means that domain names can only change between two servers if they are connected via a leaf node connection. As a result of this the JetStream API `$JS.API.>` will also be available under a disambiguated name `$JS.<domain>.API.>`. Needless to say, domain names need to be unique.
 
-There are reasons to connect system accounts on either end of your leaf node connection. You probably don't want to connect your cloud and edge device system accounts, but you might connect them when the only reason keeping you from using a super cluster are firewall rules. 
+There are reasons to connect system accounts on either end of your leaf node connection. You probably don't want to connect your cloud and edge device system accounts, but you might connect them when the only reason keeping you from using a super cluster are firewall rules.
 
-There are reasons to connect system accounts on either end of your leaf node connection. You probably don't want to connect your cloud and edge device system accounts, but you might connect them when the only reason keeping you from using a super cluster are firewall rules. The benefits are: 1\) monitoring of all connected nats-servers 2\) nats-account-resolver working on the entire network 3\) extended JetStream cluster
-
-There are reasons to connect system accounts on either end of your leaf node connection. You probably don't want to connect your cloud and edge device system accounts, but you might connect them when the only reason keeping you from using a super cluster are firewall rules. The benefits are: 1\) monitoring of all connected nats-servers 2\) nats-account-resolver working on the entire network 3\) extended JetStream cluster
-
-The benefits are: 
+The benefits are:
 
 * Monitoring of all connected nats-servers 
 * nats-account-resolver working on the entire network
@@ -32,7 +28,7 @@ Please be aware that each domain is an independent name space. Meaning, inside t
 
 Furthermore, regular message flow is not restricted. Thus, if the same subject is subscribed to by different streams in the same account in different domains, as long as the underlying leaf node was connected at the time, each stream will store the message. This can be resolved by using the same account but use different subjects in each domain or use different accounts in each domain or [isolate accounts](https://youtu.be/0MkS_S7lyHk?t=1151) used in leaf nodes.
 
-> _Known issue_: if you have more than one JetStream enabled leaf node in a different cluster, the cluster you connect to also needs JetStream enabled and a domain set. 
+> _Known issue_: if you have more than one JetStream enabled leaf node in a different cluster, the cluster you connect to also needs JetStream enabled and a domain set.
 >
 > _Known issue_: when you intend to extend a central JetStream, by not supplying a domain name in leaf nodes, that central JetStream needs to be in clustered mode.
 

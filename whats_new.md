@@ -7,6 +7,7 @@ The NATS.io team is always working to bring you features to improve your NATS ex
 * [OCSP support](nats-server/configuration/ocsp.md)
 
 ### JetStream
+
 * Richer API errors. JetStream errors now contain an ErrCode that uniquely describes the error. 
 * Ability to send more advanced Stream purge requests that can purge all messages for a specific subject
 * Stream can now be configured with a per-subject message limit
