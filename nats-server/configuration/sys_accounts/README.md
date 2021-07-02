@@ -38,7 +38,7 @@ In addition other tools with system account privileges, can initiate requests \(
 [Monitoring endpoints](../monitoring.md) as listed in the table below are accessible as system services using the following subject pattern:
 
 * `$SYS.REQ.SERVER.<id>.<endpoint-name>` \(request server monitoring endpoint corresponding to endpoint name.\)
-* `$SYS.REQ.SERVER.PING.<endpoint-name>` \(from all server request server monitoring endpoint corresponding to endpoint name - will return multiple messages\)
+* `$SYS.REQ.SERVER.PING.<endpoint-name>` \(from all server, request server monitoring endpoint corresponding to endpoint name - will return multiple messages\)
 
 | Endpoint | Endpoint Name |
 | :--- | :--- |
@@ -48,6 +48,18 @@ In addition other tools with system account privileges, can initiate requests \(
 | [Gateways](../monitoring.md#gateway-information) | `GATEWAYZ` |
 | [Leaf Nodes](../monitoring.md#leaf-nodes-information) | `LEAFZ` |
 | [Subscription Routing](../monitoring.md#subscription-routing-information) | `SUBSZ` |
+| [JetStream](../monitoring.md#jetstream-information) | `JSZ` |
+| [Accounts](../monitoring.md#account-information) | `ACCOUNTZ` |
+
+* `"$SYS.REQ.ACCOUNT.<account-id>.<endpoint-name>`\(from all server, request account specific monitoring endpoint corresponding to account id and endpoint name - will return multiple messages\)
+
+| Endpoint | Endpoint Name |
+| :--- | :--- |
+| [Connections](../monitoring.md#connection-information) | `CONNZ` |
+| [Leaf Nodes](../monitoring.md#leaf-nodes-information) | `LEAFZ` |
+| [Subscription Routing](../monitoring.md#subscription-routing-information) | `SUBSZ` |
+| [JetStream](../monitoring.md#jetstream-information) | `JSZ` |
+| [Account](../monitoring.md#account-information) | `INFO` |
 
 Servers like `nats-account-server` publish system account messages when a claim is updated, the nats-server listens for them, and updates its account information accordingly:
 
