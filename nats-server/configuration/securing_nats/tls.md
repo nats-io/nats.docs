@@ -2,19 +2,19 @@
 
 The NATS server uses modern TLS semantics to encrypt client, route, and monitoring connections. Server configuration revolves around a `tls` map, which has the following properties:
 
-| Property | Description |
-| :--- | :--- |
-| `cert_file` | TLS certificate file. |
-| `key_file` | TLS certificate key file. |
-| `ca_file` | TLS [certificate authority file](tls.md#certificate-authorities). When not present, default to the system trust store. |
-| `cipher_suites` | When set, only the specified TLS cipher suites will be allowed. Values must match the golang version used to build the server. |
-| `curve_preferences` | List of TLS cipher curves to use in order. |
-| `insecure` | Skip certificate verification. This only applies to outgoing connections, NOT incoming client connections. **NOT Recommended** |
-| `timeout` | TLS handshake [timeout](tls.md#tls-timeout) in fractional seconds. Default set to `0.5` seconds. |
-| `verify` | If `true`, require and [verify](auth_intro/tls_mutual_auth.md#validating-a-client-certificate) client certificates. To support use by Browser, this option does not apply to monitoring. |
-| `verify_and_map` | If `true`, require and verify client certificates and [map](auth_intro/tls_mutual_auth.md#mapping-client-certificates-to-a-user) certificate values for authentication purposes. Does not apply to monitoring either. |
-| `verify_cert_and_check_known_urls` | Only settable in a non client context where `verify: true` is the default \([cluster](../clustering/)/[gateway](../gateways/)\). The incoming connections certificate's `X509v3 Subject Alternative Name` `DNS` entries will be matched against all urls in the configuration context that contains this tls map. If a match is found, the connection is accepted and rejected otherwise. Meaning for gateways we will match all DNS entries in the certificate against all gateway urls. For cluster we will match against all route urls. As a consequence of this, dynamic cluster growth may require config changes in other cluster where this flag is true. DNS name checking is performed according to [rfc6125](https://tools.ietf.org/html/rfc6125#section-6.4.1). Only the full wildcard `*` is supported for the left most label. This would be one way to keep cluster growth flexible. |
-| `pinned_certs` | List of hex-encoded SHA256 of DER encoded public key fingerprints. When present, during the TLS handshake, the provided certificate's fingerprint is required to be present in the list or the connection is closed. This sequence of commands generates an entry for a provided certificate: `openssl x509 -noout -pubkey -in <cert.pem> | openssl pkey -pubin -outform DER  | openssl dgst -sha256`. |
+| Property | Description |  |  |
+| :--- | :--- | :--- | :--- |
+| `cert_file` | TLS certificate file. |  |  |
+| `key_file` | TLS certificate key file. |  |  |
+| `ca_file` | TLS [certificate authority file](tls.md#certificate-authorities). When not present, default to the system trust store. |  |  |
+| `cipher_suites` | When set, only the specified TLS cipher suites will be allowed. Values must match the golang version used to build the server. |  |  |
+| `curve_preferences` | List of TLS cipher curves to use in order. |  |  |
+| `insecure` | Skip certificate verification. This only applies to outgoing connections, NOT incoming client connections. **NOT Recommended** |  |  |
+| `timeout` | TLS handshake [timeout](tls.md#tls-timeout) in fractional seconds. Default set to `0.5` seconds. |  |  |
+| `verify` | If `true`, require and [verify](auth_intro/tls_mutual_auth.md#validating-a-client-certificate) client certificates. To support use by Browser, this option does not apply to monitoring. |  |  |
+| `verify_and_map` | If `true`, require and verify client certificates and [map](auth_intro/tls_mutual_auth.md#mapping-client-certificates-to-a-user) certificate values for authentication purposes. Does not apply to monitoring either. |  |  |
+| `verify_cert_and_check_known_urls` | Only settable in a non client context where `verify: true` is the default \([cluster](../clustering/)/[gateway](../gateways/)\). The incoming connections certificate's `X509v3 Subject Alternative Name` `DNS` entries will be matched against all urls in the configuration context that contains this tls map. If a match is found, the connection is accepted and rejected otherwise. Meaning for gateways we will match all DNS entries in the certificate against all gateway urls. For cluster we will match against all route urls. As a consequence of this, dynamic cluster growth may require config changes in other cluster where this flag is true. DNS name checking is performed according to [rfc6125](https://tools.ietf.org/html/rfc6125#section-6.4.1). Only the full wildcard `*` is supported for the left most label. This would be one way to keep cluster growth flexible. |  |  |
+| `pinned_certs` | List of hex-encoded SHA256 of DER encoded public key fingerprints. When present, during the TLS handshake, the provided certificate's fingerprint is required to be present in the list or the connection is closed. This sequence of commands generates an entry for a provided certificate: \`openssl x509 -noout -pubkey -in  | openssl pkey -pubin -outform DER | openssl dgst -sha256\`. |
 
 The simplest configuration:
 

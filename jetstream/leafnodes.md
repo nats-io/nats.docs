@@ -114,10 +114,6 @@ Because the system account is connected, you can obtain the JetStream server rep
 
 Create a stream named `test` subscribing to subject `test` in the JetStream domain, the program is connected to. As a result, this stream will be created in the domain hub which is the domain of the server listening on `localhost:4222`.
 
-Create a stream named `test` subscribing to subject `test` in the JetStream domain the program is connected to. As a result, this stream will be created in the domain hub which is the domain of the server listening on `localhost:4222`.
-
-Create a stream named `test` subscribing to subject `test` in the JetStream domain the program is connected to. As a result, this stream will be created in the domain hub which is the domain of the server listening on `localhost:4222`.
-
 ```bash
 > nats  --server nats://acc:acc@localhost:4222 stream add
 ? Stream Name test
@@ -159,10 +155,6 @@ State:
               LastSeq: 0
      Active Consumers: 0
 ```
-
-To create a stream in a different domain while connected somewhere else, just provide the `js-domain` arguement. While connected to the same server as before, now the stream is created in `leaf`.
-
-To create a stream in a different domain while connected somewhere else, just provide the `js-domain` argument. While connected to the same server as before, now the stream is created in `leaf`.
 
 To create a stream in a different domain while connected somewhere else, just provide the `js-domain` argument. While connected to the same server as before, now the stream is created in `leaf`.
 
@@ -365,10 +357,6 @@ Obtaining Stream stats
 All of the above happened in the same account. To share domain access across accounts the `account.conf` from above needs to be modified and the server restarted or reloaded. This example exports the consumer API as well as a delivery subject which is used by the internal push consumer created by `source` and `mirror`.
 
 In support of another example on how to share a durable consumer for client access across domains and accounts, the `NEXT` and `ACK` API are exported as well.
-
-On import, the JetStream API prefix `$JS.hub.API` is renamed to `JS.test@hub.API`. This is to, once more, disambiguate which JetStream a client in the importing account might want to interact with. When using domains, the general recommendation is to export the domain-specific API `$JS.<domain>.API` as this allows you to pin the export to a particular domain.
-
-On import, the JetStream API prefix `$JS.hub.API` is renamed to `JS.test@hub.API`. This is to, once more, disambiguate which JetStream a client in the importing account might want to interact with. When using domains, the general recommendation is to export the domain specific API `$JS.<domain>.API` as this allows you to pin the export to a particular domain.
 
 On import, the JetStream API prefix `$JS.hub.API` is renamed to `JS.test@hub.API`. This is to, once more, disambiguate which JetStream a client in the importing account might want to interact with. When using domains, the general recommendation is to export the domain specific API `$JS.<domain>.API` as this allows you to pin the export to a particular domain.
 
