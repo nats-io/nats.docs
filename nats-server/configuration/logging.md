@@ -67,7 +67,7 @@ debug:   false
 trace:   true
 logtime: false
 logfile_size_limit: 1GB
-log_file: "/tmp/nats-server.log"
+log_file: "/var/log/nats-server.log"
 ```
 
 ### Log Rotation
@@ -81,6 +81,7 @@ For example, you could configure `logrotate` with:
 ```text
 /path/to/nats-server.log {
     daily
+    create 644 nss nss
     rotate 30
     compress
     missingok
@@ -93,13 +94,28 @@ For example, you could configure `logrotate` with:
 
 The first line specifies the location that the subsequent lines will apply to.
 
+The second line specifies that log file `/path/to/nats-server.log` will be created under nats user `nss` ownership. Else, the log file would be created under `root` ownership (because `logrotate` process runs under root), and cause nats server to immediatelly stop with failure with the error message `error opening file: open /var/log/nats-server.log: permission denied`.
+
 The rest of the file specifies that the logs will rotate daily \("daily" option\) and that 30 older copies will be preserved \("rotate" option\). Other options are described in [logrorate documentation](https://linux.die.net/man/8/logrotate).
 
-The "postrotate" section tells NATS server to reload the log files once the rotation is complete. The command ```kill -SIGUSR1``cat /var/run/nats-server.pid\`\`\` does not kill the NATS server process, but instead sends it a signal causing it to reload its log files. This will cause new requests to be logged to the refreshed log file.
+The "postrotate" section tells NATS server to reload the log files once the rotation is complete. The command ```kill -SIGUSR1 `cat /var/run/nats-server.pid` ``` does not kill the NATS server process, but instead sends it a signal causing it to reload its log files. This will cause new requests to be logged to the refreshed log file.
 
-The `/var/run/nats-server.pid` file is where NATS server stores the master process's pid.
+The `/var/run/nats-server.pid` file is where NATS server stores the master process's pid. To force NATS server using it, you  should add in the NATS configuration file the next line:
+`pid_file:    /var/run/nats-server.pid`
 
 ## Some Logging Notes
 
 * The NATS server, in verbose mode, will log the receipt of `UNSUB` messages, but this does not indicate the subscription is gone, only that the message was received. The `DELSUB` message in the log can be used to determine when the actual subscription removal has taken place.
+* After you enabled logging using the Configuration File and before restart NATS Server daemon, you should manually create the log file with the appropriate permission settings:
+```bash
+sudo touch /path/to/nats-server.log
+sudo chown nss:nss /path/to/nats-server.log
+```
+Else, it can fail to start the nats service with the next error message: "error opening file: open /var/log/nats-server.log: permission
+ denied"
+* If you encounter a failure after enable logrotate for nats, with the following error message: `nats-streaming-server[pid]: Could not write pidfile: open /var/run/nats-server.pid: permission denied`, you should manually create a pid file with the appropriate permission settings:
+```bash
+sudo touch /var/run/nats-server.pid
+sudo chown nss:nss /var/run/nats-server.pid
+```
 
