@@ -28,7 +28,7 @@ spec:
     protocol: TCP
     targetPort: 4222
   selector:
-    app: nats
+    app.kubernetes.io/name: nats
 ' | kubectl apply -f -
 
 $ kubectl get svc nats-nlb -o wide
