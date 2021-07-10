@@ -99,3 +99,39 @@ natsOptions_Destroy(opts);
 {% endtab %}
 {% endtabs %}
 
+Some libraries will allow you to specify some random jitter to add to the reconnect wait specified above. If not specified, the library will default to 100 milliseconds for non TLS connections and 1 second for TLS connections. After all servers in the list have been tried, the library will get a random value between 0 and the reconnect jitter, and add that to the reconnect wait option.
+
+{% tabs %}
+{% tab title="Go" %}
+```go
+// Set some jitter to add to the reconnect wait duration: up to 500 milliseconds for non TLS connections and up to 2 seconds for TLS connections.
+nc, err := nats.Connect("demo.nats.io", nats.ReconnectJitter(500*time.Millisecond, 2*time.Second))
+if err != nil {
+    log.Fatal(err)
+}
+defer nc.Close()
+
+// Do something with the connection
+```
+{% endtab %}
+{% endtabs %}
+
+You can also instead specify a custom reconnect delay callback that will be invoked by the library when the whole list of servers has been tried unsuccesfully. The library will wait for the duration returned by this callback.
+
+{% tabs %}
+{% tab title="Go" %}
+```go
+// Set a custom callback that returns some backoff duration. The library passes the number of attempts
+// of the whole list of server URLs, which can be useful to determine a specific delay.
+nc, err := nats.Connect("demo.nats.io", nats.CustomReconnectDelay(func(attempts int) time.Duration {
+    return someBackoffFunction(attempts)
+}))
+if err != nil {
+    log.Fatal(err)
+}
+defer nc.Close()
+
+// Do something with the connection
+```
+{% endtab %}
+{% endtabs %}
