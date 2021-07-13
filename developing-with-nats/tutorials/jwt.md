@@ -37,7 +37,7 @@ This document provides a step by step deep dive into JWT usage within NATS. Star
       * [Create/Edit Account - All Environments - All Deployment modes](jwt.md#createedit-account---all-environments---all-deployment-modes)
       * [Export Account - Non Operator/Administrator Environment - Decentralized Deployment Modes](jwt.md#export-account---non-operatoradministrator-environment---decentralized-deployment-modes)
       * [Export Account - Non Operator/Administrator Environment - Self Service Deployment Modes](jwt.md#export-account---non-operatoradministrator-environment---self-service-deployment-modes)
-    * [Publicize an Account with Push - Operator Environment/Environment with push permissions - All Deployment Modes](jwt.md#publicize-an-account-with-push---operator-environmentenvironment-with-push-permissions---all-deployment-modes)
+    * [Publicize an Account with Push - Operator Environment/Environment with push permissions - All Deployment Modes](jwt.md#setup-an-account)
       * [nats-resolver setup and push example - Operator Environment/Environment with push permissions - All Deployment Modes](jwt.md#nats-resolver-setup-and-push-example---operator-environmentenvironment-with-push-permissions---all-deployment-modes)
     * [Setup User](jwt.md#setup-user)
       * [Create/Edit Account - All Environments - All Deployment modes](jwt.md#createedit-account---all-environments---all-deployment-modes-1)
@@ -717,7 +717,7 @@ Should the account change and an update is required, simply repeat these steps b
 
 This environment is set up with a signing key, thus the account is already [created properly signed](jwt.md#createedit-account---all-environments---all-deployment-modes). The only step that is needed is to push the Account into the NATS network. However, this depends on your ability to do so. If you have no permissions, you have to perform the same steps as for the [decentralized deployment mode](jwt.md#export-account---non-operatoradministrator-environment---decentralized-deployment-modes). The main difference is that upon import, the account won't be re-signed.
 
-#### Publicize an Account with Push - Operator Environment/Environment with push permissions - All Deployment Modes
+#### Publicize an Account with Push - Operator Environment/Environment with push permissions - All Deployment Modes <a id="publicize-an-account-with-push"></a>
 
 How accounts can be publicized wholly depends on the resolver you are using:
 
