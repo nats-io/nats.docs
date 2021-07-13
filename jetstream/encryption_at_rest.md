@@ -8,6 +8,7 @@ jetstream : {
     key : “mykey”
     store_dir: datastore
 }
+```
 
 It is recommended to provide the encryption key through an environment variable, such as `JS_KEY` so it will not be persisted in a file.
 
@@ -16,6 +17,7 @@ jetstream : {
     key: $JS_KEY
     store_dir: datastore
 }
+```
 
 You can pass this from the command line this way:
 
@@ -31,7 +33,7 @@ Starting a server with `encrypt` against a datastore that was not encrypted may 
 
 If the data is encrypted with a key and the server is restarted with a different key, the server will fail to decrypt messages when attempting to load them from the store. The server will still be active to support core NATS functionality. If this happens, you’ll see log messages like the following:
 
-``text
+```text
 Error decrypting our stream metafile: chacha20poly1305: message authentication failed
 ```
 
