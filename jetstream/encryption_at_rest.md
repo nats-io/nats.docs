@@ -29,7 +29,7 @@ We currently support two ciphers for encryption: ChaChaPoly20 and [XChaChaPoly13
 
 Note that message blocks are encrypted which includes message headers and payloads. Other metadata files are encrypted as well, such as the stream metadata file and consumer metadata files.
 
-Starting a server with `encrypt` against a datastore that was not encrypted may result in failures when it comes to decrypting message blocks, which may not happen immediately upon startup. Instead, it will happen when attempting to deliver messages to consumers. However, when possible, the server will detect if the data was not encrypted and return the data without attempting to decrypt it.
+Starting a server with encryption enabled against a datastore that was not encrypted may result in failures when it comes to decrypting message blocks, which may not happen immediately upon startup. Instead, it will happen when attempting to deliver messages to consumers. However, when possible, the server will detect if the data was not encrypted and return the data without attempting to decrypt it.
 
 If the data is encrypted with a key and the server is restarted with a different key, the server will fail to decrypt messages when attempting to load them from the store. The server will still be active to support core NATS functionality. If this happens, you’ll see log messages like the following:
 
