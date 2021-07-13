@@ -88,7 +88,7 @@ Here's what `A` is exporting:
 
 * a public stream on the wildcard subject `puba.>`
 * a public service on the wildcard subject `pubq.>`
-* a stream to account `B` on the wildcard subject `a.>`
+* a stream to account `B` on the wildcard subject `b.>`
 * a service to account `B` on the subject `q.b`
 
 ### Import Configuration Map
