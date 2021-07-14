@@ -16,7 +16,7 @@ This document provides a step by step deep dive into JWT usage within NATS. Star
     * [Decentralized Chain of Trust](jwt.md#decentralized-chain-of-trust)
       * [Obtain an Account JWT](jwt.md#obtain-an-account-jwt)
       * [JWT and Chain of Trust Verification](jwt.md#jwt-and-chain-of-trust-verification)
-      * [Obtain a User JWT - Client Connect](jwt.md#obtain-a-user-jwt---client-connect)
+      * [Obtain a User JWT - Client Connect](./)
     * [Key Takeaways](jwt.md#key-takeaways-4)
   * [Deployment Models Enabled by Chain of Trust](jwt.md#deployment-models-enabled-by-chain-of-trust)
     * [Key Takeaways](jwt.md#key-takeaways-5)
