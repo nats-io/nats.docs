@@ -1,6 +1,6 @@
 # Encryption at Rest
 
-*Supported since NATS version 2.3*
+*Supported since NATS server version 2.3*
 
 The NATS server can be configured to encrypt message blocks when storing them, providing encryption at rest. This can be enabled through configuration. For these examples, assume the file is named `js.conf` and is in the local directory of the NATS server. We normally recommend file system
 encryption rather than JetStream encryption at rest.
