@@ -710,8 +710,6 @@ JWTs allow you to specify names. But names do NOT represent an identity, they ar
 
 #### **Create/Edit Operator - Operator Environment - All Deployment modes** <a id="create-edit-operator"></a>
 
-#### **Create/Edit Operator - Operator Environment - All Deployment modes**
-
 Create operator with system account and system account user: `nsc add operator -n <operator-name> --sys` The command `nsc edit operator [flags]` can subsequently be used to modify the operator. For example if you are setting the account server url \(used by `url-resolver` and `nats-resolver`\), `nsc` does not require them being specified on subsequent commands. `nsc edit operator --account-jwt-server-url "nats://localhost:4222"`
 
 We always recommend using signing keys for an operator. Generate one for an operator \(`-o`\) and store it in the key directory \(`--store`\) The output will display the public portion of the signing key, use that to assign it to the operator \(`--sk O...`\). `nsc generate nkey -o --store` followed by `nsc edit operator --sk OB742OV63OE2U55Z7UZHUB2DUVGQHRA5QVR4RZU6NXNOKBKJGKF6WRTZ`. To pick the operator signing key for account generation, provide the `-i` option when doing so.
