@@ -20,14 +20,14 @@ Here is a simple cluster running on the same machine:
 
 ```bash
 # Server A - the 'seed server'
-> nats-server -p 4222 -cluster nats://localhost:4248
+> nats-server -p 4222 -cluster nats://localhost:4248 --cluster_name test-cluster
 
 # Server B
-> nats-server -p 5222 -cluster nats://localhost:5248 -routes nats://localhost:4248
+> nats-server -p 5222 -cluster nats://localhost:5248 -routes nats://localhost:4248 --cluster_name test-cluster
 # Check the output of the server for the selected client and route ports.
 
 # Server C
-> nats-server -p 6222 -cluster nats://localhost:6248 -routes nats://localhost:4248
+> nats-server -p 6222 -cluster nats://localhost:6248 -routes nats://localhost:4248 --cluster_name test-cluster
 # Check the output of the server for the selected client and route ports.
 ```
 
@@ -206,4 +206,3 @@ nats-pub -s "nats://127.0.0.1:4222,nats://127.0.0.1:5222,nats://127.0.0.1:6222" 
 [83330] 2020/02/12 16:22:56.384754 [DBG] 127.0.0.1:63210 - cid:9 - Client connection created
 [83330] 2020/02/12 16:22:56.386467 [DBG] 127.0.0.1:63210 - cid:9 - Client connection closed
 ```
-
