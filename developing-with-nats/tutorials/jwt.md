@@ -645,7 +645,7 @@ The system account is the account under which `nats-server` offers system servic
 
 _For cases where signing keys are generated and immediately added `--sk generate` will create an NKEY on the fly and assign it as signing NKEY._
 
-#### **Import Operator - Non Operator/Administrator Environment - Decentralized/Self Service Deployment Modes**
+#### **Import Operator - Non Operator/Administrator Environment - Decentralized/Self Service Deployment Modes** <a id="import-operator-nonoperator"></a>
 
 In order to import an Operator JWT, such as the one just created, into a separate nsc environment maintained by a different entity/team, the following has to happen:
 
@@ -655,7 +655,7 @@ In order to import an Operator JWT, such as the one just created, into a separat
 
 Should the operator change and an update is required, simply repeat these steps but provide the `--force` option during the last step. This will overwrite the stored operator JWT.
 
-#### **Import Operator - Self Service Deployment Modes**
+#### **Import Operator - Self Service Deployment Modes** <a id="import-operator-self-service"></a>
 
 In addition to the [previous step](jwt.md#import-operator---non-operatoradministrator-environment---decentralizedself-service-deployment-modes), self service deployments require an operator signing key and a system account user. Ideally you would want an operator signing key per entity to distribute a signing key too. Simply repeat the command shown [earlier](jwt.md#create-operator---operator-environment---all-deployment-modes) but: 1. Perform `nsc generate nkey -o --store` in this environment instead 2. Exchange the public key with the Administrator/Operator via a way that assures you sent the public key and not someone elses. 3. Perform `nsc edit operator --sk` in the operator environment 4. Refresh the operator JWT in this environment by performing the [import steps using `--force`](jwt.md#import-operator---non-operatoradministrator-environment---decentralizedself-service-deployment-modes)
 
@@ -701,13 +701,13 @@ Alternatively if the administrator is willing to exchange private keys and the e
 
 ### Setup an Account
 
-#### **Create/Edit Account - All Environments - All Deployment modes**
+#### **Create/Edit Account - All Environments - All Deployment modes** <a id="create-edit-account"></a>
 
 Create an account as follows: `nsc add account -n <account name> -i` In case you have multiple operator signing keys `-i` will prompt you to select one. `nsc edit account [flags]` can subsequently be used to modify the account. \(Edit is also applicable to the system account\)
 
 Similar to the operator signing keys are recommended. Generate signing key for an account \(`-a`\) and store it in the key directory maintained by nsc \(`--store`\) The output will display the public portion of the signing key, use that to assign it to the account \(`--sk A...`\) `nsc generate nkey -a --store` `nsc edit account --sk ACW2QC262CIQUX4ACGOOS5XLKSZ2BY2QFBAAOF3VOP7AWAVI37E2OQZX` To pick the signing key for user generation, provide the `-i` option when doing so.
 
-#### **Export Account - Non Operator/Administrator Environment - Decentralized Deployment Modes**
+#### **Export Account - Non Operator/Administrator Environment - Decentralized Deployment Modes** <a id="export-account-decentralized-deployment-modes"></a>
 
 In this mode, the created account is self-signed. To have it signed by the operator perform these steps: 1. In this environment export the created account as a JWT like this `nsc describe account -n <account name> --raw`. Store the output in a file named `import.jwt`. 2. Exchange the file with the Administrator/Operator via a way that assures it is your JWT and not someone elses. 3. In the operator environment import the account with `nsc import account --file import.jwt`. This step also re-signs the JWT so that it is no longer self-signed. 4. The Administrator/operator can now modify the account with `nsc edit account [flags]`
 
@@ -729,7 +729,7 @@ How accounts can be publicized wholly depends on the resolver you are using:
 
 `nsc generate config <resolver-type>` as a utility that generates the relevant NATS config. Where `<resolver-type>` can be `--mem-resolver` or `--nats-resolver` for the corresponding resolver. Typically the generated output is stored in a file that is then [included](../../nats-server/configuration/#include-directive) by the NATS config. Every server within the same authentication domain needs to be configured with this configuration.
 
-#### **nats-resolver setup and push example - Operator Environment/Environment with push permissions - All Deployment Modes**
+#### **nats-resolver setup and push example - Operator Environment/Environment with push permissions - All Deployment Modes** <a id="nats-resolver-setup-and-push-example"></a>
 
 This is a quick demo of the nats-based resolver from operator creation to publishing a message. Please be aware that the ability to push only relates to permissions to do so and does not require an account keys. Thus, how accounts to be pushed came to be in the environment \(outright creation/import\) does not matter. For simplicity, this example uses the operator environment.
 
@@ -873,7 +873,7 @@ Once the account is pushed, its user can be used:
 
 ### Setup User
 
-#### **Create/Edit Account - All Environments - All Deployment modes**
+#### **Create/Edit Account - All Environments - All Deployment modes** <a id="create-edit-account-all-environments"></a>
 
 Create a user as follows: `nsc add user --account <account name> --name <user name> -i` `nsc edit user [flags]` can subsequently be used to modify the user. In case you have multiple account signing keys, for either command, `-i` will prompt you to select one.
 

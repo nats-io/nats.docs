@@ -1,9 +1,8 @@
 # Encryption at Rest
 
-*Supported since NATS server version 2.3*
+_Supported since NATS server version 2.3_
 
-The NATS server can be configured to encrypt message blocks when storing them, providing encryption at rest. This can be enabled through configuration. For these examples, assume the file is named `js.conf` and is in the local directory of the NATS server. We normally recommend file system
-encryption rather than JetStream encryption at rest.
+The NATS server can be configured to encrypt message blocks when storing them, providing encryption at rest. This can be enabled through configuration. For these examples, assume the file is named `js.conf` and is in the local directory of the NATS server. We normally recommend file system encryption rather than JetStream encryption at rest.
 
 ```text
 jetstream : {
@@ -14,7 +13,7 @@ jetstream : {
 
 It is recommended to provide the encryption key through an environment variable, such as `JS_KEY` so it will not be persisted in a file.
 
-```text 
+```text
 jetstream : {
     key: $JS_KEY
     store_dir: datastore
@@ -40,5 +39,4 @@ Error decrypting our stream metafile: chacha20poly1305: message authentication f
 ```
 
 Performance considerations: As expected, encryption is likely to decrease performance, but by how much is hard to define. In some performance tests on a MacbookPro 2.8 GHz Intel Core i7 with SSD, we have observed as little as 1% decrease to more than 30%. In addition to CPU cycles required for encryption, the encrypted files may be larger, which results in more data being stored or read.
-
 
