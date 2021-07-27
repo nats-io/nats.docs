@@ -172,7 +172,7 @@ The Configuration options here refer to [JWT](securing_nats/jwt/) based authenti
 
 | Property | Description | Default |
 | :--- | :--- | :--- |
-| `server_name` | The servers name, shows up in logging. Defaults to the server's id. | Generated Server ID |
+| `server_name` | The servers name, shows up in logging. Defaults to the server's id. When JetStream is used, withing a domain, all server names need to be unique. | Generated Server ID |
 | `trace` | If `true` enable protocol trace log messages. Excludes the system account. | `false`, disabled |
 | `trace_verbose` | If `true` enable protocol trace log messages. Includes the system account. | `false`, disabled |
 | `debug` | If `true` enable debug log messages | `false`, disabled |
