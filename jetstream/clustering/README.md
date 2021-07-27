@@ -4,20 +4,20 @@ Clustering in JetStream is required for a highly available and scalable system. 
 
 ## RAFT
 
-JetStream uses a NATS optimized RAFT algorithm for clustering. Typically raft generates a lot of traffic, but the NATS server optimizes this by combining the data plane for replicating messages with the messages RAFT would normally use to ensure consensus. Each server participating requires an unique `server_name` (only applies within the same domain).
+JetStream uses a NATS optimized RAFT algorithm for clustering. Typically RAFT generates a lot of traffic, but the NATS server optimizes this by combining the data plane for replicating messages with the messages RAFT would normally use to ensure consensus. Each server participating requires an unique `server_name` (only applies within the same domain).
 
-### Raft groups
+### RAFT Groups
 
 The RAFT groups include API handlers, streams, consumers, and an internal algorithm designates which servers handle which streams and consumers.
 
-The raft algorithm has a few requirements:
+The RAFT algorithm has a few requirements:
 
 * A log to persist state
-* A quorum for consensus.
+* A quorum for consensus
 
 ### The Quorum
 
-In order to ensure data consistency across complete restarts, a quorum of servers is required. A quorum is ½ cluster size + 1. This is the minimum number of nodes to ensure at least one node has the most recent data and state after a catastrophic failure. So for a cluster size of 3, you’ll need at least two Jetstream enabled NATS servers available to store new messages. For a cluster size of 5, you’ll need at least 3 NATS servers, and so forth.
+In order to ensure data consistency across complete restarts, a quorum of servers is required. A quorum is ½ cluster size + 1. This is the minimum number of nodes to ensure at least one node has the most recent data and state after a catastrophic failure. So for a cluster size of 3, you’ll need at least two JetStream enabled NATS servers available to store new messages. For a cluster size of 5, you’ll need at least 3 NATS servers, and so forth.
 
 ### RAFT Groups
 
