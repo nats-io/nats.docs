@@ -4,7 +4,7 @@ Clustering in JetStream is required for a highly available and scalable system. 
 
 ## RAFT
 
-JetStream uses a NATS optimized RAFT algorithm for clustering. Typically raft generates a lot of traffic, but the NATS server optimizes this by combining the data plane for replicating messages with the messages RAFT would normally use to ensure consensus.
+JetStream uses a NATS optimized RAFT algorithm for clustering. Typically raft generates a lot of traffic, but the NATS server optimizes this by combining the data plane for replicating messages with the messages RAFT would normally use to ensure consensus. Each server participating requires an unique `server_name` (only applies within the same domain).
 
 ### Raft groups
 
@@ -13,7 +13,7 @@ The RAFT groups include API handlers, streams, consumers, and an internal algori
 The raft algorithm has a few requirements:
 
 * A log to persist state
-* A quorum for consensus. 
+* A quorum for consensus.
 
 ### The Quorum
 
