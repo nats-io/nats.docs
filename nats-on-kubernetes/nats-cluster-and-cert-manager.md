@@ -84,7 +84,7 @@ In case of using the NATS operator, the Routes use a service named `$YOUR_CLUSTE
 
 ```yaml
 ---
-apiVersion: certmanager.k8s.io/v1alpha1
+apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: nats-routes-tls
