@@ -136,7 +136,7 @@ authorization: {
 | :--- | :--- | :--- |
 | `max_connections` | Maximum number of active client connections. | `64K` |
 | `max_control_line` | Maximum length of a protocol line \(including combined length of subject and queue group\). Increasing this value may require [client changes](../../developing-with-nats/connecting/misc.md#set-the-maximum-control-line-size) to be used. Applies to all traffic. | `4Kb` |
-| `max_payload` | Maximum number of bytes in a message payload. Reducing this size may force you to implement [chunking](../../developing-with-nats/connecting/misc.md#get-the-maximum-payload-size) in your clients. Applies to client and leafnode payloads. | `1Mb` |
+| `max_payload` | Maximum number of bytes in a message payload. Reducing this size may force you to implement [chunking](../../developing-with-nats/connecting/misc.md#get-the-maximum-payload-size) in your clients. Applies to client and leafnode payloads. It is not recommended to use values over 8Mb but `max_payload` can be set up to 64Mb. | `1Mb` |
 | `max_pending` | Maximum number of bytes buffered for a connection Applies to client connections. | `64Mb` |
 | `max_subscriptions` | Maximum numbers of subscriptions per client and leafnode accounts connection. | `0`, unlimited |
 
