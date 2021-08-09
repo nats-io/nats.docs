@@ -30,3 +30,6 @@ sc.Subscribe("foo", func(m *stan.Msg) {...},
    stan.MaxInflight(25))
 ```
 
+## Redelivery Of Acknowledged Messages
+
+See the explanation [here](../nats-streaming-concepts/channels/subscriptions/redelivery.md#redelivery-of-acknowledged-messages).
