@@ -41,7 +41,7 @@ This document provides a step by step deep dive into JWT usage within NATS. Star
       * [nats-resolver setup and push example - Operator Environment/Environment with push permissions - All Deployment Modes](jwt.md#nats-resolver-setup-and-push-example)
     * [Setup User](jwt.md#setup-user)
       * [Create/Edit Account - All Environments - All Deployment modes](jwt.md#create-edit-account-all-environments)
-  * [Automated sign up services - JWT and NKEY libraries](jwt.md#automated-sign-up-services)
+  * [Automated sign up services - JWT and NKEY libraries](jwt.md#automated-sign-up-services-jwt-and-nkey-libraries)
     * [Simple user creation](jwt.md#simple-user-creation)
       * [Create user NKEY](jwt.md#create-user-nkey)
       * [Create user JWT](jwt.md#create-user-jwt)

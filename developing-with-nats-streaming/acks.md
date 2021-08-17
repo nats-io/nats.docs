@@ -33,3 +33,4 @@ sc.Subscribe("foo", func(m *stan.Msg) {...},
 ## Redelivery of Acknowledged Messages
 
 See the explanation in [nats-streaming-concepts/channels/subscriptions/redelivery](../nats-streaming-concepts/channels/subscriptions/redelivery.md#redelivery-of-acknowledged-messages).
+
