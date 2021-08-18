@@ -26,10 +26,10 @@ Next, try using `nats-box` to connect to the `nats` service to confirm that you 
 kubectl run -i --rm --tty nats-box --image=synadia/nats-box --restart=Never
 
 # Send message to NATS
-nats-box:~# nats-sub -s nats hello &
+nats-box:~# nats sub -s nats hello &
 Listening on [hello]
 
-nats-box:~# nats-pub -s nats hello world
+nats-box:~# nats pub -s nats hello world
 # Send/Receive message to STAN
 nats-box:~# stan-pub -s nats -c stan hello world
 Published [hello] : 'world'
