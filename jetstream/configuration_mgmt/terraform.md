@@ -1,6 +1,6 @@
 # Terraform
 
-Terraform is a Cloud configuration tool from Hashicorp found at [terraform.io](https://www.terraform.io/), we maintain a Provider for Terraform called [terraform-provider-jetstream](https://github.com/nats-io/terraform-provider-jetstream/) that can maintain JetStream using Terraform.
+[Terraform](https://www.terraform.io/) is a Cloud configuration tool from Hashicorp. We maintain a Provider for Terraform called [terraform-provider-jetstream](https://github.com/nats-io/terraform-provider-jetstream/) that can maintain JetStream using Terraform.
 
 Find it in the [Terraform registry](https://registry.terraform.io/providers/nats-io/jetstream/latest/docs).
 
@@ -15,7 +15,7 @@ provider "jetstream" {
 }
 ```
 
-Example that create the `ORDERS` example. Review the [Project README](https://github.com/nats-io/terraform-provider-jetstream#readme) for full details.
+Sample code below that creates the `ORDERS` example. Review the [Project README](https://github.com/nats-io/terraform-provider-jetstream#readme) for full details.
 
 ```text
 resource "jetstream_stream" "ORDERS" {
