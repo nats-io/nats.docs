@@ -34,10 +34,6 @@ To run NATS on Docker:
 
 More information on [containerized NATS is available here](nats_docker/).
 
-## Installing on Kubernetes with NATS Operator
-
-Installation via the NATS Operator is beyond this tutorial. You can read about the [NATS Operator](https://github.com/nats-io/nats-operator) here.
-
 ## Installing via a Package Manager
 
 On Windows:
