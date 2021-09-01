@@ -5,7 +5,9 @@ On Unix systems, the NATS server responds to the following signals:
 | Signal | Result |
 | :--- | :--- |
 | `SIGKILL` | Kills the process immediately |
+| `SIGQUIT` | Kills the process immediately and performs a core dump |
 | `SIGINT` | Stops the server gracefully |
+| `SIGTERM` | Stops the server gracefully |
 | `SIGUSR1` | Reopens the log file for log rotation |
 | `SIGHUP` | Reloads server configuration file |
 | `SIGUSR2` | Stops the server after evicting all clients \(lame duck mode\) |
