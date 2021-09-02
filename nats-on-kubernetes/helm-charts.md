@@ -58,8 +58,8 @@ nats:
 
 ### TLS setup for client connections
 
-You can find more on how to setup and trouble shoot TLS connnections at:
-https://docs.nats.io/nats-server/configuration/securing_nats/tls
+You can find more on how to setup and troubleshoot TLS connnections at:
+[nats-server/configuration/securing_nats/tls](../nats-server/configuration/securing_nats/tls.md)
 
 ```yaml
 nats:
@@ -154,11 +154,11 @@ websocket:
 ### Using HostPorts
 
 In case of both external access and advertisements being enabled, an
-initializer container will be used to gather the public ips.  This
-container will required to have enough RBAC policy to be able to make a
-look up of the public ip of the node where it is running.
+initializer container will be used to gather the public IPs.  This
+container will be required to have enough RBAC policy to be able to make a
+look up of the public IP of the node where it is running.
 
-For example, to setup external access for a cluster and advertise the public ip to clients:
+For example, to setup external access for a cluster and advertise the public IP to clients:
 
 ```yaml
 nats:
@@ -173,7 +173,7 @@ nats:
 
   # In case both external access and advertise are enabled
   # then a service account would be required to be able to
-  # gather the public ip from a node.
+  # gather the public IP from a node.
   serviceAccount: "nats-server"
 ```
 
@@ -221,8 +221,8 @@ bootconfig:
 
 ### Using LoadBalancers
 
-In case of using a load balancer for external access, it is recommended to disable no advertise 
-so that internal ips from the NATS Servers are not advertised to the clients connecting through
+When using a load balancer for external access, it is recommended to disable no advertise 
+so that internal IPs from the NATS Servers are not advertised to the clients connecting through
 the load balancer.
 
 ```yaml
@@ -241,7 +241,7 @@ natsbox:
   enabled: true
 ```
 
-Then could use an L4 enabled load balancer to connect to NATS, for example:
+You could then use an L4 enabled load balancer to connect to NATS, for example:
 
 ```yaml
 apiVersion: v1
@@ -481,7 +481,7 @@ reloader:
 
 ### Prometheus Exporter sidecar
 
-You can toggle whether to start the sidecar that can be used to feed metrics to Prometheus:
+You can toggle whether to start the sidecar to be used to feed metrics to Prometheus:
 
 ```yaml
 exporter:
