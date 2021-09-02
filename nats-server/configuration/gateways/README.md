@@ -2,7 +2,7 @@
 
 ## Gateways
 
-Gateways enable connecting one or more clusters together into a full mesh; they allow the formation of super clusters from smaller clusters. Cluster and Gateway protocols listen on different ports. Clustering is used for adjacent servers; gateways are for joining clusters together.
+Gateways enable connecting one or more clusters together into a full mesh; they allow the formation of superclusters from smaller clusters. Cluster and Gateway protocols listen on different ports. Clustering is used for adjacent servers; gateways are for joining clusters together.
 
 Gateway configuration is similar to clustering:
 

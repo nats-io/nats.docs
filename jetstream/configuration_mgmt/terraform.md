@@ -4,7 +4,7 @@
 
 Find it in the [Terraform registry](https://registry.terraform.io/providers/nats-io/jetstream/latest/docs).
 
-### Setup
+## Setup
 
 In your project you can configure the Provider like this:
 
@@ -53,3 +53,4 @@ output "ORDERS_SUBJECTS" {
   value = jetstream_stream.ORDERS.subjects
 }
 ```
+

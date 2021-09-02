@@ -1,9 +1,8 @@
-# Deploying NATS using Helm
+# Deploying NATS with Helm
 
-The NATS Helm charts can be used to deploy a StatefulSet of NATS servers using Helm templates which are easy to extend.
-Using Helm3 you can add the NATS Helm repo as follows:
+The NATS Helm charts can be used to deploy a StatefulSet of NATS servers using Helm templates which are easy to extend. Using Helm3 you can add the NATS Helm repo as follows:
 
-```console
+```text
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm install my-nats nats/nats
 ```
@@ -47,7 +46,7 @@ nats:
 
 ### Logging
 
-*Note*: It is not recommended to enable trace or debug in production since enabling it will significantly degrade performance.
+_Note_: It is not recommended to enable trace or debug in production since enabling it will significantly degrade performance.
 
 ```yaml
 nats:
@@ -56,13 +55,12 @@ nats:
     trace: 
     logtime: 
     connectErrorReports: 
-    reconnectErrorReports: 
+    reconnectErrorReports:
 ```
 
 ### TLS setup for client connections
 
-You can find more on how to setup and troubleshoot TLS connnections at:
-[nats-server/configuration/securing_nats/tls](../nats-server/configuration/securing_nats/tls.md)
+You can find more on how to set up and troubleshoot TLS connections at: [nats-server/configuration/securing\_nats/tls](../nats-server/configuration/securing_nats/tls.md)
 
 ```yaml
 nats:
@@ -76,8 +74,7 @@ nats:
 
 ## Clustering
 
-If clustering is enabled, then a 3-node cluster will be setup. More info at:
-https://docs.nats.io/nats-server/configuration/clustering#nats-server-clustering
+If clustering is enabled, then a 3-node cluster will be set up. More info at: [nats-server/configuration/clustering\#nats-server-clustering](../nats-server/configuration/clustering/#nats-server-clustering)
 
 ```yaml
 cluster:
@@ -94,14 +91,13 @@ cluster:
 
 Example:
 
-```sh
+```bash
 $ helm install nats nats/nats --set cluster.enabled=true
 ```
 
 ## Leafnodes
 
-Leafnode connections to extend a cluster. More info at:
-https://docs.nats.io/nats-server/configuration/leafnodes
+Leafnode connections to extend a cluster. More info at: [nats-server/configuration/leafnodes](../nats-server/configuration/leafnodes/)
 
 ```yaml
 leafnodes:
@@ -137,7 +133,6 @@ leafnodes:
     key: "tls.key"
 ```
 
-
 ## Websocket Configuration
 
 ```yaml
@@ -156,12 +151,9 @@ websocket:
 
 ### Using HostPorts
 
-In case of both external access and advertisements being enabled, an
-initializer container will be used to gather the public IPs.  This
-container will be required to have enough RBAC policy to be able to make a
-look up of the public IP of the node where it is running.
+In case of both external access and advertisements being enabled, an initializer container will be used to gather the public IPs. This container will be required to have enough RBAC policy to be able to make a look up of the public IP of the node where it is running.
 
-For example, to setup external access for a cluster and advertise the public IP to clients:
+For example, to set up external access for a cluster and advertise the public IP to clients:
 
 ```yaml
 nats:
@@ -216,7 +208,7 @@ subjects:
 
 The container image of the initializer can be customized via:
 
-```yaml  
+```yaml
 bootconfig:
   image: natsio/nats-boot-config:latest
   pullPolicy: IfNotPresent
@@ -224,9 +216,7 @@ bootconfig:
 
 ### Using LoadBalancers
 
-When using a load balancer for external access, it is recommended to disable no advertise 
-so that internal IPs from the NATS Servers are not advertised to the clients connecting through
-the load balancer.
+When using a load balancer for external access, it is recommended to disable no advertise so that internal IPs from the NATS Servers are not advertised to the clients connecting through the load balancer.
 
 ```yaml
 nats:
@@ -272,9 +262,7 @@ spec:
 
 ## Gateways
 
-A super cluster can be formed by pointing to remote gateways.
-You can find more about gateways in the NATS documentation:
-https://docs.nats.io/nats-server/configuration/gateways
+A supercluster can be formed by pointing to remote gateways. You can find more about gateways in the NATS documentation: [nats-server/configuration/gateways](../nats-server/configuration/gateways/).
 
 ```yaml
 gateway:
@@ -409,7 +397,7 @@ spec:
       storage: 3Gi
 ```
 
-You can start JetStream so that one pod is bounded to it:
+You can start JetStream so that one pod is bound to it:
 
 ```yaml
 nats:
@@ -428,7 +416,6 @@ nats:
 ### Clustering example
 
 ```yaml
-
 nats:
   image: nats:alpine
 
@@ -456,8 +443,7 @@ cluster:
 
 ### NATS Box
 
-A lightweight container with NATS and NATS Streaming utilities that is deployed along the cluster to confirm the setup.
-You can find the image at: https://github.com/nats-io/nats-box
+A lightweight container with NATS and NATS Streaming utilities deployed along the cluster to confirm the setup. You can find the image at: [https://github.com/nats-io/nats-box](https://github.com/nats-io/nats-box)
 
 ```yaml
 natsbox:
@@ -495,7 +481,7 @@ exporter:
 
 ### Prometheus operator ServiceMonitor support
 
-You can enable prometheus operator ServiceMonitor:
+You can enable Prometheus operator ServiceMonitor:
 
 ```yaml
 exporter:
@@ -523,7 +509,7 @@ securityContext:
 
 #### Affinity
 
-<https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity>
+[https://kubernetes.io/docs/concepts/configuration/assign-pod-node/\#affinity-and-anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 
 `matchExpressions` must be configured according to your setup
 
@@ -551,7 +537,7 @@ affinity:
 
 #### Service topology
 
-[Service topology](https://kubernetes.io/docs/concepts/services-networking/service-topology/) is disabled by default, but can be enabled by setting `topologyKeys`. For example:
+[Service topology](https://kubernetes.io/docs/concepts/services-networking/service-topology/) is disabled by default but can be enabled by setting `topologyKeys`. For example:
 
 ```yaml
 topologyKeys:
@@ -561,7 +547,8 @@ topologyKeys:
 ```
 
 #### CPU/Memory Resource Requests/Limits
-Sets the pods cpu/memory requests/limits
+
+Sets the pods CPU/memory requests/limits
 
 ```yaml
 nats:
@@ -578,7 +565,7 @@ No resources are set by default.
 
 #### Annotations
 
-<https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations>
+[https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations)
 
 ```yaml
 podAnnotations:
@@ -586,7 +573,7 @@ podAnnotations:
   key2 : "value2"
 ```
 
-### Name Overides
+### Name Overrides
 
 Can change the name of the resources as needed with:
 
@@ -608,3 +595,4 @@ spec:
   imagePullSecrets:
     - name: myRegistry
 ```
+
