@@ -1,5 +1,8 @@
 # Deploying NATS using Helm
 
+The NATS Helm charts can be used to deploy a StatefulSet of NATS servers using Helm templates which are easy to extend.
+Using Helm3 you can add the NATS Helm repo as follows:
+
 ```console
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm install my-nats nats/nats
