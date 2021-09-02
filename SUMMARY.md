@@ -236,6 +236,7 @@
 
 * [Introduction](nats-on-kubernetes/nats-kubernetes.md)
 * [Basic NATS and NATS Streaming Setup](nats-on-kubernetes/minimal-setup.md)
+* [Deploying NATS with Helm](nats-on-kubernetes/helm-charts.md)
 * [Creating a Kubernetes Cluster](nats-on-kubernetes/create-k8s-cluster.md)
 * [NATS Streaming Cluster with FT Mode](nats-on-kubernetes/stan-ft-k8s-aws.md)
 * [NATS Cluster and Cert Manager](nats-on-kubernetes/nats-cluster-and-cert-manager.md)
