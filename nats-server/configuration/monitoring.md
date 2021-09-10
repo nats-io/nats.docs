@@ -158,6 +158,7 @@ The `/connz` endpoint reports more detailed information on current and recently 
 | limit | number &gt; 0 | Number of results to return.  Default is 1024. |
 | cid | number, valid id | Return a connection by it's id |
 | state | open, \*closed,  any | Return connections of particular state.  Default is open. |
+| mqtt_client | string | Filter the connection with this MQTT client ID. |
 
 _The server will default to holding the last 10,000 closed connections._
 
@@ -201,48 +202,65 @@ You can also report detailed subscription information on a per connection basis 
   "limit": 1024,
   "connections": [
     {
-      "cid": 1,
+      "cid": 5,
+      "kind": "Client",
+      "type": "nats",
       "ip": "127.0.0.1",
-      "port": 49764,
-      "start": "2019-06-24T14:27:25.94611-07:00",
-      "last_activity": "2019-06-24T14:27:25.954046-07:00",
-      "rtt": "275µs",
-      "uptime": "50s",
-      "idle": "50s",
+      "port": 62714,
+      "start": "2021-09-09T23:16:43.040862Z",
+      "last_activity": "2021-09-09T23:16:43.042364Z",
+      "rtt": "95µs",
+      "uptime": "5s",
+      "idle": "5s",
       "pending_bytes": 0,
       "in_msgs": 0,
       "out_msgs": 0,
       "in_bytes": 0,
       "out_bytes": 0,
       "subscriptions": 1,
-      "name": "NATS Sample Subscriber",
+      "name": "NATS Benchmark",
       "lang": "go",
-      "version": "1.8.1",
-      "subscriptions_list": [
-        "hello.world"
-      ]
+      "version": "1.12.1"
     },
     {
-      "cid": 2,
+      "cid": 6,
+      "kind": "Client",
+      "type": "nats",
       "ip": "127.0.0.1",
-      "port": 49767,
-      "start": "2019-06-24T14:27:43.403923-07:00",
-      "last_activity": "2019-06-24T14:27:43.406568-07:00",
-      "rtt": "96µs",
-      "uptime": "33s",
-      "idle": "33s",
+      "port": 62715,
+      "start": "2021-09-09T23:16:43.042557Z",
+      "last_activity": "2021-09-09T23:16:43.042811Z",
+      "rtt": "100µs",
+      "uptime": "5s",
+      "idle": "5s",
       "pending_bytes": 0,
       "in_msgs": 0,
       "out_msgs": 0,
       "in_bytes": 0,
       "out_bytes": 0,
       "subscriptions": 1,
-      "name": "NATS Sample Subscriber",
+      "name": "NATS Benchmark",
       "lang": "go",
-      "version": "1.8.1",
-      "subscriptions_list": [
-        "foo.bar"
-      ]
+      "version": "1.12.1"
+    },
+    {
+      "cid": 7,
+      "kind": "Client",
+      "type": "mqtt",
+      "ip": "::1",
+      "port": 62718,
+      "start": "2021-09-09T23:16:45.391459Z",
+      "last_activity": "2021-09-09T23:16:45.395869Z",
+      "rtt": "0s",
+      "uptime": "2s",
+      "idle": "2s",
+      "pending_bytes": 0,
+      "in_msgs": 0,
+      "out_msgs": 0,
+      "in_bytes": 0,
+      "out_bytes": 0,
+      "subscriptions": 2,
+      "mqtt_client": "mqtt_sub"
     }
   ]
 }
