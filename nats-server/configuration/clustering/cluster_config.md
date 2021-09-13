@@ -13,14 +13,14 @@ The `cluster` configuration map has the following configuration options:
 | `no_advertise` | When set to 'true', the server will not send or gossip its client URLs to other servers in the cluster and will not tell its client about the other servers' client URLs. |
 | `routes` | A list of other servers \(URLs\) to cluster with. Self-routes are ignored. Should authentication via `token` or `username`/`password` be required, specify them as part of the URL. |
 | `connect_retries` | After how many failed connect attempts to give up establishing a connection to a discovered route. Default is `0`, do not retry. When enabled, attempts will be made once a second. This, does not apply to explicitly configured routes. |
-| `authorization` | [Authorization](../securing_nats/auth_intro/#authorization-map) map for configuring cluster routes. When `token` or a single `username`/`password` are used, they define the authentication mechanism this server expects. What authentication values other server have to provide when connecting. They also specify how this server will authenticate itself when establishing a connection to a discovered route. This will not be used for routes explicitly listed in `routes` and therefore have to be provided as part of the URL. If you use token or password based authentication, either use the same credentials throughout the system or list every route explicitly on every server. If the `tls` configuration map specifies `verify_and_map` only provide the expected `username`. Here different certificates can be used, but they do have to map to the same `username`. The authorization map also allows for `timeout` which is honored but `users` and `permissions` are ignored. |
+| `authorization` | [Authorization](../securing_nats/auth_intro/#authorization-map) map for configuring cluster routes. When a single `username`/`password` is used, it defines the authentication mechanism this server expects, and how this server will authenticate itself when establishing a connection to a *discovered* route. This will not be used for routes explicitly listed in `routes` and therefore have to be provided as part of the URL. With this authentication mode, either use the same credentials throughout the system or list every route explicitly on every server. If the `tls` configuration map specifies `verify_and_map` only provide the expected `username`. Here different certificates can be used, but they have to map to the same `username`. The authorization map also allows for `timeout` which is honored but `users` and `token` configuration are not supported and will prevent the server from starting. The `permissions` block is ignored. |
 
 ```text
 cluster {
   name: example
 
   # host/port for inbound route connections from other server
-  listen: localhost:4244 
+  listen: localhost:4244
 
   # Authorization for route connections
   # Other server can connect if they supply the credentials listed here
