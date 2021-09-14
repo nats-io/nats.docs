@@ -1,6 +1,6 @@
 # Introduction
 
-NATS is a connective technology that powers modern distributed systems. A connective technology is responsible for addressing and discovery and exchanging of messages that drive the common patterns in distributed systems; asking and answering questions, aka services/microservices, and making and processing statements, or stream processing.
+NATS is a connective technology that powers modern distributed systems. A connective technology is responsible for addressing, discovery and exchanging of messages that drive the common patterns in distributed systems; asking and answering questions, aka services/microservices, and making and processing statements, or stream processing.
 
 Modern distributed systems are defined by an ever increasing number of hyper-connected moving parts and the additional data they generate. They employ both services and streams to drive business value.
 
