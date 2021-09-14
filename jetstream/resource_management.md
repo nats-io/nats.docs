@@ -55,7 +55,7 @@ accounts {
 }
 ```
 
-Now the `HR` account it limited in various dimensions.
+Now the `HR` account is limited in various dimensions.
 
 If you try to configure JetStream for an account without enabling it globally you'll get a warning and the account designated as System cannot have JetStream enabled.
 
