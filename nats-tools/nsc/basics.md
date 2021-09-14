@@ -406,7 +406,7 @@ Let's say you have a service that your account clients can make requests to unde
 ╰──────────────────────┴──────────────────────────────────────────────────────────╯
 ```
 
-As you can see this client is not limited to publishing responses to `_INBOX.>` addresses, and to subscribing to the service's request subject.
+As you can see, this client is now limited to publishing responses to `_INBOX.>` addresses and subscribing to the service's request subject.
 
 Similarly, we can limit a client:
 
