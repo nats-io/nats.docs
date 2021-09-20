@@ -1,8 +1,12 @@
 # Introduction
 
+## WARNING Deprecation Notice
+
+The NATS Streaming Server is being deprecated. Critical bug fixes and security fixes will be applied until June of 2023. NATS-enabled applications requiring persistence should use [JetStream](https://docs.nats.io/jetstream/jetstream).
+
 ## Deciding to Use At-Least-Once Delivery
 
-The decision to use the at least once delivery through NATS streaming is important. It will affect your deployment, usage, performance, and total cost of ownership.
+The decision to use at least once delivery through NATS streaming is important. It will affect your deployment, usage, performance, and total cost of ownership.
 
 In modern systems applications can expose services or produce and consume data streams. At a high level, if observability is required, applications need to consume messages in the future, need to come consume at their own pace, or need all messages, then at-least-once semantics \(NATS streaming\) makes sense. If observation needs to be realtime and the most recent message is the most important, then use _At-Most-Once_ delivery semantics with core NATS.
 
