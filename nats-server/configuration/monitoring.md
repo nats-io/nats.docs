@@ -158,7 +158,7 @@ The `/connz` endpoint reports more detailed information on current and recently 
 | limit | number &gt; 0 | Number of results to return.  Default is 1024. |
 | cid | number, valid id | Return a connection by it's id |
 | state | open, \*closed,  any | Return connections of particular state.  Default is open. |
-| mqtt_client | string | Filter the connection with this MQTT client ID. |
+| mqtt\_client | string | Filter the connection with this MQTT client ID. |
 
 _The server will default to holding the last 10,000 closed connections._
 

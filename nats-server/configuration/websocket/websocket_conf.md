@@ -171,11 +171,11 @@ You can configure remote Leaf node connections so that they connect to the Webso
 
 When running on Docker, WebSocket is not enabled by default, so you'll have to create a configuration file with the minimal entries, such as:
 
-```
+```text
 websocket 
 {
- 	port: 8080
- 	no_tls: true
+     port: 8080
+     no_tls: true
 }
 ```
 
