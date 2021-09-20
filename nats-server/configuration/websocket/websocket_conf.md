@@ -167,3 +167,21 @@ The possible values are currently:
 
 You can configure remote Leaf node connections so that they connect to the Websocket port instead of the Leaf node port. See [Leafnode](../leafnodes/leafnode_conf.md#connecting-using-websocket-protocol) section.
 
+## Docker
+
+When running on Docker, WebSocket is not enabled by default, so you'll have to create a configuration file with the minimal entries, such as:
+
+```
+websocket 
+{
+ 	port: 8080
+ 	no_tls: true
+}
+```
+
+Assuming the configuration was stored in `/tmp/nats.conf`, you can start docker as follows:
+
+```bash
+docker run -it --rm  -v /tmp:/container -p 8080:8080 nats -c /container/nats.conf
+```
+
