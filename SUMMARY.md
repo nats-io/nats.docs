@@ -172,9 +172,7 @@
 
 * [STAN](legacy.md)
 
-* NATS Streaming Concepts
-
- * [Introduction](nats-streaming-concepts/intro.md)
+* [NATS Streaming Concepts](nats-streaming-concepts/intro.md)
  * [Relation to NATS](nats-streaming-concepts/relation-to-nats.md)
  * [Client Connections](nats-streaming-concepts/client-connections.md)
  * [Channels](nats-streaming-concepts/channels/README.md)
