@@ -197,7 +197,6 @@
   * [Partitioning](nats-streaming-concepts/partitioning.md)
   * [Monitoring](nats-streaming-concepts/monitoring/README.md)
     * [Endpoints](nats-streaming-concepts/monitoring/endpoints.md)
-
  * [Developing With STAN](developing-with-nats-streaming/streaming.md)
   * [Connecting to NATS Streaming Server](developing-with-nats-streaming/connecting.md)
   * [Publishing to a Channel](developing-with-nats-streaming/publishing.md)
@@ -206,7 +205,6 @@
   * [Queue Subscriptions](developing-with-nats-streaming/queues.md)
   * [Acknowledgements](developing-with-nats-streaming/acks.md)
   * [The Streaming Protocol](developing-with-nats-streaming/protocol.md)
-
 * [STAN NATS Streaming Server](nats-streaming-server/changes.md)
   * [Installing](nats-streaming-server/install.md)
   * [Running](nats-streaming-server/run.md)
