@@ -168,7 +168,11 @@
   * [Tutorial](nats-tools/nats_top/nats-top-tutorial.md)
 * [nats-bench](nats-tools/natsbench.md)
 
-## NATS Streaming Concepts
+## Legacy
+
+### STAN
+
+#### NATS Streaming Concepts
 
 * [Introduction](nats-streaming-concepts/intro.md)
 * [Relation to NATS](nats-streaming-concepts/relation-to-nats.md)
@@ -196,7 +200,7 @@
 * [Monitoring](nats-streaming-concepts/monitoring/README.md)
   * [Endpoints](nats-streaming-concepts/monitoring/endpoints.md)
 
-## Developing With NATS Streaming
+#### Developing With NATS Streaming
 
 * [Introduction](developing-with-nats-streaming/streaming.md)
 * [Connecting to NATS Streaming](developing-with-nats-streaming/connecting.md)
@@ -207,7 +211,7 @@
 * [Acknowledgements](developing-with-nats-streaming/acks.md)
 * [The Streaming Protocol](developing-with-nats-streaming/protocol.md)
 
-## NATS Streaming Server
+#### NATS Streaming Server
 
 * [Important Changes](nats-streaming-server/changes.md)
 * [Installing](nats-streaming-server/install.md)
