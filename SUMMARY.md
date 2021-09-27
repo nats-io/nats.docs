@@ -171,7 +171,6 @@
 ## Legacy
 
 * [STAN](legacy.md)
-
  * [STAN Concepts](nats-streaming-concepts/intro.md)
   * [Relation to NATS](nats-streaming-concepts/relation-to-nats.md)
   * [Client Connections](nats-streaming-concepts/client-connections.md)
@@ -205,7 +204,7 @@
   * [Queue Subscriptions](developing-with-nats-streaming/queues.md)
   * [Acknowledgements](developing-with-nats-streaming/acks.md)
   * [The Streaming Protocol](developing-with-nats-streaming/protocol.md)
-* [STAN NATS Streaming Server](nats-streaming-server/changes.md)
+ * [STAN NATS Streaming Server](nats-streaming-server/changes.md)
   * [Installing](nats-streaming-server/install.md)
   * [Running](nats-streaming-server/run.md)
   * [Configuring](nats-streaming-server/configuring/README.md)
