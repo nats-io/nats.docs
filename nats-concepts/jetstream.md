@@ -4,4 +4,4 @@ NATS has a built-in distributed persistence system called [JetStream](/jetstream
   
 * Key/Value store, or the ability to store, retrieve and delete value messages using a key
 
-Note that JetStream completely replaces the [STAN](/legacy.md) legacy NATS streaming module.
+Note that JetStream completely replaces the [STAN](/legacy-stan.md) legacy NATS streaming module.

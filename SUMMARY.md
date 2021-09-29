@@ -184,7 +184,7 @@
 
 ## Legacy
 
-* [STAN](legacy.md)
+* [STAN](legacy-stan.md)
  * [STAN Concepts](nats-streaming-concepts/intro.md)
    * [Relation to NATS](nats-streaming-concepts/relation-to-nats.md)
    * [Client Connections](nats-streaming-concepts/client-connections.md)
@@ -234,12 +234,13 @@
    * [Embedding NATS Streaming Server](nats-streaming-server/embedding.md)
    * [Docker Swarm](nats-streaming-server/swarm.md)
 
-## NATS Protocol
+## Reference
 
-* [Protocol Demo](nats-protocol/nats-protocol-demo.md)
-* [Client Protocol](nats-protocol/nats-protocol/README.md)
-  * [Developing a Client](nats-protocol/nats-protocol/nats-client-dev.md)
-* [NATS Cluster Protocol](nats-protocol/nats-server-protocol.md)
+* [NATS Protocols](reference-protocols.md)
+  * [Protocol Demo](nats-protocol/nats-protocol-demo.md)
+  * [Client Protocol](nats-protocol/nats-protocol/README.md)
+    * [Developing a Client](nats-protocol/nats-protocol/nats-client-dev.md)
+  * [NATS Cluster Protocol](nats-protocol/nats-server-protocol.md)
 
 ## NATS on Kubernetes
 
