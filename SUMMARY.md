@@ -26,7 +26,7 @@
 * [Acknowledgements](nats-concepts/acks.md)
 * [Sequence Numbers](nats-concepts/seq_num.md)
 * [Persistence and Streaming](nats-concepts/jetstream.md)
-* [Subject Mapping and Traffic Shaping](nats-server/configuration/subject_mapping.md)
+* [Subject Mapping and Traffic Shaping](/nats-concepts/subject_mapping.md)
 * [Security](nats-concepts/security.md)
 * [Connectivity](nats-concepts/connectivity.md)
 * [Walkthrough](walkthrough/walkthrough.md)
