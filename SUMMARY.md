@@ -84,7 +84,7 @@
 
 ## Running NATS
 
-* [Installing and deploying a NATS Server](running-nats-intro.md)
+* [Installing, deploying and running a NATS Server](running-nats-intro.md)
   * [Installing a NATS Server](nats-server/installation.md)
   * [Running a NATS Server](nats-server/running/README.md)
     * [Windows Service](nats-server/running/windows_srv.md)
