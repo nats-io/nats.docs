@@ -32,5 +32,30 @@ docker run -p 4222:4222 -ti nats:latest
 ...
 ```
 
+
+## JetStream
+
+Remember that in order to enable JetStream and all the functionalities that use it you need to enable it on at least one of your servers
+
+### Command Line
+
+Enable JetStream by specifying the `-js` flag when starting the NATS server.
+
+`$ nats-server -js`
+
+### Configuration File
+
+You can also enable JetStream through a configuration file. By default, the JetStream subsytem will store data in the /tmp directory. Here's a minimal file that will store data in a local "nats" directory, suitable for development and local testing.
+
+`$ nats-server -c js.conf`
+
+```text
+# js.conf
+jetstream {
+   store_dir=nats
+}
+```
+
+Normally JetStream will be run in clustered mode and will replicate data, so the best place to store JetStream data would be locally on a fast SSD. One should specifically avoid NAS or NFS storage for JetStream.
 More information on [containerized NATS is available here](../nats_docker/).
 

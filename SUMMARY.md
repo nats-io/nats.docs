@@ -81,14 +81,16 @@
   * [Advanced Connect and Custom Dialer in Go](developing-with-nats/tutorials/custom_dialer.md)
   * [In Depth JWT Guide](developing-with-nats/tutorials/jwt.md)
 
-## NATS Server
 
-* [Installing](nats-server/installation.md)
-* [Running](nats-server/running/README.md)
-  * [Windows Service](nats-server/running/windows_srv.md)
+## Running NATS
+
+* [Installing and deploying a NATS Server](running-nats-intro.md)
+  * [Installing a NATS Server](nats-server/installation.md)
+  * [Running a NATS Server](nats-server/running/README.md)
+    * [Windows Service](nats-server/running/windows_srv.md)
 * [Clients](nats-server/clients.md)
 * [Flags](nats-server/flags.md)
-* [Configuration](nats-server/configuration/README.md)
+* [Configuring a NATS Server](nats-server/configuration/README.md)
   * [Securing NATS](nats-server/configuration/securing_nats/README.md)
     * [Enabling TLS](nats-server/configuration/securing_nats/tls.md)
     * [Authentication](nats-server/configuration/securing_nats/auth_intro/README.md)
@@ -120,7 +122,7 @@
     * [System Events & Decentralized JWT Tutorial](nats-server/configuration/sys_accounts/sys_accounts.md)
   * [WebSocket](nats-server/configuration/websocket/README.md)
     * [Configuration](nats-server/configuration/websocket/websocket_conf.md)
-* [Managing A NATS Server](nats-server/nats_admin/README.md)
+* [Managing a NATS Server](nats-server/nats_admin/README.md)
   * [Upgrading a Cluster](nats-server/nats_admin/upgrading_cluster.md)
   * [Slow Consumers](nats-server/nats_admin/slow_consumers.md)
   * [Signals](nats-server/nats_admin/signals.md)
@@ -129,7 +131,17 @@
   * [Tutorial](nats-server/nats_docker/nats-docker-tutorial.md)
   * [Docker Swarm](nats-server/nats_docker/docker_swarm.md)
   * [Python and NGS Running in Docker](nats-server/nats_docker/ngs-docker-python.md)
-
+* [NATS and Kubernetes](nats-on-kubernetes/nats-kubernetes.md)
+  * [Basic NATS and NATS Streaming Setup](nats-on-kubernetes/minimal-setup.md)
+  * [Deploying NATS with Helm](nats-on-kubernetes/helm-charts.md)
+  * [Creating a Kubernetes Cluster](nats-on-kubernetes/create-k8s-cluster.md)
+  * [NATS Streaming Cluster with FT Mode](nats-on-kubernetes/stan-ft-k8s-aws.md)
+  * [NATS Cluster and Cert Manager](nats-on-kubernetes/nats-cluster-and-cert-manager.md)
+  * [Securing a NATS Cluster with cfssl](nats-on-kubernetes/operator-tls-setup-with-cfssl.md)
+  * [Using a Load Balancer for External Access to NATS](nats-on-kubernetes/nats-external-nlb.md)
+  * [Creating a NATS Super Cluster in Digital Ocean with Helm](nats-on-kubernetes/super-cluster-on-digital-ocean.md)
+  * [From Zero to K8S to Leafnodes using Helm](nats-on-kubernetes/from-zero-to-leafnodes.md)
+  
 ## JetStream
 
 * [About JetStream](jetstream/jetstream.md)
@@ -182,6 +194,14 @@
   * [Tutorial](nats-tools/nats_top/nats-top-tutorial.md)
 * [nats-bench](nats-tools/natsbench.md)
 
+## Reference
+
+* [NATS Protocols](reference-protocols.md)
+  * [Protocol Demo](nats-protocol/nats-protocol-demo.md)
+  * [Client Protocol](nats-protocol/nats-protocol/README.md)
+    * [Developing a Client](nats-protocol/nats-protocol/nats-client-dev.md)
+  * [NATS Cluster Protocol](nats-protocol/nats-server-protocol.md)
+
 ## Legacy
 
 * [STAN](legacy-stan.md)
@@ -233,25 +253,3 @@
    * [Windows Service](nats-streaming-server/windows-service.md)
    * [Embedding NATS Streaming Server](nats-streaming-server/embedding.md)
    * [Docker Swarm](nats-streaming-server/swarm.md)
-
-## Reference
-
-* [NATS Protocols](reference-protocols.md)
-  * [Protocol Demo](nats-protocol/nats-protocol-demo.md)
-  * [Client Protocol](nats-protocol/nats-protocol/README.md)
-    * [Developing a Client](nats-protocol/nats-protocol/nats-client-dev.md)
-  * [NATS Cluster Protocol](nats-protocol/nats-server-protocol.md)
-
-## NATS on Kubernetes
-
-* [Introduction](nats-on-kubernetes/nats-kubernetes.md)
-* [Basic NATS and NATS Streaming Setup](nats-on-kubernetes/minimal-setup.md)
-* [Deploying NATS with Helm](nats-on-kubernetes/helm-charts.md)
-* [Creating a Kubernetes Cluster](nats-on-kubernetes/create-k8s-cluster.md)
-* [NATS Streaming Cluster with FT Mode](nats-on-kubernetes/stan-ft-k8s-aws.md)
-* [NATS Cluster and Cert Manager](nats-on-kubernetes/nats-cluster-and-cert-manager.md)
-* [Securing a NATS Cluster with cfssl](nats-on-kubernetes/operator-tls-setup-with-cfssl.md)
-* [Using a Load Balancer for External Access to NATS](nats-on-kubernetes/nats-external-nlb.md)
-* [Creating a NATS Super Cluster in Digital Ocean with Helm](nats-on-kubernetes/super-cluster-on-digital-ocean.md)
-* [From Zero to K8S to Leafnodes using Helm](nats-on-kubernetes/from-zero-to-leafnodes.md)
-

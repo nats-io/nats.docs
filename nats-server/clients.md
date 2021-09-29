@@ -1,19 +1,35 @@
 # Clients
 
-The nats-server doesn't come bundled with any clients. But most client libraries come with sample programs that allow you to publish, subscribe, send requests and reply messages.
+The nats-server doesn't come bundled with any clients, but you should install the [nats](/nats-tools/natscli.md) cli tool as it is the best tool to use to test, monitor, manage and interact nats servers.
+
+Also, most client libraries come with sample programs that allow you to publish, subscribe, send requests and reply messages.
 
 If you have a client library installed, you can try using a bundled client. Otherwise, you can easily install some clients.
 
-## If you have Go installed:
+## Installing `nats`
+
+For macOS:
 
 ```text
-> go get github.com/nats-io/go-nats-examples/tools/nats-pub
-> go get github.com/nats-io/go-nats-examples/tools/nats-sub
+> brew tap nats-io/nats-tools
+> brew install nats-io/nats-tools/nats
 ```
 
-## Or download a zip file
+For Arch Linux:
 
-You can install pre-built binaries from the [go-nats-examples repo](https://github.com/nats-io/go-nats-examples/releases/tag/0.0.50)
+```text
+> yay natscli
+```
+
+For Docker:
+
+```text
+docker pull synadia/nats-box:latest
+
+docker run -ti synadia/nats-box
+```
+
+Binaries are also available as [GitHub Releases](https://github.com/nats-io/natscli/releases).
 
 ## Testing your setup
 
@@ -21,18 +37,20 @@ Open a terminal and [start a nats-server](running/):
 
 ```text
 > nats-server
-[29670] 2019/05/16 08:45:59.836809 [INF] Starting nats-server version 2.0.0
-[29670] 2019/05/16 08:45:59.836889 [INF] Git commit [not set]
-[29670] 2019/05/16 08:45:59.837161 [INF] Listening for client connections on 0.0.0.0:4222
-[29670] 2019/05/16 08:45:59.837168 [INF] Server id is NAYH35Q7ROQHLQ3K565JR4OPTJGO5EK4FJX6KX5IHHEPLQBRSYVWI2NO
-[29670] 2019/05/16 08:45:59.837170 [INF] Server is ready
+[45695] 2021/09/29 02:22:53.570667 [INF] Starting nats-server
+[45695] 2021/09/29 02:22:53.570796 [INF]   Version:  2.6.1
+[45695] 2021/09/29 02:22:53.570799 [INF]   Git:      [not set]
+[45695] 2021/09/29 02:22:53.570804 [INF]   Name:     NAAACXGWSD6ZW5KVHOTSGGPU2JCMZUDSMY5GVZZP27DMRPWYINC2X6ZI
+[45695] 2021/09/29 02:22:53.570807 [INF]   ID:       NAAACXGWSD6ZW5KVHOTSGGPU2JCMZUDSMY5GVZZP27DMRPWYINC2X6ZI
+[45695] 2021/09/29 02:22:53.571747 [INF] Listening for client connections on 0.0.0.0:4222
+[45695] 2021/09/29 02:22:53.572051 [INF] Server is ready
 ```
 
 On another terminal session start a subscriber:
 
 ```text
-> nats-sub ">"
-Listening on [>]
+> nats sub ">"
+02:22:57 Subscribing on >
 ```
 
 Note that when the client connected, the server didn't log anything interesting because server output is relatively quiet unless something interesting happens.
@@ -41,15 +59,19 @@ To make the server output more lively, you can specify the `-V` flag to enable l
 
 ```text
 nats-server -V
-[10864] 2020/02/06 14:17:18.085700 [INF] Starting nats-server version 2.1.4
-[10864] 2020/02/06 14:17:18.085811 [INF] Git commit [not set]
-[10864] 2020/02/06 14:17:18.086039 [INF] Listening for client connections on 0.0.0.0:4222
-[10864] 2020/02/06 14:17:18.086046 [INF] Server id is NDKUZPVC3Y4YHLZBDDCDZSPLAH7KZU3NVTL3WQZ2QIIY2DQN7KZ5BDNW
-[10864] 2020/02/06 14:17:18.086049 [INF] Server is ready
-[10864] 2020/02/06 14:17:19.393075 [TRC] [::1]:62646 - cid:1 - <<- [CONNECT {"verbose":false,"pedantic":false,"lang":"ruby","version":"0.11.0","protocol":1,"echo":true}]
-[10864] 2020/02/06 14:17:19.393265 [TRC] [::1]:62646 - cid:1 - <<- [SUB >  2]
-[10864] 2020/02/06 14:17:21.758750 [TRC] [::1]:62646 - cid:1 - ->> [PING]
-[10864] 2020/02/06 14:17:21.759400 [TRC] [::1]:62646 - cid:1 - <<- [PONG]
+[45703] 2021/09/29 02:23:05.189377 [INF] Starting nats-server
+[45703] 2021/09/29 02:23:05.189489 [INF]   Version:  2.6.1
+[45703] 2021/09/29 02:23:05.189493 [INF]   Git:      [not set]
+[45703] 2021/09/29 02:23:05.189497 [INF]   Name:     NAIBOVQLOZSDIUFQYZOQUGV3PNZUT66D4WF5MKS2G7N423UGJDH2DFWG
+[45703] 2021/09/29 02:23:05.189500 [INF]   ID:       NAIBOVQLOZSDIUFQYZOQUGV3PNZUT66D4WF5MKS2G7N423UGJDH2DFWG
+[45703] 2021/09/29 02:23:05.190236 [INF] Listening for client connections on 0.0.0.0:4222
+[45703] 2021/09/29 02:23:05.190504 [INF] Server is ready
+[45703] 2021/09/29 02:23:07.111053 [TRC] 127.0.0.1:51653 - cid:4 - <<- [CONNECT {"verbose":false,"pedantic":false,"tls_required":false,"name":"NATS CLI Version 0.0.26","lang":"go","version":"1.12.0","protocol":1,"echo":true,"headers":true,"no_responders":true}]
+[45703] 2021/09/29 02:23:07.111282 [TRC] 127.0.0.1:51653 - cid:4 - "v1.12.0:go:NATS CLI Version 0.0.26" - <<- [PING]
+[45703] 2021/09/29 02:23:07.111301 [TRC] 127.0.0.1:51653 - cid:4 - "v1.12.0:go:NATS CLI Version 0.0.26" - ->> [PONG]
+[45703] 2021/09/29 02:23:07.111632 [TRC] 127.0.0.1:51653 - cid:4 - "v1.12.0:go:NATS CLI Version 0.0.26" - <<- [SUB >  1]
+[45703] 2021/09/29 02:23:07.111679 [TRC] 127.0.0.1:51653 - cid:4 - "v1.12.0:go:NATS CLI Version 0.0.26" - <<- [PING]
+[45703] 2021/09/29 02:23:07.111689 [TRC] 127.0.0.1:51653 - cid:4 - "v1.12.0:go:NATS CLI Version 0.0.26" - ->> [PONG]
 ```
 
 If you had created a subscriber, you should notice output on the subscriber telling you that it disconnected, and reconnected. The server output above is more interesting. You can see the subscriber send a `CONNECT` protocol message and a `PING` which was responded to by the server with a `PONG`.
@@ -59,16 +81,17 @@ If you had created a subscriber, you should notice output on the subscriber tell
 On a third terminal, publish your first message:
 
 ```text
-> nats-pub hello world
-Published [hello] : 'world'
+> nats pub hello world
+02:24:50 Published 5 bytes to "hello"
 ```
 
 On the subscriber window you should see:
 
 ```text
-> nats-sub ">"
-Listening on [>]
-[#1] Received on [hello] : 'world'
+> nats sub ">"
+02:22:57 Subscribing on >
+[#1] Received on "hello"
+world
 ```
 
 ## Testing Against a Remote Server
@@ -76,12 +99,12 @@ Listening on [>]
 If the NATS server were running in a different machine or a different port, you'd have to specify that to the client by specifying a _NATS URL_. NATS URLs take the form of: `nats://<server>:<port>` and `tls://<server>:<port>`. URLs with a `tls` protocol sport a secured TLS connection.
 
 ```text
-> nats-sub -s nats://server:port ">"
+> nats sub -s nats://server:port ">"
 ```
 
 If you want to try on a remote server, the NATS team maintains a demo server you can reach at `demo.nats.io`.
 
 ```text
-> nats-sub -s nats://demo.nats.io ">"
+> nats sub -s nats://demo.nats.io ">"
 ```
 
