@@ -1,10 +1,19 @@
 # Table of contents
 
 * [Introduction](README.md)
+
+## Release Notes
+
 * [What's New!](whats_new.md)
 * [NATS 2.2](whats_new_22.md)
 * [NATS 2.0](whats_new_20.md)
+
+## Compare NATS
+
 * [Compare NATS](compare-nats.md)
+
+## FAQ
+
 * [FAQ](faq.md)
 
 ## NATS Concepts
@@ -16,6 +25,11 @@
 * [Queue Groups](nats-concepts/queue.md)
 * [Acknowledgements](nats-concepts/acks.md)
 * [Sequence Numbers](nats-concepts/seq_num.md)
+* [Persistence and Streaming](nats-concepts/jetstream.md)
+* [Subject Mapping and Traffic Shaping](nats-server/configuration/subject_mapping.md)
+* [Security](nats-concepts/security.md)
+* [Connectivity](nats-concepts/connectivity.md)
+* [Walkthrough](walkthrough/walkthrough.md)
 
 ## Developing With NATS
 
