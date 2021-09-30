@@ -14,7 +14,8 @@ Developing with NATS is a combination of distributed application techniques, com
 | [nats.py](https://github.com/nats-io/nats.py) | [doc](https://github.com/nats-io/nats.py#readme) |
 | [nats.c](https://github.com/nats-io/nats.c) | [doc](http://nats-io.github.io/nats.c) |
 | [nats.ex](https://github.com/nats-io/nats.ex) | [hex doc](https://hex.pm/packages/gnat) |
-| [nats.deno](https://github.com/nats-io/nats.deno) | [doc](https://github.com/nats-io/nats.deno/blob/main/README.md) | 
+| [nats.deno](https://github.com/nats-io/nats.deno) | [doc](https://github.com/nats-io/nats.deno/blob/main/README.md) |
+| [nats.zig](https://github.com/nats-io/nats.zig) | [ReadMe](https://github.com/nats-io/nats.zig#readme)
 
 Not all libraries contain this separate doc, depending on the language community, but be sure to check out the client libraries README for more information.
 
