@@ -23,8 +23,6 @@
 * [Publish-Subscribe](nats-concepts/pubsub.md)
 * [Request-Reply](nats-concepts/reqreply.md)
 * [Queue Groups](nats-concepts/queue.md)
-* [Acknowledgements](nats-concepts/acks.md)
-* [Sequence Numbers](nats-concepts/seq_num.md)
 * [Persistence and Streaming](nats-concepts/jetstream.md)
 * [Subject Mapping and Traffic Shaping](/nats-concepts/subject_mapping.md)
 * [Security](nats-concepts/security.md)

@@ -1,29 +1,74 @@
-NATS has a built-in distributed persistence system called [JetStream](/jetstream/jetstream.md) upon which a number of functionalities are built:
+# JetStream
 
-* Streaming, or the ability to store and replay at will (and in order if needed) messages published on one or more subjects with:
-  * File or memory storage
-  * De-coupled flow control
-  * Fault-tolerance and Disaster Recovery with replication and mirroring
-  * Multiple sources per stream with subject filtering for consumers
-  * 3 retention policies (limits, interest and work queue)
-  * Many replay policies
-    * All, last new, by starting sequence number, by start time
-    * Last message per subject
-    * Instant or original replay speed
-  * Mirroring between streams
-* Key/Value store, or the ability to store, retrieve and delete _value_ messages associated with a _key_
+NATS has a built-in distributed persistence system called [JetStream](/jetstream/jetstream.md) upon which a number of higher quality of service functionalities not available in 'core NATS' are built
 
-Client applications can retrieve or consume messages in streams:
-* Using `push` (callback) or highly horizontally scalable `pull` (with batching if needed) consumers
-* As durable or ephemeral consumers
-* Using explicit or automatic acknowledgements with:
-  * Acks
-  * Negative-Acks
-  * 'In Progress' acks
+## Temporal decoupling between the publishers and subscribers
+One of the tenants of basic publish/subscribe is that there is a temporal coupling between the publishers and the subscribers: subscribers only receive the messages that are published when they are actively connected to the messaging system.
+The traditional way for messaging systems to provide temporal decoupling of the publishers and subscribers is through the 'durable subscriber' functionality or sometimes through 'queues', but neither one is perfect:
+* durable subscribers need to be created _before_ the messages get published
+* queues are meant for workload distribution and consumption, not to be used as a mechanism for message replay.
 
-JetStream also can provide the _exactly once_ quality of service by combining message de-duplication using client application provided unique id on the publisher's side and double-acks on the consumer's side.
+More recently a new way to provide this temporal de-coupling has been devised and gained a lot of traction: streaming. Streams capture and store messages published on one (or more) subject and allow client applications to create 'subscribers' (i.e. JetStream consumers) at any time to 'replay' (or consume) all or some of the messages stored in the stream.
+### Replay policies
+JetStream consumers support multiple replay policies, depending on whether the consuming application wants to receive either:
+* *all* of the messages currently stored in the stream, meaning a complete 'replay' and you can select the 'replay policy' (i.e. the speed of the replay) to be either:
+    * *instant* (meaning the messages are delivered to the consumer as fast as it can take them)
+    * *original* (meaning the messages are delivered to the consumer at the rate they were published into the stream, which can be very useful for example for staging production traffic)
+* the *last* message stored in the stream, or the *last message for each subject* (as streams can capture more than one subject)
+* starting from a specific *sequence number*
+* starting from a specific *start time*
+### Retention policies and limits
+Practically speaking, streams can't always just keep growing 'forever' and therefore JetStream support multiple retention policies as well as the ability to impose size limits on streams.
+#### Limits
+You can impose the following limits on a stream
+* Maximum message age
+* Maximum total stream size (in bytes) 
+* Maximum number of messages in the stream
+* Maximum individual message size
+* You can specify a discard policy: when a limit is reached and a new message is published to the stream you can choose to discard either the oldest or the newest message currently in the stream in order to make room for that new message. 
+* You can also set limits on the number of consumers that can be defined for the stream at any given point in time
+#### Retention policy
+You can choose what kind of retention you want for each stream:
+* *limits* (the default)
+* *interest* (messages are kept in the stream for as long as there are consumers on the stream)
+* *work queue* (the stream is used as a shared queue and messages are removed from it as they are consumed)
+## Persistent distributed storage
+You can choose the durability as well as the resilience of the message storage according to your needs
+* Memory storage
+* File storage
+* Replication (1 (none), 2, 3) between nats servers for Fault Tolerance
 
-Finally, JetStream can also do encryption at rest of the data it stores.
+JetStream uses a NATS optimized RAFT distributed quorum algorithm to distribute the persistence service between nats servers in a cluster while maintaining immediate consistency even in the face of Byzantine failures.
 
+JetStream can also provide encryption at rest of the messages being stored.
+## De-coupled flow control
+JetStream provides de-coupled flow control over streams, the flow control is not 'end to end' where the publisher(s) are limited to publish no faster than the slowest of all the consumers (i.e. the lowest common denominator) can receive, but is instead happening individually between each client application (publishers or consumers) and the nats server.
+
+When using the JetStream publish calls to publish to streams there is an acknowledgement mechanism between the publisher and the nats server, and you have the choice of making synchronous or asynchronous (i.e. 'batched') JetStream publish calls.
+
+On the subscriber side the sending of messages from the nats server to the client applications receiving or consuming messages from streams is also flow controlled. 
+## Exactly once message delivery
+Because publications to streams using the JetStream publish calls are acknowledged by the server the base quality of service offered by streams is '_at least once_', meaning that while reliable and normally duplicate free there are some specific failure scenarios that could result in a publishing application believing (wrongly) that a message was not published successfully and therefore publishing it again, and there are failure scenarios that could result in a client application's consumption acknowledgement getting lost and therefore in the message being re-sent to the consumer by the server. Those failure scenarios while being rare and even difficult to reproduce do exist and can result in perceived 'message duplication' at the application level.
+
+Therefore, JetStream also offers an '_exactly once_' quality of service. For the publishing side it relies on the publishing application attaching a unique message or publication id in a message header and on the server keeping track of those ids for a configurable rolling period of time in order to detect the publisher publishing the same message twice. For the subscribers a _double_ acknowledgement mechanism is used to avoid a message being erroneously re-sent to a subscriber by the server after some kinds of failures.
+## Consumers
+Applications use JetStream to receive copies (or consume) and process the messages stored in the streams.
+### Fast push consumers
+Client applications can choose to use fast un-acknowledged `push` (ordered) consumers to receive messages as fast as possible (for the selected replay policy) on a specified delivery subject or to an inbox. Those consumers are meant to be used to 'replay' rather than 'consume' the messages in a stream.
+### Horizontally scalable pull consumers with batching
+Client applications can also use and share `pull` consumers that are demand-driven, support batching and must explicitly acknowledge message reception and processing which means that they can be used to consume (i.e. use the stream as a distributed queue) as well as process the messages in a stream.
+
+Pull consumers can and are meant to be shared between applications in order to provide easy and transparent horizontal scalability of the processing or consumption of messages in a stream without having (for example) to worry about having to define partitions or worry about fault-tolerance.
+### Consumer acknowledgements
+While you can decide to use un-acknowledged consumers trading quality of service for the fastest possible delivery of messages, most processing is not idem-potent and requires higher qualities of service (such as the ability to automatically recover from various failure scenarios that could result in some messages not being processed or being processed more than once) and you will want to use acknowledged consumers. JetStream supports more than one kind of acknowledgement:
+* Some consumers support acknowledging *all* the messages up to the sequence number of the message being acknowledged, some consumers provide the highest quality of service but require acknowledging the reception and processing of each message explicitly as well as the maximum amount of time the server will wait for an acknowledgement for a specific message before re-delivering it (to another process attached to the consumer)
+* You can also send back _negative_ acknowledgements
+* You can even send _in progress_ acknowledgements (to indicate that you are still processing the message in question and need more time before acking or nacking it)
+## Mirroring between streams
+JetSteam allows server administrators to easily mirror streams, for example between different JetStream domains in order to offer disaster recovery. You can also define a steam as one of the sources for another stream.
+## K/V store
+JetStream is a persistence layer, and streaming is only one of the functionalities built on top of that layer.
+
+Another functionality (typically not available in or even associated with messaging systems) is the JetStream Key/Value store: the ability to store, retrieve and delete _value_ messages associated with a _key_, to watch (listen) for changes happening to that key and even to retrieve a history of the values (and deletions) that have happened on a particular key.
 ###### Legacy
 Note that JetStream completely replaces the [STAN](/legacy-stan.md) legacy NATS streaming layer.
