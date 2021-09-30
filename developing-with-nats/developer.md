@@ -23,6 +23,8 @@ There are many other NATS client libraries and examples contributed and maintain
 
 * [SwiftyNats](https://github.com/rayepps/swifty-nats)
 * [Kotlin](https://github.com/nats-io/kotlin-nats-examples)
+* [Dart](https://github.com/c16a/nats-dart)
 * [Tcl](https://github.com/Kazmirchuk/nats-tcl)
 * [Crystal](https://github.com/jgaskins/nats)
+* [PHP](https://github.com/repejota/phpnats)
 * and many [more](https://github.com/search?o=desc&p=1&q=nats+client&s=updated&type=Repositories)...
