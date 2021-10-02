@@ -25,6 +25,13 @@ The configuration flags revolve around:
 | `--client_advertise` | Client HostPort to advertise to other servers. |
 | `-t` | Test configuration and exit |
 
+## JetStream Options
+
+| Flag | Description |
+| :--- | :--- |
+| `-js`, `--jetstream` | Enable JetStream functionality. |
+| `-sd`, `--store_dir` | Set the storage directory. |
+
 ## Authentication Options
 
 The following options control straightforward authentication:
@@ -80,7 +87,7 @@ The following flags are available on the server to configure clustering:
 | `--cluster_advertise` | Cluster URL to advertise to other servers |
 | `--connect_retries` | For implicit routes, number of connect retries |
 
-You can read more about [clustering configuration here](configuration/clustering/).
+You can read more about [clustering configuration here](configuration/clustering).
 
 ## Common Options
 

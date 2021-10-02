@@ -1,14 +1,30 @@
 # JetStream
 
-NATS has a built-in distributed persistence system called [JetStream](/jetstream/jetstream.md) upon which a number of higher quality of service functionalities not available in 'core NATS' are built
+NATS has a built-in distributed persistence system called [JetStream](/jetstream/jetstream.md) upon which a number of higher quality of service functionalities (such as streaming) not available in 'core NATS' are built.
 
-## Temporal decoupling between the publishers and subscribers
+JetStream was created to solve the problems identified with streaming in technology today - complexity, fragility, and a lack of scalability. Some technologies address these better than others, but no current streaming technology is truly multi-tenant, horizontally scalable, and supports multiple deployment models. No technology we are aware of can scale from edge to cloud under the same security context while having complete deployment observability for operations.
+
+## Goals
+
+JetStream was developed with the following goals in mind:
+
+* The system must be easy to configure and operate and be observable.
+* The system must be secure and operate well with NATS 2.0 security models.
+* The system must scale horizontally and be applicable to a high ingestion rate.
+* The system must support multiple use cases.
+* The system must self-heal and always be available.
+* The system must have an API that is closer to core NATS.
+* The system must allow NATS messages to be part of a stream as desired.
+* The system must display payload agnostic behavior.
+* The system must not have third party dependencies.
+
+## Streaming: temporal decoupling between the publishers and subscribers
 One of the tenants of basic publish/subscribe is that there is a temporal coupling between the publishers and the subscribers: subscribers only receive the messages that are published when they are actively connected to the messaging system.
 The traditional way for messaging systems to provide temporal decoupling of the publishers and subscribers is through the 'durable subscriber' functionality or sometimes through 'queues', but neither one is perfect:
 * durable subscribers need to be created _before_ the messages get published
 * queues are meant for workload distribution and consumption, not to be used as a mechanism for message replay.
 
-More recently a new way to provide this temporal de-coupling has been devised and gained a lot of traction: streaming. Streams capture and store messages published on one (or more) subject and allow client applications to create 'subscribers' (i.e. JetStream consumers) at any time to 'replay' (or consume) all or some of the messages stored in the stream.
+However nowadays, a new way to provide this temporal de-coupling has been devised and gained a has become 'mainstream': streaming. Streams capture and store messages published on one (or more) subject and allow client applications to create 'subscribers' (i.e. JetStream consumers) at any time to 'replay' (or consume) all or some of the messages stored in the stream.
 ### Replay policies
 JetStream consumers support multiple replay policies, depending on whether the consuming application wants to receive either:
 * *all* of the messages currently stored in the stream, meaning a complete 'replay' and you can select the 'replay policy' (i.e. the speed of the replay) to be either:

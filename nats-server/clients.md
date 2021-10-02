@@ -1,10 +1,11 @@
 # Clients
 
-The nats-server doesn't come bundled with any clients, but you should install the [nats](/nats-tools/natscli.md) cli tool as it is the best tool to use to test, monitor, manage and interact nats servers.
+A NATS client is an application making a connection to one of the nats servers pointed to by its connection URL, and uses a credential file to authenticate and indicate its authorization to the server and the whole NATS infrastructure.
+
+The nats-server doesn't come bundled with any clients, but its companion is the [`nats`](/nats-tools/natscli.md) CLI tool that you should install (even if you don't intend to run your own servers) as it is the best tool to use to test, monitor, manage and generally interact with a NATS infrastructure (regardless of that infrastructure being an isolated local server, a leaf node server, a cluster or even a global super-cluster such as NGS).
 
 Also, most client libraries come with sample programs that allow you to publish, subscribe, send requests and reply messages.
 
-If you have a client library installed, you can try using a bundled client. Otherwise, you can easily install some clients.
 
 ## Installing `nats`
 
@@ -33,7 +34,7 @@ Binaries are also available as [GitHub Releases](https://github.com/nats-io/nats
 
 ## Testing your setup
 
-Open a terminal and [start a nats-server](running/):
+Open a terminal and [start a nats-server](/nats-server/running/README.md):
 
 ```text
 > nats-server
@@ -46,9 +47,11 @@ Open a terminal and [start a nats-server](running/):
 [45695] 2021/09/29 02:22:53.572051 [INF] Server is ready
 ```
 
-On another terminal session start a subscriber:
+On another terminal session start a subscriber using the `nats` CLI tool:
 
 ```text
+> nats server check
+OK Connection OK:connected to nats://127.0.0.1:4222 in 790.28µs OK:rtt time 69.896µs OK:round trip took 0.000102s | connect_time=0.0008s;0.5000;1.0000 rtt=0.0001s;0.5000;1.0000 request_time=0.0001s;0.5000;1.0000
 > nats sub ">"
 02:22:57 Subscribing on >
 ```
@@ -76,7 +79,7 @@ nats-server -V
 
 If you had created a subscriber, you should notice output on the subscriber telling you that it disconnected, and reconnected. The server output above is more interesting. You can see the subscriber send a `CONNECT` protocol message and a `PING` which was responded to by the server with a `PONG`.
 
-> You can learn more about the [NATS protocol here](../nats-protocol/nats-protocol/), but more interesting than the protocol description is [an interactive demo](../nats-protocol/nats-protocol-demo.md).
+> You can learn more about the [NATS protocol here](/nats-protocol/nats-protocol/README.md), but more interesting than the protocol description is [an interactive demo](../nats-protocol/nats-protocol-demo.md).
 
 On a third terminal, publish your first message:
 
@@ -96,7 +99,7 @@ world
 
 ## Testing Against a Remote Server
 
-If the NATS server were running in a different machine or a different port, you'd have to specify that to the client by specifying a _NATS URL_. NATS URLs take the form of: `nats://<server>:<port>` and `tls://<server>:<port>`. URLs with a `tls` protocol sport a secured TLS connection.
+If the NATS server were running in a different machine or a different port, you'd have to specify that to the client by specifying a _NATS URL_ (either in a `nats context` . NATS URLs take the form of: `nats://<server>:<port>` and `tls://<server>:<port>`. URLs with a `tls` protocol sport a secured TLS connection.
 
 ```text
 > nats sub -s nats://server:port ">"
