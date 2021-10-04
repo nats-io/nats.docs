@@ -36,7 +36,6 @@
 
 ## Using NATS
 
-* [NGS]()
 * [NATS Tools](nats-tools/nats-tools.md)
   * [nats](nats-tools/natscli.md)
   * [nk](nats-tools/nk.md)
@@ -104,12 +103,28 @@
     * [Advanced Connect and Custom Dialer in Go](developing-with-nats/tutorials/custom_dialer.md)
     * [In Depth JWT Guide](developing-with-nats/tutorials/jwt.md)
 
-## Running NATS
+## Running a NATS service 
 
+* [NGS](/ngs/README.md)
 * [Installing, deploying and running a NATS Server](running-nats-intro.md)
   * [Installing a NATS Server](nats-server/installation.md)
   * [Running a NATS Server](nats-server/running/README.md)
-    * [Windows Service](nats-server/running/windows_srv.md)
+    * [NATS and Docker](nats-server/nats_docker/README.md)
+      * [Tutorial](nats-server/nats_docker/nats-docker-tutorial.md)
+      * [Docker Swarm](nats-server/nats_docker/docker_swarm.md)
+      * [Python and NGS Running in Docker](nats-server/nats_docker/ngs-docker-python.md)
+      * [JetStream](jetstream/getting_started/using_docker.md)
+    * [NATS and Kubernetes](nats-on-kubernetes/nats-kubernetes.md)
+      * [Basic NATS and NATS Streaming Setup](nats-on-kubernetes/minimal-setup.md)
+      * [Deploying NATS with Helm](nats-on-kubernetes/helm-charts.md)
+      * [Creating a Kubernetes Cluster](nats-on-kubernetes/create-k8s-cluster.md)
+      * [NATS Streaming Cluster with FT Mode](nats-on-kubernetes/stan-ft-k8s-aws.md)
+      * [NATS Cluster and Cert Manager](nats-on-kubernetes/nats-cluster-and-cert-manager.md)
+      * [Securing a NATS Cluster with cfssl](nats-on-kubernetes/operator-tls-setup-with-cfssl.md)
+      * [Using a Load Balancer for External Access to NATS](nats-on-kubernetes/nats-external-nlb.md)
+      * [Creating a NATS Super Cluster in Digital Ocean with Helm](nats-on-kubernetes/super-cluster-on-digital-ocean.md)
+      * [From Zero to K8S to Leafnodes using Helm](nats-on-kubernetes/from-zero-to-leafnodes.md)
+  * [Windows Service](nats-server/running/windows_srv.md)
   * [Flags](nats-server/flags.md)
 * [Clients](nats-server/clients.md)
 * [Configuring a NATS Server](nats-server/configuration/README.md)
@@ -127,6 +142,7 @@
     * [Configuration](nats-server/configuration/gateways/gateway.md)
   * [Leaf Nodes](nats-server/configuration/leafnodes/README.md)
     * [Configuration](nats-server/configuration/leafnodes/leafnode_conf.md)
+    * [JetStream on Leaf Nodes](jetstream/leafnodes.md)
   * [Securing NATS](nats-server/configuration/securing_nats/README.md)
     * [Enabling TLS](nats-server/configuration/securing_nats/tls.md)
     * [Authentication](nats-server/configuration/securing_nats/auth_intro/README.md)
@@ -144,7 +160,7 @@
       * [Mixed Authentication/Authorization Setup](nats-server/configuration/securing_nats/jwt/jwt_nkey_auth.md)
     * [OCSP Stapling](nats-server/configuration/ocsp.md)
   * [Logging](nats-server/configuration/logging.md)
-  * [Monitoring](nats-server/configuration/monitoring.md)
+  * [Enabling Monitoring](nats-server/configuration/monitoring.md)
   * [MQTT](nats-server/configuration/mqtt/README.md)
     * [Configuration](nats-server/configuration/mqtt/mqtt_config.md)
   * [Subject Mapping and Traffic Shaping Configuration](nats-server/configuration/subject_mapping.md)
@@ -154,45 +170,26 @@
     * [Configuration](nats-server/configuration/websocket/websocket_conf.md)
 * [Managing a NATS Server Infrastructure](nats-server/nats_admin/README.md)
   * [Monitoring](/nats-server/nats_admin/monitoring.md)
+    * [Monitoring JetStream](jetstream/monitoring.md)
   * [Managing JetStream](jetstream/administration/README.md)
     * [Account Information](jetstream/administration/account.md)
     * [Naming Streams, Consumers, and Accounts](jetstream/administration/naming.md)
     * [Streams](jetstream/administration/streams.md)
     * [Consumers](jetstream/administration/consumers.md)
+    * [Data Replication](jetstream/replication.md)
+    * [Disaster Recovery](jetstream/disaster_recovery.md)
+    * [Encryption at Rest](jetstream/encryption_at_rest.md)
   * [Managing NATS Security](/nats-server/nats_admin/security.md)
   * [Upgrading a Cluster](nats-server/nats_admin/upgrading_cluster.md)
   * [Slow Consumers](nats-server/nats_admin/slow_consumers.md)
   * [Signals](nats-server/nats_admin/signals.md)
   * [Lame Duck Mode](nats-server/nats_admin/lame_duck_mode.md)
   
-  
-* [NATS and Docker](nats-server/nats_docker/README.md)
-  * [Tutorial](nats-server/nats_docker/nats-docker-tutorial.md)
-  * [Docker Swarm](nats-server/nats_docker/docker_swarm.md)
-  * [Python and NGS Running in Docker](nats-server/nats_docker/ngs-docker-python.md)
-  * [JetStream](jetstream/getting_started/using_docker.md)
-
-* [NATS and Kubernetes](nats-on-kubernetes/nats-kubernetes.md)
-  * [Basic NATS and NATS Streaming Setup](nats-on-kubernetes/minimal-setup.md)
-  * [Deploying NATS with Helm](nats-on-kubernetes/helm-charts.md)
-  * [Creating a Kubernetes Cluster](nats-on-kubernetes/create-k8s-cluster.md)
-  * [NATS Streaming Cluster with FT Mode](nats-on-kubernetes/stan-ft-k8s-aws.md)
-  * [NATS Cluster and Cert Manager](nats-on-kubernetes/nats-cluster-and-cert-manager.md)
-  * [Securing a NATS Cluster with cfssl](nats-on-kubernetes/operator-tls-setup-with-cfssl.md)
-  * [Using a Load Balancer for External Access to NATS](nats-on-kubernetes/nats-external-nlb.md)
-  * [Creating a NATS Super Cluster in Digital Ocean with Helm](nats-on-kubernetes/super-cluster-on-digital-ocean.md)
-  * [From Zero to K8S to Leafnodes using Helm](nats-on-kubernetes/from-zero-to-leafnodes.md)
-  
 ## JetStream
 
-* [Monitoring](jetstream/monitoring.md)
-* [Data Replication](jetstream/replication.md)
-* [Disaster Recovery](jetstream/disaster_recovery.md)
-* [Encryption at Rest](jetstream/encryption_at_rest.md)
 * [Model Deep Dive](jetstream/model_deep_dive.md)
-* [NATS API Reference](jetstream/nats_api_reference.md)
+
 * [Multi-tenancy & Resource Mgmt](jetstream/resource_management.md)
-* [Leaf Nodes](jetstream/leafnodes.md)
 
 ## Reference
 
@@ -201,6 +198,7 @@
   * [Client Protocol](nats-protocol/nats-protocol/README.md)
     * [Developing a Client](nats-protocol/nats-protocol/nats-client-dev.md)
   * [NATS Cluster Protocol](nats-protocol/nats-server-protocol.md)
+  * [JetStream API Reference](jetstream/nats_api_reference.md)
 
 ## Legacy
 
