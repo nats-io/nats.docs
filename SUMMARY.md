@@ -92,7 +92,8 @@
     * [Request-Reply Semantics](developing-with-nats/sending/request_reply.md)
     * [Caches, Flush and Ping](developing-with-nats/sending/caches.md)
     * [Sending Structured Data](developing-with-nats/sending/structure.md)
-  * [JetStream]()
+  * [JetStream](/developing-with-nats/jetstream.md)
+    * [JetStream Model Deep Dive](jetstream/model_deep_dive.md)
   * [Monitoring the Connection](developing-with-nats/events/README.md)
     * [Listen for Connection Events](developing-with-nats/events/events.md)
     * [Slow Consumers](developing-with-nats/events/slow.md)
@@ -128,7 +129,7 @@
   * [Flags](nats-server/flags.md)
 * [Clients](nats-server/clients.md)
 * [Configuring a NATS Server](nats-server/configuration/README.md)
-  * [Configuring JetStream]()
+  * [Configuring JetStream](/jetstream/resource_management.md)
     * [Configuration Management](jetstream/configuration_mgmt/README.md)
       * [NATS Admin CLI](jetstream/configuration_mgmt/nats-admin-cli.md)
       * [Terraform](jetstream/configuration_mgmt/terraform.md)
@@ -184,12 +185,6 @@
   * [Slow Consumers](nats-server/nats_admin/slow_consumers.md)
   * [Signals](nats-server/nats_admin/signals.md)
   * [Lame Duck Mode](nats-server/nats_admin/lame_duck_mode.md)
-  
-## JetStream
-
-* [Model Deep Dive](jetstream/model_deep_dive.md)
-
-* [Multi-tenancy & Resource Mgmt](jetstream/resource_management.md)
 
 ## Reference
 
