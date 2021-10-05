@@ -8,14 +8,6 @@
 * [NATS 2.2](whats_new_22.md)
 * [NATS 2.0](whats_new_20.md)
 
-## Compare NATS
-
-* [Compare NATS](compare-nats.md)
-
-## FAQ
-
-* [FAQ](faq.md)
-
 ## NATS Concepts
 
 * [What is NATS](nats-concepts/intro.md)
@@ -184,6 +176,14 @@
   * [Slow Consumers](nats-server/nats_admin/slow_consumers.md)
   * [Signals](nats-server/nats_admin/signals.md)
   * [Lame Duck Mode](nats-server/nats_admin/lame_duck_mode.md)
+  
+## Compare NATS
+
+* [Compare NATS](compare-nats.md)
+
+## FAQ
+
+* [FAQ](faq.md)
 
 ## Reference
 
