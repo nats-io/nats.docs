@@ -90,6 +90,8 @@ While you can decide to use un-acknowledged consumers trading quality of service
 * Some consumers support acknowledging *all* the messages up to the sequence number of the message being acknowledged, some consumers provide the highest quality of service but require acknowledging the reception and processing of each message explicitly as well as the maximum amount of time the server will wait for an acknowledgement for a specific message before re-delivering it (to another process attached to the consumer)
 * You can also send back _negative_ acknowledgements
 * You can even send _in progress_ acknowledgements (to indicate that you are still processing the message in question and need more time before acking or nacking it)
+
+
 ## K/V store
 JetStream is a persistence layer, and streaming is only one of the functionalities built on top of that layer.
 
