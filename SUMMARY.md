@@ -163,7 +163,7 @@
   * [Enabling Monitoring](nats-server/configuration/monitoring.md)
   * [MQTT](nats-server/configuration/mqtt/README.md)
     * [Configuration](nats-server/configuration/mqtt/mqtt_config.md)
-  * [Subject Mapping and Traffic Shaping Configuration](nats-server/configuration/subject_mapping.md)
+  * [Configuring Subject Mapping](nats-server/configuration/subject_mapping.md)
   * [System Events](nats-server/configuration/sys_accounts/README.md)
     * [System Events & Decentralized JWT Tutorial](nats-server/configuration/sys_accounts/sys_accounts.md)
   * [WebSocket](nats-server/configuration/websocket/README.md)
