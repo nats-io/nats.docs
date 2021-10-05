@@ -27,7 +27,7 @@
   * [Streams](jetstream/concepts/streams.md)
   * [Consumers](jetstream/concepts/consumers.md)
     * [Example](jetstream/concepts/configuration.md)
-* [Subject Mapping and Traffic Shaping](/nats-concepts/subject_mapping.md)
+* [Subject Mapping and Traffic Shaping](nats-concepts/subject_mapping.md)
 * [Security](nats-concepts/security.md)
 * [NATS Adaptive Edge Infrastructure]()
 * [Connectivity](nats-concepts/connectivity.md)
