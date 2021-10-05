@@ -192,7 +192,7 @@
   * [Client Protocol](nats-protocol/nats-protocol/README.md)
     * [Developing a Client](nats-protocol/nats-protocol/nats-client-dev.md)
   * [NATS Cluster Protocol](nats-protocol/nats-server-protocol.md)
-  * [JetStream API Reference](jetstream/nats_api_reference.md)
+  * [JetStream wire API Reference](jetstream/nats_api_reference.md)
 
 ## Legacy
 
