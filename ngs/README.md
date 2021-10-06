@@ -23,4 +23,6 @@ One way to explain what NGS is, is to draw an analogy to something everyone is f
 
 You can start by creating a developer account which is *free* and doesn't even require a credit card:
 
-* [Signup for NGS](https://synadia.com/ngs/signup)
+* [Install NSC and get an NGS account](https://synadia.com/ngs/signup)
+
+You can then follow the instructions to obtain your NGS account, and create the first of any number of users and user authorizations you want and distribute those user credentials to use with your applications.

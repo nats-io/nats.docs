@@ -1,151 +1,251 @@
 # nats-bench
 
-NATS is fast and lightweight and places a priority on performance. NATS provides tools for measuring performance. In this tutorial you learn how to benchmark and tune NATS on your systems and environment.
+NATS is fast and lightweight and places a priority on performance. the `nats` CLI tool can, amongst many other things, be used for running benchmarks and measuring performance of your target NATS service infrastructure. In this tutorial you learn how to benchmark and tune NATS on your systems and environment.
 
 ## Prerequisites
 
-* [Set up your Go environment](https://golang.org/doc/install)
+* [Install the NATS CLI Tool](/nats-tools/natscli.md)
 * [Install the NATS server](../nats-server/installation.md)
 
 ## Start the NATS server with monitoring enabled
 
 ```bash
-% nats-server -m 8222
+% nats-server -m 8222 -js
 ```
 
 Verify that the NATS server starts successfully, as well as the HTTP monitor:
 
 ```bash
-[18541] 2016/10/31 13:26:32.037819 [INF] Starting nats-server version 0.9.4
-[18541] 2016/10/31 13:26:32.037912 [INF] Starting http monitor on 0.0.0.0:8222
-[18541] 2016/10/31 13:26:32.037997 [INF] Listening for client connections on 0.0.0.0:4222
-[18541] 2016/10/31 13:26:32.038020 [INF] Server is ready
+[89075] 2021/10/05 23:26:35.342816 [INF] Starting nats-server
+[89075] 2021/10/05 23:26:35.342971 [INF]   Version:  2.6.1
+[89075] 2021/10/05 23:26:35.342974 [INF]   Git:      [not set]
+[89075] 2021/10/05 23:26:35.342976 [INF]   Name:     NDUYLGUUNSD53IUR77SQE2XK4PRCDJNPTICAGMGTAYAFN22KNL2GLJ23
+[89075] 2021/10/05 23:26:35.342979 [INF]   Node:     ESalpH2B
+[89075] 2021/10/05 23:26:35.342981 [INF]   ID:       NDUYLGUUNSD53IUR77SQE2XK4PRCDJNPTICAGMGTAYAFN22KNL2GLJ23
+[89075] 2021/10/05 23:26:35.343583 [INF] Starting JetStream
+[89075] 2021/10/05 23:26:35.343946 [INF]     _ ___ _____ ___ _____ ___ ___   _   __  __
+[89075] 2021/10/05 23:26:35.343955 [INF]  _ | | __|_   _/ __|_   _| _ \ __| /_\ |  \/  |
+[89075] 2021/10/05 23:26:35.343957 [INF] | || | _|  | | \__ \ | | |   / _| / _ \| |\/| |
+[89075] 2021/10/05 23:26:35.343959 [INF]  \__/|___| |_| |___/ |_| |_|_\___/_/ \_\_|  |_|
+[89075] 2021/10/05 23:26:35.343960 [INF]
+[89075] 2021/10/05 23:26:35.343962 [INF]          https://docs.nats.io/jetstream
+[89075] 2021/10/05 23:26:35.343964 [INF]
+[89075] 2021/10/05 23:26:35.343967 [INF] ---------------- JETSTREAM ----------------
+[89075] 2021/10/05 23:26:35.343970 [INF]   Max Memory:      48.00 GB
+[89075] 2021/10/05 23:26:35.343973 [INF]   Max Storage:     581.03 GB
+[89075] 2021/10/05 23:26:35.343974 [INF]   Store Directory: "/var/folders/1b/wb_d92cd6cl_fshyy5qy2tlc0000gn/T/nats/jetstream"
+[89075] 2021/10/05 23:26:35.343979 [INF] -------------------------------------------
 ```
-
-## Installing and running the benchmark utility
-
-The NATS benchmark can be installed and run via Go. Ensure your golang environment is setup.
-
-There are two approaches; you can either install the `nats-bench` utility in the directory specified in your `GOBIN` environment variable:
-
-```bash
-% go install $GOPATH/src/github.com/nats-io/nats.go/examples/nats-bench/main.go
-```
-
-... or you can simply run it via `go run`:
-
-```bash
-% go run $GOPATH/src/github.com/nats-io/nats.go/examples/nats-bench/main.go
-```
-
-_On windows use the % environment variable syntax, replacing `$GOPATH` with `%GOPATH%`._
-
-For the purpose of this tutorial, we'll assume that you chose the first option, and that you've added the `GOBIN` environment variable to your `PATH`.
-
-The `nats-bench` utility is straightforward to use. The options are as follows:
-
-```bash
-% nats-bench -h
-Usage: nats-bench [-s server (nats://localhost:4222)] [--tls] [-np NUM_PUBLISHERS] [-ns NUM_SUBSCRIBERS] [-n NUM_MSGS] [-ms MESSAGE_SIZE] [-csv csvfile] <subject>
-```
-
-The options are self-explanatory. Each publisher or subscriber runs in its own go routine with its own NATS connection.
 
 ## Run a publisher throughput test
 
 Let's run a test to see how fast a single publisher can publish one million 16 byte messages to the NATS server.
 
 ```bash
-% nats-bench -np 1 -n 100000 -ms 16 foo
+% nats bench foo --pub 1 --size 16
 ```
 
 The output tells you the number of messages and the number of payload bytes that the client was able to publish per second:
 
 ```bash
-Starting benchmark [msgs=100000, msgsize=16, pubs=1, subs=0]
-Pub stats: 7,055,644 msgs/sec ~ 107.66 MB/sec
+23:33:51 Starting pub/sub benchmark [msgs=100,000, msgsize=16 B, pubs=1, subs=0, js=false]
+23:33:51 Starting publisher, publishing 100,000 messages
+Finished      0s [======================================================================================================================================================] 100%
+
+Pub stats: 5,173,828 msgs/sec ~ 78.95 MB/sec
 ```
 
 Now increase the number of messages published:
 
 ```bash
-% nats-bench -np 1 -n 10000000 -ms 16 foo
-Starting benchmark [msgs=10000000, msgsize=16, pubs=1, subs=0]
-Pub stats: 7,671,570 msgs/sec ~ 117.06 MB/sec
+% nats bench foo --pub 1 --size 16 --msgs 10000000
+23:34:29 Starting pub/sub benchmark [msgs=10,000,000, msgsize=16 B, pubs=1, subs=0, js=false]
+23:34:29 Starting publisher, publishing 10,000,000 messages
+Finished      2s [======================================================================================================================================================] 100%
+
+Pub stats: 4,919,947 msgs/sec ~ 75.07 MB/sec
 ```
 
 ## Run a publish/subscribe throughput test
 
-When using both publishers and subscribers, `nats-bench` reports aggregate, as well as individual publish and subscribe throughput performance.
+When using both publishers and subscribers, `nats bench` reports aggregate, as well as individual publish and subscribe throughput performance.
 
 Let's look at throughput for a single publisher with a single subscriber:
 
 ```bash
-% nats-bench -np 1 -ns 1 -n 100000 -ms 16 foo
+% nats bench foo --pub 1 --sub 1 --size 16
 ```
 
 Note that the output shows the aggregate throughput as well as the individual publisher and subscriber performance:
 
 ```bash
-Starting benchmark [msgs=100000, msgsize=16, pubs=1, subs=1]
-NATS Pub/Sub stats: 2,009,230 msgs/sec ~ 30.66 MB/sec
- Pub stats: 1,076,537 msgs/sec ~ 16.43 MB/sec
- Sub stats: 1,004,615 msgs/sec ~ 15.33 MB/sec
+23:36:00 Starting pub/sub benchmark [msgs=100,000, msgsize=16 B, pubs=1, subs=1, js=false]
+23:36:00 Starting subscriber, expecting 100,000 messages
+23:36:00 Starting publisher, publishing 100,000 messages
+Finished      0s [======================================================================================================================================================] 100%
+Finished      0s [======================================================================================================================================================] 100%
+
+NATS Pub/Sub stats: 5,894,441 msgs/sec ~ 89.94 MB/sec
+ Pub stats: 3,517,660 msgs/sec ~ 53.68 MB/sec
+ Sub stats: 2,957,796 msgs/sec ~ 45.13 MB/sec
 ```
 
 ## Run a 1:N throughput test
 
-When specifying multiple publishers, or multiple subscribers, `nats-bench` will also report statistics for each publisher and subscriber individually, along with min/max/avg and standard deviation.
+When specifying multiple publishers, or multiple subscribers, `nats bench` will also report statistics for each publisher and subscriber individually, along with min/max/avg and standard deviation.
 
 Let's increase both the number of messages, and the number of subscribers.:
 
 ```bash
-% nats-bench -np 1 -ns 5 -n 10000000 -ms 16 foo
+% nats bench foo --pub 1 --sub 5 --size 16 --msgs 1000000
 ```
 
 Output:
 
 ```bash
-Starting benchmark [msgs=10000000, msgsize=16, pubs=1, subs=5]
-NATS Pub/Sub stats: 5,730,851 msgs/sec ~ 87.45 MB/sec
- Pub stats: 955,279 msgs/sec ~ 14.58 MB/sec
- Sub stats: 4,775,709 msgs/sec ~ 72.87 MB/sec
-  [1] 955,157 msgs/sec ~ 14.57 MB/sec (10000000 msgs)
-  [2] 955,150 msgs/sec ~ 14.57 MB/sec (10000000 msgs)
-  [3] 955,157 msgs/sec ~ 14.57 MB/sec (10000000 msgs)
-  [4] 955,156 msgs/sec ~ 14.57 MB/sec (10000000 msgs)
-  [5] 955,153 msgs/sec ~ 14.57 MB/sec (10000000 msgs)
-  min 955,150 | avg 955,154 | max 955,157 | stddev 2 msgs
+23:38:08 Starting pub/sub benchmark [msgs=1,000,000, msgsize=16 B, pubs=1, subs=5, js=false]
+23:38:08 Starting subscriber, expecting 1,000,000 messages
+23:38:08 Starting subscriber, expecting 1,000,000 messages
+23:38:08 Starting subscriber, expecting 1,000,000 messages
+23:38:08 Starting subscriber, expecting 1,000,000 messages
+23:38:08 Starting subscriber, expecting 1,000,000 messages
+23:38:08 Starting publisher, publishing 1,000,000 messages
+Finished      0s [======================================================================================================================================================] 100%
+Finished      0s [======================================================================================================================================================] 100%
+Finished      0s [======================================================================================================================================================] 100%
+Finished      0s [======================================================================================================================================================] 100%
+Finished      0s [======================================================================================================================================================] 100%
+Finished      0s [======================================================================================================================================================] 100%
+
+NATS Pub/Sub stats: 7,123,965 msgs/sec ~ 108.70 MB/sec
+ Pub stats: 1,188,419 msgs/sec ~ 18.13 MB/sec
+ Sub stats: 5,937,525 msgs/sec ~ 90.60 MB/sec
+  [1] 1,187,633 msgs/sec ~ 18.12 MB/sec (1000000 msgs)
+  [2] 1,187,597 msgs/sec ~ 18.12 MB/sec (1000000 msgs)
+  [3] 1,187,526 msgs/sec ~ 18.12 MB/sec (1000000 msgs)
+  [4] 1,187,528 msgs/sec ~ 18.12 MB/sec (1000000 msgs)
+  [5] 1,187,505 msgs/sec ~ 18.12 MB/sec (1000000 msgs)
+  min 1,187,505 | avg 1,187,557 | max 1,187,633 | stddev 48 msgs
 ```
 
 ## Run a N:M throughput test
 
-When more than 1 publisher is specified, `nats-bench` evenly distributes the total number of messages \(`-n`\) across the number of publishers \(`-np`\).
+When more than 1 publisher is specified, `nats bench` evenly distributes the total number of messages \(`-msgs`\) across the number of publishers \(`-pub`\).
 
 Now let's increase the number of publishers and examine the output:
 
 ```bash
-% nats-bench -np 5 -ns 5 -n 10000000 -ms 16 foo
+% nats bench foo --pub 5 --sub 5 --size 16 --msgs 1000000
 ```
 
 The output:
 
 ```bash
-Starting benchmark [msgs=10000000, msgsize=16, pubs=5, subs=5]
-NATS Pub/Sub stats: 6,716,465 msgs/sec ~ 102.49 MB/sec
- Pub stats: 1,119,653 msgs/sec ~ 17.08 MB/sec
-  [1] 226,395 msgs/sec ~ 3.45 MB/sec (2000000 msgs)
-  [2] 225,955 msgs/sec ~ 3.45 MB/sec (2000000 msgs)
-  [3] 225,889 msgs/sec ~ 3.45 MB/sec (2000000 msgs)
-  [4] 224,552 msgs/sec ~ 3.43 MB/sec (2000000 msgs)
-  [5] 223,933 msgs/sec ~ 3.42 MB/sec (2000000 msgs)
-  min 223,933 | avg 225,344 | max 226,395 | stddev 937 msgs
- Sub stats: 5,597,054 msgs/sec ~ 85.40 MB/sec
-  [1] 1,119,461 msgs/sec ~ 17.08 MB/sec (10000000 msgs)
-  [2] 1,119,466 msgs/sec ~ 17.08 MB/sec (10000000 msgs)
-  [3] 1,119,444 msgs/sec ~ 17.08 MB/sec (10000000 msgs)
-  [4] 1,119,444 msgs/sec ~ 17.08 MB/sec (10000000 msgs)
-  [5] 1,119,430 msgs/sec ~ 17.08 MB/sec (10000000 msgs)
-  min 1,119,430 | avg 1,119,449 | max 1,119,466 | stddev 12 msgs
+23:39:28 Starting pub/sub benchmark [msgs=1,000,000, msgsize=16 B, pubs=5, subs=5, js=false]
+23:39:28 Starting subscriber, expecting 1,000,000 messages
+23:39:28 Starting subscriber, expecting 1,000,000 messages
+23:39:28 Starting subscriber, expecting 1,000,000 messages
+23:39:28 Starting subscriber, expecting 1,000,000 messages
+23:39:28 Starting subscriber, expecting 1,000,000 messages
+23:39:28 Starting publisher, publishing 200,000 messages
+23:39:28 Starting publisher, publishing 200,000 messages
+23:39:28 Starting publisher, publishing 200,000 messages
+23:39:28 Starting publisher, publishing 200,000 messages
+23:39:28 Starting publisher, publishing 200,000 messages
+Finished      0s [======================================================================================================================================================] 100%
+Finished      0s [======================================================================================================================================================] 100%
+Finished      0s [======================================================================================================================================================] 100%
+Finished      0s [======================================================================================================================================================] 100%
+Finished      0s [======================================================================================================================================================] 100%
+Finished      0s [======================================================================================================================================================] 100%
+Finished      0s [======================================================================================================================================================] 100%
+Finished      0s [======================================================================================================================================================] 100%
+Finished      0s [======================================================================================================================================================] 100%
+Finished      0s [======================================================================================================================================================] 100%
+
+NATS Pub/Sub stats: 7,019,849 msgs/sec ~ 107.11 MB/sec
+ Pub stats: 1,172,667 msgs/sec ~ 17.89 MB/sec
+  [1] 236,240 msgs/sec ~ 3.60 MB/sec (200000 msgs)
+  [2] 236,168 msgs/sec ~ 3.60 MB/sec (200000 msgs)
+  [3] 235,541 msgs/sec ~ 3.59 MB/sec (200000 msgs)
+  [4] 234,911 msgs/sec ~ 3.58 MB/sec (200000 msgs)
+  [5] 235,545 msgs/sec ~ 3.59 MB/sec (200000 msgs)
+  min 234,911 | avg 235,681 | max 236,240 | stddev 485 msgs
+ Sub stats: 5,851,064 msgs/sec ~ 89.28 MB/sec
+  [1] 1,171,181 msgs/sec ~ 17.87 MB/sec (1000000 msgs)
+  [2] 1,171,169 msgs/sec ~ 17.87 MB/sec (1000000 msgs)
+  [3] 1,170,867 msgs/sec ~ 17.87 MB/sec (1000000 msgs)
+  [4] 1,170,641 msgs/sec ~ 17.86 MB/sec (1000000 msgs)
+  [5] 1,170,250 msgs/sec ~ 17.86 MB/sec (1000000 msgs)
+  min 1,170,250 | avg 1,170,821 | max 1,171,181 | stddev 349 msgs
 ```
+
+## Run a request/reply latency test
+
+In one shell start a nats bench in 'reply mode' and let it run
+
+```shell
+% nats bench foo --sub 1 --reply
+```
+
+And in another shell send some requests
+
+```shell
+% nats bench foo --pub 1 --request --msgs 10000
+23:47:35 Benchmark in request/reply mode
+23:47:35 Starting request/reply benchmark [msgs=10,000, msgsize=128 B, pubs=1, subs=0, js=false, request=true, reply=false]
+23:47:35 Starting publisher, publishing 10,000 messages
+Finished      1s [==============================================================================================================================================================================================================================================================================================================================================================================================================================================================] 100%
+
+Pub stats: 8,601 msgs/sec ~ 1.05 MB/sec
+```
+
+In this case the average latency of request/reply between the two `nats bench` processes over NATS was 1/8,601th of a second (116.2655505 microseconds).
+
+You can now hit control-c to kill that `nats bench --reply` process
+
+Note: by default `nats bench` subscribers in 'reply mode' join a queue group, so you can use `nats bench` for example to simulate a bunch of load balanced server processes.
+
+## Run JetStream benchmarks
+
+### Measure JetStream publication performance
+First let's publish some messages into a stream, `nats bench` will automatically create a stream called `benchstream` using default attributes.
+
+```shell
+% nats bench bar --js --pub 1 --size 16 --msgs 1000000
+00:00:10 Starting JetStream benchmark [msgs=1,000,000, msgsize=16 B, pubs=1, subs=0, js=true, stream=benchstream  storage=memory, syncpub=false, pubbatch=100, jstimeout=30s, pull=false, pullbatch=100, maxackpending=-1, replicas=1, purge=false]
+00:00:10 Starting publisher, publishing 1,000,000 messages
+Finished      3s [======================================================================================================================================================] 100%
+
+Pub stats: 272,497 msgs/sec ~ 4.16 MB/sec
+```
+
+### Measure JetStream consumption (replay) performance
+We can now measure the speed of replay of messages stored in the stream to a consumer
+
+```shell
+nats bench bar --js --sub 1 --msgs 1000000
+00:05:04 JetStream ordered push consumer mode: subscribers will not acknowledge the consumption of messages
+00:05:04 Starting JetStream benchmark [msgs=1,000,000, msgsize=128 B, pubs=0, subs=1, js=true, stream=benchstream  storage=memory, syncpub=false, pubbatch=100, jstimeout=30s, pull=false, pullbatch=100, maxackpending=-1, replicas=1, purge=false]
+00:05:04 Starting subscriber, expecting 1,000,000 messages
+Finished      1s [======================================================================================================================================================] 100%
+
+Sub stats: 777,480 msgs/sec ~ 94.91 MB/sec
+```
+
+#### Push and pull consumers
+By default `nats bench --js` subscribers use 'ordered push' consumers, which are ordered, reliable and flow controlled but not 'acknowledged' meaning that the subscribers _do not_ send an acknowledgement back to the server upon receiving each message from the stream. Ordered push consumers are the preferred way for a single application instance to get it's own copy of all (or some) of the data stored in a stream.
+However, you can also benchmark 'pull consumers', which are instead the preferred way to horizontally scale the processing (or consumption) of the messages in the stream where the subscribers _do_ acknowledge the processing of every single message, but can leverage batching to increase the processing throughput.
+
+### Play around with the knobs
+
+Don't be afraid to test different JetStream storage and replication options (assuming you have access to a JetStream enabled cluster of servers if you want to go beyond `--replicas 1`), and of course the number of publishing/subscribing threads and the publish or pull subscribe batch sizes.
+
+Note: If you change the attributes of a stream between runs you will have to delete the stream (e.g. run `nats stream rm benchstream`)
+
+### Leave no trace: clean up the resources when you are finished
+Once you have finished benchmarking streams, remember that if you have stored many messages in the stream (which is very easy and fast to do) your stream may end up using a certain amount of resources on the nats-server(s) infrastructure (i.e. memory and files) that you may want to reclaim.
+
+You can instruct use the `--purge` bench command flag to tell `nats` to purge the stream of messages before starting its benchmark, or purge the stream manually using `nats stream purge benchstream` or just delete it altogether using `nats stream rm benchstream`.
+
 
