@@ -9,7 +9,7 @@ The `cluster` configuration map has the following configuration options:
 | `name` | Name of the cluster \(recommended for NATS +v2.2\) |
 | `listen` | Combines `host` and `port` as `<host>:<port>`. |
 | `tls` | A [`tls` configuration map](../securing_nats/tls.md) for securing the clustering connection. `verify` is always enabled and `cert_file` is used for client and server. [See](../securing_nats/tls.md#wrong-key-usage) for certificate pitfalls. |
-| `advertise` | Hostport `<host>:<port>` to advertise how this server can be contacted by other cluster members. This is useful in setups with NAT. |
+| `advertise` or `cluster_advertise` | Hostport `<host>:<port>` to advertise how this server can be contacted by other cluster members. This is useful in setups with NAT. When using TLS this is important to set to control the hostname that clients will use when discovering the route since by default this will be an IP, otherwise TLS hostname verification may fail with an IP SANs error.|
 | `no_advertise` | When set to 'true', the server will not send or gossip its client URLs to other servers in the cluster and will not tell its client about the other servers' client URLs. |
 | `routes` | A list of other servers \(URLs\) to cluster with. Self-routes are ignored. Should authentication via `token` or `username`/`password` be required, specify them as part of the URL. |
 | `connect_retries` | After how many failed connect attempts to give up establishing a connection to a discovered route. Default is `0`, do not retry. When enabled, attempts will be made once a second. This, does not apply to explicitly configured routes. |
