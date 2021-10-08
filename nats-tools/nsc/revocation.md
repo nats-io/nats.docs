@@ -27,3 +27,10 @@ Both add commands take the flag `--at` which defaults to 0, for now, which can b
 
 Deleting a revocation is permanent and can allow an old activation or user JWT to be valid again. Therefore delete should only be used if you are sure the tokens in question have expired.
 
+### Pushing the changes to the nats servers
+
+If your nats servers are configured to use the built-in NATS resolver, remember that you need to 'push' any account changes you may have done (locally) using `nsc revocations` to the servers for those changes to take effect.
+
+i.e. `ncs push -i` or `nsc push -a B -u nats://localhost`
+
+If there are any clients currently connected with as a user that gets added to the revocations, their connections will be immediately terminated as soon as you 'push' your revocations to a nats server.

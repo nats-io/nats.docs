@@ -287,27 +287,7 @@ Let’s put all of this together, and create a simple server configuration that 
 
 ## Account Server Configuration
 
-To configure a server to use accounts, you need an _account resolver_. An account resolver exposes a URL where a nats-server can query for JWTs belonging to an account.
-
-A simple built-in resolver is the `MEMORY` resolver, which statically maps account public keys to an account JWT in the server’s configuration file. It is somewhat easier to configure because it doesn’t require another moving part, but fails to provide the needed experience of setting up an account server. Let’s set up an _Account Server_.
-
-Installing the Account Server
-
-```text
-> go get github.com/nats-io/nats-account-server
-```
-
-The account server has options to enable you to use an nsc directory directly. Let’s start one:
-
-```text
-> nats-account-server -nsc ~/.nsc/nats/O
-```
-
-Above, we pointed the account server to our nsc data directory \(more specifically to the `O` operator that we created earlier\). By default, the server listens on the localhost at port 9090.
-
-You can also run the account server with a data directory that is not your nsc folder. In this mode, you can upload account JWTs to the server. See the help for `nsc push` for more information about how to push JWTs to the account server.
-
-We are now ready to configure the nats-server.
+To configure a server to use accounts, you need to configure it to select the type of _account resolver_ it will use. The preferred option being to configure the server to use the built-in [NATS Based Resolver](/nats-server/configuration/securing_nats/jwt/resolver.md#nats-based-resolver).
 
 ## NATS Server Configuration
 
@@ -317,36 +297,48 @@ If you don’t have a nats-server installed, let’s do that now:
 > go get github.com/nats-io/nats-server
 ```
 
-Let’s create a configuration that references our operator JWT and the nats-account-server as a resolver:
+Let’s create a configuration that references our operator JWT and the nats-account-server as a resolver, add this to your `nats-server` config file:
 
 ```yaml
-operator: $HOME/.nsc/nats/O/O.jwt
-resolver: URL(http://localhost:9090/jwt/v1/accounts/)
+operator: /Users/myusername/.nsc/nats/O/O.jwt
+resolver: {
+  type: full
+    # Directory in which account jwt will be stored
+    dir: './jwt'
+}
 ```
 
-At minimum, the server requires the `operator` JWT, which we have pointed at directly, and a resolver. The resolver has two options `MEM` and `URL`. We are interested in the `URL` since we want the nats-server to talk to the account server. Note we put the URL of the server with the path `/jwt/v1/accounts`. Currently, this is where the account server expects requests for account information.
+At minimum, the server requires the `operator` JWT, which we have pointed at directly, and a resolver.
 
+Now start this local test server using `nats-server -c myconfig.cfg`
+
+## Pushing the local nsc changes to the nats server
+
+In order for the nats servers to know about the account(s) you have created or changes to the attributes for those accounts, you need to push any new accounts or any changes to account attributes you may have done locally using `nsc` into the built-in account resolver of the nats-server. You can do this using `nsc push`:
+
+For example to push the account named 'A' that you have just created into the nats server running locally on your machine use:
+```shell
+nsc push -a A -u nats://localhost
+```
+
+You can also use `nsc pull -u nats://localhost` to pull the view of the accounts that the local nats server has into your local nsc copy (i.e. in `~/.nsc`)
+
+As soon as you  'push' an the account JWT to the server (that server's built-in NATS account resolver will take care of distributing that new (or new version of) the account JWT to the other nats servers in the cluster) then the changes will take effect and for example any users you may have created with that account will then be able to connect to any of the nats server in the cluster using the user's JWT.
 ## Client Testing
 
-Let’s install some tooling:
-
-```text
-> go get github.com/nats-io/nats.go/examples/nats-pub
-
-> go get github.com/nats-io/nats.go/examples/nats-sub
-```
+Install the `nats` CLI Tool if you haven't already.
 
 Create a subscriber:
 
 ```text
-nats-sub -creds ~/.nkeys/creds/O/A/U.creds ">"
+nats sub --creds ~/.nkeys/creds/O/A/U.creds ">"
 Listening on [>]
 ```
 
 Publish a message:
 
 ```text
-nats-pub -creds ~/.nkeys/creds/O/A/U.creds hello NATS 
+nats pub --creds ~/.nkeys/creds/O/A/U.creds hello NATS 
 Published [hello] : 'NATS'
 ```
 
