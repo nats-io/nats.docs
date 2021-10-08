@@ -1,8 +1,12 @@
+## Usage Recommendation :warning:
+
+If you are creating a new NATS deployment we highly recommend using the internal
+[NATS Resolver](https://docs.nats.io/nats-server/configuration/securing_nats/jwt/resolver#nats-based-resolver)
+for a much simpler and easy to manage account resolution system.
+
+This account server, while being considered legacy, is still functional and still serves as a good reference to build upon for custom account resolution
+
 # nats-account-server
-
-
-> NOTE: the standalone nats-account-server is now _legacy_, as its functionality is now built-in into nats-server
-
 
 The standalone [NATS Account Server](https://github.com/nats-io/nats-account-server) is an HTTP server that hosts and vends [JWTs](../../nats-server/configuration/securing_nats/jwt/) for nats-server 2.0 account authentication. The server supports an number of stores which enable it to serve account [JWTs](../../nats-server/configuration/securing_nats/jwt/) from a [directory](nas_conf.md#directory-configuration)
 
