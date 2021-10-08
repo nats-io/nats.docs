@@ -6,5 +6,7 @@ NATS makes it easy for programs to communicate across different environments, la
 
 ![](../.gitbook/assets/intro.svg)
 
-Core NATS offers an **at most once** quality of service. If a subscriber is not listening on the subject \(no subject match\), or is not active when the message is sent, the message is not received. This is the same level of guarantee that TCP/IP provides. Core NATS is a fire-and-forget messaging system, will only hold messages in memory and will never write messages directly to disk. If you need higher levels of service, you can use [NATS JetStream ](/jetstream/jetstream.md) or build additional reliability into your client applications yourself with proven and scalable reference designs such as acks and sequence numbers.
+_Core NATS_ offers an **at most once** quality of service. If a subscriber is not listening on the subject \(no subject match\), or is not active when the message is sent, the message is not received. This is the same level of guarantee that TCP/IP provides. _Core NATS_ is a fire-and-forget messaging system, will only hold messages in memory and will never write messages directly to disk.
+
+If you need higher qualities of service (such as **exactly once**), or functionalities such persistent streaming, de-coupled flow control, and Key/Value Store, you can use [NATS JetStream ](/jetstream/jetstream.md), which is built-in into the NATS server (just needs to be enabled). Of course you can also always build additional reliability into your client applications yourself with proven and scalable reference designs such as acks and sequence numbers.
 
