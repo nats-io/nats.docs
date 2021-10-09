@@ -100,8 +100,15 @@ world
 
 ## Testing Against a Remote Server
 
-If the NATS server were running in a different machine or a different port, you'd have to specify that to the client by specifying a _NATS URL_ (either in a `nats context` . NATS URLs take the form of: `nats://<server>:<port>` and `tls://<server>:<port>`. URLs with a `tls` protocol sport a secured TLS connection.
+If the NATS server were running in a different machine or a different port, you'd have to specify that to the client by specifying a _NATS URL_ (either in a `nats context` or using the `-s` flag).
 
+### NATS URLs
+
+NATS URLs take the form of: `nats://<server>:<port>` and `tls://<server>:<port>`. URLs with a `tls` protocol sport a secured TLS connection.
+
+If you are connecting to a cluster you can specify more than one URL (comma separated). e.g. `nats://localhost:4222,nats://localhost:5222,nats://localhost:6222` if you are running a test cluster of 3 nats servers on your local machine, listening at ports 4222, 5222, and 6222 respectively.
+
+### Example
 ```text
 > nats sub -s nats://server:port ">"
 ```
