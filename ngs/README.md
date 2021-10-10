@@ -26,3 +26,7 @@ You can start by creating a developer account which is *free* and doesn't even r
 * [Install NSC and get an NGS account](https://synadia.com/ngs/signup)
 
 You can then follow the instructions to obtain your NGS account, and create the first of any number of users and user authorizations you want and distribute those user credentials to use with your applications.
+
+## Connecting to NGS
+
+Your isolated applications can connect directly to NGS, or if you have more than one process running in the same location they would connect to NGS through a Leaf Node nats server that you would deploy locally and that would act as a 'local router' and proxy for the local applications to NGS. Those client applications (and the Leaf Node nats servers if used) only need to use "nats://connect.ngs.global" or "tls://connect.ngs.global" as the connection URL and the user's credential file which contains both the private key and the JTW to the user.
