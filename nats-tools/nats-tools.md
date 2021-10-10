@@ -11,7 +11,7 @@ Beside those client applications, the NATS Ecosystem also has many tools to inte
 * Security
   * [nk](nk.md) - Generate NKeys
   * [nsc](nsc/) - Configure Operators, Accounts and Users
-  * [nats account server](nas/) - Serve Account JWTs
+  * [nats account server](/nats-tools/nas/README.md) - Serve Account JWTs
 * Monitoring
   * [nats top](nats_top/) - Monitor NATS Server
   * [prometheus-nats-exporter](https://github.com/nats-io/prometheus-nats-exporter) - Export NATS server metrics to [Prometheus](https://prometheus.io/) and a [Grafana](https://grafana.com) dashboard.

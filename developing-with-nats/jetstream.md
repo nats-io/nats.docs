@@ -65,16 +65,17 @@ These include:
 ### Streams
   * You can use 'AddStream' to idempotently define streams and their attributes (i.e. source subjects, retention and storage policies, limits)
   * You can use 'Purge' to purge the messages in a stream
-  * You can use 'Delete' to delete a stream 
+  * You can use 'Delete' to delete a stream
+
+
 ### Publish to a stream
-There is some interoperability between 'Core NATS' and JetStream in the fact that the stream are listening to core NATS messages. At the same time you will notice that the NATS client libraries' JetStream calls include some 'Publish' calls and so may be wondering what is the difference between a 'Core NATS Publish' and a 'JetStream Publish'
+There is interoperability between 'Core NATS' and JetStream in the fact that the streams are listening to core NATS messages. _However_ you will notice that the NATS client libraries' JetStream calls include some 'Publish' calls and so may be wondering what is the difference between a 'Core NATS Publish' and a 'JetStream Publish'.
 
+So yes, when a 'Core NATS' application publishes a message on a Stream's subject, that message will indeed get stored in the stream, but that's not really the intent as you are then publishing with the lower quality of service provided by Core NATS. So, while it will definitely work to just use the Core NATS Publish call to publish to a stream, look at it more as a convenience that you can use to help ease the migration of your applications to use streaming rather the desired end state or ideal design.
 
-Yes, if a 'Core NATS' application publishes a message on a Stream's subject, that message will indeed get stored in the stream, but that's not really the intent. While it will definitely work to just use the Core NATS Publish call to publish to a stream, look at it more as a convenience that you can use to help ease the migration of your applications to use streaming rather than an end state.
-
-Instead it is better for applications to use the JetStream Publish calls (which Core NATS subscribers not using Streams will still receive like any other publication) when publishing to a stream as:
+Instead, it is better for applications to use the JetStream Publish calls (which Core NATS subscribers not using Streams will still receive like any other publication) when publishing to a stream as:
 * JetStream publish calls are acknowledged by the JetStream enabled servers, which allows for the following higher qualities of service
-    * If the publisher receives the acknowledgement from the server it can safely discard any state it has for that publication, the message has not only been received correctly by the server but it has also been successfully persisted.
+    * If the publisher receives the acknowledgement from the server it can safely discard any state it has for that publication, the message has not only been received correctly by the server, but it has also been successfully persisted.
     * Whether you use the synchronous or the asynchronous JetStream publish calls, there is an implied flow control between the publisher and the JetStream infrastructure.
     * You can have 'exactly-once' quality of service by the JS publishing application inserting a unique publication ID in a header field of the message.
 
