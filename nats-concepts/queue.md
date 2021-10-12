@@ -21,5 +21,5 @@ With [JetStream](/nats-concepts/jetstream.md) a stream can also be used as a que
 When connecting to a globally distributed NATS super-cluster such as NGS for example, there is an automatic service geo-affinity due to the fact that a service request message will only be routed to another cluster (i.e. another region) if there are no listeners on the cluster available to handle the request locally.
 
 ## Tutorial
-Try NATS queue subscriptions on your own, using a live server by walking through the [queueing tutorial](../developing-with-nats/tutorials/queues.md).
+Try NATS queue subscriptions on your own, using a live server by walking through the [queueing tutorial](../walkthrough/queues.md).
 

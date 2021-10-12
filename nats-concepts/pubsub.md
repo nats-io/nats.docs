@@ -4,7 +4,7 @@ NATS implements a publish-subscribe message distribution model for one-to-many c
 
 ![](../.gitbook/assets/pubsub.svg)
 
-Try NATS publish subscribe on your own, using a live server by walking through the [pub-sub tutorial](../developing-with-nats/tutorials/pubsub.md).
+Try NATS publish subscribe on your own, using a live server by walking through the [pub-sub tutorial](../walkthrough/pubsub.md).
 
 # Messages
 Messages are composed of a subject, a payload in the form of a byte array, any number of header fields, as well as an optional 'reply' address field.
