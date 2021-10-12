@@ -1,6 +1,6 @@
 # NATS JetStream Walkthrough
 
-## Prerequisite
+## Prerequisite: enabling JetStream
 
 If you are using an existing NATS service infrastructure such as NGS make sure your account is enabled for JetStream
 
@@ -37,7 +37,7 @@ JetStream Account Information:
    JetStream is not supported in this account
 ```
 
-## Creating a stream
+## 1. Creating a stream
 
 Let's start by creating a stream to capture and store the messages published on the subject "foo".
 
@@ -114,7 +114,7 @@ State:
      Active Consumers: 0
 ```
 
-## Publish some messages into the stream
+## 2. Publish some messages into the stream
 
 Let's now start a publisher
 
@@ -124,7 +124,7 @@ Let's now start a publisher
 
 As messages are being published on the subject "foo" they are also captured and stored in the stream, you can check that by using `nats stream info my_stream` and even look at the messages themselves using `nats stream view my_stream`
 
-## Creating a consumer
+## 3. Creating a consumer
 
 Now at this point if you create a 'Core NATS' (i.e. non-streaming) subscriber to listen for messages on the subject 'foo', you will _only_ receive the messages being published after the subscriber was started, this is normal and expected for the basic 'Core NATS' messaging. In order to receive a 'replay' of all the messages contained in the stream (including those that were published in the past) we will now create a 'consumer'
 
@@ -166,7 +166,7 @@ State:
 
 You can check on the status of any consumer at any time using `nats consumer info` or view the messages in the stream using `nats stream view my_stream' or even remove individual messages from the stream using `nats stream rmm`
 
-### Subscribing from the consumer
+## 3. Subscribing from the consumer
 
 Now that the consumer has been created and since there are messages in the stream we can now start subscribing to the consumer:
 
@@ -181,3 +181,9 @@ Note that in this example we are creating a pull consumer with a 'durable' name,
 #### Replaying the messages again
 
 Once you have iterated over all the messages in the stream with the consumer, you can get them again by simply creating a new consumer or by deleting that consumer (`nats consumer rm`) and re-creating it (`nats consumer add`).
+
+## 4. Cleaning up
+
+You can clean up a stream (and release the resources associated with it (e.g. the messages stored in the stream)) using `nats stream purge`
+
+You can also delete a stream (which will also automatically delete all the consumers that may be defined on that stream) using `nats stream rm`

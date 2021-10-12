@@ -6,31 +6,7 @@ NATS supports a form of load balancing using [queue groups](../nats-concepts/que
 
 If you have not already done so, you need to [install](/walkthrough/walkthrough_setup.md) the `nats` CLI Tool and optionally the nats-server on your machine.
 
-### 1. Start the NATS server if needed
-
-If you are going to run a server locally you need to first start it. Alternatively if you are going to use a remote server you only need to pass the server URL to `nats` using the `-s` or preferably create a context using `nats context add` to specify the server URL(s) and credentials file containing your user JWT.
-
-To start a simple demonstration server locally just use:
-
-```bash
-% nats-server
-```
-
-When the server starts successfully, you will see the following messages:
-
-```bash
-[9013] 2021/10/11 15:08:52.573742 [INF] Starting nats-server
-[9013] 2021/10/11 15:08:52.573844 [INF]   Version:  2.6.1
-[9013] 2021/10/11 15:08:52.573847 [INF]   Git:      [not set]
-[9013] 2021/10/11 15:08:52.573849 [INF]   Name:     NBP3KW36QXLRMVQZMKPIMQHUT6TA23XX2W5Q3DFU2TFPWXWEASC4YU4Q
-[9013] 2021/10/11 15:08:52.573851 [INF]   ID:       NBP3KW36QXLRMVQZMKPIMQHUT6TA23XX2W5Q3DFU2TFPWXWEASC4YU4Q
-[9013] 2021/10/11 15:08:52.574507 [INF] Listening for client connections on 0.0.0.0:4222
-[9013] 2021/10/11 15:08:52.574728 [INF] Server is ready
-```
-
-The NATS server listens for client connections on TCP Port 4222.
-
-### 2. Start the first member of the queue group
+## 1. Start the first member of the queue group
 
 The `nats reply` instances don't just subscribe to the subject but also automatically join a queue group (`"NATS-RPLY-22"` by default)
 
@@ -38,7 +14,7 @@ The `nats reply` instances don't just subscribe to the subject but also automati
 nats reply foo "service instance A Reply# {{Count}}"
 ```
 
-### 3. Start a second member of the queue-group
+## 2. Start a second member of the queue-group
 
 In a new window
 
@@ -46,7 +22,7 @@ In a new window
 nats reply foo "service instance B Reply# {{Count}}"
 ```
 
-### 4. Start a third member of the queue-group
+## 3. Start a third member of the queue-group
 
 In a new window
 
@@ -54,17 +30,17 @@ In a new window
 nats reply foo "service instance C Reply# {{Count}}"
 ```
 
-### 5. Publish a NATS message
+## 4. Publish a NATS message
 
 ```bash
 nats request foo "Simple request"
 ```
 
-### 6. Verify message publication and receipt
+## 5. Verify message publication and receipt
 
 You should see that only one of the my-queue group subscribers receives the message and replies it, and you can also see which one of the available queue-group subscribers processed the request from the reply message received (i.e. service instance A, B or C)
 
-### 7. Publish another message
+## 6. Publish another message
 
 ```bash
 nats pub foo "Another simple request"
@@ -74,6 +50,6 @@ You should see that a different queue group subscriber receives the message this
 
 You can also send any number of requests back-to-back and see from the received messages the distribution of the those requests amongst the members of the queue-group (e.g. ) `nats request foo --count 10 "Request {{Count}}"`
 
-### 8. Stop/start queue-group members
+## 7. Stop/start queue-group members
 
 You can at any time start yet another service instance, or kill one and see how the queue-group automatically takes care of adding/removing those instances from the group.

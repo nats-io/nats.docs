@@ -11,6 +11,7 @@
 ## NATS Concepts
 
 * [What is NATS](nats-concepts/intro.md)
+  * [Walkthrough Setup](/walkthrough/walkthrough_setup.md)
 * [Subject-Based Messaging](nats-concepts/subjects.md)
 * [Publish-Subscribe](nats-concepts/pubsub.md)
   * [Pub/Sub Walkthrough](walkthrough/pubsub.md)
@@ -30,7 +31,6 @@
   * [NATS Adaptive Deployment Architectures](nats-concepts/adaptive_edge_deployment.md)
 * [Security](nats-concepts/security.md)
 * [Connectivity](nats-concepts/connectivity.md)
-* [Walkthrough](walkthrough/walkthrough.md)
 
 ## Using NATS
 

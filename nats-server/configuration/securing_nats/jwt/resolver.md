@@ -4,7 +4,7 @@ The `resolver` configuration option is used in conjunction with [NATS JWT Authen
 
 * [NATS Based Resolver](resolver.md#nats-based-resolver)
 * [`MEMORY`](resolver.md#Memory)
-* [`URL`](resolver.md#URL-Resolver) _(deprecated)_
+* [`URL`](resolver.md#URL-Resolver)
 
 > If the operator JWT specified in `operator` contains an account resolver URL, `resolver` only needs to be specified in order to overwrite that default.
 
@@ -86,7 +86,7 @@ For more information on how to configure a memory resolver, see [this tutorial](
 
 ## URL Resolver
 
-**NOTE:** The `URL` resolver type is now deprecated and the [standalone NATS Account JWT Server](../../../../nats-tools/nas/) is now _legacy_, please use the [NATS Based Resolver](resolver.md#nats-based-resolver) instead.
+**NOTE:** The [standalone NATS Account JWT Server](/nats-tools/nas/) is now _legacy_, please use the [NATS Based Resolver](resolver.md#nats-based-resolver) instead. However, the URL resolver option is still available in case you want to implement your own version of an account resolver
 
 The `URL` resolver specifies a URL where the server can append an account public key to retrieve that account's JWT. Convention for standalone NATS Account JWT Servers is to serve JWTs at: `http://localhost:9090/jwt/v1/accounts/`. For such a configuration you would specify the resolver as follows:
 
