@@ -1,6 +1,8 @@
 # JetStream
 
-NATS has a built-in distributed persistence system called [JetStream](/jetstream/jetstream.md) which enables new functionalities and higher qualities of service on top of the base 'Core NATS' functions.
+NATS has a built-in distributed persistence system called [JetStream](/jetstream/jetstream.md) which enables new functionalities and higher qualities of service on top of the base 'Core NATS' functionalities and qualities of service.
+
+JetStream is built-in to `nats-server` and you only need 1 (or 3 or 5 if you want fault-tolerance against 1 or 2 simultaneous NATS server failures) of your NATS server(s) to be JetStream enabled for it to be available to all the client applications.
 
 JetStream was created to solve the problems identified with streaming in technology today - complexity, fragility, and a lack of scalability. Some technologies address these better than others, but no current streaming technology is truly multi-tenant, horizontally scalable, and supports multiple deployment models. No other technology that we are aware of can scale from edge to cloud under the same security context while having complete deployment observability for operations.
 
