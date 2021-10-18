@@ -2,6 +2,26 @@
 
 The NATS.io team is always working to bring you features to improve your NATS experience. Below you will find feature summaries for new implementations to NATS. Check back often for release highlights and updates.
 
+## Server release v2.6.0
+
+### **Notice for JetStream Users**
+
+See important [note](whats_new.md#notice-for-jetstream-users) if upgrading from a version prior to NATS Server v2.4.0.
+
+### Notice for MQTT Users
+
+See important [notes](whats_new.md#mqtt-update) if upgrading from a version prior to v2.5.0.
+
+### Monitoring
+* JetStream's reserved memory and memory used from accounts with reservations in `/jsz` and `/varz` endpoints
+* Hardened systemd service
+
+For full release information, see links below;
+
+* Release notes [2.6.0](https://github.com/nats-io/nats-server/releases/tag/v2.6.0)
+* Full list of Changes [2.5.0...2.6.0](https://github.com/nats-io/nats-server/compare/v2.6.0...v2.5.0)
+
+
 ## Server release v2.5.0
 
 ### **Notice for JetStream Users**
