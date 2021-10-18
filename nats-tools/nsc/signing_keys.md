@@ -152,7 +152,7 @@ As expected, the issuer is now the signing key we generated earlier. To map the 
 
 ## Scoped Signing Keys
 
-Scoped Signing Keys simplifies user permission management. Previously if you wanted to limit the permissions of users, you had to specify permissions on a per-user basis. With scoped signing keys, you associate a signing key with a set of permissions. This configuration lives on the account JWT and is managed with the `nsc edit signing-key`command. You can add as many scoped signing keys as necessary.
+Scoped Signing Keys simplify user permission management. Previously if you wanted to limit the permissions of users, you had to specify permissions on a per-user basis. With scoped signing keys, you associate a signing key with a set of permissions. This configuration lives on the account JWT and is managed with the `nsc edit signing-key` command. You can add as many scoped signing keys as necessary.
 
 To issue a user with a set of permissions, simply sign the user with the signing key having the permission set you want. The user configuration must _not_ have any permissions assigned to it.
 
