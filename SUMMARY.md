@@ -143,12 +143,12 @@
         * [TLS Authentication in clusters](nats-server/configuration/clustering/cluster_tls.md)
       * [NKeys](nats-server/configuration/securing_nats/auth_intro/nkey_auth.md)
       * [Authentication Timeout](nats-server/configuration/securing_nats/auth_intro/auth_timeout.md)
+      * [Decentralized JWT Authentication/Authorization](nats-server/configuration/securing_nats/jwt/README.md)
+        * [Account lookup using Resolver](nats-server/configuration/securing_nats/jwt/resolver.md)
+        * [Memory Resolver Tutorial](nats-server/configuration/securing_nats/jwt/mem_resolver.md)
+        * [Mixed Authentication/Authorization Setup](nats-server/configuration/securing_nats/jwt/jwt_nkey_auth.md)
     * [Authorization](nats-server/configuration/securing_nats/authorization.md)
     * [Multi Tenancy using Accounts](nats-server/configuration/securing_nats/accounts.md)
-    * [Decentralized JWT Authentication/Authorization](nats-server/configuration/securing_nats/jwt/README.md)
-      * [Account lookup using Resolver](nats-server/configuration/securing_nats/jwt/resolver.md)
-      * [Memory Resolver Tutorial](nats-server/configuration/securing_nats/jwt/mem_resolver.md)
-      * [Mixed Authentication/Authorization Setup](nats-server/configuration/securing_nats/jwt/jwt_nkey_auth.md)
     * [OCSP Stapling](nats-server/configuration/ocsp.md)
   * [Logging](nats-server/configuration/logging.md)
   * [Enabling Monitoring](nats-server/configuration/monitoring.md)
@@ -251,5 +251,3 @@
   * [Inspecting JWTs](nats-tools/nas/inspecting_jwts.md)
   * [Directory Store](nats-tools/nas/dir_store.md)
   * [Update Notifications](nats-tools/nas/notifications.md)
-
-* test
