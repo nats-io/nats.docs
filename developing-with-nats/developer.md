@@ -2,21 +2,18 @@
 
 Developing with NATS is a combination of distributed application techniques, common NATS features and library specific syntax. As well as using this book for guidance, some of the libraries contain language-familiar formats of their API. For example, the Go library has godoc, and the Java library has javadoc.
 
-| Library | Doc Link |
+| Language | Links |
 | :--- | :--- |
-| [nats.go](https://github.com/nats-io/nats.go) | [godoc](http://godoc.org/github.com/nats-io/nats.go) |
-| [nats.java](https://github.com/nats-io/nats.java) | [javadoc](https://javadoc.io/doc/io.nats/jnats) |
-| [nats.net](https://github.com/nats-io/nats.net) | [doxygen](http://nats-io.github.io/nats.net/) |
-| [nats.rb](https://github.com/nats-io/nats.rb) | [yard](https://www.rubydoc.info/gems/nats) |
-| [nats-pure.rb](https://github.com/nats-io/nats-pure.rb) | [doc](https://www.rubydoc.info/gems/nats) |
-| [nats.ws](https://github.com/nats-io/nats.ws) (JS) | [README](https://github.com/nats-io/nats.ws#readme) |
-| [nats.ts](https://github.com/nats-io/nats.ts) | [ts-doc](https://nats-io.github.io/nats.ts) |
-| [nats.rs](https://github.com/nats-io/nats.rs) | [rust doc](https://docs.rs/nats) |
-| [nats.py](https://github.com/nats-io/nats.py) | [doc](https://github.com/nats-io/nats.py#readme) |
-| [nats.c](https://github.com/nats-io/nats.c) | [doc](http://nats-io.github.io/nats.c) |
-| [nats.ex](https://github.com/nats-io/nats.ex) | [hex doc](https://hex.pm/packages/gnat) |
-| [nats.deno](https://github.com/nats-io/nats.deno) | [doc](https://github.com/nats-io/nats.deno/blob/main/README.md) |
-| [nats.zig](https://github.com/nats-io/nats.zig) | [README](https://github.com/nats-io/nats.zig#readme)
+| Golang | [client](https://github.com/nats-io/nats.go), [godoc](http://godoc.org/github.com/nats-io/nats.go) |
+| Java | [client](https://github.com/nats-io/nats.java), [javadoc](https://javadoc.io/doc/io.nats/jnats) |
+| C# | [client](https://github.com/nats-io/nats.net), [doxygen](http://nats-io.github.io/nats.net/) |
+| JavaScript | [Node.Js](https://github.com/nats-io/nats.js#readme), [deno](https://github.com/nats-io/nats.deno/blob/main/README.md), [WebSocket](https://github.com/nats-io/nats.ws#readme) |
+| Python | [client](https://github.com/nats-io/nats.py) |
+| Ruby | [client](https://github.com/nats-io/nats-pure.rb), [yard](https://www.rubydoc.info/gems/nats) |
+| C | [client](https://github.com/nats-io/nats.c), [doc](http://nats-io.github.io/nats.c) |
+| Rust | [client](https://github.com/nats-io/nats.rs), [rust doc](https://docs.rs/nats) |
+| Elixir | [client](https://github.com/nats-io/nats.ex), [hex doc](https://hex.pm/packages/gnat) |
+| Zig | [client](https://github.com/nats-io/nats.zig)
 
 Not all libraries contain this separate doc, depending on the language community, but be sure to check out the client libraries README for more information.
 
