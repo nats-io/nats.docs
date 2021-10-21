@@ -25,7 +25,7 @@
   * [Consumers](jetstream/concepts/consumers.md)
     * [Example](jetstream/concepts/configuration.md)
   * [JetStream Walkthrough](/walkthrough/js.md)
-  * [Key/Value Store](jetstream/concepts/kv_store.md)
+  * [Key/Value Store](nats-concepts/kv_store.md)
     * [Key/Value Store Walkthrough](/walkthrough/kv.md)
 * [Subject Mapping and Traffic Shaping](nats-concepts/subject_mapping.md)
 * [NATS service infrastructure](nats-concepts/service_infrastructure.md)
