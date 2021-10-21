@@ -75,7 +75,7 @@ To migrate account data when you change from using the standalone (REST) account
 1. Run `nsc pull` to make sure you have a copy of all the account data in the server in your local machine
 2. Reconfigure your servers to use the nats resolver instead of the URL resolver
 3. Modify the 'account server URL' setting in your operator to the nats URL from the old REST URL: i.e. just copy the nats URLs from the operator's 'service URLs' setting into the account server URLs. `nsc edit operator --account-jwt-server-url <nats://...>`
-4. do `nsc push` to push your account data to the nats-servers using the built-in nats account resolver
+4. do `nsc push -A` to push your account data to the nats-servers using the built-in nats account resolver
 
 You can also pass the account server URLs directly as a flag to the `nsc pull` and `nsc push` commands.
 
