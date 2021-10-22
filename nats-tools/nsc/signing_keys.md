@@ -150,3 +150,66 @@ Now let’s create a user and signing it with account signing key starting with 
 
 As expected, the issuer is now the signing key we generated earlier. To map the user to the actual account, an `Issuer Account` field was added to the JWT that identifies the public key of account _A_.
 
+## Scoped Signing Keys
+
+Scoped Signing Keys simplify user permission management. Previously if you wanted to limit the permissions of users, you had to specify permissions on a per-user basis. With scoped signing keys, you associate a signing key with a set of permissions. This configuration lives on the account JWT and is managed with the `nsc edit signing-key` command. You can add as many scoped signing keys as necessary.
+
+To issue a user with a set of permissions, simply sign the user with the signing key having the permission set you want. The user configuration must _not_ have any permissions assigned to it.
+
+On connect, the nats-server will assign the permissions associated with that signing key to the user. If you update the permissions associated with a signing key, the server will immediately update permissions for users signed with that key.
+
+```
+> nsc add account A
+[ OK ] generated and stored account key "ADAOBX2SCSWJEQKXRJIQPTKNAKDWWSYJEKLKYWIJYVSAH6I3OKIPSTF7"
+[ OK ] added account "A"
+...
+> nsc generate nkey -a --store
+ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN
+account key stored ...VJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN.nk
+
+> nsc edit account A --sk ADV7CZZQZEGO3ZJTHQJOGY2NQHJX76RSHPBXJVG2OWCCY7VCIQRSYX7B
+[ OK ] added signing key "ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN"
+[ OK ] edited account "A"
+
+> nsc edit signing-key --account A --role service --sk ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN --allow-sub "q.>" --deny-pub ">" --allow-pub-response
+[ OK ] set max responses to 1
+[ OK ] added deny pub ">"
+[ OK ] added sub "q.>"
+[ OK ] edited signing key "ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN"
+
+> nsc add user S -K ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN
+[ OK ] generated and stored user key "UCLQNT6O5GF6DDWYCNSFHG64Q72XOMCDAAXGAYORM5FODM2FBJSIWDN4"
+[ OK ] generated user creds file `~/.nkeys/creds/O/A/S.creds`
+[ OK ] added user "S" to account "A"
+
+> nsc describe user -a A -n S
++---------------------------------------------------------------------------+
+|                                   User                                    |
++----------------+----------------------------------------------------------+
+| Name           | S                                                        |
+| User ID        | UCLQNT6O5GF6DDWYCNSFHG64Q72XOMCDAAXGAYORM5FODM2FBJSIWDN4 |
+| Issuer ID      | ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN |
+| Issuer Account | ADAOBX2SCSWJEQKXRJIQPTKNAKDWWSYJEKLKYWIJYVSAH6I3OKIPSTF7 |
+| Issued         | 2021-10-14 15:59:55 UTC                                  |
+| Expires        |                                                          |
+| Issuer Scoped  | Yes                                                      |
++----------------+----------------------------------------------------------+
+
++------------------------------------------------------------------------------------+
+|                            Scoped Signing Key - Details                            |
++-------------------------+----------------------------------------------------------+
+| Key                     | ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN |
+| role                    | service                                                  |
++-------------------------+----------------------------------------------------------+
+| Pub Deny                | >                                                        |
+| Sub Allow               | q.>                                                      |
+| Max Responses           | 1                                                        |
+| Response Permission TTL | 0s                                                       |
+| Max Msg Payload         | Unlimited                                                |
+| Max Data                | Unlimited                                                |
+| Max Subs                | Unlimited                                                |
+| Network Src             | Any                                                      |
+| Time                    | Any                                                      |
+| Bearer Token            | No                                                       |
++-------------------------+----------------------------------------------------------+
+```
