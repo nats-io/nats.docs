@@ -9,7 +9,10 @@ If you are running a local `nats-server` stop it and restart it with JetStream e
 You can then check that JetStream is enabled by using
 
 ```shell
-% nats account info
+nats account info
+``` 
+Which should output something like:
+```
 Connection Information:
 
                Client ID: 6
@@ -29,7 +32,7 @@ JetStream Account Information:
         Consumers: 0 of Unlimited 
 ```
 
-If you see the below then JetStream is _not_ enabled
+If you see the below instead then JetStream is _not_ enabled
 
 ```shell
 JetStream Account Information:
@@ -42,7 +45,10 @@ JetStream Account Information:
 Just like you have to create streams before you can use them, you need to first create a 'KV bucket' using `nats kv add <KV Bucket Name>`:
 
 ```shell
-% nats kv add my_kv
+nats kv add my_kv
+```
+which should output:
+```
 my_kv Key-Value Store Status
 
          Bucket Name: my_kv
@@ -59,16 +65,19 @@ my_kv Key-Value Store Status
 Now that we have a bucket, we can use it to 'put' (store) values at keys:
 
 ```shell
-% nats kv put my_kv Key1 Value1
-Value1
+nats kv put my_kv Key1 Value1
 ```
 
+which should return `Value1`
 ## Getting a value
 
 Now that we have value stored at key "Key1" we can retrieve that value with a 'get':
 
 ```shell
-% nats kv get my_kv Key1
+nats kv get my_kv Key1
+```
+which should output
+```
 my_kv > Key1 created @ 12 Oct 21 20:08 UTC
 
 Value1
@@ -86,14 +95,17 @@ A functionality (normally not provided by Key/Value stores) is available with th
 For example run `nats kv watch my_kv`: this will start a watcher on the bucket we have just created earlier. If you followed this walkthrough the last operation that happened on the key is that it was deleted. Because by default the KV bucket is set with a history size of one (i.e. it keeps only the last change) and the last operation on the bucket was a delete of the value associated with the key "Key1" that is the only thing that get received by the watcher:
 
 ```shell
-% nats kv watch my_kv
+nats kv watch my_kv
+```
+which should output
+```
 [2021-10-12 13:15:03] DEL my_kv > Key1
 ```
 
 Keep that `nats kv watch` running and in another window do another 'put'
 
 ```shell
-% nats kv put my_kv Key1 Value2
+nats kv put my_kv Key1 Value2
 ```
 
 As soon as that command is run you will see that put event received by the watcher:
@@ -104,9 +116,8 @@ As soon as that command is run you will see that put event received by the watch
 
 ## Cleaning up
 
-Once you are finished playing, you can easily delete the KV bucket and release the resource associted with it by using:
+Once you are finished playing, you can easily delete the KV bucket and release the resource associated with it by using:
 
 ```shell
-% nats kv rm my_kv
-? Deleted bucket my_kv? Yes
+nats kv rm my_kv
 ```

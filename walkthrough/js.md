@@ -9,7 +9,10 @@ If you are running a local `nats-server` stop it and restart it with JetStream e
 You can then check that JetStream is enabled by using 
 
 ```shell
-% nats account info
+nats account info
+```
+which should output something like
+```
 Connection Information:
 
                Client ID: 6
@@ -44,7 +47,10 @@ Let's start by creating a stream to capture and store the messages published on 
 Enter `nats stream add <Stream name>` (in the examples below we will name the stream "my_stream"), then enter "foo" as the subject name and hit return to use the defaults for all the other stream attributes:
 
 ```shell
-% nats stream add my_stream
+nats stream add my_stream
+```
+example output
+```
 ? Subjects to consume foo
 ? Storage backend file
 ? Retention Policy Limits
@@ -87,7 +93,10 @@ State:
 You can then check the information about the stream you just created:
 
 ```shell
-% nats stream info my_stream
+nats stream info my_stream
+```
+which should output something like
+```
 Information for Stream my_stream created 2021-10-12T08:42:10-07:00
 
 Configuration:
@@ -119,7 +128,7 @@ State:
 Let's now start a publisher
 
 ```shell
-% nats pub foo --count=1000 --sleep 1s "publication #{{Count}} @ {{TimeStamp}}"
+nats pub foo --count=1000 --sleep 1s "publication #{{Count}} @ {{TimeStamp}}"
 ```
 
 As messages are being published on the subject "foo" they are also captured and stored in the stream, you can check that by using `nats stream info my_stream` and even look at the messages themselves using `nats stream view my_stream`
@@ -132,6 +141,9 @@ We can administratively create a consumer using the 'nats consumer add <Consumer
 
 ```shell
 nats consumer add
+```
+example output
+```
 ? Consumer name pull_consumer
 ? Delivery target (empty for Pull Consumers)
 ? Start policy (all, new, last, subject, 1h, msg sequence) all
@@ -171,7 +183,7 @@ You can check on the status of any consumer at any time using `nats consumer inf
 Now that the consumer has been created and since there are messages in the stream we can now start subscribing to the consumer:
 
 ```shell
-% nats consumer next my_stream pull_consumer --count 1000
+nats consumer next my_stream pull_consumer --count 1000
 ```
 
 This will print out all the messages in the stream starting with the first message (which was published in the past) and continuing with new messages as they are published until the count is reached.

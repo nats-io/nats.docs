@@ -7,14 +7,14 @@ In order to try NATS (and JetStream) on your own while going through the concept
 For macOS:
 
 ```text
-> brew tap nats-io/nats-tools
-> brew install nats-io/nats-tools/nats
+brew tap nats-io/nats-tools
+brew install nats-io/nats-tools/nats
 ```
 
 For Arch Linux:
 
 ```text
-> yay natscli
+yay natscli
 ```
 
 Binaries are also available as [GitHub Releases](https://github.com/nats-io/natscli/releases).
@@ -28,32 +28,39 @@ If you are going to run a server locally you need to first install it and start 
 On Mac OS:
 
 ```text
-> brew install nats-server
+brew install nats-server
 ```
 
 On Windows:
 
 ```text
-> choco install nats-server
+choco install nats-server
 ```
 
 ### Downloading a Release Build
 
 You can find the latest release of nats-server [here](https://github.com/nats-io/nats-server/releases/latest).
 
-Download the zip file matching your systems architecture, and unzip. For this example, assuming version 2.0.0 of the server and a Linux AMD64:
+Download the zip file matching your systems architecture, and unzip. For this example, assuming version 2.6.2 of the server and a Linux AMD64:
 
-```text
-> curl -L https://github.com/nats-io/nats-server/releases/download/v2.0.0/nats-server-v2.0.0-linux-amd64.zip -o nats-server.zip
+```shell
+curl -L https://github.com/nats-io/nats-server/releases/download/v2.0.0/nats-server-v2.6.2-linux-amd64.zip -o nats-server.zip
+```
 
-> unzip nats-server.zip -d nats-server
+```shell
+unzip nats-server.zip -d nats-server
+```
+which should output something like
+```shell
 Archive:  nats-server.zip
-   creating: nats-server-v2.0.0-linux-amd64/
-  inflating: nats-server-v2.0.0-linux-amd64/README.md
-  inflating: nats-server-v2.0.0-linux-amd64/LICENSE
-  inflating: nats-server-v2.0.0-linux-amd64/nats-server
-
-> sudo cp nats-server/nats-server-v2.0.0-linux-amd64/nats-server /usr/bin
+   creating: nats-server-v2.6.2-linux-amd64/
+  inflating: nats-server-v2.6.2-linux-amd64/README.md
+  inflating: nats-server-v2.6.2-linux-amd64/LICENSE
+  inflating: nats-server-v2.6.2-linux-amd64/nats-server
+```
+and finally:
+```shell
+sudo cp nats-server/nats-server-v2.6.2-linux-amd64/nats-server /usr/bin
 ```
 
 ### 1. Start the NATS server (if needed)

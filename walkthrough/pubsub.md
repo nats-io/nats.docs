@@ -13,7 +13,7 @@ If you have not already done so, you need to [install](/walkthrough/walkthrough_
 In a shell or command prompt session start a subscriber
 
 ```bash
-% nats sub <subject>
+nats sub <subject>
 ```
 
 Where `<subject>` is a subject to listen on. A valid subject is a string that is unique in the system.
@@ -21,7 +21,7 @@ Where `<subject>` is a subject to listen on. A valid subject is a string that is
 For example:
 
 ```bash
-% nats sub msg.test
+nats sub msg.test
 ```
 
 You should see the message: _Listening on \[msg.test\]_
@@ -33,7 +33,7 @@ You will use this session to run a NATS publisher client.
 ## 3. Publish a NATS message
 
 ```bash
-% nats pub <subject> <message>
+nats pub <subject> <message>
 ```
 
 Where `<subject>` is the subject name and `<message>` is the text to publish.
@@ -41,7 +41,7 @@ Where `<subject>` is the subject name and `<message>` is the text to publish.
 For example:
 
 ```bash
-% nats pub msg.test hello
+nats pub msg.test hello
 ```
 
 ## 4. Verify message publication and receipt
@@ -55,7 +55,7 @@ Note that if the receiver does not get the message, check that you are using the
 ## 5. Publish another message
 
 ```bash
-% nats pub msg.test "NATS MESSAGE 2"
+nats pub msg.test "NATS MESSAGE 2"
 ```
 
 You should see that the subscriber receives message 2. Note that the message count is incremented each time your subscribing client receives a message on that subject:
@@ -67,13 +67,13 @@ You will use this session to run a second NATS subscriber.
 ## 7. Start a second client subscriber program
 
 ```bash
-% nats sub msg.test
+nats sub msg.test
 ```
 
 ## 8. Publish another message using the publisher client
 
 ```bash
-% nats pub msg.test "NATS MESSAGE 3"
+nats pub msg.test "NATS MESSAGE 3"
 ```
 
 Verify that both subscribing clients receive the message.
@@ -85,7 +85,7 @@ You will use this session to run a third NATS subscriber.
 ## 10. Subscribe to a different subject
 
 ```bash
-% nats sub msg.test.new
+nats sub msg.test.new
 ```
 
 All the but last subscriber receives the message. Why? Because that subscriber is not listening on the message subject used by the publisher.
@@ -97,7 +97,7 @@ NATS supports the use of wildcard characters for message subscribers only. You c
 Change the last subscriber the listen on msg.\* and run it:
 
 ```bash
-% nats sub msg.*
+nats sub msg.*
 ```
 
 ## 12. Publish another message
