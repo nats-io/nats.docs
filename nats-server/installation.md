@@ -61,7 +61,11 @@ Typing `nats-server` should output something like
 [41634] 2019/05/13 09:42:11.746252 [INF] Server is ready
 ```
 
-On Linux: see below
+On Linux:
+
+```shell
+yay nats-server
+```
 
 ## Downloading a Release Build
 

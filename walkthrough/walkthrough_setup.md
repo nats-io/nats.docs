@@ -37,6 +37,12 @@ On Windows:
 choco install nats-server
 ```
 
+On Linux:
+
+```shell
+yay nats-server
+```
+
 ### Downloading a Release Build
 
 You can find the latest release of nats-server [here](https://github.com/nats-io/nats-server/releases/latest).
