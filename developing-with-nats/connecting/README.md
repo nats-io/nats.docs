@@ -1,10 +1,31 @@
 # Connecting
 
-A NATS system is usually identified by a standard URL with the `nats` or `tls` protocol, e.g. nats://demo.nats.io. A NATS system can be a single server, a small cluster or a global super cluster. Throughout these examples we will rely on a single test server, provided by [nats.io](https://nats.io), at `nats://demo.nats.io`, where `4222` is the default port for NATS.
+In order for a NATS client application to connect to the NATS service, and then subscribe or publish messages to subjects, it needs to be able to be configured with the details of how to connect to the NATS service infrastructure and of how to authenticate with it.
 
-NATS also supports secure connectivity using TLS via the `tls` protocol. Most clients support auto-detection of a secure connection using the URL protocol `tls`. There is also a demo server running TLS at `tls://demo.nats.io:4443`. The protocol requirement is being made optional for many client libraries, so that you can use `demo.nats.io:4222` as the URL and let the client and server resolve whether or not TLS is required.
+## NATS URL
+1. A 'NATS URL' which is a string (in a URL format) that specifies the IP address and port where the NATS server(s) can be reached, and what kind of connection to establish:
+    * Plain un-encrypted TCP connection (i.e. NATS URLs starting with `nats://...`)
+    * TLS encrypted TCP connection (i.e. NATS URLs starting with `tls://...`)
+    * Websocket connection (i.e. NATS URLs starting with `ws://...`)
 
-When connecting to a cluster it is best to provide the complete set of 'seed' URLs for the cluster. 
+### Connecting to clusters
 
-There are numerous options for a NATS connection ranging from timeouts to reconnect settings.
+Note that when connecting to a NATS service infrastructure with clusters there is more than one URL and the application should allow for more than one URL to be specified in its NATS connect call (typically you pass a comma separated list of URLs as the URL, e.g. `"nats://server1:port1,nats://server2:port2"`).
 
+When connecting to a cluster it is best to provide the complete set of 'seed' URLs for the cluster.
+
+## Authentication details
+2. If required: authentication details for the application to identify itself with the NATS server(s). NATS supports multiple authentication schemes:
+    * [Username/Password credentials](/developing-with-nats/security/userpass.md#connecting-with-a-user-password) (which can be passed as part of the NATS URL)
+    * [Decentralized JWT Authentication/Authorization](/developing-with-nats/security/creds.md) (where the application is configured with the location of 'credentials file' containing the JWT and private Nkey)
+    * [Token Authentication](/developing-with-nats/security/token.md#connecting-with-a-token) (where the application is configured with a Token string)
+    * [TLS Certificate](/developing-with-nats/security/tls.md#connecting-with-tls-and-verify-client-identity) (where the client is configured to use a client TLS certificate and the servers are configured to map the TLS client certificates to users defined in the server configuration)
+    * [NKEY with Challenge](/developing-with-nats/security/nkey.md)  (/using-nats/developer/security/nkey) (where the client is configured with a Seed and User NKeys)
+
+### Runtime configuration
+
+Your application should expose a way to be configured at run time with a NATS URL(s) to use, and if you want to use a secure infrastructure, which credentials (.creds) file to use (or if needed with a way to set the token or Nkey, usernames and passwords can be encoded in the NATS URL).
+
+## Connection Options
+
+Besides the connectivity and security details, there are numerous options for a NATS connection ranging from timeouts to reconnect settings.
