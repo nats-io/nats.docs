@@ -61,6 +61,8 @@ Typing `nats-server` should output something like
 [41634] 2019/05/13 09:42:11.746252 [INF] Server is ready
 ```
 
+On Linux: see below
+
 ## Downloading a Release Build
 
 You can find the latest release of nats-server [here](https://github.com/nats-io/nats-server/releases/latest).
