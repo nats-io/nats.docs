@@ -1,6 +1,6 @@
 # Walkthrough prerequisites
 
-In order to try NATS (and JetStream) on your own while going through the concepts by following the walkthrough, the `nats` CLI tool must be installed, and either the NATS server must be installed or alternatively you can use NGS or the demo server located at `nats://demo.nats.io`.
+In order to try NATS (and JetStream) on your own while going through the concepts by following the walkthrough, the `nats` CLI tool must be installed, and either a local NATS server must be installed or alternatively you can signup for a free developer account and use NGS (you could even the demo server located at `nats://demo.nats.io`).
 
 ## Installing the [`nats`](/nats-tools/natscli.md) CLI Tool
 
@@ -58,22 +58,25 @@ Archive:  nats-server.zip
 
 ### 1. Start the NATS server (if needed)
 
-To start a simple demonstration server locally just use:
+To start a simple demonstration server locally simply run:
 
 ```bash
-% nats-server
+nats-server
 ```
+
+(or `nats-server -m 8222` if you want to enable the HTTP monitoring functionality)
 
 When the server starts successfully, you will see the following messages:
 
 ```bash
-[9013] 2021/10/11 15:08:52.573742 [INF] Starting nats-server
-[9013] 2021/10/11 15:08:52.573844 [INF]   Version:  2.6.1
-[9013] 2021/10/11 15:08:52.573847 [INF]   Git:      [not set]
-[9013] 2021/10/11 15:08:52.573849 [INF]   Name:     NBP3KW36QXLRMVQZMKPIMQHUT6TA23XX2W5Q3DFU2TFPWXWEASC4YU4Q
-[9013] 2021/10/11 15:08:52.573851 [INF]   ID:       NBP3KW36QXLRMVQZMKPIMQHUT6TA23XX2W5Q3DFU2TFPWXWEASC4YU4Q
-[9013] 2021/10/11 15:08:52.574507 [INF] Listening for client connections on 0.0.0.0:4222
-[9013] 2021/10/11 15:08:52.574728 [INF] Server is ready
+[14524] 2021/10/25 22:53:53.525530 [INF] Starting nats-server
+[14524] 2021/10/25 22:53:53.525640 [INF]   Version:  2.6.1
+[14524] 2021/10/25 22:53:53.525643 [INF]   Git:      [not set]
+[14524] 2021/10/25 22:53:53.525647 [INF]   Name:     NDAUZCA4GR3FPBX4IFLBS4VLAETC5Y4PJQCF6APTYXXUZ3KAPBYXLACC
+[14524] 2021/10/25 22:53:53.525650 [INF]   ID:       NDAUZCA4GR3FPBX4IFLBS4VLAETC5Y4PJQCF6APTYXXUZ3KAPBYXLACC
+[14524] 2021/10/25 22:53:53.526392 [INF] Starting http monitor on 0.0.0.0:8222
+[14524] 2021/10/25 22:53:53.526445 [INF] Listening for client connections on 0.0.0.0:4222
+[14524] 2021/10/25 22:53:53.526684 [INF] Server is ready
 ```
 
 The NATS server listens for client connections on TCP Port 4222.
