@@ -3,7 +3,7 @@
 NATS philosophy is simplicity. Installation is just decompressing a zip file and copying the binary to an appropriate directory; you can also use your favorite package manager. Here's a list of different ways you can install or run NATS:
 
 * [Docker](installation.md#installing-via-docker)
-* [Kubernetes](installation.md#installing-on-kubernetes-with-nats-operator)
+* [Kubernetes](/nats-on-kubernetes/nats-kubernetes.md)
 * [Package Manager](installation.md#installing-via-a-package-manager)
 * [Release Zip](installation.md#downloading-a-release-build)
 * [Development Build](installation.md#installing-from-the-source)
@@ -54,7 +54,7 @@ To test your installation \(provided the executable is visible to your shell\):
 Typing `nats-server` should output something like
 
 ```
-[41634] 2019/05/13 09:42:11.745919 [INF] Starting nats-server version 2.0.0
+[41634] 2019/05/13 09:42:11.745919 [INF] Starting nats-server version 2.*.*
 [41634] 2019/05/13 09:42:11.746240 [INF] Listening for client connections on 0.0.0.0:4222
 ...
 [41634] 2019/05/13 09:42:11.746249 [INF] Server id is NBNYNR4ZNTH4N2UQKSAAKBAFLDV3PZO4OUYONSUIQASTQT7BT4ZF6WX7
