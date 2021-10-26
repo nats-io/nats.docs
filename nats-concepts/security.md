@@ -11,7 +11,7 @@ NATS has a lot of security features:
   * [Decentralized JWT Authentication/Authorization](/nats-server/configuration/securing_nats/jwt/README.md)
 * Authenticated clients are identified as users and have a set of [_authorizations_](/nats-server/configuration/securing_nats/authorization.md)
 
-You can use [accounts](/nats-server/configuration/securing_nats/accounts.md) for multi-tenancy: each account has its own independent subject 'namespace' and you control the import/export of both streams of messages and services between accounts, and any number of users that client applications can be authenticated as.
+You can use [accounts](/nats-server/configuration/securing_nats/accounts.md) for multi-tenancy: each account has its own independent 'subject namespace' and you control the import/export of both streams of messages and services between accounts, and any number of users that client applications can be authenticated as.
 The subjects or subject wildcards that a user is allowed to publish and/or subscribe to can be controlled either through server configuration or as part of signed JWTs. 
 
 JWT authentication/authorization administration is decentralized because each account private key holder can manage their users and their authorizations on their own, without the need for any configuration change on the nats servers by minting their own JWTs and distributing them to the users.
