@@ -12,18 +12,19 @@ NATS philosophy is simplicity. Installation is just decompressing a zip file and
 
 With Docker you can install the server easily without scattering binaries and other artifacts on your system. The only pre-requisite is to [install docker](https://docs.docker.com/install).
 
-```text
-> docker pull nats:latest
-latest: Pulling from library/nats
-Digest: sha256:0c98cdfc4332c0de539a064bfab502a24aae18ef7475ddcc7081331502327354
-Status: Image is up to date for nats:latest
-docker.io/library/nats:latest
+```shell
+docker pull nats:latest
 ```
 
 To run NATS on Docker:
 
-```text
-> docker run -p 4222:4222 -ti nats:latest
+```shell
+docker run -p 4222:4222 -ti nats:latest
+```
+which should output
+
+
+```
 [1] 2019/05/24 15:42:58.228063 [INF] Starting nats-server version #.#.#
 [1] 2019/05/24 15:42:58.228115 [INF] Git commit [#######]
 [1] 2019/05/24 15:42:58.228201 [INF] Starting http monitor on 0.0.0.0:8222
@@ -38,20 +39,21 @@ More information on [containerized NATS is available here](nats_docker/).
 
 On Windows:
 
-```text
-> choco install nats-server
+```shell
+choco install nats-server
 ```
 
 On Mac OS:
 
-```text
-> brew install nats-server
+```shell
+brew install nats-server
 ```
 
 To test your installation \(provided the executable is visible to your shell\):
 
-```text
-> nats-server
+Typing `nats-server` should output something like
+
+```
 [41634] 2019/05/13 09:42:11.745919 [INF] Starting nats-server version 2.0.0
 [41634] 2019/05/13 09:42:11.746240 [INF] Listening for client connections on 0.0.0.0:4222
 ...
@@ -63,36 +65,42 @@ To test your installation \(provided the executable is visible to your shell\):
 
 You can find the latest release of nats-server [here](https://github.com/nats-io/nats-server/releases/latest).
 
-Download the zip file matching your systems architecture, and unzip. For this example, assuming version 2.0.0 of the server and a Linux AMD64:
+Download the zip file matching your systems architecture, and unzip. For this example, assuming version 2.6.2 of the server and a Linux AMD64:
 
-```text
-> curl -L https://github.com/nats-io/nats-server/releases/download/v2.0.0/nats-server-v2.0.0-linux-amd64.zip -o nats-server.zip
+```shell
+curl -L https://github.com/nats-io/nats-server/releases/download/v2.0.0/nats-server-v2.6.2-linux-amd64.zip -o nats-server.zip
+```
 
-> unzip nats-server.zip -d nats-server
+```shell
+unzip nats-server.zip -d nats-server
+```
+which should output something like
+```shell
 Archive:  nats-server.zip
-   creating: nats-server-v2.0.0-linux-amd64/
-  inflating: nats-server-v2.0.0-linux-amd64/README.md
-  inflating: nats-server-v2.0.0-linux-amd64/LICENSE
-  inflating: nats-server-v2.0.0-linux-amd64/nats-server
-
-> sudo cp nats-server/nats-server-v2.0.0-linux-amd64/nats-server /usr/bin
+   creating: nats-server-v2.6.2-linux-amd64/
+  inflating: nats-server-v2.6.2-linux-amd64/README.md
+  inflating: nats-server-v2.6.2-linux-amd64/LICENSE
+  inflating: nats-server-v2.6.2-linux-amd64/nats-server
+```
+and finally:
+```shell
+sudo cp nats-server/nats-server-v2.6.2-linux-amd64/nats-server /usr/bin
 ```
 
 ## Installing From the Source
 
 If you have Go installed, installing the binary is easy:
 
-```text
-> GO111MODULE=on go get github.com/nats-io/nats-server/v2
+```shell
+GO111MODULE=on go get github.com/nats-io/nats-server/v2
 ```
 
 This mechanism will install a build of [master](https://github.com/nats-io/nats-server), which almost certainly will not be a released version. If you are a developer and want to play with the latest, this is the easiest way.
 
-To test your installation \(provided the $GOPATH/bin is set\):
+To test your installation \(provided the $GOPATH/bin is set\) by typing `nats-server` which should output something like
 
 ```text
-> nats-server
-[41634] 2019/05/13 09:42:11.745919 [INF] Starting nats-server version 2.0.0
+[41634] 2019/05/13 09:42:11.745919 [INF] Starting nats-server version 2.6.2
 [41634] 2019/05/13 09:42:11.746240 [INF] Listening for client connections on 0.0.0.0:4222
 ...
 [41634] 2019/05/13 09:42:11.746249 [INF] Server id is NBNYNR4ZNTH4N2UQKSAAKBAFLDV3PZO4OUYONSUIQASTQT7BT4ZF6WX7
@@ -110,7 +118,7 @@ go: github.com/nats-io/go-nats-streaming@v0.5.0: parsing go.mod: unexpected modu
 
 To fix it:
 
-1\) Update your `go.mod` using the latest tags, for example for both NATS and NATS Streaming clients:
+1) Update your `go.mod` using the latest tags, for example for both NATS and NATS Streaming clients:
 
 ```ruby
 module github.com/wallyqs/hello-nats-go-mod
@@ -141,7 +149,7 @@ require (
 )
 ```
 
-2\) Next, update the imports within the repo:
+2) Next, update the imports within the repo:
 
 ```bash
 find ./ -type f -name "*.go" -exec sed -i -e 's/github.com\/nats-io\/go-nats-streaming/github.com\/nats-io\/stan.go/g' {} \;
@@ -153,7 +161,7 @@ find ./ -type f -name "*.go" -exec sed -i -e 's/github.com\/nats-io\/gnatsd/gith
 find ./ -type f -name "*.go" -exec sed -i -e 's/github.com\/nats-io\/nats-server/github.com\/nats-io\/nats-server\/v2/g' {} \;
 ```
 
-3\) \(Recommended\) Run Go fmt as the rename will affect the proper ordering of the imports
+3) \(Recommended\) Run Go fmt as the rename will affect the proper ordering of the imports
 
 ### Gotchas when using `go get`
 
