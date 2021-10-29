@@ -11,16 +11,31 @@ Let's look at an example. Suppose you created a user JWT with access to the subj
 `nsc` provides a number of commands to create, remove or list revocations:
 
 ```bash
+nsc revocations -h
+```
+Output
+```text
+Manage revocation for users and activations from an account
+
 Usage:
   nsc revocations [command]
 
 Available Commands:
+  add-user          Revoke a user
   add_activation    Revoke an accounts access to an export
-  add_user          Revoke a user
+  delete-user       Remove a user revocation
   delete_activation Remove an account revocation from an export
-  delete_user       Remove a user revocation
+  list-users        List users revoked in an account
   list_activations  List account revocations for an export
-  list_users        List users revoked in an account
+
+Flags:
+  -h, --help   help for revocations
+
+Global Flags:
+  -i, --interactive          ask questions for various settings
+  -K, --private-key string   private key
+
+Use "nsc revocations [command] --help" for more information about a command.
 ```
 
 Both add commands take the flag `--at` which defaults to 0, for now, which can be used to set the unix timestamp as described above. By default revocations are at the current time, but you can set them in the past for situations where you know when a problem occurred and was fixed.

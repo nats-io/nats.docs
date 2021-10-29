@@ -16,15 +16,18 @@ This will setup:
 
 Next, try using [`nats`](/nats-tools/natscli.md) CLI Tool to connect to the nats service to confirm that you have setup your NATS servers correctly.
 
+In one window listen on the subject 'nats'
 ```bash
-
 # Send message to NATS
-% nats sub -s nats hello &
-Listening on [hello]
+nats sub nats hello
+```
+In another window publish a message on the subject 'nats'
 
-% nats pub -s nats hello world
+```bash
+nats pub -s nats hello world
 ```
 
+You should receive that message on the `nats sub` window
 ## HA Setup Using StatefulSets
 
 In order to have higher availability you can setup NATS servers to run in clustering mode. The following commands will setup a 3 node NATS cluster. Note, you will need more than one node available in your Kubernetes cluster in order for this to work, so in case of deploying onto minikube or docker desktop, please try the single node installer instead.

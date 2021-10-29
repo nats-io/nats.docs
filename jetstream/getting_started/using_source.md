@@ -4,19 +4,21 @@ One of the design goals of JetStream was to be native to core NATS, so even thou
 
 You will need a copy of the nats-server source locally and will need to be in the jetstream branch.
 
-```text
-$ git clone https://github.com/nats-io/nats-server.git
-$ cd nats-server
-$ git checkout master
-$ go build
-$ ls -l nats-server
+```shell
+git clone https://github.com/nats-io/nats-server.git
+cd nats-server
+git checkout master
+go build
+ls -l nats-server
 ```
 
 Starting the server you can use the `-js` flag. This will setup the server to reasonably use memory and disk. This is a sample run on my machine. JetStream will default to 1TB of disk and 75% of available memory for now.
 
+```shell
+nats-server -js
+```
+Output
 ```text
-$ ./nats-server -js
-
 [16928] 2019/12/04 19:16:29.596968 [INF] Starting nats-server version 2.2.0
 [16928] 2019/12/04 19:16:29.597056 [INF] Git commit [not set]
 [16928] 2019/12/04 19:16:29.597072 [INF] Starting JetStream
@@ -32,9 +34,11 @@ $ ./nats-server -js
 
 You can override the storage directory if you want.
 
+```shell
+nats-server -js -sd /tmp/test
+```
+Output
 ```text
-$ ./nats-server -js -sd /tmp/test
-
 [16943] 2019/12/04 19:20:00.874148 [INF] Starting nats-server version 2.2.0
 [16943] 2019/12/04 19:20:00.874247 [INF] Git commit [not set]
 [16943] 2019/12/04 19:20:00.874273 [INF] Starting JetStream

@@ -16,13 +16,13 @@ The managed operator will not only sign your account JWT with its key, but may a
 To start using a managed operator you need to tell `nsc` about it. There are a couple ways to do this. First you can manually tell `nsc` to download the operator JWT using the `add operator` command:
 
 ```bash
-% nsc add operator -i
+nsc add operator -i
 ```
 
 The operator JWT (or details) should be provided to you by the operator. The second way to add a managed operator is with the `init` command:
 
 ```bash
-% nsc init -o synadia -n MyFirstAccount
+nsc init -o synadia -n MyFirstAccount
 ```
 
 You can use the name of an existing operator, or a well known one \(currently only "synadia"\).

@@ -22,8 +22,8 @@ jetstream : {
 
 You can pass this from the command line this way:
 
-```text
-$ env JS_KEY="mykey" nats-server -c js.conf
+```shell
+env JS_KEY="mykey" nats-server -c js.conf
 ```
 
 We currently support two ciphers for encryption: ChaChaPoly20 and [XChaChaPoly1305](https://godoc.org/golang.org/x/crypto/chacha20poly1305). The default selected cipher depends on the platform.

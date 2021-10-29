@@ -32,11 +32,14 @@ By default the NATS server exposes multiple ports:
 First run a server with the ports exposed on a `docker network`:
 
 ```bash
-$ docker network create nats
+docker network create nats
 ```
 
 ```bash
 docker run --name nats --network nats --rm -p 4222:4222 -p 8222:8222 nats
+```
+Output
+```text
 [INF] Starting nats-server version 2.1.0
 [INF] Git commit [1cc5ae0]
 [INF] Starting http monitor on 0.0.0.0:8222
@@ -59,6 +62,9 @@ To verify the routes are connected, you can make a request to the monitoring end
 
 ```bash
 curl http://127.0.0.1:8222/routez
+```
+Output
+```JSON
 {
   "server_id": "ND34PZ64QLLJKSU5SLSWRS5EUXEKNHW5BUVLCNFWA56R4D7XKDYWJFP7",
   "now": "2019-10-17T21:29:38.126871819Z",
@@ -129,7 +135,10 @@ networks:
 Now we use Docker Compose to create the cluster that will be using the `nats` network:
 
 ```bash
-$ docker-compose -f nats-cluster.yaml up
+docker-compose -f nats-cluster.yaml up
+```
+Output
+```text
 Recreating docs_nats_1   ... done
 Recreating docs_nats-2_1 ... done
 Recreating docs_nats-1_1 ... done
@@ -151,20 +160,22 @@ nats-1_1  | [1] 2019/10/19 06:41:27.153078 [INF] 172.18.0.4:6222 - rid:3 - Route
 Now, the following should work: make a subscription on one of the nodes and publish it from another node. You should be able to receive the message without problems.
 
 ```bash
-$ docker run --network nats --rm -it synadia/nats-box
-~ # nats-sub -s nats://nats:4222 hello &
-Listening on [hello]
-
-~ # nats-pub -s "nats://nats-1:4222" hello first
-~ # nats-pub -s "nats://nats-2:4222" hello second
+docker run --network nats --rm -it synadia/nats-box
+```
+Inside the container
+```shell
+nats sub -s nats://nats:4222 hello &
+nats pub -s "nats://nats-1:4222" hello first
+nats pub -s "nats://nats-2:4222" hello second
 ```
 
 Also stopping the seed node to which the subscription was done, should trigger an automatic failover to the other nodes:
 
 ```bash
-$ docker stop nats
-
-... 
+docker stop nats
+```
+Output extract
+```text
 Disconnected: will attempt reconnects for 10m
 Reconnected [nats://172.17.0.4:4222]
 ```
@@ -172,8 +183,8 @@ Reconnected [nats://172.17.0.4:4222]
 Publishing again will continue to work after the reconnection:
 
 ```bash
-~ # nats-pub -s "nats://nats-1:4222" hello again
-~ # nats-pub -s "nats://nats-2:4222" hello again
+nats pub -s "nats://nats-1:4222" hello again
+nats pub -s "nats://nats-2:4222" hello again
 ```
 
 ## Tutorial

@@ -34,7 +34,7 @@ JetStream Account Information:
 
 If you see the below then JetStream is _not_ enabled
 
-```shell
+```text
 JetStream Account Information:
 
    JetStream is not supported in this account
@@ -50,7 +50,7 @@ Enter `nats stream add <Stream name>` (in the examples below we will name the st
 nats stream add my_stream
 ```
 example output
-```
+```text
 ? Subjects to consume foo
 ? Storage backend file
 ? Retention Policy Limits
@@ -96,7 +96,7 @@ You can then check the information about the stream you just created:
 nats stream info my_stream
 ```
 which should output something like
-```
+```text
 Information for Stream my_stream created 2021-10-12T08:42:10-07:00
 
 Configuration:
@@ -143,7 +143,7 @@ We can administratively create a consumer using the 'nats consumer add <Consumer
 nats consumer add
 ```
 example output
-```
+```text
 ? Consumer name pull_consumer
 ? Delivery target (empty for Pull Consumers)
 ? Start policy (all, new, last, subject, 1h, msg sequence) all

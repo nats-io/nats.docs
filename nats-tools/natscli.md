@@ -10,15 +10,15 @@ Check out the repo for all the details: [github.com/nats-io/natscli](https://git
 
 For macOS:
 
-```text
-> brew tap nats-io/nats-tools
-> brew install nats-io/nats-tools/nats
+```shell
+brew tap nats-io/nats-tools
+brew install nats-io/nats-tools/nats
 ```
 
 For Arch Linux:
 
-```text
-> yay natscli
+```shell
+yay natscli
 ```
 
 Binaries are also available as [GitHub Releases](https://github.com/nats-io/natscli/releases).
@@ -59,8 +59,11 @@ Binaries are also available as [GitHub Releases](https://github.com/nats-io/nats
 
 The CLI has a number of environment configuration settings - where your NATS server is, credentials, TLS keys and more:
 
+```shell
+nats --help
+```
+Output extract
 ```text
-$ nats --help
 ...
   -s, --server=NATS_URL         NATS servers
       --user=NATS_USER          Username of Token
@@ -81,10 +84,17 @@ A context is a named configuration that stores all of these settings, you can sw
 
 Creating one is easy, just specify the same settings to the `nats context save`
 
+```shell
+nats context save example --server nats://nats.example.net:4222 --description 'Example.Net Server'
+nats context save local --server nats://localhost:4222 --description 'Local Host' --select 
+```
+
+List your contexts
+```shell
+nats context ls
+```
+Output
 ```text
-$ nats context save example --server nats://nats.example.net:4222 --description 'Example.Net Server'
-$ nats context save local --server nats://localhost:4222 --description 'Local Host' --select 
-$ nats context ls
 Known contexts:
 
    example             Example.Net Server
@@ -93,14 +103,22 @@ Known contexts:
 
 We passed `--select` to the `local` one meaning it will be the default when nothing is set.
 
+```shell
+nats rtt
+```
+Output
 ```text
-$ nats rtt
 nats://localhost:4222:
 
    nats://127.0.0.1:4222: 245.115µs
        nats://[::1]:4222: 390.239µs
+```
 
-$ nats rtt --context example
+```shell
+nats rtt --context example
+```
+Example output
+```text
 nats://nats.example.net:4222:
 
    nats://192.0.2.10:4222: 41.560815ms
@@ -114,8 +132,8 @@ All `nats` commands are context aware and the `nats context` command has various
 
 Server URLs and Credential paths can be resolved via the `nsc` command by specifying an URL, for example to find user `new` within the `orders` account of the `acme` operator you can use this:
 
-```text
-$ nats context save example --description 'Example.Net Server' --nsc nsc://acme/orders/new
+```shell
+nats context save example --description 'Example.Net Server' --nsc nsc://acme/orders/new
 ```
 
 The server list and credentials path will now be resolved via `nsc`, if these are specifically set in the context, the specific context configuration will take precedence.
@@ -128,10 +146,11 @@ The server supports hashing of passwords and authentication tokens using `bcrypt
 
 The `nats` utility has a command for creating `bcrypt` hashes. This can be used for a password or a token in the configuration.
 
-With `nats` installed:
-
+```shell
+nats server passwd
+```
+Output
 ```text
-> nats server passwd
 ? Enter password [? for help] **********************
 ? Reenter password [? for help] **********************
 

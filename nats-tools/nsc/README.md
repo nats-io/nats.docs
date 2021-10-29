@@ -15,21 +15,16 @@ NATS account configurations are built using the `nsc` tool. The NSC tool allows 
 
 Installing `nsc` is easy:
 
-```text
+```shell
 curl -L https://raw.githubusercontent.com/nats-io/nsc/master/install.py | python
 ```
 
 The script will download the latest version of `nsc` and install it into your system.
 
-Alternatively, you can use `nsc` with the [nats-box](https://hub.docker.com/r/synadia/nats-box) Docker image:
+In case NSC is not initialized already do `nsc init`
 
-```bash
-$ docker run --rm -it -v $(pwd)/nsc:/nsc synadia/nats-box:latest
-
-# In case NSC not initialized already:
-nats-box:~# nsc init
-nats-box:~# chown -R 1000:1000 /nsc
-$ tree -L 2 nsc/
+Output of `tree -L 2 nsc/`
+```text
 nsc/
 ├── accounts
 │   ├── nats
@@ -57,8 +52,8 @@ You can find various task-oriented tutorials to working with the tool here:
 
 For more specific browsing of the tool syntax, check out the `nsc` tool documentation. It can be found within the tool itself:
 
-```text
-> nsc help
+```shell
+nsc help
 ```
 
 Or an online version [here](https://nats-io.github.io/nsc).

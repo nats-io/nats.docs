@@ -12,22 +12,21 @@ Also, most client libraries come with sample programs that allow you to publish,
 
 For macOS:
 
-```text
-> brew tap nats-io/nats-tools
-> brew install nats-io/nats-tools/nats
+```shell
+brew tap nats-io/nats-tools
+brew install nats-io/nats-tools/nats
 ```
 
 For Arch Linux:
 
-```text
-> yay natscli
+```shell
+yay natscli
 ```
 
 For Docker:
 
-```text
+```shell
 docker pull synadia/nats-box:latest
-
 docker run -ti synadia/nats-box
 ```
 
@@ -37,8 +36,11 @@ Binaries are also available as [GitHub Releases](https://github.com/nats-io/nats
 
 Open a terminal and [start a nats-server](/nats-server/running/README.md):
 
+```shell
+nats-server
+```
+Example output
 ```text
-> nats-server
 [45695] 2021/09/29 02:22:53.570667 [INF] Starting nats-server
 [45695] 2021/09/29 02:22:53.570796 [INF]   Version:  2.6.1
 [45695] 2021/09/29 02:22:53.570799 [INF]   Git:      [not set]
@@ -48,21 +50,30 @@ Open a terminal and [start a nats-server](/nats-server/running/README.md):
 [45695] 2021/09/29 02:22:53.572051 [INF] Server is ready
 ```
 
-On another terminal session start a subscriber using the `nats` CLI tool:
-
+On another terminal session first check the connection to the server
+```shell
+nats server check
+```
+Example output
 ```text
-> nats server check
 OK Connection OK:connected to nats://127.0.0.1:4222 in 790.28µs OK:rtt time 69.896µs OK:round trip took 0.000102s | connect_time=0.0008s;0.5000;1.0000 rtt=0.0001s;0.5000;1.0000 request_time=0.0001s;0.5000;1.0000
-> nats sub ">"
-02:22:57 Subscribing on >
+```
+
+Next, start a subscriber using the `nats` CLI tool:
+
+```shell
+nats sub ">"
 ```
 
 Note that when the client connected, the server didn't log anything interesting because server output is relatively quiet unless something interesting happens.
 
 To make the server output more lively, you can specify the `-V` flag to enable logging of server protocol tracing messages. Go ahead and `<ctrl>+c` the process running the server, and restart the server with the `-V` flag:
 
-```text
+```shell
 nats-server -V
+```
+Example output
+```text
 [45703] 2021/09/29 02:23:05.189377 [INF] Starting nats-server
 [45703] 2021/09/29 02:23:05.189489 [INF]   Version:  2.6.1
 [45703] 2021/09/29 02:23:05.189493 [INF]   Git:      [not set]
@@ -84,16 +95,13 @@ If you had created a subscriber, you should notice output on the subscriber tell
 
 On a third terminal, publish your first message:
 
-```text
-> nats pub hello world
-02:24:50 Published 5 bytes to "hello"
+```shell
+nats pub hello world
 ```
 
 On the subscriber window you should see:
 
 ```text
-> nats sub ">"
-02:22:57 Subscribing on >
 [#1] Received on "hello"
 world
 ```
@@ -109,13 +117,13 @@ NATS URLs take the form of: `nats://<server>:<port>` and `tls://<server>:<port>`
 If you are connecting to a cluster you can specify more than one URL (comma separated). e.g. `nats://localhost:4222,nats://localhost:5222,nats://localhost:6222` if you are running a test cluster of 3 nats servers on your local machine, listening at ports 4222, 5222, and 6222 respectively.
 
 ### Example
-```text
-> nats sub -s nats://server:port ">"
+```shell
+nats sub -s nats://server:port ">"
 ```
 
 If you want to try on a remote server, the NATS team maintains a demo server you can reach at `demo.nats.io`.
 
-```text
-> nats sub -s nats://demo.nats.io ">"
+```shell
+nats sub -s nats://demo.nats.io ">"
 ```
 

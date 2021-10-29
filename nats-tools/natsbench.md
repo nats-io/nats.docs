@@ -10,12 +10,12 @@ NATS is fast and lightweight and places a priority on performance. the `nats` CL
 ## Start the NATS server with monitoring enabled
 
 ```bash
-% nats-server -m 8222 -js
+nats-server -m 8222 -js
 ```
 
 Verify that the NATS server starts successfully, as well as the HTTP monitor:
 
-```bash
+```text
 [89075] 2021/10/05 23:26:35.342816 [INF] Starting nats-server
 [89075] 2021/10/05 23:26:35.342971 [INF]   Version:  2.6.1
 [89075] 2021/10/05 23:26:35.342974 [INF]   Git:      [not set]
@@ -42,12 +42,12 @@ Verify that the NATS server starts successfully, as well as the HTTP monitor:
 Let's run a test to see how fast a single publisher can publish one million 16 byte messages to the NATS server.
 
 ```bash
-% nats bench foo --pub 1 --size 16
+nats bench foo --pub 1 --size 16
 ```
 
 The output tells you the number of messages and the number of payload bytes that the client was able to publish per second:
 
-```bash
+```text
 23:33:51 Starting pub/sub benchmark [msgs=100,000, msgsize=16 B, pubs=1, subs=0, js=false]
 23:33:51 Starting publisher, publishing 100,000 messages
 Finished      0s [======================================================================================================================================================] 100%
@@ -58,7 +58,10 @@ Pub stats: 5,173,828 msgs/sec ~ 78.95 MB/sec
 Now increase the number of messages published:
 
 ```bash
-% nats bench foo --pub 1 --size 16 --msgs 10000000
+nats bench foo --pub 1 --size 16 --msgs 10000000
+```
+Example output
+```text
 23:34:29 Starting pub/sub benchmark [msgs=10,000,000, msgsize=16 B, pubs=1, subs=0, js=false]
 23:34:29 Starting publisher, publishing 10,000,000 messages
 Finished      2s [======================================================================================================================================================] 100%
@@ -73,12 +76,12 @@ When using both publishers and subscribers, `nats bench` reports aggregate, as w
 Let's look at throughput for a single publisher with a single subscriber:
 
 ```bash
-% nats bench foo --pub 1 --sub 1 --size 16
+nats bench foo --pub 1 --sub 1 --size 16
 ```
 
 Note that the output shows the aggregate throughput as well as the individual publisher and subscriber performance:
 
-```bash
+```text
 23:36:00 Starting pub/sub benchmark [msgs=100,000, msgsize=16 B, pubs=1, subs=1, js=false]
 23:36:00 Starting subscriber, expecting 100,000 messages
 23:36:00 Starting publisher, publishing 100,000 messages
@@ -97,12 +100,12 @@ When specifying multiple publishers, or multiple subscribers, `nats bench` will 
 Let's increase both the number of messages, and the number of subscribers.:
 
 ```bash
-% nats bench foo --pub 1 --sub 5 --size 16 --msgs 1000000
+nats bench foo --pub 1 --sub 5 --size 16 --msgs 1000000
 ```
 
-Output:
+Example output
 
-```bash
+```text
 23:38:08 Starting pub/sub benchmark [msgs=1,000,000, msgsize=16 B, pubs=1, subs=5, js=false]
 23:38:08 Starting subscriber, expecting 1,000,000 messages
 23:38:08 Starting subscriber, expecting 1,000,000 messages
@@ -135,12 +138,12 @@ When more than 1 publisher is specified, `nats bench` evenly distributes the tot
 Now let's increase the number of publishers and examine the output:
 
 ```bash
-% nats bench foo --pub 5 --sub 5 --size 16 --msgs 1000000
+nats bench foo --pub 5 --sub 5 --size 16 --msgs 1000000
 ```
 
-The output:
+Example output
 
-```bash
+```text
 23:39:28 Starting pub/sub benchmark [msgs=1,000,000, msgsize=16 B, pubs=5, subs=5, js=false]
 23:39:28 Starting subscriber, expecting 1,000,000 messages
 23:39:28 Starting subscriber, expecting 1,000,000 messages
@@ -184,14 +187,17 @@ NATS Pub/Sub stats: 7,019,849 msgs/sec ~ 107.11 MB/sec
 
 In one shell start a nats bench in 'reply mode' and let it run
 
-```shell
-% nats bench foo --sub 1 --reply
+```bash
+nats bench foo --sub 1 --reply
 ```
 
 And in another shell send some requests
 
-```shell
-% nats bench foo --pub 1 --request --msgs 10000
+```bash
+nats bench foo --pub 1 --request --msgs 10000
+```
+Example output
+```text
 23:47:35 Benchmark in request/reply mode
 23:47:35 Starting request/reply benchmark [msgs=10,000, msgsize=128 B, pubs=1, subs=0, js=false, request=true, reply=false]
 23:47:35 Starting publisher, publishing 10,000 messages
@@ -211,8 +217,11 @@ Note: by default `nats bench` subscribers in 'reply mode' join a queue group, so
 ### Measure JetStream publication performance
 First let's publish some messages into a stream, `nats bench` will automatically create a stream called `benchstream` using default attributes.
 
-```shell
-% nats bench bar --js --pub 1 --size 16 --msgs 1000000
+```bash
+nats bench bar --js --pub 1 --size 16 --msgs 1000000
+```
+Example output
+```text
 00:00:10 Starting JetStream benchmark [msgs=1,000,000, msgsize=16 B, pubs=1, subs=0, js=true, stream=benchstream  storage=memory, syncpub=false, pubbatch=100, jstimeout=30s, pull=false, pullbatch=100, maxackpending=-1, replicas=1, purge=false]
 00:00:10 Starting publisher, publishing 1,000,000 messages
 Finished      3s [======================================================================================================================================================] 100%
@@ -223,8 +232,11 @@ Pub stats: 272,497 msgs/sec ~ 4.16 MB/sec
 ### Measure JetStream consumption (replay) performance
 We can now measure the speed of replay of messages stored in the stream to a consumer
 
-```shell
+```bash
 nats bench bar --js --sub 1 --msgs 1000000
+```
+Example output
+```text
 00:05:04 JetStream ordered push consumer mode: subscribers will not acknowledge the consumption of messages
 00:05:04 Starting JetStream benchmark [msgs=1,000,000, msgsize=128 B, pubs=0, subs=1, js=true, stream=benchstream  storage=memory, syncpub=false, pubbatch=100, jstimeout=30s, pull=false, pullbatch=100, maxackpending=-1, replicas=1, purge=false]
 00:05:04 Starting subscriber, expecting 1,000,000 messages

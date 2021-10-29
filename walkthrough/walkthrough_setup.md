@@ -6,14 +6,14 @@ In order to try NATS (and JetStream) on your own while going through the concept
 
 For macOS:
 
-```text
+```shell
 brew tap nats-io/nats-tools
 brew install nats-io/nats-tools/nats
 ```
 
 For Arch Linux:
 
-```text
+```shell
 yay natscli
 ```
 
@@ -27,13 +27,13 @@ If you are going to run a server locally you need to first install it and start 
 
 On Mac OS:
 
-```text
+```shell
 brew install nats-server
 ```
 
 On Windows:
 
-```text
+```shell
 choco install nats-server
 ```
 
@@ -57,7 +57,7 @@ curl -L https://github.com/nats-io/nats-server/releases/download/v2.0.0/nats-ser
 unzip nats-server.zip -d nats-server
 ```
 which should output something like
-```shell
+```text
 Archive:  nats-server.zip
    creating: nats-server-v2.6.2-linux-amd64/
   inflating: nats-server-v2.6.2-linux-amd64/README.md
@@ -81,7 +81,7 @@ nats-server
 
 When the server starts successfully, you will see the following messages:
 
-```bash
+```text
 [14524] 2021/10/25 22:53:53.525530 [INF] Starting nats-server
 [14524] 2021/10/25 22:53:53.525640 [INF]   Version:  2.6.1
 [14524] 2021/10/25 22:53:53.525643 [INF]   Git:      [not set]

@@ -85,11 +85,11 @@ That's it! It should now be possible to send some messages across regions:
 ```bash
 # Start subscription in Amsterdam
 nats-box:~# kubectl --context do-ams3-nats-k8s-ams3 exec -it nats-box -- /bin/sh -l
-nats-box:~# nats-sub -s nats hello
+nats-box:~# nats sub -s nats hello
 
 # Send messages from San Francisco region
 nats-box:~# kubectl --context do-sfo2-nats-k8s-sfo2 exec -it nats-box -- /bin/sh -l
-nats-box:~# nats-pub -s nats hello 'Hello World!'
+nats-box:~# nats pub -s nats hello 'Hello World!'
 
 # From outside of k8s can use the external IPs
 $ nats-sub -s 142.93.251.181 hello

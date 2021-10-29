@@ -34,7 +34,7 @@ JetStream Account Information:
 
 If you see the below instead then JetStream is _not_ enabled
 
-```shell
+```text
 JetStream Account Information:
 
    JetStream is not supported in this account
@@ -48,7 +48,7 @@ Just like you have to create streams before you can use them, you need to first 
 nats kv add my_kv
 ```
 which should output:
-```
+```text
 my_kv Key-Value Store Status
 
          Bucket Name: my_kv

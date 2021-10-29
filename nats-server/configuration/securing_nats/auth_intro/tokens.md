@@ -14,15 +14,14 @@ Token authentication can be used in the authorization section for clients and cl
 
 Or start the server with the `--auth` flag:
 
-```text
-> nats-server --auth s3cr3t
+```shell
+nats-server --auth s3cr3t
 ```
 
 A client can easily connect by specifying the server URL:
 
-```text
-> nats-sub -s nats://s3cr3t@localhost:4222 ">"
-Listening on [>]
+```shell
+nats-sub -s nats://s3cr3t@localhost:4222 ">"
 ```
 
 ## Bcrypted Tokens
@@ -31,8 +30,11 @@ Tokens can be bcrypted enabling an additional layer of security, as the clear-te
 
 You can generate bcrypted tokens and passwords using the [`nats`](../../../../nats-tools/natscli.md) tool:
 
+```shell
+nats server passwd
+```
+Output
 ```text
-> nats server passwd
 ? Enter password [? for help] **********************
 ? Reenter password [? for help] **********************
 
@@ -49,8 +51,7 @@ authorization {
 
 The client will still require the clear-text token to connect:
 
-```text
-nats-sub -s nats://dag0HTXl4RGg7dXdaJwbC8@localhost:4222 ">"
-Listening on [>]
+```shell
+nats sub -s nats://dag0HTXl4RGg7dXdaJwbC8@localhost:4222 ">"
 ```
 

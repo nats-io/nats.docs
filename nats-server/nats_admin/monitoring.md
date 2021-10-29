@@ -33,7 +33,10 @@ To enable the monitoring server, start the NATS server with the monitoring flag 
 Example:
 
 ```bash
-$ nats-server -m 8222
+nats-server -m 8222
+```
+Output
+```text
 [4528] 2019/06/01 20:09:58.572939 [INF] Starting nats-server version 2.0.0
 [4528] 2019/06/01 20:09:58.573007 [INF] Starting http monitor on port 8222
 [4528] 2019/06/01 20:09:58.573071 [INF] Listening for client connections on 0.0.0.0:4222
@@ -83,7 +86,7 @@ N/A
 
 #### Response
 
-```javascript
+```json
 {
   "server_id": "NACDVKFBUW4C4XA24OOT6L4MDP56MW76J5RJDFXG7HLABSB46DCMWCOW",
   "version": "2.0.0",
@@ -192,7 +195,7 @@ You can also report detailed subscription information on a per connection basis 
 
 #### Response
 
-```javascript
+```json
 {
   "server_id": "NACDVKFBUW4C4XA24OOT6L4MDP56MW76J5RJDFXG7HLABSB46DCMWCOW",
   "now": "2019-06-24T14:28:16.520365-07:00",
@@ -291,7 +294,7 @@ As noted above, the `routez` endpoint does support the `subs` argument from the 
 
 #### Response
 
-```javascript
+```json
 {
   "server_id": "NACDVKFBUW4C4XA24OOT6L4MDP56MW76J5RJDFXG7HLABSB46DCMWCOW",
   "now": "2019-06-24T14:29:16.046656-07:00",
@@ -339,7 +342,7 @@ The `/gatewayz` endpoint reports information about gateways used to create a NAT
 
 #### Response
 
-```javascript
+```json
 {
   "server_id": "NANVBOU62MDUWTXWRQ5KH3PSMYNCHCEUHQV3TW3YH7WZLS7FMJE6END6",
   "now": "2019-07-24T18:02:55.597398-06:00",
@@ -477,7 +480,7 @@ As noted above, the `leafz` endpoint does support the `subs` argument from the `
 
 #### Response
 
-```javascript
+```json
 {
   "server_id": "NC2FJCRMPBE5RI5OSRN7TKUCWQONCKNXHKJXCJIDVSAZ6727M7MQFVT3",
   "now": "2019-08-27T09:07:05.841132-06:00",
@@ -527,7 +530,7 @@ The `/subsz` endpoint reports detailed information about the current subscriptio
 
 #### Response
 
-```javascript
+```json
 {
   "num_subscriptions": 2,
   "num_cache": 0,
@@ -564,7 +567,7 @@ The `/accountz` endpoint reports information on a server's active accounts. The 
 
 Default behavior:
 
-```javascript
+```json
 {
   "server_id": "NAB2EEQ3DLS2BHU4K2YMXMPIOOOAOFOAQAC5NQRIEUI4BHZKFBI4ZU4A",
   "now": "2021-02-08T17:31:29.551146-05:00",
@@ -578,7 +581,7 @@ Default behavior:
 
 Retrieve specific account:
 
-```javascript
+```json
 {
   "server_id": "NAB2EEQ3DLS2BHU4K2YMXMPIOOOAOFOAQAC5NQRIEUI4BHZKFBI4ZU4A",
   "now": "2021-02-08T17:37:55.80856-05:00",
@@ -676,7 +679,7 @@ You can also report detailed consumer information on a per connection basis usin
 
 #### Response
 
-```javascript
+```json
 {
   "server_id": "NCVIDODSZ45C5OD67ZD7EJUIJPQDP6CM74SJX6TJIF2G7NLYS5LCVYHS",
   "now": "2021-02-08T19:08:30.555533-05:00",
@@ -789,7 +792,7 @@ NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSONP) a
 
 For example:
 
-```bash
+```text
 http://demo.nats.io:8222/connz?callback=cb
 ```
 

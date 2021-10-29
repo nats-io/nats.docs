@@ -5,7 +5,7 @@ Tokens are basically random strings, much like a password, and can provide a sim
 For this example, start the server using:
 
 ```bash
-> nats-server --auth mytoken
+nats-server --auth mytoken
 ```
 
 The code uses localhost:4222 so that you can start the server on your machine to try them out.

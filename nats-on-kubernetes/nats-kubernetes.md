@@ -29,11 +29,14 @@ By default, the installer will deploy the [Prometheus Operator](https://github.c
 
 You can customize the installer to install without TLS or without Auth to have a simpler setup as follows:
 
+Disable TLS
 ```bash
-# Disable TLS
 curl -sSL https://nats-io.github.io/k8s/setup.sh | sh -s -- --without-tls
+```
 
-# Disable Auth and TLS (also disables NATS surveyor and NATS Streaming)
+Disable Auth and TLS (also disables NATS surveyor and NATS Streaming)
+
+```shell
 curl -sSL https://nats-io.github.io/k8s/setup.sh | sh -s -- --without-tls --without-auth
 ```
 
@@ -41,7 +44,7 @@ curl -sSL https://nats-io.github.io/k8s/setup.sh | sh -s -- --without-tls --with
 
 The monitoring dashboard setup using NATS Surveyor can be accessed by using port-forward:
 
-```text
+```shell
 kubectl port-forward deployments/nats-surveyor-grafana 3000:3000
 ```
 

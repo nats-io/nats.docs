@@ -233,7 +233,7 @@ The Configuration options here refer to [JWT](/nats-server/configuration/securin
 
 A server can reload most configuration changes without requiring a server restart or clients to disconnect by sending the nats-server a [signal](/nats-server/nats_admin/signals.md):
 
-```text
-> nats-server --signal reload
+```shell
+nats-server --signal reload
 ```
 
