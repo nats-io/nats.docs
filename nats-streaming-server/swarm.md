@@ -40,25 +40,22 @@ done
 Next, confirm that it is possible to publish and replay messages via NATS Streaming by attaching a container to the same network where both NATS and NATS Streaming exist. Below you can find an example session of doing so, note that even though the client is only connecting to `nats://nats-cluster-node-1:4222` the NATS cluster will be routing the messages so that they will be processed to the NATS Streaming cluster service.
 
 ```bash
-$ sudo docker run --network nats-streaming-example -it golang:latest
-
-root@d12f9f3fcdde:/go# cd src/github.com/nats-io/stan.go/
+$ docker run --network nats-streaming-example -it synadia/nats-box
 
 # Publishing 3 messages
-root@d12f9f3fcdde:/go/src/github.com/nats-io/stan.go# go run examples/stan-pub/main.go -s nats://nats-cluster-node-1:4222 --cluster swarm hello world
+c01c232d571a:~# stan-pub -s nats://nats-cluster-node-1:4222 --cluster swarm hello world
 Published [hello] : 'world'
-root@d12f9f3fcdde:/go/src/github.com/nats-io/stan.go# go run examples/stan-pub/main.go -s nats://nats-cluster-node-1:4222 --cluster swarm hello world
+c01c232d571a:~# stan-pub -s nats://nats-cluster-node-1:4222 --cluster swarm hello world
 Published [hello] : 'world'
-root@d12f9f3fcdde:/go/src/github.com/nats-io/stan.go# go run examples/stan-pub/main.go -s nats://nats-cluster-node-1:4222 --cluster swarm hello world
+c01c232d571a:~# stan-pub -s nats://nats-cluster-node-1:4222 --cluster swarm hello world
 Published [hello] : 'world'
 
 # Replaying the messages from the beginning
-root@d12f9f3fcdde:/go/src/github.com/nats-io/stan.go# go run examples/stan-sub/main.go -s nats://nats-cluster-node-1:4222 --cluster swarm -id $RANDOM --all hello
-Connected to nats://nats-cluster-node-1:4222 clusterID: [swarm] clientID: [17010]
-subscribing with DeliverAllAvailable
-Listening on [hello], clientID=[17010], qgroup=[] durable=[]
-[#1] Received on [hello]: 'sequence:1 subject:"hello" data:"world" timestamp:1526948600795366785 '
-[#2] Received on [hello]: 'sequence:2 subject:"hello" data:"world" timestamp:1526948604613783399 '
-[#3] Received on [hello]: 'sequence:3 subject:"hello" data:"world" timestamp:1526948606124258269 '
+c01c232d571a:~# stan-sub -s nats://nats-cluster-node-1:4222 --cluster swarm -id $RANDOM --all hello
+Connected to nats://nats-cluster-node-1:4222 clusterID: [swarm] clientID: [2379]
+Listening on [hello], clientID=[2379], qgroup=[] durable=[]
+[#1] Received: sequence:1 subject:"hello" data:"world" timestamp:1595949420614047600
+[#2] Received: sequence:2 subject:"hello" data:"world" timestamp:1595949422327787300
+[#3] Received: sequence:3 subject:"hello" data:"world" timestamp:1595949422898530500
 ```
 
