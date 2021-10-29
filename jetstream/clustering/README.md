@@ -107,5 +107,5 @@ cluster {
 }
 ```
 
-Add nodes as necessary. Choose a data directory that makes sense for your environment, ideally a fast SDD, and launch each server. After two servers are running you'll be ready to use JetStream.
+Add nodes as necessary. Choose a data directory that makes sense for your environment, ideally a fast SSD, and launch each server. After two servers are running you'll be ready to use JetStream.
 
