@@ -5,7 +5,7 @@
 Create an overlay network for the NATS & NATS Streaming cluster \(in this example, `nats-streaming-example`\). Notice we added the `--attachable` option which will allow other containers to join the network which will be done at the end to confirm that can connect to the cluster.
 
 ```bash
-% docker network create --driver overlay --attachable nats-streaming-example
+docker network create --driver overlay --attachable nats-streaming-example
 ```
 
 ## Step 2:

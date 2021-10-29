@@ -1,8 +1,8 @@
 # Managed Operators
 
-You can use `nsc` to administer multiple operators. Operators can be thought of as the owners of nats-servers, and fall into two categories: local and managed. The key difference, pardon the pun, is that managed operators are ones which you don't have the nkey for. An example of a managed operator is the Synadia service called NGS. Synadia has the keys.
+You can use `nsc` to administer multiple operators. Operators can be thought of as the owners of nats-servers, and fall into two categories: local and managed. The key difference, pardon the pun, is that managed operators are ones which you don't have the nkey for. An example of a managed operator is the Synadia service called [NGS](https://synadia.com/ngs). Synadia has the keys.
 
-Accounts, as represented by their JWTs, are signed by the operator. Some operators may use local copies of JWTs, others may use the [nats-account-server](../nas/) to manage their JWTs. Synadia uses a custom server for their JWTs that works similarly to the open-sourced account server.
+Accounts, as represented by their JWTs, are signed by the operator. Some operators may use local copies of JWTs (i.e. using the memory resolver), but most should use the NATS account resolver built-in to 'nats-server' to manage their JWTs. Synadia uses a custom server for their JWTs that works similarly to the open-sourced account server.
 
 There are a few special commands when dealing with server based operators:
 
@@ -16,22 +16,16 @@ The managed operator will not only sign your account JWT with its key, but may a
 To start using a managed operator you need to tell `nsc` about it. There are a couple ways to do this. First you can manually tell `nsc` to download the operator JWT using the `add operator` command:
 
 ```bash
-% nsc add operator -u http://localhost:6060/jwt/v1/operator
+nsc add operator -i
 ```
 
-The URL you pass in should be provided to you by the operator. The second way to add a managed operator is with the `init` command:
+The operator JWT (or details) should be provided to you by the operator. The second way to add a managed operator is with the `init` command:
 
 ```bash
-% nsc init -u http://localhost:6060/jwt/v1/operator -n alpha
+nsc init -o synadia -n MyFirstAccount
 ```
 
-or
-
-```bash
-% nsc init -o synadia -n alpha
-```
-
-In the second case you can use the name of an existing operator, or a well known one \(currently only "synadia"\).
+You can use the name of an existing operator, or a well known one \(currently only "synadia"\).
 
 Once you add a managed operator you can add accounts to it normally, with the caveat that new accounts are pushed and pulled as described above.
 

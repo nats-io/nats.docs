@@ -1,22 +1,14 @@
 # Using Docker
 
-The `natsio/nats-box:latest` docker image contains the `nats` utility this guide covers.
-
 In one window start a JetStream enabled nats server:
 
-```text
-$ docker run --network host -p 4222:4222 nats -js
+```shell
+docker run --network host -p 4222:4222 nats -js
 ```
 
-And in another log into the utilities:
+And make sure you have the CLI tools [`nats`](/nats-tools/natscli.md) and [`nsc`](/nats-tools/nsc) installed
 
-```text
-$ docker run -ti --network host natsio/nats-box
-```
-
-This shell has the `nats` utility and all other NATS cli tools used in the rest of this guide.
-
-Now skip to the `Administer JetStream` section.
+Now skip to the [`Administer JetStream`](/jetstream/administration/README.md) section.
 
 ## Using Docker with NGS
 
@@ -24,18 +16,19 @@ You can join a JetStream instance to your [NGS](https://synadia.com/ngs/pricing)
 
 You'll want to do this outside of docker to keep the credentials that are generated.
 
-```text
-$ nsc add user -a YourAccount --name leafnode --expiry 1M
+```shell
+nsc add user -a YourAccount --name leafnode --expiry 1M
 ```
 
 You'll get a credential file somewhere like `~/.nkeys/creds/synadia/YourAccount/leafnode.creds`, mount this file into the docker container for JetStream using `-v ~/.nkeys/creds/synadia/YourAccount/leafnode.creds:/leafnode.creds`.
 
-```text
-$ docker run -ti -v ~/.nkeys/creds/synadia/YourAccount/leafnode.creds:/leafnode.creds --name jetstream synadia/jsm:latest server
-[1] 2020/01/20 12:44:11.752465 [INF] Starting nats-server version 2.2.0
-...
-[1] 2020/01/20 12:55:01.849033 [INF] Connected leafnode to "connect.ngs.global"
+```shell
+docker run -ti -v ~/.nkeys/creds/synadia/YourAccount/leafnode.creds:/leafnode.creds --name jetstream nats:latest
 ```
-
-Your JSM shell will still connect locally, other connections in your NGS account can use JetStream at this point.
-
+Output
+```text
+[1] 2021/10/08 21:48:51.426008 [INF] Starting nats-server
+[1] 2021/10/08 21:48:51.426091 [INF]   Version:  2.6.1
+...
+[1] 2021/10/08 21:48:51.849033 [INF] Connected leafnode to "connect.ngs.global"
+```

@@ -4,7 +4,7 @@
 
 NATS supports running each server in clustered mode. You can cluster servers together for high volume messaging systems and resiliency and high availability.
 
-NATS servers achieve this by gossiping about and connecting to, all of the servers they know, thus dynamically forming a full mesh. Once clients [connect](../../../developing-with-nats/connecting/cluster.md) or [re-connect](../../../developing-with-nats/reconnect/) to a particular server, they are informed about current cluster members. Because of this behavior, a cluster can grow, shrink and self heal. The full mesh does not necessarily have to be explicitly configured either.
+NATS servers achieve this by gossiping about and connecting to, all of the servers they know, thus dynamically forming a full mesh. Once clients [connect](../../../developing-with-nats/connecting/cluster.md) or [re-connect](/developing-with-nats/reconnect) to a particular server, they are informed about current cluster members. Because of this behavior, a cluster can grow, shrink and self heal. The full mesh does not necessarily have to be explicitly configured either.
 
 Note that NATS clustered servers have a forwarding limit of one hop. This means that each `nats-server` instance will **only** forward messages that it has received **from a client** to the immediately adjacent `nats-server` instances to which it has routes. Messages received **from** a route will only be distributed to local clients.
 
@@ -18,18 +18,23 @@ In addition to a port to listen for clients, `nats-server` listens on a "cluster
 
 Here is a simple cluster running on the same machine:
 
+Server A - the 'seed server'
 ```bash
-# Server A - the 'seed server'
-> nats-server -p 4222 -cluster nats://localhost:4248 --cluster_name test-cluster
+nats-server -p 4222 -cluster nats://localhost:4248 --cluster_name test-cluster
+````
 
-# Server B
-> nats-server -p 5222 -cluster nats://localhost:5248 -routes nats://localhost:4248 --cluster_name test-cluster
-# Check the output of the server for the selected client and route ports.
-
-# Server C
-> nats-server -p 6222 -cluster nats://localhost:6248 -routes nats://localhost:4248 --cluster_name test-cluster
-# Check the output of the server for the selected client and route ports.
+Server B
+```shell
+nats-server -p 5222 -cluster nats://localhost:5248 -routes nats://localhost:4248 --cluster_name test-cluster
 ```
+Check the output of the server for the selected client and route ports.
+
+Server C
+```shell
+nats-server -p 6222 -cluster nats://localhost:6248 -routes nats://localhost:4248 --cluster_name test-cluster
+```
+
+Check the output of the server for the selected client and route ports.
 
 Each server has a client and cluster port specified. Servers with the routes option establish a route to the _seed server_. Because the clustering protocol gossips members of the cluster, all servers are able to discover other server in the cluster. When a server is discovered, the discovering server will automatically attempt to connect to it in order to form a _full mesh_. Typically only one instance of the server will run per machine, so you can reuse the client port \(4222\) and the cluster port \(4248\), and simply the route to the host/port of the seed server.
 
@@ -81,7 +86,7 @@ nats-server -config ./seed.conf -D
 
 This will produce an output similar to:
 
-```bash
+```text
 [83329] 2020/02/12 16:04:52.369039 [INF] Starting nats-server version 2.1.4
 [83329] 2020/02/12 16:04:52.369130 [DBG] Go build version go1.13.6
 [83329] 2020/02/12 16:04:52.369133 [INF] Git commit [not set]
@@ -111,7 +116,7 @@ When running on the same host, we need to pick different ports for the client co
 
 Here is the log produced. See how it connects and registers a route to the seed server \(`...GzM`\).
 
-```bash
+```text
 [83330] 2020/02/12 16:05:09.661047 [INF] Starting nats-server version 2.1.4
 [83330] 2020/02/12 16:05:09.661123 [DBG] Go build version go1.13.6
 [83330] 2020/02/12 16:05:09.661125 [INF] Git commit [not set]
@@ -128,7 +133,7 @@ Here is the log produced. See how it connects and registers a route to the seed 
 
 From the seed's server log, we see that the route is indeed accepted:
 
-```bash
+```text
 [83329] 2020/02/12 16:05:09.663386 [INF] 127.0.0.1:62941 - rid:1 - Route connection created
 [83329] 2020/02/12 16:05:09.663665 [DBG] 127.0.0.1:62941 - rid:1 - Registering remote route "NAABC2CKRVPZBIECMLZZA6L3PK"
 [83329] 2020/02/12 16:05:09.663681 [DBG] 127.0.0.1:62941 - rid:1 - Sent local subscriptions to route
@@ -142,7 +147,7 @@ nats-server -p 6222 -cluster nats://localhost:6248 -routes nats://localhost:4248
 
 Again, notice that we use a different client port and cluster address, but still point to the same seed server at the address `nats://localhost:4248`:
 
-```bash
+```text
 [83331] 2020/02/12 16:05:12.838022 [INF] Listening for client connections on 0.0.0.0:6222
 [83331] 2020/02/12 16:05:12.838029 [INF] Server id is NBE7SLUDLFIMHS2U6347N3DQEJ
 [83331] 2020/02/12 16:05:12.838031 [INF] Server is ready
@@ -162,7 +167,7 @@ First a route is created to the seed server \(`...IOW`\) and after that, a route
 
 The log from the seed server shows that it accepted the route from the third server:
 
-```bash
+```text
 [83329] 2020/02/12 16:05:12.840111 [INF] 127.0.0.1:62945 - rid:2 - Route connection created
 [83329] 2020/02/12 16:05:12.840350 [DBG] 127.0.0.1:62945 - rid:2 - Registering remote route "NBE7SLUDLFIMHS2U6347N3DQEJ"
 [83329] 2020/02/12 16:05:12.840363 [DBG] 127.0.0.1:62945 - rid:2 - Sent local subscriptions to route
@@ -170,7 +175,7 @@ The log from the seed server shows that it accepted the route from the third ser
 
 And the log from the second server shows that it connected to the third.
 
-```bash
+```text
 [83330] 2020/02/12 16:05:12.840529 [DBG] Trying to connect to route on 127.0.0.1:6248
 [83330] 2020/02/12 16:05:12.840684 [DBG] 127.0.0.1:6248 - rid:2 - Route connect msg sent
 [83330] 2020/02/12 16:05:12.840695 [INF] 127.0.0.1:6248 - rid:2 - Route connection created
@@ -184,26 +189,49 @@ At this point, there is a full mesh cluster of NATS servers.
 
 Now, the following should work: make a subscription to the first server \(port 4222\). Then publish to each server \(ports 4222, 5222, 6222\). You should be able to receive messages without problems.
 
+Testing server A
 ```bash
-nats-sub -s "nats://127.0.0.1:4222" hello &
-nats-pub -s "nats://127.0.0.1:4222" hello world_4222
+nats sub -s "nats://127.0.0.1:4222" hello &
+nats pub -s "nats://127.0.0.1:4222" hello world_4222
+```
+Output
+```text
+23:34:45 Subscribing on hello
+23:34:45 Published 10 bytes to "hello"
 
-[#1] Received on [hello] : 'world_4222'
-
-nats-pub -s "nats://127.0.0.1:5222" hello world_5222
-
-[#2] Received on [hello] : 'world_5222'
-
-nats-pub -s "nats://127.0.0.1:6222" hello world_6222
-
-[#3] Received on [hello] : 'world_6222'
-
-nats-pub -s "nats://127.0.0.1:4222,nats://127.0.0.1:5222,nats://127.0.0.1:6222" hello whole_world
-
-[#4] Received on [hello] : 'whole_world'
-
-# A random server was picked: NATS server logs for the second server, port 5222
-[83330] 2020/02/12 16:22:56.384754 [DBG] 127.0.0.1:63210 - cid:9 - Client connection created
-[83330] 2020/02/12 16:22:56.386467 [DBG] 127.0.0.1:63210 - cid:9 - Client connection closed
+[#1] Received on "hello"
+world_4222
 ```
 
+Testing server B
+```shell
+nats pub -s "nats://127.0.0.1:5222" hello world_5222
+```
+Output
+```text
+[#2] Received on "hello"
+23:36:09 Published 10 bytes to "hello"
+world_5222
+```
+
+Testing server C
+```shell
+nats pub -s "nats://127.0.0.1:6222" hello world_6222
+```
+Output
+```text
+23:38:40 Published 10 bytes to "hello"
+[#3] Received on "hello"
+world_6222
+```
+
+Testing using seed (i.e. A, B and C) server URLs
+```shell
+nats pub -s "nats://127.0.0.1:4222,nats://127.0.0.1:5222,nats://127.0.0.1:6222" hello whole_world
+```
+Output
+```text
+[#4] Received on "hello"
+23:39:16 Published 11 bytes to "hello"
+whole_world
+```

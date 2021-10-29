@@ -10,30 +10,30 @@ You can use [nats-top](https://github.com/nats-io/nats-top) to monitor in realti
 ## 1. Install nats-top
 
 ```bash
-% go get github.com/nats-io/nats-top
+go get github.com/nats-io/nats-top
 ```
 
 You may need to run the following instead:
 
 ```bash
-% sudo -E go get github.com/nats-io/nats-top
+sudo -E go get github.com/nats-io/nats-top
 ```
 
 ## 2. Start the NATS server with monitoring enabled
 
 ```bash
-% nats-server -m 8222
+nats-server -m 8222
 ```
 
 ## 3. Start nats-top
 
 ```bash
-% nats-top
+nats-top
 ```
 
 Result:
 
-```bash
+```text
 nats-server version 0.6.6 (uptime: 2m2s)
 Server:
   Load: CPU:  0.0%  Memory: 6.3M  Slow Consumers: 0
@@ -52,7 +52,7 @@ For the best experience, you will want to run multiple subscribers, at least 2 o
 
 ## 5. Check nats-top for statistics
 
-```bash
+```text
 nats-server version 0.6.6 (uptime: 30m51s)
 Server:
   Load: CPU:  0.0%  Memory: 10.3M  Slow Consumers: 0
@@ -70,7 +70,7 @@ Connections: 3
 
 In nats-top, enter the command `o` followed by the option, such as `bytes_to`. You see that nats-top sorts the BYTES\_TO column in ascending order.
 
-```bash
+```text
 nats-server version 0.6.6 (uptime: 45m40s)
 Server:
   Load: CPU:  0.0%  Memory: 10.4M  Slow Consumers: 0
@@ -96,7 +96,7 @@ You can also set the sort option on the command line using the `-sort` flag. For
 
 In nats-top, enter the command `s` to toggle displaying connection subscriptions. When enabled, you see the subscription subject in nats-top table:
 
-```bash
+```text
 nats-server version 0.6.6 (uptime: 1h2m23s)
 Server:
   Load: CPU:  0.0%  Memory: 10.4M  Slow Consumers: 0
@@ -119,12 +119,12 @@ Use the `q` command to quit nats-top.
 For example, to query for the connection with largest number of subscriptions:
 
 ```bash
-% nats-top -n 1 -sort subs
+nats-top -n 1 -sort subs
 ```
 
 Result: nats-top displays only the client connection with the largest number of subscriptions:
 
-```bash
+```text
 nats-server version 0.6.6 (uptime: 1h7m0s)
 Server:
   Load: CPU:  0.0%  Memory: 10.4M  Slow Consumers: 0

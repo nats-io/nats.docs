@@ -32,11 +32,14 @@ By default the NATS server exposes multiple ports:
 First run a server with the ports exposed on a `docker network`:
 
 ```bash
-$ docker network create nats
+docker network create nats
 ```
 
 ```bash
 docker run --name nats --network nats --rm -p 4222:4222 -p 8222:8222 nats --http_port 8222 --cluster_name NATS --cluster nats://0.0.0.0:6222
+```
+Output
+```text
 [1] 2021/09/28 09:21:56.554756 [INF] Starting nats-server
 [1] 2021/09/28 09:21:56.554864 [INF]   Version:  2.6.1
 [1] 2021/09/28 09:21:56.554878 [INF]   Git:      [c91f0fe]
@@ -62,6 +65,9 @@ To verify the routes are connected, you can make a request to the monitoring end
 
 ```bash
 curl http://127.0.0.1:8222/routez
+```
+Output
+```JSON
 {
   "server_id": "NDIQLLD2UGGPSAEYBKHW3S2JB2DXIAFHMIWWRUBAX7FC4RTQX4ET2JNQ",
   "now": "2021-09-28T09:22:15.8019785Z",
@@ -133,7 +139,10 @@ networks:
 Now we use Docker Compose to create the cluster that will be using the `nats` network:
 
 ```bash
-$ docker compose -f nats-cluster.yaml up
+docker compose -f nats-cluster.yaml up
+```
+Output
+```text
 [+] Running 3/3
  ⠿ Container xxx_nats_1    Created
  ⠿ Container xxx_nats-1_1  Created
@@ -180,19 +189,22 @@ nats-2_1  | [1] 2021/09/28 10:42:37.744332 [INF] 172.18.0.4:40250 - rid:5 - Rout
 Now, the following should work: make a subscription on one of the nodes and publish it from another node. You should be able to receive the message without problems.
 
 ```bash
-$ docker run --network nats --rm -it synadia/nats-box
-~ # nats sub -s nats://nats:4222 hello &
-16e55f1c4f3c:~# 10:44:58 Subscribing on hello
-
-~ # nats pub -s "nats://nats-1:4222" hello first
-~ # nats pub -s "nats://nats-2:4222" hello second
+docker run --network nats --rm -it synadia/nats-box
+```
+Inside the container
+```shell
+nats sub -s nats://nats:4222 hello &
+nats pub -s "nats://nats-1:4222" hello first
+nats pub -s "nats://nats-2:4222" hello second
 ```
 
 Also stopping the seed node to which the subscription was done, should trigger an automatic failover to the other nodes:
 
 ```bash
-$ docker compose -f nats-cluster.yaml stop nats
-
+docker compose -f nats-cluster.yaml stop nats
+```
+Output extract
+```text
 ... 
 16e55f1c4f3c:~# 10:47:28 Disconnected due to: EOF, will attempt reconnect
 10:47:28 Disconnected due to: EOF, will attempt reconnect
@@ -202,8 +214,8 @@ $ docker compose -f nats-cluster.yaml stop nats
 Publishing again will continue to work after the reconnection:
 
 ```bash
-~ # nats pub -s "nats://nats-1:4222" hello again
-~ # nats pub -s "nats://nats-2:4222" hello again
+nats pub -s "nats://nats-1:4222" hello again
+nats pub -s "nats://nats-2:4222" hello again
 ```
 
 ## Tutorial

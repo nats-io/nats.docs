@@ -4,8 +4,11 @@ The first step is to set up storage for our `ORDERS` related messages, these arr
 
 ## Creating
 
+```shell
+nats str add ORDERS
+```
+Output
 ```text
-$ nats str add ORDERS
 ? Subjects to consume ORDERS.*
 ? Storage backend file
 ? Retention Policy Limits
@@ -41,22 +44,25 @@ Statistics:
 
 You can get prompted interactively for missing information as above, or do it all on one command. Pressing `?` in the CLI will help you map prompts to CLI options:
 
-```text
+```shell
 nats str add ORDERS --subjects "ORDERS.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size=-1 --discard old --dupe-window="0s" --replicas 1
 ```
 
 Additionally one can store the configuration in a JSON file, the format of this is the same as `$ nats str info ORDERS -j | jq .config`:
 
-```text
-$ nats str add ORDERS --config orders.json
+```shell
+nats str add ORDERS --config orders.json
 ```
 
 ## Listing
 
 We can confirm our Stream was created:
 
+```shell
+nats str ls
+```
+Output
 ```text
-$ nats str ls
 Streams:
 
     ORDERS
@@ -66,8 +72,11 @@ Streams:
 
 Information about the configuration of the Stream can be seen, and if you did not specify the Stream like below, it will prompt you based on all known ones:
 
+```shell
+nats str info ORDERS
+```
+Output
 ```text
-$ nats str info ORDERS
 Information for Stream ORDERS created 2021-02-27T16:49:36-07:00
 
 Configuration:
@@ -95,8 +104,11 @@ State:
 
 Most commands that show data as above support `-j` to show the results as JSON:
 
-```text
-$ nats str info ORDERS -j
+```shell
+nats str info ORDERS -j
+```
+Output
+```json
 {
   "config": {
     "name": "ORDERS",
@@ -133,8 +145,11 @@ This is the general pattern for the entire `nats` utility as it relates to JetSt
 
 A stream can be copied into another, which also allows the configuration of the new one to be adjusted via CLI flags:
 
+```shell
+nats str cp ORDERS ARCHIVE --subjects "ORDERS_ARCVHIVE.*" --max-age 2y
+```
+Output
 ```text
-$ nats str cp ORDERS ARCHIVE --subjects "ORDERS_ARCVHIVE.*" --max-age 2y
 Stream ORDERS was created
 
 Information for Stream ORDERS created 2021-02-27T16:52:46-07:00
@@ -166,13 +181,22 @@ State:
 
 A stream configuration can be edited, which allows the configuration to be adjusted via CLI flags. Here I have an incorrectly created ORDERS stream that I fix:
 
+```shell
+nats str info ORDERS -j | jq .config.subjects
+```
+Output
 ```text
-$ nats str info ORDERS -j | jq .config.subjects
 [
   "ORDERS.new"
 ]
+```
 
-$ nats str edit ORDERS --subjects "ORDERS.*"
+Change the subjects for the stream
+```shell
+nats str edit ORDERS --subjects "ORDERS.*"
+```
+Output
+```text
 Stream ORDERS was updated
 
 Information for Stream ORDERS
@@ -185,8 +209,8 @@ Configuration:
 
 Additionally, one can store the configuration in a JSON file, the format of this is the same as `$ nats str info ORDERS -j | jq .config`:
 
-```text
-$ nats str edit ORDERS --config orders.json
+```shell
+nats str edit ORDERS --config orders.json
 ```
 
 ## Publishing Into a Stream
@@ -195,23 +219,28 @@ Now let's add some messages to our Stream. You can use `nats pub` to add message
 
 You can publish without waiting for acknowledgement:
 
-```text
-$ nats pub ORDERS.scratch hello
-Published [sub1] : 'hello'
+```shell
+nats pub ORDERS.scratch hello
 ```
 
 But if you want to be sure your messages got to JetStream and were persisted you can make a request:
 
+```shell
+nats req ORDERS.scratch hello
+```
+Output
 ```text
-$ nats req ORDERS.scratch hello
 13:45:03 Sending request on [ORDERS.scratch]
 13:45:03 Received on [_INBOX.M8drJkd8O5otORAo0sMNkg.scHnSafY]: '+OK'
 ```
 
 Keep checking the status of the Stream while doing this and you'll see its stored messages increase.
 
+```shell
+nats str info ORDERS
+```
+Output
 ```text
-$ nats str info ORDERS
 Information for Stream ORDERS
 ...
 Statistics:
@@ -229,8 +258,11 @@ After putting some throwaway data into the Stream, we can purge all the data out
 
 To delete all data in a stream use `purge`:
 
+```shell
+nats str purge ORDERS -f
+```
+Output
 ```text
-$ nats str purge ORDERS -f
 ...
 State:
 
@@ -245,16 +277,16 @@ State:
 
 A single message can be securely removed from the stream:
 
-```text
-$ nats str rmm ORDERS 1 -f
+```shell
+nats str rmm ORDERS 1 -f
 ```
 
 ## Deleting Sets
 
-Finally, for demonstration purposes, you can also delete the whole Stream and recreate it so then we're ready for creating the Consumers:
+Finally, for demonstration purposes, you can also delete the whole Stream and recreate it. Then we're ready for creating the Consumers:
 
-```text
-$ nats str rm ORDERS -f
-$ nats str add ORDERS --subjects "ORDERS.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size=-1 --discard old --dupe-window="0s" --replicas 1
+```shell
+nats str rm ORDERS -f
+nats str add ORDERS --subjects "ORDERS.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size=-1 --discard old --dupe-window="0s" --replicas 1
 ```
 

@@ -10,5 +10,5 @@ The power of NATS even allows multiple responses where the first response is uti
 
 ![](../.gitbook/assets/reqrepl.svg)
 
-Try NATS request reply on your own, using a live server by walking through the [request/reply tutorial](../developing-with-nats/tutorials/reqreply.md).
+Try NATS request reply on your own, using a live server by walking through the [request/reply tutorial](../walkthrough/reqreply.md).
 

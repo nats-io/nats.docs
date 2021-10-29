@@ -23,8 +23,11 @@ One difference is that instead of `routes` you specify `gateways`. As expected _
 
 Starting a server:
 
+```shell
+nats-server -c A.conf
+```
+Output
 ```text
-> nats-server -c A.conf
 [85803] 2019/05/07 10:50:55.902474 [INF] Starting nats-server version 2.0.0
 [85803] 2019/05/07 10:50:55.903669 [INF] Gateway name is A
 [85803] 2019/05/07 10:50:55.903684 [INF] Listening for gateways connections on localhost:7222
@@ -46,15 +49,18 @@ Starting a server:
 
 Once all the gateways are up, these clusters of one will forward messages as expected:
 
+```shell
+nats sub -s localhost:4333 ">"
+```
+
+On a different session...
+
+```shell
+nats pub -s localhost:4444 foo bar
+```
+
+The subscriber should print
 ```text
-> nats-sub -s localhost:4333 ">"
-Listening on [>]
-
-# On a different session...
-> nats-pub -s localhost:4444 foo bar
-Published [foo] : 'bar'
-
-# nats-sub should print
 [#1] Received on [foo] : 'bar'
 ```
 

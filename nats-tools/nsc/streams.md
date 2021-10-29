@@ -6,8 +6,11 @@ To share messages you publish with other accounts, you have to _Export_ a _Strea
 
 To add a stream to your account:
 
-```bash
-> nsc add export --name abc --subject "a.b.c.>"
+```shell
+nsc add export --name abc --subject "a.b.c.>"
+```
+Output
+```text
   [ OK ] added public stream export "abc"
 ```
 
@@ -15,8 +18,11 @@ To add a stream to your account:
 
 To review the stream export:
 
+```shell
+nsc describe account
+```
+Output BV             MM
 ```text
-> nsc describe account
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
 ├───────────────────────────┬──────────────────────────────────────────────────────────┤
@@ -63,12 +69,19 @@ To learn how to inspect a JWT from an account server, [check this article](../na
 With the required information, we can add an import to the public stream.
 
 ```bash
-> nsc add account B
+nsc add account B
+```
+Output
+```text
 [ OK ] generated and stored account key "AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
 [ OK ] added account "B"
+```
 
-
-> nsc add import --src-account ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFTV5NGE --remote-subject "a.b.c.>"
+```shell
+nsc add import --src-account ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFTV5NGE --remote-subject "a.b.c.>"
+```
+Output
+```text
 [ OK ] added stream import "a.b.c.>"
 ```
 
@@ -76,8 +89,11 @@ With the required information, we can add an import to the public stream.
 
 And verifying it:
 
+```shell
+nsc describe account
+```
+Output
 ```text
-> nsc describe account
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
 ├───────────────────────────┬──────────────────────────────────────────────────────────┤
@@ -111,21 +127,28 @@ And verifying it:
 Let's also add a user to make requests from the service:
 
 ```bash
-> nsc add user b
+nsc add user b
+```
+Output
+```text
 [ OK ] generated and stored user key "UDKNTNEL5YD66U2FZZ2B3WX2PLJFKEFHAPJ3NWJBFF44PT76Y2RAVFVE"
 [ OK ] generated user creds file "~/.nkeys/creds/O/B/b.creds"
 [ OK ] added user "b" to account "B"
 ```
+### Pushing the changes to the nats servers
+
+If your nats servers are configured to use the built-in NATS resolver, remember that you need to 'push' any account changes you may have done (locally) using `nsc add` to the servers for those changes to take effect.
+
+e.g. `ncs push -i` or `nsc push -a B -u nats://localhost`
 
 ### Testing the Stream
 
 ```bash
-> nsc sub --account B --user b "a.b.c.>"
-Listening on [a.b.c.>]
-...
-> nsc pub --account A --user U a.b.c.hello world
-Published [a.b.c.hello] : "world"
-...
+nsc sub --account B --user b "a.b.c.>"
+```
+then
+```shell
+nsc pub --account A --user U a.b.c.hello world
 ```
 
 ## Securing Streams
@@ -136,15 +159,17 @@ The authorization token is simply a JWT signed by your account where you authori
 
 ### Creating a Private Stream Export
 
-```text
-> nsc add export --subject "private.abc.*" --private --account A
-[ OK ] added private stream export "private.abc.*"
+```shell
+nsc add export --subject "private.abc.*" --private --account A
 ```
 
 Similarly when we defined an export, but this time we added the `--private` flag. The other thing to note is that the subject for the request has a wildcard. This enables the account to map specific subjects to specifically authorized accounts.
 
+```shell
+nsc describe account A
+```
+Output
 ```text
-> nsc describe account A
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
 ├───────────────────────────┬──────────────────────────────────────────────────────────┤
@@ -183,7 +208,10 @@ For a foreign account to _import_ a private stream, you have to generate an acti
 To generate a token, you’ll need to know the public key of the account importing the service. We can easily find the public key for account B by running:
 
 ```bash
-> nsc list keys --account B
+nsc list keys --account B
+```
+Output
+```text
 ╭──────────────────────────────────────────────────────────────────────────────────────────╮
 │                                           Keys                                           │
 ├────────┬──────────────────────────────────────────────────────────┬─────────────┬────────┤
@@ -196,7 +224,10 @@ To generate a token, you’ll need to know the public key of the account importi
 ```
 
 ```bash
-> nsc generate activation --account A --target-account AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H --subject private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H -o /tmp/activation.jwt
+nsc generate activation --account A --target-account AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H --subject private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H -o /tmp/activation.jwt
+```
+Output
+```text
 [ OK ] generated "private.abc.*" activation for account "AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
 [ OK ] wrote account description to "/tmp/activation.jwt"
 ```
@@ -205,8 +236,11 @@ The command took the account that has the export \('A'\), the public key of acco
 
 For completeness, the contents of the JWT file look like this:
 
+```shell
+cat /tmp/activation.jwt
+```
+Output
 ```text
-> cat /tmp/activation.jwt
 -----BEGIN NATS ACTIVATION JWT-----
 eyJ0eXAiOiJqd3QiLCJhbGciOiJlZDI1NTE5In0.eyJqdGkiOiJIS1FPQU9aQkVKS1JYNFJRUVhXS0xYSVBVTlNOSkRRTkxXUFBTSTQ3NkhCVVNYT0paVFFRIiwiaWF0IjoxNTc1NTU1OTczLCJpc3MiOiJBREVUUFQzNldCSUJVS00zSUJDVk00QTVZVVNEWEZFSlBXNE02R0dWQllDQlc3UlJORlRWNU5HRSIsIm5hbWUiOiJwcml2YXRlLmFiYy5BQU00NkUzWUY1V09aU0U1V05ZV0hOM1lZSVNWWk9TSTZYSFRGMlE2NEVDUFhTRlFaUk9KTVAySCIsInN1YiI6IkFBTTQ2RTNZRjVXT1pTRTVXTllXSE4zWVlJU1ZaT1NJNlhIVEYyUTY0RUNQWFNGUVpST0pNUDJIIiwidHlwZSI6ImFjdGl2YXRpb24iLCJuYXRzIjp7InN1YmplY3QiOiJwcml2YXRlLmFiYy5BQU00NkUzWUY1V09aU0U1V05ZV0hOM1lZSVNWWk9TSTZYSFRGMlE2NEVDUFhTRlFaUk9KTVAySCIsInR5cGUiOiJzdHJlYW0ifX0.yD2HWhRQYUFy5aQ7zNV0YjXzLIMoTKnnsBB_NsZNXP-Qr5fz7nowyz9IhoP7UszkN58m__ovjIaDKI9ml0l9DA
 ------END NATS ACTIVATION JWT------
@@ -214,8 +248,11 @@ eyJ0eXAiOiJqd3QiLCJhbGciOiJlZDI1NTE5In0.eyJqdGkiOiJIS1FPQU9aQkVKS1JYNFJRUVhXS0xY
 
 When decoded it looks like this:
 
+```shell
+nsc describe jwt -f /tmp/activation.jwt 
+```
+Output
 ```text
-> nsc describe jwt -f /tmp/activation.jwt 
 ╭────────────────────────────────────────────────────────────────────────────────────────╮
 │                                       Activation                                       │
 ├─────────────────┬──────────────────────────────────────────────────────────────────────┤
@@ -245,13 +282,21 @@ The token can be shared directly with the client account.
 
 Importing a private stream is more natural than a public one as the activation token given to you already has all of the necessary details. Note that the token can be an actual file path or a remote URL.
 
+```shell
+nsc add import --account B --token /tmp/activation.jwt 
+```
+Output
 ```text
-> nsc add import --account B --token /tmp/activation.jwt 
 [ OK ] added stream import "private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
 ```
 
+Describe account B
+
+```shell
+nsc describe account B
+```
+Output
 ```text
-> nsc describe account B
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
 ├───────────────────────────┬──────────────────────────────────────────────────────────┤
@@ -288,11 +333,10 @@ Importing a private stream is more natural than a public one as the activation t
 Testing a private stream is no different than a public one:
 
 ```bash
-> nsc sub --account B --user b private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H
-Listening on [private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H]
-...
-> nsc pub --account A --user U private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H hello
-Published [private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H] : "hello"
-...
+nsc sub --account B --user b private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H
+```
+then
+```shell
+nsc pub --account A --user U private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H hello
 ```
 

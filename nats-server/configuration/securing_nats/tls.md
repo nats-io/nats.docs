@@ -27,8 +27,11 @@ tls: {
 
 Or by using [server options](../../flags.md#tls-options):
 
+```shell
+nats-server --tls --tlscert=./server-cert.pem --tlskey=./server-key.pem
+```
+Output
 ```text
-> nats-server --tls --tlscert=./server-cert.pem --tlskey=./server-key.pem
 [21417] 2019/05/16 11:21:19.801539 [INF] Starting nats-server version 2.0.0
 [21417] 2019/05/16 11:21:19.801621 [INF] Git commit [not set]
 [21417] 2019/05/16 11:21:19.801777 [INF] Listening for client connections on 0.0.0.0:4222

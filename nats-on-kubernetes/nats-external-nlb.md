@@ -4,12 +4,15 @@
 
 In the example below, you can find how to use an [AWS Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html) to connect externally to a cluster that has TLS setup.
 
+One-line installer creates a secure cluster named 'nats'
 ```bash
-# One-line installer creates a secure cluster named 'nats'
-$ curl -sSL https://nats-io.github.io/k8s/setup.sh | sh
+curl -sSL https://nats-io.github.io/k8s/setup.sh | sh
+```
 
-# Create AWS Network Load Balancer service
-$ echo '
+Create AWS Network Load Balancer service
+
+```shell
+echo '
 apiVersion: v1
 kind: Service
 metadata:
@@ -30,12 +33,22 @@ spec:
   selector:
     app.kubernetes.io/name: nats
 ' | kubectl apply -f -
+```
 
-$ kubectl get svc nats-nlb -o wide
+Check that it worked
+
+```shell
+kubectl get svc nats-nlb -o wide
+```
+Example output
+```text
 NAME       TYPE           CLUSTER-IP      EXTERNAL-IP                                                                     PORT(S)          AGE    SELECTOR
 nats-nlb   LoadBalancer   10.100.67.123   a18b60a948fc611eaa7840286c60df32-9e96a2af4b5675ec.elb.us-east-2.amazonaws.com   4222:30297/TCP   151m   app=nats
+```
 
-$ nats-pub -s nats://a18b60a948fc611eaa7840286c60df32-9e96a2af4b5675ec.elb.us-east-2.amazonaws.com:4222 -creds nsc/nkeys/creds/KO/A/test.creds test.foo bar
+Publish a test message
+```shell
+nats pub -s nats://a18b60a948fc611eaa7840286c60df32-9e96a2af4b5675ec.elb.us-east-2.amazonaws.com:4222 -creds nsc/nkeys/creds/KO/A/test.creds test.foo bar
 ```
 
 Also, it would be recommended to set [no\_advertise](../nats-server/configuration/clustering/cluster_config.md) to `true` in order to avoid gossiping internal addresses from pods in Kubernetes to NATS clients.
@@ -93,8 +106,11 @@ kubectl apply -f https://raw.githubusercontent.com/nats-io/k8s/b55687a97a5fd5548
 
 Confirm the public IP that was allocated to the `nats-lb` service that was created, in this case it is `52.155.49.45`:
 
+```shell
+kubectl get svc -o wide
+```
+Output
 ```text
-$ kubectl get svc -o wide
 NAME         TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)                                                 AGE     SELECTOR
 kubernetes   ClusterIP      10.0.0.1      <none>         443/TCP                                                 81d     <none>
 nats         ClusterIP      None          <none>         4222/TCP,6222/TCP,8222/TCP,7777/TCP,7422/TCP,7522/TCP   7h46m   app=nats
@@ -124,10 +140,15 @@ Now if you create two NATS Servers that connect to the same leafnode port, they 
 ```bash
 nats-server -c leafnodes/leaf.conf -p 4222 &
 nats-server -c leafnodes/leaf.conf -p 4223 &
+```
 
-$ nats-sub -s localhost:4222 foo &
-$ nats-pub -s localhost:4223 foo hello 
-
+Create a subscriber and publish a test message
+```shell
+nats-sub -s localhost:4222 foo &
+nats-pub -s localhost:4223 foo hello 
+```
+Output
+```text
 Listening on [foo]
 [#1] Received on [foo] : 'hello'
 ```

@@ -119,6 +119,20 @@ websocket {
 
 ## Authorization of WebSocket Users
 
+### Authentication
+
+NATS supports different forms of authentication for clients connecting over WebSocket:
+
+- username/password
+- token
+- NKEYS
+- client certificates
+- JWTs
+
+You can get some more information about how applications connecting over WebSocket can use those different forms of authentication [here](https://github.com/nats-io/nats.ws#authentication)
+
+### Restricting connection types
+
 A new field when configuring users allows you to restrict which type of connections are allowed for a specific user.
 
 Consider this configuration:

@@ -6,7 +6,9 @@ The nats-top tool provides a dynamic real-time view of a NATS server. nats-top c
 
 ```bash
 nats-top
-
+```
+Example output
+```text
 nats-server version 0.6.4 (uptime: 31m42s)
 Server:
   Load: CPU: 0.8%   Memory: 5.9M  Slow Consumers: 0
