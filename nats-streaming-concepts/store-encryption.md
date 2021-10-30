@@ -6,20 +6,20 @@ It is recommended to provide the encryption key through the environment variable
 
 You can pass this from the command line this way:
 
-```shell
-env NATS_STREAMING_ENCRYPTION_KEY="mykey" nats-streaming-server -store file -dir datastore -encrypt
+```text
+$ env NATS_STREAMING_ENCRYPTION_KEY="mykey" nats-streaming-server -store file -dir datastore -encrypt
 ```
 
 We currently support two ciphers for encryption: [AES](https://godoc.org/crypto/aes) and [CHACHA](https://godoc.org/golang.org/x/crypto/chacha20poly1305). The default selected cipher depends on the platform. For ARM, we use `CHACHA`, otherwise we default to `AES`. You can always override that decision by explicitly specifying the cipher like this:
 
-```shell
-env NATS_STREAMING_ENCRYPTION_KEY="mykey" nats-streaming-server -store file -dir datastore -encrypt -encryption_cipher "CHACHA"
+```text
+$ env NATS_STREAMING_ENCRYPTION_KEY="mykey" nats-streaming-server -store file -dir datastore -encrypt -encryption_cipher "CHACHA"
 ```
 
 or, to select `AES`:
 
-```shell
-env NATS_STREAMING_ENCRYPTION_KEY="mykey" nats-streaming-server -store file -dir datastore -encrypt -encryption_cipher "AES"
+```text
+$ env NATS_STREAMING_ENCRYPTION_KEY="mykey" nats-streaming-server -store file -dir datastore -encrypt -encryption_cipher "AES"
 ```
 
 Note that only message payload is encrypted, all other data stored by NATS Streaming server is not.

@@ -3,9 +3,9 @@
 In this section, you can find several examples of how to deploy NATS, NATS Streaming and other tools from the NATS ecosystem on Kubernetes.
 
 * [Getting Started](nats-kubernetes.md#getting-started)
-* [Basic NATS Setup on k8s](minimal-setup.md)
+* [Basic NATS and NATS Streaming Setup on k8s](minimal-setup.md)
 * [Deploying NATS with Helm](helm-charts.md)
-* [Creating a NATS Streaming Cluster in k8s with FT mode](../nats-streaming-server/kubernetes/stan-ft-k8s-aws.md)
+* [Creating a NATS Streaming Cluster in k8s with FT mode](stan-ft-k8s-aws.md)
 * [NATS + Cert Manager in k8s](nats-cluster-and-cert-manager.md)
 * [Securing a NATS Cluster using cfssl](operator-tls-setup-with-cfssl.md)
 
@@ -29,14 +29,11 @@ By default, the installer will deploy the [Prometheus Operator](https://github.c
 
 You can customize the installer to install without TLS or without Auth to have a simpler setup as follows:
 
-Disable TLS
 ```bash
+# Disable TLS
 curl -sSL https://nats-io.github.io/k8s/setup.sh | sh -s -- --without-tls
-```
 
-Disable Auth and TLS (also disables NATS surveyor and NATS Streaming)
-
-```shell
+# Disable Auth and TLS (also disables NATS surveyor and NATS Streaming)
 curl -sSL https://nats-io.github.io/k8s/setup.sh | sh -s -- --without-tls --without-auth
 ```
 
@@ -44,7 +41,7 @@ curl -sSL https://nats-io.github.io/k8s/setup.sh | sh -s -- --without-tls --with
 
 The monitoring dashboard setup using NATS Surveyor can be accessed by using port-forward:
 
-```shell
+```text
 kubectl port-forward deployments/nats-surveyor-grafana 3000:3000
 ```
 

@@ -4,11 +4,8 @@ Let’s say that you know the account for a stream that you are interested in, b
 
 The endpoint for retrieving an account JWT is: `/jwt/v1/accounts/<account_id>`. To decode a JWT add the query string `?decode=true`.
 
-```shell
-curl http://localhost:9090/jwt/v1/accounts/AC7PO3MREV26U3LFZFP5BN3HAI32X3PKLBRVMPAETLEHWPQEUG7EJY4H\?decode=true
-```
-Example output
-```text
+```javascript
+> curl http://localhost:9090/jwt/v1/accounts/AC7PO3MREV26U3LFZFP5BN3HAI32X3PKLBRVMPAETLEHWPQEUG7EJY4H\?decode=true
 {
     "typ": "jwt",
     "alg": "ed25519"

@@ -10,11 +10,8 @@ Within an account there are operations and reports that show where users data is
 
 When adding a stream using the `nats` CLI the number of replicas will be asked, when you choose a number more than 1, \(we suggest 1, 3 or 5\), the data will be stored on multiple nodes in your cluster using the RAFT protocol as above. The replica count must be less than the maximum number of servers.
 
-```shell
-nats str add ORDERS --replicas 3
-```
-Example output extract:
 ```text
+$ nats str add ORDERS --replicas 3
 ....
 Information for Stream ORDERS created 2021-02-05T12:07:34+01:00
 ....
@@ -42,11 +39,8 @@ The replica count cannot be edited once configured.
 
 Users can get overall statistics about their streams and also where these streams are placed:
 
-```shell
-nats stream report
-```
-Example output
 ```text
+$ nats stream report
 Obtaining Stream stats
 +----------+-----------+----------+--------+---------+------+---------+----------------------+----------+
 | Stream   | Consumers | Messages | Bytes  | Storage | Lost | Deleted | Cluster              | Template |
@@ -66,11 +60,8 @@ Every RAFT group has a leader that's elected by the group when needed. Generally
 
 Moving leadership away from a node does not remove it from the cluster and does not prevent it from becoming a leader again, this is merely a triggered leader election.
 
-```shell
-nats stream cluster step-down ORDERS
-```
-Example output
 ```text
+$ nats stream cluster step-down ORDERS
 14:32:17 Requesting leader step down of "n1-c1" in a 3 peer RAFT group
 14:32:18 New leader elected "n4-c1"
 
@@ -94,11 +85,8 @@ Systems users can view state of the Meta Group - but not individual Stream or Co
 
 We have a high level report of cluster state:
 
-```shell
-nats server report jetstream --user system
-```
-Example output
 ```text
+$ nats server report jetstream --user system
 +--------------------------------------------------------------------------------------------------+
 |                                        JetStream Summary                                         |
 +--------+---------+---------+-----------+----------+--------+--------+--------+---------+---------+
@@ -135,34 +123,9 @@ In the Meta Group report the server `n2-c1` is not current and has not been seen
 
 This report is built using raw data that can be obtained from the monitor port on the `/jsz` url, or over nats using:
 
-```shell
-nats server req jetstream --help
-```
-Output
 ```text
-usage: nats server request jetstream [<flags>] [<wait>]
-
-Show JetStream details
-
-Flags:
-  -h, --help                    Show context-sensitive help (also try --help-long and --help-man).
-      --version                 Show application version.
-  -s, --server=NATS_URL         NATS server urls
-      --user=NATS_USER          Username or Token
-      --password=NATS_PASSWORD  Password
-      --creds=NATS_CREDS        User credentials
-      --nkey=NATS_NKEY          User NKEY
-      --tlscert=NATS_CERT       TLS public certificate
-      --tlskey=NATS_KEY         TLS private key
-      --tlsca=NATS_CA           TLS certificate authority chain
-      --timeout=NATS_TIMEOUT    Time to wait on responses from NATS
-      --js-api-prefix=PREFIX    Subject prefix for access to JetStream API
-      --js-event-prefix=PREFIX  Subject prefix for access to JetStream Advisories
-      --js-domain=DOMAIN        JetStream domain to access
-      --context=CONTEXT         Configuration context
-      --trace                   Trace API interactions
-      --limit=2048              Limit the responses to a certain amount of records
-      --offset=0                Start at a certain record
+$ nats server req jetstream --help
+...
       --name=NAME               Limit to servers matching a server name
       --host=HOST               Limit to servers matching a server host name
       --cluster=CLUSTER         Limit to servers matching a cluster name
@@ -174,13 +137,7 @@ Flags:
       --config                  Include details about configuration
       --leader                  Request a response from the Meta-group leader only
       --all                     Include accounts, streams, consumers and configuration
-
-Args:
-  [<wait>]  Wait for a certain number of responses
-```
-
-```shell
-nats server req jetstream --leader
+$ nats server req jetstream --leader
 ```
 
 This will produce a wealth of raw information about the current state of your cluster - here requesting it from the leader only.
@@ -189,11 +146,8 @@ This will produce a wealth of raw information about the current state of your cl
 
 Similar to Streams and Consumers above the Meta Group allows leader stand down. The Meta Group is cluster wide and spans all accounts, therefore to manage the meta group you have to use a `SYSTEM` user.
 
-```shell
-nats server raft step-down --user system
-```
-Example output
 ```text
+$ nats server raft step-down --user system
 17:44:24 Current leader: n2-c2
 17:44:24 New leader: n1-c2
 ```
@@ -206,11 +160,8 @@ There might be a case though where you know a machine will never return, and you
 
 After the node is removed the cluster will notice that the replica count is not honored anymore and will immediately pick a new node and start replicating data to it. The new node will be selected using the same placement rules as the existing stream.
 
-```shell
-nats stream cluster peer-remove ORDERS
-```
-Example output
 ```text
+$ nats s cluster peer-remove ORDERS
 ? Select a Peer n4-c1
 14:38:50 Removing peer "n4-c1"
 14:38:50 Requested removal of peer "n4-c1"
@@ -218,11 +169,8 @@ Example output
 
 At this point the stream and all consumers will have removed `n4-c1` from the group, they will all start new peer selection and data replication.
 
-```shell
-$ nats stream info ORDERS
-```
-Example output
 ```text
+$ nats stream info ORDERS
 ....
 Cluster Information:
 

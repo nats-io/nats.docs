@@ -1,5 +1,7 @@
 # Model Deep Dive
 
+The Orders example touched on a lot of features, but some like different Ack models and message limits, need a bit more detail. This section will expand on the above and fill in some blanks.
+
 ## Stream Limits, Retention, and Policy
 
 Streams store data on disk, but we cannot store all data forever so we need ways to control their size automatically.
@@ -30,20 +32,17 @@ The `WorkQueuePolicy` mode is a specialized mode where a message, once consumed 
 
 JetStream support idempotent message writes by ignoring duplicate messages as indicated by the `Nats-Msg-Id` header.
 
-```shell
-nats req -H Nats-Msg-Id:1 ORDERS.new hello1
-nats req -H Nats-Msg-Id:1 ORDERS.new hello2
-nats req -H Nats-Msg-Id:1 ORDERS.new hello3
-nats req -H Nats-Msg-Id:1 ORDERS.new hello4
+```text
+% nats req -H Nats-Msg-Id:1 ORDERS.new hello1
+% nats req -H Nats-Msg-Id:1 ORDERS.new hello2
+% nats req -H Nats-Msg-Id:1 ORDERS.new hello3
+% nats req -H Nats-Msg-Id:1 ORDERS.new hello4
 ```
 
 Here we set a `Nats-Msg-Id:1` header which tells JetStream to ensure we do not have duplicates of this message - we only consult the message ID not the body.
 
-```shell
-nats stream info ORDERS
-```
-and in the output you can see that the duplicate publications were detected and only one message (the first one) is actually stored in the stream 
 ```text
+$ nats str info ORDERS
 ....
 State:
 
@@ -67,11 +66,8 @@ Consumers have 3 acknowledgement modes:
 
 To understand how Consumers track messages we will start with a clean `ORDERS` Stream and `DISPATCH` Consumer.
 
-```shell
-nats str info ORDERS
-```
-Output
 ```text
+$ nats str info ORDERS
 ...
 Statistics:
 
@@ -84,11 +80,8 @@ Statistics:
 
 The Set is entirely empty
 
-```shell
-nats con info ORDERS DISPATCH
-```
-Output
 ```text
+$ nats con info ORDERS DISPATCH
 ...
 State:
 
@@ -102,11 +95,8 @@ The Consumer has no messages outstanding and has never had any \(Consumer sequen
 
 We publish one message to the Stream and see that the Stream received it:
 
-```shell
-nats pub ORDERS.processed "order 4"
-```
-Output
 ```text
+$ nats pub ORDERS.processed "order 4"
 Published 7 bytes to ORDERS.processed
 $ nats str info ORDERS
 ...
@@ -121,11 +111,8 @@ Statistics:
 
 As the Consumer is pull-based, we can fetch the message, ack it, and check the Consumer state:
 
-```shell
-nats con next ORDERS DISPATCH
-```
-Output
 ```text
+$ nats con next ORDERS DISPATCH
 --- received on ORDERS.processed
 order 4
 
@@ -145,30 +132,15 @@ The message got delivered and acknowledged - `Acknowledgement floor` is `1` and 
 
 We'll publish another message, fetch it but not Ack it this time and see the status:
 
-```shell
-nats pub ORDERS.processed "order 5"
-```
-Output
 ```text
+$ nats pub ORDERS.processed "order 5"
 Published 7 bytes to ORDERS.processed
 
-```
-Get the next message from the consumer (but do not acknowledge it)
-```shell
-nats consumer next ORDERS DISPATCH --no-ack
-```
-Output
-```text
+$ nats con next ORDERS DISPATCH --no-ack
 --- received on ORDERS.processed
 order 5
-```
 
-Show the consumer info
-```shell
-nats consumer info ORDERS DISPATCH
-```
-Output
-```text
+$ nats con info ORDERS DISPATCH
 State:
 
   Last Delivered Message: Consumer sequence: 3 Stream sequence: 3
@@ -181,20 +153,12 @@ Now we can see the Consumer has processed 2 messages \(obs sequence is 3, next m
 
 If I fetch it again and again do not ack it:
 
-```shell
-nats consumer next ORDERS DISPATCH --no-ack
-```
-Output
 ```text
+$ nats con next ORDERS DISPATCH --no-ack
 --- received on ORDERS.processed
 order 5
-```
-Show the consumer info again
-```shell
-nats consumer info ORDERS DISPATCH
-```
-Output
-```text
+
+$ nats con info ORDERS DISPATCH
 State:
 
   Last Delivered Message: Consumer sequence: 4 Stream sequence: 3
@@ -207,22 +171,13 @@ The Consumer sequence increases - each delivery attempt increases the sequence -
 
 Finally, if I then fetch it again and ack it this time:
 
-```shell
-nats consumer next ORDERS DISPATCH 
-```
-Output
 ```text
+$ nats con next ORDERS DISPATCH 
 --- received on ORDERS.processed
 order 5
 
 Acknowledged message
-```
-Show the consumer info
-```shell
-nats consumer info ORDERS DISPATCH
-```
-Output
-```text
+$ nats con info ORDERS DISPATCH
 State:
 
   Last Delivered Message: Consumer sequence: 5 Stream sequence: 3
@@ -275,12 +230,9 @@ Let's look at each of these, first we make a new Stream `ORDERS` and add 100 mes
 
 Now create a `DeliverAll` pull-based Consumer:
 
-```shell
-nats consumer add ORDERS ALL --pull --filter ORDERS.processed --ack none --replay instant --deliver all 
-nats consumer next ORDERS ALL
-```
-Output
 ```text
+$ nats con add ORDERS ALL --pull --filter ORDERS.processed --ack none --replay instant --deliver all 
+$ nats con next ORDERS ALL
 --- received on ORDERS.processed
 order 1
 
@@ -289,12 +241,9 @@ Acknowledged message
 
 Now create a `DeliverLast` pull-based Consumer:
 
-```shell
-nats consumer add ORDERS LAST --pull --filter ORDERS.processed --ack none --replay instant --deliver last
-nats consumer next ORDERS LAST
-```
-Output
 ```text
+$ nats con add ORDERS LAST --pull --filter ORDERS.processed --ack none --replay instant --deliver last
+$ nats con next ORDERS LAST
 --- received on ORDERS.processed
 order 100
 
@@ -303,12 +252,9 @@ Acknowledged message
 
 Now create a `MsgSetSeq` pull-based Consumer:
 
-```shell
-nats consumer add ORDERS TEN --pull --filter ORDERS.processed --ack none --replay instant --deliver 10
-nats consumer next ORDERS TEN
-```
-Output
 ```text
+$ nats con add ORDERS TEN --pull --filter ORDERS.processed --ack none --replay instant --deliver 10
+$ nats con next ORDERS TEN
 --- received on ORDERS.processed
 order 10
 
@@ -317,9 +263,9 @@ Acknowledged message
 
 And finally a time-based Consumer. Let's add some messages a minute apart:
 
-```shell
-nats stream purge ORDERS
-for i in 1 2 3
+```text
+$ nats str purge ORDERS
+$ for i in 1 2 3
 do
   nats pub ORDERS.processed "order ${i}"
   sleep 60
@@ -328,12 +274,9 @@ done
 
 Then create a Consumer that starts 2 minutes ago:
 
-```shell
-nats consumer add ORDERS 2MIN --pull --filter ORDERS.processed --ack none --replay instant --deliver 2m
-nats consumer next ORDERS 2MIN
-```
-Output
 ```text
+$ nats con add ORDERS 2MIN --pull --filter ORDERS.processed --ack none --replay instant --deliver 2m
+$ nats con next ORDERS 2MIN
 --- received on ORDERS.processed
 order 2
 
@@ -350,14 +293,14 @@ Ephemeral Consumers can only be push-based.
 
 Terminal 1:
 
-```shell
-nats sub my.monitor
+```text
+$ nats sub my.monitor
 ```
 
 Terminal 2:
 
-```shell
-nats consumer add ORDERS --filter '' --ack none --target 'my.monitor' --deliver last --replay instant --ephemeral
+```text
+$ nats con add ORDERS --filter '' --ack none --target 'my.monitor' --deliver last --replay instant --ephemeral
 ```
 
 The `--ephemeral` switch tells the system to make an Ephemeral Consumer.
@@ -370,11 +313,8 @@ This is useful in load testing scenarios etc. This is called the `ReplayPolicy` 
 
 You can only set `ReplayPolicy` on push-based Consumers.
 
-```shell
-nats consumer add ORDERS REPLAY --target out.original --filter ORDERS.processed --ack none --deliver all --sample 100 --replay original
-```
-Output
 ```text
+$ nats con add ORDERS REPLAY --target out.original --filter ORDERS.processed --ack none --deliver all --sample 100 --replay original
 ...
      Replay Policy: original
 ...
@@ -382,15 +322,12 @@ Output
 
 Now let's publish messages into the Set 10 seconds apart:
 
-```shell
-for i in 1 2 3                                                                                                                                                      <15:15:35
+```text
+$ for i in 1 2 3                                                                                                                                                      <15:15:35
 do
   nats pub ORDERS.processed "order ${i}"
   sleep 10
 done
-```
-Output
-```text
 Published [ORDERS.processed] : 'order 1'
 Published [ORDERS.processed] : 'order 2'
 Published [ORDERS.processed] : 'order 3'
@@ -398,11 +335,8 @@ Published [ORDERS.processed] : 'order 3'
 
 And when we consume them they will come to us 10 seconds apart:
 
-```shell
-nats sub -t out.original
-```
-Output
 ```text
+$ nats sub -t out.original
 Listening on [out.original]
 2020/01/03 15:17:26 [#1] Received on [ORDERS.processed]: 'order 1'
 2020/01/03 15:17:36 [#2] Received on [ORDERS.processed]: 'order 2'
@@ -414,11 +348,8 @@ Listening on [out.original]
 
 When you have many similar streams it can be helpful to auto-create them, let's say you have a service by client and they are on subjects `CLIENT.*`, you can construct a template that will auto-generate streams for any matching traffic.
 
-```shell
-nats stream template add CLIENTS --subjects "CLIENT.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size 2048 --max-streams 1024 --discard old
-```
-Output
 ```text
+$ nats str template add CLIENTS --subjects "CLIENT.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size 2048 --max-streams 1024 --discard old
 Stream Template CLIENTS was created
 
 Information for Stream Template CLIENTS
@@ -443,17 +374,14 @@ Managed Streams:
 
 You can see no streams currently exist, let's publish some data:
 
-```shell
-nats pub CLIENT.acme hello
+```text
+$ nats pub CLIENT.acme hello
 ```
 
 And we'll have 1 new Stream:
 
-```shell
-nats str ls
-```
-Output
 ```text
+$ nats str ls
 Streams:
 
         CLIENTS_acme
@@ -475,11 +403,8 @@ You can configure a Consumer for sampling bypassing the `--sample 80` option to 
 
 When viewing info of a Consumer you can tell if it's sampled or not:
 
-```shell
-nats consumer info ORDERS NEW
-```
-Output contains
 ```text
+$ nats con info ORDERS NEW
 ...
      Sampling Rate: 100
 ...
@@ -489,11 +414,8 @@ Output contains
 
 Samples are published to `$JS.EVENT.METRIC.CONSUMER_ACK.<stream>.<consumer>` in JSON format containing `api.ConsumerAckMetric`. Use the `nats con events` command to view samples:
 
-```shell
-nats consumer events ORDERS NEW
-```
-Output
 ```text
+$ nats con events ORDERS NEW
 Listening for Advisories on $JS.EVENT.ADVISORY.*.ORDERS.NEW
 Listening for Metrics on $JS.EVENT.METRIC.*.ORDERS.NEW
 
@@ -505,11 +427,8 @@ Listening for Metrics on $JS.EVENT.METRIC.*.ORDERS.NEW
                 Delay: 1.009ms
 ```
 
-```shell
-nats consumer events ORDERS NEW --json
-```
-Output
 ```text
+$ nats con events ORDERS NEW --json
 {
   "stream": "ORDERS",
   "consumer": "NEW",

@@ -25,7 +25,7 @@ tls {
 Or via the command line:
 
 ```bash
-nats-server --tlsverify --tlscert=server-cert.pem --tlskey=server-key.pem --tlscacert=rootCA.pem
+> ./nats-server --tlsverify --tlscert=server-cert.pem --tlskey=server-key.pem --tlscacert=rootCA.pem
 ```
 
 This option verifies the client's certificate is signed by the CA specified in the `ca_file` option. When `ca_file` is not present it will default to CAs in the system trust store. It also makes sure that the client provides a certificate with the extended key usage `TLS Web Client Authentication`.
@@ -52,11 +52,8 @@ When present, the server will check if a Subject Alternative Name \(SAN\) maps t
 
 > Note: This mechanism will pick the user it finds first. There is no configuration to restrict this.
 
-```shell
-openssl x509 -noout -text -in  client-cert.pem
-```
-Output
 ```text
+$ openssl x509 -noout -text -in  client-cert.pem
 Certificate:
 ...
         X509v3 extensions:
@@ -79,11 +76,8 @@ authorization {
 
 Use the [RFC 2253 Distinguished Names](https://tools.ietf.org/html/rfc2253) syntax to specify a user corresponding to the certificate subject:
 
-```shell
-openssl x509 -noout -text -in client-cert.pem
-```
-Output
 ```text
+$ openssl x509 -noout -text -in client-cert.pem
 Certificate:
     Data:
 ...

@@ -4,11 +4,8 @@
 
 JetStream is multi-tenant so you will need to check that your account is enabled for JetStream and is not limited. You can view your limits as follows:
 
-```shell
-nats account info
-```
-Example output
 ```text
+$ nats account info
 Connection Information:
                Client ID: 8
                Client IP: 127.0.0.1
