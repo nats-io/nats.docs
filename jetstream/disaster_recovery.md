@@ -17,11 +17,8 @@ The backup includes:
 * Stream Consumer configuration and state
 * All data including metadata like timestamps and headers
 
-```shell
-nats stream backup ORDERS /data/js-backup/ORDERS.tgz
-```
-Output
 ```text
+$ nats stream backup ORDERS /data/js-backup/ORDERS.tgz
 Starting backup of Stream "ORDERS" with 13 data blocks
 
 2.4 MiB/s [====================================================================] 100%
@@ -37,11 +34,8 @@ Progress using the terminal bar can be disabled using `--no-progress`, it will t
 
 The backup made above can be restored into another server - but into the same Stream name.
 
-```shell
-nats str restore ORDERS /data/js-backup/ORDERS.tgz
-```
-Output
 ```text
+$ nats str restore ORDERS /data/js-backup/ORDERS.tgz
 Starting restore of Stream "ORDERS" from file "/data/js-backup/ORDERS.tgz"
 
 13 MiB/s [====================================================================] 100%
@@ -66,11 +60,8 @@ In environments where the `nats` CLI is used interactively to configure the serv
 
 Here you can back up the configuration into a directory from where you can recover the configuration later. The data for File backed stores can also be backed up.
 
-```shell
-nats backup /data/js-backup
-```
-Output
 ```text
+$ nats backup /data/js-backup
 15:56:11 Creating JetStream backup into /data/js-backup
 15:56:11 Stream ORDERS to /data/js-backup/stream_ORDERS.json
 15:56:11 Consumer ORDERS > NEW to /data/js-backup/stream_ORDERS_consumer_NEW.json
@@ -83,11 +74,8 @@ During the same process the data can also be backed up by passing `--data`, this
 
 Later the data can be restored, for Streams we support editing the Stream configuration in place to match what was in the backup.
 
-```shell
-nats restore /tmp/backup --update-streams
-```
-Output
 ```text
+$ nats restore /tmp/backup --update-streams
 15:57:42 Reading file /tmp/backup/stream_ORDERS.json
 15:57:42 Reading file /tmp/backup/stream_ORDERS_consumer_NEW.json
 15:57:42 Updating Stream ORDERS configuration

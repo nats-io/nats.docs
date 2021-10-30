@@ -18,7 +18,7 @@ Note that once a leader is elected, subsequent servers can be started without pr
 nats-streaming-server -store file -dir store-d -clustered -nats_server nats://localhost:4222
 ```
 
-The equivalent clustering configurations can be specified in a configuration file under the `cluster` group. See the [Configuring](/nats-streaming-server/configuring/) section for more information.
+The equivalent clustering configurations can be specified in a configuration file under the `cluster` group. See the [Configuring](../../nats-streaming-server/configuring/) section for more information.
 
 Here is an example of a cluster of 3 nodes using the following configuration files. The nodes are running on `host1`, `host2` and `host3` respectively. **NOTE** If you have an existing NATS cluster and want to run NATS Streaming Cluster on top of that, see details at the end of this section.
 

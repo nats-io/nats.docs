@@ -25,17 +25,14 @@ Run the binary that you downloaded, for example: `$ ./nats-streaming-server`
 Or, run from source:
 
 ```bash
-cd $GOPATH/src/github.com/nats-io/nats-streaming-server
-go run nats-streaming-server.go
+> cd $GOPATH/src/github.com/nats-io/nats-streaming-server
+> go run nats-streaming-server.go
 ```
 
 You should see the following, indicating that the NATS Streaming Server is running:
 
 ```bash
-go run nats-streaming-server.go
-```
-Example output
-```text
+> go run nats-streaming-server.go
 [59232] 2019/05/22 14:24:54.426344 [INF] STREAM: Starting nats-streaming-server[test-cluster] version 0.14.2
 [59232] 2019/05/22 14:24:54.426423 [INF] STREAM: ServerID: 3fpvAuXHo3C66Rkd4rmfFX
 [59232] 2019/05/22 14:24:54.426440 [INF] STREAM: Go version: go1.11.10
@@ -63,10 +60,13 @@ Example output
 Publish several messages. For each publication you should get a result.
 
 ```bash
-cd $GOPATH/src/github.com/nats-io/stan.go/examples/stan-pub
-go run main.go foo "msg one"
-go run main.go foo "msg two"
-go run main.go foo "msg three"
+> cd $GOPATH/src/github.com/nats-io/stan.go/examples/stan-pub
+> go run main.go foo "msg one"
+Published [foo] : 'msg one'
+> go run main.go foo "msg two"
+Published [foo] : 'msg two'
+> go run main.go foo "msg three"
+Published [foo] : 'msg three'
 ```
 
 ## Run the subscriber client
@@ -74,11 +74,8 @@ go run main.go foo "msg three"
 Use the `--all` flag to receive all published messages.
 
 ```bash
-cd $GOPATH/src/github.com/nats-io/stan.go/examples/stan-sub
-go run main.go --all -c test-cluster -id myID foo
-```
-Example output
-```text
+> cd $GOPATH/src/github.com/nats-io/stan.go/examples/stan-sub
+> go run main.go --all -c test-cluster -id myID foo
 Connected to nats://localhost:4222 clusterID: [test-cluster] clientID: [myID]
 subscribing with DeliverAllAvailable
 Listening on [foo], clientID=[myID], qgroup=[] durable=[]

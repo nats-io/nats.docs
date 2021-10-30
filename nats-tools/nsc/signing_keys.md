@@ -26,10 +26,7 @@ All signing key operations revolve around the global `nsc` flag `-K` or `--priva
 Creating the operator:
 
 ```bash
-nsc add operator O2
-```
-Output
-```text
+> nsc add operator O2
 [ OK ] generated and stored operator key "OABX3STBZZRBHMWMIMVHNQVNUG2O3D54BMZXX5LMBYKSAPDSHIWPMMFY"
 [ OK ] added operator "O2"
 ```
@@ -37,10 +34,7 @@ Output
 To add a signing key we have to first generate one with `nsc`:
 
 ```bash
-nsc generate nkey --operator --store
-```
-Output
-```text
+> nsc generate nkey --operator --store
 SOAEW6Z4HCCGSLZJYZQMGFQY2SY6ZKOPIAKUQ5VZY6CW23WWYRNHTQWVOA
 OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5
 operator key stored ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk
@@ -50,22 +44,16 @@ operator key stored ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUT
 
 Now we are going to edit the operator by adding a signing key with the `--sk` flag providing the generated operator public key \(the one starting with `O`\):
 
-```shell
-nsc edit operator --sk OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5
-```
-Output
 ```text
+> nsc edit operator --sk OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5
 [ OK ] added signing key "OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5"
 [ OK ] edited operator "O2"
 ```
 
 Check our handy work:
 
-```shell
-nsc describe operator
-```
-Output
 ```text
+> nsc describe operator
 ╭─────────────────────────────────────────────────────────────────────────╮
 │                            Operator Details                             │
 ├──────────────┬──────────────────────────────────────────────────────────┤
@@ -81,22 +69,16 @@ Output
 
 Now let’s create an account called `A` and sign it the generated operator private signing key. To sign it with the key specify the `-K` flag and the private key or a path to the private key:
 
-```shell
-nsc add account A -K ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk 
-```
-Output
 ```text
+> nsc add account A -K ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk 
 [ OK ] generated and stored account key "ACDXQQ6KD5MVSFMK7GNF5ARK3OJC6PEICWCH5PQ7HO27VKGCXQHFE33B"
 [ OK ] added account "A"
 ```
 
 Let’s generate an account signing key, again we use `nk`:
 
-```shell
-nsc generate nkey --account --store 
-```
-Output
 ```text
+> nsc generate nkey --account --store 
 SAAA4BVFTJMBOW3GAYB3STG3VWFSR4TP4QJKG2OCECGA26SKONPFGC4HHE
 ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7
 account key stored ~/.nkeys/keys/A/DU/ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7.nk
@@ -104,21 +86,13 @@ account key stored ~/.nkeys/keys/A/DU/ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKN
 
 Let’s add the signing key to the account, and remember to sign the account with the operator signing key:
 
-```shell
-nsc edit account --sk ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7 -K ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk
-```
-Output
-```text 
+```text
+> nsc edit account --sk ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7 -K ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk 
 [ OK ] added signing key "ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7"
 [ OK ] edited account "A"
-```
 
-Check the account
-```shell
-nsc describe account 
-```
-Output
-```text
+
+> nsc describe account 
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
 ├───────────────────────────┬──────────────────────────────────────────────────────────┤
@@ -148,23 +122,13 @@ We can see that the signing key `ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA
 
 Now let’s create a user and signing it with account signing key starting with `ABHYL27UAHHQ`.
 
-```shell
-nsc add user U -K ~/.nkeys/keys/A/DU/ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7.nk
-```
-Output
 ```text
+> nsc add user U -K ~/.nkeys/keys/A/DU/ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7.nk
 [ OK ] generated and stored user key "UD47TOTKVDY4IQRGI6D7XMLZPHZVNV5FCD4CNQICLV3FXLQBY72A4UXL"
 [ OK ] generated user creds file "~/.nkeys/creds/O2/A/U.creds"
 [ OK ] added user "U" to account "A"
-```
 
-Check the user
-
-```shell
-nsc describe user
-```
-Output
-```text
+> nsc describe user
 ╭─────────────────────────────────────────────────────────────────────────────────╮
 │                                      User                                       │
 ├──────────────────────┬──────────────────────────────────────────────────────────┤
@@ -194,65 +158,31 @@ To issue a user with a set of permissions, simply sign the user with the signing
 
 On connect, the nats-server will assign the permissions associated with that signing key to the user. If you update the permissions associated with a signing key, the server will immediately update permissions for users signed with that key.
 
-```shell
-nsc add account A
 ```
-Output
-```text
+> nsc add account A
 [ OK ] generated and stored account key "ADAOBX2SCSWJEQKXRJIQPTKNAKDWWSYJEKLKYWIJYVSAH6I3OKIPSTF7"
 [ OK ] added account "A"
 ...
-```
-
-Generate an nkey
-```shell
-nsc generate nkey -a --store
-```
-Output
-```text
+> nsc generate nkey -a --store
 ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN
 account key stored ...VJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN.nk
-```
 
-Set the key for the account
-```shell
-nsc edit account A --sk ADV7CZZQZEGO3ZJTHQJOGY2NQHJX76RSHPBXJVG2OWCCY7VCIQRSYX7B
-```
-Output
-```text
+> nsc edit account A --sk ADV7CZZQZEGO3ZJTHQJOGY2NQHJX76RSHPBXJVG2OWCCY7VCIQRSYX7B
 [ OK ] added signing key "ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN"
 [ OK ] edited account "A"
-```
 
-Set more things
-```shell
-nsc edit signing-key --account A --role service --sk ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN --allow-sub "q.>" --deny-pub ">" --allow-pub-response
-```
-Output
-```text
+> nsc edit signing-key --account A --role service --sk ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN --allow-sub "q.>" --deny-pub ">" --allow-pub-response
 [ OK ] set max responses to 1
 [ OK ] added deny pub ">"
 [ OK ] added sub "q.>"
 [ OK ] edited signing key "ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN"
-```
 
-Add a new user 'S'
-```shell
-nsc add user S -K ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN
-```
-Output
-```text
+> nsc add user S -K ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN
 [ OK ] generated and stored user key "UCLQNT6O5GF6DDWYCNSFHG64Q72XOMCDAAXGAYORM5FODM2FBJSIWDN4"
 [ OK ] generated user creds file `~/.nkeys/creds/O/A/S.creds`
 [ OK ] added user "S" to account "A"
-```
 
-Describe that new user
-```shell
-nsc describe user -a A -n S
-```
-Output
-```text
+> nsc describe user -a A -n S
 +---------------------------------------------------------------------------+
 |                                   User                                    |
 +----------------+----------------------------------------------------------+

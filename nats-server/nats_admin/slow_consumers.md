@@ -41,7 +41,7 @@ nc, err := nats.Connect("nats://localhost:4222",
 
 With this example code and default settings, a slow consumer error would generate output something like this:
 
-```text
+```bash
 error: nats: slow consumer, messages dropped
 Falling behind with 65536 pending messages on subject "foo".
 ```
@@ -54,7 +54,7 @@ When a client does not process messages fast enough, the server will buffer mess
 
 When the server initiates a slow consumer error, you'll see the following in the server output:
 
-```text
+```bash
 [54083] 2017/09/28 14:45:18.001357 [INF] ::1:63283 - cid:7 - Slow Consumer Detected
 ```
 

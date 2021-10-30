@@ -1,2 +1,0 @@
-# WARNING Deprecation Notice
-STAN (aka NATS Streaming) is being deprecated. Critical bug fixes and security fixes will be applied until June of 2023. NATS-enabled applications requiring persistence (streaming) should use [JetStream.](./jetstream/jetstream.md)

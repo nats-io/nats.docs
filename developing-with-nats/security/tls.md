@@ -9,7 +9,7 @@ Using TLS to connect to a server that verifies the client's identity is straight
 Use example certificates created in [self signed certificates for testing](../../nats-server/configuration/securing_nats/tls.md#creating-self-signed-certificates-for-testing).
 
 ```bash
-nats-server --tls --tlscert=server-cert.pem --tlskey=server-key.pem --tlscacert rootCA.pem --tlsverify
+> nats-server --tls --tlscert=server-cert.pem --tlskey=server-key.pem --tlscacert rootCA.pem --tlsverify
 ```
 
 {% tabs %}

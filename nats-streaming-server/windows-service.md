@@ -4,14 +4,14 @@ The NATS Streaming Server supports running as a Windows service. There is curren
 
 Here is how to create and start a NATS Streaming Server named `nats-streaming-server`. Note that the server flags should be passed in when creating the service.
 
-```shell
+```bash
 sc.exe create nats-streaming-server binPath="\"<streaming server path>\nats-streaming-server.exe\" [NATS Streaming flags]"
 sc.exe start nats-streaming-server
 ```
 
 You can create several instances, giving it a unique name. For instance, this is how you would create two services, named `nss1` and `nss2`, each one with its own set of parameters.
 
-```shell
+```text
 sc.exe create nss1 binPath="\"c:\nats-io\nats-streaming\nats-streaming-server.exe\" --syslog --syslog_name=nss1 -p 4222"
 
 sc.exe create nss2 binPath="\"c:\nats-io\nats-streaming\nats-streaming-server.exe\" --syslog --syslog_name=nss2 -p 4223"
@@ -21,14 +21,14 @@ By default, when no logfile is specified, the server will use the system log. Th
 
 Once the service is running, it can be controlled using `sc.exe` or `nats-streaming-server.exe -sl`:
 
-```shell
+```text
 REM Stop the server
 nats-streaming-server.exe -sl quit
 ```
 
 The above commands will default to controlling the service named `nats-streaming-server`. If the service has another name, it can be specified like this:
 
-```shell
+```text
 nats-streaming-server.exe -sl quit=<service name>
 ```
 

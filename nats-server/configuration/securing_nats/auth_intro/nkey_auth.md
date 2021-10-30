@@ -12,11 +12,8 @@ To generate nkeys, you'll need the [`nk` tool](../../../../nats-tools/nk.md).
 
 To generate a _User_ NKEY:
 
-```shell
-nk -gen user -pubout
-```
-Example output
 ```text
+> nk -gen user -pubout
 SUACSSL3UAHUDXKFSNVUZRF5UHPMWZ6BFDTJ7M6USDXIEDNPPQYYYCU3VY
 UDXU4RCSJNZOIQHZNWXHXORDPRTGNJAHAHFRGZNEEJCPQTT2M7NLCNF4
 ```

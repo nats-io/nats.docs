@@ -11,41 +11,19 @@ Let's look at an example. Suppose you created a user JWT with access to the subj
 `nsc` provides a number of commands to create, remove or list revocations:
 
 ```bash
-nsc revocations -h
-```
-Output
-```text
-Manage revocation for users and activations from an account
-
 Usage:
   nsc revocations [command]
 
 Available Commands:
-  add-user          Revoke a user
   add_activation    Revoke an accounts access to an export
-  delete-user       Remove a user revocation
+  add_user          Revoke a user
   delete_activation Remove an account revocation from an export
-  list-users        List users revoked in an account
+  delete_user       Remove a user revocation
   list_activations  List account revocations for an export
-
-Flags:
-  -h, --help   help for revocations
-
-Global Flags:
-  -i, --interactive          ask questions for various settings
-  -K, --private-key string   private key
-
-Use "nsc revocations [command] --help" for more information about a command.
+  list_users        List users revoked in an account
 ```
 
 Both add commands take the flag `--at` which defaults to 0, for now, which can be used to set the unix timestamp as described above. By default revocations are at the current time, but you can set them in the past for situations where you know when a problem occurred and was fixed.
 
 Deleting a revocation is permanent and can allow an old activation or user JWT to be valid again. Therefore delete should only be used if you are sure the tokens in question have expired.
 
-### Pushing the changes to the nats servers
-
-If your nats servers are configured to use the built-in NATS resolver, remember that you need to 'push' any account changes you may have done (locally) using `nsc revocations` to the servers for those changes to take effect.
-
-i.e. `ncs push -i` or `nsc push -a B -u nats://localhost`
-
-If there are any clients currently connected with as a user that gets added to the revocations, their connections will be immediately terminated as soon as you 'push' your revocations to a nats server.

@@ -34,9 +34,6 @@ Start the server:
 
 ```bash
 nats-server -c /tmp/server.conf
-```
-Output extract
-```text
 ...
 [5774] 2019/12/09 11:11:23.064276 [INF] Listening for leafnode connections on 0.0.0.0:7422
 ...
@@ -80,9 +77,6 @@ Start the leaf node server:
 
 ```bash
 nats-server -c /tmp/leaf.conf 
-```
-Output extract
-```text
 ....
 [3704] 2019/12/09 09:55:31.548308 [INF] Listening for client connections on 127.0.0.1:4111
 ...
@@ -93,9 +87,6 @@ Connect a client to the leaf server and make a request to 'q':
 
 ```bash
 nats-req -s nats://127.0.0.1:4111 q ""
-```
-Output
-```text
 Published [q] : ''
 Received  [_INBOX.Ua82OJamRdWof5FBoiKaRm.gZhJP6RU] : '42'
 ```
@@ -107,20 +98,10 @@ In this example, we connect a leaf node to [NGS](https://www.synadia.com). Leaf 
 Once you have the ngs tool installed, you can go ahead and import the synadia operator from ngs:
 
 ```bash
-nsc add operator -u synadia
-```
-Output
-```text
+> nsc add operator -u synadia
 [ OK ] imported operator "synadia"
-```
 
-Add (or create) an account named 'leaftest'
-
-```shell
-nsc add account leaftest
-```
-Output
-```text
+> nsc add account leaftest
 [ OK ] generated and stored account key "ACR4E2VU2ZC4GPTGOLL6GLO3WHUBBIQBM2JWOGRCEJJQEV6SVXL64JWD"
 [ OK ] push jwt to account server:
     [ OK ] pushed account jwt to the account server
@@ -134,10 +115,7 @@ Output
 In order to use leaf nodes, you'll have to upgrade the account to the developer plan. The developer plan has zero cost, but requires specifying an email and providing a credit card number:
 
 ```bash
-ngs edit
-```
-Output
-```text
+> ngs edit
 
 Please select your new plan. For a complete description of offerings,
 please visit our website at https://www.https://www.synadia.com/.
@@ -170,18 +148,10 @@ synadia account JWT to disk.
 Check your email, verify the email, and specify an credit card, after that:
 
 ```bash
-nsc pull
-```
-Output
-```text
+> nsc pull
 [ OK ] pulled "leaftest" from the account server
-```
-Show the account info
-```shell
-nsc describe account
-```
-Example output
-```text
+
+> nsc describe account
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
 ├───────────────────────────┬──────────────────────────────────────────────────────────┤
@@ -209,10 +179,7 @@ Example output
 Note the limits on the account, specify that the account can have up-to 2 leaf node connections. Let's use them:
 
 ```bash
-nsc add user leaftestuser
-```
-Example output
-```text
+> nsc add user leaftestuser
 [ OK ] generated and stored user key "UB5QBEU4LU7OR26JEYSG27HH265QVUFGXYVBRD7SVKQJMEFSZTGFU62F"
 [ OK ] generated user creds file "~/.nkeys/creds/synadia/leaftest/leaftestuser.creds"
 [ OK ] added user "leaftestuser" to account "leaftest"
@@ -236,10 +203,7 @@ The default port for leaf nodes is 7422, so we don't have to specify it.
 Let's start the leaf server:
 
 ```bash
-nats-server -c /tmp/ngs_leaf.conf 
-```
-Output
-```text
+> nats-server -c /tmp/ngs_leaf.conf 
 ...
 [4985] 2019/12/09 10:55:51.577569 [INF] Listening for client connections on 0.0.0.0:4222
 ...
@@ -255,10 +219,7 @@ nsc reply q 42
 And now let's make the request from the local host:
 
 ```bash
-nats-req q ""
-```
-Example output
-```text
+> nats-req q ""
 Published [q] : ''
 Received  [_INBOX.hgG0zVcVcyr4G5KBwOuyJw.uUYkEyKr] : '42'
 ```
