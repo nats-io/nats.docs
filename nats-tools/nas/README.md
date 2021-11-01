@@ -1,12 +1,18 @@
+## Usage Recommendation :warning:
+
+If you are creating a new NATS deployment we highly recommend using the internal
+[NATS Resolver](https://docs.nats.io/nats-server/configuration/securing_nats/jwt/resolver#nats-based-resolver)
+for a much simpler and easy to manage account resolution system.
+
+This account server, while being considered legacy, is still functional and still serves as a good reference to build upon for custom account resolution
+
 # nats-account-server
 
-The [NATS Account Server](https://github.com/nats-io/nats-account-server) is an HTTP server that hosts and vends [JWTs](../../nats-server/configuration/securing_nats/jwt/) for nats-server 2.0 account authentication. The server supports an number of stores which enable it to serve account [JWTs](../../nats-server/configuration/securing_nats/jwt/) from a [directory](nas_conf.md#directory-configuration)
+The standalone [NATS Account Server](https://github.com/nats-io/nats-account-server) is an HTTP server that hosts and vends [JWTs](../../nats-server/configuration/securing_nats/jwt/) for nats-server 2.0 account authentication. The server supports an number of stores which enable it to serve account [JWTs](../../nats-server/configuration/securing_nats/jwt/) from a [directory](nas_conf.md#directory-configuration)
 
-> The nats server can be configured with a [memory resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#memory) as well. This avoids usage of the account server. The NATS server can be configured with a [NATS based resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#nats-based-resolver) for the same purpose as well.
+> While the nats servers can be still configured to use a standalone NATS Account Server, this functionality is now deprecated and it is recommended that the servers should now be configured to use the built-in [full NATS based resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#nats-based-resolver) instead.
 >
-> Usage of [full NATS based resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#nats-based-resolver) over [NATS Account Server](https://github.com/nats-io/nats-account-server) is recommended.
->
-> The [NATS Account Server](https://github.com/nats-io/nats-account-server) also speaks the [full nats based resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#nats-based-resolver) protocol and can be used as such.
+> The standalone NATS Account Server also speaks the [full nats based resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#nats-based-resolver) protocol and can be used as such.
 
 The server can operate in a _READ ONLY_ mode where it serves content from a directory, or in [notification mode](notifications.md), where it can notify a NATS server that a JWT in the store has been modified, updating the NATS server with the updated JWT.
 

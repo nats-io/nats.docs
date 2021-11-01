@@ -27,8 +27,11 @@ tls: {
 
 Or by using [server options](../../flags.md#tls-options):
 
+```shell
+nats-server --tls --tlscert=./server-cert.pem --tlskey=./server-key.pem
+```
+Output
 ```text
-> nats-server --tls --tlscert=./server-cert.pem --tlskey=./server-key.pem
 [21417] 2019/05/16 11:21:19.801539 [INF] Starting nats-server version 2.0.0
 [21417] 2019/05/16 11:21:19.801621 [INF] Git commit [not set]
 [21417] 2019/05/16 11:21:19.801777 [INF] Listening for client connections on 0.0.0.0:4222
@@ -162,3 +165,39 @@ openssl x509 -noout -text -in server-cert.pem
 openssl x509 -noout -text -in client-cert.pem
 ```
 
+## TLS-Terminating Reverse Proxies
+
+Due to the nature of the TLS upgrade mechanism NATS uses, using a [TLS-terminating reverse proxy](https://en.wikipedia.org/wiki/TLS_termination_proxy) with NATS is not supported. However, there are workarounds that can be used in the client libraries to make it work.
+
+### nats.go
+
+Provide a [CustomDialer](https://github.com/nats-io/nats.go/blob/cd74bc037e7c4ec3e5dc4cbcd93b669c1f4e3778/nats.go#L217).
+
+### nats.java
+
+```java
+package io.nats.client.impl;
+
+public class TlsSocketDataPort extends SocketDataPort {
+  @Override
+  public void connect(String serverURI, NatsConnection conn, long timeoutNanos) throws IOException {
+    super.connect(serverURI, conn, timeoutNanos);
+    this.upgradeToSecure();
+  }
+}
+```
+
+```java
+Nats.connect(new Options.Builder()
+  .server(server)
+  .dataPortType("io.nats.client.impl.TlsSocketDataPort")
+  .build())
+```
+
+### nats.js
+
+See: <https://github.com/nats-io/nats.js/issues/369>
+
+### nats.rs
+
+Something around here: <https://github.com/nats-io/nats.rs/blob/master/src/connector.rs#L232>

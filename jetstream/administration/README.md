@@ -2,27 +2,11 @@
 
 Once the server is running it's time to use the management tool. This can be downloaded from the [GitHub Release Page](https://github.com/nats-io/natscli/releases/) or you can use the `natsio/nats-box:latest` docker image. On OS X homebrew can be used to install the latest version:
 
-```text
-$ brew tap nats-io/nats-tools
-$ brew install nats-io/nats-tools/nats
-$ nats --help
-usage: nats [<flags>] <command> [<args> ...]
-NATS Utility
-
-Flags:
-      --help                     Show context-sensitive help (also try --help-long and --help-man).
-      --version                  Show application version.
-  -s, --server="localhost:4222"  NATS servers
-      --creds=CREDS              User credentials
-      --tlscert=TLSCERT          TLS public certifcate
-      --tlskey=TLSKEY            TLS private key
-      --tlsca=TLSCA              TLS certifcate authority chain
-      --timeout=2s               Time to give JetStream to respond to queries
-
-Commands:
-  help [<command>...]
-    Show help.
- ...
+```shell
+brew tap nats-io/nats-tools
+brew install nats-io/nats-tools/nats
+nats --help
+nats cheat
 ```
 
 We'll walk through the above scenario and introduce features of the CLI and of JetStream as we recreate the setup above.

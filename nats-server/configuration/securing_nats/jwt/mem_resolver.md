@@ -12,16 +12,32 @@ The basic configuration for the server requires:
 
 Let's create the setup:
 
+```shell
+nsc add operator -n memory
+```
+Output
 ```text
-> nsc add operator -n memory
 Generated operator key - private key stored "~/.nkeys/memory/memory.nk"
 Success! - added operator "memory"
+```
 
-> nsc add account --name A
+Add an account 'A'
+```shell
+nsc add account --name A
+```
+Output
+```text
 Generated account key - private key stored "~/.nkeys/memory/accounts/A/A.nk"
 Success! - added account "A"
+```
 
-> nsc describe account -W
+Describe the account
+
+```shell
+nsc describe account -W
+```
+Output
+```text
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
 ├───────────────────────────┬──────────────────────────────────────────────────────────┤
@@ -43,8 +59,15 @@ Success! - added account "A"
 │ Imports                   │ None                                                     │
 │ Exports                   │ None                                                     │
 ╰───────────────────────────┴──────────────────────────────────────────────────────────╯
+```
 
-> nsc add user --name TA
+Create a new user 'TA'
+
+```shell
+nsc add user --name TA
+```
+Output
+```text
 Generated user key - private key stored "~/.nkeys/memory/accounts/A/users/TA.nk"
 Generated user creds file "~/.nkeys/memory/accounts/A/users/TA.creds"
 Success! - added user "TA" to "A"
@@ -54,15 +77,14 @@ Success! - added user "TA" to "A"
 
 The `nsc` tool can generate a configuration file automatically. You provide a path to the server configuration. The `nsc` tool will generate the server config for you:
 
-```text
-> nsc generate config --mem-resolver --config-file /tmp/server.conf 
-Success!! - generated "/tmp/server.conf"
+```shell
+nsc generate config --mem-resolver --config-file /tmp/server.conf 
 ```
 
 If you require additional settings, you may want to consider using [`include`](../../#include-directive) in your main configuration, to reference the generated files. Otherwise, you can start a server and reference the generated configuration:
 
-```text
-> nats-server -c /tmp/server.conf
+```shell
+nats-server -c /tmp/server.conf
 ```
 
 You can then [test it](mem_resolver.md#testing-the-configuration).
@@ -100,8 +122,8 @@ ACSU3Q6LTLBVLGAQUONAGXJHVNWGSKKAUA7IY5TB4Z7PLEKSR5O6JTGR: eyJ0eXAiOiJqd3QiLCJhbG
 
 Save the config at server.conf and start the server:
 
-```text
-> nats-server -c server.conf
+```shell
+nats-server -c server.conf
 ```
 
 You can then [test it](mem_resolver.md#testing-the-configuration).
@@ -110,8 +132,7 @@ You can then [test it](mem_resolver.md#testing-the-configuration).
 
 To test the configuration, simply use one of the standard tools:
 
-```text
-> nats-pub -creds ~/.nkeys/creds/memory/accounts/A/TA.creds hello world
-Published [hello] : 'world'
+```shell
+nats-pub -creds ~/.nkeys/creds/memory/accounts/A/TA.creds hello world
 ```
 

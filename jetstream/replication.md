@@ -26,8 +26,11 @@ A source can have Start Time or Start Sequence and can filter by a subject.
 
 The ORDERS and RETURNS streams as normal, I will not show how to create them.
 
+```shell
+nats s report
+```
+Example output
 ```text
-$ nats s report
 Obtaining Stream stats
 
 +---------+---------+----------+-----------+----------+-------+------+---------+----------------------+
@@ -40,8 +43,11 @@ Obtaining Stream stats
 
 We now add the ARCHIVE:
 
+```shell
+nats s add ARCHIVE --source ORDERS --source RETURNS
+```
+Output
 ```text
-$ nats s add ARCHIVE --source ORDERS --source RETURNS
 ? Storage backend file
 ? Retention Policy Limits
 ? Discard Policy Old
@@ -61,8 +67,11 @@ $ nats s add ARCHIVE --source ORDERS --source RETURNS
 
 And we add the REPORT:
 
+```shell
+nats s add REPORT --mirror ARCHIVE
+```
+Output
 ```text
-$ nats s add REPORT --mirror ARCHIVE
 ? Storage backend file
 ? Retention Policy Limits
 ? Discard Policy Old
@@ -79,8 +88,11 @@ $ nats s add REPORT --mirror ARCHIVE
 
 When configured we'll see some additional information in a `nats stream info` output:
 
+```shell
+nats stream info ARCHIVE
+``` 
+Output extract
 ```text
-$ nats stream info ARCHIVE
 ...
 Source Information:
 
@@ -107,8 +119,11 @@ Here the `Lag` is how far behind we were reported as being last time we saw a me
 
 We can confirm all our setup using a `nats stream report`:
 
+```shell
+nats s report
+```
+Output
 ```text
-$ nats s report
 +-------------------------------------------------------------------------------------------------------------------+
 |                                                   Stream Report                                                   |
 +---------+---------+----------+-------------+-----------+----------+-------+------+---------+----------------------+
@@ -133,15 +148,18 @@ $ nats s report
 
 We then create some data in both ORDERS and RETURNS:
 
-```text
-$ nats req ORDERS.new "ORDER {{Count}}" --count 100
-$ nats req RETURNS.new "RETURN {{Count}}" --count 100
+```shell
+nats req ORDERS.new "ORDER {{Count}}" --count 100
+nats req RETURNS.new "RETURN {{Count}}" --count 100
 ```
 
 We can now see from a Stream Report that the data has been replicated:
 
+```shell
+nats s report --dot replication.dot
+```
+Example output
 ```text
-$ nats s report --dot replication.dot
 Obtaining Stream stats
 
 +---------+---------+----------+-----------+----------+---------+------+---------+----------------------+

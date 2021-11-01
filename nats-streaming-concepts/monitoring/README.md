@@ -17,13 +17,13 @@ To enable monitoring via the configuration file, use `http: "host:port"` or `htt
 
 For example, after running this:
 
-```text
+```shell
 nats-streaming-server -m 8222
 ```
 
 you should see that the NATS Streaming server starts with the HTTP monitoring port enabled:
 
-```bash
+```text
 [19339] 2019/06/24 15:02:38.251091 [INF] STREAM: Starting nats-streaming-server[test-cluster] version 0.15.1
 [19339] 2019/06/24 15:02:38.251238 [INF] STREAM: ServerID: 0Z2HXClEM6BPsGaKcoHg5N
 [19339] 2019/06/24 15:02:38.251243 [INF] STREAM: Go version: go1.12
@@ -54,6 +54,9 @@ Confirm that the monitoring endpoint is enabled by sending a request:
 
 ```bash
 curl 127.0.0.1:8222/streaming/channelsz
+```
+Output
+```JSON
 {
   "cluster_id": "test-cluster",
   "server_id": "dXUsNRef1z25NpcFmZhBNj",

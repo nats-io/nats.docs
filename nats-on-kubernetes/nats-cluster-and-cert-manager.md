@@ -2,7 +2,7 @@
 
 First we need to install the cert-manager component from [jetstack](https://github.com/jetstack/cert-manager):
 
-```text
+```shell
 kubectl create namespace cert-manager
 kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
 kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.14.0/cert-manager.yaml
@@ -151,7 +151,7 @@ Confirm that the pods were deployed:
 kubectl get pods -o wide
 ```
 
-```bash
+```text
 NAME     READY   STATUS    RESTARTS   AGE   IP            NODE       NOMINATED NODE
 nats-1   1/1     Running   0          4s    172.17.0.8    minikube   <none>
 nats-2   1/1     Running   0          3s    172.17.0.9    minikube   <none>

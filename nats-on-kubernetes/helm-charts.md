@@ -2,7 +2,7 @@
 
 The NATS Helm charts can be used to deploy a StatefulSet of NATS servers using Helm templates which are easy to extend. Using Helm3 you can add the NATS Helm repo as follows:
 
-```text
+```shell
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm install my-nats nats/nats
 ```
@@ -92,7 +92,7 @@ cluster:
 Example:
 
 ```bash
-$ helm install nats nats/nats --set cluster.enabled=true
+helm install nats nats/nats --set cluster.enabled=true
 ```
 
 ## Leafnodes

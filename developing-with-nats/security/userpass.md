@@ -3,13 +3,16 @@
 For this example, start the server using:
 
 ```bash
-> nats-server --user myname --pass password
+nats-server --user myname --pass password
 ```
 
 You can encrypt passwords to pass to `nats-server` using a simple [tool](../../nats-tools/natscli.md):
 
 ```bash
-> nats server passwd
+nats server passwd
+```
+Output
+```text
 ? Enter password [? for help] **********************
 ? Reenter password [? for help] **********************
 

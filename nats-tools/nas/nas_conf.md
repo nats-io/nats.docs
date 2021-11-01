@@ -15,9 +15,12 @@ You can start a server using a plain directory. In this case you'll be responsib
 
 > The server looks for account JWTs by using the public key of the account as the file name followed by the extension `.jwt`. The server will not introspect the JWTs, so if you don't name the files correctly, it will fail to find them or serve a JWT that doesn't match the requested account.
 
-```text
-> mkdir /tmp/jwts
+```shell
+mkdir /tmp/jwts
 nats-account-server -dir /tmp/jwts
+```
+Output
+```text
 2019/05/10 11:33:40.501305 [INF] starting NATS Account server, version 0.0-dev
 2019/05/10 11:33:40.501383 [INF] server time is Fri May 10 11:33:40 CDT 2019
 2019/05/10 11:33:40.501404 [INF] creating a store at /tmp/jwts
@@ -111,14 +114,24 @@ Provided a setup with 4 accounts, one of them a system account, this example sho
 * configure a `nats-server` to make use of the account server
 * test the setup
 
+Set environment variables
 ```bash
-$ export NKEYS_PATH=$(pwd)/nsc/nkeys
-$ export NSC_HOME=$(pwd)/nsc/accounts
+export NKEYS_PATH=$(pwd)/nsc/nkeys
+export NSC_HOME=$(pwd)/nsc/accounts
+```
 
-# Setup script that creates a few sample accounts and a system account
-$ curl -sSL https://nats-io.github.io/k8s/setup/nsc-setup.sh | sh
+Run setup script that creates a few sample accounts and a system account
+```shell
+curl -sSL https://nats-io.github.io/k8s/setup/nsc-setup.sh | sh
+```
 
-$ nsc list accounts
+List all accounts
+
+```shell
+nsc list accounts
+```
+Output
+```text
 ╭─────────────────────────────────────────────────────────────────╮
 │                            Accounts                             │
 ├──────┬──────────────────────────────────────────────────────────┤
@@ -129,48 +142,75 @@ $ nsc list accounts
 │ STAN │ ABD4DPO745A5U2JKPWCI7LFGW4UCTN5LPUXDA5BCMXEYWLCU7J346NGU │
 │ SYS  │ AB25DCM6BL5SDWYR45F65MSVOVXATN64AZXGI7IGS3IXBPWWDB4FIR2H │
 ╰──────┴──────────────────────────────────────────────────────────╯
+```
 
-# Add the endpoint for the account server to which accounts can be published
-$ nsc edit operator --account-jwt-server-url http://localhost:9090/jwt/v1/ --service-url nats://localhost:4222
+Add the endpoint for the account server to which accounts can be published
+```shell
+nsc edit operator --account-jwt-server-url http://localhost:9090/jwt/v1/ --service-url nats://localhost:4222
+```
 
-# Generate account server config that references the operator jwt
-$ echo '
+Generate account server config that references the operator jwt
+
+```shell
+echo '
 operatorjwtpath: "./nsc/accounts/nats/KO/KO.jwt"
 
 http {
     port: 9090
 }
 ' > nats-account-server.conf
+```
 
-# Start the account server
-$ nats-account-server -c nats-account-server.conf &
+Start the account server
 
-# Upload the local accounts in the nsc directory structure
-$ nsc push -A
+```shell
+nats-account-server -c nats-account-server.conf &
+```
 
-# Generate the NATS Server config that points to the account server
-$ echo '
+Upload the local accounts in the nsc directory structure
+
+```shell
+nsc push -A
+```
+
+Generate the NATS Server config that points to the account server
+```shell
+echo '
 operator: "./nsc/accounts/nats/KO/KO.jwt"
 resolver: URL(http://localhost:9090/jwt/v1/accounts/)
 system_account: AB25DCM6BL5SDWYR45F65MSVOVXATN64AZXGI7IGS3IXBPWWDB4FIR2H
 ' > nats-server.conf
+```
 
-# Start the NATS Server in trusted operator mode
-$ nats-server -c nats-server.conf &
+Start the NATS Server in trusted operator mode
 
-# Try to subscribe on account without permissions, this should fail
-$ nats-sub -creds nsc/nkeys/creds/KO/A/test.creds foo
+```shell
+nats-server -c nats-server.conf &
+```
+
+Try to subscribe on account without permissions, this should fail
+
+```shell
+nats-sub -creds nsc/nkeys/creds/KO/A/test.creds foo
+```
+Output
+```text
 nats: Permissions Violation for Subscription to "foo"
+```
 
-# Subscribe then publish to subject should work on 'test' since enough permissions
-$ nats-sub -creds nsc/nkeys/creds/KO/A/test.creds test &
-Listening on [test]
+Subscribe then publish to subject should work on 'test' since enough permissions
 
-# Published message on 'test' subject would be received by started subscriber above
+```shell
+nats-sub -creds nsc/nkeys/creds/KO/A/test.creds test &
+```
+Published message on 'test' subject would be received by started subscriber above
+
+```shell
 $ nats-pub -creds nsc/nkeys/creds/KO/A/test.creds test foo &
-Listening on [test]
+```
 
-# Subscribe using the system account user credentials can receive all system events
-$ nats-sub -creds nsc/nkeys/creds/KO/SYS/sys.creds '>'
+Subscribe using the system account user credentials can receive all system events
+```shell
+nats-sub -creds nsc/nkeys/creds/KO/SYS/sys.creds '>'
 ```
 

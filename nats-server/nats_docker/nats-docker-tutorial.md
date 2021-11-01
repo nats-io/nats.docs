@@ -1,6 +1,6 @@
 # Tutorial
 
-In this tutorial you run the [NATS server Docker image](https://hub.docker.com/_/nats/). The Docker image provides an instance of the [NATS Server](../../). Synadia actively maintains and supports the nats-server Docker image. The NATS image is only 6 MB in size.
+In this tutorial you run the [NATS server Docker image](https://hub.docker.com/_/nats/). The Docker image provides an instance of the [NATS Server](/nats-server/). Synadia actively maintains and supports the nats-server Docker image. The NATS image is only 6 MB in size.
 
 **1. Set up Docker.**
 
@@ -11,14 +11,14 @@ The easiest way to run Docker is to use the [Docker Toolbox](http://docs.docker.
 **2. Run the nats-server Docker image.**
 
 ```bash
-> docker run -p 4222:4222 -p 8222:8222 -p 6222:6222 --name nats-server -ti nats:latest
+docker run -p 4222:4222 -p 8222:8222 -p 6222:6222 --name nats-server -ti nats:latest
 ```
 
 **3. Verify that the NATS server is running.**
 
 You should see the following:
 
-```bash
+```text
 Unable to find image 'nats:latest' locally
 latest: Pulling from library/nats
 2d3d00b0941f: Pull complete 
@@ -29,7 +29,7 @@ Status: Downloaded newer image for nats:latest
 
 Followed by this, indicating that the NATS server is running:
 
-```bash
+```text
 [1] 2019/06/01 18:34:19.605144 [INF] Starting nats-server version 2.0.0
 [1] 2019/06/01 18:34:19.605191 [INF] Starting http monitor on 0.0.0.0:8222
 [1] 2019/06/01 18:34:19.605286 [INF] Listening for client connections on 0.0.0.0:4222
@@ -44,12 +44,12 @@ Notice how quickly the NATS server Docker image downloads. It is a mere 6 MB in 
 An easy way to test the client connection port is through using telnet.
 
 ```bash
-> telnet localhost 4222
+telnet localhost 4222
 ```
 
 Expected result:
 
-```bash
+```text
 Trying ::1...
 Connected to localhost.
 Escape character is '^]'.

@@ -19,6 +19,9 @@ This will then generate something like the following:
 
 ```bash
  nsc list accounts
+ ```
+Output
+```text
 ╭─────────────────────────────────────────────────────────────────╮
 │                            Accounts                             │
 ├──────┬──────────────────────────────────────────────────────────┤
@@ -28,8 +31,11 @@ This will then generate something like the following:
 │ B    │ ACWOMQA7PZTKJSBTR7BF6TBK3D776734PWHWDKO7HFMQOM5BIOYPSYZZ │
 │ SYS  │ ABKOWIYVTHNEK5HELPWLAT2CF2CUPELIK4SZH2VCJHLFU22B5U2IIZUO │
 ╰──────┴──────────────────────────────────────────────────────────╯
-
+```
+```shell
  nsc list users -a A
+ ```
+```text
 ╭─────────────────────────────────────────────────────────────────╮
 │                              Users                              │
 ├──────┬──────────────────────────────────────────────────────────┤
@@ -74,7 +80,7 @@ accounts {
 
 By using `nsc` it is possible to create a mem based resolver for the trusted operator setup:
 
-```text
+```shell
 nsc generate config --mem-resolver --sys-account SYS
 ```
 

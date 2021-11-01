@@ -10,13 +10,13 @@ We provide 2 files \(`scripts/mysql.db.sql` and `scripts/postgres.db.sql`\) that
 
 Here is an example of creating an user `nss` with password `password` for the MySQL database:
 
-```text
+```shell
 mysql -u root -e "CREATE USER 'nss'@'localhost' IDENTIFIED BY 'password'; GRANT ALL PRIVILEGES ON *.* TO 'nss'@'localhost'; CREATE DATABASE nss_db;"
 ```
 
 The above gives all permissions to user `nss`. Once this user is created, we can then create the tables using this user and selecting the `nss_db` database. We then execute all the SQL statements creating the tables from the sql file that is provided in this repo:
 
-```text
+```shell
 mysql -u nss -p -D nss_db -e "$(cat ./scripts/mysql.db.sql)"
 ```
 
@@ -24,37 +24,37 @@ mysql -u nss -p -D nss_db -e "$(cat ./scripts/mysql.db.sql)"
 
 Run a local dockerized instance of postgres if you do not already have one:
 
-```text
+```shell
 ID=$(docker run -d -e POSTGRES_PASSWORD=password -p 5432:5432 postgres)
 ```
 
 \[Optional\] Drop any previous tables to clear data from previous sessions:
 
-```text
+```shell
 cat scripts/drop_postgres.db.sql | docker exec -i $ID psql -h 127.0.1.1 -U postgres
 ```
 
 Run the appropriate database migrations for Postgres:
 
-```text
+```shell
 cat scripts/postgres.db.sql | docker exec -i $ID psql -h 127.0.1.1 -U postgres
 ```
 
 Capture the hostname/IP of Postgres:
 
-```text
+```shell
 export DOCKER_BRIDGE_IP=$(docker inspect --format '{{(index .IPAM.Config 0).Gateway}}' bridge)
 ```
 
 Run the nats streaming server with postgres at the `sql_source`:
 
-```text
+```shell
 docker run -d --name nats-streaming -p 4222:4222 -p 8222:8222 nats-streaming -m 8222 --store sql --sql_driver postgres --sql_source="user=postgres password=password host=$DOCKER_BRIDGE_IP port=5432 sslmode=disable"
 ```
 
 Note that if you want to enable debug and tracing you can pass the `-SDV` option to the command line. You may not want to leave this setting on in production because it can be too verbose and affect performance.
 
-```text
+```shell
 docker run -d (..) nats-streaming -SDV -m 8222 --store ...
 ```
 
@@ -66,13 +66,13 @@ To mitigate that, you can pass `readTimeout` and `writeTimeout` options to the `
 
 Here is what a `sql_source` would look like for `MySQL` driver:
 
-```text
+```shell
 nats-streaming-server -store sql -sql_driver mysql -sql_source "nss:password@/nss_db?readTimeout=5s&writeTimeout=5s" ..
 ```
 
 Or, for `Postgres` driver:
 
-```text
+```shell
 nats-streaming-server -store sql -sql_driver postgres -sql_source "dbname=nss_db readTimeout=5s writeTimeout=5s sslmode=disable" ..
 ```
 

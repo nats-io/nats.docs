@@ -122,7 +122,7 @@ First we generate the certificates for the server.
 
 We will also be setting up TLS for the full mesh routes.
 
-```javascript
+```json
 {
     "CN": "nats.io",
     "hosts": [
@@ -160,7 +160,7 @@ We will also be setting up TLS for the full mesh routes.
 
 ### Generating the certs for the clients \(CNCF && ACME\)
 
-```javascript
+```json
 {
     "CN": "nats.io",
     "hosts": [""],
@@ -192,7 +192,7 @@ cd certs kubectl create secret generic nats-tls-example --from-file=ca.pem --fro
 
 ### Create the Auth secret
 
-```javascript
+```json
 {
   "users": [
     { "username": "CN=nats.io,OU=ACME" },
@@ -378,7 +378,7 @@ docker push wallyqs/nats-client-app
 
 #### Pod spec
 
-```text
+```shell
 echo ' apiVersion: apps/v1beta2 kind: Deployment
 
 ## The name of the deployment
