@@ -22,7 +22,7 @@ The configuration parser is very forgiving, as you have seen:
 
 * values can be a primitive, or a list, or a map
 * strings and numbers typically do the right thing
-* numbers support units such as, 1K for 1000, 1Kb for 1024
+* numbers support units such as, 1K for 1000, 1KB for 1024
 
 String values that start with a digit _can_ create issues. To force such values as strings, quote them.
 
@@ -135,8 +135,8 @@ authorization: {
 | Property | Description | Default |
 | :--- | :--- | :--- |
 | `max_connections` | Maximum number of active client connections. | `64K` |
-| `max_control_line` | Maximum length of a protocol line \(including combined length of subject and queue group\). Increasing this value may require [client changes](../../developing-with-nats/connecting/misc.md#set-the-maximum-control-line-size) to be used. Applies to all traffic. | `4Kb` |
-| `max_payload` | Maximum number of bytes in a message payload. Reducing this size may force you to implement [chunking](../../developing-with-nats/connecting/misc.md#get-the-maximum-payload-size) in your clients. Applies to client and leafnode payloads. It is not recommended to use values over 8Mb but `max_payload` can be set up to 64Mb. | `1Mb` |
+| `max_control_line` | Maximum length of a protocol line \(including combined length of subject and queue group\). Increasing this value may require [client changes](../../developing-with-nats/connecting/misc.md#set-the-maximum-control-line-size) to be used. Applies to all traffic. | `4KB` |
+| `max_payload` | Maximum number of bytes in a message payload. Reducing this size may force you to implement [chunking](../../developing-with-nats/connecting/misc.md#get-the-maximum-payload-size) in your clients. Applies to client and leafnode payloads. It is not recommended to use values over 8MB but `max_payload` can be set up to 64MB. | `1MB` |
 | `max_pending` | Maximum number of bytes buffered for a connection Applies to client connections. | `64Mb` |
 | `max_subscriptions` | Maximum numbers of subscriptions per client and leafnode accounts connection. | `0`, unlimited |
 
