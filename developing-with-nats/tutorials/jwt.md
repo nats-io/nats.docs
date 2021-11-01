@@ -103,32 +103,21 @@ accounts: {
 
 Messages published in one account won't be received in another.
 
-Listen for any message on account `a`
-```shell
-nats -s nats://a:a@localhost:4222 sub ">"
-```
-
-Publish a message from account `b`
-```shell
-nats -s nats://b:b@localhost:4222 pub "foo" "user b"
-```
-
-Note that you do not see this message received by your subscriber
-
-Now publish a messages from account `a`
-```shell
-nats -s nats://a:a@localhost:4222 pub "foo" "user a"
-```
-
-This time the message is received by the subscriber
 ```text
+> nats -s nats://a:a@localhost:4222 sub ">" &
+[1] 28199
+17:56:40 Subscribing on >
+> nats -s nats://b:b@localhost:4222 pub "foo" "user b"
+17:56:56 Published 6 bytes to "foo"
+> nats -s nats://a:a@localhost:4222 pub "foo" "user a"
 17:57:06 [#1] Received on "foo"
 user a
+
+17:57:06 Published 6 bytes to "foo"
+>
 ```
 
-The above example shows no message flow between user `a` associated with account `A` and user `b` in account `B`. Messages are delivered only within the same account. That is, unless you explicitly define it.
-
-Below is a similar example, this time with messages crossing explicit account boundaries.
+As indicated by the absence of a `Received on` print, the above example shows no message flow between user `a` associated with account `A` and user `b` in account `B`. Messages are delivered only within the same account. That is, unless you explicitly define it.
 
 ```text
 accounts: {
@@ -143,20 +132,23 @@ accounts: {
 }
 ```
 
-Subscribe to everything as user 'a'
-```shell
-nats -s nats://a:a@localhost:4222 sub ">"
-```
+Here is a similar example, this time with messages crossing explicit account boundaries.
 
-Publish on 'foo' as user 'b'
-```shell
-nats -s nats://b:b@localhost:4222 pub "foo" "user b"
-```
-
-This time the message is received by the subscriber
 ```text
+> nats -s nats://a:a@localhost:4222 sub ">" &
+[1] 28552
+18:28:18 Subscribing on >
+> nats -s nats://b:b@localhost:4222 pub "foo" "user b"
 18:28:25 [#1] Received on "foo"
 user b
+
+18:28:25 Published 6 bytes to "foo"
+> nats -s nats://a:a@localhost:4222 pub "foo" "user a"
+18:28:30 [#2] Received on "foo"
+user a
+
+18:28:30 Published 6 bytes to "foo"
+>
 ```
 
 Accounts are a lot more powerful than what has been demonstrated here. Take a look at the complete documentation of [accounts](../../nats-server/configuration/securing_nats/accounts.md#accounts) and the [users](../../nats-server/configuration/securing_nats/auth_intro/) associated with them. All of this is in a plain NATS config file. \(Copy the above config and try it using this command: `nats-server -c <filename>`\) In order to make any changes, every participating nats-server config file in the same security domain has to change. This configuration is typically controlled by one organization or the administrator.
@@ -185,33 +177,16 @@ To assist with knowing what type of key one is looking at, in config or logs, th
 
 NKEYs are generated as follows:
 
-```shell
-nk -gen user -pubout > a.nk
-```
-
-To view the key
-```shell
-cat a.nk
-```
-Output
 ```text
+> nk -gen user -pubout > a.nk
+> cat a.nk
 SUAAEZYNLTEA2MDTG7L5X7QODZXYHPOI2LT2KH5I4GD6YVP24SE766EGPA
 UC435ZYS52HF72E2VMQF4GO6CUJOCHDUUPEBU7XDXW5AQLIC6JZ46PO5
-```
-
-Create another key
-```shell
-nk -gen user -pubout > b.nk
-```
-
-View the key
-```shell
-cat b.nk
-```
-Output
-```text
+> nk -gen user -pubout > b.nk
+> cat b.nk
 SUANS4XLL5NWBTM57GSVHLN4TMFW55WGGWNI5YXXSIOYFJQYFVNHJK5GFY
 UARZVI6JAV7YMJTPRANXANOOW4K3ZCD45NYP6S7C7XKCBHPVN2TFZ7ZC
+>
 ```
 
 Replacing the user/password with NKEY in account config example:
@@ -231,9 +206,17 @@ accounts: {
 
 Simple example:
 
-Subscribe with `nats -s nats://localhost:4222 sub --nkey=a.nk ">"`
+```text
+> nats -s nats://localhost:4222 sub --nkey=a.nk ">"  &
+[1] 94745
+11:50:41 Subscribing on >
+>nats -s nats://localhost:4222 pub --nkey=b.nk "foo" "nkey"
+11:56:30 [#1] Received on "foo"
+nkey
 
-Publish a message using `>nats -s nats://localhost:4222 pub --nkey=b.nk "foo" "nkey"` the subscriber should receive it.
+11:56:30 Published 4 bytes to "foo"
+>
+```
 
 When the nats-server was started with `-V` tracing, you can see the signature in the `CONNECT` message \(formatting added manually\).
 
@@ -371,11 +354,8 @@ This is a conceptual view. While all these checks happen, the results of earlier
 
 Below are examples of decoded JWT. \(`iss` == `issuer`, `sub` == `subject`, `iat` == `issuedAt`\)
 
-```shell
-nsc describe operator --json
-```
-Output
 ```text
+> nsc describe operator --json
 {
  "iat": 1603473819,
  "iss": "OBU5O5FJ324UDPRBIVRGF7CNEOHGLPS7EYPBTVQZKSBHIIZIB6HD66JF",
@@ -683,11 +663,8 @@ To import the system account user needed for administrative purposes as well as 
 
 As a result of these operations, your operator environment should have these keys and signing keys:
 
-```shell
-nsc list keys --all
-```
-Output
 ```text
+> nsc list keys --all
 +------------------------------------------------------------------------------------------------+
 |                                              Keys                                              |
 +--------------+----------------------------------------------------------+-------------+--------+
@@ -704,11 +681,8 @@ Output
 
 And your account should have the following ones:
 
-```shell
-nsc list keys --all
-```
-Output
 ```text
+> nsc list keys --all
 +------------------------------------------------------------------------------------------------+
 |                                              Keys                                              |
 +--------------+----------------------------------------------------------+-------------+--------+
@@ -761,33 +735,22 @@ This is a quick demo of the nats-based resolver from operator creation to publis
 
 Operator Setup
 
-```shell
-nsc add operator -n DEMO --sys
-```
-Output
 ```text
+> nsc add operator -n DEMO --sys
 [ OK ] generated and stored operator key "ODHUVOUVUA3XIBV25XSQS2NM2UN4IKJYLAMCGLWRFAV7F7KUWADCM4K6"
 [ OK ] added operator "DEMO"
 [ OK ] created system_account: name:SYS id:AA6W5MRDIFIQWE6UE6D4YWQT5L4YZG7ZRHSKYCPF2VIEMUHRZH3VQZ27
 [ OK ] created system account user: name:sys id:UABM73CE5F3ZYFNC3ZDODAF7GIB62W2WXV5DOLMYLGEW4MEHYBC46PN4
 [ OK ] system account user creds file stored in `~/test/demo/env1/keys/creds/DEMO/SYS/sys.creds`
-```
-```shell
-nsc edit operator --account-jwt-server-url nats://localhost:4222
-```
-Output
-```text
+> nsc edit operator --account-jwt-server-url nats://localhost:4222
 [ OK ] set account jwt server url to "nats://localhost:4222"
 [ OK ] edited operator "DEMO"
 ```
 
 Inspect the setup
 
-```shell
-nsc list keys --all
-```
-Output
 ```text
+> nsc list keys --all
 +------------------------------------------------------------------------------------------+
 |                                           Keys                                           |
 +--------+----------------------------------------------------------+-------------+--------+
@@ -836,12 +799,9 @@ Output
 
 Generate the config and start the server in the background. Also, inspect the generated config. It consists of the mandatory operator, explicitly lists the system account and corresponding JWT.
 
-```shell
-nsc generate config --nats-resolver > nats-res.cfg
-nats-server -c nats-res.cfg --addr localhost --port 4222 &
-```
-Output
 ```text
+> nsc generate config --nats-resolver > nats-res.cfg
+> nats-server -c nats-res.cfg --addr localhost --port 4222 &
 [2] 30129
 [30129] 2020/11/04 14:30:14.062132 [INF] Starting nats-server version 2.2.0-beta.26
 [30129] 2020/11/04 14:30:14.062215 [INF] Git commit [not set]
@@ -861,32 +821,21 @@ Output
 
 Add an account and a user for testing.
 
-```shell
-nsc add account -n TEST
-```
-Output
 ```text
+> nsc add account -n TEST
 [ OK ] generated and stored account key "ADXDDDR2QJNNOSZZX44C2HYBPRUIPJSQ5J3YG2XOUOOEOPOBNMMFLAIU"
 [ OK ] added account "TEST"
-```
-```shell
-nsc add user -a TEST -n foo
-```
-Output
-```
+> nsc add user -a TEST -n foo
 [ OK ] generated and stored user key "UA62PGBNKKQQWDTILKP5U4LYUYF3B6NQHVPNHLS6IZIPPQH6A7XSRWE2"
 [ OK ] generated user creds file `/DEMO/TEST/foo.creds`
 [ OK ] added user "foo" to account "TEST"
+>
 ```
 
 Without having pushed the account the user can't be used yet.
 
-```shell
-nats -s nats://localhost:4222 pub --creds=/DEMO/TEST/foo.creds  "hello" "world"
-```
-
-Doesn't work
 ```text
+> nats -s nats://localhost:4222 pub --creds=/DEMO/TEST/foo.creds  "hello" "world"
 nats: error: read tcp 127.0.0.1:60061->127.0.0.1:4222: i/o timeout, try --help
 [9174] 2020/11/05 16:49:34.331078 [WRN] Account [ADI4H2XRYMT5ENVBBS3UKYC2FBLGB3NF4VV5L57HUZIO4AMYROB4LMYF] fetch took 2.000142625s
 [9174] 2020/11/05 16:49:34.331123 [WRN] Account fetch failed: fetching jwt timed out
@@ -896,21 +845,13 @@ nats: error: read tcp 127.0.0.1:60061->127.0.0.1:4222: i/o timeout, try --help
 
 Push the account, or push all accounts
 
-```shell
-nsc push -a TEST
-```
-Output
 ```text
+> nsc push -a TEST
 [ OK ] push to nats-server "nats://localhost:4222" using system account "SYS" user "sys":
        [ OK ] push TEST to nats-server with nats account resolver:
               [ OK ] pushed "TEST" to nats-server NBQ6AG5YIRC6PRCUPCAUSVCSCQWAAWW2XQXIM6UPW5AFPGZBUKZJTRRS: jwt updated
               [ OK ] pushed to a total of 1 nats-server
-```              
-```shell
-nsc push --all
-```           
-Output
-```text
+> nsc push --all
 [ OK ] push to nats-server "nats://localhost:4222" using system account "SYS" user "sys":
        [ OK ] push SYS to nats-server with nats account resolver:
               [ OK ] pushed "SYS" to nats-server NBENVYIBPNQGYVP32Y3P6WLGBOISORNAZYHA6SCW6LTBE42ORTIQMWHX: jwt updated
@@ -924,8 +865,10 @@ For the NATS resolver, each `nats-server` that responds will be listed. In case 
 
 Once the account is pushed, its user can be used:
 
-```shell
-nats -s nats://localhost:4222 pub --creds=/DEMO/TEST/foo.creds  "hello" "world"
+```text
+> nats -s nats://localhost:4222 pub --creds=/DEMO/TEST/foo.creds  "hello" "world"
+16:50:51 Published 5 bytes to "hello"
+>
 ```
 
 ### Setup User
@@ -1438,12 +1381,10 @@ In order to be independent of subject names chosen by the exporter, importing al
 
 This example will change the subject name the importing account uses locally from the exporter picked subject `foo` to `bar`.
 
-```shell
-nsc add import --account test --src-account ACJ6G45BE7LLOFCVAZSZR3RY4XELXQ32BOQRI7KQMQLICXXXJRP4P45Q --remote-subject blo --local-subject bar
-```
-Output
 ```text
+> nsc add import --account test --src-account ACJ6G45BE7LLOFCVAZSZR3RY4XELXQ32BOQRI7KQMQLICXXXJRP4P45Q --remote-subject blo --local-subject bar
 [ OK ] added stream import "blo"
+>
 ```
 
 #### **Visualizing Export/Import Relationships**
@@ -1506,18 +1447,10 @@ JWTs for user, activations and accounts can be explicitly revoked. Furthermore, 
 
 To revoke all JWTs for a user in a account issue `nsc revocations add-user --account <account name> --name <user name>`. With the argument `--at` you can specify a time different than now. Use `nsc revocations list-users --account <account name>` to inspect the result or `nsc revocations delete-user --account <account name> --name <user name>` to remove the revocation.
 
-```shell
-nsc revocations add-user --account SYS --name sys
-```
-Output
 ```text
+> nsc revocations add-user --account SYS --name sys
 [ OK ] revoked user "UCL5YXXUKCEO4HDTTYUOHDMHP4JJ6MGE3SVQBDWFZUGJUMUKE24DEUCU"
-```
-```shell
-nsc revocations list-users
-```
-Output
-```text
+> nsc revocations list-users
 +------------------------------------------------------------------------------------------+
 |                                 Revoked Users for test5                                  |
 +----------------------------------------------------------+-------------------------------+
@@ -1533,19 +1466,10 @@ Please note that the revocation created only applies to JWTs issued before the t
 
 To revoke all activations of the export, identified by `--account` and `--subject` \(`--stream` if the export is a stream\), issued for a given Account identity NKEY use: `nsc revocations add-activation --account <account name> --subject <export name> --target-account <account identity public NKEY>` Use `nsc revocations list-activations --account SYS` to inspect the result or `nsc revocations delete_activation --account <account name> --subject <export name> --target-account <account identity public NKEY>` to remove the revocation.
 
-```shell
-nsc revocations add-activation --account SYS --subject foo --target-account AAUDEW26FB4TOJAQN3DYMDLCVXZMNIJWP2EMOAM5HGKLF6RGMO2PV7WP
-```
-Output
 ```text
+> nsc revocations add-activation --account SYS --subject foo --target-account AAUDEW26FB4TOJAQN3DYMDLCVXZMNIJWP2EMOAM5HGKLF6RGMO2PV7WP
 [ OK ] revoked activation "foo" for account AAUDEW26FB4TOJAQN3DYMDLCVXZMNIJWP2EMOAM5HGKLF6RGMO2PV7WP
-```
-
-```shell
-nsc revocations list-activations --account SYS
-```
-Output
-```text
+> nsc revocations list-activations --account SYS
 +------------------------------------------------------------------------------------------+
 |                             Revoked Accounts for stream foo                              |
 +----------------------------------------------------------+-------------------------------+

@@ -39,7 +39,7 @@ Proper usage of the NATS Streaming Server requires the use of both client and se
 For example:
 
 ```bash
-nats-streaming-server -tls_client_cert client-cert.pem -tls_client_key client-key.pem -tls_client_cacert ca.pem -tlscert server-cert.pem -tlskey server-key.pem -tlscacert ca.pem
+% nats-streaming-server -tls_client_cert client-cert.pem -tls_client_key client-key.pem -tls_client_cacert ca.pem -tlscert server-cert.pem -tlskey server-key.pem -tlscacert ca.pem
 ```
 
 Further TLS related functionality can be found in [Securing NATS &gt; TLS](../../nats-server/configuration/securing_nats/tls.md). Note that if specifying cipher suites is required, a configuration file for the embedded NATS server can be passed through the `-config` command line parameter.
@@ -51,10 +51,8 @@ If that is the case, it is not necessary to configure the server-side TLS parame
 However, NATS Streaming Server uses the NATS Server command line parsing code and currently would not allow specifying the client-side parameters alone. The server would fail to start with a message similar to this:
 
 ```bash
-nats-streaming-server -tls_ca_cert test/certs/ca.pem
-```
-Output
-```text
+$ nats-streaming-server -tls_ca_cert test/certs/ca.pem
+
 TLS Server certificate must be present and valid
 ```
 
@@ -71,6 +69,6 @@ streaming {
 And then start the server with this configuration file:
 
 ```bash
-nats-streaming-server -c c.conf
+$ nats-streaming-server -c c.conf
 ```
 

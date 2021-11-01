@@ -8,11 +8,8 @@ The `NEW` and `DISPATCH` Consumers are pull-based, meaning the services consumin
 
 Pull-based Consumers are created the same as push-based Consumers, you just don't specify a delivery target.
 
-```shell
-nats con ls ORDERS
-```
-Output
 ```text
+$ nats con ls ORDERS
 No Consumers defined
 ```
 
@@ -20,11 +17,8 @@ We have no Consumers, lets add the `NEW` one:
 
 I supply the `--sample` options on the CLI as this is not prompted for at present, everything else is prompted. The help in the CLI explains each:
 
-```shell
-nats con add --sample 100
-```
-Output
 ```text
+$ nats con add --sample 100
 ? Select a Stream ORDERS
 ? Consumer name NEW
 ? Delivery target
@@ -62,25 +56,22 @@ A Maximum Delivery limit of 20 is set, this means if the message is not acknowle
 
 Again this can all be done in a single CLI call, lets make the `DISPATCH` Consumer:
 
-```shell
-nats con add ORDERS DISPATCH --filter ORDERS.processed --ack explicit --pull --deliver all --sample 100 --max-deliver 20
+```text
+$ nats con add ORDERS DISPATCH --filter ORDERS.processed --ack explicit --pull --deliver all --sample 100 --max-deliver 20
 ```
 
 Additionally, one can store the configuration in a JSON file, the format of this is the same as `$ nats con info ORDERS DISPATCH -j | jq .config`:
 
-```shell
-nats con add ORDERS MONITOR --config monitor.json
+```text
+$ nats con add ORDERS MONITOR --config monitor.json
 ```
 
 ## Creating Push-Based Consumers
 
 Our `MONITOR` Consumer is push-based, has no ack and will only get new messages and is not sampled:
 
-```shell
-nats con add
-```
-Ouptput
 ```text
+$ nats con add
 ? Select a Stream ORDERS
 ? Consumer name MONITOR
 ? Delivery target monitor.ORDERS
@@ -110,25 +101,22 @@ State:
 
 Again you can do this with a single non-interactive command:
 
-```shell
-nats con add ORDERS MONITOR --ack none --target monitor.ORDERS --deliver last --replay instant --filter ''
+```text
+$ nats con add ORDERS MONITOR --ack none --target monitor.ORDERS --deliver last --replay instant --filter ''
 ```
 
 Additionally one can store the configuration in a JSON file, the format of this is the same as `$ nats con info ORDERS MONITOR -j | jq .config`:
 
-```shell
-nats con add ORDERS --config monitor.json
+```text
+$ nats con add ORDERS --config monitor.json
 ```
 
 ## Listing
 
 You can get a quick list of all the Consumers for a specific Stream:
 
-```shell
-nats con ls ORDERS
-```
-Output
 ```text
+$ nats con ls ORDERS
 Consumers for Stream ORDERS:
 
         DISPATCH
@@ -172,30 +160,22 @@ Pull-based Consumers require you to specifically ask for messages and ack them, 
 
 First, we ensure we have a message:
 
-```shell
-nats pub ORDERS.processed "order 1"
-nats pub ORDERS.processed "order 2"
-nats pub ORDERS.processed "order 3"
+```text
+$ nats pub ORDERS.processed "order 1"
+$ nats pub ORDERS.processed "order 2"
+$ nats pub ORDERS.processed "order 3"
 ```
 
 We can now read them using `nats`:
 
-```shell
-nats con next ORDERS DISPATCH
-```
-Output
 ```text
+$ nats con next ORDERS DISPATCH
 --- received on ORDERS.processed
 order 1
 
 Acknowledged message
-```
-Consumer another one
-```shell
-nats con next ORDERS DISPATCH
-```
-Output
-```text
+
+$ nats con next ORDERS DISPATCH
 --- received on ORDERS.processed
 order 2
 
@@ -206,11 +186,8 @@ You can prevent ACKs by supplying `--no-ack`.
 
 To do this from code you'd send a `Request()` to `$JS.API.CONSUMER.MSG.NEXT.ORDERS.DISPATCH`:
 
-```shell
-nats req '$JS.API.CONSUMER.MSG.NEXT.ORDERS.DISPATCH' ''
-```
-Output
 ```text
+$ nats req '$JS.API.CONSUMER.MSG.NEXT.ORDERS.DISPATCH' ''
 Published [$JS.API.CONSUMER.MSG.NEXT.ORDERS.DISPATCH] : ''
 Received [ORDERS.processed] : 'order 3'
 ```
@@ -221,11 +198,8 @@ Here `nats req` cannot ack, but in your code you'd respond to the received messa
 
 Push-based Consumers will publish messages to a subject and anyone who subscribes to the subject will get them, they support different Acknowledgement models covered later, but here on the `MONITOR` Consumer we have no Acknowledgement.
 
-```shell
-nats con info ORDERS MONITOR
-```
-Output extract
 ```text
+$ nats con info ORDERS MONITOR
 ...
   Delivery Subject: monitor.ORDERS
 ...
@@ -233,11 +207,8 @@ Output extract
 
 The Consumer is publishing to that subject, so let's listen there:
 
-```shell
-nats sub monitor.ORDERS
-```
-Output
 ```text
+$ nats sub monitor.ORDERS
 Listening on [monitor.ORDERS]
 [#3] Received on [ORDERS.processed]: 'order 3'
 [#4] Received on [ORDERS.processed]: 'order 4'

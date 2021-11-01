@@ -6,7 +6,7 @@ In production we recommend that a server is shut down with ​lame duck mode​ 
 
 Lame duck mode is initiated by signaling the server:
 
-```shell
+```text
 nats-server --signal ldm
 ```
 

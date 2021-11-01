@@ -11,31 +11,19 @@ To enable and access system events, you'll have to:
 
 Let's create an operator, system account and system account user:
 
-```shell
-nsc add operator -n SAOP
-```
-Output
 ```text
+# Create an operator if you 
+> nsc add operator -n SAOP
 Generated operator key - private key stored "~/.nkeys/SAOP/SAOP.nk"
 Success! - added operator "SAOP"
-```
 
-Add the system account
-```shell
-nsc add account -n SYS
-```
-Output
-```text
+# Add the system account
+> nsc add account -n SYS
 Generated account key - private key stored "~/.nkeys/SAOP/accounts/SYS/SYS.nk"
 Success! - added account "SYS"
-```
 
-Add a system account user
-```shell
-nsc add user -n SYSU
-```
-Output
-```text
+# Add a system account user
+> nsc add user -n SYSU
 Generated user key - private key stored "~/.nkeys/SAOP/accounts/SYS/users/SYSU.nk"
 Generated user creds file "~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds"
 Success! - added user "SYSU" to "SYS"
@@ -47,8 +35,8 @@ By default, the operator JWT can be found in `~/.nsc/nats/<operator_name>/<opera
 
 To vend the credentials to the nats-server, we'll use a [nats-account-server](../../../nats-tools/nas/). Let's start a nats-account-server to serve the JWT credentials:
 
-```shell
-nats-account-server -nsc ~/.nsc/nats/SAOP
+```text
+> nats-account-server -nsc ~/.nsc/nats/SAOP
 ```
 
 The server will by default vend JWT configurations on the an endpoint at: `http(s)://<server_url>/jwt/v1/accounts/`.
@@ -63,11 +51,8 @@ The server configuration will need:
 
 The only thing we don't have handy is the public key for the system account. We can get it easy enough:
 
-```shell
-nsc list accounts 
-```
-Output
 ```text
+> nsc list accounts 
 ╭─────────────────────────────────────────────────────────────────╮
 │                            Accounts                             │
 ├──────┬──────────────────────────────────────────────────────────┤
@@ -89,29 +74,29 @@ resolver: URL(http://localhost:9090/jwt/v1/accounts/)
 
 Let's start the nats-server:
 
-```shell
-nats-server -c server.conf
+```text
+> nats-server -c server.conf
 ```
 
 ## Inspecting Server Events
 
 Let's add a subscriber for all the events published by the system account:
 
-```shell
-nats sub --creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds ">"
+```text
+> nats-sub -creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds ">"
 ```
 
 Very quickly we'll start seeing messages from the server as they are published by the NATS server. As should be expected, the messages are just JSON, so they can easily be inspected even if just using a simple `nats-sub` to read them.
 
 To see an an account update:
 
-```shell
-nats pub --creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds foo bar
+```text
+> nats-pub -creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds foo bar
 ```
 
 The subscriber will print the connect and disconnect:
 
-```json
+```text
   "server": {
     "host": "0.0.0.0",
     "id": "NBTGVY3OKDKEAJPUXRHZLKBCRH3LWCKZ6ZXTAJRS2RMYN3PMDRMUZWPR",
@@ -159,11 +144,8 @@ The subscriber will print the connect and disconnect:
 
 To discover servers in the cluster, and get a small heath summary, publish a request to `$SYS.REQ.SERVER.PING`. Note that while the example below uses `nats-req`, only the first answer for the request will be printed. You can easily modify the example to wait until no additional responses are received for a specific amount of time, thus allowing for all responses to be collected.
 
-```shell
-nats request --creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds \$SYS.REQ.SERVER.PING ""
-```
-Output
 ```text
+> nats-req -creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds \$SYS.REQ.SERVER.PING ""
 Published [$SYS.REQ.SERVER.PING] : ''
 Received  [_INBOX.G5mbsf0k7l7nb4eWHa7GTT.omklmvnm] : '{
   "server": {
@@ -199,11 +181,8 @@ Received  [_INBOX.G5mbsf0k7l7nb4eWHa7GTT.omklmvnm] : '{
 
 If you know the server id for a particular server \(such as from a response to `$SYS.REQ.SERVER.PING`\), you can query the specific server for its health information:
 
-```shell
-nats request --creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds \$SYS.REQ.SERVER.NC7AKPQRC6CIZGWRJOTVFIGVSL7VW7WXTQCTUJFNG7HTCMCKQTGE5PUL.STATSZ ""
-```
-Output
 ```text
+nats-req -creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds \$SYS.REQ.SERVER.NC7AKPQRC6CIZGWRJOTVFIGVSL7VW7WXTQCTUJFNG7HTCMCKQTGE5PUL.STATSZ ""
 Published [$SYS.REQ.SERVER.NC7AKPQRC6CIZGWRJOTVFIGVSL7VW7WXTQCTUJFNG7HTCMCKQTGE5PUL.STATSZ] : ''
 Received  [_INBOX.DQD44ugVt0O4Ur3pWIOOD1.WQOBevoq] : '{
   "server": {

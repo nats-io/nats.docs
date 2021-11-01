@@ -1,6 +1,8 @@
 # NATS API Reference
 
-The normal way to use JetStream is through the NATS client libraries which expose a set of JetStream functions that you can use directly in your programs. But that is not the only way you can interact with the JetStream infrastructure programmatically. Just like core NATS has a wire protocol on top of TCP, the JetStream enabled nats-server(s) expose a set of Services over core NATS.
+Thus far we saw a lot of CLI interactions. The CLI works by sending and receiving specially crafted messages over core NATS to configure the JetStream system. In time we will look to add file based configuration but for now the only method is the NATS API.
+
+**NOTE:** Some NATS client libraries may need to enable an option to use old style requests when interacting with the JetStream server. Consult the libraries README's for more information.
 
 ## Reference
 
@@ -10,11 +12,8 @@ All of these subjects are found as constants in the NATS Server source, so for e
 
 The APIs used for administrative tools all respond with standardised JSON and these include errors.
 
-```shell
-nats req '$JS.API.STREAM.INFO.nonexisting' ''
-```
-Output
 ```text
+$ nats req '$JS.API.STREAM.INFO.nonexisting' ''
 Published 11 bytes to $JS.API.STREAM.INFO.nonexisting
 Received  [_INBOX.lcWgjX2WgJLxqepU0K9pNf.mpBW9tHK] : {
   "type": "io.nats.jetstream.api.v1.stream_info_response",
@@ -25,11 +24,8 @@ Received  [_INBOX.lcWgjX2WgJLxqepU0K9pNf.mpBW9tHK] : {
 }
 ```
 
-```shell
-nats req '$JS.STREAM.INFO.ORDERS' ''
-```
-Output
 ```text
+$ nats req '$JS.STREAM.INFO.ORDERS' ''
 Published 6 bytes to $JS.STREAM.INFO.ORDERS
 Received  [_INBOX.fwqdpoWtG8XFXHKfqhQDVA.vBecyWmF] : '{
   "type": "io.nats.jetstream.api.v1.stream_info_response",
@@ -175,11 +171,8 @@ In all of the Synadia maintained API's you can simply do `msg.Respond(nil)` \(or
 
 If you have a pull-based Consumer you can send a standard NATS Request to `$JS.API.CONSUMER.MSG.NEXT.<stream>.<consumer>`, here the format is defined in `api.JetStreamRequestNextT` and requires populating using `fmt.Sprintf()`.
 
-```shell
-nats req '$JS.API.CONSUMER.MSG.NEXT.ORDERS.test' '1'
-```
-Output
 ```text
+$ nats req '$JS.API.CONSUMER.MSG.NEXT.ORDERS.test' '1'
 Published 1 bytes to $JS.API.CONSUMER.MSG.NEXT.ORDERS.test
 Received  [js.1] : 'message 1'
 ```
@@ -190,16 +183,16 @@ The above request for the next message will stay in the server for as long as th
 
 This is often not desired, pull consumers support a mode where a JSON document is sent describing the pull request.
 
-```json
+```javascript
 {
   "expires": 7000000000,
-  "batch": 10
+  "batch": 10,
 }
 ```
 
 This requests 10 messages and asks the server to keep this request for 7 seconds, this is useful when you poll the server frequently and do not want the pull requests to accumulate on the server. Set the expire time to now + your poll frequency.
 
-```json
+```javascript
 {
   "batch": 10,
   "no_wait": true
@@ -208,11 +201,9 @@ This requests 10 messages and asks the server to keep this request for 7 seconds
 
 Here we see a second format of the Pull request that will not store the request on the queue at all but when there are no messages to deliver will send a nil bytes message with a `Status` header of `404`, this way you can know when you reached the end of the stream for example. A `409` is returned if the Consumer has reached `MaxAckPending` limits.
 
-```shell
-nats req '$JS.API.CONSUMER.MSG.NEXT.ORDERS.NEW' '{"no_wait": true, "batch": 10}'
- ```
-Output
 ```text
+[rip@dev1]% nats req '$JS.API.CONSUMER.MSG.NEXT.ORDERS.NEW' '{"no_wait": true, "batch": 10}'
+ test --password test
 13:45:30 Sending request on "$JS.API.CONSUMER.MSG.NEXT.ORDERS.NEW"
 13:45:30 Received on "_INBOX.UKQGqq0W1EKl8inzXU1naH.XJiawTRM" rtt 594.908µs
 13:45:30 Status: 404
@@ -223,11 +214,8 @@ Output
 
 If you know the Stream sequence of a message you can fetch it directly, this does not support acks. Do a Request\(\) to `$JS.API.STREAM.MSG.GET.ORDERS` sending it the message sequence as payload. Here the prefix is defined in `api.JetStreamMsgBySeqT` which also requires populating using `fmt.Sprintf()`.
 
-```shell
-nats req '$JS.API.STREAM.MSG.GET.ORDERS' '{"seq": 1}'
-```
-Output
 ```text
+$ nats req '$JS.API.STREAM.MSG.GET.ORDERS' '{"seq": 1}'
 Published 1 bytes to $JS.STREAM.ORDERS.MSG.BYSEQ
 Received  [_INBOX.cJrbzPJfZrq8NrFm1DsZuH.k91Gb4xM] : '{
   "type": "io.nats.jetstream.api.v1.stream_msg_get_response",

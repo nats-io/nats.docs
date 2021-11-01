@@ -14,13 +14,14 @@ You'll use this terminal as the subscriber.
 
 **2. Connect to NATS.**
 
-```shell
+```text
 telnet demo.nats.io 4222
 ```
 
 Expected result:
 
 ```text
+$ telnet demo.nats.io 4222
 Trying 107.170.221.32...
 Connected to demo.nats.io.
 Escape character is '^]'.
@@ -48,13 +49,14 @@ You'll use this terminal for the publisher.
 
 **5. Connect to NATS.**
 
-```shell
+```text
 telnet demo.nats.io 4222
 ```
 
 Expected result:
 
 ```text
+$ telnet demo.nats.io 4222
 Trying 107.170.221.32...
 Connected to demo.nats.io.
 Escape character is '^]'.
@@ -121,7 +123,7 @@ unsub 90
 
 **9. Reconnect to server and subscribe.**
 
-```shell
+```text
 telnet demo.nats.io 4222
 ```
 
@@ -136,6 +138,8 @@ If you leave your telnet session open for a few minutes, you may notice that you
 You can send a `ping` request to the serve and receive a `PONG` reply. For example:
 
 ```text
+$ telnet demo.nats.io 4222
+Trying 107.170.221.32...
 Connected to demo.nats.io.
 Escape character is '^]'.
 INFO {"server_id":"NCXMJZYQEWUDJFLYLSTTE745I2WUNCVG3LJJ3NRKSFJXEG6RGK7753DJ","version":"2.0.0","proto":1,"go":"go1.11.10","host":"0.0.0.0","port":4222,"max_payload":1048576,"client_id":5089}

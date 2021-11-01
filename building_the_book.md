@@ -26,7 +26,7 @@ Icons for dev examples are from https://cdn.materialdesignicons.com/3.6.95/.
 To build the examples
 
 ```bash
-go run tools/examplecompiler/main.go -o developer/examples -r tools/examplecompiler/example_repos.json -t tools/examplecompiler/example_template.tmp
+% go run tools/examplecompiler/main.go -o developer/examples -r tools/examplecompiler/example_repos.json -t tools/examplecompiler/example_template.tmp
 ```
 
 or just use the make file `make` will download the gitbook plugins, build the example html and build the book.

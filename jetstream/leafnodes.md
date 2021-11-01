@@ -99,10 +99,7 @@ include ./accounts.conf
 Because the system account is connected, you can obtain the JetStream server report from both servers.
 
 ```bash
-nats  --server nats://admin:admin@localhost:4222 server report jetstream
-```
-Output
-```text
+> nats  --server nats://admin:admin@localhost:4222 server report jetstream
 ╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │                                                JetStream Summary                                                │
 ├─────────────┬─────────────┬────────┬─────────┬───────────┬──────────┬───────┬────────┬──────┬─────────┬─────────┤
@@ -118,10 +115,7 @@ Output
 Create a stream named `test` subscribing to subject `test` in the JetStream domain, the program is connected to. As a result, this stream will be created in the domain hub which is the domain of the server listening on `localhost:4222`.
 
 ```bash
-nats  --server nats://acc:acc@localhost:4222 stream add
-```
-Output
-```text
+> nats  --server nats://acc:acc@localhost:4222 stream add
 ? Stream Name test
 ? Subjects to consume test
 ? Storage backend file
@@ -165,10 +159,7 @@ State:
 To create a stream in a different domain while connected somewhere else, just provide the `js-domain` argument. While connected to the same server as before, now the stream is created in `leaf`.
 
 ```bash
-nats  --server nats://acc:acc@localhost:4222 stream add --js-domain leaf
-```
-Output
-```text
+> nats  --server nats://acc:acc@localhost:4222 stream add --js-domain leaf
 ? Stream Name test
 ? Subjects to consume test
 ? Storage backend file
@@ -211,17 +202,15 @@ State:
 
 Publish a message so there is something to retrieve.
 
-```shell
-nats  --server nats://acc:acc@localhost:4222 pub test "hello world"
+```text
+> nats  --server nats://acc:acc@localhost:4222 pub test "hello world"
+13:33:17 Published 11 bytes to "test"
 ```
 
 Because both streams subscribe to the same subject, each one now reports one message. This is done to demonstrate the issue. If you want to avoid that, you need to either use different subjects, different accounts, or one isolated account.
 
 ```bash
-nats  --server nats://acc:acc@localhost:4222 stream report --js-domain leaf
-```
-Output
-```text
+> nats  --server nats://acc:acc@localhost:4222 stream report --js-domain leaf
 Obtaining Stream stats
 
 ╭─────────────────────────────────────────────────────────────────────────────╮
@@ -249,10 +238,7 @@ Obtaining Stream stats
 In order to copy a stream from one domain into another, specify the JetStream domain when creating a `mirror`. If you want to connect a leaf to the hub and get commands, even when the leaf node connection is offline, mirroring a stream located in the hub is the way to go.
 
 ```bash
-nats  --server nats://acc:acc@localhost:4222 stream add --js-domain hub --mirror test
-```
-Output
-```text
+> nats  --server nats://acc:acc@localhost:4222 stream add --js-domain hub --mirror test
 ? Stream Name backup-test-leaf
 ? Storage backend file
 ? Retention Policy Limits
@@ -297,10 +283,7 @@ State:
 Similarly, if you want to aggregate streams located in any number of leaf nodes use `source`. If the streams located in each leaf are used for the same reasons, it is recommended to aggregate them in the hub for processing via `source`.
 
 ```bash
-nats  --server nats://acc:acc@localhost:4222 stream add --js-domain hub --source test
-```
-Output
-```text
+> nats  --server nats://acc:acc@localhost:4222 stream add --js-domain hub --source test
 ? Stream Name aggregate-test-leaf
 ? Storage backend file
 ? Retention Policy Limits
@@ -346,10 +329,7 @@ State:
 `source` as well as `mirror` take a copy of the messages. Once copied, accessing the data is independent of the leaf node connection being online. Copying this way also avoids having to run a dedicated program of your own. This is the recommended way to exchange persistent data across domains.
 
 ```bash
-nats  --server nats://acc:acc@localhost:4222 stream report --js-domain hub
-```
-Output
-```text
+> nats  --server nats://acc:acc@localhost:4222 stream report --js-domain hub
 Obtaining Stream stats
 
 ╭──────────────────────────────────────────────────────────────────────────────────────────╮
@@ -428,10 +408,7 @@ system_account: SYS
 Once the servers have been restarted or reloaded, a `mirror` can be created as follows \(same applies to `source`\): On import from a different account the renamed prefix `JS.acc@hub.API` is provided. In addition, the delivery subject name is extended to also include the importing domain and stream. This makes it unique to that particular import. If every delivery prefix follows the pattern `<static type>.<exporting account>.<exporting domain>.<importing account>.<importing domain>.<importing domain>.<importing stream name>` overlaps caused by multiple imports are avoided.
 
 ```bash
-nats  --server nats://import_mirror:import_mirror@localhost:4222 stream add --js-domain hub --mirror aggregate-test-leaf
-```
-Output
-```text
+> nats  --server nats://import_mirror:import_mirror@localhost:4222 stream add --js-domain hub --mirror aggregate-test-leaf
 ? Stream Name aggregate-test-leaf-from-acc
 ? Storage backend file
 ? Retention Policy Limits
@@ -477,10 +454,7 @@ State:
 A subsequent check shows that the one message stored in the stream aggregate in account `ACC` got copied to the new stream in the account `IMPORTER`.
 
 ```bash
-nats  --server nats://import_mirror:import_mirror@localhost:4222 stream report --js-domain hub
-```
-Output
-```text
+> nats  --server nats://import_mirror:import_mirror@localhost:4222 stream report --js-domain hub
 Obtaining Stream stats
 
 ╭───────────────────────────────────────────────────────────────────────────────────────────────────╮
@@ -505,10 +479,7 @@ Obtaining Stream stats
 The modified `accounts.conf` also includes a separate import for an existing pull consumer. Let's create a consumer by the name `dur` in the stream `aggregate-test-leaf` in the account `acc`.
 
 ```bash
-nats  --server nats://acc:acc@localhost:4222 consumer add  --js-domain hub
-```
-Output
-```text
+> nats  --server nats://acc:acc@localhost:4222 consumer add  --js-domain hub
 ? Consumer name dur
 ? Delivery target (empty for Pull Consumers)
 ? Start policy (all, new, last, 1h, msg sequence) all
@@ -538,12 +509,8 @@ State:
      Redelivered Messages: 0
      Unprocessed Messages: 1
             Waiting Pulls: 0 of maximum 512
-```
-```shell
-nats  --server nats://acc:acc@localhost:4222 stream report --js-domain hub
-```
-Output
-```text
+
+> nats  --server nats://acc:acc@localhost:4222 stream report --js-domain hub
 Obtaining Stream stats
 
 ╭──────────────────────────────────────────────────────────────────────────────────────────╮
@@ -577,11 +544,8 @@ Obtaining Stream stats
 
 To retrieve the messages stored in the domain `hub` using `nats` while connected to the leaf node, provide the correct stream and durable name as well as the API prefix `JS.acc@hub.API`
 
-```shell
-nats --server nats://import_client:import_client@localhost:4111 consumer next aggregate-test-leaf dur --js-api-prefix JS.acc@hub.API
-```
-Output
 ```text
+nats --server nats://import_client:import_client@localhost:4111 consumer next aggregate-test-leaf dur --js-api-prefix JS.acc@hub.API
 [17:44:16] subj: test / tries: 1 / cons seq: 1 / str seq: 1 / pending: 0
 
 Headers:
@@ -594,13 +558,8 @@ Data:
 hello world
 
 Acknowledged message
-```
 
-```shell
-nats  --server nats://acc:acc@localhost:4222 consumer report --js-domain hub
-```
-Output
-```text
+> nats  --server nats://acc:acc@localhost:4222 consumer report --js-domain hub
 ? Select a Stream aggregate-test-leaf
 ╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │                          Consumer report for aggregate-test-leaf with 1 consumers                           │
@@ -614,16 +573,14 @@ Output
 This works similarly when writing your own client. To avoid waiting for the ack timeout, a new message is sent on `test` from where it is copied into `aggregate-test-leaf`.
 
 ```bash
-nats  --server nats://acc:acc@localhost:4222 pub test "hello world 2"
+> nats  --server nats://acc:acc@localhost:4222 pub test "hello world 2"
+17:51:05 Published 13 bytes to "test"
 ```
 
 The client is connected to the leaf node and receives the message just sent.
 
-```shell
-./main nats://import_client:import_client@localhost:4111
-```
-Output
 ```text
+./main nats://import_client:import_client@localhost:4111
 starting
 &{Sequence:{Consumer:3 Stream:3} NumDelivered:1 NumPending:0 Timestamp:2021-06-28 17:51:05.186878 -0400 EDT Stream:aggregate-test-leaf Consumer:dur}
 hello world 2
