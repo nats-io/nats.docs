@@ -1,6 +1,5 @@
 # Table of contents
 
-* [Introduction](README.md)
 
 ## Release Notes
 
@@ -10,6 +9,7 @@
 
 ## NATS Concepts
 
+* [Introduction](README.md)
 * [What is NATS](nats-concepts/intro.md)
   * [Walkthrough Setup](/walkthrough/walkthrough_setup.md)
 * [Subject-Based Messaging](nats-concepts/subjects.md)
