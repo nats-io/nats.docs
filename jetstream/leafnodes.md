@@ -356,7 +356,9 @@ Obtaining Stream stats
 
 All of the above happened in the same account. To share domain access across accounts the `account.conf` from above needs to be modified and the server restarted or reloaded. This example exports the consumer and `FC` API as well as a delivery subject which is used by the internal push consumer created by `source` and `mirror`.
 
-In support of another example on how to share a durable pull consumer for client access across domains and accounts, the `NEXT` and `ACK` API are exported as well. Currently, across accounts, push consumer are not supported. 
+In support of another example on how to share a durable pull consumer for client access across domains and accounts, the `NEXT` and `ACK` API are exported as well. 
+
+> _Known issue_: Currently, across accounts, push consumer are not supported. 
 
 On import, the JetStream API prefix `$JS.hub.API` is renamed to `JS.test@hub.API`. This is to, once more, disambiguate which JetStream a client in the importing account might want to interact with. When using domains, the general recommendation is to export the domain specific API `$JS.<domain>.API` as this allows you to pin the export to a particular domain.
 
