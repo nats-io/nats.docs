@@ -7,7 +7,7 @@
 * [Who maintains NATS?](faq.md#who-maintains-nats)
 * [What clients does NATS support?](faq.md#what-client-support-exists-for-nats)
 * [What does the NATS acronym stand for?](faq.md#what-does-the-nats-acronym-stand-for)
-* [What does STAN stand for?](faq.md#what-does-stan-stand-for)
+* [JetStream and NATS Streaming?](faq.md#jetstream-and-nats-streaming)
 
 ### Technical Questions
 
@@ -17,6 +17,7 @@
 * [Does NATS do queuing? Does NATS do load balancing?](faq.md#does-nats-do-queuing-does-nats-do-load-balancing)
 * [Can I list the subjects that exist in my NATS cluster?](faq.md#can-i-list-the-subjects-that-exist-in-my-nats-cluster)
 * [Does NATS support subject wildcards?](faq.md#does-nats-support-subject-wildcards)
+* [What is the right kind of Stream consumer to use?](faq.md)
 * [What do ‘verbose’ and ‘pedantic’ mean when using CONNECT?](faq.md#what-do-verbose-and-pedantic-mean-when-using-connect)
 * [Does NATS offer any guarantee of message ordering?](faq.md#does-nats-offer-any-guarantee-of-message-ordering)
 * [Is there a message size limitation in NATS?](faq.md#is-there-a-message-size-limitation-in-nats)
@@ -25,10 +26,7 @@
 * [Does NATS support replay/redelivery of historical data?](faq.md#does-nats-support-replayredelivery-of-historical-data)
 * [How do I gracefully shut down an asynchronous subscriber?](faq.md#how-do-i-gracefully-shut-down-an-asynchronous-subscriber)
 * [How do I create subjects?](faq.md#how-do-i-create-subjects)
-* [Does adding a “max\_age” to a “channel” for NATS streaming server connected to a SQL store, retroactively delete messages?](faq.md#does-adding-a-max_age-to-a-channel-for-nats-streaming-server-connected-to-a-sql-store-retroactively-delete-messages)
-* [What is the upgrade path from NATS 1.x to 2.x?](faq.md#what-is-the-upgrade-path-from-nats-1-x-to-2-x)
 * [How many clients can connect simultaneously?](faq.md#how-many-clients-can-connect-simultaneously)
-* [Does JetStream replace NATS Streaming?](faq.md#does-jetstream-replace-nats-streaming)
 
 ## General
 
@@ -36,7 +34,10 @@
 
 NATS is an open source, lightweight, high-performance cloud native infrastructure messaging system. It implements a highly scalable and elegant publish-subscribe \(pub/sub\) distribution model. The performant nature of NATS make it an ideal base for building modern, reliable, scalable cloud native distributed systems.
 
-NATS is offered in two interoperable modules: core NATS \(referred to simply as "NATS" or "NATS Server" throughout this site\), and [NATS Streaming](nats-streaming-concepts/intro.md), an event streaming service that can be employed to add event streaming, delivery guarantees, and historical data replay to NATS.
+NATS is offered in two interoperable modules in a single "NATS Server" binary \(often referred to as `nats-server` throughout this site\):
+
+* 'Core NATS' is the set of core NATS functionalities and qualities of service.
+* ['JetStream'](/jetstream/jetstream.md) \(often referred to simply as "JS" throughout this site\) is the (optionally enabled) built-in persistence layer that adds streaming, at-least-once and exactly-once delivery guarantees, historical data replay, decoupled flow-control and key/value store functionalities to Core NATS.
 
 NATS was created by Derek Collison, who has over 25 years of experience designing, building, and using publish-subscribe messaging systems. NATS is maintained by an amazing Open Source Ecosystem, find more at [GitHub](https://www.github.com/nats-io).
 
@@ -44,13 +45,13 @@ NATS was created by Derek Collison, who has over 25 years of experience designin
 
 NATS stands for Neural Autonomic Transport System. Derek Collison conceived NATS as a messaging platform that functions like a central nervous system.
 
-### What does STAN stand for?
+### JetStream and NATS Streaming?
 
-NATS Streaming is also known as STAN, which is just NATS backward. NATS is at-most-once QoS messaging with no persistence, whereas NATS Streaming is at-least-once QoS, therefore, representing the opposite of NATS.
+As of NATS Server 2.2, NATS [JetStream](jetstream/jetstream.md) is the recommended option for persistence, streaming and higher message guarantees. [NATS Streaming](https://github.com/nats-io/nats-streaming-server) a.k.a. 'STAN' is now considered legacy: click [here](/nats-streaming-concepts/intro.md) the deprecation notice.
 
 ### What language is NATS written in?
 
-The NATS server \(`nats-server`\) is written in Go. There is client support for a wide variety of languages. Please see the [Download](https://nats.io/download) page for more info.
+The NATS server \(`nats-server`\) is written in Go. There is client support for a wide variety of languages. Please see the Please see the [Developing with NATS](/developing-with-nats/developer.md) page for more info.
 
 ### Who maintains NATS?
 
@@ -58,7 +59,7 @@ NATS is maintained by a select group of Maintainers following a Governance proce
 
 ### What client support exists for NATS?
 
-Please see the [Download](https://nats.io/download) page for the latest list of Synadia and Community maintained NATS clients.
+Please see the [Developing with NATS](/developing-with-nats/developer.md) page for the latest list of Synadia and Community maintained NATS clients.
 
 ## Technical Questions
 
@@ -113,6 +114,10 @@ The greater-than symbol `'>'` is a full wildcard match.
 e.g. foo.> matches foo.bar, foo.baz, foo.bar.baz, foo.bar.1, etc.
 ```
 
+### What is the right kind of Stream consumer to use
+
+It depends on the access pattern of the application using the stream: if you want to horizontally scale the processing of all the messages stored in a stream and/or process a high-throughput stream of messages in real-time using batching, then use a shared pull consumer (as they scale well horizontally and batching is in practice key to achieving high throughput). But if the access pattern is more like individual application instances needing their own individual replay of the messages in a stream on demand: then an 'ordered push consumer' is best. Consider the use of a durable push consumer with a queue-group for the clients if you want a scalable low latency real time processing of the messages inserted into a stream.
+
 ### What do ‘verbose’ and ‘pedantic’ mean when using CONNECT?
 
 ‘Verbose’ means all protocol commands will be acked with a +OK or -ERR. If verbose is off, you don't get the +OK for each command. Pedantic means the server does lots of extra checking, mostly around properly formed subjects, etc. Verbose mode is ON by default for new connections; most client implementations disable verbose mode by default in their INFO handshake during connection.
@@ -131,9 +136,9 @@ No. As of `nats-server` v0.8.0, there is no hard limit on the maximum number of 
 
 ### Does NATS guarantee message delivery?
 
-NATS Core Server, simply referred to as NATS Server, offers "at-most-once" delivery. This means messages are guaranteed to arrive intact, in order from a given publisher, but not across different publishers. NATS does everything required to remain available and provide a dial-tone. However, if a subscriber is problematic or goes offline it will not receive messages, as the basic NATS platform is a simple pub-sub transport system that offers only TCP reliability.
+Core NATS, offers "at-most-once" delivery. This means messages are guaranteed to arrive intact, in order from a given publisher, but not across different publishers. NATS does everything required to remain available and provide a dial-tone. However, if a subscriber is problematic or goes offline it will not receive messages, as the basic NATS platform is a simple pub-sub transport system that offers only TCP reliability.
 
-As of NATS Server 2.2, NATS JetStream offers persistence as "at-least-once" delivery. See the [JetStream](jetstream/jetstream.md) documentation for detailed information.
+As of NATS Server 2.2, NATS JetStream offers persistence with "at-least-once" and "exactly-once" (within a time window) delivery. See the [JetStream](jetstream/jetstream.md) documentation for detailed information.
 
 ### Does NATS support replay/redelivery of historical data?
 
@@ -141,19 +146,11 @@ NATS [JetStream](jetstream/jetstream.md) offers message store and replay by time
 
 ### How do I gracefully shut down an asynchronous subscriber?
 
-To gracefully shutdown an asynchronous subscriber so that any outstanding MsgHandlers have a chance to complete outstanding work, call sub.Unsubscribe\(\). There is a Go routine per subscription. These will be cleaned up on Unsubscribe\(\), or upon connection teardown.
+To gracefully shut down an asynchronous subscriber so that any outstanding MsgHandlers have a chance to complete outstanding work, call sub.Unsubscribe\(\). There is a Go routine per subscription. These will be cleaned up on Unsubscribe\(\), or upon connection teardown.
 
 ### How do I create subjects?
 
 Subjects are created and pruned \(deleted\) dynamically based on interest \(subscriptions\). This means that a subject does not exist in a NATS cluster until a client subscribes to it, and the subject goes away after the last subscribing client unsubscribes from that subject.
-
-### Does adding a “max\_age” to a “channel” for NATS streaming server connected to a SQL store, retroactively delete messages?
-
-Yes, any channel limit will be applied on startup. For more information, see [Store Limits](nats-streaming-server/configuring/storelimits.md#limits-are-retroactive).
-
-### What is the upgrade path from NATS 1.x to 2.x?
-
-NATS 2.0 is completely backwards compatible with NATS &lt; 2.x configure files and clients. Just run the new server. Be sure to review the [What's New in 2.0](whats_new_20.md) for great new features.
 
 ### How many clients can connect simultaneously?
 
@@ -164,8 +161,3 @@ Most systems can handle several thousand NATS connections per server without any
 If you are using TLS you'll want to be sure the hardware can handle the CPU load created by TLS negotiation when there is the thundering herd of inbound connections after an outage or network partition event. This often overlooked factor is usually the constraint limiting the number of connections a single server should support. Choosing a cipher suite that is supported by TLS acceleration can mitigate this \(e.g. AES with x86\). Thinking of the entire system, you'll also want to look at a range of reconnect delay times or add reconnect jitter to the NATS clients to even out the distribution of connection attempts over time and reduce CPU spikes.
 
 All said, each server can be tuned to handle a large number of clients, and given the flexibility and scalability of NATS with clusters, superclusters, and leaf nodes one can build a NATS deployment supporting many millions of connections.
-
-### Does JetStream replace NATS Streaming?
-
-As of NATS Server 2.2, NATS [JetStream](jetstream/jetstream.md) is the recommended option for persistence and message guarantees. See [NATS Streaming](https://github.com/nats-io/nats-streaming-server) README for the deprecation notice.
-

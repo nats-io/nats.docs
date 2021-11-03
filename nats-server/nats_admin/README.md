@@ -1,6 +1,6 @@
 # Managing A NATS Server
 
-Managing a NATS server is simple, typical lifecycle operations include:
+Managing a NATS Server is simple, typical lifecycle operations include:
 
 * Using the [`nats`](/nats-tools/natscli.md) CLI tool to check server cluster connectivity and latencies, as well as get account information, and manage and interact with streams (and other NATS applications). Try the following examples to learn about the most common ways to use `nats`.
   * `nats cheat`
