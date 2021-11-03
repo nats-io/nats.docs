@@ -77,7 +77,7 @@ Output
 15:56:11 Configuration backup complete
 ```
 
-This backs up Stream, Consumer and Stream Template configuration.
+This backs up Stream and Consumer configuration.
 
 During the same process the data can also be backed up by passing `--data`, this will create files like `/data/js-backup/stream_ORDERS.tgz`.
 

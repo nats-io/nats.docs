@@ -75,15 +75,6 @@ The API uses JSON for inputs and outputs, all the responses are typed using a `t
 | `$JS.API.STREAM.SNAPSHOT.*` | `api.JSApiStreamSnapshotT` | Initiates a streaming backup of a streams data | `api.JSApiStreamSnapshotRequest` | `api.JSApiStreamSnapshotResponse` |
 | `$JS.API.STREAM.RESTORE.*` | `api.JSApiStreamRestoreT` | Initiates a streaming restore of a stream | `{}` | `api.JSApiStreamRestoreResponse` |
 
-### Stream Templates
-
-| Subject | Constant | Description | Request Payload | Response Payload |
-| :--- | :--- | :--- | :--- | :--- |
-| `$JS.API.STREAM.TEMPLATE.CREATE.*` | `api.JSApiTemplateCreateT` | Creates a Stream Template | `api.StreamTemplateConfig` | `api.JSApiStreamTemplateCreateResponse` |
-| `$JS.API.STREAM.TEMPLATE.NAMES` | `api.JSApiTemplateNames` | Paged list all known templates | `api.JSApiStreamTemplateNamesRequest` | `api.JSApiStreamTemplateNamesResponse` |
-| `$JS.API.STREAM.TEMPLATE.INFO.*` | `api.JSApiTemplateInfoT` | Information about the config and state of a Stream Template | empty payload, Template name in subject | `api.JSApiStreamTemplateInfoResponse` |
-| `$JS.API.STREAM.TEMPLATE.DELETE.*` | `api.JSApiTemplateDeleteT` | Delete a specific Stream Template **and all streams created by this template** | empty payload, Template name in subject | `api.JSApiStreamTemplateDeleteResponse` |
-
 ### Consumers
 
 | Subject | Constant | Description | Request Payload | Response Payload |
@@ -126,10 +117,6 @@ $JS.API.CONSUMER.INFO.<stream>.<consumer>
 $JS.API.CONSUMER.LIST.<stream>
 $JS.API.CONSUMER.MSG.NEXT.<stream>.<consumer>
 $JS.API.CONSUMER.NAMES.<stream>
-$JS.API.STREAM.TEMPLATE.CREATE.<stream template>
-$JS.API.STREAM.TEMPLATE.DELETE.<stream template>
-$JS.API.STREAM.TEMPLATE.INFO.<stream template>
-$JS.API.STREAM.TEMPLATE.NAMES
 ```
 
 Stream and Consumer Use

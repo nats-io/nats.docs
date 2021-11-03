@@ -410,57 +410,6 @@ Listening on [out.original]
 ^C
 ```
 
-## Stream Templates
-
-When you have many similar streams it can be helpful to auto-create them, let's say you have a service by client and they are on subjects `CLIENT.*`, you can construct a template that will auto-generate streams for any matching traffic.
-
-```shell
-nats stream template add CLIENTS --subjects "CLIENT.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size 2048 --max-streams 1024 --discard old
-```
-Output
-```text
-Stream Template CLIENTS was created
-
-Information for Stream Template CLIENTS
-
-Configuration:
-
-             Subjects: CLIENT.*
-     Acknowledgements: true
-            Retention: File - Limits
-             Replicas: 1
-     Maximum Messages: -1
-        Maximum Bytes: -1
-          Maximum Age: 8760h0m0s
- Maximum Message Size: 2048
-    Maximum Consumers: -1
-      Maximum Streams: 1024
-
-Managed Streams:
-
-  No Streams have been defined by this template
-```
-
-You can see no streams currently exist, let's publish some data:
-
-```shell
-nats pub CLIENT.acme hello
-```
-
-And we'll have 1 new Stream:
-
-```shell
-nats str ls
-```
-Output
-```text
-Streams:
-
-        CLIENTS_acme
-```
-
-When the template is deleted all the streams it created will be deleted too.
-
 ## Ack Sampling
 
 In the earlier sections we saw that samples are being sent to a monitoring system. Let's look at that in depth; how the monitoring system works and what it contains.
