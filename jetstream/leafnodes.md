@@ -354,9 +354,11 @@ Obtaining Stream stats
 
 ### Cross account & domain import
 
-All of the above happened in the same account. To share domain access across accounts the `account.conf` from above needs to be modified and the server restarted or reloaded. This example exports the consumer API as well as a delivery subject which is used by the internal push consumer created by `source` and `mirror`.
+All of the above happened in the same account. To share domain access across accounts the `account.conf` from above needs to be modified and the server restarted or reloaded. This example exports the consumer and `FC` API as well as a delivery subject which is used by the internal push consumer created by `source` and `mirror`.
 
-In support of another example on how to share a durable consumer for client access across domains and accounts, the `NEXT` and `ACK` API are exported as well.
+In support of another example on how to share a durable pull consumer for client access across domains and accounts, the `NEXT` and `ACK` API are exported as well. 
+
+> _Known issue_: Currently, across accounts, push consumer are not supported. 
 
 On import, the JetStream API prefix `$JS.hub.API` is renamed to `JS.test@hub.API`. This is to, once more, disambiguate which JetStream a client in the importing account might want to interact with. When using domains, the general recommendation is to export the domain specific API `$JS.<domain>.API` as this allows you to pin the export to a particular domain.
 
@@ -381,6 +383,8 @@ accounts {
             {service: "$JS.hub.API.CONSUMER.MSG.NEXT.aggregate-test-leaf.dur", response_type: "stream"}
             # minimum export needed to ack messages for durable consumer `dur` in stream `aggregate-test-leaf`. (clients only - source and mirror do not use this)
             {service: "$JS.ACK.aggregate-test-leaf.dur.>"}
+            # minimum export needed for flow control of source/mirror
+            {service: "$JS.FC.aggregate-test-leaf.dur.>"}
         ]
     }
     IMPORT_MIRROR: {
@@ -388,9 +392,11 @@ accounts {
         jetstream: enabled
         imports: [
             {service: {account: ACC, subject: "$JS.hub.API.CONSUMER.CREATE.*"}, to: "JS.acc@hub.API.CONSUMER.CREATE.*" }
+            {service: {account: ACC, subject: "$JS.FC.aggregate-test-leaf.dur.>"}}
             {stream: {account: ACC, subject: deliver.acc.hub.import_mirror.>}}
         ]
     }
+    # As of now, cross account, only pull consumer are supported.
     IMPORT_CLIENT: {
         users: [{user: import_client, password: import_client}],
         jetstream: enabled
