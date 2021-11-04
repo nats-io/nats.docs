@@ -52,6 +52,10 @@ All is the default policy. The consumer will start receiving from the earliest a
 
 When first consuming messages, the consumer will start receiving messages with the last message added to the stream, so the very last message in the stream when the server realizes the consumer is ready.
 
+### DeliverLastPerSubject
+
+When first consuming messages, start with the latest one for each filtered subject currently in the stream.
+
 ### DeliverNew
 
 When first consuming messages, the consumer will only start receiving messages that were created after the consumer was created.
@@ -64,9 +68,9 @@ When first consuming messages, start at this particular message in the set. The 
 
 When first consuming messages, start with messages on or after this time. The consumer is required to specify `OptStartTime`, the time in the stream to start at. It will receive the closest available message on or after that time.
 
-## DeliverSubject
+## DeliverySubject
 
-The subject to deliver observed messages. Not allowed for pull subscriptions. Deliver subject is required for queue subscribing as it configures a subject that all the queue consumers should listen on.
+The subject to deliver observed messages. Not allowed for pull subscriptions. A delivery subject is required for queue subscribing as it configures a subject that all the queue consumers should listen on.
 
 ## Durable \(Name\)
 
