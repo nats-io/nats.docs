@@ -114,6 +114,27 @@ defer nc.Close()
 // Do something with the connection
 ```
 {% endtab %}
+
+{% tab title="C" %}
+```c
+natsConnection      *conn      = NULL;
+natsOptions         *opts      = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsOptions_Create(&opts);
+// Set some jitter to add to the reconnect wait duration: up to 500 milliseconds for non TLS connections and up to 2 seconds for TLS connections.
+if (s == NATS_OK)
+    s = natsOptions_SetReconnectJitter(opts, 500, 2000);
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
+```
+{% endtab %}
 {% endtabs %}
 
 You can also instead specify a custom reconnect delay callback that will be invoked by the library when the whole list of servers has been tried unsuccesfully. The library will wait for the duration returned by this callback.
@@ -132,6 +153,39 @@ if err != nil {
 defer nc.Close()
 
 // Do something with the connection
+```
+{% endtab %}
+
+{% tab title="C" %}
+```c
+static int64_t
+_crd(natsConnection *nc, int attempts, void *closure)
+{
+    // Need to return how long library should wait.
+    // For example, let's wait the number of current attempts
+    // mutiplied by 1 second (1000 milliseconds):
+    return (int64_t) (attempts * 1000);
+}
+
+(...)
+
+natsConnection      *conn      = NULL;
+natsOptions         *opts      = NULL;
+natsStatus          s          = NATS_OK;
+
+s = natsOptions_Create(&opts);
+// Set a custom callback that returns some backoff duration. The library passes the number of attempts
+// of the whole list of server URLs, which can be useful to determine a specific delay.
+if (s == NATS_OK)
+    s = natsOptions_SetCustomReconnectDelay(opts, _crd, NULL);
+if (s == NATS_OK)
+    s = natsConnection_Connect(&conn, opts);
+
+(...)
+
+// Destroy objects that were created
+natsConnection_Destroy(conn);
+natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
