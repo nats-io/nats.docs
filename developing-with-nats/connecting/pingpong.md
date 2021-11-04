@@ -41,10 +41,9 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({
-    pingInterval: 20*1000, //20s
-    maxPingOut: 5,
-    url: "nats://demo.nats.io:4222"
+const nc = await connect({
+    pingInterval: 20 * 1000,
+    servers: ["demo.nats.io:4222"],
 });
 ```
 {% endtab %}
@@ -79,18 +78,6 @@ NATS.start(ping_interval: 20, max_outstanding_pings: 5) do |nc|
 
   # Do something with the connection
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// will throw an exception if connection fails
-let nc = await connect({
-    pingInterval: 20*1000, //20s
-    maxPingOut: 5,
-    url: "nats://demo.nats.io:4222"
-});
-nc.close();
 ```
 {% endtab %}
 

@@ -50,11 +50,10 @@ nc.close();
 {% tab title="JavaScript" %}
 ```javascript
 // credentials file contains the JWT and the secret signing key
-let credsFile = path.join(confDir, 'credsfile.creds');
-
-let nc = NATS.connect({
-    url: server.nats,
-    userCreds: credsFile
+  const authenticator = credsAuthenticator(creds);
+  const nc = await connect({
+    port: ns.port,
+    authenticator: authenticator,
 });
 ```
 {% endtab %}
@@ -74,18 +73,6 @@ await nc.connect("nats://localhost:4222",
 # Do something with the connection
 
 await nc.close()
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// credentials file contains the JWT and the secret signing key
-let credsFile = path.join(confDir, 'credsfile.creds');
-
-let nc = await connect({
-    url: server.nats,
-    userCreds: credsFile
-});
 ```
 {% endtab %}
 

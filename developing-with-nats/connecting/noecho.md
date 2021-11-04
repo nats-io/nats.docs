@@ -38,9 +38,16 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({
-    url: "nats://demo.nats.io:4222",
-    noEcho: true
+const nc = await connect({
+    servers: ["demo.nats.io"],
+    noEcho: true,
+  });
+
+  const sub = nc.subscribe(subj, { callback: (_err, _msg) => {} });
+  nc.publish(subj);
+  await sub.drain();
+  // we won't get our own messages
+  t.is(sub.getProcessed(), 0);
 });
 ```
 {% endtab %}
@@ -75,13 +82,6 @@ await ncB.drain()
 NATS.start("nats://demo.nats.io:4222", no_echo: true) do |nc|
   # ...
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-let nc = await connect({
-    url: "nats://demo.nats.io:4222", noEcho: true});
 ```
 {% endtab %}
 

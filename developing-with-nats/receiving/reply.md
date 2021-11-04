@@ -59,15 +59,12 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({
-    url: "nats://demo.nats.io:4222"
-});
-
-// set up a subscription to process a request
-nc.subscribe('time', (msg, reply) => {
-    if (msg.reply) {
-        nc.publish(msg.reply, new Date().toLocaleTimeString());
-    }
+const sc = StringCodec();
+  // set up a subscription to process a request
+  const sub = nc.subscribe("time");
+  for await (const m of sub) {
+    m.respond(sc.encode(new Date().toLocaleDateString()));
+  }
 });
 ```
 {% endtab %}
@@ -119,19 +116,6 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
 
   end.resume
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// set up a subscription to process a request
-await nc.subscribe('time', (err, msg) => {
-    if (msg.reply) {
-        nc.publish(msg.reply, new Date().toLocaleTimeString());
-    } else {
-        t.log('got a request for the time, but no reply subject was set.');
-    }
-});
 ```
 {% endtab %}
 

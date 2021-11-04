@@ -58,16 +58,13 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-// seed should be stored in a file and treated like a secret
-const seed = 'SUAEL6GG2L2HIF7DUGZJGMRUFKXELGGYFMHF76UO2AYBG3K4YLWR3FKC2Q';
-
-let nc = NATS.connect({
-    url: server.nats,
-    nkey: 'UD6OU4D3CIOGIDZVL4ANXU3NWXOW5DCDE2YPZDBHPBXCVKHSODUA4FKI',
-    sigCB: function (nonce) {
-        const sk = nkeys.fromSeed(Buffer.from(seed));
-        return sk.sign(nonce);
-    }
+// seed should be stored and treated like a secret
+  const seed = new TextEncoder().encode(
+    "SUAEL6GG2L2HIF7DUGZJGMRUFKXELGGYFMHF76UO2AYBG3K4YLWR3FKC2Q",
+  );
+  const nc = await connect({
+    port: ns.port,
+    authenticator: nkeyAuthenticator(seed),
 });
 ```
 {% endtab %}
@@ -87,22 +84,6 @@ await nc.connect("nats://localhost:4222",
 # Do something with the connection
 
 await nc.close()
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// seed should be stored in a file and treated like a secret
-const seed = 'SUAEL6GG2L2HIF7DUGZJGMRUFKXELGGYFMHF76UO2AYBG3K4YLWR3FKC2Q';
-
-let nc = await connect({
-    url: server.nats,
-    nkey: 'UD6OU4D3CIOGIDZVL4ANXU3NWXOW5DCDE2YPZDBHPBXCVKHSODUA4FKI',
-    nonceSigner: function (nonce) {
-        const sk = fromSeed(Buffer.from(seed));
-        return sk.sign(Buffer.from(nonce));
-    }
-});
 ```
 {% endtab %}
 

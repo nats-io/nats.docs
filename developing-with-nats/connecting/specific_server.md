@@ -35,16 +35,11 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect("nats://demo.nats.io:4222");
-nc.on('connect', (c) => {
-    // Do something with the connection
-    doSomething();
-    // When done close it
-    nc.close();
-});
-nc.on('error', (err) => {
-    failed(err);
-});
+const nc = await connect({ servers: "demo.nats.io" });
+  // Do something with the connection
+  doSomething();
+  await nc.close();
+  });
 ```
 {% endtab %}
 
@@ -69,17 +64,6 @@ NATS.start(servers: ["nats://demo.nats.io:4222"]) do |nc|
    # Close the connection
    nc.close
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// will throw an exception if connection fails
-    let nc = await connect("nats://demo.nats.io:4222");
-    // Do something with the connection
-
-    // Close the connection
-    nc.close();
 ```
 {% endtab %}
 

@@ -58,28 +58,33 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({
-    url: "nats://demo.nats.io:4222"});
-
-nc.subscribe('time.us.*', (msg, reply, subject) => {
+nc.subscribe("time.us.*", (_err, msg) => {
     // converting timezones correctly in node requires a library
     // this doesn't take into account *many* things.
-    let time = "";
-    switch (subject) {
-        case 'time.us.east':
-            time = new Date().toLocaleTimeString("en-us", {timeZone: "America/New_York"});
-            break;
-        case 'time.us.central':
-            time = new Date().toLocaleTimeString("en-us", {timeZone: "America/Chicago"});
-            break;
-        case 'time.us.mountain':
-            time = new Date().toLocaleTimeString("en-us", {timeZone: "America/Denver"});
-            break;
-        case 'time.us.west':
-            time = new Date().toLocaleTimeString("en-us", {timeZone: "America/Los_Angeles"});
-            break;
-        default:
-            time = "I don't know what you are talking about Willis";
+    let time;
+    switch (msg.subject) {
+      case "time.us.east":
+        time = new Date().toLocaleTimeString("en-us", {
+          timeZone: "America/New_York",
+        });
+        break;
+      case "time.us.central":
+        time = new Date().toLocaleTimeString("en-us", {
+          timeZone: "America/Chicago",
+        });
+        break;
+      case "time.us.mountain":
+        time = new Date().toLocaleTimeString("en-us", {
+          timeZone: "America/Denver",
+        });
+        break;
+      case "time.us.west":
+        time = new Date().toLocaleTimeString("en-us", {
+          timeZone: "America/Los_Angeles",
+        });
+        break;
+      default:
+        time = "I don't know what you are talking about Willis";
     }
     t.log(subject, time);
 });
@@ -136,33 +141,6 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
 
   end.resume
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-await nc.subscribe('time.us.*', (err, msg) => {
-    // converting timezones correctly in node requires a library
-    // this doesn't take into account *many* things.
-    let time = "";
-    switch (msg.subject) {
-        case 'time.us.east':
-            time = new Date().toLocaleTimeString("en-us", {timeZone: "America/New_York"});
-            break;
-        case 'time.us.central':
-            time = new Date().toLocaleTimeString("en-us", {timeZone: "America/Chicago"});
-            break;
-        case 'time.us.mountain':
-            time = new Date().toLocaleTimeString("en-us", {timeZone: "America/Denver"});
-            break;
-        case 'time.us.west':
-            time = new Date().toLocaleTimeString("en-us", {timeZone: "America/Los_Angeles"});
-            break;
-        default:
-            time = "I don't know what you are talking about Willis";
-    }
-    console.log(msg.subject, time);
-});
 ```
 {% endtab %}
 
