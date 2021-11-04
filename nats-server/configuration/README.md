@@ -140,8 +140,8 @@ authorization: {
 | :--- | :--- | :--- |
 | `max_connections` | Maximum number of active client connections. | `64K` |
 | `max_control_line` | Maximum length of a protocol line \(including combined length of subject and queue group\). Increasing this value may require [client changes](/developing-with-nats/connecting/misc.md#set-the-maximum-control-line-size) to be used. Applies to all traffic. | `4KB` |
-| `max_payload` | Maximum number of bytes in a message payload. Reducing this size may force you to implement [chunking](/developing-with-nats/connecting/misc.md#get-the-maximum-payload-size) in your clients. Applies to client and leafnode payloads. It is not recommended to use values over 8MB but `max_payload` can be set up to 64MB. | `1MB` |
-| `max_pending` | Maximum number of bytes buffered for a connection Applies to client connections. | `64MB` |
+| `max_payload` | Maximum number of bytes in a message payload. Reducing this size may force you to implement [chunking](/developing-with-nats/connecting/misc.md#get-the-maximum-payload-size) in your clients. Applies to client and leafnode payloads. It is not recommended to use values over 8MB but `max_payload` can be set up to 64MB. The max payload must be equal or smaller to the `max_pending` value. | `1MB` |
+| `max_pending` | Maximum number of bytes buffered for a connection Applies to client connections. Note that applications can also set 'PendingLimits' (number of messages and total size) for their subscriptions. | `64MB` |
 | `max_subscriptions` | Maximum numbers of subscriptions per client and leafnode accounts connection. | `0`, unlimited |
 
 ### JetStream
@@ -192,8 +192,8 @@ The Configuration options here refer to [JWT](/nats-server/configuration/securin
 
 | Property | Description |
 | :--- | :--- |
-| [`operator`](/nats-server/configuration/securing_nats/jwt/README.md#decentralized-authentication-and-authorization-configuration) | Path to an operator JWT. |
-| [`resolver`](/nats-server/configuration/securing_nats/jwt/README.md#decentralized-authentication-and-authorization-configuration) | Resolver type [`MEMORY`](/nats-server/configuration/securing_nats/jwt/resolver.md#memory) or [`URL(<url>)`](/nats-server/configuration/securing_nats/jwt/resolver.md#url-resolver) for account JWTs. \(When the operator JWT contains an account URL, it will be used as default. In this case `resolver` is only needed to overwrite the default.\) |
+| [`operator`](/nats-server/configuration/securing_nats/jwt/README.md) | Path to an operator JWT. |
+| [`resolver`](/nats-server/configuration/securing_nats/jwt/README.md) | The built-in NATS [`resolver`](/nats-server/configuration/securing_nats/jwt/resolver.md#nats-based-resolver), [`MEMORY`](/nats-server/configuration/securing_nats/jwt/resolver.md#memory) for static or [`URL(<url>)`](/nats-server/configuration/securing_nats/jwt/resolver.md#url-resolver) to use an external account server. \(When the operator JWT contains an account URL, it will be used as default. In this case `resolver` is only needed to overwrite the default.\) |
 | [`resolver_tls`](/nats-server/configuration/securing_nats/jwt/resolver.md#url-resolver) | [`tls` configuration map](/nats-server/configuration/securing_nats/tls.md) for tls connections to the resolver. \(This is for an outgoing connection and therefore does not use `timeout`, `verify` and `map_and_verify`\) |
 | [`resolver_preload`](/nats-server/configuration/securing_nats/jwt/resolver.md#memory) | [Map](/nats-server/configuration/securing_nats/jwt/resolver.md#memory) to preload account public keys and their corresponding JWT. Keys consist of `<account public nkey>`, value is the `<corresponding jwt>`. Only used when `resolver=MEMORY`. |
 
