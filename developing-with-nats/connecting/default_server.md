@@ -28,11 +28,11 @@ nc.close();
 {% tab title="JavaScript" %}
 ```javascript
 const ns = await NatsServer.start({ port: 4222 });
-  const nc = await connect();
-  // Do something with the connection
-  doSomething();
-  // When done close it
-  await nc.close();
+const nc = await connect();
+// Do something with the connection
+doSomething();
+// When done close it
+await nc.close();
 });
 ```
 {% endtab %}
