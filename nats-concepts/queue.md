@@ -10,6 +10,10 @@ One of the great features of NATS is that queue groups are defined by the applic
 
 Queue subscribers are ideal for scaling services. Scale up is as simple as running another application, scale down is terminating the application with a signal that drains the in flight requests. This flexibility and lack of any configuration changes makes NATS an excellent service communication technology that can work with all platform technologies.
 
+## No responder
+
+When a request is made to a service \(request/reply\) and the NATS Server knows there are no services available (as there are no client applications currently subscribing to the subject in a queue-group) the server will short circuit the request. A “no-responders” protocol message will be sent back to the requesting client which will break from blocking API calls. This allows applications to immediately react which further enables building a highly responsive system at scale, even in the face of application failures and network partitions.
+
 # Stream as a queue
 
 With [JetStream](/nats-concepts/jetstream.md) a stream can also be used as a queue by setting the retention policy to `WorkQueuePolicy` and leveraging [`pull` consumers](/jetstream/concepts/consumers.md) to get easy horizontal scalability of the processing.
