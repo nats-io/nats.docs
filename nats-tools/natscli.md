@@ -29,7 +29,8 @@ Binaries are also available as [GitHub Releases](https://github.com/nats-io/nats
 * `nats help [<command>...]` or `nats [<command>...] --help`
 * Remember to look at the cheat sheets!
   * `nats cheat`
-  * `nats cheat <command>`
+  * `nats cheat --sections`
+  * `nats cheat <section>>`
 ### Interacting with NATS
 * `nats context`
 * `nats account`
@@ -57,7 +58,7 @@ Binaries are also available as [GitHub Releases](https://github.com/nats-io/nats
 
 ## Configuration Contexts
 
-The CLI has a number of environment configuration settings - where your NATS server is, credentials, TLS keys and more:
+In practice, it is quite common for the administrators of a NATS service infrastructure to have to connect using various NATS URLs and security credentials, the CLI has a number of environment configuration settings that can be passed as command line arguments or set in environment variables. In order to facilitate switching between NATS environments or servers, clusters, operators, etc... nats lets you use 'contexts' that you can store and easily select.
 
 ```shell
 nats --help
@@ -80,14 +81,17 @@ Output extract
 
 You can set these using the CLI flag, the environment variable - like **NATS\_URL** - or using our context feature.
 
+### NATS Contexts
 A context is a named configuration that stores all of these settings, you can switch between access configurations and designate a default.
 
-Creating one is easy, just specify the same settings to the `nats context save`
+Creating one is easy, just specify the settings with `nats context save`
 
 ```shell
 nats context save example --server nats://nats.example.net:4222 --description 'Example.Net Server'
 nats context save local --server nats://localhost:4222 --description 'Local Host' --select 
 ```
+
+Or you can use `nats context create my_context_name` and then edit the created context file (i.e. in `~/.config/nats/context/my_context_name.json`)
 
 List your contexts
 ```shell
@@ -103,6 +107,13 @@ Known contexts:
 
 We passed `--select` to the `local` one meaning it will be the default when nothing is set.
 
+Select a context
+```shell
+nats context select
+```
+
+Check the round trip time to the server (using the currently selected context)
+
 ```shell
 nats rtt
 ```
@@ -113,6 +124,8 @@ nats://localhost:4222:
    nats://127.0.0.1:4222: 245.115µs
        nats://[::1]:4222: 390.239µs
 ```
+
+You can also specify a context directly
 
 ```shell
 nats rtt --context example
@@ -126,8 +139,6 @@ nats://nats.example.net:4222:
    nats://192.0.2.12:4222: 41.178009ms
 ```
 
-The `nats context select` command can be used to set the default context.
-
 All `nats` commands are context aware and the `nats context` command has various commands to view, edit and remove contexts.
 
 Server URLs and Credential paths can be resolved via the `nsc` command by specifying an URL, for example to find user `new` within the `orders` account of the `acme` operator you can use this:
@@ -137,8 +148,6 @@ nats context save example --description 'Example.Net Server' --nsc nsc://acme/or
 ```
 
 The server list and credentials path will now be resolved via `nsc`, if these are specifically set in the context, the specific context configuration will take precedence.
-
-
 
 ## Generating bcrypted passwords
 
