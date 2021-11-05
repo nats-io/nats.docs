@@ -86,7 +86,7 @@ Flow control is another way for the consumer to manage back pressure. Instead of
 
 ## IdleHeartbeat
 
-If the idle heartbeat period is set, the server will send a status message with to the client when the period has elapsed but it has not received any new messages. This lets the client know that it's still there, but just isn't receiving messages. The message status header will have a code of 100. Unlike FlowControl, it will have no reply to address. It may have a description like "Idle Heartbeat"
+If the idle heartbeat period is set, the server will regularly send a status message to the client (i.e. when the period has elapsed) while there are no new messages to send. This lets the client know that the JetStream service is still up and running, even when there is no activity on the stream. The message status header will have a code of 100. Unlike FlowControl, it will have no reply to address. It may have a description like "Idle Heartbeat"
 
 ## MaxAckPending
 
