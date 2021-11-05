@@ -24,3 +24,8 @@ You can easily 'extend' the nats service provided by a cluster or super-cluster 
 Leaf nodes appear to the cluster as a single account connection. Leaf Nodes can provide continuous nats service for their clients, even while being temporarily disconnected from the cluster(s). You can even enable JetStream on the leaf nodes in order to create local streams that are mirrored (mirroring is store and forward and therefore can recover from connectivity outages) to global streams in the upstream cluster(s).
 
 Client applications are configured with the URLs of their 'local' leaf node server(s) and establish a connection to (one of) the leaf node server(s) (e.g. `"nats://leaf-node-1","nats://leaf-node-2",...`).
+
+
+## See Also
+
+[NATS service geo-affinity in queues](https://youtu.be/jLTVhP08Tq0?t=190)

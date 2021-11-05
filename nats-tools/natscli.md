@@ -168,3 +168,6 @@ To use the password on the server, add the hash into the server configuration fi
 
 Note the client will still have to provide the plain text version of the password, the server however will only store the hash to verify that the password is correct when supplied.
 
+## See Also
+
+[Publish-subscribe pattern using the NATS CLI](https://www.youtube.com/watch?v=jLTVhP08Tq0)

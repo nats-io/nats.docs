@@ -231,3 +231,5 @@ natsOptions_Destroy(opts);
 
 Clients \(such as Go, Java, Javascript, Ruby and Type Script\) support providing a URL containing the `tls` protocol to the NATS connect call. This will turn on TLS without the need for further code changes. However, in that case there is likely some form of default or environmental settings to allow the TLS libraries of your programming language to find certificate and trusted CAs. Unless these settings are taken into accounts or otherwise modified, this way of connecting is very likely to fail.
 
+# See Also
+* [OSCP Stapling in Java](https://nats.io/blog/java-ocsp-stapling/)

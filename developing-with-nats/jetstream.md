@@ -79,14 +79,16 @@ Instead, it is better for applications to use the JetStream Publish calls (which
     * Whether you use the synchronous or the asynchronous JetStream publish calls, there is an implied flow control between the publisher and the JetStream infrastructure.
     * You can have 'exactly-once' quality of service by the JS publishing application inserting a unique publication ID in a header field of the message.
 
+#### See Also
+* [Sync and Async JS publishing in Java](https://nats.io/blog/sync-async-publish-java-client/#synchronous-and-asynchronous-publishing-with-the-nats-java-library)
+
 ### Create a consumer
     
 Consumers are how you get messages from a stream sent (i.e. 'replayed') to your application for processing or consumption. You can create *push* or *pull* consumers
 * *Push* consumers (specifically ordered push consumers) are the best way for an application to receive its own complete copy of the selected messages in the stream
 * *Pull* consumers are the best way to scale horizontally the processing (or consuming) of the selected messages in the stream, and for processing messages in batches
 
-Consumers can be ephemeral or durable, and support different sets of acknowledgement policies (none, this sequence number, this sequence number and all before it) 
-
+Consumers can be ephemeral or durable, and support different sets of acknowledgement policies (none, this sequence number, this sequence number and all before it)
 
 #### Replay policy
 
@@ -103,11 +105,19 @@ And you can select the replay speed to be instant or to match the initial public
 
 You subscribe from consumers using the JetStream's Subscribe, QueueSubscribe or PullSubscribe (and variations). 
 
-
 #### Acknowledging messages
 Some consumers require the client application code to acknowledge the processing or consumption of the message, but there is more than one way to acknowledge (or not) a message
 
 * `Ack` Acknowledges a message was completely handled 
 * `Nak` Signals that the message will not be processed now and processing can move onto the next message, NAK'd message will be retried 
 * `InProgress` When sent before the AckWait period indicates that work is ongoing and the period should be extended by another equal to `AckWait` 
-* `Term` Instructs the server to stop redelivery of a message without acknowledging it as successfully processed 
+* `Term` Instructs the server to stop redelivery of a message without acknowledging it as successfully processed
+
+#### See Also
+* Java
+  * [JetStream Java tutorial](https://nats.io/blog/hello-world-java-client/)
+  * [JetStream stream creation in Java](https://nats.io/blog/jetstream-java-client-01-stream-create/)
+  * [JetStream publishing in Java](https://nats.io/blog/jetstream-java-client-02-publish/)
+  * [Consumers in Java](https://nats.io/blog/jetstream-java-client-03-consume/)
+  * [Push consumers in Java](https://nats.io/blog/jetstream-java-client-04-push-subscribe/#jetstream-push-consumers-with-the-natsio-java-library)
+  * [Pull consumers in Java](https://nats.io/blog/jetstream-java-client-05-pull-subscribe/#jetstream-pull-consumers-with-the-natsio-java-library)

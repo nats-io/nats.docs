@@ -53,3 +53,8 @@ You can also send any number of requests back-to-back and see from the received 
 ## 7. Stop/start queue-group members
 
 You can at any time start yet another service instance, or kill one and see how the queue-group automatically takes care of adding/removing those instances from the group.
+
+
+## See Also
+
+[Queue groups using the NATS CLI](https://youtu.be/jLTVhP08Tq0?t=101)

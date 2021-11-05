@@ -126,3 +126,6 @@ In other words, retained messages in clustering mode is best-effort, and applica
 * MQTT concurrent sessions may result in the new connection to be evicted instead of the existing one.
 * MQTT retained messages in clustering mode is best effort.
 
+## See Also
+[Replace your MQTT Broker with NATS Server](https://nats.io/blog/replace-your-mqtt-broker-with-nats/)
+

@@ -16,7 +16,7 @@ When connecting to a cluster it is best to provide the complete set of 'seed' UR
 
 ## Authentication details
 2. If required: authentication details for the application to identify itself with the NATS server(s). NATS supports multiple authentication schemes:
-    * [Username/Password credentials](/developing-with-nats/security/userpass.md#connecting-with-a-user-password) (which can be passed as part of the NATS URL)
+    * [Username/Password credentials](/developing-with-nats/security/userpass.md) (which can be passed as part of the NATS URL)
     * [Decentralized JWT Authentication/Authorization](/developing-with-nats/security/creds.md) (where the application is configured with the location of 'credentials file' containing the JWT and private Nkey)
     * [Token Authentication](/developing-with-nats/security/token.md#connecting-with-a-token) (where the application is configured with a Token string)
     * [TLS Certificate](/developing-with-nats/security/tls.md#connecting-with-tls-and-verify-client-identity) (where the client is configured to use a client TLS certificate and the servers are configured to map the TLS client certificates to users defined in the server configuration)
@@ -29,3 +29,7 @@ Your application should expose a way to be configured at run time with a NATS UR
 ## Connection Options
 
 Besides the connectivity and security details, there are numerous options for a NATS connection ranging from timeouts to reconnect settings.
+
+## See Also
+
+[WebSocket and NATS](https://www.youtube.com/watch?v=AbAR9zgJnjY&t=1s) and [NATS WebSockets and React](https://www.youtube.com/watch?v=XS_Q0i6orSk)

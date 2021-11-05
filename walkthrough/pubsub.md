@@ -103,3 +103,8 @@ nats sub msg.*
 ## 12. Publish another message
 
 This time, all three subscribing clients should receive the message.
+
+
+# See Also
+
+[Publish-subscribe pattern with NATS CLI video](https://www.youtube.com/watch?v=jLTVhP08Tq0)
