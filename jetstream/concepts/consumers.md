@@ -80,17 +80,17 @@ The name of the Consumer, which the server will track, allowing resuming consump
 
 When consuming from a stream with a wildcard subject, this allows you to select a subset of the full wildcard subject to receive messages from.
 
+## MaxAckPending
+
+MaxAckPending implements a simple form of _one-to-many_ flow control. It sets the maximum number of messages without an acknowledgement that can be outstanding, once this limit is reached message delivery will be suspended. It cannot be used with AckNone ack policy. This maximum number of pending acks applies for _all_ of the consumer's subscriber processes. A value of -1 means there can be any number of pending acks (i.e. no flow control)
+
 ## FlowControl
 
-Flow control is another way for the consumer to manage back pressure. Instead of relying on the rate limit, it relies on the pending limits of max messages and/or max bytes. If the server sends the number of messages or bytes without receiving an ack, it will send a status message letting you know it has reached this limit. Once flow control is tripped, the server will not start sending messages again until the client tells the server, even if all messages have been acknowledged. The message status header will have a code of 100 and have an address in the message reply to field. The reply to address is where \(the subject\) to publish an empty message to. The status message may have a description like "FlowControl Request"
+This flow control setting is to enable or not another form of flow control in parallel to MaxAckPending. But unlike MaxAckPending it is a _one-to-one_ flow control that operates independently for each individual subscriber to the consumer. It uses a sliding-window flow-control protocol whose attributes (e.g. size of the window) are _not_ user adjustable.
 
 ## IdleHeartbeat
 
 If the idle heartbeat period is set, the server will regularly send a status message to the client (i.e. when the period has elapsed) while there are no new messages to send. This lets the client know that the JetStream service is still up and running, even when there is no activity on the stream. The message status header will have a code of 100. Unlike FlowControl, it will have no reply to address. It may have a description like "Idle Heartbeat"
-
-## MaxAckPending
-
-The maximum number of messages without an acknowledgement that can be outstanding, once this limit is reached message delivery will be suspended. It cannot be used with AckNone ack policy.
 
 ## MaxDeliver
 
