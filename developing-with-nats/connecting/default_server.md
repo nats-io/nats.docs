@@ -27,15 +27,12 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect();
-nc.on('connect', (c) => {
-    // Do something with the connection
-    doSomething();
-    // When done close it
-    nc.close();
-});
-nc.on('error', (err) => {
-    failed(err);
+const ns = await NatsServer.start({ port: 4222 });
+const nc = await connect();
+// Do something with the connection
+doSomething();
+// When done close it
+await nc.close();
 });
 ```
 {% endtab %}
@@ -100,4 +97,3 @@ natsConnection_Destroy(conn);
 ```
 {% endtab %}
 {% endtabs %}
-
