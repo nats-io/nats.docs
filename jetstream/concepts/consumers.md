@@ -82,7 +82,11 @@ When consuming from a stream with a wildcard subject, this allows you to select 
 
 ## MaxAckPending
 
-MaxAckPending implements a simple form of _one-to-many_ flow control. It sets the maximum number of messages without an acknowledgement that can be outstanding, once this limit is reached message delivery will be suspended. It cannot be used with AckNone ack policy. This maximum number of pending acks applies for _all_ of the consumer's subscriber processes. A value of -1 means there can be any number of pending acks (i.e. no flow control)
+MaxAckPending implements a simple form of _one-to-many_ flow control. It sets the maximum number of messages without an acknowledgement that can be outstanding, once this limit is reached message delivery will be suspended. It cannot be used with AckNone ack policy. This maximum number of pending acks applies for _all_ of the consumer's subscriber processes. A value of -1 means there can be any number of pending acks (i.e. no flow control).
+
+### Note about pull consumers: 
+
+For pull consumers, you actually want to set MaxAckPending to `-1` (i.e. disable it), as it can otherwise place a limit on the horizontal scalability of the processing of the stream. Because delivery of the messages to the client application through pull consumers is client demand-driven rather than server initiated, there is no need for any kind of one-to-many flow control. With pull consumers at a given point in time, the number of pending acks is a function of the number of client applications calling `fetch` on the pull consumer and the requested batch size for that operation. 
 
 ## FlowControl
 
