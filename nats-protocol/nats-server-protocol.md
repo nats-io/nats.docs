@@ -12,9 +12,9 @@ The NATS cluster protocol is very similar to that of the NATS client protocol. I
 
 **Subject names and wildcards**: The NATS cluster protocol has the same features and restrictions as the client with respect to subject names and wildcards. Clients are bound to a single account, however the cluster protocol handles all accounts.
 
-**Field Delimiters**: The fields of NATS protocol messages are delimited by whitespace characters '```'\(space\) or``\t\` \(tab\). Multiple whitespace characters will be treated as a single field delimiter.
+**Field Delimiters**: The fields of NATS protocol messages are delimited by whitespace characters '`` `'\(space\) or ``\t\` (tab). Multiple whitespace characters will be treated as a single field delimiter.
 
-**Newlines**: Like other text-based protocols, NATS uses `CR` followed by `LF` \(`CR+LF`, `\r\n`, `0x0D0A`\) to terminate protocol messages. This newline sequence is also used to mark the beginning of the actual message payload in a `RMSG` protocol message.
+**Newlines**: Like other text-based protocols, NATS uses `CR` followed by `LF` (`CR+LF`, `\r\n`, `0x0D0A`) to terminate protocol messages. This newline sequence is also used to mark the beginning of the actual message payload in a `RMSG` protocol message.
 
 ## NATS Cluster protocol messages
 
@@ -22,16 +22,16 @@ The following table briefly describes the NATS cluster protocol messages. As in 
 
 Click the name to see more detailed information, including syntax:
 
-| OP Name | Sent By | Description |
-| :--- | :--- | :--- |
-| [`INFO`](nats-server-protocol.md#info) | All Servers | Sent after initial TCP/IP connection and to update cluster knowledge |
-| [`CONNECT`](nats-server-protocol.md#connect) | All Servers | Sent to establish a route |
-| [`RS+`](nats-server-protocol.md#sub) | All Servers | Subscribes to a subject for a given account on behalf of interested clients. |
-| [`RS-`](nats-server-protocol.md#unsub) | All Servers | Unsubscribe \(or auto-unsubscribe\) from subject for a given account. |
-| [`RMSG`](nats-server-protocol.md#rmsg) | Origin Server | Delivers a message for a given subject and account to another server. |
-| [`PING`](nats-server-protocol.md#pingpong) | All Servers | PING keep-alive message |
-| [`PONG`](nats-server-protocol.md#pingpong) | All Servers | PONG keep-alive response |
-| [`-ERR`](nats-server-protocol.md#-err) | All Servers | Indicates a protocol error. May cause the remote server to disconnect. |
+| OP Name                                      | Sent By       | Description                                                                  |
+| -------------------------------------------- | ------------- | ---------------------------------------------------------------------------- |
+| [`INFO`](nats-server-protocol.md#info)       | All Servers   | Sent after initial TCP/IP connection and to update cluster knowledge         |
+| [`CONNECT`](nats-server-protocol.md#connect) | All Servers   | Sent to establish a route                                                    |
+| [`RS+`](nats-server-protocol.md#sub)         | All Servers   | Subscribes to a subject for a given account on behalf of interested clients. |
+| [`RS-`](nats-server-protocol.md#unsub)       | All Servers   | Unsubscribe (or auto-unsubscribe) from subject for a given account.          |
+| [`RMSG`](nats-server-protocol.md#rmsg)       | Origin Server | Delivers a message for a given subject and account to another server.        |
+| [`PING`](nats-server-protocol.md#pingpong)   | All Servers   | PING keep-alive message                                                      |
+| [`PONG`](nats-server-protocol.md#pingpong)   | All Servers   | PONG keep-alive response                                                     |
+| [`-ERR`](nats-server-protocol.md#-err)       | All Servers   | Indicates a protocol error. May cause the remote server to disconnect.       |
 
 The following sections explain each protocol message.
 
@@ -66,7 +66,7 @@ The valid options are as follows:
 
 Below is an example of an `INFO` string received by a NATS server, with the `ip` field.
 
-```text
+```
 INFO {"server_id":"KP19vTlB417XElnv8kKaC5","version":"2.0.0","go":"","host":"localhost","port":5222,"auth_required":false,"tls_required":false,"tls_verify":false,"max_payload":1048576,"ip":"nats-route://127.0.0.1:5222/","connect_urls":["localhost:4222"]}
 ```
 
@@ -84,10 +84,10 @@ The valid options are as follows:
 
 * `tls_required`: Indicates whether the server requires an SSL connection.
 * `auth_token`:  Authorization token
-* `user`: Connection username \(if `auth_required` is set\)
-* `pass`: Connection password \(if `auth_required` is set\)
+* `user`: Connection username (if `auth_required` is set)
+* `pass`: Connection password (if `auth_required` is set)
 * `name`: Generated Server Name
-* `lang`: The implementation language of the server \(go\).
+* `lang`: The implementation language of the server (go).
 * `version`: The version of the server.
 
 ### Example
@@ -165,4 +165,3 @@ If the another server sends a ping request, a server will reply with a pong mess
 ### Description
 
 The `-ERR` message is used by the server to indicate a protocol, authorization, or other runtime connection error to another server. Most of these errors result in the remote server closing the connection.
-

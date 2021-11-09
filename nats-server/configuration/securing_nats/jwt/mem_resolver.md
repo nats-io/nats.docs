@@ -15,18 +15,23 @@ Let's create the setup:
 ```shell
 nsc add operator -n memory
 ```
+
 Output
-```text
+
+```
 Generated operator key - private key stored "~/.nkeys/memory/memory.nk"
 Success! - added operator "memory"
 ```
 
 Add an account 'A'
+
 ```shell
 nsc add account --name A
 ```
+
 Output
-```text
+
+```
 Generated account key - private key stored "~/.nkeys/memory/accounts/A/A.nk"
 Success! - added account "A"
 ```
@@ -36,8 +41,10 @@ Describe the account
 ```shell
 nsc describe account -W
 ```
+
 Output
-```text
+
+```
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
 ├───────────────────────────┬──────────────────────────────────────────────────────────┤
@@ -66,8 +73,10 @@ Create a new user 'TA'
 ```shell
 nsc add user --name TA
 ```
+
 Output
-```text
+
+```
 Generated user key - private key stored "~/.nkeys/memory/accounts/A/users/TA.nk"
 Generated user creds file "~/.nkeys/memory/accounts/A/users/TA.creds"
 Success! - added user "TA" to "A"
@@ -81,13 +90,13 @@ The `nsc` tool can generate a configuration file automatically. You provide a pa
 nsc generate config --mem-resolver --config-file /tmp/server.conf 
 ```
 
-If you require additional settings, you may want to consider using [`include`](../../#include-directive) in your main configuration, to reference the generated files. Otherwise, you can start a server and reference the generated configuration:
+If you require additional settings, you may want to consider using [`include`](broken-reference) in your main configuration, to reference the generated files. Otherwise, you can start a server and reference the generated configuration:
 
 ```shell
 nats-server -c /tmp/server.conf
 ```
 
-You can then [test it](mem_resolver.md#testing-the-configuration).
+You can then [test it](mem\_resolver.md#testing-the-configuration).
 
 ## Manual Server Config
 
@@ -100,7 +109,7 @@ For the configuration you'll need:
 
 The format of the file is:
 
-```text
+```
 operator: <path to the operator jwt or jwt itself>
 resolver: MEMORY
 resolver_preload: {
@@ -112,7 +121,7 @@ resolver_preload: {
 
 In this example this translates to:
 
-```text
+```
 operator: /Users/synadia/.nsc/nats/memory/memory.jwt
 resolver: MEMORY
 resolver_preload: {
@@ -126,7 +135,7 @@ Save the config at server.conf and start the server:
 nats-server -c server.conf
 ```
 
-You can then [test it](mem_resolver.md#testing-the-configuration).
+You can then [test it](mem\_resolver.md#testing-the-configuration).
 
 ## Testing the Configuration
 
@@ -135,4 +144,3 @@ To test the configuration, simply use one of the standard tools:
 ```shell
 nats-pub -creds ~/.nkeys/creds/memory/accounts/A/TA.creds hello world
 ```
-

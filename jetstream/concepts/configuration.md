@@ -1,8 +1,8 @@
-# JetStream Consumers Example
+# Example
 
 Consider this architecture
 
-![Orders](../../.gitbook/assets/streams-and-consumers-75p.png)
+![Orders](<../../.gitbook/assets/streams-and-consumers-75p (1).png>)
 
 While it is an incomplete architecture it does show a number of key points:
 
@@ -16,8 +16,6 @@ All messages are delivered to a `MONITOR` Consumer without any acknowledgement a
 
 As messages are acknowledged to the `NEW` and `DISPATCH` Consumers, a percentage of them are Sampled and messages indicating redelivery counts, ack delays and more, are delivered to the monitoring system.
 
-
-
 ## Example Configuration
 
 [Additional documentation](../clustering/administration.md) introduces the `nats` utility and how you can use it to create, monitor, and manage streams and consumers, but for completeness and reference this is how you'd create the ORDERS scenario. We'll configure a 1 year retention for order related messages:
@@ -28,4 +26,3 @@ nats consumer add ORDERS NEW --filter ORDERS.received --ack explicit --pull --de
 nats consumer add ORDERS DISPATCH --filter ORDERS.processed --ack explicit --pull --deliver all --max-deliver=-1 --sample 100
 nats consumer add ORDERS MONITOR --filter '' --ack none --target monitor.ORDERS --deliver last --replay instant
 ```
-

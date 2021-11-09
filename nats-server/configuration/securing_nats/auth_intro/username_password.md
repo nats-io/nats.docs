@@ -4,7 +4,7 @@ You can authenticate one or more clients using username and passwords; this enab
 
 For a single user:
 
-```text
+```
 authorization: {
     user: a,
     password: b
@@ -13,13 +13,13 @@ authorization: {
 
 You can also specify a single username/password by:
 
-```text
+```
 > nats-server --user a --pass b
 ```
 
 For multiple users:
 
-```text
+```
 authorization: {
     users: [
         {user: a, password: b},
@@ -30,9 +30,9 @@ authorization: {
 
 ## Bcrypted Passwords
 
-Username/password also supports bcrypted passwords using the [`nats`](../../../../nats-tools/natscli.md) tool. Simply replace the clear text password with the bcrypted entries:
+Username/password also supports bcrypted passwords using the [`nats`](broken-reference) tool. Simply replace the clear text password with the bcrypted entries:
 
-```text
+```
 > nats server passwd
 ? Enter password [? for help] **********************
 ? Reenter password [? for help] **********************
@@ -42,7 +42,7 @@ $2a$11$V1qrpBt8/SLfEBr4NJq4T.2mg8chx8.MTblUiTBOLV3MKDeAy.f7u
 
 And on the configuration file:
 
-```text
+```
 authorization: {
     users: [
         {user: a, password: "$2a$11$V1qrpBt8/SLfEBr4NJq4T.2mg8chx8.MTblUiTBOLV3MKDeAy.f7u"},
@@ -55,7 +55,6 @@ authorization: {
 
 As you add/remove passwords from the server configuration file, you'll want your changes to take effect. To reload without restarting the server and disconnecting clients, do:
 
-```text
+```
 > nats-server --signal reload
 ```
-

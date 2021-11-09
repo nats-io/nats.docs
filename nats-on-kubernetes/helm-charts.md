@@ -60,7 +60,7 @@ nats:
 
 ### TLS setup for client connections
 
-You can find more on how to set up and troubleshoot TLS connections at: [nats-server/configuration/securing\_nats/tls](../nats-server/configuration/securing_nats/tls.md)
+You can find more on how to set up and troubleshoot TLS connections at: [nats-server/configuration/securing\_nats/tls](broken-reference)
 
 ```yaml
 nats:
@@ -74,7 +74,7 @@ nats:
 
 ## Clustering
 
-If clustering is enabled, then a 3-node cluster will be set up. More info at: [nats-server/configuration/clustering\#nats-server-clustering](../nats-server/configuration/clustering/#nats-server-clustering)
+If clustering is enabled, then a 3-node cluster will be set up. More info at: [nats-server/configuration/clustering#nats-server-clustering](../nats-server/configuration/clustering/#nats-server-clustering)
 
 ```yaml
 cluster:
@@ -509,7 +509,7 @@ securityContext:
 
 #### Affinity
 
-[https://kubernetes.io/docs/concepts/configuration/assign-pod-node/\#affinity-and-anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
+[https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 
 `matchExpressions` must be configured according to your setup
 
@@ -595,4 +595,3 @@ spec:
   imagePullSecrets:
     - name: myRegistry
 ```
-

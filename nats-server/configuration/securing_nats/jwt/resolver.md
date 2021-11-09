@@ -1,20 +1,20 @@
 # Account lookup using Resolver
 
-The `resolver` configuration option is used in conjunction with [NATS JWT Authentication](./README.md) and [nsc](../../../../nats-tools/nsc/README.md). The `resolver` option specifies a URL where the nats-server can retrieve an account JWT. There are 3 resolver implementations:
+The `resolver` configuration option is used in conjunction with [NATS JWT Authentication](./) and [nsc](../../../../nats-tools/nsc/). The `resolver` option specifies a URL where the nats-server can retrieve an account JWT. There are 3 resolver implementations:
 
 * [NATS Based Resolver](resolver.md#nats-based-resolver) which is the preferred option and should be your default selection
 * [`MEMORY`](resolver.md#MEMORY) if you want to statically define the accounts in the server configuration
-* [`URL`](resolver.md#URL-Resolver) if you want to build your own account service, typically in order to have some integration of NATS security with some external security system. 
+* [`URL`](resolver.md#URL-Resolver) if you want to build your own account service, typically in order to have some integration of NATS security with some external security system.
 
 > If the operator JWT specified in `operator` contains an account resolver URL, `resolver` only needs to be specified in order to overwrite that default.
 
 ## NATS Based Resolver
 
-The NATS based resolver is the preferred and easiest way to enable account lookup for the nats servers. It is built-in into `nats-server` and stores the account JWTs in a local \(not shared\) directory that the server has access to (i.e. you can't have more than one `nats-server`s using the same directory. All the servers in the cluster or super-cluster must be configured to use it, and they implement an 'eventually consistent' mechanism via NATS and the system account to synchronize (or lookup) the account data between themselves.
+The NATS based resolver is the preferred and easiest way to enable account lookup for the nats servers. It is built-in into `nats-server` and stores the account JWTs in a local (not shared) directory that the server has access to (i.e. you can't have more than one `nats-server`s using the same directory. All the servers in the cluster or super-cluster must be configured to use it, and they implement an 'eventually consistent' mechanism via NATS and the system account to synchronize (or lookup) the account data between themselves.
 
 In order to avoid having to store all account JWT on every `nats-server` (i.e. is you have a _lot_ of accounts), this resolver has two sub types `full` and `cache`.
 
-In this mode of operation administrators typically use the [`nsc`](../../../../nats-tools/nsc/README.md) CLI tool to create/manage the JWTs locally, and use `nsc push` to push new JWTs to the nats-servers' built-in resolvers, `nsc pull` to refresh their local copy of account JWTs, and `nsc revocations` to revoke them.
+In this mode of operation administrators typically use the [`nsc`](../../../../nats-tools/nsc/) CLI tool to create/manage the JWTs locally, and use `nsc push` to push new JWTs to the nats-servers' built-in resolvers, `nsc pull` to refresh their local copy of account JWTs, and `nsc revocations` to revoke them.
 
 ### Full
 
@@ -64,9 +64,9 @@ resolver: {
 
 The NATS based resolver utilizes the system account for lookup and upload of account JWTs. If your application requires tighter integration you can make use of these subjects for tighter integration.
 
-To upload or update any generated account JWT without [`nsc`](../../../../nats-tools/nsc/README.md), send it as a request to `$SYS.REQ.CLAIMS.UPDATE`. Each participating `full` NATS based account resolver will respond with a message detailing success or failure.
+To upload or update any generated account JWT without [`nsc`](../../../../nats-tools/nsc/), send it as a request to `$SYS.REQ.CLAIMS.UPDATE`. Each participating `full` NATS based account resolver will respond with a message detailing success or failure.
 
-To serve a requested account JWT yourself and essentially implement an account server, subscribe to `$SYS.REQ.ACCOUNT.*.CLAIMS.LOOKUP` and respond with the account JWT corresponding to the requested account id \(wildcard\).
+To serve a requested account JWT yourself and essentially implement an account server, subscribe to `$SYS.REQ.ACCOUNT.*.CLAIMS.LOOKUP` and respond with the account JWT corresponding to the requested account id (wildcard).
 
 ### Migrating account data
 
@@ -92,12 +92,11 @@ ACSU3Q6LTLBVLGAQUONAGXJHVNWGSKKAUA7IY5TB4Z7PLEKSR5O6JTGR: eyJ0eXAiOiJqd3QiLCJhbG
 
 The `MEMORY` resolver is recommended when the server has a small number of accounts that don't change very often.
 
-For more information on how to configure a memory resolver, see [this tutorial](mem_resolver.md).
-
+For more information on how to configure a memory resolver, see [this tutorial](mem\_resolver.md).
 
 ## URL Resolver
 
-**NOTE:** The [standalone NATS Account JWT Server](/nats-tools/nas/README.md) is now _legacy_, please use the [NATS Based Resolver](resolver.md#nats-based-resolver) instead. However, the URL resolver option is still available in case you want to implement your own version of an account resolver
+**NOTE:** The [standalone NATS Account JWT Server](../../../../nats-tools/nas/) is now _legacy_, please use the [NATS Based Resolver](resolver.md#nats-based-resolver) instead. However, the URL resolver option is still available in case you want to implement your own version of an account resolver
 
 The `URL` resolver specifies a URL where the server can append an account public key to retrieve that account's JWT. Convention for standalone NATS Account JWT Servers is to serve JWTs at: `http://localhost:9090/jwt/v1/accounts/`. For such a configuration you would specify the resolver as follows:
 
@@ -107,4 +106,4 @@ resolver: URL(http://localhost:9090/jwt/v1/accounts/)
 
 > Note that if you are not using a nats-account-server, the URL can be anything as long as by appending the public key for an account, the requested JWT is returned.
 
-If the server used requires client authentication, or you want to specify which CA is trusted for the lookup of account information, specify `resolver_tls`. This [`tls` configuration map](../tls.md) lets you further restrict TLS to the resolver.
+If the server used requires client authentication, or you want to specify which CA is trusted for the lookup of account information, specify `resolver_tls`. This [`tls` configuration map](broken-reference) lets you further restrict TLS to the resolver.

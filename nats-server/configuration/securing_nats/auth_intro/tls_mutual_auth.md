@@ -7,13 +7,13 @@ The server can require TLS certificates from a client. When needed, you can use 
 
 > Note: To simplify the common scenario of maintainers looking at the monitoring endpoint, `verify` and `verify_and_map` do not apply to the monitoring port.
 
-The examples in the following sections make use of the certificates you [generated](../tls.md#self-signed-certificates-for-testing) locally.
+The examples in the following sections make use of the certificates you [generated](broken-reference) locally.
 
 ## Validating a Client Certificate
 
 The server can verify a client certificate using a CA certificate. To require verification, add the option `verify` to the TLS configuration section as follows:
 
-```text
+```
 tls {
   cert_file: "server-cert.pem"
   key_file:  "server-key.pem"
@@ -36,7 +36,7 @@ In addition to verifying that a specified CA issued a client certificate, you ca
 
 To have TLS Mutual Authentication map certificate attributes to the user's identity use `verify_and_map` as shown as follows:
 
-```text
+```
 tls {
   cert_file: "server-cert.pem"
   key_file:  "server-key.pem"
@@ -48,15 +48,17 @@ tls {
 
 > Note that `verify` was changed to `verify_and_map`.
 
-When present, the server will check if a Subject Alternative Name \(SAN\) maps to a user. It will search all email addresses first, then all DNS names. If no user could be found, it will try the certificate subject.
+When present, the server will check if a Subject Alternative Name (SAN) maps to a user. It will search all email addresses first, then all DNS names. If no user could be found, it will try the certificate subject.
 
 > Note: This mechanism will pick the user it finds first. There is no configuration to restrict this.
 
 ```shell
 openssl x509 -noout -text -in  client-cert.pem
 ```
+
 Output
-```text
+
+```
 Certificate:
 ...
         X509v3 extensions:
@@ -69,7 +71,7 @@ Certificate:
 
 The configuration to authorize this user would be as follow:
 
-```text
+```
 authorization {
   users = [
     {user: "email@localhost"}
@@ -82,8 +84,10 @@ Use the [RFC 2253 Distinguished Names](https://tools.ietf.org/html/rfc2253) synt
 ```shell
 openssl x509 -noout -text -in client-cert.pem
 ```
+
 Output
-```text
+
+```
 Certificate:
     Data:
 ...
@@ -95,7 +99,7 @@ Certificate:
 
 The configuration to authorize this user would be as follows:
 
-```text
+```
 authorization {
   users = [
     {user: "OU=testuser@MacBook-Pro.local (Test User),O=mkcert development certificate"}
@@ -105,5 +109,4 @@ authorization {
 
 ## TLS Timeout
 
-[TLS timeout](../tls.md#tls-timeout) is described here.
-
+[TLS timeout](broken-reference) is described here.

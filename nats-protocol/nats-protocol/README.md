@@ -2,7 +2,7 @@
 
 ## Client Protocol
 
-The wire protocol used to communicate between the NATS server and clients is a simple, text-based publish/subscribe style protocol. Clients connect to and communicate with `nats-server` \(the NATS server\) through a regular TCP/IP socket using a small set of protocol operations that are terminated by a new line.
+The wire protocol used to communicate between the NATS server and clients is a simple, text-based publish/subscribe style protocol. Clients connect to and communicate with `nats-server` (the NATS server) through a regular TCP/IP socket using a small set of protocol operations that are terminated by a new line.
 
 Unlike traditional messaging systems that use a binary message format that require an API to consume, the text-based NATS protocol makes it easy to implement clients in a wide variety of programming and scripting languages. In fact, refer to the topic [NATS Protocol Demo](../nats-protocol-demo.md) to play with the NATS protocol for yourself using telnet.
 
@@ -12,46 +12,46 @@ The NATS server implements a [zero allocation byte parser](https://youtu.be/ylRK
 
 **Control line w/Optional Content**: Each interaction between the client and server consists of a control, or protocol, line of text followed, optionally by message content. Most of the protocol messages don't require content, only `PUB` and `MSG` include payloads.
 
-**Field Delimiters**: The fields of NATS protocol messages are delimited by whitespace characters '```'\(space\) or``\t\` \(tab\). Multiple whitespace characters will be treated as a single field delimiter.
+**Field Delimiters**: The fields of NATS protocol messages are delimited by whitespace characters '\`\`\`'(space) or\`\`\t\` (tab). Multiple whitespace characters will be treated as a single field delimiter.
 
-**Newlines**: NATS uses `CR` followed by `LF` \(`CR+LF`, `\r\n`, `0x0D0A`\) to terminate protocol messages. This newline sequence is also used to mark the end of the message payload in a `PUB` or `MSG` protocol message.
+**Newlines**: NATS uses `CR` followed by `LF` (`CR+LF`, `\r`, `0x0D0A`) to terminate protocol messages. This newline sequence is also used to mark the end of the message payload in a `PUB` or `MSG` protocol message.
 
-**Subject names**: Subject names, including reply subject \(INBOX\) names, are case-sensitive and must be non-empty alphanumeric strings with no embedded whitespace. All ascii alphanumeric characters except spaces/tabs and separators which are "." and "&gt;" are allowed. Subject names can be optionally token-delimited using the dot character \(`.`\), e.g.:
+**Subject names**: Subject names, including reply subject (INBOX) names, are case-sensitive and must be non-empty alphanumeric strings with no embedded whitespace. All ascii alphanumeric characters except spaces/tabs and separators which are "." and ">" are allowed. Subject names can be optionally token-delimited using the dot character (`.`), e.g.:
 
 `FOO`, `BAR`, `foo.bar`, `foo.BAR`, `FOO.BAR` and `FOO.BAR.BAZ` are all valid subject names
 
 `FOO. BAR`, `foo. .bar` and`foo..bar` are _not_ valid subject names
 
-A subject is comprised of 1 or more tokens. Tokens are separated by "." and can be any non space ascii alphanumeric character. The full wildcard token "&gt;" is only valid as the last token and matches all tokens past that point. A token wildcard, "\*" matches any token in the position it was listed. Wildcard tokens should only be used in a wildcard capacity and not part of a literal token.
+A subject is comprised of 1 or more tokens. Tokens are separated by "." and can be any non space ascii alphanumeric character. The full wildcard token ">" is only valid as the last token and matches all tokens past that point. A token wildcard, "\*" matches any token in the position it was listed. Wildcard tokens should only be used in a wildcard capacity and not part of a literal token.
 
 **Character Encoding**: Subject names should be ascii characters for maximum interoperability. Due to language constraints and performance, some clients may support UTF-8 subject names, as may the server. No guarantees of non-ASCII support are provided.
 
 **Wildcards**: NATS supports the use of wildcards in subject subscriptions.
 
-* The asterisk character \(`*`\) matches a single token at any level of the subject.
-* The greater than symbol \(`>`\), also known as the _full wildcard_, matches one or more tokens at the tail of a subject, and must be the last token. The wildcarded subject `foo.>` will match `foo.bar` or `foo.bar.baz.1`, but not `foo`. 
-* Wildcards must be a separate token \(`foo.*.baz` or `foo.>` are syntactically valid; `foo*.bar`, `f*o.b*r` and `foo>` are not\)
+* The asterisk character (`*`) matches a single token at any level of the subject.
+* The greater than symbol (`>`), also known as the _full wildcard_, matches one or more tokens at the tail of a subject, and must be the last token. The wildcarded subject `foo.>` will match `foo.bar` or `foo.bar.baz.1`, but not `foo`.
+* Wildcards must be a separate token (`foo.*.baz` or `foo.>` are syntactically valid; `foo*.bar`, `f*o.b*r` and `foo>` are not)
 
 For example, the wildcard subscriptions `foo.*.quux` and `foo.>` both match `foo.bar.quux`, but only the latter matches `foo.bar.baz`. With the full wildcard, it is also possible to express interest in every subject that may exist in NATS: `sub > 1`, limited of course by authorization settings.
 
 ## Protocol messages
 
-The following table briefly describes the NATS protocol messages. NATS protocol operation names are case insensitive, thus `SUB foo 1\r\n` and `sub foo 1\r\n` are equivalent.
+The following table briefly describes the NATS protocol messages. NATS protocol operation names are case insensitive, thus `SUB foo 1\r` and `sub foo 1\r` are equivalent.
 
 Click the name to see more detailed information, including syntax:
 
-| OP Name | Sent By | Description |
-| :--- | :--- | :--- |
-| [`INFO`](./#info) | Server | Sent to client after initial TCP/IP connection |
-| [`CONNECT`](./#connect) | Client | Sent to server to specify connection information |
-| [`PUB`](./#pub) | Client | Publish a message to a subject, with optional reply subject |
-| [`SUB`](./#sub) | Client | Subscribe to a subject \(or subject wildcard\) |
-| [`UNSUB`](./#unsub) | Client | Unsubscribe \(or auto-unsubscribe\) from subject |
-| [`MSG`](./#msg) | Server | Delivers a message payload to a subscriber |
-| [`PING`](./#pingpong) | Both | PING keep-alive message |
-| [`PONG`](./#pingpong) | Both | PONG keep-alive response |
-| [`+OK`](./#okerr) | Server | Acknowledges well-formed protocol message in `verbose` mode |
-| [`-ERR`](./#okerr) | Server | Indicates a protocol error. May cause client disconnect. |
+| OP Name                 | Sent By | Description                                                 |
+| ----------------------- | ------- | ----------------------------------------------------------- |
+| [`INFO`](./#info)       | Server  | Sent to client after initial TCP/IP connection              |
+| [`CONNECT`](./#connect) | Client  | Sent to server to specify connection information            |
+| [`PUB`](./#pub)         | Client  | Publish a message to a subject, with optional reply subject |
+| [`SUB`](./#sub)         | Client  | Subscribe to a subject (or subject wildcard)                |
+| [`UNSUB`](./#unsub)     | Client  | Unsubscribe (or auto-unsubscribe) from subject              |
+| [`MSG`](./#msg)         | Server  | Delivers a message payload to a subscriber                  |
+| [`PING`](./#pingpong)   | Both    | PING keep-alive message                                     |
+| [`PONG`](./#pingpong)   | Both    | PONG keep-alive response                                    |
+| [`+OK`](./#okerr)       | Server  | Acknowledges well-formed protocol message in `verbose` mode |
+| [`-ERR`](./#okerr)      | Server  | Indicates a protocol error. May cause client disconnect.    |
 
 The following sections explain each protocol message.
 
@@ -61,7 +61,7 @@ The following sections explain each protocol message.
 
 A client will need to start as a plain TCP connection, then when the server accepts a connection from the client, it will send information about itself, the configuration and security requirements necessary for the client to successfully authenticate with the server and exchange messages.
 
-When using the updated client protocol \(see [`CONNECT`](./#connect) below\), `INFO` messages can be sent anytime by the server. This means clients with that protocol level need to be able to asynchronously handle `INFO` messages.
+When using the updated client protocol (see [`CONNECT`](./#connect) below), `INFO` messages can be sent anytime by the server. This means clients with that protocol level need to be able to asynchronously handle `INFO` messages.
 
 ### Syntax
 
@@ -76,11 +76,11 @@ The valid options are as follows:
 * `port`: The port number the NATS server is configured to listen on
 * `max_payload`: Maximum payload size, in bytes, that the server will accept from the client.
 * `proto`: An integer indicating the protocol version of the server. The server version 1.2.0 sets this to `1` to indicate that it supports the "Echo" feature.
-* `client_id`: An optional unsigned integer \(64 bits\) representing the internal client identifier in the server. This can be used to filter client connections in monitoring, correlate with error logs, etc...
+* `client_id`: An optional unsigned integer (64 bits) representing the internal client identifier in the server. This can be used to filter client connections in monitoring, correlate with error logs, etc...
 * `auth_required`: If this is set, then the client should try to authenticate upon connect.
 * `tls_required`: If this is set, then the client must perform the TLS/1.2 handshake. Note, this used to be `ssl_required` and has been updated along with the protocol from SSL to TLS.
 * `tls_verify`: If this is set, the client must provide a valid certificate during the TLS handshake.
-* `connect_urls` : An optional list of server urls that a client can connect to.  
+* `connect_urls` : An optional list of server urls that a client can connect to.
 * `ldm`: If the server supports _Lame Duck Mode_ notifications, and the current server has transitioned to lame duck, `ldm` will be set to `true`.
 
 #### connect\_urls
@@ -98,9 +98,10 @@ Below you can see a sample connection string from a telnet connection to the `de
 ```bash
 telnet demo.nats.io 4222
 ```
-Output
-```text
 
+Output
+
+```
 Trying 107.170.221.32...
 Connected to demo.nats.io.
 Escape character is '^]'.
@@ -122,14 +123,14 @@ The valid options are as follows:
 * `verbose`: Turns on [`+OK`](./#okerr) protocol acknowledgements.
 * `pedantic`: Turns on additional strict format checking, e.g. for properly formed subjects
 * `tls_required`: Indicates whether the client requires an SSL connection.
-* `auth_token`: Client authorization token \(if `auth_required` is set\)
-* `user`: Connection username \(if `auth_required` is set\)
-* `pass`: Connection password \(if `auth_required` is set\)
+* `auth_token`: Client authorization token (if `auth_required` is set)
+* `user`: Connection username (if `auth_required` is set)
+* `pass`: Connection password (if `auth_required` is set)
 * `name`: Optional client name
 * `lang`: The implementation language of the client.
 * `version`: The version of the client.
-* `protocol`: _optional int_. Sending `0` \(or absent\) indicates client supports original protocol. Sending `1` indicates that the client supports dynamic reconfiguration of cluster topology changes by asynchronously receiving [`INFO`](./#info) messages with known servers it can reconnect to.
-* `echo`: Optional boolean. If set to `true`, the server \(version 1.2.0+\) will not send originating messages from this connection to its own subscriptions. Clients should set this to `true` only for server supporting this feature, which is when `proto` in the `INFO` protocol is set to at least `1`.
+* `protocol`: _optional int_. Sending `0` (or absent) indicates client supports original protocol. Sending `1` indicates that the client supports dynamic reconfiguration of cluster topology changes by asynchronously receiving [`INFO`](./#info) messages with known servers it can reconnect to.
+* `echo`: Optional boolean. If set to `true`, the server (version 1.2.0+) will not send originating messages from this connection to its own subscriptions. Clients should set this to `true` only for server supporting this feature, which is when `proto` in the `INFO` protocol is set to at least `1`.
 * `sig`: In case the server has responded with a `nonce` on `INFO`, then a NATS client must use this field to reply with the signed `nonce`.
 * `jwt`: The JWT that identifies a user permissions and acccount.
 
@@ -137,8 +138,8 @@ The valid options are as follows:
 
 Here is an example from the default string of the Go client:
 
-```text
-[CONNECT {"verbose":false,"pedantic":false,"tls_required":false,"name":"","lang":"go","version":"1.2.2","protocol":1}]\r\n
+```
+[CONNECT {"verbose":false,"pedantic":false,"tls_required":false,"name":"","lang":"go","version":"1.2.2","protocol":1}]\r
 ```
 
 Most clients set `verbose` to `false` by default. This means that the server should not confirm each message it receives on this connection with a [`+OK`](./#okerr) back to the client.
@@ -151,7 +152,7 @@ The `PUB` message publishes the message payload to the given subject name, optio
 
 ### Syntax
 
-`PUB <subject> [reply-to] <#bytes>\r\n[payload]\r\n`
+`PUB <subject> [reply-to] <#bytes>\r\n[payload]\r`
 
 where:
 
@@ -164,15 +165,15 @@ where:
 
 To publish the ASCII string message payload "Hello NATS!" to subject FOO:
 
-`PUB FOO 11\r\nHello NATS!\r\n`
+`PUB FOO 11\r\nHello NATS!\r`
 
 To publish a request message "Knock Knock" to subject FRONT.DOOR with reply subject INBOX.22:
 
-`PUB FRONT.DOOR INBOX.22 11\r\nKnock Knock\r\n`
+`PUB FRONT.DOOR INBOX.22 11\r\nKnock Knock\r`
 
 To publish an empty message to subject NOTIFY:
 
-`PUB NOTIFY 0\r\n\r\n`
+`PUB NOTIFY 0\r\n\r`
 
 ## SUB
 
@@ -182,7 +183,7 @@ To publish an empty message to subject NOTIFY:
 
 ### Syntax
 
-`SUB <subject> [queue group] <sid>\r\n`
+`SUB <subject> [queue group] <sid>\r`
 
 where:
 
@@ -192,13 +193,13 @@ where:
 
 ### Example
 
-To subscribe to the subject `FOO` with the connection-unique subscription identifier \(sid\) `1`:
+To subscribe to the subject `FOO` with the connection-unique subscription identifier (sid) `1`:
 
-`SUB FOO 1\r\n`
+`SUB FOO 1\r`
 
 To subscribe the current connection to the subject `BAR` as part of distribution queue group `G1` with sid `44`:
 
-`SUB BAR G1 44\r\n`
+`SUB BAR G1 44\r`
 
 ## UNSUB
 
@@ -219,11 +220,11 @@ where:
 
 The following examples concern subject `FOO` which has been assigned sid `1`. To unsubscribe from `FOO`:
 
-`UNSUB 1\r\n`
+`UNSUB 1\r`
 
 To auto-unsubscribe from `FOO` after 5 messages have been received:
 
-`UNSUB 1 5\r\n`
+`UNSUB 1 5\r`
 
 ## MSG
 
@@ -233,7 +234,7 @@ The `MSG` protocol message is used to deliver an application message to the clie
 
 ### Syntax
 
-`MSG <subject> <sid> [reply-to] <#bytes>\r\n[payload]\r\n`
+`MSG <subject> <sid> [reply-to] <#bytes>\r\n[payload]\r`
 
 where:
 
@@ -247,11 +248,11 @@ where:
 
 The following message delivers an application message from subject `FOO.BAR`:
 
-`MSG FOO.BAR 9 11\r\nHello World\r\n`
+`MSG FOO.BAR 9 11\r\nHello World\r`
 
 To deliver the same message along with a reply inbox:
 
-`MSG FOO.BAR 9 INBOX.34 11\r\nHello World\r\n`
+`MSG FOO.BAR 9 INBOX.34 11\r\nHello World\r`
 
 ## PING/PONG
 
@@ -265,15 +266,15 @@ The server uses normal traffic as a ping/pong proxy, so a client that has messag
 
 ### Syntax
 
-`PING\r\n`
+`PING\r`
 
-`PONG\r\n`
+`PONG\r`
 
 ### Example
 
 The following example shows the demo server pinging the client and finally shutting it down.
 
-```text
+```
 telnet demo.nats.io 4222
 
 Trying 107.170.221.32...
@@ -290,7 +291,7 @@ Connection closed by foreign host.
 
 ### Description
 
-When the `verbose` connection option is set to `true` \(the default value\), the server acknowledges each well-formed protocol message from the client with a `+OK` message. Most NATS clients set the `verbose` option to `false` using the [`CONNECT`](./#connect) message
+When the `verbose` connection option is set to `true` (the default value), the server acknowledges each well-formed protocol message from the client with a `+OK` message. Most NATS clients set the `verbose` option to `false` using the [`CONNECT`](./#connect) message
 
 The `-ERR` message is used by the server indicate a protocol, authorization, or other runtime connection error to the client. Most of these errors result in the server closing the connection.
 
@@ -307,19 +308,18 @@ Some protocol errors result in the server closing the connection. Upon receiving
 * `-ERR 'Unknown Protocol Operation'`: Unknown protocol error
 * `-ERR 'Attempted To Connect To Route Port'`: Client attempted to connect to a route port instead of the client port
 * `-ERR 'Authorization Violation'`: Client failed to authenticate to the server with credentials specified in the [`CONNECT`](./#connect) message
-* `-ERR 'Authorization Timeout'`: Client took too long to authenticate to the server after establishing a connection \(default 1 second\)
+* `-ERR 'Authorization Timeout'`: Client took too long to authenticate to the server after establishing a connection (default 1 second)
 * `-ERR 'Invalid Client Protocol'`: Client specified an invalid protocol version in the [`CONNECT`](./#connect) message
-* `-ERR 'Maximum Control Line Exceeded'`: Message destination subject and reply subject length exceeded the maximum control line value specified by the `max_control_line` server option.  The default is 1024 bytes.
+* `-ERR 'Maximum Control Line Exceeded'`: Message destination subject and reply subject length exceeded the maximum control line value specified by the `max_control_line` server option. The default is 1024 bytes.
 * `-ERR 'Parser Error'`: Cannot parse the protocol message sent by the client
-* `-ERR 'Secure Connection - TLS Required'`:  The server requires TLS and the client does not have TLS enabled.
+* `-ERR 'Secure Connection - TLS Required'`: The server requires TLS and the client does not have TLS enabled.
 * `-ERR 'Stale Connection'`: The server hasn't received a message from the client, including a `PONG` in too long.
-* `-ERR 'Maximum Connections Exceeded`': This error is sent by the server when creating a new connection and the server has exceeded the maximum number of connections specified by the `max_connections` server option.  The default is 64k.
-* `-ERR 'Slow Consumer'`: The server pending data size for the connection has reached the maximum size \(default 10MB\).
+* `-ERR 'Maximum Connections Exceeded`': This error is sent by the server when creating a new connection and the server has exceeded the maximum number of connections specified by the `max_connections` server option. The default is 64k.
+* `-ERR 'Slow Consumer'`: The server pending data size for the connection has reached the maximum size (default 10MB).
 * `-ERR 'Maximum Payload Violation'`: Client attempted to publish a message with a payload size that exceeds the `max_payload` size configured on the server. This value is supplied to the client upon connection in the initial [`INFO`](./#info) message. The client is expected to do proper accounting of byte size to be sent to the server in order to handle this error synchronously.
 
 Protocol error messages where the connection remains open are listed below. The client should not close the connection in these cases.
 
-* `-ERR 'Invalid Subject'`: Client sent a malformed subject \(e.g. `sub foo. 90`\)
+* `-ERR 'Invalid Subject'`: Client sent a malformed subject (e.g. `sub foo. 90`)
 * `-ERR 'Permissions Violation for Subscription to <subject>'`: The user specified in the [`CONNECT`](./#connect) message does not have permission to subscribe to the subject.
 * `-ERR 'Permissions Violation for Publish to <subject>'`: The user specified in the [`CONNECT`](./#connect) message does not have permissions to publish to the subject.
-

@@ -1,10 +1,10 @@
-# TLS Authentication
+# TLS Authentication in clusters
 
-When setting up clusters, all servers in the cluster, if using TLS, will both verify the connecting endpoints and the server responses. So certificates are checked in [both directions](../securing_nats/tls.md#wrong-key-usage). Certificates can be configured only for the server's cluster identity, keeping client and server certificates separate from cluster formation.
+When setting up clusters, all servers in the cluster, if using TLS, will both verify the connecting endpoints and the server responses. So certificates are checked in [both directions](broken-reference). Certificates can be configured only for the server's cluster identity, keeping client and server certificates separate from cluster formation.
 
 TLS Mutual Authentication _is the only way_ of securing routes.
 
-```text
+```
 cluster {
   listen: 127.0.0.1:4244
 
@@ -25,4 +25,3 @@ cluster {
   ]
 }
 ```
-

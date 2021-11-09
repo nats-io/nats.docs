@@ -4,7 +4,7 @@ The NATS client libraries try as much as possible to be fire and forget. One of 
 
 During a short reconnect, the client can allow applications to publish messages that, because the server is offline, will be cached in the client. The library will then send those messages once reconnected. When the maximum reconnect buffer is reached, messages will no longer be publishable by the client and an error will be returned.
 
-Be aware, while the message appears to be sent to the application it is possible that it is never sent because the connection is never remade. Your applications should use patterns like [acknowledgements](../../nats-concepts/acks.md) to ensure delivery.
+Be aware, while the message appears to be sent to the application it is possible that it is never sent because the connection is never remade. Your applications should use patterns like [acknowledgements](broken-reference) to ensure delivery.
 
 For clients that support this feature, you are able to configure the size of this buffer with bytes, messages or both.
 
@@ -83,4 +83,3 @@ natsOptions_Destroy(opts);
 {% endtabs %}
 
 > _As mentioned throughout this document, each client library may behave slightly differently. Please check the documentation for the library you are using._
-
