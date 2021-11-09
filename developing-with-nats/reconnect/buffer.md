@@ -54,12 +54,6 @@ nc.close();
 ```
 {% endtab %}
 
-{% tab title="TypeScript" %}
-```typescript
-// Reconnect buffer size is not configurable on NATS TypeScript client
-```
-{% endtab %}
-
 {% tab title="C" %}
 ```c
 natsConnection      *conn      = NULL;

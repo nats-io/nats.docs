@@ -65,34 +65,40 @@ public class SetConnectionListener {
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect("nats://demo.nats.io:4222");
+const nc = await connect({ servers: ["demo.nats.io"] });
+  nc.closed().then(() => {
+    t.log("the connection closed!");
+  });
 
-nc.on('error', (err) => {
-    t.log('error', err);
-});
-
-nc.on('connect', () => {
-    t.log('client connected');
-});
-
-nc.on('disconnect', () => {
-    t.log('client disconnected');
-});
-
-nc.on('reconnecting', () => {
-    t.log('client reconnecting');
-});
-
-nc.on('reconnect', () => {
-    t.log('client reconnected');
-});
-
-nc.on('close', () => {
-    t.log('client closed');
-});
-
-nc.on('permission_error', (err) => {
-    t.log('permission_error', err);
+  (async () => {
+    for await (const s of nc.status()) {
+      switch (s.type) {
+        case Status.Disconnect:
+          t.log(`client disconnected - ${s.data}`);
+          break;
+        case Status.LDM:
+          t.log("client has been requested to reconnect");
+          break;
+        case Status.Update:
+          t.log(`client received a cluster update - ${s.data}`);
+          break;
+        case Status.Reconnect:
+          t.log(`client reconnected - ${s.data}`);
+          break;
+        case Status.Error:
+          t.log("client got a permissions error");
+          break;
+        case DebugEvents.Reconnecting:
+          t.log("client is attempting to reconnect");
+          break;
+        case DebugEvents.StaleConnection:
+          t.log("client has a stale connection");
+          break;
+        default:
+          t.log(`got an unknown status ${s.type}`);
+      }
+    }
+  })().then();
 });
 ```
 {% endtab %}
@@ -142,30 +148,6 @@ end
 
 NATS.on_error do
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// connect will happen once - the first connect
-nc.on('connect', (nc) => {
-    // nc is the connection that connected
-    t.log('client connected');
-});
-
-nc.on('disconnect', (url) => {
-    // nc is the connection that reconnected
-    t.log('disconnected from', url);
-});
-
-nc.on('reconnecting', (url) => {
-    t.log('reconnecting to', url);
-});
-
-nc.on('reconnect', (nc, url) => {
-    // nc is the connection that reconnected
-    t.log('reconnected to', url);
-});
 ```
 {% endtab %}
 

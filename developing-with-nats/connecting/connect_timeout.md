@@ -31,18 +31,9 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({
-    url: "nats://demo.nats.io:4222",
-    timeout: 10*1000 //10s
-});
-nc.on('connect', (c) => {
-    // Do something with the connection
-    doSomething();
-    // When done close it
-    nc.close();
-});
-nc.on('error', (err) => {
-    failed(err);
+const nc = await connect({
+    reconnectTimeWait: 10 * 1000, // 10s
+    servers: ["demo.nats.io"],
 });
 ```
 {% endtab %}
@@ -74,15 +65,6 @@ timer = EM.add_timer(10) do
   end
 end
 EM.cancel_timer(timer)
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-let nc = await connect({
-    url: "nats://demo.nats.io:4222",
-    timeout: 10*1000 //10s
-});
 ```
 {% endtab %}
 

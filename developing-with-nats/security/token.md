@@ -42,7 +42,11 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({url: `nats://127.0.0.1:${port}`, token: "mytoken!"});
+const ns = await NatsServer.start({
+    authorization: {
+      token: "aToK3n",
+    },
+});
 ```
 {% endtab %}
 
@@ -61,12 +65,6 @@ await nc.connect(servers=["nats://demo.nats.io:4222"], token="mytoken")
 NATS.start(token: "mytoken") do |nc|
   puts "Connected using token"
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-let nc = await connect({url: server.nats, token: "mytoken"});
 ```
 {% endtab %}
 
@@ -125,8 +123,7 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let url = `nats://mytoken@127.0.0.1:${port}`;
-let nc = NATS.connect({url: url});
+  // JavaScript doesn't support tokens in urls use the `token` option
 ```
 {% endtab %}
 
@@ -145,13 +142,6 @@ await nc.connect(servers=["nats://mytoken@demo.nats.io:4222"])
 NATS.start("mytoken@127.0.0.1:4222") do |nc|
   puts "Connected using token!"
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-let url = `nats://:mytoken@127.0.0.1:${port}`;
-let nc = await connect({url: url});
 ```
 {% endtab %}
 

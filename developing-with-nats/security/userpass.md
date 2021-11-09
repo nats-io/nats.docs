@@ -54,7 +54,11 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({url: server.nats, user: "myname", pass: "password"});
+ const nc = await connect({
+      port: ns.port,
+      user: "byname",
+      pass: "password",
+});
 ```
 {% endtab %}
 
@@ -87,12 +91,6 @@ NATS.start(servers:["nats://myname:password@127.0.0.1:4222"], name: "my-connecti
 
   nc.close
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-let nc = await connect({url: server.nats, user: "myname", pass: "password"});
 ```
 {% endtab %}
 
@@ -151,8 +149,7 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let url = `nats://myname:password@127.0.0.1:${port}`;
-let nc = NATS.connect(url);
+// JavaScript clients don't support username/password in urls use `user` and `pass` options.
 ```
 {% endtab %}
 
@@ -185,13 +182,6 @@ NATS.start(servers:["nats://myname:password@127.0.0.1:4222"], name: "my-connecti
 
   nc.close
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-let url = `nats://myname:password@127.0.0.1:${port}`;
-let nc = await connect({url: url});
 ```
 {% endtab %}
 

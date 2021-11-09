@@ -105,16 +105,18 @@ public class ConnectTLS {
 
 {% tab title="JavaScript" %}
 ```javascript
-let caCert = fs.readFileSync("rootCA.pem");
-let clientCert = fs.readFileSync("client-cert.pem");
-let clientKey = fs.readFileSync("client-key.pem");
-let nc = NATS.connect({
-    url: url,
+// tls options available depend on the javascript
+  // runtime, please verify the readme for the
+  // client you are using for specific details
+  // this example showing the node library
+  const nc = await connect({
+    port: ns.port,
+    debug: true,
     tls: {
-        ca: [caCert],
-        key: [clientKey],
-        cert: [clientCert]
-    }
+      caFile: caCertPath,
+      keyFile: clientKeyPath,
+      certFile: clientCertPath,
+    },
 });
 ```
 {% endtab %}
@@ -185,22 +187,6 @@ EM.run do
     end
   end
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-let caCert = readFileSync("rootCA.pem");
-let clientCert = readFileSync("client-cert.pem");
-let clientKey = readFileSync("client-key.pem");
-let nc = await connect({
-    url: url,
-    tls: {
-        ca: [caCert],
-        key: [clientKey],
-        cert: [clientCert]
-    }
-});
 ```
 {% endtab %}
 

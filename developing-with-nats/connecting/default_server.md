@@ -29,10 +29,10 @@ nc.close();
 ```javascript
 const ns = await NatsServer.start({ port: 4222 });
 const nc = await connect();
-// Do something with the connection
-doSomething();
-// When done close it
-await nc.close();
+  // Do something with the connection
+  doSomething();
+  // When done close it
+  await nc.close();
 });
 ```
 {% endtab %}
@@ -58,28 +58,6 @@ NATS.start do |nc|
    # Close the connection
    nc.close
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// will throw an exception if connection fails
-let nc = await connect();
-// Do something with the connection
-
-// When done close it
-nc.close();
-
-
-// alternatively, you can use the Promise pattern
-let nc1: Client;
-connect()
-    .then((c) => {
-        nc1 = c;
-        // Do something with the connection
-        nc1.close();
-    });
-    // add a .catch/.finally
 ```
 {% endtab %}
 

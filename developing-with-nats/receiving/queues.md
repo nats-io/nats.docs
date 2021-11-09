@@ -60,11 +60,18 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({
-    url: "nats://demo.nats.io:4222"});
+nc.subscribe(subj, {
+    queue: "workers",
+    callback: (_err, _msg) => {
+      t.log("worker1 got message");
+    },
+  });
 
-nc.subscribe('updates', {queue: "workers"}, (msg) => {
-    t.log('worker got message', msg);
+  nc.subscribe(subj, {
+    queue: "workers",
+    callback: (_err, _msg) => {
+      t.log("worker2 got message");
+    },
 });
 ```
 {% endtab %}
@@ -109,14 +116,6 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
     puts "Msg: #{msg}"
   end.resume
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-await nc.subscribe('updates', (err, msg) => {
-    t.log('worker got message', msg.data);
-}, {queue: "workers"});
 ```
 {% endtab %}
 

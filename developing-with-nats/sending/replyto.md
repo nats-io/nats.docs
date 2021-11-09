@@ -64,19 +64,24 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({url: "nats://demo.nats.io:4222"});
 // set up a subscription to process the request
-nc.subscribe('time', (msg, reply) => {
-    if(reply) {
-        nc.publish(reply, new Date().toLocaleTimeString());
-    }
-});
+  const sc = StringCodec();
+  nc.subscribe("time", {
+    callback: (_err, msg) => {
+      msg.respond(sc.encode(new Date().toLocaleTimeString()));
+    },
+  });
 
-// create a subscription subject that the responding send replies to
-let inbox = NATS.createInbox();
-nc.subscribe(inbox, {max: 1}, (msg) => {
-    t.log('the time is', msg);
-    nc.close();
+  // create a subscription subject that the responding send replies to
+  const inbox = createInbox();
+  const sub = nc.subscribe(inbox, {
+    max: 1,
+    callback: (_err, msg) => {
+      t.log(`the time is ${sc.decode(msg.data)}`);
+    },
+  });
+
+  nc.publish("time", Empty, { reply: inbox });
 });
 
 nc.publish('time', "", inbox);
@@ -126,33 +131,6 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
 
   end.resume
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// set up a subscription to process the request
-await nc.subscribe('time', (err, msg) => {
-    if (err) {
-        // this example is running inside of a promise
-        reject();
-        return;
-    }
-    if (msg.reply) {
-        nc.publish(msg.reply, new Date().toLocaleTimeString());
-    }
-});
-
-// create a subscription subject that the responding send replies to
-let inbox = createInbox();
-await nc.subscribe(inbox, (err, msg) => {
-    t.log('the time is', msg.data);
-    // this example is running inside of a promise
-    nc.close();
-    resolve();
-}, {max: 1});
-
-nc.publish('time', "", inbox);
 ```
 {% endtab %}
 
