@@ -8,7 +8,7 @@
 
 ## NATS Concepts
 
-* [Introduction](<README (1).md>)
+* [Overview](overview.md)
 * [What is NATS](nats-concepts/intro.md)
   * [Walkthrough Setup](walkthrough/walkthrough\_setup.md)
 * [Subject-Based Messaging](nats-concepts/subjects.md)

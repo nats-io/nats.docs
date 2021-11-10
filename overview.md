@@ -1,4 +1,4 @@
-# Introduction
+# Overview
 
 NATS is a connective technology that powers modern distributed systems. A connective technology is responsible for addressing, discovery and exchanging of messages that drive the common patterns in distributed systems; asking and answering questions, aka services/microservices, and making and processing statements, or stream processing.
 
@@ -35,10 +35,10 @@ Today’s systems will fall short with new demands. As modern systems continue t
 NATS can run anywhere, from large servers and cloud instances, through edge gateways and even IoT devices. Use cases for NATS include:
 
 * Cloud Messaging
-  * Services \(microservices, service mesh\)
-  * Event/Data Streaming \(observability, analytics, ML/AI\)
+    * Services \(microservices, service mesh\)
+    * Event/Data Streaming \(observability, analytics, ML/AI\)
 * Command and Control
-  * IoT and Edge
-  * Telemetry / Sensor Data / Command and Control
+    * IoT and Edge
+    * Telemetry / Sensor Data / Command and Control
 * Augmenting or Replacing Legacy Messaging Systems
 
