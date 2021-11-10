@@ -24,7 +24,7 @@ With [JetStream](jetstream.md) a stream can also be used as a queue by setting t
 
 ### Queuing geo-affinity
 
-When connecting to a globally distributed NATS super-cluster such as Synadia's NGS for example, there is an automatic service geo-affinity due to the fact that a service request message will only be routed to another cluster (i.e. another region) if there are no listeners on the cluster available to handle the request locally.
+When connecting to a globally distributed NATS super-cluster, there is an automatic service geo-affinity due to the fact that a service request message will only be routed to another cluster (i.e. another region) if there are no listeners on the cluster available to handle the request locally.
 
 ### Tutorial
 

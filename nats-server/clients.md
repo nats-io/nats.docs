@@ -2,13 +2,13 @@
 
 A NATS client is an application making a connection to one of the nats servers pointed to by its connection URL, and uses a credential file to authenticate and indicate its authorization to the server and the whole NATS infrastructure.
 
-The nats-server doesn't come bundled with any clients, but its companion is the [`nats`](/nats-tools/natscli.md) CLI tool that you should install (even if you don't intend to run your own servers) as it is the best tool to use to test, monitor, manage and generally interact with a NATS infrastructure (regardless of that infrastructure being an isolated local server, a leaf node server, a cluster or even a global super-cluster such as Synadia's NGS).
+The nats-server doesn't come bundled with any clients, but its companion is the [`nats`](/nats-tools/natscli.md) CLI tool that you should install (even if you don't intend to run your own servers) as it is the best tool to use to test, monitor, manage and generally interact with a NATS infrastructure (regardless of that infrastructure being an isolated local server, a leaf node server, a cluster or even a global super-cluster).
 
 Other NATS client tools to know about are the [`nsc`](/nats-tools/nsc) CLI tool (to manage accounts attributes and user JWT tokens) and the ['nk'](/nats-tools/nk.md) tool (and library) to manage Nkeys.
 
 Also, most client libraries come with sample programs that allow you to publish, subscribe, send requests and reply messages.
 
-## Installing `nats`
+## Installing the `nats` CLI Tool
 
 For macOS:
 
@@ -21,13 +21,6 @@ For Arch Linux:
 
 ```shell
 yay natscli
-```
-
-For Docker:
-
-```shell
-docker pull synadia/nats-box:latest
-docker run -ti synadia/nats-box
 ```
 
 Binaries are also available as [GitHub Releases](https://github.com/nats-io/natscli/releases).

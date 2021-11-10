@@ -1,6 +1,6 @@
 # Walkthrough prerequisites
 
-In order to try NATS (and JetStream) on your own while going through the concepts by following the walkthrough, the `nats` CLI tool must be installed, and either a local NATS server must be installed or alternatively you can use Synadia's NGS infrastructure (or you could even the demo server located at `nats://demo.nats.io`).
+In order to try NATS (and JetStream) on your own while going through the concepts by following the walkthrough, the `nats` CLI tool must be installed, and a local NATS server must be installed (or alternatively you can use a remote server you have access to, or Synadia's NGS (or you could even use the demo server located at `nats://demo.nats.io`)).
 
 ## Installing the [`nats`](/nats-tools/natscli.md) CLI Tool
 
