@@ -102,7 +102,7 @@ Received  [_INBOX.Ua82OJamRdWof5FBoiKaRm.gZhJP6RU] : '42'
 
 ## Leaf Node Example Using a Remote Global Service
 
-In this example, we connect a leaf node to [NGS](https://www.synadia.com). Leaf nodes are supported on developer and paid accounts. To sign up for a developer account, you'll need the `ngs` tool which you can install by following instructions in [https://github.com/ConnectEverything/ngs-cli](https://github.com/ConnectEverything/ngs-cli).
+In this example, we connect a leaf node to Synadia's [NGS](https://www.synadia.com). Leaf nodes are supported on developer and paid accounts. To sign up for a developer account, you'll need the `ngs` tool which you can install by following instructions in [https://github.com/ConnectEverything/ngs-cli](https://github.com/ConnectEverything/ngs-cli).
 
 Once you have the ngs tool installed, you can go ahead and import the synadia operator from ngs:
 
@@ -246,7 +246,7 @@ Output
 [4985] 2019/12/09 10:55:51.918781 [INF] Connected leafnode to "connect.ngs.global"
 ```
 
-Again, let's connect a replier, but this time to NGS. NSC connects specifying the credentials file:
+Again, let's connect a replier, but this time to Synadia's NGS. NSC connects specifying the credentials file:
 
 ```bash
 nsc reply q 42

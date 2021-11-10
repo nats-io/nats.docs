@@ -24,7 +24,7 @@ helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm repo update
 ```
 
-Create the config that adds the leafnode connection to NGS:
+Create the config that adds the leafnode connection to Synadia's NGS:
 
 ```text
 # nats.yaml

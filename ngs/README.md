@@ -1,4 +1,4 @@
-# NGS
+# Synadia's NGS
 
 So now that you are using NATS in your application, you are going to need a NATS infrastructure for the instances of your applications to use.
 

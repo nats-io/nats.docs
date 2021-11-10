@@ -2,7 +2,7 @@
 
 ## Prerequisite: enabling JetStream
 
-If you are using an existing NATS service infrastructure such as NGS make sure your account is enabled for JetStream
+If you are using an existing NATS service infrastructure such as Synadia's NGS make sure your account is enabled for JetStream
 
 If you are running a local `nats-server` stop it and restart it with JetStream enabled using `nats-server -js`
 

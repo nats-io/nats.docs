@@ -4,6 +4,6 @@ NATS Servers can cluster together to provide fault-tolerance and scalability. NA
 
 NATS clusters in different regions or cloud providers can be connected together by gateways that filter unneeded traffic and allow for disaster recovery and queued distributed processing with geo-location affinity.
 
-Even better, if you have build your application with NATS you don't need to run your own server, cluster, or super-cluster and can simply leverage [NGS](https://synadia.com/ngs/how-it-works), the global NATS super-cluster service provided by [Synadia](https://synadia.com).
+Even better, if you have build your application with NATS you don't need to run your own server, cluster, or super-cluster and can simply leverage Synadia's [NGS](https://synadia.com/ngs/how-it-works), the global NATS super-cluster service provided by [Synadia](https://synadia.com).
 
 This section of the documentation explains how to install, deploy, run, configure, orchestrate, test and manage NATS servers.
