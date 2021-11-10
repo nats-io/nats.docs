@@ -1,8 +1,10 @@
 # Consumers
 
-Each Consumer, or related group of Consumers, of a Stream will need a Consumer defined. It's ok to define thousands of these pointing at the same Stream.
+Consumers can be conceived as 'views' into a stream, with their own 'cursor'. Consumers iterate or consume over all or a subset of the messages stored in the stream, according to their 'subject filter' and 'replay policy', and can be used by one or multiple client applications. It's ok to define thousands of these pointing at the same Stream.
 
-Consumers can either be `push` based where JetStream will deliver the messages as fast as possible \(while adhering to the rate limit policy\) to a subject of your choice or `pull` to have control by asking the server for messages. The rate of message delivery in both cases is subject to `ReplayPolicy`. A `ReplayInstant` Consumer will receive all messages as fast as possible while a `ReplayOriginal` Consumer will receive messages at the rate they were received, which is great for replaying production traffic in staging.
+Consumers can either be `push` based where JetStream will deliver the messages as fast as possible \(while adhering to the rate limit policy\) to a subject of your choice or `pull` to have control by asking the server for messages. The choice of what kind of consumer to use depends on the use-case but typically in the case of a client application that needs to get their own individual replay of messages from a stream you would use an 'ordered push consumer', while in the case of scaling horizontally the processing of messages from a stream you would use a 'pull consumer'.
+
+The rate of message delivery in both cases is subject to `ReplayPolicy`. A `ReplayInstant` Consumer will receive all messages as fast as possible while a `ReplayOriginal` Consumer will receive messages at the rate they were received, which is great for replaying production traffic in staging.
 
 In the orders example above we have 3 Consumers. The first two select a subset of the messages from the Stream by specifying a specific subject like `ORDERS.processed`. The Stream consumes `ORDERS.*` and this allows you to receive just what you need. The final Consumer receives all messages in a `push` fashion.
 
@@ -84,9 +86,9 @@ When consuming from a stream with a wildcard subject, this allows you to select 
 
 MaxAckPending implements a simple form of _one-to-many_ flow control. It sets the maximum number of messages without an acknowledgement that can be outstanding, once this limit is reached message delivery will be suspended. It cannot be used with AckNone ack policy. This maximum number of pending acks applies for _all_ of the consumer's subscriber processes. A value of -1 means there can be any number of pending acks (i.e. no flow control).
 
-### Note about pull consumers: 
+### Note about push and pull consumers: 
 
-For pull consumers, you actually want to set MaxAckPending to `-1` (i.e. disable it), as it can otherwise place a limit on the horizontal scalability of the processing of the stream. Because delivery of the messages to the client application through pull consumers is client demand-driven rather than server initiated, there is no need for any kind of one-to-many flow control. With pull consumers at a given point in time, the number of pending acks is a function of the number of client applications calling `fetch` on the pull consumer and the requested batch size for that operation. 
+The MaxAckPending's one-to-many flow control functionality is only useful for push consumers. For pull consumers you should disable it (i.e. -1), as it can otherwise place a limit on the horizontal scalability of the processing of the stream. Because delivery of the messages to the client application through pull consumers is client demand-driven rather than server initiated, there is no need for any kind of one-to-many flow control. With pull consumers at a given point in time, the number of pending acks is a function of the number of client applications calling `fetch` on the pull consumer and the requested batch size for that operation. 
 
 ## FlowControl
 

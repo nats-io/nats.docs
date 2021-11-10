@@ -84,9 +84,11 @@ Instead, it is better for applications to use the JetStream Publish calls (which
 
 ### Create a consumer
     
-Consumers are how you get messages from a stream sent (i.e. 'replayed') to your application for processing or consumption. You can create *push* or *pull* consumers
-* *Push* consumers (specifically ordered push consumers) are the best way for an application to receive its own complete copy of the selected messages in the stream
-* *Pull* consumers are the best way to scale horizontally the processing (or consuming) of the selected messages in the stream, and for processing messages in batches
+Consumers 'views' into a stream, with their own cursor. They are how client applications get messages from a stream sent (i.e. 'replayed') to them for processing or consumption. They can filter the messages in the stream according to a 'filtering subject' and define which part of the stream is replayed according to a 'replay policy'.
+
+You can create *push* or *pull* consumers:
+* *Push* consumers (specifically ordered push consumers) are the best way for an application to receive its own complete copy of the selected messages in the stream.
+* *Pull* consumers are the best way to scale horizontally the processing (or consuming) of the selected messages in the stream using multiple client applications sharing the same pull consumer, and allow for the processing of messages in batches.
 
 Consumers can be ephemeral or durable, and support different sets of acknowledgement policies (none, this sequence number, this sequence number and all before it)
 
@@ -103,7 +105,7 @@ And you can select the replay speed to be instant or to match the initial public
 
 ### Subscribe from a consumer
 
-You subscribe from consumers using the JetStream's Subscribe, QueueSubscribe or PullSubscribe (and variations). 
+Client applications 'subscribe' from consumers using the JetStream's Subscribe, QueueSubscribe or PullSubscribe (and variations) calls. 
 
 #### Acknowledging messages
 Some consumers require the client application code to acknowledge the processing or consumption of the message, but there is more than one way to acknowledge (or not) a message
