@@ -31,7 +31,7 @@ One of the tenants of basic publish/subscribe messaging is that there is a tempo
 * durable subscribers need to be created _before_ the messages get published
 * queues are meant for workload distribution and consumption, not to be used as a mechanism for message replay.
 
-However nowadays, a new way to provide this temporal de-coupling has been devised and gained a has become 'mainstream': streaming. Streams capture and store messages published on one (or more) subject and allow client applications to create 'subscribers' (i.e. JetStream consumers) at any time to 'replay' (or consume) all or some of the messages stored in the stream.
+However, nowadays a new way to provide this temporal de-coupling has been devised and gained a has become 'mainstream': streaming. Streams capture and store messages published on one (or more) subject and allow client applications to create 'subscribers' (i.e. JetStream consumers) at any time to 'replay' (or consume) all or some of the messages stored in the stream.
 
 #### Replay policies
 
@@ -101,7 +101,7 @@ Therefore, JetStream also offers an '_exactly once_' quality of service. For the
 
 ### Consumers
 
-Applications subscribe to JetStream [consumers](../jetstream/concepts/consumers.md) to receive copies (or consume) and process the messages stored in the streams.
+JetStream [consumers](../jetstream/concepts/consumers.md) are 'views' on a stream, they are subscribed to (or pulled) by client applications to receive copies of (or to consume if the stream is set as a working queue) messages stored in the stream.
 
 #### Fast push consumers
 
@@ -131,4 +131,4 @@ Another functionality (typically not available in or even associated with messag
 
 **Legacy**
 
-Note that JetStream completely replaces the [STAN](broken-reference) legacy NATS streaming layer.
+Note that JetStream completely replaces the [STAN](/legacy/stan/README.md) legacy NATS streaming layer.
