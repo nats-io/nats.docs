@@ -187,7 +187,7 @@
 
 ## Legacy
 
-* [STAN](legacy/stan/README.md)
+* [STAN aka 'NATS Streaming'](legacy/stan/README.md)
   * [STAN Concepts](nats-streaming-concepts/intro.md)
     * [Relation to NATS](nats-streaming-concepts/relation-to-nats.md)
     * [Client Connections](nats-streaming-concepts/client-connections.md)
