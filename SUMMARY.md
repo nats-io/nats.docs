@@ -9,6 +9,7 @@
 ## NATS Concepts
 
 * [Overview](overview.md)
+  * [Compare NATS](compare-nats.md)
 * [What is NATS](nats-concepts/intro.md)
   * [Walkthrough Setup](walkthrough/walkthrough\_setup.md)
 * [Subject-Based Messaging](nats-concepts/subjects.md)
@@ -174,10 +175,6 @@
   * [Slow Consumers](nats-server/nats\_admin/slow\_consumers.md)
   * [Signals](nats-server/nats\_admin/signals.md)
   * [Lame Duck Mode](nats-server/nats\_admin/lame\_duck\_mode.md)
-
-## Compare NATS
-
-* [Compare NATS](compare-nats.md)
 
 ## FAQ
 
