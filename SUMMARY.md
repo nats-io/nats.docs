@@ -97,7 +97,6 @@
 
 ## Running a NATS service
 
-* [Using NGS](ngs/README.md)
 * [Installing, running and deploying a NATS Server](running-nats-intro.md)
   * [Installing a NATS Server](nats-server/installation.md)
   * [Running and deploying a NATS Server](nats-server/running/README.md)
