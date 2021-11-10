@@ -161,7 +161,7 @@ The `/connz` endpoint reports more detailed information on current and recently 
 | limit | number &gt; 0 | Number of results to return.  Default is 1024. |
 | cid | number, valid id | Return a connection by it's id |
 | state | open, \*closed,  any | Return connections of particular state.  Default is open. |
-| mqtt\_client | string | Filter the connection with this MQTT client ID. |
+| mqtt_client | string | Filter the connection with this MQTT client ID. |
 
 _The server will default to holding the last 10,000 closed connections._
 
@@ -173,10 +173,10 @@ _The server will default to holding the last 10,000 closed connections._
 | start | Connection start time, same as CID |
 | subs | Number of subscriptions |
 | pending | Amount of data in bytes waiting to be sent to client |
-| msgs\_to | Number of messages sent |
-| msgs\_from | Number of messages received |
-| bytes\_to | Number of bytes sent |
-| bytes\_from | Number of bytes received |
+| msgs_to | Number of messages sent |
+| msgs_from | Number of messages received |
+| bytes_to | Number of bytes sent |
+| bytes_from | Number of bytes received |
 | last | Last activity |
 | idle | Amount of inactivity |
 | uptime | Lifetime of the connection |
@@ -333,8 +333,8 @@ The `/gatewayz` endpoint reports information about gateways used to create a NAT
 | Argument | Values | Description |
 | :--- | :--- | :--- |
 | accs | true, 1, false, 0 | Include account information.  Default is false. |
-| gw\_name | string | Return only remote gateways with this name. |
-| acc\_name | string | Limit the list of accounts to this account name. |
+| gw_name | string | Return only remote gateways with this name. |
+| acc_name | string | Limit the list of accounts to this account name. |
 
 #### Examples
 

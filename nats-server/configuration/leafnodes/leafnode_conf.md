@@ -12,8 +12,8 @@ The leaf node configuration block is used to configure incoming as well as outgo
 | `tls`           | TLS configuration block (same as other nats-server [`tls` configuration](broken-reference)).                                                |
 | `advertise`     | Hostport `<host>:<port>` to advertise how this server can be contacted by leaf nodes. This is useful in cluster setups with NAT.            |
 | `no_advertise`  | if `true` the server shouldn't be advertised to leaf nodes.                                                                                 |
-| `authorization` | Authorization block. [**See Authorization Block section below**](leafnode\_conf.md#authorization-block).                                    |
-| `remotes`       | List of [`remote`](leafnode\_conf.md#leafnode-remotes-entry-block) entries specifying servers where leafnode client connection can be made. |
+| `authorization` | Authorization block. [**See Authorization Block section below**](leafnode_conf.md#authorization-block).                                    |
+| `remotes`       | List of [`remote`](leafnode_conf.md#leafnode-remotes-entry-block) entries specifying servers where leafnode client connection can be made. |
 | `reconnect`     | Interval in seconds at which reconnect attempts to a remote server are made.                                                                |
 
 ## Authorization Block
@@ -22,9 +22,9 @@ The leaf node configuration block is used to configure incoming as well as outgo
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | `user`     | Username for the leaf node  connection.                                                                                               |
 | `password` | Password for the user entry.                                                                                                          |
-| `account`  | [Account](../securing\_nats/accounts.md) this leaf node connection should be bound to.                                                |
+| `account`  | [Account](../securing_nats/accounts.md) this leaf node connection should be bound to.                                                |
 | `timeout`  | Maximum number of seconds to wait for leaf node  authentication.                                                                      |
-| `users`    | List of credentials and account to bind to leaf node  connections. [**See User Block section below**](leafnode\_conf.md#users-block). |
+| `users`    | List of credentials and account to bind to leaf node  connections. [**See User Block section below**](leafnode_conf.md#users-block). |
 
 ### Users Block
 
@@ -32,7 +32,7 @@ The leaf node configuration block is used to configure incoming as well as outgo
 | ---------- | -------------------------------------------------------------------------------------- |
 | `user`     | Username for the leaf node connection.                                                 |
 | `password` | Password for the user entry.                                                           |
-| `account`  | [Account](../securing\_nats/accounts.md) this leaf node connection should be bound to. |
+| `account`  | [Account](../securing_nats/accounts.md) this leaf node connection should be bound to. |
 
 Here are some examples of using basic user/password authentication for leaf nodes (note while this is using accounts it is not using JWTs)
 
@@ -90,11 +90,11 @@ If other form of credentials are used (jwt, nkey or other), then the server will
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `url`            | Leafnode URL (URL protocol should be `nats-leaf`).                                                                                                                                                                                                                         |
 | `urls`           | Leafnode URL array. Supports multiple URLs for discovery, e.g., urls: \[ "nats-leaf://host1:7422", "nats-leaf://host2:7422" ]                                                                                                                                              |
-| `account`        | [Account](../securing\_nats/accounts.md) name or JWT public key identifying the local account to bind to this remote server. Any traffic locally on this account will be forwarded to the remote server.                                                                   |
+| `account`        | [Account](../securing_nats/accounts.md) name or JWT public key identifying the local account to bind to this remote server. Any traffic locally on this account will be forwarded to the remote server.                                                                   |
 | `credentials`    | Credential file for connecting to the leafnode server.                                                                                                                                                                                                                     |
-| `tls`            | A [TLS configuration](leafnode\_conf.md#tls-configuration-block) block. Leafnode client will use specified TLS certificates when connecting/authenticating.                                                                                                                |
-| `ws_compression` | If connecting with [Websocket](leafnode\_conf.md#connecting-using-websocket-protocol) protocol, this boolean (`true` or `false`) indicates to the remote server that it wishes to use compression. The default is `false`.                                                 |
-| `ws_no_masking`  | If connecting with [Websocket](leafnode\_conf.md#connecting-using-websocket-protocol) protocol, this boolean indicates to the remote server that it wishes not to mask outbound WebSocket frames. The default is `false`, which means that outbound frames will be masked. |
+| `tls`            | A [TLS configuration](leafnode_conf.md#tls-configuration-block) block. Leafnode client will use specified TLS certificates when connecting/authenticating.                                                                                                                |
+| `ws_compression` | If connecting with [Websocket](leafnode_conf.md#connecting-using-websocket-protocol) protocol, this boolean (`true` or `false`) indicates to the remote server that it wishes to use compression. The default is `false`.                                                 |
+| `ws_no_masking`  | If connecting with [Websocket](leafnode_conf.md#connecting-using-websocket-protocol) protocol, this boolean indicates to the remote server that it wishes not to mask outbound WebSocket frames. The default is `false`, which means that outbound frames will be masked. |
 
 ### Connecting using WebSocket protocol
 

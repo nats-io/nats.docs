@@ -94,8 +94,8 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 | :--- | :--- |
 | **NATS** | The NATS network element \(server\) is a small static binary that can be deployed anywhere from large instances in the cloud to resource constrained devices like a Raspberry PI. NATS supports the Adaptive Edge architecture which allows for large, flexible deployments. Single servers, leaf nodes, clusters, and superclusters \(cluster of clusters\) can be combined in any fashion for an extremely flexible deployment amenable to cloud, on-premise, edge and IoT. Clients are unaware of topology and can connect to any NATS server in a deployment. |
 | **gRPC** | gRPC is point to point and does not have a server or broker to deploy or manage, but always requires additional pieces for production deployments. |
-| **Kafka** | Kafka supports clustering with mirroring to loosely coupled remote clusters. Clients are tied to partitions defined within clusters. Kafka servers require a JVM, eight cores, 64 GB to128 GB of RAM, two or more 8-TB SAS/SSD disks, and a 10-Gig NIC. [_\(1\)_](compare-nats.md#references)\_\_ |
-| **Pulsar** | Pulsar supports clustering and built-in geo-replication between clusters. Clients may connect to any cluster with an appropriately configured tenant and namespace. Pulsar requires a JVM and requires at least 6 Linux machines or VMs. 3 running ZooKeeper. 3 running a Pulsar broker and a BookKeeper bookie. [_\(2\)_](compare-nats.md#references)\_\_ |
+| **Kafka** | Kafka supports clustering with mirroring to loosely coupled remote clusters. Clients are tied to partitions defined within clusters. Kafka servers require a JVM, eight cores, 64 GB to128 GB of RAM, two or more 8-TB SAS/SSD disks, and a 10-Gig NIC. [_\(1\)_](compare-nats.md#references)__ |
+| **Pulsar** | Pulsar supports clustering and built-in geo-replication between clusters. Clients may connect to any cluster with an appropriately configured tenant and namespace. Pulsar requires a JVM and requires at least 6 Linux machines or VMs. 3 running ZooKeeper. 3 running a Pulsar broker and a BookKeeper bookie. [_\(2\)_](compare-nats.md#references)__ |
 | **Rabbit** | Rabbit supports clusters and cross-cluster message propagation through a federation plugin. Clients are unaware of topology and may connect to any cluster. The server requires the Erlang VM and dependencies. |
 
 ## Monitoring
@@ -123,14 +123,14 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 | Project | Built-in and Third Party Integrations |
 | :--- | :--- |
 | **NATS** | NATS supports WebSockets, a Kafka bridge, an IBM MQ Bridge, a Redis Connector, Apache Spark, Apache Flink, CoreOS, Elastic, Elasticsearch, Prometheus, Telegraf, Logrus, Fluent Bit, Fluentd, OpenFAAS, HTTP, and MQTT, and [more](https://nats.io/download/#connectors-and-utilities). |
-| **gRPC** | There are a number of third party integrations including HTTP, JSON, Prometheus, Grift and others. [_\(3\)_](compare-nats.md#references)\_\_ |
+| **gRPC** | There are a number of third party integrations including HTTP, JSON, Prometheus, Grift and others. [_\(3\)_](compare-nats.md#references)__ |
 | **Kafka** | Kafka has a large number of integrations in its ecosystem, including stream processing \(Storm, Samza, Flink\), Hadoop, database \(JDBC, Oracle Golden Gate\), Search and Query \(ElasticSearch, Hive\), and a variety of logging and other integrations. |
 | **Pulsar** | Pulsar has many integrations, including ActiveMQ, Cassandra, Debezium, Flume, Elasticsearch, Kafka, Redis, and others. |
 | **Rabbit** | RabbitMQ has many plugins, including protocols \(MQTT, STOMP\), WebSockets, and various authorization and authentication plugins. |
 
 ## References
 
-1.  [https://docs.cloudera.com/HDPDocuments/HDF3/HDF-3.1.0/bk\_planning-your-deployment/content/ch\_hardware-sizing.html](https://docs.cloudera.com/HDPDocuments/HDF3/HDF-3.1.0/bk_planning-your-deployment/content/ch_hardware-sizing.html)
+1.  [https://docs.cloudera.com/HDPDocuments/HDF3/HDF-3.1.0/bk_planning-your-deployment/content/ch_hardware-sizing.html](https://docs.cloudera.com/HDPDocuments/HDF3/HDF-3.1.0/bk_planning-your-deployment/content/ch_hardware-sizing.html)
 2. [https://pulsar.apache.org/docs/v1.21.0-incubating/deployment/cluster/](https://pulsar.apache.org/docs/v1.21.0-incubating/deployment/cluster/)
 3. [https://github.com/grpc-ecosystem](https://github.com/grpc-ecosystem)
 

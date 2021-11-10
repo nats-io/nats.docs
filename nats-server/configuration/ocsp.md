@@ -2,7 +2,7 @@
 
 _Supported since NATS Server version 2.3_
 
-[OCSP Stapling](https://en.wikipedia.org/wiki/OCSP_stapling) is honored by default for certificates that have the [status\_request Must-Staple flag](https://datatracker.ietf.org/doc/html/rfc6961).
+[OCSP Stapling](https://en.wikipedia.org/wiki/OCSP_stapling) is honored by default for certificates that have the [status_request Must-Staple flag](https://datatracker.ietf.org/doc/html/rfc6961).
 
 When a certificate is configured with OCSP Must-Staple, the NATS Server will fetch staples from the configured OCSP responder URL that is present in a certificate. For example, given a certificate with the following configuration:
 
@@ -32,8 +32,8 @@ There are other OCSP modes that control the behavior as to whether OCSP should b
 
 | Mode | Description | Server shutdowns when revoked |
 | :--- | :--- | :--- |
-| auto | Enables OCSP Stapling when the certificate has the must staple/status\_request flag | No |
-| must | Enables OCSP Staping when the certificate has the must staple/status\_request flag | Yes |
+| auto | Enables OCSP Stapling when the certificate has the must staple/status_request flag | No |
+| must | Enables OCSP Staping when the certificate has the must staple/status_request flag | Yes |
 | always | Enables OCSP Stapling for all certificates | Yes |
 | never | Disables OCSP Stapling even if must staple flag is present \(same as `ocsp: false`\) | No |
 

@@ -10,7 +10,7 @@ Lame duck mode is initiated by signaling the server:
 nats-server --signal ldm
 ```
 
-After entering lame duck mode, the server will stop accepting new connections, wait for a 10 second grace period, then begin to evict clients over a period of time configurable by the [lame\_duck\_duration](https://docs.nats.io/nats-server/configuration#runtime-configuration) configuration option. This period defaults to 2 minutes.
+After entering lame duck mode, the server will stop accepting new connections, wait for a 10 second grace period, then begin to evict clients over a period of time configurable by the [lame_duck_duration](https://docs.nats.io/nats-server/configuration#runtime-configuration) configuration option. This period defaults to 2 minutes.
 
 ## Clients
 

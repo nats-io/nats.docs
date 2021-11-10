@@ -166,7 +166,7 @@ This time the message is received by the subscriber
 user b
 ```
 
-Accounts are a lot more powerful than what has been demonstrated here. Take a look at the complete documentation of [accounts](../../nats-server/configuration/securing\_nats/accounts.md#accounts) and the [users](../../nats-server/configuration/securing\_nats/auth\_intro/) associated with them. All of this is in a plain NATS config file. (Copy the above config and try it using this command: `nats-server -c <filename>`) In order to make any changes, every participating nats-server config file in the same security domain has to change. This configuration is typically controlled by one organization or the administrator.
+Accounts are a lot more powerful than what has been demonstrated here. Take a look at the complete documentation of [accounts](../../nats-server/configuration/securing_nats/accounts.md#accounts) and the [users](../../nats-server/configuration/securing_nats/auth_intro/) associated with them. All of this is in a plain NATS config file. (Copy the above config and try it using this command: `nats-server -c <filename>`) In order to make any changes, every participating nats-server config file in the same security domain has to change. This configuration is typically controlled by one organization or the administrator.
 
 #### Key Takeaways
 
@@ -268,7 +268,7 @@ When the nats-server was started with `-V` tracing, you can see the signature in
 }]
 ```
 
-On connect, clients are instantly sent the nonce to sign as part of the `INFO` message (formatting added manually). Since `telnet` will not authenticate, the server closes the connection after hitting the [authorization ](../../nats-server/configuration/securing\_nats/authorization.md)timeout.
+On connect, clients are instantly sent the nonce to sign as part of the `INFO` message (formatting added manually). Since `telnet` will not authenticate, the server closes the connection after hitting the [authorization ](../../nats-server/configuration/securing_nats/authorization.md)timeout.
 
 ```
 > telnet localhost 4222
@@ -324,9 +324,9 @@ Account and User creation managed as separate artifacts in a decentralized fashi
 
 Each NKEY is referenced, together with additional configuration, in a JWT document. Each JWT has a subject field and its value is the public portion of an NKEY and serves as identity. Names exist in JWT but as of now are only used by tooling, `nats-server` does not read this value. The referenced NKEY's role determines the JWT content.
 
-1. Operator JWTs contain server [configuration](https://github.com/nats-io/jwt/blob/e11ce317263cef69619fc1ca743b195d02aa1d8a/operator\_claims.go#L28) applicable throughout all operated NATS servers
-2. Account JWTs contain Account specific [configuration](https://github.com/nats-io/jwt/blob/e11ce317263cef69619fc1ca743b195d02aa1d8a/account\_claims.go#L57) such as exports, imports, limits, and default user permissions
-3. User JWTs contain user specific [configuration](https://github.com/nats-io/jwt/blob/e11ce317263cef69619fc1ca743b195d02aa1d8a/user\_claims.go#L25) such as permissions and limits
+1. Operator JWTs contain server [configuration](https://github.com/nats-io/jwt/blob/e11ce317263cef69619fc1ca743b195d02aa1d8a/operator_claims.go#L28) applicable throughout all operated NATS servers
+2. Account JWTs contain Account specific [configuration](https://github.com/nats-io/jwt/blob/e11ce317263cef69619fc1ca743b195d02aa1d8a/account_claims.go#L57) such as exports, imports, limits, and default user permissions
+3. User JWTs contain user specific [configuration](https://github.com/nats-io/jwt/blob/e11ce317263cef69619fc1ca743b195d02aa1d8a/user_claims.go#L25) such as permissions and limits
 
 In addition, JWTs can contain settings related to their decentralized nature, such as expiration/revocation/signing. At no point do JWTs contain the private portion of an NKEY, only signatures that can be verified with public NKEY. JWT content can be viewed as public, although it's content may reveal which subjects/limits/permissions exist.
 
@@ -347,13 +347,13 @@ The issuer field of the User JWT identifies the Account, and the `nats-server` t
 
 #### **Obtain an Account JWT**
 
-To obtain an Account JWT, the nats-server is configured with one of three [resolver](../../nats-server/configuration/securing\_nats/jwt/resolver.md) types. Which one to pick depends upon your needs:
+To obtain an Account JWT, the nats-server is configured with one of three [resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md) types. Which one to pick depends upon your needs:
 
-* [mem-resolver](../../nats-server/configuration/securing\_nats/jwt/resolver.md#memory): Very few or very static accounts
+* [mem-resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#memory): Very few or very static accounts
   * You are comfortable changing the server config if the operator or any accounts change.
   * You can generate a user programmatically using NKEYs and a JWT library (more about that later).
   * Users do not need to be known by nats-server.
-* [url-resolver](../../nats-server/configuration/securing\_nats/jwt/resolver.md#url-resolver): Very large volume of accounts
+* [url-resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#url-resolver): Very large volume of accounts
   * Same as `mem-resolver`, except you do not have to modify server config if accounts are added/changed.
   * Changes to the operator still require reloading (only a few operations require that).
   * Will download Accounts from a web server.
@@ -759,8 +759,8 @@ This environment is set up with a signing key, thus the account is already [crea
 
 How accounts can be publicized wholly depends on the resolver you are using:
 
-* [mem-resolver](../../nats-server/configuration/securing\_nats/jwt/resolver.md#memory): The operator has to have all accounts imported and generate a new config.
-* [url-resolver](../../nats-server/configuration/securing\_nats/jwt/resolver.md#url-resolver): `nsc push` will send an HTTP POST request to the hosting webserver or `nats-account-server`.
+* [mem-resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#memory): The operator has to have all accounts imported and generate a new config.
+* [url-resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#url-resolver): `nsc push` will send an HTTP POST request to the hosting webserver or `nats-account-server`.
 * `nats-resolver`: Every environment with a system account user that has permissions to send properly signed account JWT as requests to:
   * `$SYS.REQ.CLAIMS.UPDATE` can upload and update all accounts. Currently, `nsc push` uses this subject.
   * `$SYS.REQ.ACCOUNT.*.CLAIMS.UPDATE` can upload and update specific accounts.
@@ -1062,7 +1062,7 @@ func generateUserJWT(userPublicKey string, accountSigningKey nkeys.KeyPair) (use
 }
 ```
 
-Inspect the [user claim](https://github.com/nats-io/jwt/blob/master/user\_claims.go#L39-L45) for all available properties/limits/permissions to set. When using an [account claim](https://github.com/nats-io/jwt/blob/057ba30017beca2abb0ba35e7db6442be3479c5d/account\_claims.go#L107-L114) instead, you can dynamically generate accounts. Additional steps are to push the new account as outlined [here](jwt.md#publicize-an-account-with-push---operator-environmentenvironment-with-push-permissions---all-deployment-modes). Depending on your needs, you may want to consider exchanging the accounts identity NKEY in a similar way that the users key is exchanged in the [next section](jwt.md#distributed-user-creation).
+Inspect the [user claim](https://github.com/nats-io/jwt/blob/master/user_claims.go#L39-L45) for all available properties/limits/permissions to set. When using an [account claim](https://github.com/nats-io/jwt/blob/057ba30017beca2abb0ba35e7db6442be3479c5d/account_claims.go#L107-L114) instead, you can dynamically generate accounts. Additional steps are to push the new account as outlined [here](jwt.md#publicize-an-account-with-push---operator-environmentenvironment-with-push-permissions---all-deployment-modes). Depending on your needs, you may want to consider exchanging the accounts identity NKEY in a similar way that the users key is exchanged in the [next section](jwt.md#distributed-user-creation).
 
 #### **Distributed User Creation**
 
@@ -1606,8 +1606,8 @@ Account identity NKEYS can not be revoked like user or activations. Instead lock
 
 Alternatively you can also remove the account using `nsc delete account --name` and keep it from found by the account resolver. How to do this depends on your resolver type:
 
-* [mem-resolver](../../nats-server/configuration/securing\_nats/jwt/resolver.md#memory): Remove the JWT from the configuration field `resolver_preload` and restart all `nats-server`
-* [url-resolver:](../../nats-server/configuration/securing\_nats/jwt/resolver.md#url-resolver) Manually delete the JWT from the `nats-account-server` store directory.
+* [mem-resolver](../../nats-server/configuration/securing_nats/jwt/resolver.md#memory): Remove the JWT from the configuration field `resolver_preload` and restart all `nats-server`
+* [url-resolver:](../../nats-server/configuration/securing_nats/jwt/resolver.md#url-resolver) Manually delete the JWT from the `nats-account-server` store directory.
 * `nats-resolver`: Prune removed accounts using: `nsc push --all --prune`. For this to work, the resolver has to have deletion enabled (`allow_delete: true`) and you need to be in possession of an operator signing key.
 
 #### **Signing keys**

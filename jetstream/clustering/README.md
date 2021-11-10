@@ -47,7 +47,7 @@ To configure JetStream clusters, just configure clusters as you normally would b
 
 Below are explicitly listed server configuration for a three-node cluster across three machines, `n1-c1`, `n2-c1`, and `n3-c1`.
 
-### Server 1 \(host\_a\)
+### Server 1 \(host_a\)
 
 ```text
 server_name=n1-c1
@@ -67,7 +67,7 @@ cluster {
 }
 ```
 
-### Server 2 \(host\_b\)
+### Server 2 \(host_b\)
 
 ```text
 server_name=n2-c1
@@ -87,7 +87,7 @@ cluster {
 }
 ```
 
-### Server 3 \(host\_c\)
+### Server 3 \(host_c\)
 
 ```text
 server_name=n3-c1

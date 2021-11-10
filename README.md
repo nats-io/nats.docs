@@ -118,7 +118,7 @@ For full release information, see links below;
 
 ## Server release v2.2.0
 
-See [NATS 2.2](whats\_new\_22.md) for new features.
+See [NATS 2.2](whats_new_22.md) for new features.
 
 ## Server release v2.1.7
 
@@ -129,13 +129,13 @@ Monitoring endpoints as listed in the table below are accessible as system servi
 * `$SYS.REQ.SERVER.<id>.<endpoint-name>` (request server monitoring endpoint corresponding to endpoint name.)
 * `$SYS.REQ.SERVER.PING.<endpoint-name>` (from all server request server monitoring endpoint corresponding to endpoint name - will return multiple messages)
 
-For more information on monitoring endpoints see [NATS Server Configurations System Events](nats-server/configuration/sys\_accounts/#available-events-and-services).
+For more information on monitoring endpoints see [NATS Server Configurations System Events](nats-server/configuration/sys_accounts/#available-events-and-services).
 
 ### Addition of `no_auth_user` Configuration
 
 Configuration of `no_auth_user` allows you to refer to a configured user/account when no credentials are provided.
 
-For more information and example, see [Securing NATS](nats-server/configuration/securing\_nats/accounts.md#no-auth-user)
+For more information and example, see [Securing NATS](nats-server/configuration/securing_nats/accounts.md#no-auth-user)
 
 For full release information, see links below;
 
@@ -197,7 +197,7 @@ As services and service mesh functionality has become prominent, we have been lo
 
 ### Response Only Permissions
 
-For services, the authorization for responding to requests usually included wildcards for \_INBOX.> and possibly $GR.> with a supercluster for sending responses. What we really wanted was the ability to allow a service responder to only respond to the reply subject it was sent.
+For services, the authorization for responding to requests usually included wildcards for _INBOX.> and possibly $GR.> with a supercluster for sending responses. What we really wanted was the ability to allow a service responder to only respond to the reply subject it was sent.
 
 ### Response Types
 

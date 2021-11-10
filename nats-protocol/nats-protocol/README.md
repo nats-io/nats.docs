@@ -83,7 +83,7 @@ The valid options are as follows:
 * `connect_urls` : An optional list of server urls that a client can connect to.
 * `ldm`: If the server supports _Lame Duck Mode_ notifications, and the current server has transitioned to lame duck, `ldm` will be set to `true`.
 
-#### connect\_urls
+#### connect_urls
 
 The `connect_urls` field is a list of urls the server may send when a client first connects, and when there are changes to server cluster topology. This field is considered optional, and may be omitted based on server configuration and client protocol level.
 

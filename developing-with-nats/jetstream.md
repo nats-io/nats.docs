@@ -37,9 +37,9 @@ These include:
 * Service patterns where there is a tightly coupled request/reply
     * A request is made, and the application handles error cases upon timeout
 
-      \(resends, errors, etc\). \_\_Relying on a messaging system to resend here is
+      \(resends, errors, etc\). __Relying on a messaging system to resend here is
 
-      considered an anti-pattern.\_\_
+      considered an anti-pattern.__
 * Where only the last message received is important and new messages will
 
   be received frequently enough for applications to tolerate a lost message.

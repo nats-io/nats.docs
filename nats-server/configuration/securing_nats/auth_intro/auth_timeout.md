@@ -1,6 +1,6 @@
 # Authentication Timeout
 
-Much like the [`tls timeout` option](broken-reference), authentication can specify a `timeout` value.
+Much like the [`tls timeout` option](/nats-server/configuration/securing_nats/tls.md#tls-timeout), authentication can specify a `timeout` value.
 
 If a client doesn't authenticate to the server within the specified time, the server disconnects the server to prevent abuses.
 

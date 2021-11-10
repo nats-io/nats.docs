@@ -61,7 +61,7 @@ If the MQTT subscription is QoS1 and an MQTT publisher publishes an MQTT QoS1 me
 
 ## QoS 1 Redeliveries
 
-When the server delivers a QoS 1 message to a QoS 1 subscription, it will keep the message until it receives the PUBACK for the corresponding packet identifier. If it does not receive it within the "ack\_wait" interval, that message will be resent.
+When the server delivers a QoS 1 message to a QoS 1 subscription, it will keep the message until it receives the PUBACK for the corresponding packet identifier. If it does not receive it within the "ack_wait" interval, that message will be resent.
 
 ## Max Ack Pending
 

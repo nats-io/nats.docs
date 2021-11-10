@@ -15,7 +15,7 @@ If a leaf node connects to a cluster, it is recommended to configure it with kno
 
 > Leaf Nodes are an important component as a way to bridge traffic between local NATS servers you control and servers that are managed by a third-party. [Synadia's NGS](https://synadia.com/ngs) allows accounts to use leaf nodes, but gain accessibility to the global network to inexpensively connect geographically distributed servers or small clusters.
 
-[LeafNode Configuration Options](leafnode\_conf.md)
+[LeafNode Configuration Options](leafnode_conf.md)
 
 ## LeafNode Configuration Tutorial
 
@@ -265,4 +265,4 @@ Received  [_INBOX.hgG0zVcVcyr4G5KBwOuyJw.uUYkEyKr] : '42'
 
 ## Leaf Authorization
 
-In some cases you may want to restrict what messages can be exported from the leaf node or imported from the leaf connection. You can specify restrictions by limiting what the leaf connection client can publish and subscribe to. See [NATS Authorization](../securing\_nats/authorization.md) for how you can do this.
+In some cases you may want to restrict what messages can be exported from the leaf node or imported from the leaf connection. You can specify restrictions by limiting what the leaf connection client can publish and subscribe to. See [NATS Authorization](../securing_nats/authorization.md) for how you can do this.

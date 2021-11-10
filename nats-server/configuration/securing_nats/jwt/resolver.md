@@ -92,7 +92,7 @@ ACSU3Q6LTLBVLGAQUONAGXJHVNWGSKKAUA7IY5TB4Z7PLEKSR5O6JTGR: eyJ0eXAiOiJqd3QiLCJhbG
 
 The `MEMORY` resolver is recommended when the server has a small number of accounts that don't change very often.
 
-For more information on how to configure a memory resolver, see [this tutorial](mem\_resolver.md).
+For more information on how to configure a memory resolver, see [this tutorial](mem_resolver.md).
 
 ## URL Resolver
 

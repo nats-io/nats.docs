@@ -21,7 +21,7 @@ The configuration flags revolve around:
 | `-m`, `--http_port`   | HTTP port for monitoring dashboard (exclusive of `--https_port`).                      |
 | `-ms`, `--https_port` | HTTPS port monitoring for monitoring dashboard (exclusive of `--http_port`).           |
 | `-c`, `--config`      | Path to NATS server configuration file.                                                |
-| `-sl`, `--signal`     | Send a signal to nats-server process. See [process signaling](nats\_admin/signals.md). |
+| `-sl`, `--signal`     | Send a signal to nats-server process. See [process signaling](nats_admin/signals.md). |
 | `--client_advertise`  | Client HostPort to advertise to other servers.                                         |
 | `-t`                  | Test configuration and exit                                                            |
 
@@ -42,7 +42,7 @@ The following options control straightforward authentication:
 | `--pass` | Required _password_ for connections (exclusive of `--token`).                            |
 | `--auth` | Required _authorization token_ for connections (exclusive of `--user` and `--password`). |
 
-See [token authentication](configuration/securing\_nats/auth\_intro/tokens.md), and [username/password](configuration/securing\_nats/auth\_intro/username\_password.md) for more information.
+See [token authentication](configuration/securing_nats/auth_intro/tokens.md), and [username/password](configuration/securing_nats/auth_intro/username_password.md) for more information.
 
 ## Logging Options
 
@@ -73,7 +73,7 @@ You can read more about [logging configuration here](configuration/logging.md).
 | `--tlsverify` | Enable client TLS certificate verification |
 | `--tlscacert` | Client certificate CA for verification     |
 
-You can read more about [tls configuration here](broken-reference).
+You can read more about [tls configuration here](/nats-server/configuration/securing_nats/tls.md).
 
 ## Cluster Options
 
@@ -87,7 +87,7 @@ The following flags are available on the server to configure clustering:
 | `--cluster_advertise` | Cluster URL to advertise to other servers                   |
 | `--connect_retries`   | For implicit routes, number of connect retries              |
 
-You can read more about [clustering configuration here](configuration/clustering/).
+You can read more about [clustering configuration here](/nats-server/configuration/clustering/README.md).
 
 ## Common Options
 

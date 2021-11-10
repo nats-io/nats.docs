@@ -79,7 +79,7 @@ Output extract
 ...
 ```
 
-You can set these using the CLI flag, the environment variable - like **NATS\_URL** - or using our context feature.
+You can set these using the CLI flag, the environment variable - like **NATS_URL** - or using our context feature.
 
 ### NATS Contexts
 A context is a named configuration that stores all of these settings, you can switch between access configurations and designate a default.

@@ -68,7 +68,7 @@ Connections: 3
 
 ## 6. Sort nats-top statistics
 
-In nats-top, enter the command `o` followed by the option, such as `bytes_to`. You see that nats-top sorts the BYTES\_TO column in ascending order.
+In nats-top, enter the command `o` followed by the option, such as `bytes_to`. You see that nats-top sorts the BYTES_TO column in ascending order.
 
 ```text
 nats-server version 0.6.6 (uptime: 45m40s)

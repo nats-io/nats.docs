@@ -35,7 +35,7 @@ Scoped to the user, you can now [specify a specific block of time](nats-tools/ns
 
 ### Default User Permissions
 
-Now you can specify [default user permissions](nats-server/configuration/securing\_nats/authorization.md#examples) within an account. This significantly reduces efforts around policy, reduces chances for error in permissioning, and simplifies the provisioning of user credentials.
+Now you can specify [default user permissions](nats-server/configuration/securing_nats/authorization.md#examples) within an account. This significantly reduces efforts around policy, reduces chances for error in permissioning, and simplifies the provisioning of user credentials.
 
 ## WebSockets
 
@@ -57,7 +57,7 @@ We’ve added the ability to optionally use headers, following the HTTP semantic
 
 ### Seamless Maintenance with Lame Duck Notifications
 
-When taking down a server for maintenance, servers can be signaled to enter [Lame Duck Mode](nats-server/nats\_admin/lame\_duck\_mode.md) where they do not accept new connections and evict existing connections over a period of time. Maintainer supported clients will notify applications that a server has entered this state and will be shutting down, allowing a client to smoothly transition to another server or cluster and better maintain business continuity during scheduled maintenance periods.
+When taking down a server for maintenance, servers can be signaled to enter [Lame Duck Mode](nats-server/nats_admin/lame_duck_mode.md) where they do not accept new connections and evict existing connections over a period of time. Maintainer supported clients will notify applications that a server has entered this state and will be shutting down, allowing a client to smoothly transition to another server or cluster and better maintain business continuity during scheduled maintenance periods.
 
 ### React Quicker with No-Responder Notifications
 
@@ -65,7 +65,7 @@ Why wait for timeouts when services aren’t available? When a request is made t
 
 ### Subject Mapping and Traffic Shaping
 
-Reduce risk when onboarding new services. Canary deployments, A/B testing, and transparent teeing of data streams are now fully supported in NATS. The NATS Server allows accounts to form subject mappings from one subject to another for both client inbound and service import invocations and allows weighted sets for the destinations. Map any percentage - 1 to 100 percent of your traffic - to other subjects, and change this at runtime with a server configuration reload. You can even artificially drop a percentage of traffic to introduce chaos testing into your system. See [Configuring Subject Mapping and Traffic Shaping](nats-server/configuration/configuring\_subject\_mapping.md) in NATS Server configuration for more details.
+Reduce risk when onboarding new services. Canary deployments, A/B testing, and transparent teeing of data streams are now fully supported in NATS. The NATS Server allows accounts to form subject mappings from one subject to another for both client inbound and service import invocations and allows weighted sets for the destinations. Map any percentage - 1 to 100 percent of your traffic - to other subjects, and change this at runtime with a server configuration reload. You can even artificially drop a percentage of traffic to introduce chaos testing into your system. See [Configuring Subject Mapping and Traffic Shaping](nats-server/configuration/configuring_subject_mapping.md) in NATS Server configuration for more details.
 
 ### Account Monitoring - More Meaningful Metrics
 

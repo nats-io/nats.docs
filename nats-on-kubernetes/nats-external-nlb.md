@@ -51,7 +51,7 @@ Publish a test message
 nats pub -s nats://a18b60a948fc611eaa7840286c60df32-9e96a2af4b5675ec.elb.us-east-2.amazonaws.com:4222 -creds nsc/nkeys/creds/KO/A/test.creds test.foo bar
 ```
 
-Also, it would be recommended to set [no\_advertise](../nats-server/configuration/clustering/cluster_config.md) to `true` in order to avoid gossiping internal addresses from pods in Kubernetes to NATS clients.
+Also, it would be recommended to set [no_advertise](../nats-server/configuration/clustering/cluster_config.md) to `true` in order to avoid gossiping internal addresses from pods in Kubernetes to NATS clients.
 
 ## Setting up a NATS Server with external access on Azure
 

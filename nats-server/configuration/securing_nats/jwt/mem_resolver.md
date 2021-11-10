@@ -96,7 +96,7 @@ If you require additional settings, you may want to consider using [`include`](b
 nats-server -c /tmp/server.conf
 ```
 
-You can then [test it](mem\_resolver.md#testing-the-configuration).
+You can then [test it](mem_resolver.md#testing-the-configuration).
 
 ## Manual Server Config
 
@@ -135,7 +135,7 @@ Save the config at server.conf and start the server:
 nats-server -c server.conf
 ```
 
-You can then [test it](mem\_resolver.md#testing-the-configuration).
+You can then [test it](mem_resolver.md#testing-the-configuration).
 
 ## Testing the Configuration
 
