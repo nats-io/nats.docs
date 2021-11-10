@@ -60,23 +60,28 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({
-    url: "nats://demo.nats.io:4222"
-});
-// `max` specifies the number of messages that the server will forward
-// The server will auto-cancel.
-let opts = {max: 10};
-let sub = nc.subscribe(NATS.createInbox(), opts, (msg) => {
-    t.log(msg);
-});
+const sc = StringCodec();
+  // `max` specifies the number of messages that the server will forward.
+  // The server will auto-cancel.
+  const subj = createInbox();
+  const sub1 = nc.subscribe(subj, {
+    callback: (_err, msg) => {
+      t.log(`sub1 ${sc.decode(msg.data)}`);
+    },
+    max: 10,
+  });
 
-// another way after 10 messages
-let sub2 = nc.subscribe(NATS.createInbox(), (err, msg) => {
-    t.log(msg.data);
+  // another way after 10 messages
+  const sub2 = nc.subscribe(subj, {
+    callback: (_err, msg) => {
+      t.log(`sub2 ${sc.decode(msg.data)}`);
+    },
+  });
+
+  // if the subscription already received 10 messages, the handler
+  // won't get any more messages
+  sub2.unsubscribe(10);
 });
-// if the subscription already received 10 messages, the handler
-// won't get any more messages
-nc.unsubscribe(sub2, 10);
 ```
 {% endtab %}
 
@@ -122,25 +127,6 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
 
   end.resume
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// `max` specifies the number of messages that the server will forward
-// The server will auto-cancel
-let opts = {max: 10};
-let sub = await nc.subscribe(createInbox(), (err, msg) => {
-    t.log(msg.data);
-}, opts);
-
-// another way after 10 messages
-let sub2 = await nc.subscribe(createInbox(), (err, msg) => {
-    t.log(msg.data);
-});
-// if the subscription already received 10 messages, the handler
-// won't get any more messages
-sub2.unsubscribe(10);
 ```
 {% endtab %}
 

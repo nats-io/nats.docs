@@ -35,15 +35,7 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect("nats://demo.nats.io:4222");
-
-// on node you *must* register an error listener. If not registered
-// the library emits an 'error' event, the node process will exit.
-nc.on('error', (err) => {
-    t.log('client got an error:', err);
-});
-nc.on('connect', () => {
-    t.log(nc.info.max_payload);
+t.log(`max payload for the server is ${nc.info.max_payload} bytes`);
 });
 ```
 {% endtab %}
@@ -76,17 +68,6 @@ NATS.start(max_outstanding_pings: 5) do |nc|
   # Do something with the max_payload
   puts "Maximum Payload is #{nc.server_info[:max_payload]} bytes"
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// connect will happen once - the first connect
-nc.on('connect', (nc: Client, url: string, options: ServerInfo) => {
-    // nc is the connection that connected
-    t.log('client connected to', url);
-    t.log('max_payload', options.max_payload);
-});
 ```
 {% endtab %}
 
@@ -151,9 +132,14 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({
-    url: "nats://demo.nats.io:4222",
-    pedantic: true
+// the pedantic option is useful for developing nats clients.
+// the javascript clients also provide `debug` which will
+// print to the console all the protocol interactions
+// with the server
+const nc = await connect({
+    pedantic: true,
+    servers: ["demo.nats.io:4222"],
+    debug: true,
 });
 ```
 {% endtab %}
@@ -183,18 +169,6 @@ NATS.start(pedantic: true) do |nc|
 
   nc.close
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// will throw an exception if connection fails
-let nc = await connect({
-    url: "nats://demo.nats.io:4222",
-    pedantic: true
-});
-
-nc.close();
 ```
 {% endtab %}
 
@@ -250,10 +224,7 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-// set this option before creating a connection
-NATS.MAX_CONTROL_LINE_SIZE = 1024*2;
-let nc = NATS.connect({
-    url: "nats://demo.nats.io:4222"
+// the max control line is determined automatically by the client
 });
 ```
 {% endtab %}
@@ -267,12 +238,6 @@ let nc = NATS.connect({
 {% tab title="Ruby" %}
 ```ruby
 # There is no need to customize this in the Ruby NATS client.
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// control line size is not configurable on TypeScript NATS client.
 ```
 {% endtab %}
 
@@ -324,9 +289,9 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({
-    url: "nats://demo.nats.io:4222",
-    verbose: true
+const nc = await connect({
+    verbose: true,
+    servers: ["demo.nats.io:4222"],
 });
 ```
 {% endtab %}
@@ -356,18 +321,6 @@ NATS.start(verbose: true) do |nc|
 
   nc.close
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// will throw an exception if connection fails
-let nc = await connect({
-    url: "nats://demo.nats.io:4222",
-    verbose: true
-});
-
-nc.close();
 ```
 {% endtab %}
 

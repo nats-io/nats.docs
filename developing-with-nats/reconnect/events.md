@@ -46,13 +46,21 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({
+const nc = await connect({
     maxReconnectAttempts: 10,
-    servers: ["nats://demo.nats.io:4222"]
-});
+    servers: ["demo.nats.io"],
+  });
 
-nc.on('reconnect', (c) => {
-    console.log('reconnected');
+  (async () => {
+    for await (const s of nc.status()) {
+      switch (s.type) {
+        case Status.Reconnect:
+          t.log(`client reconnected - ${s.data}`);
+          break;
+        default:
+      }
+    }
+  })().then();
 });
 ```
 {% endtab %}
@@ -93,23 +101,6 @@ NATS.start(servers: ["nats://127.0.0.1:1222", "nats://127.0.0.1:1223", "nats://1
     puts "Got disconnected! #{reason}"
   end
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// will throw an exception if connection fails
-let nc = await connect({
-    maxReconnectAttempts: 10,
-    servers: ["nats://demo.nats.io:4222"]
-});
-// first argument is the connection (same as nc in this case)
-// second argument is the url of the server where the client
-// connected
-nc.on('reconnect', (conn, server) => {
-    console.log('reconnected to', server);
-});
-nc.close();
 ```
 {% endtab %}
 

@@ -49,20 +49,16 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({
+const nc = await connect({
     servers: [
-        "nats://demo.nats.io:4222",
-        "nats://localhost:4222"
-    ]}
-);
-nc.on('connect', (c) => {
-    // Do something with the connection
-    doSomething();
-    // When done close it
-    nc.close();
-});
-nc.on('error', (err) => {
-    failed(err);
+      "nats://demo.nats.io:4222",
+      "nats://localhost:4222",
+    ],
+  });
+  // Do something with the connection
+  doSomething();
+  // When done close it
+  await nc.close();
 });
 ```
 {% endtab %}
@@ -92,22 +88,6 @@ NATS.start(servers: ["nats://127.0.0.1:1222", "nats://127.0.0.1:1223", "nats://1
    # Close the connection
    nc.close
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// will throw an exception if connection fails
-let nc = await connect({
-        servers: [
-            "nats://demo.nats.io:4222",
-            "nats://localhost:4222"
-        ]
-});
-// Do something with the connection
-
-// When done close it
-nc.close();
 ```
 {% endtab %}
 

@@ -66,12 +66,6 @@ nc.close();
 ```
 {% endtab %}
 
-{% tab title="TypeScript" %}
-```typescript
-/ Typescript NATS subscriptions are always async.
-```
-{% endtab %}
-
 {% tab title="C" %}
 ```c
 natsConnection      *conn      = NULL;

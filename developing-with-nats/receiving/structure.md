@@ -101,15 +101,12 @@ public class SubscribeJSON {
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({
-    url: "nats://demo.nats.io:4222",
-    json: true
-});
-
-nc.subscribe('updates', (msg) => {
-    if(msg && msg.ticker === 'TSLA') {
-        t.log('got message:', msg);
-    }
+const jc = JSONCodec();
+  const sub = nc.subscribe(subj, {
+    callback: (_err, msg) => {
+      t.log(`${jc.decode(msg.data)}`);
+    },
+    max: 1,
 });
 ```
 {% endtab %}
@@ -153,19 +150,6 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
     p m
   end
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-let nc = await connect({
-    url: "nats://demo.nats.io:4222",
-    payload: Payload.JSON
-});
-
-nc.subscribe('updates', (err, msg) => {
-    t.log('got message:', msg.data ? msg.data : "no payload");
-});
 ```
 {% endtab %}
 

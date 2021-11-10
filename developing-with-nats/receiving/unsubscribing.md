@@ -56,19 +56,15 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({
-    url: "nats://demo.nats.io:4222"
+const sc = StringCodec();
+  // set up a subscription to process a request
+  const sub = nc.subscribe(createInbox(), (_err, m) => {
+    m.respond(sc.encode(new Date().toLocaleTimeString()));
+  });
+  // without arguments the subscription will cancel when the server receives it
+  // you can also specify how many messages are expected by the subscription
+  sub.unsubscribe();
 });
-// set up a subscription to process a request
-let sub = nc.subscribe(NATS.createInbox(), (msg, reply) => {
-    if (msg.reply) {
-        nc.publish(reply, new Date().toLocaleTimeString());
-    }
-});
-
-// without arguments the subscription will cancel when the server receives it
-// you can also specify how many messages are expected by the subscription
-nc.unsubscribe(sub);
 ```
 {% endtab %}
 
@@ -121,23 +117,6 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
 
   end.resume
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// set up a subscription to process a request
-let sub = await nc.subscribe(createInbox(), (err, msg) => {
-    if (msg.reply) {
-        nc.publish(msg.reply, new Date().toLocaleTimeString());
-    } else {
-        t.log('got a request for the time, but no reply subject was set.');
-    }
-});
-
-// without arguments the subscription will cancel when the server receives it
-// you can also specify how many messages are expected by the subscription
-sub.unsubscribe();
 ```
 {% endtab %}
 

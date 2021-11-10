@@ -105,12 +105,6 @@ await nc.subscribe("updates", cb=cb, pending_bytes_limit=5*1024*1024, pending_ms
 ```
 {% endtab %}
 
-{% tab title="TypeScript" %}
-```typescript
-// slow pending limits are not configurable on TypeScript NATS client.
-```
-{% endtab %}
-
 {% tab title="C" %}
 ```c
 natsConnection      *conn      = NULL;

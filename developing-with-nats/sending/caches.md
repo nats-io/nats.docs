@@ -42,15 +42,10 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({url: "nats://demo.nats.io:4222"});
-let start = Date.now();
-nc.flush(() => {
-    t.log('round trip completed in', Date.now() - start, 'ms');
+const start = Date.now();
+  nc.flush().then(() => {
+    t.log("round trip completed in", Date.now() - start, "ms");
 });
-
-nc.publish('foo');
-// function in flush is optional
-nc.flush();
 ```
 {% endtab %}
 
@@ -85,28 +80,6 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
     # This gives guarantee that the server has processed above message at this point.
   end
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-let nc = await connect({
-    url: "nats://demo.nats.io:4222"
-});
-
-// you can use flush to trigger a function in your
-// application once the round-trip to the server finishes
-let start = Date.now();
-nc.flush(() => {
-    t.log('round trip completed in', Date.now() - start, 'ms');
-});
-
-nc.publish('foo');
-
-// another way, simply wait for the promise to resolve
-await nc.flush();
-
-nc.close();
 ```
 {% endtab %}
 

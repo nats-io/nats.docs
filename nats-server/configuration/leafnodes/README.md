@@ -1,27 +1,27 @@
 # Leaf Nodes
 
-A _Leaf Node_ extends an existing NATS system of any size, optionally bridging both operator and security domains. A leafnode server will transparently route messages as needed from local clients to one or more remote NATS system\(s\) and vice versa. The leaf node authenticates and authorizes clients using a local policy. Messages are allowed to flow to the cluster or into the leaf node based on leaf node connection permissions of either.
+A _Leaf Node_ extends an existing NATS system of any size, optionally bridging both operator and security domains. A leafnode server will transparently route messages as needed from local clients to one or more remote NATS system(s) and vice versa. The leaf node authenticates and authorizes clients using a local policy. Messages are allowed to flow to the cluster or into the leaf node based on leaf node connection permissions of either.
 
 Leaf nodes are useful in IoT and edge scenarios and when the local server traffic should be low RTT and local unless routed to the super cluster. NATS' queue semantics are honored across leaf connections by serving local queue consumer first.
 
-* Clients to leaf nodes authenticate locally \(or just connect if authentication is not required\)
-* Traffic between the leaf node and the cluster assumes the restrictions of the user configuration used to create the leaf connection. 
-  * Subjects that the user is allowed to publish are exported to the cluster. 
+* Clients to leaf nodes authenticate locally (or just connect if authentication is not required)
+* Traffic between the leaf node and the cluster assumes the restrictions of the user configuration used to create the leaf connection.
+  * Subjects that the user is allowed to publish are exported to the cluster.
   * Subjects the user is allowed to subscribe to, are imported into the leaf node.
 
 Unlike [cluster](../clustering/) or [gateway](../gateways/) nodes, leaf nodes do not need to be reachable themselves and can be used to explicitly configure any acyclic graph topologies.
 
 If a leaf node connects to a cluster, it is recommended to configure it with knowledge of **all** _seed servers_ and have **each** _seed server_ accept connections from leaf nodes. Should the remote cluster's configuration change, the discovery protocol will gossip peers capable of accepting leaf connections. A leaf node can have multiple remotes, each connecting to a different cluster. Each URL in a remote needs to point to the same cluster. If one node in a cluster is configured as leaf node, **all** nodes need to. Likewise, if one server in a cluster accepts leaf node connections, **all** servers need to.
 
-> Leaf Nodes are an important component as a way to bridge traffic between local NATS servers you control and servers that are managed by a third-party. Synadia's [NATS Global Service \(NGS\)](https://www.synadia.com/) allows accounts to use leaf nodes, but gain accessibility to the global network to inexpensively connect geographically distributed servers or small clusters.
+> Leaf Nodes are an important component as a way to bridge traffic between local NATS servers you control and servers that are managed by a third-party. [Synadia's NGS](https://synadia.com/ngs) allows accounts to use leaf nodes, but gain accessibility to the global network to inexpensively connect geographically distributed servers or small clusters.
 
-[LeafNode Configuration Options](leafnode_conf.md)
+[LeafNode Configuration Options](leafnode\_conf.md)
 
 ## LeafNode Configuration Tutorial
 
-The main server is just a standard NATS server. Clients to the main cluster are just using token authentication, but any kind of authentication can be used. The server allows leaf node connections at port 7422 \(default port\):
+The main server is just a standard NATS server. Clients to the main cluster are just using token authentication, but any kind of authentication can be used. The server allows leaf node connections at port 7422 (default port):
 
-```text
+```
 leafnodes {
     port: 7422
 }
@@ -48,9 +48,9 @@ We create a replier on the server to listen for requests on 'q', which it will a
 nats-rply -s nats://s3cr3t@localhost q 42
 ```
 
-The leaf node, allows local clients to connect to through port 4111, and doesn't require any kind of authentication. The configuration specifies where the remote cluster is located, and specifies how to connect to it \(just a simple token in this case\):
+The leaf node, allows local clients to connect to through port 4111, and doesn't require any kind of authentication. The configuration specifies where the remote cluster is located, and specifies how to connect to it (just a simple token in this case):
 
-```text
+```
 listen: "127.0.0.1:4111"
 leafnodes {
     remotes = [ 
@@ -63,7 +63,7 @@ leafnodes {
 
 In the case where the remote leaf connection is connecting with `tls`:
 
-```text
+```
 listen: "127.0.0.1:4111"
 leafnodes {
     remotes = [ 
@@ -220,7 +220,7 @@ Example output
 
 Let's craft a leaf node connection much like we did earlier:
 
-```text
+```
 leafnodes {
     remotes = [ 
         { 
@@ -265,5 +265,4 @@ Received  [_INBOX.hgG0zVcVcyr4G5KBwOuyJw.uUYkEyKr] : '42'
 
 ## Leaf Authorization
 
-In some cases you may want to restrict what messages can be exported from the leaf node or imported from the leaf connection. You can specify restrictions by limiting what the leaf connection client can publish and subscribe to. See [NATS Authorization](../securing_nats/authorization.md) for how you can do this.
-
+In some cases you may want to restrict what messages can be exported from the leaf node or imported from the leaf connection. You can specify restrictions by limiting what the leaf connection client can publish and subscribe to. See [NATS Authorization](../securing\_nats/authorization.md) for how you can do this.

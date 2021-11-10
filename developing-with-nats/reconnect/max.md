@@ -32,9 +32,9 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({
+const nc = await connect({
     maxReconnectAttempts: 10,
-    servers: ["nats://demo.nats.io:4222"]
+    servers: ["demo.nats.io"],
 });
 ```
 {% endtab %}
@@ -63,16 +63,6 @@ NATS.start(servers: ["nats://127.0.0.1:1222", "nats://127.0.0.1:1223", "nats://1
    # Close the connection
    nc.close
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// will throw an exception if connection fails
-let nc = await connect({
-    maxReconnectAttempts: 10,
-});
-nc.close();
 ```
 {% endtab %}
 

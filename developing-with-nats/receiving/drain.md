@@ -103,24 +103,12 @@ drained.get();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({url: "nats://demo.nats.io:4222"});
-let inbox = createInbox();
-let counter = 0;
-nc.subscribe(inbox, () => {
-    counter++;
-});
-
-nc.publish(inbox);
-nc.drain((err)=> {
-    if(err) {
-        t.log(err);
-    }
-    t.log('connection is closed:', nc.closed);
-    t.log('processed', counter, 'messages');
-    t.pass();
-    // the snippet is running as a promise in a test
-    // and calls resolve to pass the test
-    resolve();
+const sub = nc.subscribe(subj, { callback: (_err, _msg) => {} });
+  nc.publish(subj);
+  nc.publish(subj);
+  nc.publish(subj);
+  await sub.drain();
+  t.is(sub.getProcessed(), 3);
 });
 ```
 {% endtab %}
@@ -186,20 +174,6 @@ NATS.start(drain_timeout: 1) do |nc|
     end
   end
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-let sub = await nc.subscribe('updates', (err, msg) => {
-    t.log('worker got message', msg.data);
-}, {queue: "workers"});
-// [end drain_sub]
-nc.flush();
-
-await nc.drain();
-// client must close when the connection drain resolves
-nc.close();
 ```
 {% endtab %}
 

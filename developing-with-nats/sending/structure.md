@@ -70,8 +70,9 @@ public class PublishJSON {
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({url: "nats://demo.nats.io:4222", json: true});
-nc.publish('updates', {ticker: 'GOOG', price: 1200});
+const jc = JSONCodec();
+  nc.publish("updates", jc.encode({ ticker: "GOOG", price: 2868.87 }));
+});
 ```
 {% endtab %}
 
@@ -93,17 +94,6 @@ require 'json'
 NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
   nc.publish("updates", {"symbol": "GOOG", "price": 1200}.to_json)
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-let nc = await connect({
-    url: "nats://demo.nats.io:4222",
-    payload: Payload.JSON
-});
-
-nc.publish('updates', {ticker: 'GOOG', price: 1200});
 ```
 {% endtab %}
 
