@@ -4,7 +4,7 @@ This section contains miscellaneous functionalities and options for connect.
 
 ## Get the Maximum Payload Size
 
-While the client can't control the maximum payload size, clients may provide a way for applications to obtain the configured [`max_payload`](broken-reference) after the connection is made. This will allow the application to chunk or limit data as needed to pass through the server.
+While the client can't control the maximum payload size, clients may provide a way for applications to obtain the configured [`max_payload`](/nats-server/configuration/README.md#limits) after the connection is made. This will allow the application to chunk or limit data as needed to pass through the server.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -195,7 +195,7 @@ natsOptions_Destroy(opts);
 
 ## Set the Maximum Control Line Size
 
-The protocol between the client and the server is fairly simple and relies on a control line and sometimes a body. The control line contains the operations being sent, like PING or PONG, followed by a carriage return and line feed, CRLF or "\r\n". The server has a [`max_control_line`](broken-reference) option that can limit the maximum size of a control line. For PING and PONG this doesn't come into play, but for messages that contain subject names and possibly queue group names, the control line length can be important as it effectively limits the possibly combined length. Some clients will try to limit the control line size internally to prevent an error from the server. These clients may or may not allow you to set the size being used, but if they do, the size should be set to match the server configuration.
+The protocol between the client and the server is fairly simple and relies on a control line and sometimes a body. The control line contains the operations being sent, like PING or PONG, followed by a carriage return and line feed, CRLF or "\r\n". The server has a [`max_control_line`](/nats-server/configuration/README.md#limits) option that can limit the maximum size of a control line. For PING and PONG this doesn't come into play, but for messages that contain subject names and possibly queue group names, the control line length can be important as it effectively limits the possibly combined length. Some clients will try to limit the control line size internally to prevent an error from the server. These clients may or may not allow you to set the size being used, but if they do, the size should be set to match the server configuration.
 
 > It is not recommended to set this to a value that is higher than the one of other clients or the nats-server.
 

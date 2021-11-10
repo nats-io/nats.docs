@@ -765,7 +765,7 @@ How accounts can be publicized wholly depends on the resolver you are using:
   * `$SYS.REQ.CLAIMS.UPDATE` can upload and update all accounts. Currently, `nsc push` uses this subject.
   * `$SYS.REQ.ACCOUNT.*.CLAIMS.UPDATE` can upload and update specific accounts.
 
-`nsc generate config <resolver-type>` as a utility that generates the relevant NATS config. Where `<resolver-type>` can be `--mem-resolver` or `--nats-resolver` for the corresponding resolver. Typically the generated output is stored in a file that is then [included](broken-reference) by the NATS config. Every server within the same authentication domain needs to be configured with this configuration.
+`nsc generate config <resolver-type>` as a utility that generates the relevant NATS config. Where `<resolver-type>` can be `--mem-resolver` or `--nats-resolver` for the corresponding resolver. Typically the generated output is stored in a file that is then [included](/nats-server/configuration/README.md#include-directive) by the NATS config. Every server within the same authentication domain needs to be configured with this configuration.
 
 #### **nats-resolver setup and push example - Operator Environment/Environment with push permissions - All Deployment Modes** <a href="nats-resolver-setup-and-push-example" id="nats-resolver-setup-and-push-example"></a>
 

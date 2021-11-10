@@ -90,7 +90,7 @@ The `nsc` tool can generate a configuration file automatically. You provide a pa
 nsc generate config --mem-resolver --config-file /tmp/server.conf 
 ```
 
-If you require additional settings, you may want to consider using [`include`](broken-reference) in your main configuration, to reference the generated files. Otherwise, you can start a server and reference the generated configuration:
+If you require additional settings, you may want to consider using [`include`](/nats-server/configuration/README.md#include-directive) in your main configuration, to reference the generated files. Otherwise, you can start a server and reference the generated configuration:
 
 ```shell
 nats-server -c /tmp/server.conf

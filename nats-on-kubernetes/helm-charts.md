@@ -60,7 +60,7 @@ nats:
 
 ### TLS setup for client connections
 
-You can find more on how to set up and troubleshoot TLS connections at: [nats-server/configuration/securing_nats/tls](broken-reference)
+You can find more on how to set up and troubleshoot TLS connections at: [nats-server/configuration/securing_nats/tls](/nats-server/configuration/securing_nats/tls.md)
 
 ```yaml
 nats:

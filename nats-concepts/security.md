@@ -2,7 +2,7 @@
 
 NATS has a lot of security features:
 
-* Connections can be [_encrypted_ with TLS](broken-reference)
+* Connections can be [_encrypted_ with TLS](/nats-server/configuration/securing_nats/tls.md)
 * Client connections can be [_authenticated_](../nats-server/configuration/securing_nats/auth_intro/) in many ways:
   * [Token Authentication](../nats-server/configuration/securing_nats/auth_intro/tokens.md)
   * [Username/Password credentials](../nats-server/configuration/securing_nats/auth_intro/username_password.md)

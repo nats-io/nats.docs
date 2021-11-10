@@ -7,7 +7,7 @@ The server can require TLS certificates from a client. When needed, you can use 
 
 > Note: To simplify the common scenario of maintainers looking at the monitoring endpoint, `verify` and `verify_and_map` do not apply to the monitoring port.
 
-The examples in the following sections make use of the certificates you [generated](broken-reference) locally.
+The examples in the following sections make use of the certificates you [generated](/nats-server/configuration/securing_nats/tls.md#self-signed-certificates-for-testing) locally.
 
 ## Validating a Client Certificate
 
@@ -109,4 +109,4 @@ authorization {
 
 ## TLS Timeout
 
-[TLS timeout](broken-reference) is described here.
+[TLS timeout](/nats-server/configuration/securing_nats/tls.md#tls-timeout) is described here.
