@@ -51,11 +51,11 @@ done
 To test the multi-region connectivity by using the `nats-box` container that got deployed in each cluster:
 
 ```text
-kubectl --context do-ams3-nats-k8s-ams3  exec -it nats-box -- nats-sub -s nats hello
+kubectl --context do-ams3-nats-k8s-ams3  exec -it nats-box -- nats sub -s nats hello
 Listening on [hello]
 
 while true; do
-  kubectl --context do-sfo2-nats-k8s-sfo2  exec -it nats-box -- nats-pub -s nats hello 'Hello World!'
+  kubectl --context do-sfo2-nats-k8s-sfo2  exec -it nats-box -- nats pub -s nats hello 'Hello World!'
 done
 ```
 

@@ -27,13 +27,23 @@ By default the NATS server exposes multiple ports:
 * 6222 is a routing port for clustering.
 * Use -p or -P to customize.
 
-### Creating a NATS Cluster
+To run a server with the ports exposed on a `docker network`:
 
-First run a server with the ports exposed on a `docker network`:
+First create the 'docker network' nats
 
 ```bash
 docker network create nats
 ```
+
+And start the server
+
+```bash
+docker run --name nats --network nats --rm -p 4222:4222 -p 8222:8222 nats --http_port 8222
+```
+
+### Creating a NATS Cluster
+
+First run a server with the ports exposed on the 'nats' `docker network`:
 
 ```bash
 docker run --name nats --network nats --rm -p 4222:4222 -p 8222:8222 nats --http_port 8222 --cluster_name NATS --cluster nats://0.0.0.0:6222

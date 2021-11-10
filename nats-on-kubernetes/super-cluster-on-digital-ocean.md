@@ -92,7 +92,7 @@ nats-box:~# kubectl --context do-sfo2-nats-k8s-sfo2 exec -it nats-box -- /bin/sh
 nats-box:~# nats pub -s nats hello 'Hello World!'
 
 # From outside of k8s can use the external IPs
-$ nats-sub -s 142.93.251.181 hello
-$ nats-pub -s 161.35.2.153 hello 'Hello World!'
+nats sub -s 142.93.251.181 hello
+nats pub -s 161.35.2.153 hello 'Hello World!'
 ```
 

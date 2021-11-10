@@ -21,7 +21,7 @@ nats-server --auth s3cr3t
 A client can easily connect by specifying the server URL:
 
 ```shell
-nats-sub -s nats://s3cr3t@localhost:4222 ">"
+nats sub -s nats://s3cr3t@localhost:4222 ">"
 ```
 
 ## Bcrypted Tokens

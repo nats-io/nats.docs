@@ -92,5 +92,5 @@ accounts: {
 system_account: SYS
 ```
 
-Please note that applications now have to authenticate such that a connection can be associated with an account. In this example username and password were chosen for simplicity of the demonstration. Subscribe to all system events like this `nats-sub -s nats://admin:changeit@localhost:4222 ">"` and observe what happens when you do something like `nats-pub -s "nats://a:a@localhost:4222" foo bar`. Examples on how to use system services can be found [here](sys_accounts.md#system-services).
+Please note that applications now have to authenticate such that a connection can be associated with an account. In this example username and password were chosen for simplicity of the demonstration. Subscribe to all system events like this `nats sub -s nats://admin:changeit@localhost:4222 ">"` and observe what happens when you do something like `nats pub -s "nats://a:a@localhost:4222" foo bar`. Examples on how to use system services can be found [here](sys_accounts.md#system-services).
 

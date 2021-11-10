@@ -101,9 +101,9 @@ Let's add a subscriber for all the events published by the system account:
 nats sub --creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds ">"
 ```
 
-Very quickly we'll start seeing messages from the server as they are published by the NATS server. As should be expected, the messages are just JSON, so they can easily be inspected even if just using a simple `nats-sub` to read them.
+Very quickly we'll start seeing messages from the server as they are published by the NATS server. As should be expected, the messages are just JSON, so they can easily be inspected even if just using a simple `nats sub` to read them.
 
-To see an an account update:
+To see an account update:
 
 ```shell
 nats pub --creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds foo bar

@@ -144,8 +144,8 @@ nats-server -c leafnodes/leaf.conf -p 4223 &
 
 Create a subscriber and publish a test message
 ```shell
-nats-sub -s localhost:4222 foo &
-nats-pub -s localhost:4223 foo hello 
+nats sub -s localhost:4222 foo &
+nats pub -s localhost:4223 foo hello 
 ```
 Output
 ```text

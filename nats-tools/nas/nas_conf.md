@@ -191,7 +191,7 @@ nats-server -c nats-server.conf &
 Try to subscribe on account without permissions, this should fail
 
 ```shell
-nats-sub -creds nsc/nkeys/creds/KO/A/test.creds foo
+nats sub -creds nsc/nkeys/creds/KO/A/test.creds foo
 ```
 Output
 ```text
@@ -201,16 +201,16 @@ nats: Permissions Violation for Subscription to "foo"
 Subscribe then publish to subject should work on 'test' since enough permissions
 
 ```shell
-nats-sub -creds nsc/nkeys/creds/KO/A/test.creds test &
+nats sub -creds nsc/nkeys/creds/KO/A/test.creds test &
 ```
 Published message on 'test' subject would be received by started subscriber above
 
 ```shell
-$ nats-pub -creds nsc/nkeys/creds/KO/A/test.creds test foo &
+nats pub -creds nsc/nkeys/creds/KO/A/test.creds test foo &
 ```
 
 Subscribe using the system account user credentials can receive all system events
 ```shell
-nats-sub -creds nsc/nkeys/creds/KO/SYS/sys.creds '>'
+nats sub -creds nsc/nkeys/creds/KO/SYS/sys.creds '>'
 ```
 

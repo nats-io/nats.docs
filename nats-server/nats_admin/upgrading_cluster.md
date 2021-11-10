@@ -46,9 +46,9 @@ Let's start our temporary server:
 nats server -D -p 4444 -cluster nats://localhost:6444 -routes nats://localhost:6222,nats://localhost:6333
 ```
 
-After an instant or so, clients on 'A' learn of the new cluster member that joined. On our hands-on tutorial, `nats-sub` is now aware of 3 possible servers, 'A' \(specified when we started the tool\) and 'B' and 'C' learned from the cluster gossip.
+After an instant or so, clients on 'A' learn of the new cluster member that joined. On our hands-on tutorial, `nats sub` is now aware of 3 possible servers, 'A' \(specified when we started the tool\) and 'B' and 'C' learned from the cluster gossip.
 
-We invoke our admin powers and turn off 'A' by issuing a `CTRL+C` to the terminal on 'A' and observe that either 'B' or 'C' reports that a new client connected. That is our `nats-sub` client.
+We invoke our admin powers and turn off 'A' by issuing a `CTRL+C` to the terminal on 'A' and observe that either 'B' or 'C' reports that a new client connected. That is our `nats sub` client.
 
 We perform the upgrade process, update the binary for 'A', and restart 'A':
 
