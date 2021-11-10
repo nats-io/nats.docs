@@ -175,12 +175,9 @@
   * [Signals](nats-server/nats\_admin/signals.md)
   * [Lame Duck Mode](nats-server/nats\_admin/lame\_duck\_mode.md)
 
-## FAQ
-
-* [FAQ](faq.md)
-
 ## Reference
 
+* [FAQ](faq.md)
 * [NATS Protocols](reference-protocols.md)
   * [Protocol Demo](nats-protocol/nats-protocol-demo.md)
   * [Client Protocol](nats-protocol/nats-protocol/README.md)
