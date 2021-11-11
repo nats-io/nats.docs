@@ -1,7 +1,7 @@
 # What is NATS
 
 
-NATS is what is called a "message oriented middleware", meaning that it is a software infrastructure providing the exchange of data that is segmented into messages among computer applications and services.
+NATS is what is called "message oriented middleware", meaning that it is a software infrastructure providing the exchange of data that is segmented into messages among computer applications and services.
 
 NATS allows Application developers to easily and simply create distributed scalable client-server applications and generally store and distribute in real-time data between applications across different environments, languages, cloud providers and on-premise systems
 
@@ -37,5 +37,5 @@ NATS offers multiple qualities of service depending on whether the application u
 
 _Core NATS_ offers an **at most once** quality of service. If a subscriber is not listening on the subject \(no subject match\), or is not active when the message is sent, the message is not received. This is the same level of guarantee that TCP/IP provides. _Core NATS_ is a fire-and-forget messaging system, will only hold messages in memory and will never write messages directly to disk.
 
-If you need higher qualities of service (**at least once** and **exactly once**), or functionalities such persistent streaming, de-coupled flow control, and Key/Value Store, you can use [NATS JetStream](/nats-concepts/jetstream.md), which is built-in into the NATS server (but needs to be enabled). Of course, you can also always build additional reliability into your client applications yourself with proven and scalable reference designs such as acks and sequence numbers.
+If you need higher qualities of service (**at least once** and **exactly once**), or functionalities such as persistent streaming, de-coupled flow control, and Key/Value Store, you can use [NATS JetStream](/nats-concepts/jetstream.md), which is built in to the NATS server (but needs to be enabled). Of course, you can also always build additional reliability into your client applications yourself with proven and scalable reference designs such as acks and sequence numbers.
 

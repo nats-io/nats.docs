@@ -1,6 +1,6 @@
 # NATS connectivity
 
-NATS supports several kinds of connectivity _directly_ to the nats servers
+NATS supports several kinds of connectivity _directly_ to the NATS servers.
 
 * Plain NATS connections
 * TLS encrypted NATS connections
