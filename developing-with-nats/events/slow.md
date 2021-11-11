@@ -255,12 +255,6 @@ public class SlowConsumerListener {
 ```
 {% endtab %}
 
-{% tab title="TypeScript" %}
-```typescript
-// slow consumer detection is not configurable on NATS TypeScript client.
-```
-{% endtab %}
-
 {% tab title="C" %}
 ```c
 static void

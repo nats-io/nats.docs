@@ -239,7 +239,8 @@ nc.close();
 {% tab title="JavaScript" %}
 ```javascript
 let nc = NATS.connect({
-    url: "nats://demo.nats.io:4222"});
+    url: "nats://demo.nats.io:4222"
+});
 
 nc.subscribe('time.>', (msg, reply, subject) => {
     // converting timezones correctly in node requires a library

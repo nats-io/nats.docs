@@ -54,12 +54,11 @@ const nc = await connect({
       "nats://demo.nats.io:4222",
       "nats://localhost:4222",
     ],
-  });
-  // Do something with the connection
-  doSomething();
-  // When done close it
-  await nc.close();
 });
+// Do something with the connection
+doSomething();
+// When done close it
+await nc.close();
 ```
 {% endtab %}
 

@@ -106,17 +106,17 @@ public class ConnectTLS {
 {% tab title="JavaScript" %}
 ```javascript
 // tls options available depend on the javascript
-  // runtime, please verify the readme for the
-  // client you are using for specific details
-  // this example showing the node library
-  const nc = await connect({
-    port: ns.port,
-    debug: true,
-    tls: {
-      caFile: caCertPath,
-      keyFile: clientKeyPath,
-      certFile: clientCertPath,
-    },
+// runtime, please verify the readme for the
+// client you are using for specific details
+// this example showing the node library
+const nc = await connect({
+  port: ns.port,
+  debug: true,
+  tls: {
+    caFile: caCertPath,
+    keyFile: clientKeyPath,
+    certFile: clientCertPath,
+  },
 });
 ```
 {% endtab %}

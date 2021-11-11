@@ -59,12 +59,12 @@ nc.close();
 {% tab title="JavaScript" %}
 ```javascript
 // seed should be stored and treated like a secret
-  const seed = new TextEncoder().encode(
-    "SUAEL6GG2L2HIF7DUGZJGMRUFKXELGGYFMHF76UO2AYBG3K4YLWR3FKC2Q",
-  );
-  const nc = await connect({
-    port: ns.port,
-    authenticator: nkeyAuthenticator(seed),
+const seed = new TextEncoder().encode(
+  "SUAEL6GG2L2HIF7DUGZJGMRUFKXELGGYFMHF76UO2AYBG3K4YLWR3FKC2Q",
+);
+const nc = await connect({
+  port: ns.port,
+  authenticator: nkeyAuthenticator(seed),
 });
 ```
 {% endtab %}

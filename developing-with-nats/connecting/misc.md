@@ -36,7 +36,6 @@ nc.close();
 {% tab title="JavaScript" %}
 ```javascript
 t.log(`max payload for the server is ${nc.info.max_payload} bytes`);
-});
 ```
 {% endtab %}
 
@@ -225,7 +224,6 @@ nc.close();
 {% tab title="JavaScript" %}
 ```javascript
 // the max control line is determined automatically by the client
-});
 ```
 {% endtab %}
 

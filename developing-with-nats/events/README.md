@@ -45,19 +45,12 @@ System.out.println("The Connection is: " + nc.getStatus());
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect("nats://demo.nats.io:4222");
+  // you can find out where you connected:
+t.log(`connected to a nats server version ${nc.info.version}`);
 
-// on node you *must* register an error listener. If not registered
-// the library emits an 'error' event, the node process will exit.
-nc.on('error', (err) => {
-    t.log('client got an error:', err);
-});
-
-if(nc.closed) {
-    t.log('client is closed');
-} else {
-    t.log('client is not closed');
-}
+// or information about the data in/out of the client:
+const stats = nc.stats();
+t.log(`client sent ${stats.outMsgs} messages and received ${stats.inMsgs}`);
 ```
 {% endtab %}
 
@@ -103,16 +96,6 @@ NATS.start(max_reconnect_attempts: 2) do |nc|
     end
   end
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-if(nc.isClosed()) {
-    t.log('the client is closed');
-} else {
-    t.log('the client is running');
-}
 ```
 {% endtab %}
 {% endtabs %}

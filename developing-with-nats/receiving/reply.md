@@ -60,12 +60,11 @@ nc.close();
 {% tab title="JavaScript" %}
 ```javascript
 const sc = StringCodec();
-  // set up a subscription to process a request
-  const sub = nc.subscribe("time");
-  for await (const m of sub) {
-    m.respond(sc.encode(new Date().toLocaleDateString()));
-  }
-});
+// set up a subscription to process a request
+const sub = nc.subscribe("time");
+for await (const m of sub) {
+  m.respond(sc.encode(new Date().toLocaleDateString()));
+}
 ```
 {% endtab %}
 
