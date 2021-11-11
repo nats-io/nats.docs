@@ -18,13 +18,26 @@ Traffic can be split by percentage from one subject to multiple subjects. Here's
 
 Applications would make requests of a service at `myservice.requests`. The responders doing the work of the server would subscribe to `myservice.requests.v1`. Your configuration would look like this:
 
+```
+  myservice.requests: [
+    { destination: myservice.requests.v1, weight: 100% }
+  ]
+```
+
 All requests to `myservice.requests` will go to version 1 of your service.
 
 When version 2 comes along, you'll want to test it with a canary deployment. Version 2 would subscribe to `myservice.requests.v2`. Launch instances of your service.
 
 Update the configuration file to redirect some portion of the requests made to `myservice.requests` to version 2 of your service.
 
-For example `myservice.requests: [{ destination: myservice.requests.v1, weight: 98% },{ destination: myservice.requests.v2, weight: 2% }]` means 98% of the requests will be sent to version 1 and 2% to version 2.
+For example the configuration below means 98% of the requests will be sent to version 1 and 2% to version 2.
+
+```
+    myservice.requests: [
+        { destination: myservice.requests.v1, weight: 98% },
+        { destination: myservice.requests.v2, weight: 2% }
+    ]
+```
 
 Once you've determined Version 2 stable you can switch 100% of the traffic over to it and you can then shutdown the version 1 instances of your service.
 
