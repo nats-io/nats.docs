@@ -6,7 +6,7 @@ NATS is a [publish subscribe](../nats-concepts/pubsub.md) messaging system [base
 
 ### Walkthrough prerequisites
 
-If you have not already done so, you need to [install](/walkthrough/walkthrough_setup.md) the `nats` CLI Tool and optionally the nats-server on your machine.
+If you have not already done so, you need to [install](walkthrough_setup.md) the `nats` CLI Tool and optionally the nats-server on your machine.
 
 ## 1. Run the client subscriber program
 
