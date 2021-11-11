@@ -10,7 +10,7 @@ The example of `foo:bar` is straightforward. All messages the server receives on
 
 Wildcard tokens may be referenced via `$<position>`. For example, the first wildcard token is $1, the second is $2, etc. Referencing these tokens can allow for reordering.
 
-For example withi this mapping `bar.*.*: baz.$2.$1`, messages that were originally published to `bar.a.b` are remapped in the server to `baz.b.a`. Messages arriving at the server on `bar.one.two` would be mapped to `baz.two.one`, and so forth.
+For example with this mapping `bar.*.*: baz.$2.$1`, messages that were originally published to `bar.a.b` are remapped in the server to `baz.b.a`. Messages arriving at the server on `bar.one.two` would be mapped to `baz.two.one`, and so forth.
 
 ## Weighted Mappings for A/B Testing or Canary Releases
 
@@ -39,7 +39,7 @@ For example the configuration below means 98% of the requests will be sent to ve
     ]
 ```
 
-Once you've determined Version 2 stable you can switch 100% of the traffic over to it and you can then shutdown the version 1 instances of your service.
+Once you've determined Version 2 is stable you can switch 100% of the traffic over to it and you can then shutdown the version 1 instance of your service.
 
 ## Traffic Shaping in Testing
 

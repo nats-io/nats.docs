@@ -2,7 +2,7 @@
 
 ## Deciding to use streaming and higher qualities of service
 
-In modern systems applications can expose services or produce and consume data streams. A basic aspect of basic publish-subscribe messaging is temporal coupling: the subscribers need to be up and running to receive the message when it is published. At a high level, if observability is required, applications need to consume messages in the future, need to come consume at their own pace, or need all messages, then JetStream's streaming functionalities provide the temporal de-coupling between publishers and consumers.
+In modern systems, applications can expose services or produce and consume data streams. A basic aspect of publish-subscribe messaging is temporal coupling: the subscribers need to be up and running to receive the message when it is published. At a high level, if observability is required, applications need to consume messages in the future, need to consume at their own pace, or need all messages, then JetStream's streaming functionalities provide the temporal de-coupling between publishers and consumers.
 
 Using streaming and its associated higher qualities of service is the facet of messaging with the highest cost in terms of compute and storage.
 
@@ -58,7 +58,7 @@ These include:
 
   consumers can send an application level acknowledgement.
 
-* Control plane messages
+* Control plane messages.
 
 ## JetStream functionality overview
 
@@ -90,7 +90,7 @@ You can create *push* or *pull* consumers:
 * *Push* consumers (specifically ordered push consumers) are the best way for an application to receive its own complete copy of the selected messages in the stream.
 * *Pull* consumers are the best way to scale horizontally the processing (or consuming) of the selected messages in the stream using multiple client applications sharing the same pull consumer, and allow for the processing of messages in batches.
 
-Consumers can be ephemeral or durable, and support different sets of acknowledgement policies (none, this sequence number, this sequence number and all before it)
+Consumers can be ephemeral or durable, and support different sets of acknowledgement policies; none, this sequence number, this sequence number and all before it.
 
 #### Replay policy
 
