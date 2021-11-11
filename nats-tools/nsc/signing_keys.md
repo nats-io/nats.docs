@@ -160,56 +160,40 @@ On connect, the nats-server will assign the permissions associated with that sig
 
 ```
 > nsc add account A
-[ OK ] generated and stored account key "ADAOBX2SCSWJEQKXRJIQPTKNAKDWWSYJEKLKYWIJYVSAH6I3OKIPSTF7"
+[ OK ] generated and stored account key "ADLGEVANYDKDQ6WYXPNBEGVUURXZY4LLLK5BJPOUDN6NGNXLNH4ATPWR"
+[ OK ] push jwt to account server:
+       [ OK ] pushed account jwt to the account server
+       > NGS created a new free billing account for your JWT, A [ADLGEVANYDKD].
+       > Use the 'ngs' command to manage your billing plan.
+       > If your account JWT is *not* in ~/.nsc, use the -d flag on ngs commands to locate it.
+[ OK ] pull jwt from account server
 [ OK ] added account "A"
-...
-> nsc generate nkey -a --store
-ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN
-account key stored ...VJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN.nk
 
-> nsc edit account A --sk ADV7CZZQZEGO3ZJTHQJOGY2NQHJX76RSHPBXJVG2OWCCY7VCIQRSYX7B
-[ OK ] added signing key "ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN"
+> nsc edit account -n A --sk generate
+[ OK ] added signing key "AAZQXKDPOTGUCOCOGDW7HWWVR5WEGF3KYL7EKOEHW2XWRS2PT5AOTRH3"
+[ OK ] push jwt to account server
+[ OK ] pull jwt from account server
+[ OK ] account server modifications:
+       > allow wildcard exports changed from true to false
 [ OK ] edited account "A"
 
-> nsc edit signing-key --account A --role service --sk ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN --allow-sub "q.>" --deny-pub ">" --allow-pub-response
+> nsc edit signing-key --account A --role service --sk AAZQXKDPOTGUCOCOGDW7HWWVR5WEGF3KYL7EKOEHW2XWRS2PT5AOTRH3 --allow-sub "q.>" --deny-pub ">" --allow-pub-response
 [ OK ] set max responses to 1
 [ OK ] added deny pub ">"
 [ OK ] added sub "q.>"
-[ OK ] edited signing key "ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN"
+[ OK ] push jwt to account server
+[ OK ] pull jwt from account server
+[ OK ] edited signing key "AAZQXKDPOTGUCOCOGDW7HWWVR5WEGF3KYL7EKOEHW2XWRS2PT5AOTRH3"
 
-> nsc add user S -K ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN
-[ OK ] generated and stored user key "UCLQNT6O5GF6DDWYCNSFHG64Q72XOMCDAAXGAYORM5FODM2FBJSIWDN4"
-[ OK ] generated user creds file `~/.nkeys/creds/O/A/S.creds`
-[ OK ] added user "S" to account "A"
+# Since the signing key has a unique role name within an account, it can be subsequently used for easier referencing.
 
-> nsc describe user -a A -n S
-+---------------------------------------------------------------------------+
-|                                   User                                    |
-+----------------+----------------------------------------------------------+
-| Name           | S                                                        |
-| User ID        | UCLQNT6O5GF6DDWYCNSFHG64Q72XOMCDAAXGAYORM5FODM2FBJSIWDN4 |
-| Issuer ID      | ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN |
-| Issuer Account | ADAOBX2SCSWJEQKXRJIQPTKNAKDWWSYJEKLKYWIJYVSAH6I3OKIPSTF7 |
-| Issued         | 2021-10-14 15:59:55 UTC                                  |
-| Expires        |                                                          |
-| Issuer Scoped  | Yes                                                      |
-+----------------+----------------------------------------------------------+
+> nsc add user U -K service
+[ OK ] generated and stored user key "UBFRJ6RNBYJWSVFBS7O4ZW5MM6J3EPE75II3ULPVUWOUH7K7A23D3RQE"
+[ OK ] generated user creds file `~/test/issue-2621/keys/creds/synadia/A/U.creds`
+[ OK ] added user "U" to account "A"
 
-+------------------------------------------------------------------------------------+
-|                            Scoped Signing Key - Details                            |
-+-------------------------+----------------------------------------------------------+
-| Key                     | ABMNVFHSHT2Y6BKDO7X7NRAVJFYESTUYANGVXVRDXQ5BFSI7QN6YPAHN |
-| role                    | service                                                  |
-+-------------------------+----------------------------------------------------------+
-| Pub Deny                | >                                                        |
-| Sub Allow               | q.>                                                      |
-| Max Responses           | 1                                                        |
-| Response Permission TTL | 0s                                                       |
-| Max Msg Payload         | Unlimited                                                |
-| Max Data                | Unlimited                                                |
-| Max Subs                | Unlimited                                                |
-| Network Src             | Any                                                      |
-| Time                    | Any                                                      |
-| Bearer Token            | No                                                       |
-+-------------------------+----------------------------------------------------------+
+# To see the permissions for the user enter `nsc describe user` - you will see in the report
+# that the user is scoped, and has the permissions listed. You can inspect and modify the
+# scopedpermissions with `nsc edit signing keys` - pushing updates to the account will 
+# reassign user permissions
 ```
