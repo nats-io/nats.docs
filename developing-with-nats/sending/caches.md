@@ -43,8 +43,8 @@ nc.close();
 {% tab title="JavaScript" %}
 ```javascript
 const start = Date.now();
-  nc.flush().then(() => {
-    t.log("round trip completed in", Date.now() - start, "ms");
+nc.flush().then(() => {
+  t.log("round trip completed in", Date.now() - start, "ms");
 });
 ```
 {% endtab %}

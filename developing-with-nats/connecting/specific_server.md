@@ -36,10 +36,9 @@ nc.close();
 {% tab title="JavaScript" %}
 ```javascript
 const nc = await connect({ servers: "demo.nats.io" });
-  // Do something with the connection
-  doSomething();
-  await nc.close();
-  });
+// Do something with the connection
+doSomething();
+await nc.close();
 ```
 {% endtab %}
 

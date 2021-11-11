@@ -65,26 +65,23 @@ nc.close();
 {% tab title="JavaScript" %}
 ```javascript
 // set up a subscription to process the request
-  const sc = StringCodec();
-  nc.subscribe("time", {
-    callback: (_err, msg) => {
-      msg.respond(sc.encode(new Date().toLocaleTimeString()));
-    },
-  });
-
-  // create a subscription subject that the responding send replies to
-  const inbox = createInbox();
-  const sub = nc.subscribe(inbox, {
-    max: 1,
-    callback: (_err, msg) => {
-      t.log(`the time is ${sc.decode(msg.data)}`);
-    },
-  });
-
-  nc.publish("time", Empty, { reply: inbox });
+const sc = StringCodec();
+nc.subscribe("time", {
+  callback: (_err, msg) => {
+    msg.respond(sc.encode(new Date().toLocaleTimeString()));
+  },
 });
 
-nc.publish('time', "", inbox);
+// create a subscription subject that the responding send replies to
+const inbox = createInbox();
+const sub = nc.subscribe(inbox, {
+  max: 1,
+  callback: (_err, msg) => {
+    t.log(`the time is ${sc.decode(msg.data)}`);
+  },
+});
+
+nc.publish("time", Empty, { reply: inbox });
 ```
 {% endtab %}
 
