@@ -102,11 +102,11 @@ public class SubscribeJSON {
 {% tab title="JavaScript" %}
 ```javascript
 const jc = JSONCodec();
-  const sub = nc.subscribe(subj, {
-    callback: (_err, msg) => {
-      t.log(`${jc.decode(msg.data)}`);
-    },
-    max: 1,
+const sub = nc.subscribe(subj, {
+  callback: (_err, msg) => {
+    t.log(`${jc.decode(msg.data)}`);
+  },
+  max: 1,
 });
 ```
 {% endtab %}

@@ -61,27 +61,25 @@ nc.close();
 {% tab title="JavaScript" %}
 ```javascript
 const sc = StringCodec();
-  // `max` specifies the number of messages that the server will forward.
-  // The server will auto-cancel.
-  const subj = createInbox();
-  const sub1 = nc.subscribe(subj, {
-    callback: (_err, msg) => {
-      t.log(`sub1 ${sc.decode(msg.data)}`);
-    },
-    max: 10,
-  });
-
-  // another way after 10 messages
-  const sub2 = nc.subscribe(subj, {
-    callback: (_err, msg) => {
-      t.log(`sub2 ${sc.decode(msg.data)}`);
-    },
-  });
-
-  // if the subscription already received 10 messages, the handler
-  // won't get any more messages
-  sub2.unsubscribe(10);
+// `max` specifies the number of messages that the server will forward.
+// The server will auto-cancel.
+const subj = createInbox();
+const sub1 = nc.subscribe(subj, {
+  callback: (_err, msg) => {
+    t.log(`sub1 ${sc.decode(msg.data)}`);
+  },
+  max: 10,
 });
+
+// another way after 10 messages
+const sub2 = nc.subscribe(subj, {
+  callback: (_err, msg) => {
+    t.log(`sub2 ${sc.decode(msg.data)}`);
+  },
+});
+// if the subscription already received 10 messages, the handler
+// won't get any more messages
+sub2.unsubscribe(10);
 ```
 {% endtab %}
 

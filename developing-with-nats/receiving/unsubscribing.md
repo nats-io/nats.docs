@@ -57,14 +57,13 @@ nc.close();
 {% tab title="JavaScript" %}
 ```javascript
 const sc = StringCodec();
-  // set up a subscription to process a request
-  const sub = nc.subscribe(createInbox(), (_err, m) => {
-    m.respond(sc.encode(new Date().toLocaleTimeString()));
-  });
-  // without arguments the subscription will cancel when the server receives it
-  // you can also specify how many messages are expected by the subscription
-  sub.unsubscribe();
+// set up a subscription to process a request
+const sub = nc.subscribe(createInbox(), (_err, m) => {
+  m.respond(sc.encode(new Date().toLocaleTimeString()));
 });
+// without arguments the subscription will cancel when the server receives it
+// you can also specify how many messages are expected by the subscription
+sub.unsubscribe();
 ```
 {% endtab %}
 

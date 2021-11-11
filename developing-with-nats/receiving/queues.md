@@ -65,9 +65,9 @@ nc.subscribe(subj, {
     callback: (_err, _msg) => {
       t.log("worker1 got message");
     },
-  });
+});
 
-  nc.subscribe(subj, {
+nc.subscribe(subj, {
     queue: "workers",
     callback: (_err, _msg) => {
       t.log("worker2 got message");

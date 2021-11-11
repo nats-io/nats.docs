@@ -42,10 +42,9 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-const ns = await NatsServer.start({
-    authorization: {
-      token: "aToK3n",
-    },
+const nc = await connect({
+  port: ns.port,
+  token: "aToK3n",
 });
 ```
 {% endtab %}

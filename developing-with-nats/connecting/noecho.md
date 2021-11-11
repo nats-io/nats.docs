@@ -41,14 +41,13 @@ nc.close();
 const nc = await connect({
     servers: ["demo.nats.io"],
     noEcho: true,
-  });
-
-  const sub = nc.subscribe(subj, { callback: (_err, _msg) => {} });
-  nc.publish(subj);
-  await sub.drain();
-  // we won't get our own messages
-  t.is(sub.getProcessed(), 0);
 });
+
+const sub = nc.subscribe(subj, { callback: (_err, _msg) => {} });
+nc.publish(subj);
+await sub.drain();
+// we won't get our own messages
+t.is(sub.getProcessed(), 0);
 ```
 {% endtab %}
 

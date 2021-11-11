@@ -8,7 +8,6 @@ Developing with NATS is a combination of distributed application techniques, com
 | [nats.java](https://github.com/nats-io/nats.java) | [javadoc](https://javadoc.io/doc/io.nats/jnats) |
 | [nats.net](https://github.com/nats-io/nats.net) | [doxygen](http://nats-io.github.io/nats.net/) |
 | [nats.rb](https://github.com/nats-io/nats.rb) | [yard](https://www.rubydoc.info/gems/nats) |
-| [nats.ts](https://github.com/nats-io/nats.ts) | [ts-doc](https://nats-io.github.io/nats.ts) |
 | [nats.rs](https://github.com/nats-io/nats.rs) | [rust doc](https://docs.rs/nats) |
 
 Not all libraries contain this separate doc, depending on the language community, but be sure to check out the client libraries README for more information.
