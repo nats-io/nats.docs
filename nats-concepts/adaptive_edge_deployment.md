@@ -8,17 +8,23 @@ The simplest version of a NATS service infrastructure is a single `nats-server` 
 
 Client applications establish a connection to the URL of that nats-server process (e.g. `"nats://localhost"`).
 
+![](../.gitbook/assets/single-server.svg)
+
 ## A cluster of servers
 
 If you need a fault-tolerant NATS service or if you need to scale your service capacity, you can cluster a set of nats-server processes together in a cluster.
 
 Client applications establish and maintain a connection to (one of) the nats server URL(s) composing the cluster (e.g. `"nats://server1","nats://server2",...`).
 
+![](../.gitbook/assets/server-cluster.svg)
+
 ## A super-cluster
 
 You can go further than a single cluster and have disaster recovery and get global deployments (e.g. on multiple locations or regions, multiple VPCs or multiple Cloud providers) by deploying multiple clusters and connecting them together via gateway connections (which are interest pruned).
 
 Client applications establish a connection to (one of) the nats server URL(s) of one of the clusters (e.g. `"nats://us-west-1.company.com","nats://us-west-2.company.com",...`).
+
+![](../.gitbook/assets/super_cluster.svg)
 
 ## With Leaf Nodes
 
@@ -27,6 +33,8 @@ You can easily 'extend' the nats service provided by a cluster or super-cluster 
 Leaf nodes appear to the cluster as a single account connection. Leaf Nodes can provide continuous nats service for their clients, even while being temporarily disconnected from the cluster(s). You can even enable JetStream on the leaf nodes in order to create local streams that are mirrored (mirroring is store and forward and therefore can recover from connectivity outages) to global streams in the upstream cluster(s).
 
 Client applications are configured with the URLs of their 'local' leaf node server(s) and establish a connection to (one of) the leaf node server(s) (e.g. `"nats://leaf-node-1","nats://leaf-node-2",...`).
+
+![](../.gitbook/assets/leaf_nodes.svg)
 
 ## See Also
 
