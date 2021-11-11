@@ -66,11 +66,11 @@ public class SetConnectionListener {
 {% tab title="JavaScript" %}
 ```javascript
 const nc = await connect({ servers: ["demo.nats.io"] });
-  nc.closed().then(() => {
-    t.log("the connection closed!");
-  });
+nc.closed().then(() => {
+  t.log("the connection closed!");
+});
 
-  (async () => {
+(async () => {
     for await (const s of nc.status()) {
       switch (s.type) {
         case Status.Disconnect:
@@ -98,8 +98,7 @@ const nc = await connect({ servers: ["demo.nats.io"] });
           t.log(`got an unknown status ${s.type}`);
       }
     }
-  })().then();
-});
+})().then();
 ```
 {% endtab %}
 
@@ -257,10 +256,18 @@ public class ListenForNewServers {
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect("nats://demo.nats.io:4222");
-nc.on('serversDiscovered', (urls) => {
-    t.log('serversDiscovered', urls);
-});
+const nc = await connect({ servers: ["demo.nats.io:4222"] });
+(async () => {
+  for await (const s of nc.status()) {
+    switch (s.type) {
+      case Status.Update:
+        t.log(`servers added - ${s.data.added}`);
+        t.log(`servers deleted - ${s.data.deleted}`);
+        break;
+      default:
+    }
+  }
+})().then();
 ```
 {% endtab %}
 
@@ -273,14 +280,6 @@ nc.on('serversDiscovered', (urls) => {
 {% tab title="Ruby" %}
 ```ruby
 # The Ruby NATS client does not support discovered servers handler right now
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-nc.on('serversChanged', (ce) => {
-    t.log('servers changed\n', 'added: ',ce.added, 'removed:', ce.removed);
-});
 ```
 {% endtab %}
 
@@ -392,13 +391,31 @@ public class SetErrorListener {
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect("nats://demo.nats.io:4222");
+const nc = await connect({ servers: ["demo.nats.io"] });
 
-// on node you *must* register an error listener. If not registered
-// the library emits an 'error' event, the node process will exit.
-nc.on('error', (err) => {
-    t.log('client got an error:', err);
+// if the client gets closed with an error you can trap that
+// condition in the closed handler like this:
+nc.closed().then((err) => {
+  if (err) {
+    t.log(`the connection closed with an error ${err.message}`);
+  } else {
+    t.log(`the connection closed.`);
+  }
 });
+
+// if you have a status listener, it will too get notified
+(async () => {
+  for await (const s of nc.status()) {
+    switch (s.type) {
+      case Status.Error:
+        // typically if you get this the nats connection will close
+        t.log("client got an async error from the server");
+        break;
+      default:
+        t.log(`got an unknown status ${s.type}`);
+    }
+  }
+})().then();
 ```
 {% endtab %}
 
@@ -430,16 +447,6 @@ NATS.start(servers:["nats://demo.nats.io:4222"]) do |nc|
 
   nc.close
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-// on node you *must* register an error listener. If not registered
-// the library emits an 'error' event, the node process will exit.
-nc.on('error', (err) => {
-    t.log('client got an out of band error:', err);
-});
 ```
 {% endtab %}
 

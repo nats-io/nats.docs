@@ -49,21 +49,15 @@ nc.close();
 {% tab title="JavaScript" %}
 ```javascript
 // set up a subscription to process the request
-  const sc = StringCodec();
-  nc.subscribe("time", {
-    callback: (_err, msg) => {
-      msg.respond(sc.encode(new Date().toLocaleTimeString()));
-    },
-  });
-
-  const r = await nc.request("time");
-  t.log(sc.decode(r.data));
+const sc = StringCodec();
+nc.subscribe("time", {
+  callback: (_err, msg) => {
+    msg.respond(sc.encode(new Date().toLocaleTimeString()));
+  },
 });
 
-nc.requestOne('time', (msg) => {
-    t.log('the time is', msg);
-    nc.close();
-});
+const r = await nc.request("time");
+t.log(sc.decode(r.data));
 ```
 {% endtab %}
 

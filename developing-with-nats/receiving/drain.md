@@ -103,13 +103,10 @@ drained.get();
 
 {% tab title="JavaScript" %}
 ```javascript
-const sub = nc.subscribe(subj, { callback: (_err, _msg) => {} });
-  nc.publish(subj);
-  nc.publish(subj);
-  nc.publish(subj);
-  await sub.drain();
-  t.is(sub.getProcessed(), 3);
-});
+const nc = await connect({ servers: "demo.nats.io" });
+const sub = nc.subscribe(createInbox(), () => {});
+nc.publish(sub.getSubject());
+await nc.drain();
 ```
 {% endtab %}
 
@@ -345,25 +342,11 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({url: "nats://demo.nats.io:4222"});
-let inbox = createInbox();
-let counter = 0;
-let sid = nc.subscribe(inbox, () => {
-    counter++;
-});
-
-nc.publish(inbox);
-nc.drainSubscription(sid, (err)=> {
-    if(err) {
-        t.log(err);
-    }
-    t.log('processed', counter, 'messages');
-});
-nc.flush(() => {
-    nc.close();
-    t.pass();
-    resolve();
-});
+const sub = nc.subscribe(subj, { callback: (_err, _msg) => {} });
+nc.publish(subj);
+nc.publish(subj);
+nc.publish(subj);
+await sub.drain();
 ```
 {% endtab %}
 
@@ -396,14 +379,6 @@ async def example(loop):
 {% tab title="Ruby" %}
 ```ruby
 # There is currently no API to drain a single subscription, the whole connection can be drained though via NATS.drain
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-let sub = await nc.subscribe('updates', (err, msg) => {
-    t.log('worker got message', msg.data);
-}, {queue: "workers"});
 ```
 {% endtab %}
 

@@ -33,8 +33,8 @@ nc.close();
 
 {% tab title="JavaScript" %}
 ```javascript
-let nc = NATS.connect({url: "nats://demo.nats.io:4222"});
-nc.publish('updates', "All is Well");
+const sc = StringCodec();
+nc.publish("updates", sc.encode("All is Well"));
 ```
 {% endtab %}
 
@@ -55,16 +55,6 @@ require 'nats/client'
 NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
   nc.publish("updates", "All is Well")
 end
-```
-{% endtab %}
-
-{% tab title="TypeScript" %}
-```typescript
-let nc = await connect({
-    url: "nats://demo.nats.io:4222",
-    payload: Payload.STRING
-});
-nc.publish('updates', 'All is Well');
 ```
 {% endtab %}
 {% endtabs %}
