@@ -107,4 +107,8 @@ This time, all three subscribing clients should receive the message.
 
 # See Also
 
-[Publish-subscribe pattern with NATS CLI video](https://www.youtube.com/watch?v=jLTVhP08Tq0)
+Publish-subscribe pattern with the NATS CLI&#x20;
+
+{% embed url="https://www.youtube.com/watch?v=jLTVhP08Tq0" %}
+Publish-subscribe pattern - NATS CLI
+{% endembed %}
