@@ -30,7 +30,7 @@ Your application should expose a way to be configured at run time with a NATS UR
 
 ## Connection Options
 
-Besides the connectivity and security details, there are numerous options for a NATS connection ranging from timeouts to reconnect settings.
+Besides the connectivity and security details, there are numerous options for a NATS connection ranging from [timeouts](../reconnect/README.md#connection-timeout-attributes) to [reconnect settings](../reconnect/README.md#reconnection-attributes) to setting [asynchronous error and connection event callback handlers](../reconnect/README.md#advisories) in your application.
 
 ## See Also
 
