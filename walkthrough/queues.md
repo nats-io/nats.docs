@@ -57,4 +57,8 @@ You can at any time start yet another service instance, or kill one and see how 
 
 ## See Also
 
-[Queue groups using the NATS CLI](https://youtu.be/jLTVhP08Tq0?t=101)
+Queue groups using the NATS CLI
+
+{% embed url="https://youtu.be/jLTVhP08Tq0?t=101" %}
+Queue Groups NATS CLI
+{% endembed %}
