@@ -37,7 +37,7 @@ NATS is an open source, lightweight, high-performance cloud native infrastructur
 NATS is offered in two interoperable modules in a single "NATS Server" binary \(often referred to as `nats-server` throughout this site\):
 
 * 'Core NATS' is the set of core NATS functionalities and qualities of service.
-* ['JetStream'](/jetstream/jetstream.md) \(often referred to simply as "JS" throughout this site\) is the (optionally enabled) built-in persistence layer that adds streaming, at-least-once and exactly-once delivery guarantees, historical data replay, decoupled flow-control and key/value store functionalities to Core NATS.
+* ['JetStream'](/jetstream/jetstream.md) is the (optionally enabled) built-in persistence layer that adds streaming, at-least-once and exactly-once delivery guarantees, historical data replay, decoupled flow-control and key/value store functionalities to Core NATS.
 
 NATS was created by Derek Collison, who has over 25 years of experience designing, building, and using publish-subscribe messaging systems. NATS is maintained by an amazing Open Source Ecosystem, find more at [GitHub](https://www.github.com/nats-io).
 

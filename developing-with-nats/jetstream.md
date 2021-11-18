@@ -77,10 +77,10 @@ Instead, it is better for applications to use the JetStream Publish calls (which
 * JetStream publish calls are acknowledged by the JetStream enabled servers, which allows for the following higher qualities of service
     * If the publisher receives the acknowledgement from the server it can safely discard any state it has for that publication, the message has not only been received correctly by the server, but it has also been successfully persisted.
     * Whether you use the synchronous or the asynchronous JetStream publish calls, there is an implied flow control between the publisher and the JetStream infrastructure.
-    * You can have 'exactly-once' quality of service by the JS publishing application inserting a unique publication ID in a header field of the message.
+    * You can have 'exactly-once' quality of service by the JetStream publishing application inserting a unique publication ID in a header field of the message.
 
 #### See Also
-* [Sync and Async JS publishing in Java](https://nats.io/blog/sync-async-publish-java-client/#synchronous-and-asynchronous-publishing-with-the-nats-java-library)
+* [Sync and Async JetStream publishing in Java](https://nats.io/blog/sync-async-publish-java-client/#synchronous-and-asynchronous-publishing-with-the-nats-java-library)
 
 ### Create a consumer
     
