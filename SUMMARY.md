@@ -4,7 +4,7 @@
 
 ## Release Notes
 
-* [What's New!](release_notes/README.md)
+* [What's New!](release_notes/whats_new.md)
   * [NATS 2.2](release_notes/whats_new_22.md)
   * [NATS 2.0](release_notes/whats_new_20.md)
 
