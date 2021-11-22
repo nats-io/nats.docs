@@ -42,3 +42,7 @@ Subject to your security configuration, wildcards can be used for monitoring by 
 
 The wildcard `*` can appear multiple times in the same subject. Both types can be used as well. For example, `*.*.east.>` will receive `time.us.east.atlanta`.
 
+## Subject Tokens
+
+It is recommended to keep the maximum number of tokens in your subjects to a reasonable value of 16 tokens max
+

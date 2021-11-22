@@ -1,0 +1,153 @@
+<svg id="b9fe019c-436b-4f14-b40c-b4e32942ad30" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="517.98" height="284.28" viewBox="0 0 517.98 284.28">
+  <defs>
+    <style>
+      .b2243f01-c857-4e5a-b917-9c41ce3fa7f7 {
+        fill: #fff;
+      }
+
+      .e737d7cf-0331-4f19-bfd6-2904cd36792d {
+        fill: none;
+        stroke: #000;
+      }
+
+      .a1af20ab-b55a-4aa0-83dd-2cc159cf1f31, .b282df2a-243a-4fdf-91b9-92f59d3db9cc, .bb964b9b-bf03-4632-b0f6-72d0d2260a4e, .fbdf9cb4-b149-4977-aedb-04a042377426 {
+        isolation: isolate;
+      }
+
+      .bb964b9b-bf03-4632-b0f6-72d0d2260a4e, .fbdf9cb4-b149-4977-aedb-04a042377426 {
+        font-size: 14px;
+      }
+
+      .a1af20ab-b55a-4aa0-83dd-2cc159cf1f31, .bb964b9b-bf03-4632-b0f6-72d0d2260a4e, .fbdf9cb4-b149-4977-aedb-04a042377426 {
+        font-family: Times-Roman, Times;
+      }
+
+      .bb964b9b-bf03-4632-b0f6-72d0d2260a4e {
+        letter-spacing: -0.16em;
+      }
+
+      .a1af20ab-b55a-4aa0-83dd-2cc159cf1f31 {
+        font-size: 12px;
+      }
+    </style>
+  </defs>
+  <polygon class="b2243f01-c857-4e5a-b917-9c41ce3fa7f7" points="0 284.28 0 0 517.98 0 517.98 284.28 0 284.28"/>
+  <g id="e809e401-1a8c-4a1e-9bb5-ad22018c4418" data-name="node1">
+    <path class="e737d7cf-0331-4f19-bfd6-2904cd36792d" d="M88.63,196.67H22.08c-6,0-12,6-12,12v12c0,6,6,12,12,12H88.63c6,0,12-6,12-12v-12c0-6-6-12-12-12"/>
+    <g class="b282df2a-243a-4fdf-91b9-92f59d3db9cc">
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(18.99 218.87)">N</text>
+      <text class="bb964b9b-bf03-4632-b0f6-72d0d2260a4e" transform="translate(29.1 218.87)">A</text>
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(37.66 218.87)">TS Client</text>
+    </g>
+  </g>
+  <g id="b00504cf-9ba6-4f40-9a60-e158b7e4d2a1" data-name="node2">
+    <circle class="e737d7cf-0331-4f19-bfd6-2904cd36792d" cx="274.15" cy="187.67" r="36"/>
+    <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(243.44 191.87)">nats-server</text>
+  </g>
+  <g id="a74ebd95-6d42-4470-b9d4-37708412a277" data-name="edge1">
+    <path class="e737d7cf-0331-4f19-bfd6-2904cd36792d" d="M207.63,213.54l34.79-8.25"/>
+  </g>
+  <g id="a591cbdf-0f19-4462-8fe7-d83f2fac8c1f" data-name="node3">
+    <path class="e737d7cf-0331-4f19-bfd6-2904cd36792d" d="M499.78,125H433.24c-6,0-12,6-12,12v12c0,6,6,12,12,12h66.54c6,0,12-6,12-12V137c0-6-6-12-12-12"/>
+    <g class="b282df2a-243a-4fdf-91b9-92f59d3db9cc">
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(430.14 147.18)">N</text>
+      <text class="bb964b9b-bf03-4632-b0f6-72d0d2260a4e" transform="translate(440.25 147.18)">A</text>
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(448.81 147.18)">TS Client</text>
+    </g>
+  </g>
+  <g id="a7740c85-9a21-4327-8c98-1d616d4b1668" data-name="edge2">
+    <path class="e737d7cf-0331-4f19-bfd6-2904cd36792d" d="M384.65,143H420.4"/>
+  </g>
+  <g id="a6e6a76a-862d-4f05-a377-c44e2fb9085a" data-name="node2-2">
+    <circle class="e737d7cf-0331-4f19-bfd6-2904cd36792d" cx="348.9" cy="141.98" r="36"/>
+    <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(318.19 146.18)">nats-server</text>
+  </g>
+  <g id="e03a5faa-7288-4db1-ae0a-0b4fc23ef593" data-name="node2-3">
+    <circle class="e737d7cf-0331-4f19-bfd6-2904cd36792d" cx="274.15" cy="97.79" r="36"/>
+    <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(243.44 101.99)">nats-server</text>
+  </g>
+  <g id="b89257bc-07bc-4f91-acc0-f5d5e8daf00c" data-name="edge1-2">
+    <path class="e737d7cf-0331-4f19-bfd6-2904cd36792d" d="M274.37,134.48l-.43,17"/>
+  </g>
+  <g id="b1cb59c6-d0ca-4dda-a636-6ab31e4f6fe0" data-name="edge2-2">
+    <path class="e737d7cf-0331-4f19-bfd6-2904cd36792d" d="M304.15,118.06l12,9.17"/>
+  </g>
+  <g id="aeee4848-f37f-4e38-b2b7-431195de0482" data-name="edge2-3">
+    <path class="e737d7cf-0331-4f19-bfd6-2904cd36792d" d="M303.18,166.15l13.95-5.78"/>
+  </g>
+  <g id="ae640e6e-1bf8-4bca-b92c-60550faf2be8" data-name="node2-4">
+    <circle class="e737d7cf-0331-4f19-bfd6-2904cd36792d" cx="171.91" cy="214.67" r="36"/>
+    <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(141.2 213.87)">nats-server</text>
+  </g>
+  <circle class="e737d7cf-0331-4f19-bfd6-2904cd36792d" cx="171.91" cy="70.79" r="36"/>
+  <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(141.18 70.99)">nats-server</text>
+  <text class="a1af20ab-b55a-4aa0-83dd-2cc159cf1f31" transform="translate(145.76 87.79)">(leaf node)</text>
+  <text class="a1af20ab-b55a-4aa0-83dd-2cc159cf1f31" transform="translate(145.76 230.79)">(leaf node)</text>
+  <g id="e4bc22a2-ef4e-4baf-b690-132c69e8078d" data-name="edge1-3">
+    <path class="e737d7cf-0331-4f19-bfd6-2904cd36792d" d="M208.37,73.79l32.3,10"/>
+  </g>
+  <g id="a897fdff-4668-4f48-a3f4-214b21b84ccf" data-name="node1-2">
+    <path class="e737d7cf-0331-4f19-bfd6-2904cd36792d" d="M88.63,7.42H22.08c-6,0-12,6-12,12v12c0,6,6,12,12,12H88.63c6,0,12-6,12-12v-12c0-6-6-12-12-12"/>
+    <g class="b282df2a-243a-4fdf-91b9-92f59d3db9cc">
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(18.99 29.62)">N</text>
+      <text class="bb964b9b-bf03-4632-b0f6-72d0d2260a4e" transform="translate(29.1 29.62)">A</text>
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(37.66 29.62)">TS Client</text>
+    </g>
+  </g>
+  <g id="bf33370d-4596-4dd8-b779-ca75e3e5493c" data-name="node1-3">
+    <path class="e737d7cf-0331-4f19-bfd6-2904cd36792d" d="M88.63,52.79H22.08c-6,0-12,6-12,12v12c0,6,6,12,12,12H88.63c6,0,12-6,12-12v-12c0-6-6-12-12-12"/>
+    <g class="b282df2a-243a-4fdf-91b9-92f59d3db9cc">
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(18.99 74.99)">N</text>
+      <text class="bb964b9b-bf03-4632-b0f6-72d0d2260a4e" transform="translate(29.1 74.99)">A</text>
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(37.66 74.99)">TS Client</text>
+    </g>
+  </g>
+  <g id="a9dddcaa-7212-4898-b8ee-aa11cb8187f0" data-name="node1-4">
+    <path class="e737d7cf-0331-4f19-bfd6-2904cd36792d" d="M88.63,98.17H22.08c-6,0-12,6-12,12v12c0,6,6,12,12,12H88.63c6,0,12-6,12-12v-12c0-6-6-12-12-12"/>
+    <g class="b282df2a-243a-4fdf-91b9-92f59d3db9cc">
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(18.99 120.37)">N</text>
+      <text class="bb964b9b-bf03-4632-b0f6-72d0d2260a4e" transform="translate(29.1 120.37)">A</text>
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(37.66 120.37)">TS Client</text>
+    </g>
+  </g>
+  <g id="a27566a0-bfb5-439c-a9dd-6cce8307277c" data-name="node1-5">
+    <path class="e737d7cf-0331-4f19-bfd6-2904cd36792d" d="M88.63,152.67H22.08c-6,0-12,6-12,12v12c0,6,6,12,12,12H88.63c6,0,12-6,12-12v-12c0-6-6-12-12-12"/>
+    <g class="b282df2a-243a-4fdf-91b9-92f59d3db9cc">
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(18.99 174.87)">N</text>
+      <text class="bb964b9b-bf03-4632-b0f6-72d0d2260a4e" transform="translate(29.1 174.87)">A</text>
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(37.66 174.87)">TS Client</text>
+    </g>
+  </g>
+  <g id="bbd30bab-f3c6-4469-8245-57dcc04a30c1" data-name="node1-6">
+    <path class="e737d7cf-0331-4f19-bfd6-2904cd36792d" d="M88.63,240.67H22.08c-6,0-12,6-12,12v12c0,6,6,12,12,12H88.63c6,0,12-6,12-12v-12c0-6-6-12-12-12"/>
+    <g class="b282df2a-243a-4fdf-91b9-92f59d3db9cc">
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(18.99 262.87)">N</text>
+      <text class="bb964b9b-bf03-4632-b0f6-72d0d2260a4e" transform="translate(29.1 262.87)">A</text>
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(37.66 262.87)">TS Client</text>
+    </g>
+  </g>
+  <g id="b8777ff0-5b25-4d3b-a06e-b46253bfb472" data-name="node3-2">
+    <path class="e737d7cf-0331-4f19-bfd6-2904cd36792d" d="M307.64,241.67H241.1c-6,0-12,6-12,12v12c0,6,6,12,12,12h66.54c6,0,12-6,12-12v-12c0-6-6-12-12-12"/>
+    <g class="b282df2a-243a-4fdf-91b9-92f59d3db9cc">
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(238 263.87)">N</text>
+      <text class="bb964b9b-bf03-4632-b0f6-72d0d2260a4e" transform="translate(248.11 263.87)">A</text>
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(256.67 263.87)">TS Client</text>
+    </g>
+  </g>
+  <g id="e855abd4-632e-466b-8d79-14a3d537550b" data-name="node3-3">
+    <path class="e737d7cf-0331-4f19-bfd6-2904cd36792d" d="M307.21,7.42H240.66c-6,0-12,6-12,12v12c0,6,6,12,12,12h66.55c6,0,12-6,12-12v-12c0-6-6-12-12-12"/>
+    <g class="b282df2a-243a-4fdf-91b9-92f59d3db9cc">
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(237.57 29.62)">N</text>
+      <text class="bb964b9b-bf03-4632-b0f6-72d0d2260a4e" transform="translate(247.68 29.62)">A</text>
+      <text class="fbdf9cb4-b149-4977-aedb-04a042377426" transform="translate(256.24 29.62)">TS Client</text>
+    </g>
+  </g>
+  <line class="e737d7cf-0331-4f19-bfd6-2904cd36792d" x1="100.62" y1="70.79" x2="135.91" y2="70.79"/>
+  <line class="e737d7cf-0331-4f19-bfd6-2904cd36792d" x1="100.62" y1="214.04" x2="135.91" y2="214.04"/>
+  <line class="e737d7cf-0331-4f19-bfd6-2904cd36792d" x1="100.12" y1="24.31" x2="145.92" y2="44.52"/>
+  <line class="e737d7cf-0331-4f19-bfd6-2904cd36792d" x1="100.12" y1="168.57" x2="145.92" y2="188.77"/>
+  <line class="e737d7cf-0331-4f19-bfd6-2904cd36792d" x1="101.12" y1="113.46" x2="143.92" y2="94.58"/>
+  <line class="e737d7cf-0331-4f19-bfd6-2904cd36792d" x1="100.62" y1="259.62" x2="146.42" y2="239.41"/>
+  <line class="e737d7cf-0331-4f19-bfd6-2904cd36792d" x1="273.93" y1="43.42" x2="274.15" y2="61.79"/>
+  <line class="e737d7cf-0331-4f19-bfd6-2904cd36792d" x1="273.82" y1="223.61" x2="274.04" y2="241.98"/>
+</svg>
