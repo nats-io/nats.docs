@@ -25,7 +25,7 @@
 * [JetStream](nats-concepts/jetstream/readme.md)
   * [Streams](nats-concepts/jetstream/streams.md)
   * [Consumers](nats-concepts/jetstream/consumers.md)
-    * [Example](using-nats/jetstream/concepts/example_configuration.md)
+    * [Example](nats-concepts/jetstream/example_configuration.md)
   * [JetStream Walkthrough](nats-concepts/jetstream/js_walkthrough.md)
   * [Key/Value Store](nats-concepts/jetstream/key-value-store/readme.md)
     * [Key/Value Store Walkthrough](nats-concepts/jetstream/key-value-store/kv_walkthrough.md)
