@@ -38,8 +38,8 @@
 ## Using NATS
 
 * [NATS Tools](using-nats/nats-tools/readme.md)
-  * [nats](using-nats/nats-tools/nats CLI/readme.md)
-    * [nats bench](using-nats/nats-tools/nats CLI/natsbench.md)
+  * [nats](using-nats/nats-tools/nats_cli/readme.md)
+    * [nats bench](using-nats/nats-tools/nats_cli/natsbench.md)
   * [nk](using-nats/nats-tools/nk.md)
   * [nsc](using-nats/nats-tools/nsc/README.md)
     * [Basics](using-nats/nats-tools/nsc/basics.md)
