@@ -4,5 +4,5 @@ In a system with at-most-once semantics, there are times when messages can be lo
 
 ![](../.gitbook/assets/acks.svg)
 
-Because the ACK can be empty it can take up very little network bandwidth, but the idea of the ACK turns a simple fire-and-forget into a fire-and-know world where the sender can be sure that the message was received by the other side, or with a [scatter-gather pattern](reqreply.md), several other sides.
+Because the ACK can be empty it can take up very little network bandwidth, but the idea of the ACK turns a simple fire-and-forget into a fire-and-know world where the sender can be sure that the message was received by the other side, or with a [scatter-gather pattern](core-nats/request-reply/reqreply.md), several other sides.
 
