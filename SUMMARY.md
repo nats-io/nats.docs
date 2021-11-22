@@ -1,5 +1,7 @@
 # Table of contents
 
+* [Welcome](welcome.md)
+
 ## Release Notes
 
 * [What's New!](release_notes/README.md)
