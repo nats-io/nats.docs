@@ -2,7 +2,7 @@
 
 We have provided Walkthroughs for you to try NATS (and JetStream) on your own. In order to follow along with the walkthroughs, the `nats` CLI tool must be installed, and a local NATS server must be installed (or alternatively you can use a remote server you have access to, or Synadia's NGS (or you could even use the demo server located at `nats://demo.nats.io`)).
 
-## Installing the [`nats`](/using-nats/nats-tools/nats%20CLI/readme.md) CLI Tool
+## Installing the [`nats`](/using-nats/nats-tools/nats_cli/readme.md) CLI Tool
 
 For macOS:
 
@@ -45,12 +45,12 @@ yay nats-server
 
 ### Downloading a Release Build
 
-You can find the latest release of nats-server [here](https://github.com/nats-io/nats-server/releases/latest).
+You can find the latest release of nats-server [here](https://github.com/nats-io/nats-server/releases).
 
 Download the zip file matching your systems architecture, and unzip. For this example, assuming version 2.6.2 of the server and a Linux AMD64:
 
 ```shell
-curl -L https://github.com/nats-io/nats-server/releases/download/v2.0.0/nats-server-v2.6.2-linux-amd64.zip -o nats-server.zip
+curl -L https://github.com/nats-io/nats-server/releases/download/v2.6.5/nats-server-v2.6.5-linux-amd64.zip -o nats-server.zip
 ```
 
 ```shell
