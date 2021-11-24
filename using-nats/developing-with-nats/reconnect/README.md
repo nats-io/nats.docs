@@ -24,7 +24,7 @@ The DisconnectedErrCB handler is called whenever the connection is disconnected.
 **NOTE**: DisconnectedCB will not be called if DisconnectedErrCB is set
 
 * `ReconnectedCB ConnHandler`
-* 
+
 The ReconnectedCB handler is called whenever the connection is successfully reconnected.
 
 * `DiscoveredServersCB ConnHandler`
