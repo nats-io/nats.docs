@@ -174,7 +174,7 @@ State:
             Waiting Pulls: 0 of maximum 512
 ```
 
-You can check on the status of any consumer at any time using `nats consumer info` or view the messages in the stream using `nats stream view my_stream' or even remove individual messages from the stream using `nats stream rmm`
+You can check on the status of any consumer at any time using `nats consumer info` or view the messages in the stream using `nats stream view my_stream` or even remove individual messages from the stream using `nats stream rmm`
 
 ## 3. Subscribing from the consumer
 
