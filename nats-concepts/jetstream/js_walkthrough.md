@@ -196,4 +196,4 @@ Once you have iterated over all the messages in the stream with the consumer, yo
 
 You can clean up a stream (and release the resources associated with it (e.g. the messages stored in the stream)) using `nats stream purge`
 
-You can also delete a stream (which will also automatically delete all the consumers that may be defined on that stream) using `nats stream rm`
+You can also delete a stream (which will also automatically delete all of the consumers that may be defined on that stream) using `nats stream rm`
