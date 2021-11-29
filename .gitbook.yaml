@@ -52,7 +52,7 @@ redirects:
   nats-concepts/jetstream: ./nats-concepts/jetstream/readme.md
   jetstream/concepts/streams: ./nats-concepts/jetstream/streams.md
   compare-nats: ./nats-concepts/overview/compare-nats.md
-  nats-concepts/intro: ./nats-concepts/overview/readme.md
+  nats-concepts/intro: ./nats-concepts/what-is-nats/readme.md
   walkthrough/walkthrough_setup: ./nats-concepts/what-is-nats/walkthrough_setup.md
   faq: ./reference/faq.md
   nats-protocol/nats-protocol-demo: ./reference/nats-protocol/nats-protocol-demo.md
