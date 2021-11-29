@@ -12,7 +12,7 @@
 
 * [Overview](overview.md)
   * [Compare NATS](nats-concepts/overview/compare-nats.md)
-* [What is NATS](nats-concepts/overview/readme.md)
+* [What is NATS](nats-concepts/what-is-nats/readme.md)
   * [Walkthrough Setup](nats-concepts/what-is-nats/walkthrough_setup.md)
 * [Subject-Based Messaging](nats-concepts/subjects.md)
 * [Core NATS](nats-concepts/core-nats/readme.md)
