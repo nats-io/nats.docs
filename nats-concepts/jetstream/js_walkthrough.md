@@ -174,7 +174,7 @@ State:
             Waiting Pulls: 0 of maximum 512
 ```
 
-You can check on the status of any consumer at any time using `nats consumer info` or view the messages in the stream using `nats stream view my_stream' or even remove individual messages from the stream using `nats stream rmm`
+You can check on the status of any consumer at any time using `nats consumer info` or view the messages in the stream using `nats stream view my_stream` or even remove individual messages from the stream using `nats stream rmm`
 
 ## 3. Subscribing from the consumer
 
@@ -196,4 +196,4 @@ Once you have iterated over all the messages in the stream with the consumer, yo
 
 You can clean up a stream (and release the resources associated with it (e.g. the messages stored in the stream)) using `nats stream purge`
 
-You can also delete a stream (which will also automatically delete all the consumers that may be defined on that stream) using `nats stream rm`
+You can also delete a stream (which will also automatically delete all of the consumers that may be defined on that stream) using `nats stream rm`
