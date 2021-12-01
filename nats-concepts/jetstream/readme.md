@@ -83,7 +83,7 @@ In JetStream the configuration for storing messages is defined separately from h
 
 ### Mirroring between streams
 
-JetSteam allows server administrators to easily mirror streams, for example between different JetStream domains in order to offer disaster recovery. You can also define a steam as one of the sources for another stream.
+JetSteam allows server administrators to easily mirror streams, for example between different JetStream domains in order to offer disaster recovery. You can also define a stream as one of the sources for another stream.
 
 ### De-coupled flow control
 
