@@ -1,4 +1,4 @@
-# nats
+# nats CLI
 
 A command line utility to interact with and manage NATS.
 
@@ -179,4 +179,8 @@ Note the client will still have to provide the plain text version of the passwor
 
 ## See Also
 
-[Publish-subscribe pattern using the NATS CLI](https://www.youtube.com/watch?v=jLTVhP08Tq0)
+Publish-subscribe pattern using the NATS CLI
+
+{% embed url="https://www.youtube.com/watch?v=jLTVhP08Tq0" %}
+Publish-subscribe Pattern using NATS CLI
+{% endembed %}
