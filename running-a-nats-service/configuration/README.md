@@ -119,12 +119,12 @@ authorization: {
 | `port` | Port for client connections. | `4222` |
 | `listen` | Listen specification `<host>:<port>` for client connections. Either use this or the options `host` and/or `port`. | same as `host`, `port` |
 | `client_advertise` | Alternative client listen specification `<host>:<port>` or just `<host>` to advertise to clients and other server. Useful in [cluster](clustering/cluster_config.md) setups with NAT. | Advertise what `host` and `port` specify. |
-| [`tls`](/running-a-nats-service/configurationnfiguration/securing_nats/tls.md) | Configuration map for tls for client and http monitoring. |  |
-| [`cluster`](/running-a-nats-service/configurationnfiguration/clustering/cluster_config.md) | Configuration map for [cluster](/running-a-nats-service/configurationnfiguration/clustering). |  |
-| [`gateway`](/running-a-nats-service/configurationnfiguration/gateways/gateway.md#gateway-configuration-block) | Configuration map for [gateway](/running-a-nats-service/configurationnfiguration/gateways). |  |
-| [`leafnode`](/running-a-nats-service/configurationnfiguration/leafnodes/leafnode_conf.md) | Configuration map for a [leafnode](/running-a-nats-service/configurationnfiguration/leafnodes). |  |
-| [`mqtt`](/running-a-nats-service/configurationnfiguration/mqtt/mqtt_config.md) | Configuration map for [mqtt](/running-a-nats-service/configurationnfiguration/mqtt). |  |
-| [`websocket`](/running-a-nats-service/configurationnfiguration/websocket/websocket_conf.md) | Configuration map for [websocket](/running-a-nats-service/configurationnfiguration/websocket). |  |
+| [`tls`](/running-a-nats-service/configuration/securing_nats/tls.md) | Configuration map for tls for client and http monitoring. |  |
+| [`cluster`](/running-a-nats-service/configuration/clustering/cluster_config.md) | Configuration map for [cluster](/running-a-nats-service/configuration/clustering). |  |
+| [`gateway`](/running-a-nats-service/configuration/gateways/gateway.md#gateway-configuration-block) | Configuration map for [gateway](/running-a-nats-service/configuration/gateways). |  |
+| [`leafnode`](/running-a-nats-service/configuration/leafnodes/leafnode_conf.md) | Configuration map for a [leafnode](/running-a-nats-service/configuration/leafnodes). |  |
+| [`mqtt`](/running-a-nats-service/configuration/mqtt/mqtt_config.md) | Configuration map for [mqtt](/running-a-nats-service/configuration/mqtt). |  |
+| [`websocket`](/running-a-nats-service/configuration/websocket/websocket_conf.md) | Configuration map for [websocket](/running-a-nats-service/configuration/websocket). |  |
 
 ### Connection Timeouts
 
@@ -182,20 +182,20 @@ Note that each JetStream enabled nats-server should use its own individual stora
 
 | Property | Description |
 | :--- | :--- |
-| [`authorization`](/running-a-nats-service/configurationnfiguration/securing_nats/auth_intro) | Configuration map for client authentication/authorization. |
-| [`accounts`](/running-a-nats-service/configurationnfiguration/securing_nats/accounts.md) | Configuration map for multi tenancy via accounts. |
-| [`no_auth_user`](/running-a-nats-service/configurationnfiguration/securing_nats/accounts.md#No-Auth-User) | [Username](/running-a-nats-service/configurationnfiguration/securing_nats/auth_intro/username_password.md) present in the [authorization block](/running-a-nats-service/configurationnfiguration/securing_nats/auth_intro) or an [`account`](/running-a-nats-service/configurationnfiguration/securing_nats/accounts.md). A client connecting without any form of authentication will be associated with this user, its permissions and account. |
+| [`authorization`](/running-a-nats-service/configuration/securing_nats/auth_intro) | Configuration map for client authentication/authorization. |
+| [`accounts`](/running-a-nats-service/configuration/securing_nats/accounts.md) | Configuration map for multi tenancy via accounts. |
+| [`no_auth_user`](/running-a-nats-service/configuration/securing_nats/accounts.md#No-Auth-User) | [Username](/running-a-nats-service/configuration/securing_nats/auth_intro/username_password.md) present in the [authorization block](/running-a-nats-service/configuration/securing_nats/auth_intro) or an [`account`](/running-a-nats-service/configuration/securing_nats/accounts.md). A client connecting without any form of authentication will be associated with this user, its permissions and account. |
 
 #### Decentralized Authentication and Authorization
 
-The Configuration options here refer to [JWT](/running-a-nats-service/configurationnfiguration/securing_nats/jwt) based authentication and authorization.
+The Configuration options here refer to [JWT](/running-a-nats-service/configuration/securing_nats/jwt) based authentication and authorization.
 
 | Property | Description |
 | :--- | :--- |
-| [`operator`](/running-a-nats-service/configurationnfiguration/securing_nats/jwt/README.md) | Path to an operator JWT. |
-| [`resolver`](/running-a-nats-service/configurationnfiguration/securing_nats/jwt/README.md) | The built-in NATS [`resolver`](/running-a-nats-service/configurationnfiguration/securing_nats/jwt/resolver.md#nats-based-resolver), [`MEMORY`](/running-a-nats-service/configurationnfiguration/securing_nats/jwt/resolver.md#memory) for static or [`URL(<url>)`](/running-a-nats-service/configurationnfiguration/securing_nats/jwt/resolver.md#url-resolver) to use an external account server. \(When the operator JWT contains an account URL, it will be used as default. In this case `resolver` is only needed to overwrite the default.\) |
-| [`resolver_tls`](/running-a-nats-service/configurationnfiguration/securing_nats/jwt/resolver.md#url-resolver) | [`tls` configuration map](/running-a-nats-service/configurationnfiguration/securing_nats/tls.md) for tls connections to the resolver. \(This is for an outgoing connection and therefore does not use `timeout`, `verify` and `map_and_verify`\) |
-| [`resolver_preload`](/running-a-nats-service/configurationnfiguration/securing_nats/jwt/resolver.md#memory) | [Map](/running-a-nats-service/configurationnfiguration/securing_nats/jwt/resolver.md#memory) to preload account public keys and their corresponding JWT. Keys consist of `<account public nkey>`, value is the `<corresponding jwt>`. Only used when `resolver=MEMORY`. |
+| [`operator`](/running-a-nats-service/configuration/securing_nats/jwt/README.md) | Path to an operator JWT. |
+| [`resolver`](/running-a-nats-service/configuration/securing_nats/jwt/README.md) | The built-in NATS [`resolver`](/running-a-nats-service/configuration/securing_nats/jwt/resolver.md#nats-based-resolver), [`MEMORY`](/running-a-nats-service/configuration/securing_nats/jwt/resolver.md#memory) for static or [`URL(<url>)`](/running-a-nats-service/configuration/securing_nats/jwt/resolver.md#url-resolver) to use an external account server. \(When the operator JWT contains an account URL, it will be used as default. In this case `resolver` is only needed to overwrite the default.\) |
+| [`resolver_tls`](/running-a-nats-service/configuration/securing_nats/jwt/resolver.md#url-resolver) | [`tls` configuration map](/running-a-nats-service/configuration/securing_nats/tls.md) for tls connections to the resolver. \(This is for an outgoing connection and therefore does not use `timeout`, `verify` and `map_and_verify`\) |
+| [`resolver_preload`](/running-a-nats-service/configuration/securing_nats/jwt/resolver.md#memory) | [Map](/running-a-nats-service/configuration/securing_nats/jwt/resolver.md#memory) to preload account public keys and their corresponding JWT. Keys consist of `<account public nkey>`, value is the `<corresponding jwt>`. Only used when `resolver=MEMORY`. |
 
 ### Runtime Configuration
 
@@ -214,16 +214,16 @@ The Configuration options here refer to [JWT](/running-a-nats-service/configurat
 | `debug` | If `true` enable debug log messages | `false`, disabled |
 | `logtime` | If set to `false`, log without timestamps | `true`, include timestamp |
 | `log_file` | Log file name, relative to... | No log file |
-| [`log_size_limit`](/running-a-nats-service/configurationnfiguration/logging.md#log-rotation) | Size in bytes after the log file rolls over to a new one | `0`, unlimited |
+| [`log_size_limit`](/running-a-nats-service/configuration/logging.md#log-rotation) | Size in bytes after the log file rolls over to a new one | `0`, unlimited |
 | `max_traced_msg_len` | Set a limit to the trace of the payload of a message. | `0`, unlimited |
 | `syslog` | Log to syslog. | `false`, disabled |
-| `remote_syslog` | [Syslog server](/running-a-nats-service/configurationnfiguration/logging.md#syslog) address. |  |
-| [`http_port`](/running-a-nats-service/configurationnfiguration/monitoring.md) | http port for server monitoring. |  |
-| [`http`](/running-a-nats-service/configurationnfiguration/monitoring.md) | Listen specification `<host>:<port>`for server monitoring. |  |
-| [`https_port`](/running-a-nats-service/configurationnfiguration/monitoring.md) | https port for server monitoring. This is influenced by the tls property. |  |
-| [`http_base_path`](/running-a-nats-service/configurationnfiguration/monitoring.md) | base path for monitoring endpoints. | `/` |
-| [`https`](/running-a-nats-service/configurationnfiguration/monitoring.md) | Listen specification `<host>:<port>`for TLS server monitoring. |  |
-| `system_account` | Name of the system account. Users of this account can subscribe to system events. See [System Accounts](/running-a-nats-service/configurationnfiguration/sys_accounts/README.md) for more details. |  |
+| `remote_syslog` | [Syslog server](/running-a-nats-service/configuration/logging.md#syslog) address. |  |
+| [`http_port`](/running-a-nats-service/configuration/monitoring.md) | http port for server monitoring. |  |
+| [`http`](/running-a-nats-service/configuration/monitoring.md) | Listen specification `<host>:<port>`for server monitoring. |  |
+| [`https_port`](/running-a-nats-service/configuration/monitoring.md) | https port for server monitoring. This is influenced by the tls property. |  |
+| [`http_base_path`](/running-a-nats-service/configuration/monitoring.md) | base path for monitoring endpoints. | `/` |
+| [`https`](/running-a-nats-service/configuration/monitoring.md) | Listen specification `<host>:<port>`for TLS server monitoring. |  |
+| `system_account` | Name of the system account. Users of this account can subscribe to system events. See [System Accounts](/running-a-nats-service/configuration/sys_accounts/README.md) for more details. |  |
 | `pid_file` | File containing PID, relative to ... This can serve as input to [nats-server --signal](/running-a-nats-service/nats_admin/signals.md) |  |
 | `port_file_dir` | Directory to write a file containing the servers open ports to, relative to ... |  |
 | `connect_error_reports` | Number of attempts at which a repeated failed route, gateway or leaf node connection is reported. Connect attempts are made once every second. | `3600`, approx every hour |
