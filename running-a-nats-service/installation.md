@@ -71,10 +71,10 @@ yay nats-server
 
 You can find the latest release of nats-server [here](https://github.com/nats-io/nats-server/releases/latest).
 
-Download the zip file matching your systems architecture, and unzip. For this example, assuming version 2.6.2 of the server and a Linux AMD64:
+Download the zip file matching your systems architecture, and unzip. For this example, assuming version 2.6.5 of the server and a Linux AMD64:
 
 ```shell
-curl -L https://github.com/nats-io/nats-server/releases/download/v2.0.0/nats-server-v2.6.2-linux-amd64.zip -o nats-server.zip
+curl -L https://github.com/nats-io/nats-server/releases/download/v2.6.5/nats-server-v2.6.5-linux-amd64.zip -o nats-server.zip
 ```
 
 ```shell
@@ -83,14 +83,14 @@ unzip nats-server.zip -d nats-server
 which should output something like
 ```shell
 Archive:  nats-server.zip
-   creating: nats-server-v2.6.2-linux-amd64/
-  inflating: nats-server-v2.6.2-linux-amd64/README.md
-  inflating: nats-server-v2.6.2-linux-amd64/LICENSE
-  inflating: nats-server-v2.6.2-linux-amd64/nats-server
+   creating: nats-server-v2.6.5-linux-amd64/
+  inflating: nats-server-v2.6.5-linux-amd64/README.md
+  inflating: nats-server-v2.6.5-linux-amd64/LICENSE
+  inflating: nats-server-v2.6.5-linux-amd64/nats-server
 ```
 and finally:
 ```shell
-sudo cp nats-server/nats-server-v2.6.2-linux-amd64/nats-server /usr/bin
+sudo cp nats-server/nats-server-v2.6.5-linux-amd64/nats-server /usr/bin
 ```
 
 ## Installing From the Source
@@ -106,7 +106,7 @@ This mechanism will install a build of [master](https://github.com/nats-io/nats-
 To test your installation \(provided the $GOPATH/bin is set\) by typing `nats-server` which should output something like
 
 ```text
-[41634] 2019/05/13 09:42:11.745919 [INF] Starting nats-server version 2.6.2
+[41634] 2019/05/13 09:42:11.745919 [INF] Starting nats-server version 2.6.5
 [41634] 2019/05/13 09:42:11.746240 [INF] Listening for client connections on 0.0.0.0:4222
 ...
 [41634] 2019/05/13 09:42:11.746249 [INF] Server id is NBNYNR4ZNTH4N2UQKSAAKBAFLDV3PZO4OUYONSUIQASTQT7BT4ZF6WX7
