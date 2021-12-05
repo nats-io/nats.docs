@@ -26,7 +26,7 @@ JetStream was developed with the following goals in mind:
 
 ### Streaming: temporal decoupling between the publishers and subscribers
 
-One of the tenants of basic publish/subscribe messaging is that there is a temporal coupling between the publishers and the subscribers: subscribers only receive the messages that are published when they are actively connected to the messaging system. The traditional way for messaging systems to provide temporal decoupling of the publishers and subscribers is through the 'durable subscriber' functionality or sometimes through 'queues', but neither one is perfect:
+One of the tenants of basic publish/subscribe messaging is that there is a temporal decoupling between the publishers and the subscribers: subscribers only receive the messages that are published when they are actively connected to the messaging system. The traditional way for messaging systems to provide temporal decoupling of the publishers and subscribers is through the 'durable subscriber' functionality or sometimes through 'queues', but neither one is perfect:
 
 * durable subscribers need to be created _before_ the messages get published
 * queues are meant for workload distribution and consumption, not to be used as a mechanism for message replay.
@@ -83,7 +83,7 @@ In JetStream the configuration for storing messages is defined separately from h
 
 ### Mirroring between streams
 
-JetSteam allows server administrators to easily mirror streams, for example between different JetStream domains in order to offer disaster recovery. You can also define a steam as one of the sources for another stream.
+JetSteam allows server administrators to easily mirror streams, for example between different JetStream domains in order to offer disaster recovery. You can also define a stream as one of the sources for another stream.
 
 ### De-coupled flow control
 

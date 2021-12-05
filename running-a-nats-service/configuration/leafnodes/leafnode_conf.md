@@ -9,7 +9,7 @@ The leaf node configuration block is used to configure incoming as well as outgo
 | `host`          | Interface where the server will listen for incoming leafnode connections.                                                                   |
 | `port`          | Port where the server will listen for incoming leafnode connections (default is 7422).                                                      |
 | `listen`        | Combines `host` and `port` as `<host>:<port>`                                                                                               |
-| `tls`           | TLS configuration block (same as other nats-server [`tls` configuration](/running-a-nats-service/configurationnfiguration/securing_nats/tls.md)).                                                |
+| `tls`           | TLS configuration block (same as other nats-server [`tls` configuration](/running-a-nats-service/configuration/securing_nats/tls.md)).                                                |
 | `advertise`     | Hostport `<host>:<port>` to advertise how this server can be contacted by leaf nodes. This is useful in cluster setups with NAT.            |
 | `no_advertise`  | if `true` the server shouldn't be advertised to leaf nodes.                                                                                 |
 | `authorization` | Authorization block. [**See Authorization Block section below**](leafnode_conf.md#authorization-block).                                    |
