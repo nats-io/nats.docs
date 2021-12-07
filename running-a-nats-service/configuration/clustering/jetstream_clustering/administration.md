@@ -8,7 +8,7 @@ Within an account there are operations and reports that show where users data is
 
 ## Creating clustered streams
 
-When adding a stream using the `nats` CLI the number of replicas will be asked, when you choose a number more than 1, \(we suggest 1, 3 or 5\), the data will be stored on multiple nodes in your cluster using the RAFT protocol as above. The replica count must be less than the maximum number of servers.
+When adding a stream using the `nats` CLI the number of replicas will be asked, when you choose a number more than 1, \(we suggest 1, 3 or 5\), the data will be stored on multiple nodes in your cluster using the RAFT protocol as above.
 
 ```shell
 nats str add ORDERS --replicas 3

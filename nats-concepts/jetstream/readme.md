@@ -31,7 +31,7 @@ One of the tenants of basic publish/subscribe messaging is that there is a tempo
 * durable subscribers need to be created _before_ the messages get published
 * queues are meant for workload distribution and consumption, not to be used as a mechanism for message replay.
 
-However, nowadays a new way to provide this temporal de-coupling has been devised and gained a has become 'mainstream': streaming. Streams capture and store messages published on one (or more) subject and allow client applications to create 'subscribers' (i.e. JetStream consumers) at any time to 'replay' (or consume) all or some of the messages stored in the stream.
+However, nowadays a new way to provide this temporal de-coupling has been devised and has become 'mainstream': streaming. Streams capture and store messages published on one (or more) subject and allow client applications to create 'subscribers' (i.e. JetStream consumers) at any time to 'replay' (or consume) all or some of the messages stored in the stream.
 
 #### Replay policies
 
