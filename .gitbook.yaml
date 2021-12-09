@@ -37,6 +37,23 @@ redirects:
   nats-streaming-concepts/relation-to-nats: ./legacy/stan/nats-streaming-concepts/relation-to-nats.md
   nats-streaming-concepts/store-encryption: ./legacy/stan/nats-streaming-concepts/store-encryption.md
   nats-streaming-concepts/store-interface: ./legacy/stan/nats-streaming-concepts/store-interface.md
+  nats-streaming-server/changes: .legacy/stan/nats-streaming-server/changes.md
+  nats-streaming-server/install: .legacy/stan/nats-streaming-server/install.md
+  nats-streaming-server/run: .legacy/stan/nats-streaming-server/run.md
+  nats-streaming-server/configuring/README: .legacy/stan/nats-streaming-server/configuring/README.md
+  nats-streaming-server/configuring/cmdline: .legacy/stan/nats-streaming-server/configuring/cmdline.md
+  nats-streaming-server/configuring/cfgfile: .legacy/stan/nats-streaming-server/configuring/cfgfile.md
+  nats-streaming-server/configuring/storelimits: .legacy/stan/nats-streaming-server/configuring/storelimits.md
+  nats-streaming-server/configuring/persistence/README: .legacy/stan/nats-streaming-server/configuring/persistence/README.md
+  nats-streaming-server/configuring/persistence/file_store: .legacy/stan/nats-streaming-server/configuring/persistence/file_store.md
+  nats-streaming-server/configuring/persistence/sql_store: .legacy/stan/nats-streaming-server/configuring/persistence/sql_store.md
+  nats-streaming-server/configuring/tls: .legacy/stan/nats-streaming-server/configuring/tls.md
+  nats-streaming-server/process-signaling: .legacy/stan/nats-streaming-server/process-signaling.md
+  nats-streaming-server/windows-service: .legacy/stan/nats-streaming-server/windows-service.md
+  nats-streaming-server/embedding: .legacy/stan/nats-streaming-server/embedding.md
+  nats-streaming-server/swarm: .legacy/stan/nats-streaming-server/swarm.md
+  nats-streaming-server/kubernetes/stan-kubernetes: .legacy/stan/nats-streaming-server/kubernetes/stan-kubernetes.md
+  nats-streaming-server/kubernetes/stan-ft-k8s-aws: .legacy/stan/nats-streaming-server/kubernetes/stan-ft-k8s-aws.md
   nats-concepts/pubsub: ./nats-concepts/core-nats/publish-subscribe/pubsub.md
   walkthrough/pubsub: ./nats-concepts/core-nats/publish-subscribe/pubsub_walkthrough.md
   nats-concepts/queue: ./nats-concepts/core-nats/queue-groups/queue.md
