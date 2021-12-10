@@ -33,7 +33,7 @@ which should output
 [1] 2019/05/24 15:42:58.229003 [INF] Listening for route connections on 0.0.0.0:6222
 ```
 
-More information on [containerized NATS is available here](nats_docker/).
+More information on [containerized NATS is available here](running/nats_docker/).
 
 ## Installing via a Package Manager
 

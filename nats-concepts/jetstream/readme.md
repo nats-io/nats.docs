@@ -26,12 +26,12 @@ JetStream was developed with the following goals in mind:
 
 ### Streaming: temporal decoupling between the publishers and subscribers
 
-One of the tenants of basic publish/subscribe messaging is that there is a temporal coupling between the publishers and the subscribers: subscribers only receive the messages that are published when they are actively connected to the messaging system. The traditional way for messaging systems to provide temporal decoupling of the publishers and subscribers is through the 'durable subscriber' functionality or sometimes through 'queues', but neither one is perfect:
+One of the tenants of basic publish/subscribe messaging is that there is a temporal decoupling between the publishers and the subscribers: subscribers only receive the messages that are published when they are actively connected to the messaging system. The traditional way for messaging systems to provide temporal decoupling of the publishers and subscribers is through the 'durable subscriber' functionality or sometimes through 'queues', but neither one is perfect:
 
 * durable subscribers need to be created _before_ the messages get published
 * queues are meant for workload distribution and consumption, not to be used as a mechanism for message replay.
 
-However, nowadays a new way to provide this temporal de-coupling has been devised and gained a has become 'mainstream': streaming. Streams capture and store messages published on one (or more) subject and allow client applications to create 'subscribers' (i.e. JetStream consumers) at any time to 'replay' (or consume) all or some of the messages stored in the stream.
+However, nowadays a new way to provide this temporal de-coupling has been devised and has become 'mainstream': streaming. Streams capture and store messages published on one (or more) subject and allow client applications to create 'subscribers' (i.e. JetStream consumers) at any time to 'replay' (or consume) all or some of the messages stored in the stream.
 
 #### Replay policies
 
