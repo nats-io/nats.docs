@@ -27,7 +27,7 @@ In addition to the features of the core NATS platform, NATS Streaming provides t
 
 ## Installation
 
-NATS provides a [server binary](../../../nats-streaming-server/install.md) for Linux, Mac, and Windows. You can install the server from source on any platform you choose.
+NATS provides a [server binary](../nats-streaming-server/install.md) for Linux, Mac, and Windows. You can install the server from source on any platform you choose.
 
 ## Usage, Configuration and Administration
 
