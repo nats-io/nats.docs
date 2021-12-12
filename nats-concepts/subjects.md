@@ -1,11 +1,18 @@
 # Subject-Based Messaging
 
-Fundamentally, NATS is about publishing and listening for messages. Both of these depend heavily on _Subjects_ which scope messages into streams or topics. At its simplest, a subject is just a string of characters that form a name the publisher and subscriber can use to find each other.
+Fundamentally, NATS is about publishing and listening for messages. Both of these depend heavily on _Subjects_.
+  
+**What is a Subject?** At its simplest, a subject is just a string of characters that form a name which the publisher and subscriber can use to find each other. It helps scope messages into streams or topics.   
 
 ![](../.gitbook/assets/subjects1.svg)
+  
+### Characters allowed for subject names
 
-The NATS server reserves a few characters as special, and the specification says that only "alpha-numeric" characters plus the "." should be used in subject names. Subjects are case-sensitive and cannot contain whitespace. For safety across clients, ASCII characters should be used, although this is subject to change in the future.
-
+For compatibility across clients, we recommend using ASCII characters (this may change in future).  
+  
+**Recommended characters:** `a` to `z`, `A` to `Z`, `0` to `9`, and the period `.` (names are case sensitive and cannot contain whitespace).
+**Special characters:** `*` and `>` (as shown below, these are used as wildcards).
+  
 ## Subject Hierarchies
 
 The `.` character is used to create a subject hierarchy. For example, a world clock application might define the following to logically group related subjects:
@@ -44,5 +51,5 @@ The wildcard `*` can appear multiple times in the same subject. Both types can b
 
 ## Subject Tokens
 
-It is recommended to keep the maximum number of tokens in your subjects to a reasonable value of 16 tokens max
+It is recommended to keep the maximum number of tokens in your subjects to a reasonable value of 16 tokens max.
 
