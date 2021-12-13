@@ -61,6 +61,7 @@ redirects:
   nats-concepts/core_nats: ./nats-concepts/core-nats/readme.md
   nats-concepts/reqreply: ./nats-concepts/core-nats/request-reply/reqreply.md
   walkthrough/reqreply: ./nats-concepts/core-nats/request-reply/reqreply_walkthrough.md
+  jetstream: ./nats-concepts/jetstream/readme.md
   jetstream/concepts/consumers: ./nats-concepts/jetstream/consumers.md
   jetstream/concepts/configuration: ./nats-concepts/jetstream/example_configuration.md
   walkthrough/js: ./nats-concepts/jetstream/js_walkthrough.md
