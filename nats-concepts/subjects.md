@@ -2,7 +2,8 @@
 
 Fundamentally, NATS is about publishing and listening for messages. Both of these depend heavily on _Subjects_.
   
-**What is a Subject?** At its simplest, a subject is just a string of characters that form a name which the publisher and subscriber can use to find each other. It helps scope messages into streams or topics.   
+**What is a Subject?**  
+At its simplest, a subject is just a string of characters that form a name which the publisher and subscriber can use to find each other. It helps scope messages into streams or topics.   
 
 ![](../.gitbook/assets/subjects1.svg)
   
@@ -10,7 +11,7 @@ Fundamentally, NATS is about publishing and listening for messages. Both of thes
 
 For compatibility across clients, we recommend using ASCII characters (this may change in future).  
   
-**Recommended characters:** `a` to `z`, `A` to `Z`, `0` to `9`, and the period `.` (names are case sensitive and cannot contain whitespace).
+**Recommended characters:** `a` to `z`, `A` to `Z`, `0` to `9`, and the period `.` (names are case sensitive and cannot contain whitespace).  
 **Special characters:** `*` and `>` (as shown below, these are used as wildcards).
   
 ## Subject Hierarchies
