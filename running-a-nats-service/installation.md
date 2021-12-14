@@ -33,7 +33,7 @@ which should output
 [1] 2019/05/24 15:42:58.229003 [INF] Listening for route connections on 0.0.0.0:6222
 ```
 
-More information on [containerized NATS is available here](running/nats_docker/).
+More information on [containerized NATS is available here](running/nats_docker/README.md).
 
 ## Installing via a Package Manager
 
@@ -69,12 +69,15 @@ yay nats-server
 
 ## Downloading a Release Build
 
-You can find the latest release of nats-server [here](https://github.com/nats-io/nats-server/releases/latest).
+You can find the latest release of nats-server on [the nats-io/nats-server GitHub releases page](https://github.com/nats-io/nats-server/releases/).
 
-Download the zip file matching your systems architecture, and unzip. For this example, assuming version 2.6.2 of the server and a Linux AMD64:
+From the releases page, copy the link to the release archive file of your choice and download it using `curl -L`.
+
+For example, assuming version X.Y.Z of the server and a Linux AMD64:
 
 ```shell
-curl -L https://github.com/nats-io/nats-server/releases/download/v2.0.0/nats-server-v2.6.2-linux-amd64.zip -o nats-server.zip
+
+curl -L https://github.com/nats-io/nats-server/releases/download/vX.Y.Z/nats-server-vX.Y.Z-linux-amd64.zip -o nats-server.zip
 ```
 
 ```shell
@@ -83,14 +86,12 @@ unzip nats-server.zip -d nats-server
 which should output something like
 ```shell
 Archive:  nats-server.zip
-   creating: nats-server-v2.6.2-linux-amd64/
-  inflating: nats-server-v2.6.2-linux-amd64/README.md
-  inflating: nats-server-v2.6.2-linux-amd64/LICENSE
-  inflating: nats-server-v2.6.2-linux-amd64/nats-server
+   creating: nats-server-vX.Y.Z-linux-amd64/
+...
 ```
 and finally:
 ```shell
-sudo cp nats-server/nats-server-v2.6.2-linux-amd64/nats-server /usr/bin
+sudo cp nats-server/nats-server-vX.Y.Z-linux-amd64/nats-server /usr/bin
 ```
 
 ## Installing From the Source

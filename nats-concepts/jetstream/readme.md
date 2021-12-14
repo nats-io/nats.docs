@@ -26,7 +26,7 @@ JetStream was developed with the following goals in mind:
 
 ### Streaming: temporal decoupling between the publishers and subscribers
 
-One of the tenants of basic publish/subscribe messaging is that there is a temporal decoupling between the publishers and the subscribers: subscribers only receive the messages that are published when they are actively connected to the messaging system. The traditional way for messaging systems to provide temporal decoupling of the publishers and subscribers is through the 'durable subscriber' functionality or sometimes through 'queues', but neither one is perfect:
+One of the tenants of basic publish/subscribe messaging is that there is a temporal coupling between the publishers and the subscribers: subscribers only receive the messages that are published when they are actively connected to the messaging system. The traditional way for messaging systems to provide temporal decoupling of the publishers and subscribers is through the 'durable subscriber' functionality or sometimes through 'queues', but neither one is perfect:
 
 * durable subscribers need to be created _before_ the messages get published
 * queues are meant for workload distribution and consumption, not to be used as a mechanism for message replay.
@@ -81,9 +81,23 @@ JetStream can also provide encryption at rest of the messages being stored.
 
 In JetStream the configuration for storing messages is defined separately from how they are consumed. Storage is defined in a [_Stream_](streams.md) and consuming messages is defined by multiple [_Consumers_](consumers.md).
 
-### Mirroring between streams
+#### Stream replication factor
 
-JetSteam allows server administrators to easily mirror streams, for example between different JetStream domains in order to offer disaster recovery. You can also define a stream as one of the sources for another stream.
+A stream's replication factor (R, often referred to as the number 'Replicas') determines how many places it is stored allowing you to tune to balance risk with resource usage and performance. A stream that is easily rebuilt or temporary might be memory based with a R=1 and a stream that can tolerate some downtime might be file based R-1.
+
+Typical usage to operate in typical outages and balance performance would be a filed based stream with R=3. A highly resilient, but less performant and more expensive configuration is R=5, the replication factor limit.
+
+Rather than defaulting to the maximum, we suggest selecting the best option based on use case behind the stream. This optimizes resource usage to create a more resilient system at scale.
+
+* Replicas=1 - Cannot operate during an outage of the server servicing the stream. Highly performant.
+* Replicas=2 - No significant benefit at this time. We recommend using Replicas=3 instead.
+* Replicas=3 - Can tolerate loss of one server servicing the stream. An ideal balance between risk and performance.
+* Replicas=4 - No significant benefit over Replicas=3 except marginally in a 5 node cluster.
+* Replicas=5 - Can tolerate simultaneous loss of two servers servicing the stream. Mitigates risk at the expense of performance.
+
+#### Mirroring between streams
+
+JetSteam also allows server administrators to easily mirror streams, for example between different JetStream domains in order to offer disaster recovery. You can also define a steam as one of the sources for another stream.
 
 ### De-coupled flow control
 
