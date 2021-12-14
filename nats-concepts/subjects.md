@@ -11,8 +11,8 @@ At its simplest, a subject is just a string of characters that form a name which
 
 For compatibility across clients, we recommend using ASCII characters (this may change in future).  
   
-**Recommended characters:** `a` to `z`, `A` to `Z`, `0` to `9`, and the period `.` (names are case sensitive and cannot contain whitespace).  
-**Special characters:** `*` and `>` (as shown below, these are used as wildcards).
+**Recommended characters:** `a` to `z`, `A` to `Z`, `0` to `9`,  (names are case sensitive and cannot contain whitespace).  
+**Special characters:** The period `.` (which is used to separate the tokens in the subject) and `*` plus `>` (which are used as wildcards).
   
 ## Subject Hierarchies
 
