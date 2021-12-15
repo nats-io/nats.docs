@@ -11,8 +11,8 @@ At its simplest, a subject is just a string of characters that form a name which
 
 For compatibility across clients, we recommend using ASCII characters (this may change in future).  
   
-**Recommended characters:** `a` to `z`, `A` to `Z`, `0` to `9`,  (names are case sensitive and cannot contain whitespace).  
-**Special characters:** The period `.` (which is used to separate the tokens in the subject) and `*` plus `>` (which are used as wildcards).
+**Recommended characters:** `a` to `z`, `A` to `Z` and `0` to `9` (names are case sensitive, and cannot contain whitespace).  
+**Special characters:** The period `.` (which is used to separate the tokens in the subject) and `*` and also `>` (the `*` and `>` are used as wildcards).  
   
 ## Subject Hierarchies
 
@@ -46,7 +46,7 @@ The second wildcard is `>` which will match one or more tokens, and can only app
 
 Subject to your security configuration, wildcards can be used for monitoring by creating something sometimes called a _wire tap_. In the simplest case you can create a subscriber for `>`. This application will receive all messages -- again, subject to security settings -- sent on your NATS cluster.
 
-### Mix Wildcards
+### Mixing Wildcards
 
 The wildcard `*` can appear multiple times in the same subject. Both types can be used as well. For example, `*.*.east.>` will receive `time.us.east.atlanta`.
 
