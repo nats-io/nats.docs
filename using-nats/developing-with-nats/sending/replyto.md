@@ -98,8 +98,8 @@ async def sub(msg):
 await nc.connect(servers=["nats://demo.nats.io:4222"])
 await nc.subscribe("time", cb=sub)
 
-unique_reply_to = new_inbox()
-await nc.publish_request("time", unique_reply_to, b'')
+unique_reply_to = nc.new_inbox()
+await nc.publish("time", b'', unique_reply_to)
 
 # Use the response
 msg = await asyncio.wait_for(future, 1)
