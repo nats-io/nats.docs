@@ -97,7 +97,7 @@ Rather than defaulting to the maximum, we suggest selecting the best option base
 
 #### Mirroring between streams
 
-JetSteam also allows server administrators to easily mirror streams, for example between different JetStream domains in order to offer disaster recovery. You can also define a steam as one of the sources for another stream.
+JetStream also allows server administrators to easily mirror streams, for example between different JetStream domains in order to offer disaster recovery. You can also define a stream as one of the sources for another stream.
 
 ### De-coupled flow control
 
