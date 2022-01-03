@@ -13,7 +13,7 @@ Managing a NATS Server is simple, typical lifecycle operations include:
 * [Upgrading](upgrading_cluster.md) a server \(or cluster\)
 * Understanding [slow consumers](slow_consumers.md)
 * Monitoring the server via:
-  * The monitoring [endpoint](/running-a-nats-service/nats_admin/nats_admin/monitoring.md) and tools like [nats-top](/using-nats/nats-tools/nats_top) 
+  * The monitoring [endpoint](/running-a-nats-service/nats_admin/monitoring/readme.md) and tools like [nats-top](/using-nats/nats-tools/nats_top) 
   * By subscribing to [system events](/running-a-nats-service/configuration/sys_accounts/README.md)
 * Gracefully shut down a server with [Lame Duck Mode](lame_duck_mode.md)
 
