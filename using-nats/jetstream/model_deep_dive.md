@@ -481,8 +481,6 @@ Output
 
 JetStream file storage is very efficient, storing as little extra information about the message as possible.
 
-**NOTE:** This might change once clustering is supported.
-
 We do store some message data with each message, namely:
 
 * Message headers
