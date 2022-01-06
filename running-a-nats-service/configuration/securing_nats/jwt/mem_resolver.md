@@ -142,5 +142,5 @@ You can then [test it](mem_resolver.md#testing-the-configuration).
 To test the configuration, simply use one of the standard tools:
 
 ```shell
-nats pub -creds ~/.nkeys/creds/memory/accounts/A/TA.creds hello world
+nats pub --creds ~/.nkeys/creds/memory/A/TA.creds hello world
 ```
