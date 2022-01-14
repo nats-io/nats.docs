@@ -2,6 +2,36 @@
 
 The NATS.io team is always working to bring you features to improve your NATS experience. Below you will find feature summaries for new implementations to NATS. Check back often for release highlights and updates.
 
+## Server release v2.7.0
+
+### **Notice for JetStream Users**
+See [important note](https://github.com/nats-io/nats-server/pull/2693#issuecomment-996212582) if using LeafNode regarding domains.
+
+### Configuration
+Ability to configure account limits (`max_connections`, `max_subscriptions`, `max_payload`, `max_leafnodes`) in server configuration file.
+
+### JetStream
+* Overflow placement for streams. A stream can now be placed in the closest cluster from the origin request if it can be placed there.
+* Support for ephemeral Pull consumers (client libraries will need to be updated to allow those).
+* New consumer configuration options
+  * For Pull Consumers:
+  `MaxRequestBatch` to limit the batch size any client can request
+  `MaxRequestExpires` to limit the expiration any client can request
+  * For ephemeral consumers:
+  `InactiveThreshold` duration that instructs the server to cleanup ephemeral consumers that are inactive for that long.
+* Ability to configure `max_file_store` and `max_memory_store` in the `jetstream{}` block as strings with the following suffixes `K`, `M`, `G` and `T`, for instance: `max_file_store: "256M"`.
+* Support for the JWT field `MaxBytesRequired`, which defines a per-account maximum bytes for assets.
+
+### MQTT
+Support for websocket protocol. MQTT clients must connect to the opened websocket port and add `/mqtt` to the URL path.
+### TLS
+Ability to rate-limit the clients connections by adding the `connection_rate_limit: <number of connections per seconds>` in the `tls{}` top-level block.
+
+For full release information, see links below;
+
+* Release notes [2.7.0](https://github.com/nats-io/nats-server/releases/tag/v2.7.0)
+* Full list of Changes [2.6.6...2.7.0](https://github.com/nats-io/nats-server/compare/v2.6.6...v2.7.0)
+
 ## Server release v2.6.0
 
 ### **Notice for JetStream Users**
