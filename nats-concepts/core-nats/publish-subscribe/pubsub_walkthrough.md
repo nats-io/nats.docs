@@ -1,24 +1,26 @@
-# NATS Pub/Sub Walkthrough
-
 NATS is a [publish subscribe](pubsub.md) messaging system [based on subjects](../../subjects.md). Subscribers listening on a subject receive messages published on that subject. If the subscriber is not actively listening on the subject, the message is not received. Subscribers can use the wildcard tokens such as `*` and `>` to match a single token or to match the tail of a subject.
 
+# NATS Pub/Sub Walkthrough
+  
+This simple walkthrough demonstrates some ways in which subscribers listen on subjects, and publishers send messages on specific subjects.  
+  
 ![](../../../.gitbook/assets/pubsubtut.svg)
 
-### Walkthrough prerequisites
+## Walkthrough prerequisites
 
 If you have not already done so, you need to [install](../../what-is-nats/walkthrough_setup.md) the `nats` CLI Tool and optionally the nats-server on your machine.
 
-## 1. Run the client subscriber program
+### 1. Create Subscriber 1
 
-In a shell or command prompt session start a subscriber
+In a shell or command prompt session, start a client subscriber program.  
 
 ```bash
 nats sub <subject>
 ```
-
-Where `<subject>` is a subject to listen on. A valid subject is a string that is unique in the system.
-
-For example:
+  
+Here, `<subject>` is a subject to listen on. It helps to use unique and well thought-through subject strings because you need to ensure that messages reach the correct subscribers even when wildcards are used.
+  
+For example:  
 
 ```bash
 nats sub msg.test
@@ -26,11 +28,9 @@ nats sub msg.test
 
 You should see the message: _Listening on \[msg.test\]_
 
-## 2. Start another shell or command prompt session
+### 2. Create a Publisher
 
-You will use this session to run a NATS publisher client.
-
-## 3. Publish a NATS message
+In another shell or command prompt, create a NATS publisher and send a message.  
 
 ```bash
 nats pub <subject> <message>
@@ -44,33 +44,32 @@ For example:
 nats pub msg.test hello
 ```
 
-## 4. Verify message publication and receipt
+### 3. Verify message publication and receipt
 
-You should see that the publisher sends the message and prints: _Published \[msg.test\] : 'NATS MESSAGE'_
+You'll notice that the publisher sends the message and prints: _Published \[msg.test\] : 'NATS MESSAGE'_.
 
-And that the subscriber receives the message and prints: _\[\#1\] Received on \[msg.test\]: 'NATS MESSAGE'_
+The subscriber receives the message and prints: _\[\#1\] Received on \[msg.test\]: 'NATS MESSAGE'_.
 
-Note that if the receiver does not get the message, check that you are using the same subject name for the publisher and the subscriber.
+If the receiver does not get the message, you'll need to check if you are using the same subject name for the publisher and the subscriber.  
 
-## 5. Publish another message
+### 4. Try publishing another message
 
 ```bash
 nats pub msg.test "NATS MESSAGE 2"
 ```
 
-You should see that the subscriber receives message 2. Note that the message count is incremented each time your subscribing client receives a message on that subject:
+You'll notice that the subscriber receives the message.   
+Note that a message count is incremented each time your subscribing client receives a message on that subject.  
 
-## 6. Start another shell or command prompt session
+### 5. Create Subscriber 2
 
-You will use this session to run a second NATS subscriber.
-
-## 7. Start a second client subscriber program
+In a new shell or command prompt, start a new NATS subscriber.   
 
 ```bash
 nats sub msg.test
 ```
 
-## 8. Publish another message using the publisher client
+### 6. Publish another message using the publisher client
 
 ```bash
 nats pub msg.test "NATS MESSAGE 3"
@@ -78,31 +77,31 @@ nats pub msg.test "NATS MESSAGE 3"
 
 Verify that both subscribing clients receive the message.
 
-## 9. Start another shell or command prompt session
+### 7. Create Subscriber 3
 
-You will use this session to run a third NATS subscriber.
-
-## 10. Subscribe to a different subject
+In a new shell or command prompt session, create a new subscriber that listens on a different subject.  
 
 ```bash
 nats sub msg.test.new
 ```
 
-All the but last subscriber receives the message. Why? Because that subscriber is not listening on the message subject used by the publisher.
+Subscriber 1 and Subscriber 2 receive the message, but Subscriber 3 does not. Why? Because Subscriber 3 is not listening on the message subject used by the publisher.
 
-## 11. Update the last subscriber to use a wildcard
+### 8. Alter Subscriber 3 to use a wildcard
 
-NATS supports the use of wildcard characters for message subscribers only. You cannot publish a message using a wildcard subject.
-
-Change the last subscriber the listen on msg.\* and run it:
+Change the last subscriber to listen on msg.\* and run it:  
 
 ```bash
 nats sub msg.*
 ```
+  
+Note: NATS supports the use of wildcard characters for message subscribers only. You cannot publish a message using a wildcard subject.
 
-## 12. Publish another message
-
-This time, all three subscribing clients should receive the message.
+### 9. Publish another message
+  
+This time, all three subscribing clients should receive the message.  
+  
+Do try out a few more variations of substrings and wildcards to test your understanding.  
 
 
 # See Also

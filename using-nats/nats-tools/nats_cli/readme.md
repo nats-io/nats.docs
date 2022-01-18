@@ -17,6 +17,18 @@ brew install nats-io/nats-tools/nats
 
 For Arch Linux:
 
+Download the correct .deb file for your computer from [here](https://github.com/nats-io/natscli/releases).
+
+
+If you have an Intel CPU, then it'll probably be this one (for version X.Y.Z): `nats-X.Y.Z-amd64.deb`
+Then run this command to install the file.
+
+```shell
+sudo dpkg -i nats-X.Y.Z-amd64.deb
+```
+
+Or with the `yay` package manager
+
 ```shell
 yay natscli
 ```
