@@ -1,12 +1,12 @@
 # Encrypting Connections with TLS
 
-While authentication limits which clients can connect, TLS can be used to encrypt traffic between client/server and check the server’s identity. Additionally - in the most secure version of TLS with NATS - the server can be configured to verify the client's identity, thus authenticating it. When started in [TLS mode](../../../running-a-nats-service/configuration/securing_nats/tls.md), a `nats-server` will require all clients to connect with TLS. Moreover, if configured to connect with TLS, client libraries will fail to connect to a server without TLS.
+While authentication limits which clients can connect, TLS can be used to encrypt traffic between client/server and check the server’s identity. Additionally - in the most secure version of TLS with NATS - the server can be configured to verify the client's identity, thus authenticating it. When started in [TLS mode](../../../../running-a-nats-service/configuration/securing_nats/tls.md), a `nats-server` will require all clients to connect with TLS. Moreover, if configured to connect with TLS, client libraries will fail to connect to a server without TLS.
 
 ## Connecting with TLS and verify client identity
 
 Using TLS to connect to a server that verifies the client's identity is straightforward. The client has to provide a certificate and private key. The NATS client will use these to prove it's identity to the server. For the client to verify the server's identity, the CA certificate is provided as well.
 
-Use example certificates created in [self signed certificates for testing](../../../running-a-nats-service/configuration/securing_nats/tls.md#creating-self-signed-certificates-for-testing).
+Use example certificates created in [self signed certificates for testing](../../../../running-a-nats-service/configuration/securing_nats/tls.md#creating-self-signed-certificates-for-testing).
 
 ```bash
 nats-server --tls --tlscert=server-cert.pem --tlskey=server-key.pem --tlscacert rootCA.pem --tlsverify
