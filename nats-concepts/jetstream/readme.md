@@ -26,7 +26,7 @@ JetStream was developed with the following goals in mind:
 
 ### Streaming: temporal decoupling between the publishers and subscribers
 
-One of the tenants of basic publish/subscribe messaging is that there is a temporal coupling between the publishers and the subscribers: subscribers only receive the messages that are published when they are actively connected to the messaging system. The traditional way for messaging systems to provide temporal decoupling of the publishers and subscribers is through the 'durable subscriber' functionality or sometimes through 'queues', but neither one is perfect:
+One of the tenants of basic publish/subscribe messaging is that there is a required temporal coupling between the publishers and the subscribers: subscribers only receive the messages that are published when they are actively connected to the messaging system (i.e. they do not receive messages that are published while they are not subscribing or not running or disconnected). The traditional way for messaging systems to provide temporal decoupling of the publishers and subscribers is through the 'durable subscriber' functionality or sometimes through 'queues', but neither one is perfect:
 
 * durable subscribers need to be created _before_ the messages get published
 * queues are meant for workload distribution and consumption, not to be used as a mechanism for message replay.
