@@ -2,35 +2,51 @@
 
 In order for a NATS client application to connect to the NATS service, and then subscribe or publish messages to subjects, it needs to be able to be configured with the details of how to connect to the NATS service infrastructure and of how to authenticate with it.
 
-## NATS URL
+# NATS URL
 
-1. A 'NATS URL' which is a string (in a URL format) that specifies the IP address and port where the NATS server(s) can be reached, and what kind of connection to establish:
+The NATS URL is a string (in a URL format) that specifies the IP address(es) and port(s) where the NATS server(s) can be reached, as well as what kind of transport to use:
    * Plain un-encrypted TCP connection (i.e. NATS URLs starting with `nats://...`)
    * TLS encrypted TCP connection (i.e. NATS URLs starting with `tls://...`)
    * Websocket connection (i.e. NATS URLs starting with `ws://...`)
 
-### Connecting to clusters
+### [Connecting to clusters](cluster.md)
+### [Connecting to a specific server](specific_server.md)
+### [Default URL](default_server.md)
 
-Note that when connecting to a NATS service infrastructure with clusters there is more than one URL and the application should allow for more than one URL to be specified in its NATS connect call (typically you pass a comma separated list of URLs as the URL, e.g. `"nats://server1:port1,nats://server2:port2"`).
+## Specifying a [connection timeout](connect_timeout.md)
+## [Automatic reconnection](../reconnect/README.md)
+## [Turning Off Echo'd Messages](noecho.md)
+## [Miscellaneous](misc.md)
 
-When connecting to a cluster it is best to provide the complete set of 'seed' URLs for the cluster.
+# Naming your connection
+Although it is optional, it is always a good idea to [name](name.md) your connections in order to identify them to the NATS Server administrators.
 
-## Authentication details
+# Securing connections
 
-1. If required: authentication details for the application to identify itself with the NATS server(s). NATS supports multiple authentication schemes:
-   * [Username/Password credentials](../security/userpass.md) (which can be passed as part of the NATS URL)
-   * [Decentralized JWT Authentication/Authorization](../security/creds.md) (where the application is configured with the location of 'credentials file' containing the JWT and private Nkey)
-   * [Token Authentication](../security/token.md#connecting-with-a-token) (where the application is configured with a Token string)
-   * [TLS Certificate](../security/tls.md#connecting-with-tls-and-verify-client-identity) (where the client is configured to use a client TLS certificate and the servers are configured to map the TLS client certificates to users defined in the server configuration)
-   * [NKEY with Challenge](../security/nkey.md) (/using-nats/developer/security/nkey) (where the client is configured with a Seed and User NKeys)
+NATS provides an extensive set of [security features](/nats-concepts/security.md): multiple forms of authentication, authorization, encryption and isolation. Applications authenticate to the NATS server infrastructure as a *users* (and users belong to *accounts*). 
 
-### Runtime configuration
+As an application programmer, you do not have any control over security. All you have to worry about is that your application can be configured to pass the appropriate authentication credentials (that will be provided by the administrators of the NATS Server infrastructure at deployment time) when connecting.
 
-Your application should expose a way to be configured at run time with a NATS URL(s) to use, and if you want to use a secure infrastructure, which credentials (.creds) file to use (or if needed with a way to set the token or Nkey, usernames and passwords can be encoded in the NATS URL).
+TLS can be used to encrypt all traffic between clients and the NATS system, regardless of the authentication mechanism used, and can also be used to authenticate if using client certificates.
 
-## Connection Options
+# Authentication details
 
-Besides the connectivity and security details, there are numerous options for a NATS connection ranging from [timeouts](../reconnect/README.md#connection-timeout-attributes) to [reconnect settings](../reconnect/README.md#reconnection-attributes) to setting [asynchronous error and connection event callback handlers](../reconnect/README.md#advisories) in your application.
+Client applications must pass authentication details at connection time for the application to identify itself with the NATS server(s).
+
+NATS supports multiple authentication schemes:
+   * [Username/Password credentials](security/userpass.md) (which can be passed as part of the NATS URL)
+   * [Decentralized JWT Authentication/Authorization](security/creds.md) (where the application is configured with the location of 'credentials file' containing the JWT and private Nkey)
+   * [Token Authentication](security/token.md#connecting-with-a-token) (where the application is configured with a Token string)
+   * [TLS Certificate](security/tls.md#connecting-with-tls-and-verify-client-identity) (where the client is configured to use a client TLS certificate and the servers are configured to map the TLS client certificates to users defined in the server configuration)
+   * [NKEY with Challenge](security/nkey.md) (/using-nats/developer/security/nkey) (where the client is configured with a Seed and User NKeys)
+
+## Runtime configuration
+
+Your application should expose a way to be configured (e.g. environment variables, command line arguments or flags, configuration file, etc...) at run time with the NATS URL(s) and the security credentials to use (i.e. NATS *context*) to connect to the NATS Server Infrastructure.
+
+# Connection Options
+
+Besides the connectivity and security details, there are other options for a NATS connection ranging from [timeouts](../reconnect/README.md#connection-timeout-attributes) to [reconnect settings](../reconnect/README.md#reconnection-attributes) to setting [asynchronous error and connection event callback handlers](../reconnect/README.md#advisories) in your application.
 
 ## See Also
 
