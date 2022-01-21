@@ -434,49 +434,6 @@ Output contains
 ...
 ```
 
-### Consuming
-
-Samples are published to `$JS.EVENT.METRIC.CONSUMER_ACK.<stream>.<consumer>` in JSON format containing `api.ConsumerAckMetric`. Use the `nats con events` command to view samples:
-
-```shell
-nats consumer events ORDERS NEW
-```
-Output
-```text
-Listening for Advisories on $JS.EVENT.ADVISORY.*.ORDERS.NEW
-Listening for Metrics on $JS.EVENT.METRIC.*.ORDERS.NEW
-
-15:08:31] [Ph0fsiOKRg1TS0c2k0mMz2] Acknowledgement Sample
-             Consumer: ORDERS > NEW
-      Stream Sequence: 40
-    Consumer Sequence: 161
-           Deliveries: 1
-                Delay: 1.009ms
-```
-
-```shell
-nats consumer events ORDERS NEW --json
-```
-Output
-```text
-{
-  "stream": "ORDERS",
-  "consumer": "NEW",
-  "consumer_seq": 155,
-  "stream_seq": 143,
-  "ack_time": 5387000,
-  "delivered": 1
-}
-{
-  "stream": "ORDERS",
-  "consumer": "NEW",
-  "consumer_seq": 156,
-  "stream_seq": 144,
-  "ack_time": 5807800,
-  "delivered": 1
-}
-```
-
 ## Storage Overhead
 
 JetStream file storage is very efficient, storing as little extra information about the message as possible.
