@@ -39,7 +39,7 @@ Note that the user section sets the `nkey` property \(user/password/token proper
 
 ## Client Configuration
 
-Now that you have a user nkey, let's configure a [client](../../../../using-nats/developing-with-nats/security/nkey.md) to use it for authentication. As an example, here are the connect options for the node client:
+Now that you have a user nkey, let's configure a [client](../../../../using-nats/developing-with-nats/connecting/security/nkey.md) to use it for authentication. As an example, here are the connect options for the node client:
 
 ```javascript
 const NATS = require('nats');
