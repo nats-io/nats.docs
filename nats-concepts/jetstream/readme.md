@@ -38,11 +38,11 @@ However, nowadays a new way to provide this temporal de-coupling has been devise
 JetStream consumers support multiple replay policies, depending on whether the consuming application wants to receive either:
 
 * _all_ of the messages currently stored in the stream, meaning a complete 'replay' and you can select the 'replay policy' (i.e. the speed of the replay) to be either:
-  * _instant_ (meaning the messages are delivered to the consumer as fast as it can take them)
-  * _original_ (meaning the messages are delivered to the consumer at the rate they were published into the stream, which can be very useful for example for staging production traffic)
-* the _last_ message stored in the stream, or the _last message for each subject_ (as streams can capture more than one subject)
-* starting from a specific _sequence number_
-* starting from a specific _start time_
+  * _instant_ (meaning the messages are delivered to the consumer as fast as it can take them).
+  * _original_ (meaning the messages are delivered to the consumer at the rate they were published into the stream, which can be very useful for example for staging production traffic).
+* the _last_ message stored in the stream, or the _last message for each subject_ (as streams can capture more than one subject).
+* starting from a specific _sequence number_.
+* starting from a specific _start time_.
 
 #### Retention policies and limits
 
@@ -52,28 +52,34 @@ It enables new functionalities and higher qualities of service on top of the bas
 
 You can impose the following limits on a stream
 
-* Maximum message age
-* Maximum total stream size (in bytes)
-* Maximum number of messages in the stream
-* Maximum individual message size
+* Maximum message age.
+* Maximum total stream size (in bytes).
+* Maximum number of messages in the stream.
+* Maximum individual message size.
 * You can specify a discard policy: when a limit is reached and a new message is published to the stream you can choose to discard either the oldest or the newest message currently in the stream in order to make room for that new message.
-* You can also set limits on the number of consumers that can be defined for the stream at any given point in time
+* You can also set limits on the number of consumers that can be defined for the stream at any given point in time.
+
+You must also select a **discard policy** which specifies what should happen once the stream has reached one of its limits and a new message is published:
+* _discard old_ means that the stream will automatically delete the oldest message in the stream to make room for the new messages.
+* _disacrd new_ means that the new message is discarded (and the JetStream publish call returns an error indicating that a limit was reached).
 
 **Retention policy**
 
 You can choose what kind of retention you want for each stream:
 
-* _limits_ (the default)
-* _interest_ (messages are kept in the stream for as long as there are consumers that haven't delivered the message yet)
-* _work queue_ (the stream is used as a shared queue and messages are removed from it as they are consumed)
+* _limits_ (the default).
+* _interest_ (messages are kept in the stream for as long as there are consumers that haven't delivered the message yet).
+* _work queue_ (the stream is used as a shared queue and messages are removed from it as they are consumed).
+
+Note that regardless of the retention policy selected, the limits (and the discard policy) _always_ apply.
 
 ### Persistent distributed storage
 
 You can choose the durability as well as the resilience of the message storage according to your needs
 
-* Memory storage
-* File storage
-* Replication (1 (none), 2, 3) between nats servers for Fault Tolerance
+* Memory storage.
+* File storage.
+* Replication (1 (none), 2, 3) between nats servers for Fault Tolerance.
 
 JetStream uses a NATS optimized RAFT distributed quorum algorithm to distribute the persistence service between nats servers in a cluster while maintaining immediate consistency even in the face of Byzantine failures.
 
@@ -133,9 +139,9 @@ Note: using pull consumers doesn't mean that you can't get updates (new messages
 
 While you can decide to use un-acknowledged consumers trading quality of service for the fastest possible delivery of messages, most processing is not idem-potent and requires higher qualities of service (such as the ability to automatically recover from various failure scenarios that could result in some messages not being processed or being processed more than once) and you will want to use acknowledged consumers. JetStream supports more than one kind of acknowledgement:
 
-* Some consumers support acknowledging _all_ the messages up to the sequence number of the message being acknowledged, some consumers provide the highest quality of service but require acknowledging the reception and processing of each message explicitly as well as the maximum amount of time the server will wait for an acknowledgement for a specific message before re-delivering it (to another process attached to the consumer)
-* You can also send back _negative_ acknowledgements
-* You can even send _in progress_ acknowledgements (to indicate that you are still processing the message in question and need more time before acking or nacking it)
+* Some consumers support acknowledging _all_ the messages up to the sequence number of the message being acknowledged, some consumers provide the highest quality of service but require acknowledging the reception and processing of each message explicitly as well as the maximum amount of time the server will wait for an acknowledgement for a specific message before re-delivering it (to another process attached to the consumer).
+* You can also send back _negative_ acknowledgements.
+* You can even send _in progress_ acknowledgements (to indicate that you are still processing the message in question and need more time before acking or nacking it).
 
 ### K/V store
 
