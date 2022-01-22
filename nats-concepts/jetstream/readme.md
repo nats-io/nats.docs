@@ -64,7 +64,7 @@ You can impose the following limits on a stream
 You can choose what kind of retention you want for each stream:
 
 * _limits_ (the default)
-* _interest_ (messages are kept in the stream for as long as there are consumers on the stream)
+* _interest_ (messages are kept in the stream for as long as there are consumers that haven't delivered the message yet)
 * _work queue_ (the stream is used as a shared queue and messages are removed from it as they are consumed)
 
 ### Persistent distributed storage

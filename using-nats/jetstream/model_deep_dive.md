@@ -10,13 +10,13 @@ The `Retention Policy` describes based on what criteria a set will evict message
 
 | Retention Policy | Description |
 | :--- | :--- |
-| `LimitsPolicy` | Limits are set for how many messages, how big the storage and how old messages may be |
-| `WorkQueuePolicy` | Messages are kept until they were consumed by any one single observer and then removed |
-| `InterestPolicy` | Messages are kept as long as there are Consumers active for them |
+| `LimitsPolicy` | Limits are set for how many messages, how big the storage and how old messages may be.|
+| `WorkQueuePolicy` | Messages are kept until they are consumed: meaning delivered ( by *the* consumer filtering on the message's subject (in this mode of operation you can not have any overlapping consumers defined on the Stream - each subject captured by the stream can only have one consumer at a time)) to a subscribing application and explicitly acknowledged by that application.|
+| `InterestPolicy` | Messages are kept as long as there are Consumers on the stream (matching the message's subject if they are filtered consumers) for which the message has not yet been ACKed. Once all currently defined consumers have received explicit acknowledgement from a subscribing application for the message it is then removed from the stream.|
 
 In all Retention Policies the basic limits apply as upper bounds, these are `MaxMsgs` for how many messages are kept in total, `MaxBytes` for how big the set can be in total and `MaxAge` for what is the oldest message that will be kept. These are the only limits in play with `LimitsPolicy` retention.
 
-One can then define additional ways a message may be removed from the Stream earlier than these limits. In `WorkQueuePolicy` the messages will be removed as soon as any Consumer received an Acknowledgement. In `InterestPolicy` messages will be removed as soon as there are no more Consumers.
+One can then define additional ways a message may be removed from the Stream earlier than these limits. In `WorkQueuePolicy` the messages will be removed as soon as *the* Consumer received an Acknowledgement. In `InterestPolicy` messages will be removed as soon as *all* Consumers of the stream for that subject have received an Acknowledgement for the message.
 
 In both `WorkQueuePolicy` and `InterestPolicy` the age, size and count limits will still apply as upper bounds.
 
@@ -24,7 +24,7 @@ A final control is the Maximum Size any single message may have. NATS have it's 
 
 The `Discard Policy` sets how messages are discarded when limits set by `LimitsPolicy` are reached. The `DiscardOld` option removes old messages making space for new, while `DiscardNew` refuses any new messages.
 
-The `WorkQueuePolicy` mode is a specialized mode where a message, once consumed and acknowledged, is discarded from the Stream. In this mode, there are a few limits on consumers. Inherently it's about 1 message to one consumer, this means you cannot have overlapping consumers defined on the Stream - needs unique filter subjects.
+The `WorkQueuePolicy` mode is a specialized mode where a message, once consumed and acknowledged, is removed from the Stream.
 
 ## Message Deduplication
 
