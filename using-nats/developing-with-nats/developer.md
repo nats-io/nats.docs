@@ -24,5 +24,5 @@ There are many other NATS client libraries and examples contributed and maintain
 * [Dart](https://github.com/chartchuo/dart-nats) and [Dart](https://github.com/c16a/nats-dart)
 * [Tcl](https://github.com/Kazmirchuk/nats-tcl)
 * [Crystal](https://github.com/jgaskins/nats)
-* [PHP](https://github.com/repejota/phpnats)
+* [PHP](https://github.com/basis-company/nats.php) and [PHP](https://github.com/repejota/phpnats)
 * and many [more](https://github.com/search?o=desc&p=1&q=nats+client&s=updated&type=Repositories)...
