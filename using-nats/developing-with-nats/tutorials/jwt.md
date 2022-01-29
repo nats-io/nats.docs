@@ -84,6 +84,31 @@ To exercise listed examples please have the following installed:
 * nsc (cli): [https://github.com/nats-io/nsc](https://github.com/nats-io/nsc)
 * jwt (library): [https://github.com/nats-io/jwt](https://github.com/nats-io/jwt)
 
+> To install `nats-server`, `nats`, `nk`, `nsc`:
+> ```shell
+> export GO111MODULE=on
+> go install github.com/nats-io/nats-server/v2@latest
+> go install github.com/nats-io/natscli/nats@latest
+> go install github.com/nats-io/nkeys/nk@latest
+> go install github.com/nats-io/nsc@latest
+> ```
+> To practice the examples below:
+>
+> Save the configuration below in a file named say `server.conf`, and start nats server via:
+>
+> ```shell
+> nats-server -c server.conf
+> ```
+>
+> So that the server started. Later when we change the configuration
+> we can do a reload like this:
+>
+> ```shell
+> nats-server --signal reload
+> ```
+>
+
+
 ## Concepts
 
 ### What are Accounts?
@@ -103,27 +128,27 @@ accounts: {
 
 Messages published in one account won't be received in another.
 
-Listen for any message on account `a`
+Listen for any message on account `a`:
 
 ```shell
 nats -s nats://a:a@localhost:4222 sub ">"
 ```
 
-Publish a message from account `b`
+Publish a message from account `b`:
 
 ```shell
 nats -s nats://b:b@localhost:4222 pub "foo" "user b"
 ```
 
-Note that you do not see this message received by your subscriber
+Note that you do not see this message received by your subscriber.
 
-Now publish a messages from account `a`
+Now publish a messages from account `a`:
 
 ```shell
 nats -s nats://a:a@localhost:4222 pub "foo" "user a"
 ```
 
-This time the message is received by the subscriber
+This time the message is received by the subscriber:
 
 ```
 17:57:06 [#1] Received on "foo"
@@ -147,19 +172,21 @@ accounts: {
 }
 ```
 
+> Modify `server.conf` and run `nats-server --signal reload`
+
 Subscribe to everything as user 'a'
 
 ```shell
 nats -s nats://a:a@localhost:4222 sub ">"
 ```
 
-Publish on 'foo' as user 'b'
+Publish on 'foo' as user 'b':
 
 ```shell
 nats -s nats://b:b@localhost:4222 pub "foo" "user b"
 ```
 
-This time the message is received by the subscriber
+This time the message is received by the subscriber:
 
 ```
 18:28:25 [#1] Received on "foo"
@@ -170,9 +197,12 @@ Accounts are a lot more powerful than what has been demonstrated here. Take a lo
 
 #### Key Takeaways
 
-* Accounts are isolated from each other
-* One can selectively combine accounts
-* Need to modify a config file to add/remove/modify accounts and user
+* Accounts are isolated from each other.
+* One can selectively combine accounts,
+* Need to modify a config file to add/remove/modify accounts and
+  users,
+* The config file can be applied to take effect via `nats-server
+  --signal reload`.
 
 ### What are NKEYs?
 
@@ -187,8 +217,11 @@ NATS server can be configured with public NKEYs as user (identities). When a cli
 
 To assist with knowing what type of key one is looking at, in config or logs, the keys are decorated as follows:
 
-* Public Keys, have a one byte prefix: `O`, `A`, `U` for various types. `U` meaning user.
-* Private Keys, have a two byte prefix `SO`, `SA`, `SU`. `S` stands for seed. The remainder is the same as in public keys.
+* Public Keys, have a one byte prefix: `O`, `A`, `U` for various
+  types, `O` for operator, `A` for account, and `U` meaning user.
+* Private Keys, have a two byte prefix `SO`, `SA`, `SU`. `S` stands
+  for seed. The remainders(`O`, `A` and `U`) are the same meaning as
+  in public keys.
 
 NKEYs are generated as follows:
 
@@ -196,32 +229,32 @@ NKEYs are generated as follows:
 nk -gen user -pubout > a.nk
 ```
 
-To view the key
+To view the key:
 
 ```shell
 cat a.nk
 ```
 
-Output
+Output:
 
 ```
 SUAAEZYNLTEA2MDTG7L5X7QODZXYHPOI2LT2KH5I4GD6YVP24SE766EGPA
 UC435ZYS52HF72E2VMQF4GO6CUJOCHDUUPEBU7XDXW5AQLIC6JZ46PO5
 ```
 
-Create another key
+Create another key:
 
 ```shell
 nk -gen user -pubout > b.nk
 ```
 
-View the key
+View the key:
 
 ```shell
 cat b.nk
 ```
 
-Output
+Output:
 
 ```
 SUANS4XLL5NWBTM57GSVHLN4TMFW55WGGWNI5YXXSIOYFJQYFVNHJK5GFY
@@ -247,9 +280,10 @@ Simple example:
 
 Subscribe with `nats -s nats://localhost:4222 sub --nkey=a.nk ">"`
 
-Publish a message using `>nats -s nats://localhost:4222 pub --nkey=b.nk "foo" "nkey"` the subscriber should receive it.
+Publish a message using `nats -s nats://localhost:4222 pub --nkey=b.nk
+foo nkey` the subscriber should receive it.
 
-When the nats-server was started with `-V` tracing, you can see the signature in the `CONNECT` message (formatting added manually).
+When the nats-server was started with `-V` tracing, you can see the signature in the `CONNECT` message (formatting added manually):
 
 ```
 [95184] 2020/10/26 12:15:44.350577 [TRC] [::1]:55551 - cid:2 - <<- [CONNECT {
@@ -296,9 +330,9 @@ Connection closed by foreign host.
 
 #### Key Takeaways
 
-* NKEYS are a secure way to authenticate clients
-* Private keys are never accessed or stored by the NATS server
-* The public key still needs to be configured
+* NKEYS are a secure way to authenticate clients,
+* Private keys are never accessed or stored by the NATS server,
+* The public key still needs to be configured in NATS server.
 
 ## JSON Web Tokens (JWT)
 
@@ -318,28 +352,41 @@ In a large organization the centralized configuration approach can lead to less 
 
 Account and User creation managed as separate artifacts in a decentralized fashion using NKEYs. Relying upon a hierarchical chain of trust between three distinct NKEYs and associated roles:
 
-1. Operator: corresponds to operator of a set of NATS servers in the same authentication domain (entire topology, crossing gateways and leaf nodes)
-2. Account: corresponds to the set of a single account's configuration
-3. User: corresponds to one user's configuration
+1. Operator: corresponds to operator of a set of NATS servers in the
+   same authentication domain (entire topology, crossing gateways and
+   leaf nodes),
+2. Account: corresponds to the set of a single account's configuration,
+3. User: corresponds to one user's configuration.
 
-Each NKEY is referenced, together with additional configuration, in a JWT document. Each JWT has a subject field and its value is the public portion of an NKEY and serves as identity. Names exist in JWT but as of now are only used by tooling, `nats-server` does not read this value. The referenced NKEY's role determines the JWT content.
+Each NKEY is referenced, together with additional configuration, in a JWT document. Each JWT has a subject field and its value is the public portion of an NKEY and serves as identity. Names exist in JWT but as of now are only used by tooling, `nats-server` does not read this value. The referenced NKEY's role determines the JWT content:
 
-1. Operator JWTs contain server [configuration](https://github.com/nats-io/jwt/blob/e11ce317263cef69619fc1ca743b195d02aa1d8a/operator_claims.go#L28) applicable throughout all operated NATS servers
-2. Account JWTs contain Account specific [configuration](https://github.com/nats-io/jwt/blob/e11ce317263cef69619fc1ca743b195d02aa1d8a/account_claims.go#L57) such as exports, imports, limits, and default user permissions
-3. User JWTs contain user specific [configuration](https://github.com/nats-io/jwt/blob/e11ce317263cef69619fc1ca743b195d02aa1d8a/user_claims.go#L25) such as permissions and limits
+1. Operator JWTs contain server
+   [configuration](https://github.com/nats-io/jwt/blob/e11ce317263cef69619fc1ca743b195d02aa1d8a/operator_claims.go#L28)
+   applicable throughout all operated NATS servers,
+2. Account JWTs contain Account specific
+   [configuration](https://github.com/nats-io/jwt/blob/e11ce317263cef69619fc1ca743b195d02aa1d8a/account_claims.go#L57)
+   such as exports, imports, limits, and default user permissions,
+3. User JWTs contain user specific
+   [configuration](https://github.com/nats-io/jwt/blob/e11ce317263cef69619fc1ca743b195d02aa1d8a/user_claims.go#L25)
+   such as permissions and limits.
 
 In addition, JWTs can contain settings related to their decentralized nature, such as expiration/revocation/signing. At no point do JWTs contain the private portion of an NKEY, only signatures that can be verified with public NKEY. JWT content can be viewed as public, although it's content may reveal which subjects/limits/permissions exist.
 
 #### Key Takeaways
 
-* JWTs are hierarchically organized in operator, account and user.
-* They carry corresponding configuration and config dedicated to the decentralized nature of NATS JWT usage.
+* JWTs are hierarchically organized in operator, account and user,
+* They carry corresponding configuration and the configuration has
+  been dedicated to the decentralized nature of NATS JWT usage.
 
 ### NATS JWT Hierarchy
 
 #### Decentralized Chain of Trust
 
-A `nats-server` is configured to trust an operator. Meaning, the Operator JWT is part of its server configuration and requires a restart or `nats-server --signal reload` once changed. It is also configured with a way to obtain account JWT in one of three ways (explained below).
+A `nats-server` is configured to trust an operator. Meaning, the
+Operator JWT is part of its server configuration and requires a
+restart or `nats-server --signal reload` once the configuration
+changed. It is also configured with a way to obtain account JWT in one
+of three ways (explained below).
 
 Clients provide a User JWT when connecting. An Account JWT is not used by clients talking to a `nats-server`. The clients also possess the private NKEY corresponding to the JWT identity, so that they can prove their identity as described [above](jwt.md#what-are-nkeys).
 
@@ -347,33 +394,92 @@ The issuer field of the User JWT identifies the Account, and the `nats-server` t
 
 #### **Obtain an Account JWT**
 
-To obtain an Account JWT, the nats-server is configured with one of three [resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md) types. Which one to pick depends upon your needs:
+To obtain an Account JWT, the nats-server is configured with one of
+three
+[resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md)
+types. Which one to pick depends upon your needs:
 
-* [mem-resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#memory): Very few or very static accounts
-  * You are comfortable changing the server config if the operator or any accounts change.
-  * You can generate a user programmatically using NKEYs and a JWT library (more about that later).
+* [mem-resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#memory):
+  Very few or very static accounts
+  * You are comfortable changing the server config if the operator or
+    any accounts changed,
+  * You can generate a user programmatically using NKEYs and a JWT
+    library (more about that later),
   * Users do not need to be known by nats-server.
-* [url-resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#url-resolver): Very large volume of accounts
-  * Same as `mem-resolver`, except you do not have to modify server config if accounts are added/changed.
-  * Changes to the operator still require reloading (only a few operations require that).
-  * Will download Accounts from a web server.
-    * Allows for easy publication of account JWTs programmatically generated using NKEYs and the JWT library.
-    * The [`nats-account-server`](../../using-nats/nats-tools/nas/) is such a webserver. When set up correctly, it will inform `nats-server` of Account JWT changes.
-  * Depending on configuration, requires read and/or write access to persistent storage.
-* `nats-resolver`: Same as `url-resolver`, just uses NATS instead of http
-  * No separate binary to run/config/monitor.
-  * Easier clustering when compared to `nats-account-server`. Will eventually converge on the union of all account JWTs known to every participating `nats-server`.
-  * Requires persistent storage in the form of a NON-NTFS directory for `nats-server` to exclusively write into.
-  * Optionally, directly supports Account JWT removal.
-  * Between `nats-resolver` and `url-resolver`, the `nats-resolver` is the clear recommendation.
+* [url-resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#url-resolver):
+  Very large volume of accounts
+  * Same as `mem-resolver`, except you do not need to modify the
+    server configurations when accounts are added or changed,
+  * Changes to the operator still require a server reloading (only a
+    few operations require that),
+  * Will download Accounts from a web server
+    * Allows for easy publication of account JWTs programmatically
+      generated using NKEYs and the JWT library.
+    * The [`nats-account-server`](../../using-nats/nats-tools/nas/) is
+      such a webserver. When set up correctly, it will inform
+      `nats-server` of Account JWT changes.
+  * Depending on configuration, requires read and/or write access to
+    persistent storage.
+* `nats-resolver`: Same as `url-resolver`, just uses NATS instead of
+  http
+  * No separate binary to run/config/monitor,
+  * Easier clustering when compared to `nats-account-server`. Will
+    eventually converge on the union of all account JWTs known to
+    every participating `nats-server`,
+  * Requires persistent storage in the form of a NON-NTFS directory
+    for `nats-server` to exclusively write into,
+  * Optionally, directly supports Account JWT removal,
+  * Between `nats-resolver` and `url-resolver`, the `nats-resolver` is
+    the clear recommendation.
 
-If your setup has few Accounts and Users and/or you are comfortable reloading server configs when accounts/users change, then save yourself the complexity and do not use JWT. Regular config -- possibly with NKEYs -- will work just fine for you.
+If your setup has few accounts, say, 1 to 3 acounts in total, and the
+users in the accounts are few(say, less 10), and not changed offen,
+and/or you are comfortable reloading server configs when accounts or
+users changed, then regular static configuration -- possibly with
+NKEYs -- will work just fine for you.
+
+If your setup has few accounts, say, 1 to 3 accounts, and these
+accounts are not changed offen, and you have a lot of users in the
+accounts(say more than 100 users), and your `nats-server` cluster is
+not huge(say 3 or 5 cluster members), JWT `memory-resolver` is your
+choice.
+
+If your accounts are huge and changed dynamic, and your nats cluster
+topology not a simple one, and your production environment can not
+accept so many servers' reloading, JWT `nats-resolver` is recommended.
+
+JWT `nats-resolver` is recommended as the default resolver to use, and
+memory resolver as an option if you don't want administrators to make
+changes to the accounts. BTW, JWT `nats-resolver` is not complex to
+configure and use, but as a distributed accounts management system,
+not very easy to understand. So the best choice is to spend more time
+on reading this document, make sure to understand the key point
+clearly, and to use JWT `nats-resolver` finally.
 
 #### **JWT and Chain of Trust Verification**
 
-Each JWT document has a subject it represents. This is the public identity NKEY represented by the JWT document. JWT documents contain an issued at (`iat`) time of signing. This time is in seconds since Unix epoch. It is also used to determine which of two JWTs for the same subject is more recent. Furthermore JWT documents have an issuer, this may be an (identity) NKEY or a dedicated signing NKEY of an item one level above it in the trust hierarchy. A key is a signing key if it is listed as such in the JWT (above). Signing NKEYs adhere to same NKEY roles and are additional keys that unlike identity NKEY may change over time. In the hierarchy, signing keys can only be used to sign JWT for the role right below them. User JWTs have no signing keys for this reason. To modify one role's set of signing keys, the identity NKEY needs to be used.
+Each JWT document has a subject(`sub`) it represents. This is the
+public identity NKEY represented by the JWT document. JWT documents
+contain an issued at (`iat`) time of signing. This time is in seconds
+since Unix epoch. It is also used to determine which of two JWTs for
+the same subject is more recent. Furthermore JWT documents have an
+issuer, this may be an (identity) NKEY or a dedicated signing NKEY of
+an item one level above it in the trust hierarchy. A key is a signing
+key if it is listed as such in the JWT (above). Signing NKEYs adhere
+to same NKEY roles and are additional keys that unlike identity NKEY
+may change over time. In the hierarchy, signing keys can only be used
+to sign JWT for the role right below them. User JWTs have no signing
+keys for this reason. To modify one role's set of signing keys, the
+identity NKEY needs to be used.
 
-Each JWT is signed as follows: `jwt.sig = sign(hash(jwt.header+jwt.body), private-key(jwt.issuer))` (jwt.issuer is part of jwt.body) If a JWT is valid, the JWT above it is validated as well. If all of them are valid, the chain of trust between them is tested top down as follows:
+Each JWT is signed as below:
+
+```
+jwt.sig = sign(hash(jwt.header + jwt.body), private-key(jwt.issuer))
+(jwt.issuer is part of jwt.body)
+```
+
+If a JWT is valid, the JWT above it is validated as well. If all of them are valid, the chain of trust between them is tested top down as follows:
 
 | Type     | Trust Rule                                                                                                                | Obtained             |
 | -------- | ------------------------------------------------------------------------------------------------------------------------- | -------------------- |
@@ -381,15 +487,19 @@ Each JWT is signed as follows: `jwt.sig = sign(hash(jwt.header+jwt.body), privat
 | Account  | `jwt.issuer == trusted issuing operator (signing/identity) key`                                                           | configured to obtain |
 | User     | `jwt.issuer == trusted issuing account (signing/identity) key && jwt.issuedAt > issuing account revocations[jwt.subject]` | provided on connect  |
 
-This is a conceptual view. While all these checks happen, the results of earlier evaluations might be cached: if the Operator/Account is trusted already and the JWT did not change since, then there is no reason to re-evaluate.
+This is a conceptual view. While all these checks happen, the results
+of earlier evaluations might be cached: if the Operator/Account is
+trusted already and the JWT did not change since, then there is no
+reason to re-evaluate.
 
-Below are examples of decoded JWT. (`iss` == `issuer`, `sub` == `subject`, `iat` == `issuedAt`)
+Below are examples of decoded JWT (`iss` == `issuer`, `sub` ==
+`subject`, `iat` == `issuedAt`):
 
 ```shell
 nsc describe operator --json
 ```
 
-Output
+Output:
 
 ```
 {
@@ -404,7 +514,10 @@ Output
  "sub": "OBU5O5FJ324UDPRBIVRGF7CNEOHGLPS7EYPBTVQZKSBHIIZIB6HD66JF",
  "type": "operator"
 }
-> nsc describe account -n demo-test --json
+```
+
+`nsc describe account -n demo-test --json`:
+```
 {
  "iat": 1603474600,
  "iss": "OBU5O5FJ324UDPRBIVRGF7CNEOHGLPS7EYPBTVQZKSBHIIZIB6HD66JF",
@@ -425,7 +538,10 @@ Output
  "sub": "ADKGAJU55CHYOIF5H432K2Z2ME3NPSJ5S3VY5Q42Q3OTYOCYRRG7WOWV",
  "type": "account"
 }
-> nsc describe user -a demo-test -n alpha --json
+```
+
+`nsc describe user -a demo-test -n alpha --json`:
+```
 {
  "iat": 1603475001,
  "iss": "ADKGAJU55CHYOIF5H432K2Z2ME3NPSJ5S3VY5Q42Q3OTYOCYRRG7WOWV",
@@ -443,14 +559,18 @@ Output
 
 #### **Obtain a User JWT - Client Connect**
 
-When a client connects, the steps below have to succeed. The following nats-server configuration is used (for ease of understanding, we are using url-resolver):
+When a client connects, the steps below have to succeed. The following
+nats-server configuration is used (for ease of understanding, we are
+using url-resolver):
 
 ```
 operator: ./trustedOperator.jwt
 resolver: URL(http://localhost:9090/jwt/v1/accouts/)
 ```
 
-1.  Client connects and the `nats-server` responds with `INFO` ([identical to NKEYs](jwt.md#what-are-nkeys)) and a containing nonce.
+1.  Client connects and the `nats-server` responds with `INFO`
+    ([identical to NKEYs](jwt.md#what-are-nkeys)) and a containing
+    nonce.
 
     ```
      > telnet localhost 4222
@@ -476,7 +596,8 @@ resolver: URL(http://localhost:9090/jwt/v1/accouts/)
      Connection closed by foreign host.
     ```
 
-    For ease of use, the NATS CLI uses a creds file that is the concatenation of JWT and private user identity/NKEY.
+    For ease of use, the NATS CLI uses a creds file that is the
+    concatenation of JWT and private user identity/NKEY.
 
     ```
      > cat user.creds
@@ -498,7 +619,9 @@ resolver: URL(http://localhost:9090/jwt/v1/accouts/)
     ```
      > nats -s localhost:4222 "--creds=user.creds" pub "foo" "hello world"
     ```
-2.  The Client responds with a `CONNECT` message (formatting added manually), containing a JWT and signed nonce. (output copied from `nats-server` started with `-V`)
+2.  The Client responds with a `CONNECT` message (formatting added
+    manually), containing a JWT and signed nonce. (output copied from
+    `nats-server` started with `-V`)
 
     ```
      [98019] 2020/10/26 16:07:53.861612 [TRC] 127.0.0.1:56830 - cid:4 - <<- [CONNECT {
@@ -516,20 +639,32 @@ resolver: URL(http://localhost:9090/jwt/v1/accouts/)
          "version": "1.11.0"
      }]
     ```
-3. Server verifies if a JWT returned is a user JWT and if it is consistent: `sign(jwt.sig, jwt.issuer) == hash(jwt.header+jwt.body)` (issuer is part of body)
-4. Server verifies if nonce matches JWT.subject, thus proving client's possession of private user NKEY.
-5. Server either knows referenced account or downloads it from `http://localhost:9090/jwt/v1/accouts/AAAXAUVSGK7TCRHFIRAS4SYXVJ76EWDMNXZM6ARFGXP7BASNDGLKU7A5`
-6. Server verifies downloaded JWT is an account JWT and if it is consistent: `sign(jwt.sig, jwt.issuer) == hash(jwt.header+jwt.body)` (issuer is part of body).
-7. Server verifies if an account JWT issuer is in configured list of trusted operator keys (derived from operator JWT in configuration).
-8. Server verifies that a user JWT subject is not in the account's revoked list, or if jwt.issuedAt field has a higher value.
-9. Server verifies that a user JWT issuer is either identical to the account JWT subject or part of the account JWT signing keys.
-10. If all of the above holds true, the above invocation will succeed, only if the user JWT does not contain permissions or limits restricting the operation otherwise.
+3. Server verifies if a JWT returned is a user JWT and if it is
+   consistent: `sign(jwt.sig, jwt.issuer) ==
+   hash(jwt.header+jwt.body)` (issuer is part of body),
+4. Server verifies if nonce matches JWT.subject, thus proving client's
+   possession of private user NKEY,
+5. Server either knows referenced account or downloads it from
+   `http://localhost:9090/jwt/v1/accouts/AAAXAUVSGK7TCRHFIRAS4SYXVJ76EWDMNXZM6ARFGXP7BASNDGLKU7A5`,
+6. Server verifies downloaded JWT is an account JWT and if it is
+   consistent: `sign(jwt.sig, jwt.issuer) ==
+   hash(jwt.header+jwt.body)` (issuer is part of body),
+7. Server verifies if an account JWT issuer is in configured list of
+   trusted operator keys (derived from operator JWT in configuration),
+8. Server verifies that a user JWT subject is not in the account's
+   revoked list, or if jwt.issuedAt field has a higher value,
+9. Server verifies that a user JWT issuer is either identical to the
+   account JWT subject or part of the account JWT signing keys,
+10. If all of the above holds true, the above invocation will succeed,
+    only if the user JWT does not contain permissions or limits
+    restricting the operation otherwise
 
     ```
     > nats -s localhost:4222 "--creds=user.creds" pub "foo" "hello world" 
     > 16:56:02 Published 11 bytes to "foo"
     ```
-11. Output if `user.creds` were to contain a JWT where the maximum message payload is limited to 5 bytes
+11. Output if `user.creds` were to contain a JWT where the maximum
+    message payload is limited to 5 bytes
 
     ```
     > nats -s localhost:4222 "--creds=user.creds" pub "foo" "hello world"
@@ -539,93 +674,140 @@ resolver: URL(http://localhost:9090/jwt/v1/accouts/)
 
 #### Key Takeaways
 
-* JWTs are secure
-* JWTs carry configuration appropriate to their role as Operator/Accounts/User
-* JWTs provide a basis for operating one single NATS infrastructure which serves separate, yet optionally connected, entities
-* Account resolvers are a way to obtain unknown Account JWTs
-* On connect clients _provide_ only the **User** JWT and _use_ the NKEY for the JWT to authenticate.
-* JWTs can be issued programmatically
+* JWTs are secure,
+* JWTs carry configuration appropriate to their role as
+  Operator/Accounts/User,
+* JWTs provide a basis for operating one single NATS infrastructure
+  which serves separate, yet optionally connected, entities,
+* Account resolvers are a way to obtain unknown Account JWTs,
+* On connect clients _provide_ only the **User** JWT and _use_ the
+  NKEY for the JWT to authenticate,
+* JWTs can be issued programmatically.
 
 ### Deployment Models Enabled by Chain of Trust
 
-Depending on which entity has access to private Operator/Account identity or signing NKEYs, different deployment models are enabled. When picking one, it is important to pick the simplest deployment model that enables what you need it to do. Everything beyond just results in unnecessary configuration and steps.
+Depending on which entity has access to private Operator/Account
+identity or signing NKEYs, different deployment models are
+enabled. When picking one, it is important to pick the simplest
+deployment model that enables what you need it to do. Everything
+beyond just results in unnecessary configuration and steps.
 
-1.  Centralized config: one (set of) user(s) has access to all private operator and account NKEYs.
+1.  Centralized config: one (set of) user(s) has access to all private
+    operator and account NKEYs,
 
-    Administrators operating the shared infrastructure call all the shots
+    Administrators operating the shared infrastructure call all the
+    shots
 2.  Decentralized config (with multiple `nsc` environments, explained later):
 
-    1. Administrator/Operator(s) have access to private operator NKEYs to sign accounts. By signing or not signing an account JWT, Administrators can enforce constraints (such as limits).
-    2. Other sets of users (teams) have access to their respective private account identity/signing NKEYs and can issue/sign a user JWT.
+    1. Administrator/Operator(s) have access to private operator NKEYs
+       to sign accounts. By signing or not signing an account JWT,
+       Administrators can enforce constraints (such as limits).
+    2. Other sets of users (teams) have access to their respective
+       private account identity/signing NKEYs and can issue/sign a
+       user JWT.
 
-    This can also be used by a single entity to not mix up nsc environments as well.
+    This can also be used by a single entity to not mix up nsc
+    environments as well.
 3.  Self-service, decentralized config (shared dev cluster):
 
-    Is similar to 2, but sets of users 2.i have access to an operator private signing NKEY.
+    Is similar to 2, but sets of users in 2.1 have access to an
+    operator private signing NKEY.
 
     This allows teams to add/modify their own accounts.
 
-    Since administrators give up control over limits, there should be at least one organizational mechanism to prevent unchecked usage.
+    Since administrators give up control over limits, there should be
+    at least one organizational mechanism to prevent unchecked usage.
 
-    Administrators operating the infrastructure can add/revoke access by controlling the set of operator signing keys.
-4.  Mix of the above - as needed: separate sets of users (with multiple `nsc` environments).
+    Administrators operating the infrastructure can add/revoke access
+    by controlling the set of operator signing keys.
+4.  Mix of the above - as needed: separate sets of users (with
+    multiple `nsc` environments).
 
     For some user/teams the Administrator operates everything.
 
-Signing keys can not only be used by individuals in one or more `nsc` environments, but also by programs facilitating [JWT](https://github.com/nats-io/jwt) and [NKEY](https://github.com/nats-io/nkeys) libraries. This allows the implementation of sign-up services.
+Signing keys can not only be used by individuals in one or more `nsc`
+environments, but also by programs facilitating
+[JWT](https://github.com/nats-io/jwt) and
+[NKEY](https://github.com/nats-io/nkeys) libraries. This allows the
+implementation of sign-up services.
 
 * Account signing key enabled on the fly:
-  * user generation (explained later)
-  * export activation generation (explained later)
+  * user generation (explained later),
+  * export activation generation (explained later).
 * Operator signing key enables on the fly account generation.
 
 #### Key Takeaways
 
-* JWTs and the associated chain of trust allows for centralized, decentralized, or self-service account configuration
-* It is important to pick the deployment model that fits your needs, NOT the most complicated one
-* Distributing Operator/Account JWT NKEYs between Administrators and teams enables these deployment models
-* Sign-up services for Accounts/Users can be implemented by programs in possession of the parent type's signing keys
+* JWTs and the associated chain of trust allows for centralized,
+  decentralized, or self-service account configuration,
+* It is important to pick the deployment model that fits your needs,
+  NOT the most complicated one,
+* Distributing Operator/Account JWT NKEYs between Administrators and
+  teams enables these deployment models,
+* Sign-up services for Accounts/Users can be implemented by programs
+  in possession of the parent type's signing keys,
 
 ## Accounts Re-visited
 
 A deeper understanding of accounts will help you to best setup NATS JWT based security.
 
-*   What entity do accounts correspond to:
+* What entity do accounts correspond to:
 
-    Our official suggestion is to scope accounts by application/service offered.
+  Our official suggestion is to scope accounts by application/service
+  offered.
 
-    This is very fine grained and will require some configuration.
+  This is very fine grained and will require some configuration.
 
-    This is why some users gravitate to accounts per team. One account for all Applications of a team.
+  This is why some users gravitate to accounts per team. One account
+  for all Applications of a team.
 
-    It is possible to start out with less granular accounts and as applications grow in importance or scale become more fine grained.
-*   Compared to file based config, Imports and Exports change slightly.
+  It is possible to start out with less granular accounts and as
+  applications grow in importance or scale become more fine grained.
 
-    To control who gets to import an export, activation tokens are introduced.
+* Compared to file based config, Imports and Exports change slightly.
 
-    These are JWTs that an importer can embed.
+  To control who gets to import an export, activation tokens are
+  introduced.
 
-    They comply to similar verification rules as user JWT, thus enabling a `nats-server` to check if the exporting account gave explicit consent.
+  These are JWTs that an importer can embed.
 
-    Due to the use of a token, the exporting account's JWT does not have to be modified for each importing account.
-* Updates of JWTs are applied as `nats-server` discover them.
-  * How this is done depends on the resolver.
-    * `mem-resolver` require `nats-server --signal reload` to re-read all configured account JWTs.
-      * `url-resolver` and `nats-resolver` listen on a dedicated update subject of the system account and applied if the file is valid.
-    * `nats-resolver` will also also update the corresponding JWT file and compensate in case the update message was not received due to temporary disconnect.
-  * User JWTs only depend on the issuing Account NKEY, they do NOT depend on a particular version of an Account JWT.
-  * Depending on the change, the internal Account representation will be updated and existing connections re-evaluated.
-* The System Account is the account under which `nats-server` offers (administrative) services and monitoring events.
+  They comply to similar verification rules as user JWT, thus enabling
+  a `nats-server` to check if the exporting account gave explicit
+  consent.
+
+  Due to the use of a token, the exporting account's JWT does not have
+  to be modified for each importing account.
+* Updates of JWTs are applied as `nats-server` discover them
+  * How this is done depends on the resolver
+    * `mem-resolver` require `nats-server --signal reload` to re-read
+      all configured account JWTs,
+    * `url-resolver` and `nats-resolver` listen on a dedicated update
+      subject of the system account and applied if the file is valid,
+    * `nats-resolver` will also also update the corresponding JWT file
+      and compensate in case the update message was not received due
+      to temporary disconnect.
+  * User JWTs only depend on the issuing Account NKEY, they do NOT
+    depend on a particular version of an Account JWT,
+  * Depending on the change, the internal Account representation will
+    be updated and existing connections re-evaluated.
+* The System Account is the account under which `nats-server` offers
+  (administrative) services and monitoring events.
 
 ### Key Takeaways
 
-* Accounts can be arbitrarily scoped, from Application to Team
-* Account Exports can be restricted by requiring use of activation tokens
-* Receiving a more recent Account JWT causes the nats-server to apply changes and re evaluate existing connections.
+* Accounts can be arbitrarily scoped, from Application to Team,
+* Account Exports can be restricted by requiring use of activation
+  tokens,
+* Receiving a more recent Account JWT causes the nats-server to apply
+  changes and re evaluate existing connections.
 
 ## Tooling And Key Management
 
-This section will introduce `nsc` cli to generate and manage operator/accounts/user. Even if you intend to primarily generate your Accounts/User programmatically, in all likelihood, you won't do so for an operator or all accounts. Key Management and how to do so using `nsc` will also be part of this section.
+This section will introduce `nsc` cli to generate and manage
+operator/accounts/user. Even if you intend to primarily generate your
+Accounts/User programmatically, in all likelihood, you won't do so for
+an operator or all accounts. Key Management and how to do so using
+`nsc` will also be part of this section.
 
 ### nsc
 
@@ -633,7 +815,11 @@ This section will introduce `nsc` cli to generate and manage operator/accounts/u
 
 `nsc` is a tool that uses the [JWT](https://github.com/nats-io/jwt) and [NKEY](https://github.com/nats-io/nkeys) libraries to create NKEYs (if asked to) and all types of JWT. It then stores these artifacts in separate directories.
 
-It keeps track of the last operator/account used. Because of this, commands do not need to reference operator/accounts but can be instructed to do so. (recommended for scripts) It supports an interactive mode when `-i` is provided. When used, referencing accounts/keys is easier.
+It keeps track of the last operator/account used. Because of this,
+commands do not need to reference operator/accounts but can be
+instructed to do so (recommended for scripts). It supports an
+interactive mode when `-i` is provided. When used, referencing
+accounts/keys is easier.
 
 `nsc env` will show where NKEYS/JWT are stored and what current defaults are. For testing you may want to switch between nsc environments: Changing the (JWT) store directory: `nsc env --store <different folder>` Changing the (NKEY) store directory by having an environment variable set: `export NKEYS_PATH=<different folder>`
 
@@ -651,51 +837,129 @@ The store directory contains JWTs for operators, accounts, and users. It does no
 
 When restoring an older version, be aware that:
 
-* All changes made since will be lost, specifically revocations may be undone.
-* Time has moved on and thus JWTs that were once valid at the time of the backup or commit may be expired now. Thus you may have to be edit them to match your expectations again.
-* NKEYS are stored in a separate directory, so to not restore a JWT for which the NKEY has been deleted since:
+* All changes made since will be lost, specifically revocations may be
+  undone,
+* Time has moved on and thus JWTs that were once valid at the time of
+  the backup or commit may be expired now. Thus you may have to be
+  edit them to match your expectations again,
+* NKEYS are stored in a separate directory, so not to restore a JWT
+  for which the NKEY has been deleted since:
   * Either keep all keys around; or
-  * Restore the NKEY directory in tandem
+  * Restore the NKEY directory in tandem.
 
 #### **Names in JWT**
 
-JWTs allow you to specify names. But names do NOT represent an identity, they are only used to ease referencing of identities in our tooling. At no point are these names used to reference each other. Only the public identity NKEY is used for that. The `nats-server` does not read them at all. Because names do not relate to identity, they may collide. Therefore, when using `nsc`, these names need to be keep unique.
+JWTs allow you to specify names. But names do NOT represent an
+identity, they are only used to ease referencing of identities in our
+tooling. At no point are these names used to reference each other,
+instead, the public identity NKEY is used for that. The `nats-server`
+does not read them at all. Because names do not relate to identity,
+they may collide. Therefore, when using `nsc`, these names need to be
+keep unique.
 
 ### Setup an Operator
 
 #### **Create/Edit Operator - Operator Environment - All Deployment modes** <a href="create-edit-operator" id="create-edit-operator"></a>
 
-Create operator with system account and system account user: `nsc add operator -n <operator-name> --sys` The command `nsc edit operator [flags]` can subsequently be used to modify the operator. For example if you are setting the account server url (used by `url-resolver` and `nats-resolver`), `nsc` does not require them being specified on subsequent commands. `nsc edit operator --account-jwt-server-url "nats://localhost:4222"`
+Create operator with system account and system account user:
 
-We always recommend using signing keys for an operator. Generate one for an operator (`-o`) and store it in the key directory (`--store`) The output will display the public portion of the signing key, use that to assign it to the operator (`--sk O...`). `nsc generate nkey -o --store` followed by `nsc edit operator --sk OB742OV63OE2U55Z7UZHUB2DUVGQHRA5QVR4RZU6NXNOKBKJGKF6WRTZ`. To pick the operator signing key for account generation, provide the `-i` option when doing so.
+```shell
+nsc add operator -n <operator-name> --sys
+```
 
-The system account is the account under which `nats-server` offers system services as will be explained below in the [system-account](jwt.md#system-account) section. To access these services a user with credentials for the system account is needed. Unless this user is restricted with appropriate permissions, this user is essentially the admin user. They are created like any other user.
+The command `nsc edit operator [flags]` can subsequently be used to
+modify the operator. For example if you are setting the account server
+url (used by `url-resolver` and `nats-resolver`), `nsc` does not
+require them being specified on subsequent commands. `nsc edit
+operator --account-jwt-server-url "nats://localhost:4222"`
+
+We always recommend using signing keys for an operator. Generate one
+for an operator (`-o`) and store it in the key directory
+(`--store`). The output will display the public portion of the signing
+key, use that to assign it to the operator (`--sk O...`). `nsc
+generate nkey -o --store` followed by `nsc edit operator --sk
+OB742OV63OE2U55Z7UZHUB2DUVGQHRA5QVR4RZU6NXNOKBKJGKF6WRTZ`. To pick the
+operator signing key for account generation, provide the `-i` option
+when doing so.
+
+The system account is the account under which `nats-server` offers
+system services as will be explained below in the
+[system-account](jwt.md#system-account) section. To access these
+services a user with credentials for the system account is
+needed. Unless this user is restricted with appropriate permissions,
+this user is essentially the admin user. They are created like any
+other user.
 
 _For cases where signing keys are generated and immediately added `--sk generate` will create an NKEY on the fly and assign it as signing NKEY._
 
 #### **Import Operator - Non Operator/Administrator Environment - Decentralized/Self Service Deployment Modes** <a href="import-operator-nonoperator" id="import-operator-nonoperator"></a>
 
-In order to import an Operator JWT, such as the one just created, into a separate nsc environment maintained by a different entity/team, the following has to happen:
+In order to import an Operator JWT, say the one just created, into a
+separate nsc environment maintained by a different entity/team, the
+following has to happen:
 
-1. Obtain the operator JWT using: `nsc describe operator --raw` and store the output in a file named `operator.jwt`. The option `--raw` causes the raw JWT to be emitted.
-2. Exchange that file or it's content any way you like, email works fine (as there are no credentials in the JWT).
-3. Import the operator JWT into the second environment with: `nsc add operator -u operator.jwt`
+1. Obtain the operator JWT using: `nsc describe operator --raw` and
+   store the output in a file named `operator.jwt`. The option `--raw`
+   causes the raw JWT to be emitted,
+2. Exchange that file or it's content in any way you like, email works
+   fine (as there are no credentials in the JWT),
+3. Import the operator JWT into the second environment with: `nsc add
+   operator -u operator.jwt`.
 
-Should the operator change and an update is required, simply repeat these steps but provide the `--force` option during the last step. This will overwrite the stored operator JWT.
+If the operator should been changed and an update is required, simply
+repeat these steps but provide the `--force` option in the last
+step. This will overwrite the stored operator JWT.
 
 #### **Import Operator - Self Service Deployment Modes** <a href="import-operator-self-service" id="import-operator-self-service"></a>
 
-In addition to the [previous step](jwt.md#import-operator---non-operatoradministrator-environment---decentralizedself-service-deployment-modes), self service deployments require an operator signing key and a system account user. Ideally you would want an operator signing key per entity to distribute a signing key too. Simply repeat the command shown [earlier](jwt.md#create-operator---operator-environment---all-deployment-modes) but: 1. Perform `nsc generate nkey -o --store` in this environment instead 2. Exchange the public key with the Administrator/Operator via a way that assures you sent the public key and not someone elses. 3. Perform `nsc edit operator --sk` in the operator environment 4. Refresh the operator JWT in this environment by performing the [import steps using `--force`](jwt.md#import-operator---non-operatoradministrator-environment---decentralizedself-service-deployment-modes)
+In addition to the [previous
+step](jwt.md#import-operator---non-operatoradministrator-environment---decentralizedself-service-deployment-modes),
+self service deployments require an operator signing key and a system
+account user. Ideally you would want an operator signing key per
+entity to distribute a signing key too. Simply repeat the command
+shown
+[earlier](jwt.md#create-operator---operator-environment---all-deployment-modes)
+but:
 
-To import the system account user needed for administrative purposes as well as monitoring, perform these steps: 1. Perform `nsc describe account -n SYS --raw` and store the output in a file named `SYS.jwt`. The option `-n` specifies the (system) account named `SYS`. 2. Exchange the file. 3. Import the account `nsc import account --file SYS.jwt` 4. Perform `nsc generate nkey -u --store` in this environment 5. Exchange the public key printed by the command with the Administrator/Operator via a way that assures you sent the public key and not someone elses. 6. Create a system account user named (`-n`) any way you like (here named `sys-non-op`) providing (`-k`) the exchanged public key `nsc add user -a SYS -n sys-non-op -k UDJKPL7H6QY4KP4LISNHENU6Z434G6RLDEXL2C64YZXDABNCEOAZ4YY2` in the operator environment. (`-a` references the Account `SYS`.) 7. If desired edit the user 8. Export the user `nsc describe user -a SYS -n sys-non-op --raw` from the operator environment and store it in a file named `sys.jwt`. (`-n` references the user `sys-non-op`) 9. Exchange the file 10. Import the user in this environment using `nsc import user --file sys.jwt`
+1. Perform `nsc generate nkey -o --store` in this environment instead,
+2. Exchange the public key with the Administrator/Operator via a way
+   that assures you sent the public key and not someone elses,
+3. Perform `nsc edit operator --sk` in the operator environment,
+4. Refresh the operator JWT in this environment by performing the
+   [import steps using `--force`](jwt.md#import-operator---non-operatoradministrator-environment---decentralizedself-service-deployment-modes)
 
-As a result of these operations, your operator environment should have these keys and signing keys:
+To import the system account user needed for administrative purposes as well as monitoring, perform these steps: 
+1. Perform `nsc describe account -n SYS --raw` and store the output in
+   a file named `SYS.jwt`.
+
+   The option `-n` specifies the (system) account named `SYS`.
+2. Exchange the file,
+3. Import the account `nsc import account --file SYS.jwt`,
+4. Perform `nsc generate nkey -u --store` in this environment,
+5. Exchange the public key printed by the command with the
+   Administrator/Operator via a way that assures you sent the public
+   key and not someone elses,
+6. Create a system account user named (`-n`) any way you like (here
+   named `sys-non-op`) providing (`-k`) the exchanged public key `nsc
+   add user -a SYS -n sys-non-op -k
+   UDJKPL7H6QY4KP4LISNHENU6Z434G6RLDEXL2C64YZXDABNCEOAZ4YY2` in the
+   operator environment. (`-a` references the Account `SYS`.),
+7. If desired edit the user,
+8. Export the user `nsc describe user -a SYS -n sys-non-op --raw` from
+   the operator environment and store it in a file named
+   `sys.jwt`. (`-n` references the user `sys-non-op`),
+9. Exchange the file,
+10. Import the user in this environment using `nsc import user --file
+   sys.jwt`
+
+As a result of these operations, your operator environment should have
+these keys and signing keys:
 
 ```shell
 nsc list keys --all
 ```
 
-Output
+Output:
 
 ```
 +------------------------------------------------------------------------------------------------+
@@ -718,7 +982,7 @@ And your account should have the following ones:
 nsc list keys --all
 ```
 
-Output
+Output:
 
 ```
 +------------------------------------------------------------------------------------------------+
@@ -735,21 +999,52 @@ Output
 
 Between the two outputs, compare the `Stored` column.
 
-Alternatively if the administrator is willing to exchange private keys and the exchange can be done securely, a few of these steps fall away. The signing key and system account user can be generated in the administrator/operator environment, omitting `--store` to avoid unnecessary key copies. Then the public/private signing NKEYS are exchanged together with the system account user as creds file. A creds file can be generated with `nsc generate creds -a SYS -n sys-non-op` and imported into this environment with `nsc import user --file sys.jwt`. If the signing key is generated before the operator is imported into this environment, operator update falls away.
+Alternatively if the administrator is willing to exchange private keys
+and the exchange can be done securely, a few of these steps fall
+away. The signing key and system account user can be generated in the
+administrator/operator environment, omitting `--store` to avoid
+unnecessary key copies. Then the public/private signing NKEYS are
+exchanged together with the system account user as creds file. A creds
+file can be generated with `nsc generate creds -a SYS -n sys-non-op`
+and imported into this environment with `nsc import user --file
+sys.jwt`. If the signing key is generated before the operator is
+imported into this environment, operator update falls away.
 
 ### Setup an Account
 
 #### **Create/Edit Account - All Environments - All Deployment modes** <a href="create-edit-account" id="create-edit-account"></a>
 
-Create an account as follows: `nsc add account -n <account name> -i` In case you have multiple operator signing keys `-i` will prompt you to select one. `nsc edit account [flags]` can subsequently be used to modify the account. (Edit is also applicable to the system account)
+Create an account as follows:
+
+```
+nsc add account -n <account name> -i
+```
+
+In case you have multiple operator signing keys `-i` will prompt you
+to select one. `nsc edit account [flags]` can subsequently be used to
+modify the account. (Edit is also applicable to the system account)
 
 Similar to the operator signing keys are recommended. Generate signing key for an account (`-a`) and store it in the key directory maintained by nsc (`--store`) The output will display the public portion of the signing key, use that to assign it to the account (`--sk A...`) `nsc generate nkey -a --store` `nsc edit account --sk ACW2QC262CIQUX4ACGOOS5XLKSZ2BY2QFBAAOF3VOP7AWAVI37E2OQZX` To pick the signing key for user generation, provide the `-i` option when doing so.
 
 #### **Export Account - Non Operator/Administrator Environment - Decentralized Deployment Modes** <a href="export-account-decentralized-deployment-modes" id="export-account-decentralized-deployment-modes"></a>
 
-In this mode, the created account is self-signed. To have it signed by the operator perform these steps: 1. In this environment export the created account as a JWT like this `nsc describe account -n <account name> --raw`. Store the output in a file named `import.jwt`. 2. Exchange the file with the Administrator/Operator via a way that assures it is your JWT and not someone elses. 3. In the operator environment import the account with `nsc import account --file import.jwt`. This step also re-signs the JWT so that it is no longer self-signed. 4. The Administrator/operator can now modify the account with `nsc edit account [flags]`
+In this mode, the created account is self-signed. To have it signed by the operator perform these steps: 
+1. In this environment export the created account as a JWT like this
+   `nsc describe account -n <account name> --raw`.
 
-Should the account change and an update is required, simply repeat these steps but provide the `--force` option during the last step. This will overwrite the stored account JWT.
+    Store the output in a file named `import.jwt`.
+2. Exchange the file with the Administrator/Operator via a way that
+   assures it is your JWT and not someone elses.
+3. In the operator environment import the account with `nsc import
+   account --file import.jwt`.
+
+    This step also re-signs the JWT so that it is no longer self-signed.
+4. The Administrator/operator can now modify the account with `nsc
+   edit account [flags]`
+
+If the account should be changed and an update is required, simply
+repeat these steps but provide the `--force` option during the last
+step. This will overwrite the stored account JWT.
 
 #### **Export Account - Non Operator/Administrator Environment - Self Service Deployment Modes**
 
@@ -759,25 +1054,43 @@ This environment is set up with a signing key, thus the account is already [crea
 
 How accounts can be publicized wholly depends on the resolver you are using:
 
-* [mem-resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#memory): The operator has to have all accounts imported and generate a new config.
-* [url-resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#url-resolver): `nsc push` will send an HTTP POST request to the hosting webserver or `nats-account-server`.
-* `nats-resolver`: Every environment with a system account user that has permissions to send properly signed account JWT as requests to:
-  * `$SYS.REQ.CLAIMS.UPDATE` can upload and update all accounts. Currently, `nsc push` uses this subject.
-  * `$SYS.REQ.ACCOUNT.*.CLAIMS.UPDATE` can upload and update specific accounts.
+* [mem-resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#memory):
+  The operator has to have all accounts imported and generate a new
+  config,
+* [url-resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#url-resolver):
+  `nsc push` will send an HTTP POST request to the hosting webserver
+  or `nats-account-server`,
+* `nats-resolver`: Every environment with a system account user that
+  has permissions to send properly signed account JWT as requests to:
+  * `$SYS.REQ.CLAIMS.UPDATE` can upload and update all
+    accounts. Currently, `nsc push` uses this subject.
+  * `$SYS.REQ.ACCOUNT.*.CLAIMS.UPDATE` can upload and update specific
+    accounts.
 
-`nsc generate config <resolver-type>` as a utility that generates the relevant NATS config. Where `<resolver-type>` can be `--mem-resolver` or `--nats-resolver` for the corresponding resolver. Typically the generated output is stored in a file that is then [included](/running-a-nats-service/configuration/README.md#include-directive) by the NATS config. Every server within the same authentication domain needs to be configured with this configuration.
+`nsc generate config <resolver-type>` is an utility that generates the
+relevant NATS config. Where `<resolver-type>` can be `--mem-resolver`
+or `--nats-resolver` for the corresponding resolver. Typically the
+generated output is stored in a file that is then
+[included](/running-a-nats-service/configuration/README.md#include-directive)
+by the NATS config. Every server within the same authentication domain
+needs to be configured with this configuration.
 
 #### **nats-resolver setup and push example - Operator Environment/Environment with push permissions - All Deployment Modes** <a href="nats-resolver-setup-and-push-example" id="nats-resolver-setup-and-push-example"></a>
 
-This is a quick demo of the nats-based resolver from operator creation to publishing a message. Please be aware that the ability to push only relates to permissions to do so and does not require an account keys. Thus, how accounts to be pushed came to be in the environment (outright creation/import) does not matter. For simplicity, this example uses the operator environment.
+This is a quick demo of the nats-based resolver from operator creation
+to publishing a message. Please be aware that the ability to push only
+relates to permissions to do so and does not require an account
+keys. Thus, how accounts to be pushed into the environment (outright
+creation/import) does not matter. For simplicity, this example uses
+the operator environment.
 
-Operator Setup
+Operator Setup:
 
 ```shell
 nsc add operator -n DEMO --sys
 ```
 
-Output
+Output:
 
 ```
 [ OK ] generated and stored operator key "ODHUVOUVUA3XIBV25XSQS2NM2UN4IKJYLAMCGLWRFAV7F7KUWADCM4K6"
@@ -791,20 +1104,20 @@ Output
 nsc edit operator --account-jwt-server-url nats://localhost:4222
 ```
 
-Output
+Output:
 
 ```
 [ OK ] set account jwt server url to "nats://localhost:4222"
 [ OK ] edited operator "DEMO"
 ```
 
-Inspect the setup
+Inspect the setup:
 
 ```shell
 nsc list keys --all
 ```
 
-Output
+Output:
 
 ```
 +------------------------------------------------------------------------------------------+
@@ -816,7 +1129,11 @@ Output
 |  SYS   | AA6W5MRDIFIQWE6UE6D4YWQT5L4YZG7ZRHSKYCPF2VIEMUHRZH3VQZ27 |             | *      |
 |   sys  | UABM73CE5F3ZYFNC3ZDODAF7GIB62W2WXV5DOLMYLGEW4MEHYBC46PN4 |             | *      |
 +--------+----------------------------------------------------------+-------------+--------+
-> nsc describe operator
+```
+
+`nsc describe operator`:
+
+```
 +-------------------------------------------------------------------------------+
 |                               Operator Details                                |
 +--------------------+----------------------------------------------------------+
@@ -828,7 +1145,11 @@ Output
 | Account JWT Server | nats://localhost:4222                                    |
 | System Account     | AA6W5MRDIFIQWE6UE6D4YWQT5L4YZG7ZRHSKYCPF2VIEMUHRZH3VQZ27 |
 +--------------------+----------------------------------------------------------+
-> nsc describe account
+```
+
+`nsc describe account`:
+
+```
 +--------------------------------------------------------------------------------------+
 |                                   Account Details                                    |
 +---------------------------+----------------------------------------------------------+
@@ -850,17 +1171,18 @@ Output
 | Imports                   | None                                                     |
 | Exports                   | None                                                     |
 +---------------------------+----------------------------------------------------------+
->
 ```
 
-Generate the config and start the server in the background. Also, inspect the generated config. It consists of the mandatory operator, explicitly lists the system account and corresponding JWT.
+Generate the config and start the server in the background. Also,
+inspect the generated config. It consists of the mandatory operator,
+explicitly lists the system account and corresponding JWT:
 
 ```shell
 nsc generate config --nats-resolver > nats-res.cfg
 nats-server -c nats-res.cfg --addr localhost --port 4222 &
 ```
 
-Output
+Output:
 
 ```
 [2] 30129
@@ -880,13 +1202,13 @@ Output
 >
 ```
 
-Add an account and a user for testing.
+Add an account and a user for testing:
 
 ```shell
 nsc add account -n TEST
 ```
 
-Output
+Output:
 
 ```
 [ OK ] generated and stored account key "ADXDDDR2QJNNOSZZX44C2HYBPRUIPJSQ5J3YG2XOUOOEOPOBNMMFLAIU"
@@ -897,7 +1219,7 @@ Output
 nsc add user -a TEST -n foo
 ```
 
-Output
+Output:
 
 ```
 [ OK ] generated and stored user key "UA62PGBNKKQQWDTILKP5U4LYUYF3B6NQHVPNHLS6IZIPPQH6A7XSRWE2"
@@ -921,13 +1243,13 @@ nats: error: read tcp 127.0.0.1:60061->127.0.0.1:4222: i/o timeout, try --help
 [9174] 2020/11/05 16:49:34.331258 [WRN] 127.0.0.1:60061 - cid:5 - "v1.11.0:go:NATS CLI Version development" - Readloop processing time: 2.000592801s
 ```
 
-Push the account, or push all accounts
+Push the account, or push all accounts:
 
 ```shell
 nsc push -a TEST
 ```
 
-Output
+Output:
 
 ```
 [ OK ] push to nats-server "nats://localhost:4222" using system account "SYS" user "sys":
@@ -940,7 +1262,7 @@ Output
 nsc push --all
 ```
 
-Output
+Output:
 
 ```
 [ OK ] push to nats-server "nats://localhost:4222" using system account "SYS" user "sys":
@@ -952,7 +1274,17 @@ Output
               [ OK ] pushed to a total of 1 nats-server
 ```
 
-For the NATS resolver, each `nats-server` that responds will be listed. In case you get fewer responses than you have servers or a server reports an error, it is best practice to resolve this issue and retry. The NATS resolver will gossip missing JWTs in an eventually consistent way. Servers without a copy will perform a lookup from servers that do. If during an initial push only one server responds there is a window where this server goes down or worse, loses its disk. During that time the pushed account is not available to the network at large. Because of this, it is important to make sure that initially, more servers respond than what you are comfortable with losing in such a way at once.
+For the NATS resolver, each `nats-server` that responds will be
+listed. In case you get fewer responses than you have servers or a
+server reports an error, it is best practice to resolve this issue and
+retry. The NATS resolver will gossip missing JWTs in an eventually
+consistent way. Servers without a copy will perform a lookup from
+servers that do. If during an initial push only one server responds
+there is a window where this server goes down or worse, loses its
+disk. During that time the pushed account is not available to the
+network at large. Because of this, it is important to make sure that
+initially, more servers respond than what you are comfortable with
+losing in such a way at once.
 
 Once the account is pushed, its user can be used:
 
@@ -1309,17 +1641,30 @@ namespace nnsc
 
 ### System Account
 
-The system account is the account under which nats-server offer services. To use it either the operator JWT has to specify it, which happens during `nsc init` or when providing `--sys` to `nsc add operator`. Alternatively you can encode it in the server configuration by providing `system_account` with the public NKEY of the account you want to be the system account.
+The system account is the account under which nats-server offer
+services. To use it either the operator JWT has to specify it, which
+happens during `nsc init` or when providing `--sys` to `nsc add
+operator`. Alternatively you can encode it in the server configuration
+by providing `system_account` with the public NKEY of the account you
+want to be the system account:
 
 ```
 system_account: AAAXAUVSGK7TCRHFIRAS4SYXVJ76EWDMNXZM6ARFGXP7BASNDGLKU7A5
 ```
 
-It is NOT recommended to use this account to facilitate communication between your own applications. Its sole purpose is to facilitate communication with and between `nats-server`
+It is NOT recommended to use this account to facilitate communication
+between your own applications. Its sole purpose is to facilitate
+communication with and between `nats-server`.
 
 #### Event Subjects
 
-Events are published as they happen. But you MUST NOT rely on a particular ordering or due to the possibility of loss, events matching. Say, `CONNECT` for a client always matching a `DISCONNECT` for the same client. Your subscriber may simply be disconnected when either event happens. Some messages carry aggregate data and are periodically emitted. There, missing a message for one reason or another is compensated by the next one.
+Events are published as they happen. But you MUST NOT rely on a
+particular ordering or due to the possibility of loss, events
+matching. Say, `CONNECT` for a client always matching a `DISCONNECT`
+for the same client. Your subscriber may simply be disconnected when
+either event happens. Some messages carry aggregate data and are
+periodically emitted. There, missing a message for one reason or
+another is compensated by the next one.
 
 | Subjects to subscribe on                     | Description                              | Repeats      |
 | -------------------------------------------- | ---------------------------------------- | ------------ |
@@ -1528,23 +1873,38 @@ This process will be a lot easier when operator signing keys were used throughou
 
 Unlike with the operator, account identity NKEYs can not be changed as easily. User JWT explicitly reference the account identity NKEY such that the `nats-server` can download them via a resolver. This complicates reissuing these kind of NKEYs, which is why we strongly suggest sticking to signing keys.
 
-The basic approach is to: 1. generate a new account with similar settings - including signing NKEYs 2. re-sign all users that used to be signed by the old identity NKEY 3. push the account and 4. deploy the new user JWT to all programs running inside the account
+The basic approach is to:
 
-When signing keys were used, the account identity NKEY would only be needed to self-sign the account JWT exchange with an administrators/operators [`nsc`](jwt.md#nsc) environment.
+1. generate a new account with similar settings - including signing NKEYs,
+2. re-sign all users that used to be signed by the old identity NKEY,
+3. push the account and,
+4. deploy the new user JWT to all programs running inside the account.
+
+When signing keys were used, the account identity NKEY would only be
+needed to self-sign the account JWT exchange with an
+administrators/operators [`nsc`](jwt.md#nsc) environment.
 
 #### Revocations
 
-JWTs for user, activations and accounts can be explicitly revoked. Furthermore, signing keys can be removed, thus invalidating all JWTs signed by the removed NKEY.
+JWTs for user, activations and accounts can be explicitly
+revoked. Furthermore, signing keys can be removed, thus invalidating
+all JWTs signed by the removed NKEY.
 
 #### **User**
 
-To revoke all JWTs for a user in a account issue `nsc revocations add-user --account <account name> --name <user name>`. With the argument `--at` you can specify a time different than now. Use `nsc revocations list-users --account <account name>` to inspect the result or `nsc revocations delete-user --account <account name> --name <user name>` to remove the revocation.
+To revoke all JWTs for a user in a account issue `nsc revocations
+add-user --account <account name> --name <user name>`.
+
+With the argument `--at` you can specify a time different than
+now. Use `nsc revocations list-users --account <account name>` to
+inspect the result or `nsc revocations delete-user --account <account
+name> --name <user name>` to remove the revocation.
 
 ```shell
 nsc revocations add-user --account SYS --name sys
 ```
 
-Output
+Output:
 
 ```
 [ OK ] revoked user "UCL5YXXUKCEO4HDTTYUOHDMHP4JJ6MGE3SVQBDWFZUGJUMUKE24DEUCU"
@@ -1554,7 +1914,7 @@ Output
 nsc revocations list-users
 ```
 
-Output
+Output:
 
 ```
 +------------------------------------------------------------------------------------------+
@@ -1566,17 +1926,34 @@ Output
 +----------------------------------------------------------+-------------------------------+
 ```
 
-Please note that the revocation created only applies to JWTs issued before the time listed. Users created or updated after revocation will be valid as they are outside of the revocation time. Also, please be aware that adding a revocation will modify the account and therefore has to be pushed in order to publicize the revocation.
+Please note that the revocation created only applies to JWTs issued
+before the time listed. Users created or updated after revocation will
+be valid as they are outside of the revocation time. Also, please be
+aware that adding a revocation will modify the account and therefore
+has to be pushed in order to publicize the revocation.
 
 #### **Activations**
 
-To revoke all activations of the export, identified by `--account` and `--subject` (`--stream` if the export is a stream), issued for a given Account identity NKEY use: `nsc revocations add-activation --account <account name> --subject <export name> --target-account <account identity public NKEY>` Use `nsc revocations list-activations --account SYS` to inspect the result or `nsc revocations delete_activation --account <account name> --subject <export name> --target-account <account identity public NKEY>` to remove the revocation.
-
+To revoke all activations of the export, identified by `--account` and `--subject` (`--stream` if the export is a stream), issued for a given Account identity NKEY use: 
 ```shell
-nsc revocations add-activation --account SYS --subject foo --target-account AAUDEW26FB4TOJAQN3DYMDLCVXZMNIJWP2EMOAM5HGKLF6RGMO2PV7WP
+nsc revocations add-activation --account <account name> --subject <export name> \
+  --target-account <account identity public NKEY>
 ```
 
-Output
+Use `nsc revocations list-activations --account SYS` to inspect the result or:
+
+```shell
+nsc revocations delete_activation --account <account name> \
+  --subject <export name> --target-account <account identity public NKEY>
+```
+to remove the revocation.
+
+```shell
+nsc revocations add-activation --account SYS --subject foo \
+  --target-account AAUDEW26FB4TOJAQN3DYMDLCVXZMNIJWP2EMOAM5HGKLF6RGMO2PV7WP
+```
+
+Output:
 
 ```
 [ OK ] revoked activation "foo" for account AAUDEW26FB4TOJAQN3DYMDLCVXZMNIJWP2EMOAM5HGKLF6RGMO2PV7WP
@@ -1586,7 +1963,7 @@ Output
 nsc revocations list-activations --account SYS
 ```
 
-Output
+Output:
 
 ```
 +------------------------------------------------------------------------------------------+
@@ -1598,22 +1975,44 @@ Output
 +----------------------------------------------------------+-------------------------------+
 ```
 
-Please note the revocation created only applies to JWTs issued before the time listed. Activations created or edited after, will be valid as they are outside of the revocation time. Also be aware that adding a revocation will modify the account and therefore has to be pushed in order to publicize the revocation.
+Please note the revocation created only applies to JWTs issued before
+the time listed. Activations created or edited after, will be valid as
+they are outside of the revocation time. Also be aware that adding a
+revocation will modify the account and therefore has to be pushed in
+order to publicize the revocation.
 
 #### **Accounts**
 
 Account identity NKEYS can not be revoked like user or activations. Instead lock out all users by setting the connection count to 0 using `nsc edit account --name <account name> --conns 0` and pushing the change using `nsc push --all`.
 
-Alternatively you can also remove the account using `nsc delete account --name` and keep it from found by the account resolver. How to do this depends on your resolver type:
+Alternatively you can also remove the account using `nsc delete
+account --name` and keep it from found by the account resolver. How to
+do this depends on your resolver type:
 
-* [mem-resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#memory): Remove the JWT from the configuration field `resolver_preload` and restart all `nats-server`
-* [url-resolver:](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#url-resolver) Manually delete the JWT from the `nats-account-server` store directory.
-* `nats-resolver`: Prune removed accounts using: `nsc push --all --prune`. For this to work, the resolver has to have deletion enabled (`allow_delete: true`) and you need to be in possession of an operator signing key.
+* [mem-resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#memory):
+
+   Remove the JWT from the configuration field `resolver_preload` and
+   restart all `nats-server`
+* [url-resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#url-resolver):
+
+   Manually delete the JWT from the `nats-account-server` store
+   directory.
+* `nats-resolver`: Prune removed accounts using: `nsc push --all --prune`.
+
+   For this to work, the resolver has to have deletion enabled
+  (`allow_delete: true`) and you need to be in possession of an
+  operator signing key.
 
 #### **Signing keys**
 
-Accounts, Activations, and Users can be revoked in bulk by removing the respective signing key.
+Accounts, Activations, and Users can be revoked in bulk by removing
+the respective signing key.
 
-Remove an operator signing key: `nsc edit operator --rm-sk <signing key>` As a modification of the operator, in order to take effect, all dependent [`nsc`](jwt.md#nsc) installations as well as `nats-server` will need this new version of the operator JWT.
+Remove an operator signing key: `nsc edit operator --rm-sk <signing
+key>` As a modification of the operator, in order to take effect, all
+dependent [`nsc`](jwt.md#nsc) installations as well as `nats-server`
+will need this new version of the operator JWT.
 
-Remove an account signing key: `nsc edit account --name <account name> --rm-sk <signing key>` In order to take effect, a modification of an account needs to be pushed: `nsc push --all`
+Remove an account signing key: `nsc edit account --name <account name>
+--rm-sk <signing key>`. In order to take effect, a modification of an
+account needs to be pushed: `nsc push --all`.
