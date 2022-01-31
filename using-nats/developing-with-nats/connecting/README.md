@@ -1,6 +1,8 @@
 # Connecting
 
-In order for a NATS client application to connect to the NATS service, and then subscribe or publish messages to subjects, it needs to be able to be configured with the details of how to connect to the NATS service infrastructure and of how to authenticate with it.
+In order for a NATS client application to connect to the NATS service, and then subscribe, publish or make requests, it needs to be able to be configured with the details of how to connect to the NATS service infrastructure and of how to authenticate with it.
+
+When the application wants to shut down or disconnect from the NATS service remember to call [drain](../receiving/drain.md) to close your connection.
 
 # NATS URL
 
@@ -13,7 +15,7 @@ The NATS URL is a string (in a URL format) that specifies the IP address(es) and
 ### [Connecting to a specific server](specific_server.md)
 ### [Default URL](default_server.md)
 
-## Specifying a [connection timeout](connect_timeout.md)
+## [Connection timeout](connect_timeout.md)
 ## [Automatic reconnection](../reconnect/README.md)
 ## [Turning Off Echo'd Messages](noecho.md)
 ## [Miscellaneous](misc.md)
