@@ -87,7 +87,7 @@ Output
 ╰──────────────┴──────────────────────────────────────────────────────────╯
 ```
 
-Now let’s create an account called `A` and sign it the generated operator private signing key. To sign it with the key specify the `-K` flag and the private key or a path to the private key:
+Now let’s create an account called `A` and sign it with the generated operator private signing key. To sign it with the key specify the `-K` flag and the private key or a path to the private key:
 
 ```shell
 nsc add account A -K ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk 
@@ -161,7 +161,7 @@ Output
 
 We can see that the signing key `ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7` was added to the account. Also the issuer is the operator signing key \(specified by the `-K`\).
 
-Now let’s create a user and signing it with account signing key starting with `ABHYL27UAHHQ`.
+Now let’s create a user and sign it with the account signing key starting with `ADUQTJD4TF4O`.
 
 ```shell
 nsc add user U -K ~/.nkeys/keys/A/DU/ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7.nk
