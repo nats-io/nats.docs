@@ -40,7 +40,7 @@ If you receive a series of messages, you only have to ack the last one you recei
 
 ## AckWait
 
-Ack Wait is the time in nanoseconds that the server will wait for an ack for any individual message. If an ack is not received in time, the message will be redelivered.
+Ack Wait is the time in nanoseconds that the server will wait for an ack for any individual message _once it has been delivered to a consumer_. If an ack is not received in time, the message will be redelivered.
 
 ## DeliverPolicy / OptStartSeq / OptStartTime
 
