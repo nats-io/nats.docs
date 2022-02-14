@@ -432,29 +432,13 @@ types. Which one to pick depends upon your needs:
   * Between `nats-resolver` and `url-resolver`, the `nats-resolver` is
     the clear recommendation.
 
-If your setup has few accounts, say, 1 to 3 acounts in total, and the
-users in the accounts are few(say, less 10), and not changed offen,
-and/or you are comfortable reloading server configs when accounts or
-users changed, then regular static configuration -- possibly with
-NKEYs -- will work just fine for you.
-
-If your setup has few accounts, say, 1 to 3 accounts, and these
-accounts are not changed offen, and you have a lot of users in the
-accounts(say more than 100 users), and your `nats-server` cluster is
-not huge(say 3 or 5 cluster members), JWT `memory-resolver` is your
-choice.
-
-If your accounts are huge and changed dynamic, and your nats cluster
-topology not a simple one, and your production environment can not
-accept so many servers' reloading, JWT `nats-resolver` is recommended.
-
-JWT `nats-resolver` is recommended as the default resolver to use, and
-memory resolver as an option if you don't want administrators to make
-changes to the accounts. BTW, JWT `nats-resolver` is not complex to
-configure and use, but as a distributed accounts management system,
-not very easy to understand. So the best choice is to spend more time
-on reading this document, make sure to understand the key point
-clearly, and to use JWT `nats-resolver` finally.
+JWT `nats-resolver` is recommended to use in production
+environment. With JWT `nats-resolver`, you can manage huge accounts
+and users without server reloading. But before adopting JWT
+`nat-resolver`, make sure you understand correctly how it works. You
+can make use of static account settings(probably with NKEYs) and
+`memory-resolver` as the necessary steps forwarding JWT
+`nats-resolver` fully understanding.
 
 #### **JWT and Chain of Trust Verification**
 
