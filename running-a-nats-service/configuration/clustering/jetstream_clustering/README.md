@@ -59,7 +59,7 @@ jetstream {
 
 cluster {
   name: C1
-  listen: localhost:6222
+  listen: 0.0.0.0:6222
   routes: [
     nats-route://host_b:6222
     nats-route://host_c:6222
@@ -79,7 +79,7 @@ jetstream {
 
 cluster {
   name: C1
-  listen: localhost:6222
+  listen: 0.0.0.0:6222
   routes: [
     nats-route://host_a:6222
     nats-route://host_c:6222
@@ -99,7 +99,7 @@ jetstream {
 
 cluster {
   name: C1
-  listen: localhost:6222
+  listen: 0.0.0.0:6222
   routes: [
     nats-route://host_a:6222
     nats-route://host_b:6222
