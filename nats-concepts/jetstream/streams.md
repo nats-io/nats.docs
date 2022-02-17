@@ -21,8 +21,8 @@ When defining Streams the items below make up the entire configuration of the se
 | Subjects | A list of subjects to consume, supports wildcards |
 | Replicas | How many replicas to keep for each message in a clustered JetStream, maximum 5 |
 | MaxAge | Maximum age of any message in the Stream, expressed in nanoseconds. |
-| MaxBytes | How many bytes the Stream may contain. Adheres to Discard Policy, removing oldest or refusing new messages if the Stream exceeds this number of messages. |
-| MaxMsgs | How many messages may be in a Stream. Adheres to Discard Policy, removing oldest or refusing new messages if the Stream exceeds this size |
+| MaxBytes | How many bytes the Stream may contain. Adheres to Discard Policy, removing oldest or refusing new messages if the Stream exceeds this size |
+| MaxMsgs | How many messages may be in a Stream. Adheres to Discard Policy, removing oldest or refusing new messages if the Stream exceeds this number of messages |
 | MaxMsgSize | The largest message that will be accepted by the Stream |
 | MaxConsumers | How many Consumers can be defined for a given Stream, `-1` for unlimited |
 | NoAck | Disables acknowledging messages that are received by the Stream |
