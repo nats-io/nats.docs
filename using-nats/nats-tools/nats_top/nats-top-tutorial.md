@@ -5,7 +5,7 @@ You can use [nats-top](https://github.com/nats-io/nats-top) to monitor in realti
 ## Prerequisites
 
 * [Set up your Go environment](https://golang.org/doc/install)
-* [Installed the NATS server](../../../running-a-nats-service/installation.md)
+* [Install the NATS server](../../../running-a-nats-service/installation.md)
 
 ## 1. Install nats-top
 
