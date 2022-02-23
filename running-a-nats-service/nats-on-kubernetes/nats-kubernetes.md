@@ -1,11 +1,9 @@
 # Introduction
 
-In this section, you can find several examples of how to deploy NATS, NATS Streaming and other tools from the NATS ecosystem on Kubernetes.
+In this section, you can find several examples of how to deploy NATS and other tools from the NATS ecosystem on Kubernetes.
 
 * [Getting Started](nats-kubernetes.md#getting-started)
-* [Basic NATS Setup on k8s](minimal-setup.md)
-* [Deploying NATS with Helm](helm-charts.md)
-* [Creating a NATS Streaming Cluster in k8s with FT mode](../../legacy/stan/nats-streaming-server/kubernetes/stan-ft-k8s-aws.md)
+* [Advanced Helm chart examples](helm-charts.md)
 * [NATS + Cert Manager in k8s](nats-cluster-and-cert-manager.md)
 * [Securing a NATS Cluster using cfssl](operator-tls-setup-with-cfssl.md)
 
@@ -13,46 +11,72 @@ In this section, you can find several examples of how to deploy NATS, NATS Strea
 
 ### Getting started
 
-The fastest and easiest way to get started is with just one shell command:
+The fastest and easiest way to get started is to use [NATS Helm Charts](https://github.com/nats-io/k8s/tree/main/helm/charts/nats).
 
 ```bash
-curl -sSL https://nats-io.github.io/k8s/setup.sh | sh
+helm repo add nats https://nats-io.github.io/k8s/helm/charts/
+helm install my-nats nats/nats
+
 ```
+
+This will install NATS Server in basic setup with NATS box utility container that can be used as a simple way to interact with the server using `nats` and `nsc` CLI tools preinstalled.
+
 
 _In case you don't have a cluster already, you can find some notes on how to create a small cluster using one of the hosted Kubernetes providers_ [_here_](create-k8s-cluster.md)_._
 
-This will run a `nats-setup` container with the [required policy](https://github.com/nats-io/k8s/blob/master/setup/bootstrap-policy.yml) and deploy a NATS cluster on Kubernetes with external access, TLS and decentralized authorization.
+To check if NATS is reacheable from within the cluster connect to NATS box
 
-[![asciicast](https://asciinema.org/a/282135.svg)](https://asciinema.org/a/282135)
-
-By default, the installer will deploy the [Prometheus Operator](https://github.com/coreos/prometheus-operator) and the [Cert Manager](https://github.com/jetstack/cert-manager) for metrics and TLS support, and the NATS instances will also bind the 4222 host port for external access.
-
-You can customize the installer to install without TLS or without Auth to have a simpler setup as follows:
-
-Disable TLS
 ```bash
-curl -sSL https://nats-io.github.io/k8s/setup.sh | sh -s -- --without-tls
+kubectl exec -n default -it deployment/my-nats-box -- /bin/sh -l
 ```
 
-Disable Auth and TLS (also disables NATS surveyor and NATS Streaming)
+and try subscribing and publishing
 
-```shell
-curl -sSL https://nats-io.github.io/k8s/setup.sh | sh -s -- --without-tls --without-auth
+```bash
+nats-box:~# nats-sub test &
+nats-box:~# nats-pub test hi
 ```
 
-**Note**: Since [NATS Streaming](https://github.com/nats-io/nats-streaming-server) will be running as a [leafnode](../running-a-nats-service/configuration/leafnodes/) to NATS \(under the STAN account\) and that [NATS Surveyor](https://github.com/nats-io/nats-surveyor) requires the [system account](../running-a-nats-service/configuration/sys_accounts/) to monitor events, disabling auth also means that NATS Streaming and NATS Surveyor based monitoring will be disabled.
+If you're seeing the messages, all went well and you have successfully installed NATS.
 
-The monitoring dashboard setup using NATS Surveyor can be accessed by using port-forward:
+Now, let's discover some more advanced options.
 
-```shell
-kubectl port-forward deployments/nats-surveyor-grafana 3000:3000
+### NATS HA setup
+
+To setup your cluster in HA manner, you need to customize NATS Helm charts.
+Fortunately, `values.yaml` have most of the features available as easy values customization and there should be no need to manually tweak the templates.
+
+One way to do it is to create your own `.yaml` file with changed only values:
+
+```yaml
+cluster:
+  enabled: true
+  replicas: 3
 ```
 
-Next, open the following URL in your browser:
+and run
 
-```text
-http://127.0.0.1:3000/d/nats/nats-surveyor?refresh=5s&orgId=1
+```bash
+helm install nats nats/nats --values ha.yaml
 ```
 
-![surveyor](https://user-images.githubusercontent.com/26195/69106844-79fdd480-0a24-11ea-8e0c-213f251fad90.gif)
+### JetSteam
 
+Similarly to HA, enabling JetStream requires changing few values:
+
+```yaml
+nats:
+  jetstream:
+    enabled: true
+
+    memStorage:
+      enabled: true
+      size: 2Gi
+
+    fileStorage:
+      enabled: true
+      size: 1Gi
+      storageDirectory: /data/
+```
+
+For more examples, including TLS, Auth, external access, leaf nodes and gateways please check [Advanced Helm chart examples](helm-charts.md)
