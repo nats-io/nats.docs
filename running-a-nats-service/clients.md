@@ -8,6 +8,12 @@ Other NATS client tools to know about are the [`nsc`](/using-nats/nats-tools/nsc
 
 Also, most client libraries come with sample programs that allow you to publish, subscribe, send requests and reply messages.
 
+## Embedding NATS
+
+If your application is in Go, and if it fits your use case and deployment scenarios, you can even embed a NATS server inside your application.
+
+[Embedding NATS in Go](https://dev.to/karanpratapsingh/embedding-nats-in-go-19o)
+
 ## Installing the `nats` CLI Tool
 
 For macOS:

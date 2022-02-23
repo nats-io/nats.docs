@@ -56,3 +56,6 @@ http://127.0.0.1:3000/d/nats/nats-surveyor?refresh=5s&orgId=1
 
 ![surveyor](https://user-images.githubusercontent.com/26195/69106844-79fdd480-0a24-11ea-8e0c-213f251fad90.gif)
 
+### See also
+
+[NATS with Kubernetes walkthrough](https://dev.to/karanpratapsingh/nats-with-kubernetes-3bmc)
