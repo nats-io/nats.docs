@@ -24,7 +24,7 @@ This will install NATS Server in basic setup with NATS box utility container tha
 
 _In case you don't have a cluster already, you can find some notes on how to create a small cluster using one of the hosted Kubernetes providers_ [_here_](create-k8s-cluster.md)_._
 
-To check if NATS is reacheable from within the cluster conncet to NATS box
+To check if NATS is reacheable from within the cluster connect to NATS box
 
 ```bash
 kubectl exec -n default -it deployment/my-nats-box -- /bin/sh -l
@@ -37,7 +37,7 @@ nats-box:~# nats-sub test &
 nats-box:~# nats-pub test hi
 ```
 
-Congratulations, you've just deployed NATS into Kubernetes cluster!
+If you're seeing the messages, all went well and you have successfully installed NATS.
 
 Now, let's discover some more advanced options.
 
