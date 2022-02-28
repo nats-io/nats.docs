@@ -74,7 +74,7 @@ nats:
 
 ## Clustering
 
-If clustering is enabled, then a 3-node cluster will be set up. More info at: [running-a-nats-server/configuration/clustering#nats-server-clustering](../running-a-nats-service/configuration/clustering/#nats-server-clustering)
+If clustering is enabled, then a 3-node cluster will be set up. More info at: [running-a-nats-server/configuration/clustering#nats-server-clustering](/running-a-nats-service/configuration/clustering/#nats-server-clustering)
 
 ```yaml
 cluster:
@@ -97,7 +97,7 @@ helm install nats nats/nats --set cluster.enabled=true
 
 ## Leafnodes
 
-Leafnode connections to extend a cluster. More info at: [running-a-nats-server/configuration/leafnodes](../running-a-nats-service/configuration/leafnodes/)
+Leafnode connections to extend a cluster. More info at: [running-a-nats-server/configuration/leafnodes](/running-a-nats-service/configuration/leafnodes/)
 
 ```yaml
 leafnodes:
@@ -262,7 +262,7 @@ spec:
 
 ## Gateways
 
-A supercluster can be formed by pointing to remote gateways. You can find more about gateways in the NATS documentation: [running-a-nats-server/configuration/gateways](../running-a-nats-service/configuration/gateways/).
+A supercluster can be formed by pointing to remote gateways. You can find more about gateways in the NATS documentation: [running-a-nats-server/configuration/gateways](/running-a-nats-service/configuration/gateways/).
 
 ```yaml
 gateway:
