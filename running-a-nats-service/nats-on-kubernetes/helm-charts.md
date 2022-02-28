@@ -60,7 +60,7 @@ nats:
 
 ### TLS setup for client connections
 
-You can find more on how to set up and troubleshoot TLS connections at: [nats-server/configuration/securing_nats/tls](/running-a-nats-service/configuration/securing_nats/tls.md)
+You can find more on how to set up and troubleshoot TLS connections at: [running-a-nats-service/configuration/securing_nats/tls](/running-a-nats-service/configuration/securing_nats/tls.md)
 
 ```yaml
 nats:
@@ -74,7 +74,7 @@ nats:
 
 ## Clustering
 
-If clustering is enabled, then a 3-node cluster will be set up. More info at: [nats-server/configuration/clustering#nats-server-clustering](../running-a-nats-service/configuration/clustering/#nats-server-clustering)
+If clustering is enabled, then a 3-node cluster will be set up. More info at: [running-a-nats-server/configuration/clustering#nats-server-clustering](/running-a-nats-service/configuration/clustering/#nats-server-clustering)
 
 ```yaml
 cluster:
@@ -97,7 +97,7 @@ helm install nats nats/nats --set cluster.enabled=true
 
 ## Leafnodes
 
-Leafnode connections to extend a cluster. More info at: [nats-server/configuration/leafnodes](../running-a-nats-service/configuration/leafnodes/)
+Leafnode connections to extend a cluster. More info at: [running-a-nats-server/configuration/leafnodes](/running-a-nats-service/configuration/leafnodes/)
 
 ```yaml
 leafnodes:
@@ -123,7 +123,7 @@ leafnodes:
   # 
   #  # You can find more on how to setup and trouble shoot TLS connnections at:
   # 
-  #  # https://docs.nats.io/nats-server/configuration/securing_nats/tls
+  #  # https://docs.nats.io/running-a-nats-server/configuration/securing_nats/tls
   # 
   tls:
     secret:
@@ -262,7 +262,7 @@ spec:
 
 ## Gateways
 
-A supercluster can be formed by pointing to remote gateways. You can find more about gateways in the NATS documentation: [nats-server/configuration/gateways](../running-a-nats-service/configuration/gateways/).
+A supercluster can be formed by pointing to remote gateways. You can find more about gateways in the NATS documentation: [running-a-nats-server/configuration/gateways](/running-a-nats-service/configuration/gateways/).
 
 ```yaml
 gateway:
@@ -286,7 +286,7 @@ gateway:
   # 
   #  # You can find more on how to setup and trouble shoot TLS connnections at:
   # 
-  #  # https://docs.nats.io/nats-server/configuration/securing_nats/tls
+  #  # https://docs.nats.io/running-a-nats-server/configuration/securing_nats/tls
   #
   # tls:
   #   secret:
