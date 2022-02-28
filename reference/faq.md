@@ -128,7 +128,8 @@ NATS implements source ordered delivery per publisher. That is to say, messages 
 
 ### Is there a message size limitation in NATS?
 
-NATS does have a message size limitation that is enforced by the server and communicated to the client during connection setup. Currently, the limit is 1MB.
+Messages have a maximum size (which is set in the server configuration with `max_payload`) that is enforced by the server and communicated to the client during connection setup. The size is set to 1 MB by default, but can be increased up to 64 MB if needed (though we recommend keeping the max message size to something more reasonable like 8 MB).
+
 
 ### Does NATS impose any limits on the \# of subjects?
 
