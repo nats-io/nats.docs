@@ -167,8 +167,16 @@ Besides temporal decoupling and queuing, JetStream also enables higher qualities
 
 ## KV Store
 
+The Key Value store functionality is implemented on top of JetStream, but offers a different interface in the form of keys and values rather than subject names and messages. You can use a bucket to put (including compare and set), get and delete a value (a byte array like a message payload) associated with a key (a string, like a subject). It also allows you to 'watch' for changes to the buket as they happen. And finally it allows you to maintain a history of the values associated with a key over time, as well as get a specific version of the value.
+
 ### Defining buckets
+
+Each bucket is an independent key/value store instance. Buckets are typically created administratively (e.g. using the `nats` CLI tool), or can be defined using the client library's `CreateKeyValue()`. 
+
 ### Putting
+
+
+
 ### Getting
 ### watching
 

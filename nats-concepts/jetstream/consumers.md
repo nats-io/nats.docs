@@ -88,7 +88,7 @@ MaxAckPending implements a simple form of _one-to-many_ flow control. It sets th
 
 ### Note about push and pull consumers: 
 
-The MaxAckPending's one-to-many flow control functionality is only useful for push consumers. For pull consumers you should disable it (i.e. -1), as it can otherwise place a limit on the horizontal scalability of the processing of the stream. Because delivery of the messages to the client application through pull consumers is client demand-driven rather than server initiated, there is no need for any kind of one-to-many flow control. With pull consumers at a given point in time, the number of pending acks is a function of the number of client applications calling `fetch` on the pull consumer and the requested batch size for that operation. 
+The MaxAckPending's one-to-many flow control functionality applies for both push and pull consumers. For push consumers MaxAckPending is the _only_ form of flow control. However, for pull consumers because the delivery of the messages to the client application is demand-driven (hence the 'pull') rather than server initiated (hence the 'push') there is an implicit one-to-one flow control with the subscribers (the maximum batch size of the Fetch calls). There you should remember to set it to an appropriately high value (e.g. the default value of 20000), as it can otherwise place a limit on the horizontal scalability of the processing of the stream in high throughput situations.
 
 ## FlowControl
 
