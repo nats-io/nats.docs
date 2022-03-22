@@ -1800,7 +1800,7 @@ In order to be independent of subject names chosen by the exporter, importing al
 This example will change the subject name the importing account uses locally from the exporter picked subject `foo` to `bar`.
 
 ```shell
-nsc add import --account test --src-account ACJ6G45BE7LLOFCVAZSZR3RY4XELXQ32BOQRI7KQMQLICXXXJRP4P45Q --remote-subject blo --local-subject bar
+nsc add import --account test --src-account ACJ6G45BE7LLOFCVAZSZR3RY4XELXQ32BOQRI7KQMQLICXXXJRP4P45Q --remote-subject foo --local-subject bar
 ```
 
 Output
