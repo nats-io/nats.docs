@@ -6,19 +6,16 @@ When the application wants to shut down or disconnect from the NATS service reme
 
 # NATS URL
 
-The NATS URL is a string (in a URL format) that specifies the IP address(es) and port(s) where the NATS server(s) can be reached, as well as what kind of transport to use:
+The NATS URL is a string (in a URL format) that specifies the IP address(es) and port(s) where the NATS server(s) can be reached, as well as what kind of transport to use.
+
+## Selecting the transport
    * Plain un-encrypted TCP connection (i.e. NATS URLs starting with `nats://...`)
    * TLS encrypted TCP connection (i.e. NATS URLs starting with `tls://...`)
    * Websocket connection (i.e. NATS URLs starting with `ws://...`)
 
-### [Connecting to clusters](cluster.md)
-### [Connecting to a specific server](specific_server.md)
-### [Default URL](default_server.md)
-
-## [Connection timeout](connect_timeout.md)
-## [Automatic reconnection](../reconnect/README.md)
-## [Turning Off Echo'd Messages](noecho.md)
-## [Miscellaneous](misc.md)
+## [Connecting to clusters](cluster.md)
+## [Connecting to a specific server](specific_server.md)
+## [Default URL](default_server.md)
 
 # Naming your connection
 Although it is optional, it is always a good idea to [name](name.md) your connections in order to identify them to the NATS Server administrators.
@@ -41,6 +38,11 @@ NATS supports multiple authentication schemes:
    * [Token Authentication](security/token.md#connecting-with-a-token) (where the application is configured with a Token string)
    * [TLS Certificate](security/tls.md#connecting-with-tls-and-verify-client-identity) (where the client is configured to use a client TLS certificate and the servers are configured to map the TLS client certificates to users defined in the server configuration)
    * [NKEY with Challenge](security/nkey.md) (/using-nats/developer/security/nkey) (where the client is configured with a Seed and User NKeys)
+
+# [Connection timeout](connect_timeout.md)
+# [Automatic reconnection](../reconnect/README.md)
+# [Turning Off Echo'd Messages](noecho.md)
+# [Miscellaneous](misc.md)
 
 ## Runtime configuration
 
