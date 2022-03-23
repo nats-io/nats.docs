@@ -6,7 +6,7 @@ description: Using JetStream on Leaf Nodes
 
 If you want to see a demonstration of the full range of this functionality, check out our [video](https://youtu.be/0MkS_S7lyHk)
 
-One of the use cases for a NATS server configured as a [leaf node](../running-a-nats-service/configuration/leafnodes/) is to provide a local NATS network even when the connection to a hub or the cloud is down. To support such a disconnected use case with JetStream, independent JetStream islands are also supported and available through the same NATS network.
+One of the use cases for a NATS server configured as a [leaf node](../) is to provide a local NATS network even when the connection to a hub or the cloud is down. To support such a disconnected use case with JetStream, independent JetStream islands are also supported and available through the same NATS network.
 
 The general issue with multiple, independent JetStreams, accessible from the same client is that you need to be able to tell them apart. As an example, consider a leaf node with a non-clustered JetStream in each server. You connect to one of them, but which JetStream responds when you use the JetStream API `$JS.API.>` ?
 
