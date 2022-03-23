@@ -28,7 +28,7 @@ nats sub -s nats://s3cr3t@localhost:4222 ">"
 
 Tokens can be bcrypted enabling an additional layer of security, as the clear-text version of the token would not be persisted on the server configuration file.
 
-You can generate bcrypted tokens and passwords using the [`nats`](../../../../using-nats/nats-tools/nats_cli/readme.md) tool:
+You can generate bcrypted tokens and passwords using the [`nats`](../../../../using-nats/nats-tools/nats_cli/) tool:
 
 ```shell
 nats server passwd
