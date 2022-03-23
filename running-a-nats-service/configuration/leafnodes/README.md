@@ -45,7 +45,7 @@ Output extract
 We create a replier on the server to listen for requests on 'q', which it will aptly respond with '42':
 
 ```bash
-nats-rply -s nats://s3cr3t@localhost q 42
+nats reply -s nats://s3cr3t@localhost q 42
 ```
 
 The leaf node, allows local clients to connect to through port 4111, and doesn't require any kind of authentication. The configuration specifies where the remote cluster is located, and specifies how to connect to it (just a simple token in this case):
