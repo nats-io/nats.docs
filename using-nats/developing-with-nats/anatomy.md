@@ -73,13 +73,27 @@ Some libraries allow you to easily [send](sending/structure.md) and [receive](re
 ## Using Core NATS
 Once your application has successfully connected to the NATS Server infrastructure, you can then start using the returned connection object to interact with NATS.
 
-### Publish
-You can directly [publish](sending/README.md) some data on a subject (or publish a pre-created messages with headers). In case you have very low latency requirements you can request to [flush](sending/caches.md) any buffers after publishing.
+### Core NATS Publishing
+You can directly [publish](sending/README.md) on a connection some data addressed by a subject (or publish a pre-created messages with headers).
 
-### Subscribe
+## Flush and Ping/Pong
+
+Because of caching, if your application is highly sensitive to latency, you may want to [flush](sending/caches.md) after publishing. 
+
+Many of the client libraries use the [PING/PONG interaction](connecting/pingpong.md) built into the NATS protocol to ensure that flush pushed all of the buffered messages to the server. When an application calls flush, most libraries will put a PING on the outgoing queue of messages, and wait for the server to respond with a PONG before saying that the flush was successful.
+
+Even though the client may use PING/PONG for flush, pings sent this way do not count towards [max outgoing pings](connecting/pingpong.md).
+
+### Core NATS Subscribing
 The process of subscribing involves having the client library tell the NATS that an application is interested in a particular subject. When an application is done with a subscription it unsubscribes telling the server to stop sending messages.
 
-In general, applications can receive messages [asynchronously](receiving/async.md) or [synchronously](receiving/sync.md). You can subscribe to more than one subject at a time using [wildcards](receiving/wildcards.md).
+Receiving messages with NATS can be library dependent, some languages, like Go or Java, provide synchronous and asynchronous APIs, while others may only support one type of subscription. In general, applications can receive messages [asynchronously](receiving/async.md) or [synchronously](receiving/sync.md).
+
+You can always subscribe to more than one subject at a time using [wildcards](receiving/wildcards.md).
+
+In all cases, the process of subscribing involves having the client library tell the NATS system that an application is interested in a particular subject. When an application is done with a subscription it unsubscribes telling the server to stop sending messages.
+
+A client will receive a message for each matching subscription, so if a connection has multiple subscriptions using identical or overlapping subjects \(say `foo` and `>`\) the same message will be sent to the client multiple times.
 
 A client will receive a message for each matching subscription, so if a connection has multiple subscriptions using identical or overlapping subjects \(say `foo` and `>`\) the same message will be sent to the client multiple times.
 
@@ -102,7 +116,7 @@ You can also use NATS to easily and transparently invoke services without needin
 The server applications servicing those requests simply need to subscribe to the subject on which the requests are published, process the request messages they receive and [reply](receiving/reply.md) to the message on the subject contained in the request message's [Reply-to](receiving/reply.md) attribute.
 
 Typically, there is no reason not to want to make your service distributed (i.e. scalable and fault-tolerant). This means that unless there's a specific reason not to, application servicing requests should [subscribe to the request subject using the same queue group name](receiving/queues.md). You can have more than one queue group present on a subject (for example you could have one queue group to distribute the processing of the requests between service instances, and another queue group to distribute the logging or monitoring of the requests being made to the service).
-# Using JetStream
+# Streaming with JetStream
 
 Some applications can make use of the extra functionalities enabled by [JetStream](../jetstream/develop_jetstream.md) (streams, KV Store, Object Store). Just like you use the Core NATS connection object to invoke Core NATS operations, you use a [*JetStream context*](js/context.md) to invoke JetStream operations.
 
@@ -167,18 +181,7 @@ Besides temporal decoupling and queuing, JetStream also enables higher qualities
 
 ## KV Store
 
-The Key Value store functionality is implemented on top of JetStream, but offers a different interface in the form of keys and values rather than subject names and messages. You can use a bucket to put (including compare and set), get and delete a value (a byte array like a message payload) associated with a key (a string, like a subject). It also allows you to 'watch' for changes to the buket as they happen. And finally it allows you to maintain a history of the values associated with a key over time, as well as get a specific version of the value.
-
-### Defining buckets
-
-Each bucket is an independent key/value store instance. Buckets are typically created administratively (e.g. using the `nats` CLI tool), or can be defined using the client library's `CreateKeyValue()`. 
-
-### Putting
-
-
-
-### Getting
-### watching
+The [Key Value store](js/kv.md) functionality is implemented on top of JetStream, but offers a different interface in the form of keys and values rather than subject names and messages. You can use a bucket to put (including compare and set), get and delete a value (a byte array like a message payload) associated with a key (a string, like a subject). It also allows you to 'watch' for changes to the buket as they happen. And finally it allows you to maintain a history of the values associated with a key over time, as well as get a specific revision of the value.
 
 ## Object Store
-(placeholder for unreleased functionality)
+(placeholder for future functionality)
