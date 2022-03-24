@@ -22,7 +22,7 @@ When connecting to a cluster it is best to provide the complete set of 'seed' UR
    * [Decentralized JWT Authentication/Authorization](../security/creds.md) (where the application is configured with the location of 'credentials file' containing the JWT and private Nkey)
    * [Token Authentication](../security/token.md#connecting-with-a-token) (where the application is configured with a Token string)
    * [TLS Certificate](../security/tls.md#connecting-with-tls-and-verify-client-identity) (where the client is configured to use a client TLS certificate and the servers are configured to map the TLS client certificates to users defined in the server configuration)
-   * [NKEY with Challenge](../security/nkey.md) (/using-nats/developer/security/nkey) (where the client is configured with a Seed and User NKeys)
+   * [NKEY with Challenge](../security/nkey.md) (where the client is configured with a Seed and User NKeys)
 
 ### Runtime configuration
 
