@@ -13,7 +13,7 @@ Developing with NATS is a combination of distributed application techniques, com
 | C | [nats.c](https://github.com/nats-io/nats.c), [doc](http://nats-io.github.io/nats.c) |
 | Rust | [nats.rs](https://github.com/nats-io/nats.rs), [rust doc](https://docs.rs/nats) |
 | Elixir | [nats.ex](https://github.com/nats-io/nats.ex), [hex doc](https://hex.pm/packages/gnat) |
-| Zig | [nats.zig](https://github.com/nats-io/nats.zig)
+| Zig | [nats.zig](https://github.com/nats-io/nats.zig) |
 
 Not all libraries contain this separate doc, depending on the language community, but be sure to check out the client libraries README for more information.
 
