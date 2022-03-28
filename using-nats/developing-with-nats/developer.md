@@ -19,7 +19,7 @@ Not all libraries contain this separate doc, depending on the language community
 
 There are many other NATS client libraries and examples contributed and maintained by the community and available on GitHub, such as:
 
-* [SwiftyNats](https://github.com/rayepps/swifty-nats)
+* [SwiftyNats](https://github.com/aus-der-Technik/SwiftyNats)
 * [Kotlin](https://github.com/nats-io/kotlin-nats-examples)
 * [Dart](https://github.com/chartchuo/dart-nats) and [Dart](https://github.com/c16a/nats-dart)
 * [Tcl](https://github.com/Kazmirchuk/nats-tcl)
