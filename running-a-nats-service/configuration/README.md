@@ -153,7 +153,7 @@ By default, the JetStream subsystem will store data in the /tmp directory, but y
 | :--- | :--- | :--- |
 | `store_dir` | Directory to use for JetStream storage. | `/tmp/nats/jetstream` |
 | `max_memory_store` | Maximum size of the 'memory' storage | 75% of available memory |
-| `max_file_storage` | Maximum size of the 'file' storage | Up to 1TB if available |
+| `max_file_store` | Maximum size of the 'file' storage | Up to 1TB if available |
 
 
 Here's an example minimal file that will store data in a local "nats" directory with some limits.
