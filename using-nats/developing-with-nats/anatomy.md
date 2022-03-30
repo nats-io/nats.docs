@@ -150,8 +150,7 @@ Stream *consumers* are how application get messages from stream. To make another
 
 Consumers also have a small amount of state on the NATS Server to store some message sequence numbers 'cursors'. You can have as many consumers as you need per stream.
 
-Client applications either create *ephemeral* consumers, or define/find *durable* consumers. Applications can provide a callback ([push consumers](js/push_consumers.md)) or explicitly fetch ([pull consumers](js/pull_consumers.md)) messages from the consumer.
-
+Client applications either create *ephemeral* consumers, or define/find *durable* consumers. Applications either subscribe to 'push' consumers (consumers defined with a delivery subject and optionally a queue group name for that delivery subject), or fetch on demand (including an optional prefetch) from 'pull' consumers (consumers defined without a delivery subject or queue group name as they don't need any while providing the same functionality).
 
 ### Ephemeral consumers
 
@@ -163,7 +162,7 @@ Applications typically use ephemeral *ordered push consumers* to get they own co
 
 Durable consumers are, as the name suggest, meant to be 'always on', and used (shared) by multiple instances of the client application or by applications that get stopped and restarted multiple times and need to maintain state from one run of the application to another.
 
-Durable consumers can be managed administratively using the NATS CLI Tool, or programmatically by the application itself.
+Durable consumers can be managed administratively using the NATS CLI Tool, or programmatically by the application itself. A consumer is created as a durable consumer simply by specifying a durable name at creation time.
 
 Applications typically use *durable pull consumers* to distribute and scale horizontally the processing (or consumption) of the messages in a stream.
 
