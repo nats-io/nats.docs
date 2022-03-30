@@ -58,7 +58,7 @@ It is recommended that the application use [connection event listeners](events/e
 ## Disconnecting safely from NATS
 The recommended way to disconnect is to use [drain](receiving/drain.md) which will wait for any ongoing processing to conclude and clean everything properly, but if you need to close the connection immediately you can use `close()` from your connection object.
 
-## Work with messages
+# Working with messages
 
 Messages store the data that applications exchange with each other. A message has a *subject*, a *data payload* (byte array), and may also have a *reply-to* and *header* fields.
 
@@ -70,13 +70,13 @@ Some messages can be 'acknowledged' (for example message received from JetStream
 
 Some libraries allow you to easily [send](sending/structure.md) and [receive](receiving/structure.md) structured data.
 
-## Using Core NATS
+# Using Core NATS
 Once your application has successfully connected to the NATS Server infrastructure, you can then start using the returned connection object to interact with NATS.
 
-### Core NATS Publishing
+## Core NATS Publishing
 You can directly [publish](sending/README.md) on a connection some data addressed by a subject (or publish a pre-created messages with headers).
 
-## Flush and Ping/Pong
+### Flush and Ping/Pong
 
 Because of caching, if your application is highly sensitive to latency, you may want to [flush](sending/caches.md) after publishing. 
 
@@ -84,7 +84,7 @@ Many of the client libraries use the [PING/PONG interaction](connecting/pingpong
 
 Even though the client may use PING/PONG for flush, pings sent this way do not count towards [max outgoing pings](connecting/pingpong.md).
 
-### Core NATS Subscribing
+## Core NATS Subscribing
 The process of subscribing involves having the client library tell the NATS that an application is interested in a particular subject. When an application is done with a subscription it unsubscribes telling the server to stop sending messages.
 
 Receiving messages with NATS can be library dependent, some languages, like Go or Java, provide synchronous and asynchronous APIs, while others may only support one type of subscription. In general, applications can receive messages [asynchronously](receiving/async.md) or [synchronously](receiving/sync.md).
@@ -97,21 +97,21 @@ A client will receive a message for each matching subscription, so if a connecti
 
 A client will receive a message for each matching subscription, so if a connection has multiple subscriptions using identical or overlapping subjects \(say `foo` and `>`\) the same message will be sent to the client multiple times.
 
-#### Subscribe as part of a queue group
+### Subscribe as part of a queue group
 You can also subscribe [as part of a distributed *queue group*](receiving/queues.md). All the subscribers with the same queue group name form the distributed queue. The NATS Servers automatically distributes the messages published on the matching subject(s) between the members of the queue group.
 
 On a given subject there can be more than one queue group created by subscribing applications, each queue group being an independent queue and distributing its own copy of the messages between the queue group members.
 
-#### Slow consumers
+### Slow consumers
 One thing to keep in mind when making Core NATS subscriptions to subjects is that your application must be able to keep up with the flow of messages published on the subject(s) or it will otherwise become a [slow consumer](events/slow.md)
 
-### Unsubscribe
+## Unsubscribing
 
 When you no longer want to receive the messages on a particular subject you must call [unsubscribe](receiving/unsubscribing.md), or you can [automatically unsubscribe](receiving/unsub_after.md) after receiving a specific number of messages.
-### Making requests to services
+## Making requests to services
 
 You can also use NATS to easily and transparently invoke services without needing to know about the location or number of servers for the service. The connection's [request](sending/request_reply.md) call publishes a message on the specified subject that contains a [reply-to](sending/replyto.md) inbox subject and then waits for a reply message to be received by that inbox.
-### Servicing and replying to requests
+## Servicing and replying to requests
 
 The server applications servicing those requests simply need to subscribe to the subject on which the requests are published, process the request messages they receive and [reply](receiving/reply.md) to the message on the subject contained in the request message's [Reply-to](receiving/reply.md) attribute.
 
