@@ -166,6 +166,12 @@ State:
 
 More details about the `State` section will be shown later when discussing the ack models in depth.
 
+### Stream vs Consumer sequence numbers
+
+The two number are not directly related: the Stream sequence number is the pointer to the exact message, while the Consumer sequence number is an ever-increasing counter for consumer actions.
+
+So for example a stream with 1 message in it would have stream sequence of 1, but if the consumer attempted 10 deliveries of that message consumer sequence would be 10 or 11.
+
 ## Consuming Pull-Based Consumers
 
 Pull-based Consumers require you to specifically ask for messages and ack them, typically you would do this with the client library `Request()` feature, but the `nats` utility has a helper:
