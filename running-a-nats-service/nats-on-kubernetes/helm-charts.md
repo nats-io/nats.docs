@@ -7,13 +7,15 @@ helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm install my-nats nats/nats
 ```
 
+The [ArtifactHub NATS Helm package](https://artifacthub.io/packages/helm/nats/nats) contains a complete list of configuration options.  Some common scenarios are outlined below.
+
 ## Configuration
 
 ### Server Image
 
 ```yaml
 nats:
-  image: nats:2.4.0
+  image: nats:2.7.4-alpine
   pullPolicy: IfNotPresent
 ```
 
@@ -26,19 +28,19 @@ nats:
 
   # How many seconds should pass before sending a PING
   # to a client that has no activity.
-  pingInterval: 
+  pingInterval:
 
   # Server settings.
   limits:
-    maxConnections: 
-    maxSubscriptions: 
-    maxControlLine: 
-    maxPayload: 
+    maxConnections:
+    maxSubscriptions:
+    maxControlLine:
+    maxPayload:
 
-    writeDeadline: 
-    maxPending: 
-    maxPings: 
-    lameDuckDuration: 
+    writeDeadline:
+    maxPending:
+    maxPings:
+    lameDuckDuration:
 
   # Number of seconds to wait for client connections to end after the pod termination is requested
   terminationGracePeriodSeconds: 60
@@ -51,10 +53,10 @@ _Note_: It is not recommended to enable trace or debug in production since enabl
 ```yaml
 nats:
   logging:
-    debug: 
-    trace: 
-    logtime: 
-    connectErrorReports: 
+    debug:
+    trace:
+    logtime:
+    connectErrorReports:
     reconnectErrorReports:
 ```
 
@@ -359,6 +361,8 @@ auth:
 
 ### Setting up Memory and File Storage
 
+File Storage is **always** recommended, since JetStream's RAFT Meta Group will be persisted to file storage.  The Storage Class used should be block storage.  NFS is not recommended.
+
 ```yaml
 nats:
   image: nats:alpine
@@ -372,9 +376,8 @@ nats:
 
     fileStorage:
       enabled: true
-      size: 1Gi
-      storageDirectory: /data/
-      storageClassName: default
+      size: 10Gi
+      # storageClassName: gp2 # NOTE: AWS setup but customize as needed for your infra.
 ```
 
 ### Using with an existing PersistentVolumeClaim
