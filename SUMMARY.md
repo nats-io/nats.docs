@@ -98,7 +98,6 @@
     * [Using the Key/Value store](using-nats/developing-with-nats/js/kv.md)
   * [Tutorials](using-nats/developing-with-nats/tutorials/README.md)
     * [Advanced Connect and Custom Dialer in Go](using-nats/developing-with-nats/tutorials/custom_dialer.md)
-    * [In Depth JWT Guide](using-nats/developing-with-nats/tutorials/jwt.md)
 
 ## Running a NATS service
 
@@ -152,6 +151,7 @@
         * [Mixed Authentication/Authorization Setup](running-a-nats-service/configuration/securing_nats/jwt/jwt_nkey_auth.md)
     * [Authorization](running-a-nats-service/configuration/securing_nats/authorization.md)
     * [Multi Tenancy using Accounts](running-a-nats-service/configuration/securing_nats/accounts.md)
+    * [In Depth JWT Guide](using-nats/developing-with-nats/tutorials/jwt.md)
     * [OCSP Stapling](running-a-nats-service/configuration/ocsp.md)
   * [Logging](running-a-nats-service/configuration/logging.md)
   * [Enabling Monitoring](running-a-nats-service/configuration/monitoring.md)
