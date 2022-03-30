@@ -193,7 +193,7 @@ This time the message is received by the subscriber:
 user b
 ```
 
-Accounts are a lot more powerful than what has been demonstrated here. Take a look at the complete documentation of [accounts](../../../running-a-nats-service/configuration/securing_nats/accounts.md#accounts) and the [users](../../nats-server/configuration/securing_nats/auth_intro/) associated with them. All of this is in a plain NATS config file. (Copy the above config and try it using this command: `nats-server -c <filename>`) In order to make any changes, every participating nats-server config file in the same security domain has to change. This configuration is typically controlled by one organization or the administrator.
+Accounts are a lot more powerful than what has been demonstrated here. Take a look at the complete documentation of [accounts](../configuration/securing_nats/accounts.md#accounts) and the [users](../../nats-server/configuration/securing_nats/auth_intro/) associated with them. All of this is in a plain NATS config file. (Copy the above config and try it using this command: `nats-server -c <filename>`) In order to make any changes, every participating nats-server config file in the same security domain has to change. This configuration is typically controlled by one organization or the administrator.
 
 #### Key Takeaways
 
@@ -302,7 +302,7 @@ When the nats-server was started with `-V` tracing, you can see the signature in
 }]
 ```
 
-On connect, clients are instantly sent the nonce to sign as part of the `INFO` message (formatting added manually). Since `telnet` will not authenticate, the server closes the connection after hitting the [authorization ](../../../running-a-nats-service/configuration/securing_nats/authorization.md)timeout.
+On connect, clients are instantly sent the nonce to sign as part of the `INFO` message (formatting added manually). Since `telnet` will not authenticate, the server closes the connection after hitting the [authorization ](../configuration/securing_nats/authorization.md)timeout.
 
 ```
 > telnet localhost 4222
@@ -396,17 +396,17 @@ The issuer field of the User JWT identifies the Account, and the `nats-server` t
 
 To obtain an Account JWT, the nats-server is configured with one of
 three
-[resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md)
+[resolver](../configuration/securing_nats/jwt/resolver.md)
 types. Which one to pick depends upon your needs:
 
-* [mem-resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#memory):
+* [mem-resolver](../configuration/securing_nats/jwt/resolver.md#memory):
   Very few or very static accounts
   * You are comfortable changing the server config if the operator or
     any accounts changed,
   * You can generate a user programmatically using NKEYs and a JWT
     library (more about that later),
   * Users do not need to be known by nats-server.
-* [url-resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#url-resolver):
+* [url-resolver](../configuration/securing_nats/jwt/resolver.md#url-resolver):
   Very large volume of accounts
   * Same as `mem-resolver`, except you do not need to modify the
     server configurations when accounts are added or changed,
@@ -1038,10 +1038,10 @@ This environment is set up with a signing key, thus the account is already [crea
 
 How accounts can be publicized wholly depends on the resolver you are using:
 
-* [mem-resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#memory):
+* [mem-resolver](../configuration/securing_nats/jwt/resolver.md#memory):
   The operator has to have all accounts imported and generate a new
   config,
-* [url-resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#url-resolver):
+* [url-resolver](../configuration/securing_nats/jwt/resolver.md#url-resolver):
   `nsc push` will send an HTTP POST request to the hosting webserver
   or `nats-account-server`,
 * `nats-resolver`: Every environment with a system account user that
@@ -1973,11 +1973,11 @@ Alternatively you can also remove the account using `nsc delete
 account --name` and keep it from found by the account resolver. How to
 do this depends on your resolver type:
 
-* [mem-resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#memory):
+* [mem-resolver](../configuration/securing_nats/jwt/resolver.md#memory):
 
    Remove the JWT from the configuration field `resolver_preload` and
    restart all `nats-server`
-* [url-resolver](../../../running-a-nats-service/configuration/securing_nats/jwt/resolver.md#url-resolver):
+* [url-resolver](../configuration/securing_nats/jwt/resolver.md#url-resolver):
 
    Manually delete the JWT from the `nats-account-server` store
    directory.
