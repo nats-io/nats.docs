@@ -12,7 +12,7 @@ The NATS server implements a [zero allocation byte parser](https://youtu.be/ylRK
 
 **Control line w/Optional Content**: Each interaction between the client and server consists of a control, or protocol, line of text followed, optionally by message content. Most of the protocol messages don't require content, only `PUB` and `MSG` include payloads.
 
-**Field Delimiters**: The fields of NATS protocol messages are delimited by whitespace characters '\`\`\`'(space) or\`\`\t\` (tab). Multiple whitespace characters will be treated as a single field delimiter.
+**Field Delimiters**: The fields of NATS protocol messages are delimited by whitespace characters ` `(space) or `	`(tab). Multiple whitespace characters will be treated as a single field delimiter.
 
 **Newlines**: NATS uses `CR` followed by `LF` (`CR+LF`, `\r`, `0x0D0A`) to terminate protocol messages. This newline sequence is also used to mark the end of the message payload in a `PUB` or `MSG` protocol message.
 
