@@ -24,7 +24,7 @@ Server initiated events:
 
 * `$SYS.ACCOUNT.<id>.CONNECT` \(client connects\)
 * `$SYS.ACCOUNT.<id>.DISCONNECT` \(client disconnects\)
-* `$SYS.SERVER.ACCOUNT.<id>.CONNS` \(connections for an account changed\)
+* `$SYS.ACCOUNT.<id>.SERVER.CONNS` \(connections for an account changed\)
 * `$SYS.SERVER.<id>.CLIENT.AUTH.ERR` \(authentication error\)
 * `$SYS.ACCOUNT.<id>.LEAFNODE.CONNECT` \(leaf node connnects\)
 * `$SYS.ACCOUNT.<id>.LEAFNODE.DISCONNECT` \(leaf node disconnects\)
