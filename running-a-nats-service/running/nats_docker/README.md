@@ -149,7 +149,7 @@ networks:
 Now we use Docker Compose to create the cluster that will be using the `nats` network:
 
 ```bash
-docker compose -f nats-cluster.yaml up
+docker-compose -f nats-cluster.yaml up
 ```
 Output
 ```text
@@ -211,7 +211,7 @@ nats pub -s "nats://nats-2:4222" hello second
 Also stopping the seed node to which the subscription was done, should trigger an automatic failover to the other nodes:
 
 ```bash
-docker compose -f nats-cluster.yaml stop nats
+docker-compose -f nats-cluster.yaml stop nats
 ```
 Output extract
 ```text
