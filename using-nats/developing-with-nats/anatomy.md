@@ -118,7 +118,7 @@ The server applications servicing those requests simply need to subscribe to the
 Typically, there is no reason not to want to make your service distributed (i.e. scalable and fault-tolerant). This means that unless there's a specific reason not to, application servicing requests should [subscribe to the request subject using the same queue group name](receiving/queues.md). You can have more than one queue group present on a subject (for example you could have one queue group to distribute the processing of the requests between service instances, and another queue group to distribute the logging or monitoring of the requests being made to the service).
 # Streaming with JetStream
 
-Some applications can make use of the extra functionalities enabled by [JetStream](../jetstream/develop_jetstream.md) (streams, KV Store, Object Store). Just like you use the Core NATS connection object to invoke Core NATS operations, you use a [*JetStream context*](js/context.md) to invoke JetStream operations.
+Some applications can make use of the extra functionalities enabled by [JetStream](../jetstream/develop_jetstream.md) (streams, KV Store, Object Store). Just like you use the Core NATS connection object to invoke Core NATS operations, you use a [*JetStream context*](js/context.md) to invoke JetStream operations. You can specify things like the timeout value for all the operations executed from the context. JS context are light-weight, so while it is safe to share a JS context between threads, for best performance do not be afraid to have a context per thread.
 
 ## Streaming functionalities
 
