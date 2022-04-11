@@ -17,6 +17,49 @@ CreateKeyValue(cfg *KeyValueConfig) (KeyValue, error)
 DeleteKeyValue(bucket string) error
 ```
 {% endtab %}
+{% tab title="Java" %}
+```java
+/**
+ * Create a key value store.
+ * @param config the key value configuration
+ * @return bucket info
+ * @throws IOException covers various communication issues with the NATS
+ *         server such as timeout or interruption
+ * @throws JetStreamApiException the request had an error related to the data
+ * @throws IllegalArgumentException the server is not JetStream enabled
+ */
+KeyValueStatus create(KeyValueConfiguration config) throws IOException, JetStreamApiException;
+
+/**
+* Get the list of bucket names.
+* @return list of bucket names
+* @throws IOException covers various communication issues with the NATS
+*         server such as timeout or interruption
+* @throws JetStreamApiException the request had an error related to the data
+* @throws InterruptedException if the thread is interrupted
+*/
+List<String> getBucketNames() throws IOException, JetStreamApiException, InterruptedException;
+
+/**
+* Gets the info for an existing bucket.
+* @param bucketName the bucket name to use
+* @throws IOException covers various communication issues with the NATS
+*         server such as timeout or interruption
+* @throws JetStreamApiException the request had an error related to the data
+* @return the bucket status object
+*/
+KeyValueStatus getBucketInfo(String bucketName) throws IOException, JetStreamApiException;
+
+/**
+* Deletes an existing bucket. Will throw a JetStreamApiException if the delete fails.
+* @param bucketName the stream name to use.
+* @throws IOException covers various communication issues with the NATS
+*         server such as timeout or interruption
+* @throws JetStreamApiException the request had an error related to the data
+*/
+void delete(String bucketName) throws IOException, JetStreamApiException;
+```
+{% endtab %}
 {% endtabs %}
 
 ### Getting
@@ -31,6 +74,32 @@ Get(key string) (entry KeyValueEntry, err error)
 // GetRevision returns a specific revision value for the key.
 GetRevision(key string, revision uint64) (entry KeyValueEntry, err error)
 ```
+{% endtab %}
+{% tab title="Java" %}
+```java
+/**
+* Get the entry for a key
+* @param key the key
+* @return the KvEntry object or null if not found.
+* @throws IOException covers various communication issues with the NATS
+*         server such as timeout or interruption
+* @throws JetStreamApiException the request had an error related to the data
+* @throws IllegalArgumentException the server is not JetStream enabled
+*/
+KeyValueEntry get(String key) throws IOException, JetStreamApiException;
+
+/**
+* Get the specific revision of an entry for a key.
+* @param key the key
+* @param revision the revision
+* @return the KvEntry object or null if not found.
+* @throws IOException covers various communication issues with the NATS
+*         server such as timeout or interruption
+* @throws JetStreamApiException the request had an error related to the data
+* @throws IllegalArgumentException the server is not JetStream enabled
+*/
+KeyValueEntry get(String key, long revision) throws IOException, JetStreamApiException;
+```  
 {% endtab %}
 {% endtabs %}
 
@@ -50,6 +119,71 @@ Create(key string, value []byte) (revision uint64, err error)
 Update(key string, value []byte, last uint64) (revision uint64, err error)
 ```
 {% endtab %}
+{% tab title="Java" %}
+```java
+/**
+ * Put a byte[] as the value for a key
+ * @param key the key
+ * @param value the bytes of the value
+ * @return the revision number for the key
+ * @throws IOException covers various communication issues with the NATS
+ *         server such as timeout or interruption
+ * @throws JetStreamApiException the request had an error related to the data
+ * @throws IllegalArgumentException the server is not JetStream enabled
+ */
+long put(String key, byte[] value) throws IOException, JetStreamApiException;
+
+/**
+ * Put a string as the value for a key
+ * @param key the key
+ * @param value the UTF-8 string
+ * @return the revision number for the key
+ * @throws IOException covers various communication issues with the NATS
+ *         server such as timeout or interruption
+ * @throws JetStreamApiException the request had an error related to the data
+ * @throws IllegalArgumentException the server is not JetStream enabled
+ */
+long put(String key, String value) throws IOException, JetStreamApiException;
+
+/**
+ * Put a long as the value for a key
+ * @param key the key
+ * @param value the number
+ * @return the revision number for the key
+ * @throws IOException covers various communication issues with the NATS
+ *         server such as timeout or interruption
+ * @throws JetStreamApiException the request had an error related to the data
+ * @throws IllegalArgumentException the server is not JetStream enabled
+ */
+long put(String key, Number value) throws IOException, JetStreamApiException;
+
+/**
+ * Put as the value for a key iff the key does not exist (there is no history)
+ * or is deleted (history shows the key is deleted)
+ * @param key the key
+ * @param value the bytes of the value
+ * @return the revision number for the key
+ * @throws IOException covers various communication issues with the NATS
+ *         server such as timeout or interruption
+ * @throws JetStreamApiException the request had an error related to the data
+ * @throws IllegalArgumentException the server is not JetStream enabled
+ */
+long create(String key, byte[] value) throws IOException, JetStreamApiException;
+
+/**
+ * Put as the value for a key iff the key exists and its last revision matches the expected
+ * @param key the key
+ * @param value the bytes of the value
+ * @param expectedRevision the expected last revision
+ * @return the revision number for the key
+ * @throws IOException covers various communication issues with the NATS
+ *         server such as timeout or interruption
+ * @throws JetStreamApiException the request had an error related to the data
+ * @throws IllegalArgumentException the server is not JetStream enabled
+ */
+long update(String key, byte[] value, long expectedRevision) throws IOException, JetStreamApiException;
+```
+{% endtab %}
 {% endtabs %}
 
 ### Deleting
@@ -65,6 +199,27 @@ Delete(key string) error
 Purge(key string) error
 ```
 {% endtab %}
+{% tab title="Java" %}
+```java
+/**
+* Soft deletes the key by placing a delete marker.
+* @param key the key
+* @throws IOException covers various communication issues with the NATS
+*         server such as timeout or interruption
+* @throws JetStreamApiException the request had an error related to the data
+*/
+void delete(String key) throws IOException, JetStreamApiException;
+
+/**
+* Purge all values/history from the specific key
+* @param key the key
+* @throws IOException covers various communication issues with the NATS
+*         server such as timeout or interruption
+* @throws JetStreamApiException the request had an error related to the data
+*/
+void purge(String key) throws IOException, JetStreamApiException;
+```
+{% endtab %}
 {% endtabs %}
 
 ### Getting all the keys
@@ -78,6 +233,19 @@ You can get the list of all the keys currently having a value associated using `
 Keys(opts ...WatchOpt) ([]string, error)
 ```
 {% endtab %}
+{% tab title="Java" %}
+```java
+/**
+ * Get a list of the keys in a bucket.
+ * @return List of keys
+ * @throws IOException covers various communication issues with the NATS
+ *         server such as timeout or interruption
+ * @throws JetStreamApiException the request had an error related to the data
+ * @throws InterruptedException if the thread is interrupted
+ */
+List<String> keys() throws IOException, JetStreamApiException, InterruptedException;
+```
+{% endtab %}
 {% endtabs %}
 
 ### Getting the history for a key
@@ -89,6 +257,20 @@ The JetStream key/value store has a feature you don't usually find in key/value 
 ```go
 // History will return all historical values for the key.
 History(key string, opts ...WatchOpt) ([]KeyValueEntry, error)
+```
+{% endtab %}
+{% tab title="Java" %}
+```java
+/**
+ * Get the history (list of KeyValueEntry) for a key
+ * @param key the key
+ * @return List of KvEntry
+ * @throws IOException covers various communication issues with the NATS
+ *         server such as timeout or interruption
+ * @throws JetStreamApiException the request had an error related to the data
+ * @throws InterruptedException if the thread is interrupted
+ */
+List<KeyValueEntry> history(String key) throws IOException, JetStreamApiException, InterruptedException;
 ```
 {% endtab %}
 {% endtabs %}
@@ -105,6 +287,34 @@ Watching a key/value bucket is like subscribing to updates: you provide a callba
 Watch(keys string, opts ...WatchOpt) (KeyWatcher, error)
 // WatchAll will invoke the callback for all updates.
 WatchAll(opts ...WatchOpt) (KeyWatcher, error)
+```
+{% endtab %}
+{% tab title="Java" %}
+```java
+/**
+ * Watch updates for a specific key
+ * @param key the key
+ * @param watcher the watcher
+ * @param watchOptions the watch options to apply. If multiple conflicting options are supplied, the last options wins.
+ * @return The KeyValueWatchSubscription
+ * @throws IOException covers various communication issues with the NATS
+ *         server such as timeout or interruption
+ * @throws JetStreamApiException the request had an error related to the data
+ * @throws InterruptedException if the thread is interrupted
+ */
+NatsKeyValueWatchSubscription watch(String key, KeyValueWatcher watcher, KeyValueWatchOption... watchOptions) throws IOException, JetStreamApiException, InterruptedException;
+
+/**
+ * Watch updates for all keys
+ * @param watcher the watcher
+ * @param watchOptions the watch options to apply. If multiple conflicting options are supplied, the last options wins.
+ * @return The KeyValueWatchSubscription
+ * @throws IOException covers various communication issues with the NATS
+ *         server such as timeout or interruption
+ * @throws JetStreamApiException the request had an error related to the data
+ * @throws InterruptedException if the thread is interrupted
+ */
+NatsKeyValueWatchSubscription watchAll(KeyValueWatcher watcher, KeyValueWatchOption... watchOptions) throws IOException, JetStreamApiException, InterruptedException;
 ```
 {% endtab %}
 {% endtabs %}
