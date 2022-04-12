@@ -36,7 +36,7 @@ Besides the connectivity and security details, there are numerous options for a 
 
 WebSocket and NATS&#x20;
 
-{% embed url="https://www.youtube.com/watch?t=1s&v=AbAR9zgJnjY" %}
+{% embed url="https://www.youtube.com/watch?v=AbAR9zgJnjY" %}
 WebSocket and NATS | Hello World
 {% endembed %}
 
