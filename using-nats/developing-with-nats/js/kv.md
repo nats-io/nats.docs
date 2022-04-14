@@ -1,6 +1,6 @@
 # Key Value Store
 
-As the Key Value Store is built on top of the JetStream persistence layer you obtain a KeyValueManager or a KeyValue object from your JetStream [context](context.md).
+As the Key Value Store is built on top of the JetStream persistence layer you obtain a KeyValueManager object from your JetStream [context](context.md).
 
 ### Creating, and deleting KV buckets
 
