@@ -13,7 +13,6 @@ The APIs used for administrative tools all respond with standardised JSON and th
 ```shell
 nats req '$JS.API.STREAM.INFO.nonexisting' ''
 ```
-Output
 ```text
 Published 11 bytes to $JS.API.STREAM.INFO.nonexisting
 Received  [_INBOX.lcWgjX2WgJLxqepU0K9pNf.mpBW9tHK] : {
@@ -28,7 +27,6 @@ Received  [_INBOX.lcWgjX2WgJLxqepU0K9pNf.mpBW9tHK] : {
 ```shell
 nats req '$JS.STREAM.INFO.ORDERS' ''
 ```
-Output
 ```text
 Published 6 bytes to $JS.STREAM.INFO.ORDERS
 Received  [_INBOX.fwqdpoWtG8XFXHKfqhQDVA.vBecyWmF] : '{
@@ -165,7 +163,6 @@ If you have a pull-based Consumer you can send a standard NATS Request to `$JS.A
 ```shell
 nats req '$JS.API.CONSUMER.MSG.NEXT.ORDERS.test' '1'
 ```
-Output
 ```text
 Published 1 bytes to $JS.API.CONSUMER.MSG.NEXT.ORDERS.test
 Received  [js.1] : 'message 1'
@@ -198,7 +195,6 @@ Here we see a second format of the Pull request that will not store the request 
 ```shell
 nats req '$JS.API.CONSUMER.MSG.NEXT.ORDERS.NEW' '{"no_wait": true, "batch": 10}'
  ```
-Output
 ```text
 13:45:30 Sending request on "$JS.API.CONSUMER.MSG.NEXT.ORDERS.NEW"
 13:45:30 Received on "_INBOX.UKQGqq0W1EKl8inzXU1naH.XJiawTRM" rtt 594.908µs
@@ -213,7 +209,6 @@ If you know the Stream sequence of a message you can fetch it directly, this doe
 ```shell
 nats req '$JS.API.STREAM.MSG.GET.ORDERS' '{"seq": 1}'
 ```
-Output
 ```text
 Published 1 bytes to $JS.STREAM.ORDERS.MSG.BYSEQ
 Received  [_INBOX.cJrbzPJfZrq8NrFm1DsZuH.k91Gb4xM] : '{

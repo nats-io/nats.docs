@@ -55,7 +55,6 @@ Confirm that the monitoring endpoint is enabled by sending a request:
 ```bash
 curl 127.0.0.1:8222/streaming/channelsz
 ```
-Output
 ```JSON
 {
   "cluster_id": "test-cluster",

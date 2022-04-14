@@ -9,7 +9,6 @@ You can then check that JetStream is enabled by using
 ```shell
 nats account info
 ``` 
-Which should output something like:
 ```
 Connection Information:
 
@@ -45,7 +44,6 @@ Just like you have to create streams before you can use them, you need to first 
 ```shell
 nats kv add my_kv
 ```
-which should output:
 ```text
 my_kv Key-Value Store Status
 
@@ -74,7 +72,6 @@ Now that we have value stored at key "Key1" we can retrieve that value with a 'g
 ```shell
 nats kv get my_kv Key1
 ```
-which should output
 ```
 my_kv > Key1 created @ 12 Oct 21 20:08 UTC
 
@@ -95,7 +92,6 @@ For example run `nats kv watch my_kv`: this will start a watcher on the bucket w
 ```shell
 nats kv watch my_kv
 ```
-which should output
 ```
 [2021-10-12 13:15:03] DEL my_kv > Key1
 ```

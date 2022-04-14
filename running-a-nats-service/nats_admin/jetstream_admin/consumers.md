@@ -11,7 +11,6 @@ Pull-based Consumers are created the same as push-based Consumers, you just don'
 ```shell
 nats con ls ORDERS
 ```
-Output
 ```text
 No Consumers defined
 ```
@@ -23,7 +22,6 @@ I supply the `--sample` options on the CLI as this is not prompted for at presen
 ```shell
 nats con add --sample 100
 ```
-Output
 ```text
 ? Select a Stream ORDERS
 ? Consumer name NEW
@@ -79,7 +77,6 @@ Our `MONITOR` Consumer is push-based, has no ack and will only get new messages 
 ```shell
 nats con add
 ```
-Ouptput
 ```text
 ? Select a Stream ORDERS
 ? Consumer name MONITOR
@@ -127,7 +124,6 @@ You can get a quick list of all the Consumers for a specific Stream:
 ```shell
 nats con ls ORDERS
 ```
-Output
 ```text
 Consumers for Stream ORDERS:
 
@@ -189,7 +185,6 @@ We can now read them using `nats`:
 ```shell
 nats con next ORDERS DISPATCH
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 1
@@ -200,7 +195,6 @@ Consumer another one
 ```shell
 nats con next ORDERS DISPATCH
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 2
@@ -215,7 +209,6 @@ To do this from code you'd send a `Request()` to `$JS.API.CONSUMER.MSG.NEXT.ORDE
 ```shell
 nats req '$JS.API.CONSUMER.MSG.NEXT.ORDERS.DISPATCH' ''
 ```
-Output
 ```text
 Published [$JS.API.CONSUMER.MSG.NEXT.ORDERS.DISPATCH] : ''
 Received [ORDERS.processed] : 'order 3'
@@ -242,7 +235,6 @@ The Consumer is publishing to that subject, so let's listen there:
 ```shell
 nats sub monitor.ORDERS
 ```
-Output
 ```text
 Listening on [monitor.ORDERS]
 [#3] Received on [ORDERS.processed]: 'order 3'

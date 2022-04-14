@@ -15,9 +15,6 @@ Let's create the setup:
 ```shell
 nsc add operator -n memory
 ```
-
-Output
-
 ```
 Generated operator key - private key stored "~/.nkeys/memory/memory.nk"
 Success! - added operator "memory"
@@ -28,9 +25,6 @@ Add an account 'A'
 ```shell
 nsc add account --name A
 ```
-
-Output
-
 ```
 Generated account key - private key stored "~/.nkeys/memory/accounts/A/A.nk"
 Success! - added account "A"
@@ -41,9 +35,6 @@ Describe the account
 ```shell
 nsc describe account -W
 ```
-
-Output
-
 ```
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
@@ -73,9 +64,6 @@ Create a new user 'TA'
 ```shell
 nsc add user --name TA
 ```
-
-Output
-
 ```
 Generated user key - private key stored "~/.nkeys/memory/accounts/A/users/TA.nk"
 Generated user creds file "~/.nkeys/memory/accounts/A/users/TA.creds"

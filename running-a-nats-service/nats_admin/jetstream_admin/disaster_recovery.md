@@ -20,7 +20,6 @@ The backup includes:
 ```shell
 nats stream backup ORDERS /data/js-backup/ORDERS.tgz
 ```
-Output
 ```text
 Starting backup of Stream "ORDERS" with 13 data blocks
 
@@ -40,7 +39,6 @@ The backup made above can be restored into another server - but into the same St
 ```shell
 nats str restore ORDERS /data/js-backup/ORDERS.tgz
 ```
-Output
 ```text
 Starting restore of Stream "ORDERS" from file "/data/js-backup/ORDERS.tgz"
 
@@ -69,7 +67,6 @@ Here you can back up the configuration into a directory from where you can recov
 ```shell
 nats backup /data/js-backup
 ```
-Output
 ```text
 15:56:11 Creating JetStream backup into /data/js-backup
 15:56:11 Stream ORDERS to /data/js-backup/stream_ORDERS.json
@@ -86,7 +83,6 @@ Later the data can be restored, for Streams we support editing the Stream config
 ```shell
 nats restore /tmp/backup --update-streams
 ```
-Output
 ```text
 15:57:42 Reading file /tmp/backup/stream_ORDERS.json
 15:57:42 Reading file /tmp/backup/stream_ORDERS_consumer_NEW.json

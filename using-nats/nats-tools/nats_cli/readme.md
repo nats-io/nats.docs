@@ -109,7 +109,6 @@ List your contexts
 ```shell
 nats context ls
 ```
-Output
 ```text
 Known contexts:
 
@@ -129,7 +128,6 @@ Check the round trip time to the server (using the currently selected context)
 ```shell
 nats rtt
 ```
-Output
 ```text
 nats://localhost:4222:
 
@@ -142,7 +140,6 @@ You can also specify a context directly
 ```shell
 nats rtt --context example
 ```
-Example output
 ```text
 nats://nats.example.net:4222:
 
@@ -170,7 +167,6 @@ The `nats` utility has a command for creating `bcrypt` hashes. This can be used 
 ```shell
 nats server passwd
 ```
-Output
 ```text
 ? Enter password [? for help] **********************
 ? Reenter password [? for help] **********************

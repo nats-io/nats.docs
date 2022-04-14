@@ -101,7 +101,6 @@ Because the system account is connected, you can obtain the JetStream server rep
 ```bash
 nats  --server nats://admin:admin@localhost:4222 server report jetstream
 ```
-Output
 ```text
 ╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │                                                JetStream Summary                                                │
@@ -120,7 +119,6 @@ Create a stream named `test` subscribing to subject `test` in the JetStream doma
 ```bash
 nats  --server nats://acc:acc@localhost:4222 stream add
 ```
-Output
 ```text
 ? Stream Name test
 ? Subjects to consume test
@@ -167,7 +165,6 @@ To create a stream in a different domain while connected somewhere else, just pr
 ```bash
 nats  --server nats://acc:acc@localhost:4222 stream add --js-domain leaf
 ```
-Output
 ```text
 ? Stream Name test
 ? Subjects to consume test
@@ -220,7 +217,6 @@ Because both streams subscribe to the same subject, each one now reports one mes
 ```bash
 nats  --server nats://acc:acc@localhost:4222 stream report --js-domain leaf
 ```
-Output
 ```text
 Obtaining Stream stats
 
@@ -251,7 +247,6 @@ In order to copy a stream from one domain into another, specify the JetStream do
 ```bash
 nats  --server nats://acc:acc@localhost:4222 stream add --js-domain hub --mirror test
 ```
-Output
 ```text
 ? Stream Name backup-test-leaf
 ? Storage backend file
@@ -299,7 +294,6 @@ Similarly, if you want to aggregate streams located in any number of leaf nodes 
 ```bash
 nats  --server nats://acc:acc@localhost:4222 stream add --js-domain hub --source test
 ```
-Output
 ```text
 ? Stream Name aggregate-test-leaf
 ? Storage backend file
@@ -348,7 +342,6 @@ State:
 ```bash
 nats  --server nats://acc:acc@localhost:4222 stream report --js-domain hub
 ```
-Output
 ```text
 Obtaining Stream stats
 
@@ -436,7 +429,6 @@ Once the servers have been restarted or reloaded, a `mirror` can be created as f
 ```bash
 nats  --server nats://import_mirror:import_mirror@localhost:4222 stream add --js-domain hub --mirror aggregate-test-leaf
 ```
-Output
 ```text
 ? Stream Name aggregate-test-leaf-from-acc
 ? Storage backend file
@@ -485,7 +477,6 @@ A subsequent check shows that the one message stored in the stream aggregate in 
 ```bash
 nats  --server nats://import_mirror:import_mirror@localhost:4222 stream report --js-domain hub
 ```
-Output
 ```text
 Obtaining Stream stats
 
@@ -513,7 +504,6 @@ The modified `accounts.conf` also includes a separate import for an existing pul
 ```bash
 nats  --server nats://acc:acc@localhost:4222 consumer add  --js-domain hub
 ```
-Output
 ```text
 ? Consumer name dur
 ? Delivery target (empty for Pull Consumers)
@@ -548,7 +538,6 @@ State:
 ```shell
 nats  --server nats://acc:acc@localhost:4222 stream report --js-domain hub
 ```
-Output
 ```text
 Obtaining Stream stats
 
@@ -586,7 +575,6 @@ To retrieve the messages stored in the domain `hub` using `nats` while connected
 ```shell
 nats --server nats://import_client:import_client@localhost:4111 consumer next aggregate-test-leaf dur --js-api-prefix JS.acc@hub.API
 ```
-Output
 ```text
 [17:44:16] subj: test / tries: 1 / cons seq: 1 / str seq: 1 / pending: 0
 
@@ -605,7 +593,6 @@ Acknowledged message
 ```shell
 nats  --server nats://acc:acc@localhost:4222 consumer report --js-domain hub
 ```
-Output
 ```text
 ? Select a Stream aggregate-test-leaf
 ╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
@@ -628,7 +615,6 @@ The client is connected to the leaf node and receives the message just sent.
 ```shell
 ./main nats://import_client:import_client@localhost:4111
 ```
-Output
 ```text
 starting
 &{Sequence:{Consumer:3 Stream:3} NumDelivered:1 NumPending:0 Timestamp:2021-06-28 17:51:05.186878 -0400 EDT Stream:aggregate-test-leaf Consumer:dur}

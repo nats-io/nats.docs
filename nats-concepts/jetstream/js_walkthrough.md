@@ -9,7 +9,6 @@ You can then check that JetStream is enabled by using
 ```shell
 nats account info
 ```
-which should output something like
 ```
 Connection Information:
 
@@ -47,7 +46,6 @@ Enter `nats stream add <Stream name>` (in the examples below we will name the st
 ```shell
 nats stream add my_stream
 ```
-example output
 ```text
 ? Subjects to consume foo
 ? Storage backend file
@@ -93,7 +91,6 @@ You can then check the information about the stream you just created:
 ```shell
 nats stream info my_stream
 ```
-which should output something like
 ```text
 Information for Stream my_stream created 2021-10-12T08:42:10-07:00
 
@@ -140,7 +137,6 @@ We can administratively create a consumer using the 'nats consumer add <Consumer
 ```shell
 nats consumer add
 ```
-example output
 ```text
 ? Consumer name pull_consumer
 ? Delivery target (empty for Pull Consumers)

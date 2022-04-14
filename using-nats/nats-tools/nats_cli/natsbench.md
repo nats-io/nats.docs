@@ -60,7 +60,6 @@ Now increase the number of messages published:
 ```bash
 nats bench foo --pub 1 --size 16 --msgs 10000000
 ```
-Example output
 ```text
 23:34:29 Starting pub/sub benchmark [msgs=10,000,000, msgsize=16 B, pubs=1, subs=0, js=false]
 23:34:29 Starting publisher, publishing 10,000,000 messages
@@ -102,9 +101,6 @@ Let's increase both the number of messages, and the number of subscribers.:
 ```bash
 nats bench foo --pub 1 --sub 5 --size 16 --msgs 1000000
 ```
-
-Example output
-
 ```text
 23:38:08 Starting pub/sub benchmark [msgs=1,000,000, msgsize=16 B, pubs=1, subs=5, js=false]
 23:38:08 Starting subscriber, expecting 1,000,000 messages
@@ -140,9 +136,6 @@ Now let's increase the number of publishers and examine the output:
 ```bash
 nats bench foo --pub 5 --sub 5 --size 16 --msgs 1000000
 ```
-
-Example output
-
 ```text
 23:39:28 Starting pub/sub benchmark [msgs=1,000,000, msgsize=16 B, pubs=5, subs=5, js=false]
 23:39:28 Starting subscriber, expecting 1,000,000 messages
@@ -196,7 +189,6 @@ And in another shell send some requests
 ```bash
 nats bench foo --pub 1 --request --msgs 10000
 ```
-Example output
 ```text
 23:47:35 Benchmark in request/reply mode
 23:47:35 Starting request/reply benchmark [msgs=10,000, msgsize=128 B, pubs=1, subs=0, js=false, request=true, reply=false]
@@ -220,7 +212,6 @@ First let's publish some messages into a stream, `nats bench` will automatically
 ```bash
 nats bench bar --js --pub 1 --size 16 --msgs 1000000
 ```
-Example output
 ```text
 00:00:10 Starting JetStream benchmark [msgs=1,000,000, msgsize=16 B, pubs=1, subs=0, js=true, stream=benchstream  storage=memory, syncpub=false, pubbatch=100, jstimeout=30s, pull=false, pullbatch=100, maxackpending=-1, replicas=1, purge=false]
 00:00:10 Starting publisher, publishing 1,000,000 messages
@@ -235,7 +226,6 @@ We can now measure the speed of replay of messages stored in the stream to a con
 ```bash
 nats bench bar --js --sub 1 --msgs 1000000
 ```
-Example output
 ```text
 00:05:04 JetStream ordered push consumer mode: subscribers will not acknowledge the consumption of messages
 00:05:04 Starting JetStream benchmark [msgs=1,000,000, msgsize=128 B, pubs=0, subs=1, js=true, stream=benchstream  storage=memory, syncpub=false, pubbatch=100, jstimeout=30s, pull=false, pullbatch=100, maxackpending=-1, replicas=1, purge=false]

@@ -35,7 +35,6 @@ Example:
 ```bash
 nats-server -m 8222
 ```
-Output
 ```text
 [4528] 2019/06/01 20:09:58.572939 [INF] Starting nats-server version 2.0.0
 [4528] 2019/06/01 20:09:58.573007 [INF] Starting http monitor on port 8222

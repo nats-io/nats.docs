@@ -7,7 +7,6 @@ The first step is to set up storage for our `ORDERS` related messages, these arr
 ```shell
 nats str add ORDERS
 ```
-Output
 ```text
 ? Subjects to consume ORDERS.*
 ? Storage backend file
@@ -61,7 +60,6 @@ We can confirm our Stream was created:
 ```shell
 nats str ls
 ```
-Output
 ```text
 Streams:
 
@@ -75,7 +73,6 @@ Information about the configuration of the Stream can be seen, and if you did no
 ```shell
 nats str info ORDERS
 ```
-Output
 ```text
 Information for Stream ORDERS created 2021-02-27T16:49:36-07:00
 
@@ -107,7 +104,6 @@ Most commands that show data as above support `-j` to show the results as JSON:
 ```shell
 nats str info ORDERS -j
 ```
-Output
 ```json
 {
   "config": {
@@ -148,7 +144,6 @@ A stream can be copied into another, which also allows the configuration of the 
 ```shell
 nats str cp ORDERS ARCHIVE --subjects "ORDERS_ARCVHIVE.*" --max-age 2y
 ```
-Output
 ```text
 Stream ORDERS was created
 
@@ -184,7 +179,6 @@ A stream configuration can be edited, which allows the configuration to be adjus
 ```shell
 nats str info ORDERS -j | jq .config.subjects
 ```
-Output
 ```text
 [
   "ORDERS.new"
@@ -195,7 +189,6 @@ Change the subjects for the stream
 ```shell
 nats str edit ORDERS --subjects "ORDERS.*"
 ```
-Output
 ```text
 Stream ORDERS was updated
 
@@ -228,7 +221,6 @@ But if you want to be sure your messages got to JetStream and were persisted you
 ```shell
 nats req ORDERS.scratch hello
 ```
-Output
 ```text
 13:45:03 Sending request on [ORDERS.scratch]
 13:45:03 Received on [_INBOX.M8drJkd8O5otORAo0sMNkg.scHnSafY]: '+OK'
@@ -239,7 +231,6 @@ Keep checking the status of the Stream while doing this and you'll see its store
 ```shell
 nats str info ORDERS
 ```
-Output
 ```text
 Information for Stream ORDERS
 ...
@@ -261,7 +252,6 @@ To delete all data in a stream use `purge`:
 ```shell
 nats str purge ORDERS -f
 ```
-Output
 ```text
 ...
 State:

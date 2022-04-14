@@ -194,7 +194,6 @@ Testing server A
 nats sub -s "nats://127.0.0.1:4222" hello &
 nats pub -s "nats://127.0.0.1:4222" hello world_4222
 ```
-Output
 ```text
 23:34:45 Subscribing on hello
 23:34:45 Published 10 bytes to "hello"
@@ -207,7 +206,6 @@ Testing server B
 ```shell
 nats pub -s "nats://127.0.0.1:5222" hello world_5222
 ```
-Output
 ```text
 [#2] Received on "hello"
 23:36:09 Published 10 bytes to "hello"
@@ -218,7 +216,6 @@ Testing server C
 ```shell
 nats pub -s "nats://127.0.0.1:6222" hello world_6222
 ```
-Output
 ```text
 23:38:40 Published 10 bytes to "hello"
 [#3] Received on "hello"
@@ -229,7 +226,6 @@ Testing using seed (i.e. A, B and C) server URLs
 ```shell
 nats pub -s "nats://127.0.0.1:4222,nats://127.0.0.1:5222,nats://127.0.0.1:6222" hello whole_world
 ```
-Output
 ```text
 [#4] Received on "hello"
 23:39:16 Published 11 bytes to "hello"

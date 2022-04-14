@@ -19,7 +19,6 @@ You can start a server using a plain directory. In this case you'll be responsib
 mkdir /tmp/jwts
 nats-account-server -dir /tmp/jwts
 ```
-Output
 ```text
 2019/05/10 11:33:40.501305 [INF] starting NATS Account server, version 0.0-dev
 2019/05/10 11:33:40.501383 [INF] server time is Fri May 10 11:33:40 CDT 2019
@@ -130,7 +129,6 @@ List all accounts
 ```shell
 nsc list accounts
 ```
-Output
 ```text
 ╭─────────────────────────────────────────────────────────────────╮
 │                            Accounts                             │
@@ -193,7 +191,6 @@ Try to subscribe on account without permissions, this should fail
 ```shell
 nats sub -creds nsc/nkeys/creds/KO/A/test.creds foo
 ```
-Output
 ```text
 nats: Permissions Violation for Subscription to "foo"
 ```

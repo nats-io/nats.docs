@@ -45,7 +45,6 @@ Users can get overall statistics about their streams and also where these stream
 ```shell
 nats stream report
 ```
-Example output
 ```text
 Obtaining Stream stats
 +----------+-----------+----------+--------+---------+------+---------+----------------------+
@@ -69,7 +68,6 @@ Moving leadership away from a node does not remove it from the cluster and does 
 ```shell
 nats stream cluster step-down ORDERS
 ```
-Example output
 ```text
 14:32:17 Requesting leader step down of "n1-c1" in a 3 peer RAFT group
 14:32:18 New leader elected "n4-c1"
@@ -97,7 +95,6 @@ We have a high level report of cluster state:
 ```shell
 nats server report jetstream --user system
 ```
-Example output
 ```text
 +--------------------------------------------------------------------------------------------------+
 |                                        JetStream Summary                                         |
@@ -138,7 +135,6 @@ This report is built using raw data that can be obtained from the monitor port o
 ```shell
 nats server req jetstream --help
 ```
-Output
 ```text
 usage: nats server request jetstream [<flags>] [<wait>]
 
@@ -192,7 +188,6 @@ Similar to Streams and Consumers above the Meta Group allows leader stand down. 
 ```shell
 nats server raft step-down --user system
 ```
-Example output
 ```text
 17:44:24 Current leader: n2-c2
 17:44:24 New leader: n1-c2
@@ -209,7 +204,6 @@ After the node is removed the cluster will notice that the replica count is not 
 ```shell
 nats stream cluster peer-remove ORDERS
 ```
-Example output
 ```text
 ? Select a Peer n4-c1
 14:38:50 Removing peer "n4-c1"
@@ -221,7 +215,6 @@ At this point the stream and all consumers will have removed `n4-c1` from the gr
 ```shell
 $ nats stream info ORDERS
 ```
-Example output
 ```text
 ....
 Cluster Information:

@@ -20,7 +20,6 @@ This will then generate something like the following:
 ```bash
  nsc list accounts
  ```
-Output
 ```text
 ╭─────────────────────────────────────────────────────────────────╮
 │                            Accounts                             │

@@ -9,7 +9,6 @@ When the server starts it will print some information including where the server
 ```shell
 nats-server
 ```
-Output
 ```text
 [61052] 2021/10/28 16:53:38.003205 [INF] Starting nats-server
 [61052] 2021/10/28 16:53:38.003329 [INF]   Version:  2.6.1
@@ -28,7 +27,6 @@ If you are running your NATS server in a docker container:
 ```shell
 docker run -p 4222:4222 -ti nats:latest
 ```
-Output
 ```text
 [1] 2021/10/28 23:51:52.705376 [INF] Starting nats-server
 [1] 2021/10/28 23:51:52.705428 [INF]   Version:  2.6.1

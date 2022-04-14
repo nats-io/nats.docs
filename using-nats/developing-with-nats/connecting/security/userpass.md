@@ -11,7 +11,6 @@ You can encrypt passwords to pass to `nats-server` using a simple [tool](../../.
 ```bash
 nats server passwd
 ```
-Output
 ```text
 ? Enter password [? for help] **********************
 ? Reenter password [? for help] **********************

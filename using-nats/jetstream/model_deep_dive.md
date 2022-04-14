@@ -70,7 +70,6 @@ To understand how Consumers track messages we will start with a clean `ORDERS` S
 ```shell
 nats str info ORDERS
 ```
-Output
 ```text
 ...
 Statistics:
@@ -87,7 +86,6 @@ The Set is entirely empty
 ```shell
 nats con info ORDERS DISPATCH
 ```
-Output
 ```text
 ...
 State:
@@ -105,7 +103,6 @@ We publish one message to the Stream and see that the Stream received it:
 ```shell
 nats pub ORDERS.processed "order 4"
 ```
-Output
 ```text
 Published 7 bytes to ORDERS.processed
 $ nats str info ORDERS
@@ -124,7 +121,6 @@ As the Consumer is pull-based, we can fetch the message, ack it, and check the C
 ```shell
 nats con next ORDERS DISPATCH
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 4
@@ -148,7 +144,6 @@ We'll publish another message, fetch it but not Ack it this time and see the sta
 ```shell
 nats pub ORDERS.processed "order 5"
 ```
-Output
 ```text
 Published 7 bytes to ORDERS.processed
 
@@ -157,7 +152,6 @@ Get the next message from the consumer (but do not acknowledge it)
 ```shell
 nats consumer next ORDERS DISPATCH --no-ack
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 5
@@ -167,7 +161,6 @@ Show the consumer info
 ```shell
 nats consumer info ORDERS DISPATCH
 ```
-Output
 ```text
 State:
 
@@ -184,7 +177,6 @@ If I fetch it again and again do not ack it:
 ```shell
 nats consumer next ORDERS DISPATCH --no-ack
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 5
@@ -193,7 +185,6 @@ Show the consumer info again
 ```shell
 nats consumer info ORDERS DISPATCH
 ```
-Output
 ```text
 State:
 
@@ -210,7 +201,6 @@ Finally, if I then fetch it again and ack it this time:
 ```shell
 nats consumer next ORDERS DISPATCH 
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 5
@@ -221,7 +211,6 @@ Show the consumer info
 ```shell
 nats consumer info ORDERS DISPATCH
 ```
-Output
 ```text
 State:
 
@@ -279,7 +268,6 @@ Now create a `DeliverAll` pull-based Consumer:
 nats consumer add ORDERS ALL --pull --filter ORDERS.processed --ack none --replay instant --deliver all 
 nats consumer next ORDERS ALL
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 1
@@ -293,7 +281,6 @@ Now create a `DeliverLast` pull-based Consumer:
 nats consumer add ORDERS LAST --pull --filter ORDERS.processed --ack none --replay instant --deliver last
 nats consumer next ORDERS LAST
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 100
@@ -307,7 +294,6 @@ Now create a `MsgSetSeq` pull-based Consumer:
 nats consumer add ORDERS TEN --pull --filter ORDERS.processed --ack none --replay instant --deliver 10
 nats consumer next ORDERS TEN
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 10
@@ -332,7 +318,6 @@ Then create a Consumer that starts 2 minutes ago:
 nats consumer add ORDERS 2MIN --pull --filter ORDERS.processed --ack none --replay instant --deliver 2m
 nats consumer next ORDERS 2MIN
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 2
@@ -373,7 +358,6 @@ You can only set `ReplayPolicy` on push-based Consumers.
 ```shell
 nats consumer add ORDERS REPLAY --target out.original --filter ORDERS.processed --ack none --deliver all --sample 100 --replay original
 ```
-Output
 ```text
 ...
      Replay Policy: original
@@ -389,7 +373,6 @@ do
   sleep 10
 done
 ```
-Output
 ```text
 Published [ORDERS.processed] : 'order 1'
 Published [ORDERS.processed] : 'order 2'
@@ -401,7 +384,6 @@ And when we consume them they will come to us 10 seconds apart:
 ```shell
 nats sub -t out.original
 ```
-Output
 ```text
 Listening on [out.original]
 2020/01/03 15:17:26 [#1] Received on [ORDERS.processed]: 'order 1'

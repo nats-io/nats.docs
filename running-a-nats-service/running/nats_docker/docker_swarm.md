@@ -67,7 +67,6 @@ Then confirm the distribution on the Docker Swarm cluster:
 ```bash
 docker service ps ruby-nats
 ```
-output
 ```text
 ID                         NAME         IMAGE                                     NODE    DESIRED STATE  CURRENT STATE          ERROR
 25skxso8honyhuznu15e4989m  ruby-nats.1  wallyqs/ruby-nats:ruby-2.3.1-nats-v0.8.0  node-1  Running        Running 2 minutes ago  

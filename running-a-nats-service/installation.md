@@ -21,9 +21,6 @@ To run NATS on Docker:
 ```shell
 docker run -p 4222:4222 -ti nats:latest
 ```
-which should output
-
-
 ```
 [1] 2019/05/24 15:42:58.228063 [INF] Starting nats-server version #.#.#
 [1] 2019/05/24 15:42:58.228115 [INF] Git commit [#######]
@@ -83,7 +80,6 @@ curl -L https://github.com/nats-io/nats-server/releases/download/vX.Y.Z/nats-ser
 ```shell
 unzip nats-server.zip -d nats-server
 ```
-which should output something like
 ```shell
 Archive:  nats-server.zip
    creating: nats-server-vX.Y.Z-linux-amd64/

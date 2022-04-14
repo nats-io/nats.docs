@@ -234,9 +234,6 @@ To view the key:
 ```shell
 cat a.nk
 ```
-
-Output:
-
 ```
 SUAAEZYNLTEA2MDTG7L5X7QODZXYHPOI2LT2KH5I4GD6YVP24SE766EGPA
 UC435ZYS52HF72E2VMQF4GO6CUJOCHDUUPEBU7XDXW5AQLIC6JZ46PO5
@@ -253,9 +250,6 @@ View the key:
 ```shell
 cat b.nk
 ```
-
-Output:
-
 ```
 SUANS4XLL5NWBTM57GSVHLN4TMFW55WGGWNI5YXXSIOYFJQYFVNHJK5GFY
 UARZVI6JAV7YMJTPRANXANOOW4K3ZCD45NYP6S7C7XKCBHPVN2TFZ7ZC
@@ -482,9 +476,6 @@ Below are examples of decoded JWT (`iss` == `issuer`, `sub` ==
 ```shell
 nsc describe operator --json
 ```
-
-Output:
-
 ```
 {
  "iat": 1603473819,
@@ -942,9 +933,6 @@ these keys and signing keys:
 ```shell
 nsc list keys --all
 ```
-
-Output:
-
 ```
 +------------------------------------------------------------------------------------------------+
 |                                              Keys                                              |
@@ -965,9 +953,6 @@ And your account should have the following ones:
 ```shell
 nsc list keys --all
 ```
-
-Output:
-
 ```
 +------------------------------------------------------------------------------------------------+
 |                                              Keys                                              |
@@ -1073,9 +1058,6 @@ Operator Setup:
 ```shell
 nsc add operator -n DEMO --sys
 ```
-
-Output:
-
 ```
 [ OK ] generated and stored operator key "ODHUVOUVUA3XIBV25XSQS2NM2UN4IKJYLAMCGLWRFAV7F7KUWADCM4K6"
 [ OK ] added operator "DEMO"
@@ -1087,9 +1069,6 @@ Output:
 ```shell
 nsc edit operator --account-jwt-server-url nats://localhost:4222
 ```
-
-Output:
-
 ```
 [ OK ] set account jwt server url to "nats://localhost:4222"
 [ OK ] edited operator "DEMO"
@@ -1100,9 +1079,6 @@ Inspect the setup:
 ```shell
 nsc list keys --all
 ```
-
-Output:
-
 ```
 +------------------------------------------------------------------------------------------+
 |                                           Keys                                           |
@@ -1165,9 +1141,6 @@ explicitly lists the system account and corresponding JWT:
 nsc generate config --nats-resolver > nats-res.cfg
 nats-server -c nats-res.cfg --addr localhost --port 4222 &
 ```
-
-Output:
-
 ```
 [2] 30129
 [30129] 2020/11/04 14:30:14.062132 [INF] Starting nats-server version 2.2.0-beta.26
@@ -1191,9 +1164,6 @@ Add an account and a user for testing:
 ```shell
 nsc add account -n TEST
 ```
-
-Output:
-
 ```
 [ OK ] generated and stored account key "ADXDDDR2QJNNOSZZX44C2HYBPRUIPJSQ5J3YG2XOUOOEOPOBNMMFLAIU"
 [ OK ] added account "TEST"
@@ -1202,9 +1172,6 @@ Output:
 ```shell
 nsc add user -a TEST -n foo
 ```
-
-Output:
-
 ```
 [ OK ] generated and stored user key "UA62PGBNKKQQWDTILKP5U4LYUYF3B6NQHVPNHLS6IZIPPQH6A7XSRWE2"
 [ OK ] generated user creds file `/DEMO/TEST/foo.creds`
@@ -1232,9 +1199,6 @@ Push the account, or push all accounts:
 ```shell
 nsc push -a TEST
 ```
-
-Output:
-
 ```
 [ OK ] push to nats-server "nats://localhost:4222" using system account "SYS" user "sys":
        [ OK ] push TEST to nats-server with nats account resolver:
@@ -1245,9 +1209,6 @@ Output:
 ```shell
 nsc push --all
 ```
-
-Output:
-
 ```
 [ OK ] push to nats-server "nats://localhost:4222" using system account "SYS" user "sys":
        [ OK ] push SYS to nats-server with nats account resolver:
@@ -1802,9 +1763,6 @@ This example will change the subject name the importing account uses locally fro
 ```shell
 nsc add import --account test --src-account ACJ6G45BE7LLOFCVAZSZR3RY4XELXQ32BOQRI7KQMQLICXXXJRP4P45Q --remote-subject foo --local-subject bar
 ```
-
-Output
-
 ```
 [ OK ] added stream import "blo"
 ```
@@ -1887,9 +1845,6 @@ name> --name <user name>` to remove the revocation.
 ```shell
 nsc revocations add-user --account SYS --name sys
 ```
-
-Output:
-
 ```
 [ OK ] revoked user "UCL5YXXUKCEO4HDTTYUOHDMHP4JJ6MGE3SVQBDWFZUGJUMUKE24DEUCU"
 ```
@@ -1897,9 +1852,6 @@ Output:
 ```shell
 nsc revocations list-users
 ```
-
-Output:
-
 ```
 +------------------------------------------------------------------------------------------+
 |                                 Revoked Users for test5                                  |
@@ -1936,9 +1888,6 @@ to remove the revocation.
 nsc revocations add-activation --account SYS --subject foo \
   --target-account AAUDEW26FB4TOJAQN3DYMDLCVXZMNIJWP2EMOAM5HGKLF6RGMO2PV7WP
 ```
-
-Output:
-
 ```
 [ OK ] revoked activation "foo" for account AAUDEW26FB4TOJAQN3DYMDLCVXZMNIJWP2EMOAM5HGKLF6RGMO2PV7WP
 ```
@@ -1946,9 +1895,6 @@ Output:
 ```shell
 nsc revocations list-activations --account SYS
 ```
-
-Output:
-
 ```
 +------------------------------------------------------------------------------------------+
 |                             Revoked Accounts for stream foo                              |

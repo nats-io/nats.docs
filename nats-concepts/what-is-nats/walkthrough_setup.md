@@ -63,7 +63,6 @@ curl -L https://github.com/nats-io/nats-server/releases/download/v2.6.5/nats-ser
 ```shell
 unzip nats-server.zip -d nats-server
 ```
-which should output something like
 ```text
 Archive:  nats-server.zip
    creating: nats-server-v2.6.2-linux-amd64/

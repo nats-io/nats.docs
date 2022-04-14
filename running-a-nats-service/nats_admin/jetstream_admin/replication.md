@@ -29,7 +29,6 @@ The ORDERS and RETURNS streams as normal, I will not show how to create them.
 ```shell
 nats s report
 ```
-Example output
 ```text
 Obtaining Stream stats
 
@@ -46,7 +45,6 @@ We now add the ARCHIVE:
 ```shell
 nats s add ARCHIVE --source ORDERS --source RETURNS
 ```
-Output
 ```text
 ? Storage backend file
 ? Retention Policy Limits
@@ -106,7 +104,6 @@ And we add the REPORT:
 ```shell
 nats s add REPORT --mirror ARCHIVE
 ```
-Output
 ```text
 ? Storage backend file
 ? Retention Policy Limits
@@ -189,7 +186,6 @@ We can confirm all our setup using a `nats stream report`:
 ```shell
 nats s report
 ```
-Output
 ```text
 +--------------------------------------------------------------------------------------------------------+
 |                                            Stream Report                                               |
@@ -225,7 +221,6 @@ We can now see from a Stream Report that the data has been replicated:
 ```shell
 nats s report --dot replication.dot
 ```
-Example output
 ```text
 Obtaining Stream stats
 

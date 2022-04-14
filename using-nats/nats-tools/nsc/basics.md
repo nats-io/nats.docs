@@ -27,7 +27,6 @@ Let’s create an operator called `Operator`:
 ```bash
 nsc add operator MyOperator
 ```
-Example output
 ```text
 [ OK ] generated and stored operator key "ODSWWTKZLRDFBPXNMNAY7XB2BIJ45SV756BHUT7GX6JQH6W7AHVAFX6C"
 [ OK ] added operator "MyOperator"
@@ -41,7 +40,6 @@ Lets add a service URL to the operator. Service URLs specify where the nats-serv
 ```bash
 nsc edit operator --service-url nats://localhost:4222
 ```
-Output
 ```text
 [ OK ] added service url "nats://localhost:4222"
 [ OK ] edited operator "MyOperator"
@@ -52,7 +50,6 @@ Creating an account is just as easy:
 ```bash
 nsc add account MyAccount
 ```
-Output
 ```text
 [ OK ] generated and stored account key "AD2M34WBNGQFYK37IDX53DPRG74RLLT7FFWBOBMBUXMAVBCVAU5VKWIY"
 [ OK ] added account "MyAccount"
@@ -65,7 +62,6 @@ Finally, let's create a user:
 ```bash
 nsc add user MyUser
 ```
-Output
 ```text
 [ OK ] generated and stored user key "UAWBXLSZVZHNDIURY52F6WETFCFZLXYUEFJAHRXDW7D2K4445IY4BVXP"
 [ OK ] generated user creds file `~/.nkeys/creds/MyOperator/MyAccount/MyUser.creds`
@@ -89,7 +85,6 @@ The stores directory contains a number of directories. Each named by an operator
 ```bash
 tree ~/.nsc/nats
 ```
-Output
 ```text
 /Users/myusername/.nsc/nats
 └── MyOperator
@@ -112,7 +107,6 @@ The structure keys directory is machine friendly. All keys are sharded by their 
 ```shell
 tree ~/.nkeys
 ```
-Example output
 ```text
 /Users/myusername/.nkeys
 ├── creds
@@ -136,7 +130,6 @@ The `nk` files themselves are named after the complete public key, and stored in
 ```bash
 cat ~/.nkeys/keys/U/DB/UDBD5FNQPSLIO6CDMIS5D4EBNFKYWVDNULQTFTUZJXWFNYLGFF52VZN7.nk 
 ```
-Example output
 ```text
 SUAG35IAY2EF5DOZRV6MUSOFDGJ6O2BQCZHSRPLIK6J3GVCX366BFAYSNA
 ```
@@ -148,7 +141,6 @@ In addition to containing keys, the nkeys directory contains a `creds` directory
 ```bash
 cat ~/.nkeys/creds/MyOperator/MyAccount/MyUser.creds
 ```
-Example output
 ```text
 -----BEGIN NATS USER JWT-----
 eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiI0NUc3MkhIQUVCRFBQV05ZWktMTUhQNUFYWFRSSUVDQlNVQUI2VDZRUjdVM1JZUFZaM05BIiwiaWF0IjoxNjM1Mzc1NTYxLCJpc3MiOiJBRDJNMzRXQk5HUUZZSzM3SURYNTNEUFJHNzRSTExUN0ZGV0JPQk1CVVhNQVZCQ1ZBVTVWS1dJWSIsIm5hbWUiOiJNeVVzZXIiLCJzdWIiOiJVQVdCWExTWlZaSE5ESVVSWTUyRjZXRVRGQ0ZaTFhZVUVGSkFIUlhEVzdEMks0NDQ1SVk0QlZYUCIsIm5hdHMiOnsicHViIjp7fSwic3ViIjp7fSwic3VicyI6LTEsImRhdGEiOi0xLCJwYXlsb2FkIjotMSwidHlwZSI6InVzZXIiLCJ2ZXJzaW9uIjoyfX0.CGymhGYHfdZyhUeucxNs9TthSjy_27LVZikqxvm-pPLili8KNe1xyOVnk_w-xPWdrCx_t3Se2lgXmoy3wBcVCw
@@ -172,7 +164,6 @@ You can list the current entities you are working with by doing:
 ```bash
 nsc list keys
 ```
-Example output
 ```text
 +----------------------------------------------------------------------------------------------+
 |                                             Keys                                             |
@@ -192,7 +183,6 @@ In some cases you may want to view the private keys:
 ```shell
 nsc list keys --show-seeds
 ```
-Example output
 ```text
 +---------------------------------------------------------------------------------------+
 |                                      Seeds Keys                                       |
@@ -216,7 +206,6 @@ You can view a human readable version of the JWT by using `nsc`:
 ```bash
 nsc describe operator
 ```
-Example output
 ```text
 +----------------------------------------------------------------------------------+
 |                                 Operator Details                                 |
@@ -268,7 +257,6 @@ Again we can inspect the account:
 ```bash
 nsc describe account
 ```
-Example output
 ```text
 +--------------------------------------------------------------------------------------+
 |                                   Account Details                                    |
@@ -303,7 +291,6 @@ Finally the user JWT:
 ```bash
 nsc describe user
 ```
-Example output
 ```text
 +---------------------------------------------------------------------------------+
 |                                      User                                       |
@@ -416,7 +403,6 @@ Let's say you have a service that your account clients can make requests to unde
 ```bash
 nsc add user s --allow-pub "_INBOX.>" --allow-sub q
 ```
-Example output
 ```text
 [ OK ] added pub pub "_INBOX.>"
 [ OK ] added sub "q"
@@ -428,7 +414,6 @@ Example output
 ```shell
 nsc describe user s
 ```
-Example output
 ```text
 +---------------------------------------------------------------------------------+
 |                                      User                                       |
@@ -459,7 +444,6 @@ Similarly, we can limit a client:
 ```bash
 nsc add user c --allow-pub q --allow-sub "_INBOX.>"
 ```
-Example output
 ```text
 [ OK ] added pub pub "q"
 [ OK ] added sub "_INBOX.>"
@@ -472,7 +456,6 @@ Lets look at that new user
 ```shell
 nsc describe user c
 ```
-Example output
 ```text
 +---------------------------------------------------------------------------------+
 |                                      User                                       |
@@ -507,7 +490,6 @@ To view your current environment:
 ```shell
 nsc env
 ```
-Example output
 ```text
 +------------------------------------------------------------------------------------------------------+
 |                                           NSC Environment                                            |

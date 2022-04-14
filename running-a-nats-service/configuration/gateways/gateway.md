@@ -26,9 +26,6 @@ Starting a server:
 ```shell
 nats-server -c A.conf
 ```
-
-Output
-
 ```
 [85803] 2019/05/07 10:50:55.902474 [INF] Starting nats-server version 2.0.0
 [85803] 2019/05/07 10:50:55.903669 [INF] Gateway name is A
