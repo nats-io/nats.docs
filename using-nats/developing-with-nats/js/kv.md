@@ -60,6 +60,63 @@ KeyValueStatus getBucketInfo(String bucketName) throws IOException, JetStreamApi
 void delete(String bucketName) throws IOException, JetStreamApiException;
 ```
 {% endtab %}
+{% tab title="JS" %}
+```javascript
+  static async create(
+    js: JetStreamClient,
+    name: string,
+    opts: Partial<KvOptions> = {},
+  ): Promise<KV>
+
+static async bind(
+    js: JetStreamClient,
+    name: string,
+    opts: Partial<{ codec: KvCodecs }> = {},
+): Promise<KV>
+
+destroy(): Promise<boolean>
+```
+{% endtab %}
+{% tab title="Python"}
+```python
+# from the JetStreamContext
+
+async def key_value(self, bucket: str) -> KeyValue:
+
+async def create_key_value(
+    self,
+    config: Optional[api.KeyValueConfig] = None,
+    **params,
+) -> KeyValue:
+    """
+    create_key_value takes an api.KeyValueConfig and creates a KV in JetStream.
+    """
+    
+async def delete_key_value(self, bucket: str) -> bool:
+    """
+    delete_key_value deletes a JetStream KeyValue store by destroying
+    the associated stream.
+    """  
+```
+{% endtab %}
+{% tab title="C" %}
+```C
+NATS_EXTERN natsStatus 	kvConfig_Init (kvConfig *cfg)
+ 	Initializes a KeyValue configuration structure.
+ 
+NATS_EXTERN natsStatus 	js_CreateKeyValue (kvStore **new_kv, jsCtx *js, kvConfig *cfg)
+ 	Creates a KeyValue store with a given configuration.
+ 
+NATS_EXTERN natsStatus 	js_KeyValue (kvStore **new_kv, jsCtx *js, const char *bucket)
+ 	Looks-up and binds to an existing KeyValue store.
+ 
+NATS_EXTERN natsStatus 	js_DeleteKeyValue (jsCtx *js, const char *bucket)
+ 	Deletes a KeyValue store.
+ 
+NATS_EXTERN void 	kvStore_Destroy (kvStore *kv)
+ 	Destroys a KeyValue store object.
+```
+{% endtab %}
 {% endtabs %}
 
 ### Getting
@@ -100,6 +157,28 @@ KeyValueEntry get(String key) throws IOException, JetStreamApiException;
 */
 KeyValueEntry get(String key, long revision) throws IOException, JetStreamApiException;
 ```  
+{% endtab %}
+{% tab title="JS %}
+```javascript
+async get(k: string): Promise<KvEntry | null>
+```
+{% endtab %}
+{% tab title="Python"}
+```python
+async def get(self, key: str) -> Entry:
+   """
+   get returns the latest value for the key.
+   """
+```
+{% endtab %}
+{% tab title="C" %}
+```C
+NATS_EXTERN natsStatus 	kvStore_Get (kvEntry **new_entry, kvStore *kv, const char *key)
+ 	Returns the latest entry for the key.
+ 
+NATS_EXTERN natsStatus 	kvStore_GetRevision (kvEntry **new_entry, kvStore *kv, const char *key, uint64_t revision)
+ 	Returns the entry at the specific revision for the key.
+```
 {% endtab %}
 {% endtabs %}
 
@@ -184,6 +263,54 @@ long create(String key, byte[] value) throws IOException, JetStreamApiException;
 long update(String key, byte[] value, long expectedRevision) throws IOException, JetStreamApiException;
 ```
 {% endtab %}
+{% tab title="JS" %}
+```javascript
+  async put(
+    k: string,
+    data: Uint8Array,
+    opts: Partial<KvPutOptions> = {},
+  ): Promise<number>
+
+create(k: string, data: Uint8Array): Promise<number>    
+    
+update(k: string, data: Uint8Array, version: number): Promise<number>
+```
+{% endtab %}
+{% tab title="Python"}
+```python
+async def put(self, key: str, value: bytes) -> int:
+    """
+    put will place the new value for the key into the store
+    and return the revision number.
+    """
+    
+async def update(self, key: str, value: bytes, last: int) -> int:
+    """
+    update will update the value iff the latest revision matches.
+    """    
+```
+{% endtab %}
+{% tab title="C" %}
+```C
+NATS_EXTERN natsStatus 	kvStore_Put (uint64_t *rev, kvStore *kv, const char *key, const void *data, int len)
+ 	Places the new value for the key into the store.
+ 
+NATS_EXTERN natsStatus 	kvStore_PutString (uint64_t *rev, kvStore *kv, const char *key, const char *data)
+ 	Places the new value (as a string) for the key into the store.
+ 
+NATS_EXTERN natsStatus 	kvStore_Create (uint64_t *rev, kvStore *kv, const char *key, const void *data, int len)
+ 	Places the value for the key into the store if and only if the key does not exist.
+ 
+NATS_EXTERN natsStatus 	kvStore_CreateString (uint64_t *rev, kvStore *kv, const char *key, const char *data)
+ 	Places the value (as a string) for the key into the store if and only if the key does not exist.
+ 
+NATS_EXTERN natsStatus 	kvStore_Update (uint64_t *rev, kvStore *kv, const char *key, const void *data, int len, uint64_t last)
+ 	Updates the value for the key into the store if and only if the latest revision matches.
+ 
+NATS_EXTERN natsStatus 	kvStore_UpdateString (uint64_t *rev, kvStore *kv, const char *key, const char *data, uint64_t last)
+ 	Updates the value (as a string) for the key into the store if and only if the latest revision matches.
+```
+{% endtab %}
 {% endtabs %}
 
 ### Deleting
@@ -220,6 +347,38 @@ void delete(String key) throws IOException, JetStreamApiException;
 void purge(String key) throws IOException, JetStreamApiException;
 ```
 {% endtab %}
+{% tab title="JS" %}
+```javascript
+delete(k: string): Promise<void>
+    
+purge(k: string): Promise<void>
+```
+{% endtab %}
+{% tab title="Python"}
+```python
+async def delete(self, key: str) -> bool:
+    """
+    delete will place a delete marker and remove all previous revisions.
+    """
+    
+async def purge(self, key: str) -> bool:
+    """
+    purge will remove the key and all revisions.
+    """    
+```
+{% endtab %}
+{% tab title="C" %}
+```C
+NATS_EXTERN natsStatus 	kvStore_Delete (kvStore *kv, const char *key)
+ 	Deletes a key by placing a delete marker and leaving all revisions.
+ 
+NATS_EXTERN natsStatus 	kvStore_Purge (kvStore *kv, const char *key, kvPurgeOptions *opts)
+ 	Deletes a key by placing a purge marker and removing all revisions.
+ 	
+NATS_EXTERN natsStatus 	kvStore_PurgeDeletes (kvStore *kv, kvPurgeOptions *opts)
+ 	Purge and removes delete markers.
+```
+{% endtab %}
 {% endtabs %}
 
 ### Getting all the keys
@@ -244,6 +403,25 @@ Keys(opts ...WatchOpt) ([]string, error)
  * @throws InterruptedException if the thread is interrupted
  */
 List<String> keys() throws IOException, JetStreamApiException, InterruptedException;
+```
+{% endtab %}
+{% tab title="JS" %}
+```javascript
+async keys(k = ">"): Promise<QueuedIterator<string>>
+```
+{% endtab %}
+{% tab title="Python"}
+```python
+
+```
+{% endtab %}
+{% tab title="C" %}
+```C
+NATS_EXTERN natsStatus 	kvStore_Keys (kvKeysList *list, kvStore *kv, kvWatchOptions *opts)
+ 	Returns all keys in the bucket.
+ 
+NATS_EXTERN void 	kvKeysList_Destroy (kvKeysList *list)
+ 	Destroys this list of KeyValue store key strings.
 ```
 {% endtab %}
 {% endtabs %}
@@ -271,6 +449,27 @@ History(key string, opts ...WatchOpt) ([]KeyValueEntry, error)
  * @throws InterruptedException if the thread is interrupted
  */
 List<KeyValueEntry> history(String key) throws IOException, JetStreamApiException, InterruptedException;
+```
+{% endtab %}
+{% tab title="JS" %}
+```javascript
+async history(
+    opts: { key?: string; headers_only?: boolean } = {},
+  ): Promise<QueuedIterator<KvEntry>>
+```
+{% endtab %}
+{% tab title="Python"}
+```python
+
+```
+{% endtab %}
+{% tab title="C" %}
+```C
+NATS_EXTERN natsStatus 	kvStore_History (kvEntryList *list, kvStore *kv, const char *key, kvWatchOptions *opts)
+ 	Returns all historical entries for the key.
+ 
+NATS_EXTERN void 	kvEntryList_Destroy (kvEntryList *list)
+ 	Destroys this list of KeyValue store entries.
 ```
 {% endtab %}
 {% endtabs %}
@@ -315,6 +514,31 @@ NatsKeyValueWatchSubscription watch(String key, KeyValueWatcher watcher, KeyValu
  * @throws InterruptedException if the thread is interrupted
  */
 NatsKeyValueWatchSubscription watchAll(KeyValueWatcher watcher, KeyValueWatchOption... watchOptions) throws IOException, JetStreamApiException, InterruptedException;
+```
+{% endtab %}
+{% tab title="JS" %}
+```javascript
+  async watch(
+    opts: {
+      key?: string;
+      headers_only?: boolean;
+      initializedFn?: callbackFn;
+    } = {},
+  ): Promise<QueuedIterator<KvEntry>>
+```
+{% endtab %}
+{% tab title="Python"}
+```python
+
+```
+{% endtab %}
+{% tab title="C" %}
+```C
+NATS_EXTERN natsStatus 	kvStore_Watch (kvWatcher **new_watcher, kvStore *kv, const char *keys, kvWatchOptions *opts)
+ 	Returns a watcher for any updates to keys that match the keys argument.
+ 
+NATS_EXTERN natsStatus 	kvStore_WatchAll (kvWatcher **new_watcher, kvStore *kv, kvWatchOptions *opts)
+ 	Returns a watcher for any updates to any keys of the KeyValue store bucket.
 ```
 {% endtab %}
 {% endtabs %}
