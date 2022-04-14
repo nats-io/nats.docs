@@ -143,12 +143,18 @@ While you can decide to use un-acknowledged consumers trading quality of service
 * You can also send back _negative_ acknowledgements.
 * You can even send _in progress_ acknowledgements (to indicate that you are still processing the message in question and need more time before acking or nacking it).
 
-### K/V store
+### Key Value Store
 
 JetStream is a persistence layer, and streaming is only one of the functionalities built on top of that layer.
 
-Another functionality (typically not available in or even associated with messaging systems) is the JetStream Key/Value store: the ability to store, retrieve and delete _value_ messages associated with a _key_, to watch (listen) for changes happening to that key and even to retrieve a history of the values (and deletions) that have happened on a particular key.
+Another functionality (typically not available in or even associated with messaging systems) is the JetStream Key Value store: the ability to store, retrieve and delete _value_ messages associated with a _key_, to watch (listen) for changes happening to that key and even to retrieve a history of the values (and deletions) that have happened on a particular key.
 
-**Legacy**
+### Object Store
+
+**NOTICE: Technology Preview**
+
+The Object Store functionality is similar to the Key Value Store but designed to store arbitrarily large 'objects' (e.g. files, even if they are very large) rather than 'values' that are message-sized (i.e. limited to 1Mb by default).
+
+# Legacy
 
 Note that JetStream completely replaces the [STAN](/legacy/stan/README.md) legacy NATS streaming layer.
