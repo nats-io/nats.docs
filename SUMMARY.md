@@ -29,6 +29,8 @@
   * [JetStream Walkthrough](nats-concepts/jetstream/js_walkthrough.md)
   * [Key/Value Store](nats-concepts/jetstream/key-value-store/readme.md)
     * [Key/Value Store Walkthrough](nats-concepts/jetstream/key-value-store/kv_walkthrough.md)
+  * [Object Store](nats-concepts/jetstream/object-store/obj_store.md)
+    * [Object Store Walkthrough](nats-concepts/jetstream/object-store/obj_walkthrough.md)
 * [Subject Mapping and Traffic Shaping](nats-concepts/subject_mapping.md)
 * [NATS service infrastructure](nats-concepts/service_infrastructure.md)
   * [NATS Adaptive Deployment Architectures](nats-concepts/adaptive_edge_deployment.md)
@@ -95,7 +97,8 @@
     * [JetStream Model Deep Dive](using-nats/jetstream/model_deep_dive.md)
     * [Managing Streams and consumers](using-nats/developing-with-nats/js/streams.md)
     * [Publishing to Streams](using-nats/developing-with-nats/js/publish.md)
-    * [Using the Key/Value store](using-nats/developing-with-nats/js/kv.md)
+    * [Using the Key/Value Store](using-nats/developing-with-nats/js/kv.md)
+    * [Using the Object Store](using-nats/developing-with-nats/js/object.md)
   * [Tutorials](using-nats/developing-with-nats/tutorials/README.md)
     * [Advanced Connect and Custom Dialer in Go](using-nats/developing-with-nats/tutorials/custom_dialer.md)
 

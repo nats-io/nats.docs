@@ -2,6 +2,12 @@
 
 Subject mapping is a very powerful feature of the NATS server, useful for canary deployments, A/B testing, chaos testing, and migrating to a new subject namespace.
 
+There are two places where you can apply subject mappings: each account has its own set of subject mappings, which will apply to any message published by client applications, and you can also use subject mappings as part of the imports and exports between accounts.
+
+When not using operator JWT security, you can define the subject mappings in server configuration files, and you simply need to send a signal for the nats-server processe to reload the configuration whenever you change a mapping for the change to take effect. 
+
+When using operator JWT security with the built-in resolver you define the mappings and the import/exports in the account JWT so after modifying them they will take effect as soon as you push the updated account JWT to the servers.
+
 ## Simple Mapping
 
 The example of `foo:bar` is straightforward. All messages the server receives on subject `foo` are remapped and can be received by clients subscribed to `bar`.
@@ -15,7 +21,6 @@ You can also (for all versions of `nats-server`) use the legacy notation of `$po
 Example: with this mapping `"bar.*.*" : "baz.{{wildcard(2)}}.{{wildcard(1)}}"`, messages that were originally published to `bar.a.b` are remapped in the server to `baz.b.a`. Messages arriving at the server on `bar.one.two` would be mapped to `baz.two.one`, and so forth.
 
 ## Deterministic Subject token Partitioning
-*NOTE: this functionality is only available with `nats-server` version 2.8.0 and above!*
 
 Deterministic token partitioning allows you to use subject based addressing to deterministically divide (partition) a flow of messages where one or more of the subject tokens make up the key upon which the partitioning will be based, into a number of smaller message flows.
 

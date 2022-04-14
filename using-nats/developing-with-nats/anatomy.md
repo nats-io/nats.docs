@@ -178,9 +178,12 @@ Some types of consumers (e.g. pull consumers) require the application receiving 
 
 Besides temporal decoupling and queuing, JetStream also enables higher qualities of service compared to Core NATS. Defining a stream on a subject and using consumers brings the quality of service up to *at least once*, meaning that you are guaranteed to get the message (even if your application is down at publication time) but there are some corner case failure scenarios in which you could result in message duplication due to double publication of the message, or double processing of a message due to acknowledgement loss or crashing after processing but before acknowledging. You can enable and use [message de-duplication](../jetstream/model_deep_dive.md#message-deduplication) and double-acking to protect against those failure scenarios and get [exactly once](../jetstream/model_deep_dive.md#exactly-once-delivery) quality of service.
 
-## KV Store
+## Key Value Store
 
-The [Key Value store](js/kv.md) functionality is implemented on top of JetStream, but offers a different interface in the form of keys and values rather than subject names and messages. You can use a bucket to put (including compare and set), get and delete a value (a byte array like a message payload) associated with a key (a string, like a subject). It also allows you to 'watch' for changes to the buket as they happen. And finally it allows you to maintain a history of the values associated with a key over time, as well as get a specific revision of the value.
+The [Key Value Store](js/kv.md) functionality is implemented on top of JetStream, but offers a different interface in the form of keys and values rather than subject names and messages. You can use a bucket to put (including compare and set), get and delete a value (a byte array like a message payload) associated with a key (a string, like a subject). It also allows you to 'watch' for changes to the buket as they happen. And finally it allows you to maintain a history of the values associated with a key over time, as well as get a specific revision of the value.
 
 ## Object Store
-(placeholder for future functionality)
+
+**NOTICE: Technology Preview**
+
+The Object Store is similar to the Key Value Store but meant to be used where the values can be of any arbitrary large size, as opposed to limited to the maximum size of a NATS message, as it the case with the Key Value Store.
