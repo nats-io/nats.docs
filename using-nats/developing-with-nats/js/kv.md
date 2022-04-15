@@ -61,7 +61,7 @@ void delete(String bucketName) throws IOException, JetStreamApiException;
 ```
 {% endtab %}
 {% tab title="JS" %}
-```javascript
+```js
   static async create(
     js: JetStreamClient,
     name: string,
@@ -117,6 +117,39 @@ NATS_EXTERN void 	kvStore_Destroy (kvStore *kv)
  	Destroys a KeyValue store object.
 ```
 {% endtab %}
+{% tab title="C#" %}
+```Csharp
+/// <summary>
+/// Create a key value store.
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// </summary>
+/// <param name="config">the key value configuration</param>
+/// <returns></returns>
+KeyValueStatus Create(KeyValueConfiguration config);
+
+/// <summary>
+/// Get the list of bucket names.
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// </summary>
+/// <returns>list of bucket names</returns>
+IList<string> GetBucketNames();
+
+/// <summary>
+/// Gets the info for an existing bucket.
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// </summary>
+/// <param name="bucketName">the bucket name to use</param>
+/// <returns>the bucket status object</returns>
+KeyValueStatus GetBucketInfo(string bucketName);
+
+/// <summary>
+/// Deletes an existing bucket. Will throw a NATSJetStreamException if the delete fails.
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// </summary>
+/// <param name="bucketName"></param>
+void Delete(string bucketName);
+```
+{% endtab %}
 {% endtabs %}
 
 ### Getting
@@ -159,7 +192,7 @@ KeyValueEntry get(String key, long revision) throws IOException, JetStreamApiExc
 ```  
 {% endtab %}
 {% tab title="JS %}
-```javascript
+```js
 async get(k: string): Promise<KvEntry | null>
 ```
 {% endtab %}
@@ -178,6 +211,26 @@ NATS_EXTERN natsStatus 	kvStore_Get (kvEntry **new_entry, kvStore *kv, const cha
  
 NATS_EXTERN natsStatus 	kvStore_GetRevision (kvEntry **new_entry, kvStore *kv, const char *key, uint64_t revision)
  	Returns the entry at the specific revision for the key.
+```
+{% endtab %}
+{% tab title="C#" %}
+```Csharp
+/// <summary>
+/// Get the entry for a key
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// </summary>
+/// <param name="key">the key</param>
+/// <returns>The entry</returns>
+KeyValueEntry Get(string key);
+
+/// <summary>
+/// Get the specific revision of an entry for a key
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// </summary>
+/// <param name="key">the key</param>
+/// <param name="revision">the specific revision</param>
+/// <returns>The entry</returns>
+KeyValueEntry Get(string key, ulong revision);
 ```
 {% endtab %}
 {% endtabs %}
@@ -264,7 +317,7 @@ long update(String key, byte[] value, long expectedRevision) throws IOException,
 ```
 {% endtab %}
 {% tab title="JS" %}
-```javascript
+```js
   async put(
     k: string,
     data: Uint8Array,
@@ -311,6 +364,56 @@ NATS_EXTERN natsStatus 	kvStore_UpdateString (uint64_t *rev, kvStore *kv, const 
  	Updates the value (as a string) for the key into the store if and only if the latest revision matches.
 ```
 {% endtab %}
+{% tab title="C#" %}
+```Csharp
+/// <summary>
+/// Put a byte[] as the value for a key
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// </summary>
+/// <param name="key">the key</param>
+/// <param name="value">the bytes of the value</param>
+/// <returns>the revision number for the key</returns>
+ulong Put(string key, byte[] value);
+
+/// <summary>
+/// Put a string as the value for a key
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// </summary>
+/// <param name="key">the key</param>
+/// <param name="value">the UTF-8 string</param>
+/// <returns>the revision number for the key</returns>
+ulong Put(string key, string value);
+
+/// <summary>
+///Put a long as the value for a key
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// </summary>
+/// <param name="key">the key</param>
+/// <param name="value">the number</param>
+/// <returns>the revision number for the key</returns>
+ulong Put(string key, long value);
+
+/// <summary>
+/// Put as the value for a key iff the key does not exist (there is no history)
+/// or is deleted (history shows the key is deleted)
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// </summary>
+/// <param name="key">the key</param>
+/// <param name="value">the bytes of the value</param>
+/// <returns>the revision number for the key</returns>
+ulong Create(string key, byte[] value);
+
+/// <summary>
+/// Put as the value for a key iff the key exists and its last revision matches the expected
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// </summary>
+/// <param name="key">the key</param>
+/// <param name="value">the bytes of the value</param>
+/// <param name="expectedRevision"></param>
+/// <returns>the revision number for the key</returns>
+ulong Update(string key, byte[] value, ulong expectedRevision);
+```
+{% endtab %}
 {% endtabs %}
 
 ### Deleting
@@ -348,7 +451,7 @@ void purge(String key) throws IOException, JetStreamApiException;
 ```
 {% endtab %}
 {% tab title="JS" %}
-```javascript
+```js
 delete(k: string): Promise<void>
     
 purge(k: string): Promise<void>
@@ -379,6 +482,36 @@ NATS_EXTERN natsStatus 	kvStore_PurgeDeletes (kvStore *kv, kvPurgeOptions *opts)
  	Purge and removes delete markers.
 ```
 {% endtab %}
+{% tab title="C#" %}
+```Csharp
+/// <summary>
+/// Soft deletes the key by placing a delete marker. 
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// </summary>
+/// <param name="key">the key</param>
+void Delete(string key);
+
+/// <summary>
+/// Purge all values/history from the specific key. 
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// </summary>
+/// <param name="key">the key</param>
+void Purge(string key);
+
+/// <summary>
+/// Remove history from all keys that currently are deleted or purged,
+/// using a default KeyValuePurgeOptions
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// </summary>
+void PurgeDeletes();
+
+/// <summary>
+/// Remove history from all keys that currently are deleted or purged
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// </summary>
+void PurgeDeletes(KeyValuePurgeOptions options);
+```
+{% endtab %}
 {% endtabs %}
 
 ### Getting all the keys
@@ -406,7 +539,7 @@ List<String> keys() throws IOException, JetStreamApiException, InterruptedExcept
 ```
 {% endtab %}
 {% tab title="JS" %}
-```javascript
+```js
 async keys(k = ">"): Promise<QueuedIterator<string>>
 ```
 {% endtab %}
@@ -422,6 +555,16 @@ NATS_EXTERN natsStatus 	kvStore_Keys (kvKeysList *list, kvStore *kv, kvWatchOpti
  
 NATS_EXTERN void 	kvKeysList_Destroy (kvKeysList *list)
  	Destroys this list of KeyValue store key strings.
+```
+{% endtab %}
+{% tab title="C#" %}
+```Csharp
+/// <summary>
+/// Get a list of the keys in a bucket.
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// </summary>
+/// <returns>The list of keys</returns>
+IList<string> Keys();
 ```
 {% endtab %}
 {% endtabs %}
@@ -452,7 +595,7 @@ List<KeyValueEntry> history(String key) throws IOException, JetStreamApiExceptio
 ```
 {% endtab %}
 {% tab title="JS" %}
-```javascript
+```js
 async history(
     opts: { key?: string; headers_only?: boolean } = {},
   ): Promise<QueuedIterator<KvEntry>>
@@ -470,6 +613,17 @@ NATS_EXTERN natsStatus 	kvStore_History (kvEntryList *list, kvStore *kv, const c
  
 NATS_EXTERN void 	kvEntryList_Destroy (kvEntryList *list)
  	Destroys this list of KeyValue store entries.
+```
+{% endtab %}
+{% tab title="C#" %}
+```Csharp
+/// <summary>
+/// Get the history (list of KeyValueEntry) for a key
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// </summary>
+/// <param name="key">the key</param>
+/// <returns>The list of KeyValueEntry</returns>
+IList<KeyValueEntry> History(string key);
 ```
 {% endtab %}
 {% endtabs %}
@@ -517,7 +671,7 @@ NatsKeyValueWatchSubscription watchAll(KeyValueWatcher watcher, KeyValueWatchOpt
 ```
 {% endtab %}
 {% tab title="JS" %}
-```javascript
+```js
   async watch(
     opts: {
       key?: string;
@@ -539,6 +693,36 @@ NATS_EXTERN natsStatus 	kvStore_Watch (kvWatcher **new_watcher, kvStore *kv, con
  
 NATS_EXTERN natsStatus 	kvStore_WatchAll (kvWatcher **new_watcher, kvStore *kv, kvWatchOptions *opts)
  	Returns a watcher for any updates to any keys of the KeyValue store bucket.
+```
+{% endtab %}
+{% tab title="C#" %}
+```Csharp
+/// <summary>
+/// Watch updates for a specific key
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// WARNING: This api requires an internal consumer the enforces ordering of messages.
+/// This portion of the implementation is not complete yet. If there was some sort of
+/// error from the server and messages were skipped or came out of order the data received
+/// would be incomplete. While this is an edge case, it can still technically happen. 
+/// </summary>
+/// <param name="key">the key</param>
+/// <param name="watcher">the watcher</param>
+/// <param name="watchOptions">the watch options to apply. If multiple conflicting options are supplied, the last options wins.</param>
+/// <returns></returns>
+KeyValueWatchSubscription Watch(string key, IKeyValueWatcher watcher, params KeyValueWatchOption[] watchOptions);
+
+/// <summary>
+/// Watch updates for all keys
+/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// WARNING: This api requires an internal consumer the enforces ordering of messages.
+/// This portion of the implementation is not complete yet. If there was some sort of
+/// error from the server and messages were skipped or came out of order the data received
+/// would be incomplete. While this is an edge case, it can still technically happen. 
+/// </summary>
+/// <param name="watcher">the watcher</param>
+/// <param name="watchOptions">the watch options to apply. If multiple conflicting options are supplied, the last options wins.</param>
+/// <returns>The KeyValueWatchSubscription</returns>
+KeyValueWatchSubscription WatchAll(IKeyValueWatcher watcher, params KeyValueWatchOption[] watchOptions);
 ```
 {% endtab %}
 {% endtabs %}
