@@ -13,7 +13,7 @@ Start two terminal sessions. These will be used to run the NATS request and repl
 ### In one terminal, run the reply client listener
 
 ```bash
-nats reply help.please "OK, I CAN HELP!!!"
+nats reply help.please 'OK, I CAN HELP!!!'
 ```
 
 You should see the message: _Listening on \[help.please\]_
@@ -23,7 +23,7 @@ This means that the NATS receiver client is listening for request messages on th
 ### In the other terminal, run the request client
 
 ```bash
-nats request help.please "I need help!"
+nats request help.please 'I need help!'
 ```
 
 The NATS requestor client makes a request by sending the message "I need help!" on the “help.please” subject.
