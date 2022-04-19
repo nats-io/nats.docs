@@ -109,7 +109,6 @@
   * [Python and NGS Running in Docker](running-a-nats-service/running/nats_docker/ngs-docker-python.md)
   * [JetStream](running-a-nats-service/running/nats_docker/jetstream_docker.md)
 * [NATS and Kubernetes](running-a-nats-service/nats-on-kubernetes/nats-kubernetes.md)
-  * [Basic NATS and NATS Streaming Setup](running-a-nats-service/nats-on-kubernetes/minimal-setup.md)
   * [Deploying NATS with Helm](running-a-nats-service/nats-on-kubernetes/helm-charts.md)
   * [Creating a Kubernetes Cluster](running-a-nats-service/nats-on-kubernetes/create-k8s-cluster.md)
   * [NATS Cluster and Cert Manager](running-a-nats-service/nats-on-kubernetes/nats-cluster-and-cert-manager.md)
