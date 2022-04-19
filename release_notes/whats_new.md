@@ -2,6 +2,31 @@
 
 The NATS.io team is always working to bring you features to improve your NATS experience. Below you will find feature summaries for new implementations to NATS. Check back often for release highlights and updates.
 
+## Server release v2.8.0
+
+### LeafNode
+Support for a `min_version` in the `leafnodes{}` that would reject servers with a lower version. Note that this would work only for servers that are v2.8.0 and above.
+
+### Monitoring
+* Server version in monitoring landing page.
+* Logging to `/healthz` endpoint when failure occurs.
+* MQTT and Websocket blocks in the `/varz` endpoint.
+
+### JetStream
+* Consumer check added to `healthz` endpoint.
+* Max stream bytes checks.
+* Ability to limit a consumer's `MaxAckPending` value.
+* Allow streams and consumers to migrate between clusters. *This feature is considered "beta"*.
+* New `unique_tag` option in `jetstream{}` configuration block to prevent placing a stream in the same availability zone twice.
+* Stream `Alternates` field in `StreamInfo` response. They provide a priority list of mirrors and the source in relation to where the request originated.
+* Deterministic subject tokens to partition mapping.
+
+For full release information, see links below;
+
+* Release notes [2.8.0](https://github.com/nats-io/nats-server/releases/tag/v2.8.0)
+* Full list of Changes [2.7.4...2.8.0](https://github.com/nats-io/nats-server/compare/v2.7.4...v2.8.0)
+
+
 ## Server release v2.7.0
 
 ### **Notice for JetStream Users**
