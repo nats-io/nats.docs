@@ -231,8 +231,13 @@ Obtaining Stream stats
 ├────────┼─────────┼───────────┼──────────┼───────┼──────┼─────────┼──────────┤
 │ test   │ File    │ 0         │ 1        │ 45 B  │ 0    │ 0       │          │
 ╰────────┴─────────┴───────────┴──────────┴───────┴──────┴─────────┴──────────╯
+```
 
-> nats  --server nats://acc:acc@localhost:4222 stream report --js-domain hub
+```bash
+nats  --server nats://acc:acc@localhost:4222 stream report --js-domain hub
+```
+Output
+```text
 Obtaining Stream stats
 
 ╭─────────────────────────────────────────────────────────────────────────────╮
@@ -570,7 +575,13 @@ Obtaining Stream stats
 │ backup-test-leaf    │ Mirror │ $JS.leaf.API │ test          │ 1.85s  │ 0   │       │
 │ aggregate-test-leaf │ Source │ $JS.leaf.API │ test          │ 1.85s  │ 0   │       │
 ╰─────────────────────┴────────┴──────────────┴───────────────┴────────┴─────┴───────╯
-> nats  --server nats://acc:acc@localhost:4222 consumer report --js-domain hub
+```
+
+```bash
+nats  --server nats://acc:acc@localhost:4222 consumer report --js-domain hub
+```
+Output
+```text
 ? Select a Stream aggregate-test-leaf
 ╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │                          Consumer report for aggregate-test-leaf with 1 consumers                           │
