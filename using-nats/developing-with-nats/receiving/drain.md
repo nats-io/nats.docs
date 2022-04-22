@@ -418,5 +418,5 @@ natsConnection_Destroy(conn);
 {% endtab %}
 {% endtabs %}
 
-Because draining can involve messages flowing to the server, for a flush and asynchronous message processing, the timeout for drain should generally be higher than the timeout for a simple message request/reply or similar.
+Because draining can involve messages flowing to the server, for a flush and asynchronous message processing, the timeout for drain should generally be higher than the timeout for a simple message request-reply or similar.
 

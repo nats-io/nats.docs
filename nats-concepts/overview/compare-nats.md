@@ -20,13 +20,13 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 
 ## Built-in Patterns
 
-| Project | Supported Patterns |
-| :--- | :--- |
-| **NATS** | Streams and Services through built-in publish/subscribe, request/reply, and load-balanced queue subscriber patterns. Dynamic request permissioning and request subject obfuscation is supported. |
-| **gRPC** | One service, which may have streaming semantics, per channel. Load Balancing for a service can be done either client-side or by using a proxy. |
-| **Kafka** | Streams through publish/subscribe. Load balancing can be achieved with consumer groups. Application code must correlate requests with replies over multiple topics for a service \(request/reply\) pattern. |
-| **Pulsar** | Streams through publish/subscribe. Multiple competing consumer patterns support load balancing. Application code must correlate requests with replies over multiple topics for a service \(request/reply\) pattern. |
-| **Rabbit** | Streams through publish/subscribe, and services with a direct reply-to feature. Load balancing can be achieved with a Work Queue. Applications must correlate requests with replies over multiple topics for a service \(request/reply\) pattern. |
+| Project | Supported Patterns                                                                                                                                                                                                                                |
+| :--- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **NATS** | Streams and Services through built-in publish/subscribe, request-reply, and load-balanced queue subscriber patterns. Dynamic request permissioning and request subject obfuscation is supported.                                                  |
+| **gRPC** | One service, which may have streaming semantics, per channel. Load Balancing for a service can be done either client-side or by using a proxy.                                                                                                    |
+| **Kafka** | Streams through publish/subscribe. Load balancing can be achieved with consumer groups. Application code must correlate requests with replies over multiple topics for a service \(request-reply\) pattern.                                       |
+| **Pulsar** | Streams through publish/subscribe. Multiple competing consumer patterns support load balancing. Application code must correlate requests with replies over multiple topics for a service \(request-reply\) pattern.                               |
+| **Rabbit** | Streams through publish/subscribe, and services with a direct reply-to feature. Load balancing can be achieved with a Work Queue. Applications must correlate requests with replies over multiple topics for a service \(request-reply\) pattern. |
 
 ## Delivery Guarantees
 

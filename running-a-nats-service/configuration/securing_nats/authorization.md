@@ -25,7 +25,7 @@ The `permission` map provides additional properties for configuring a `permissio
 | `allow`  | List of subject names that are allowed to the client |
 | `deny`   | List of subjects that are denied to the client       |
 
-**Important Note** It is important to not break request/reply patterns. In some cases (as shown [below](authorization.md#variables)) you need to add rules for the `_INBOX.>` pattern. If an unauthorized client publishes or attempts to subscribe to a subject that has not been _allow listed_, the action fails and is logged at the server, and an error message is returned to the client. The [allow responses](authorization.md#allow-responses-map) option can simplify this.
+**Important Note** It is important to not break request-reply patterns. In some cases (as shown [below](authorization.md#variables)) you need to add rules for the `_INBOX.>` pattern. If an unauthorized client publishes or attempts to subscribe to a subject that has not been _allow listed_, the action fails and is logged at the server, and an error message is returned to the client. The [allow responses](authorization.md#allow-responses-map) option can simplify this.
 
 ## Allow Responses Map
 

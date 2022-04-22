@@ -19,7 +19,7 @@
   * [Publish-Subscribe](nats-concepts/core-nats/publish-subscribe/pubsub.md)
     * [Pub/Sub Walkthrough](nats-concepts/core-nats/publish-subscribe/pubsub_walkthrough.md)
   * [Request-Reply](nats-concepts/core-nats/request-reply/reqreply.md)
-    * [Request/Reply Walkthrough](nats-concepts/core-nats/request-reply/reqreply_walkthrough.md)
+    * [Request-Reply Walkthrough](nats-concepts/core-nats/request-reply/reqreply_walkthrough.md)
   * [Queue Groups](nats-concepts/core-nats/queue-groups/queue.md)
     * [Queueing Walkthrough](nats-concepts/core-nats/queue-groups/queues_walkthrough.md)
 * [JetStream](nats-concepts/jetstream/readme.md)

@@ -61,7 +61,7 @@ When taking down a server for maintenance, servers can be signaled to enter [Lam
 
 ### React Quicker with No-Responder Notifications
 
-Why wait for timeouts when services aren’t available? When a request is made to a service (request/reply) and the NATS Server knows there are no services available the server will short circuit the request. A “no-responders” protocol message will be sent back to the requesting client which will break from blocking API calls. This allows applications to immediately react which further enables building a highly responsive system at scale, even in the face of application failures and network partitions.
+Why wait for timeouts when services aren’t available? When a request is made to a service (request-reply) and the NATS Server knows there are no services available the server will short circuit the request. A “no-responders” protocol message will be sent back to the requesting client which will break from blocking API calls. This allows applications to immediately react which further enables building a highly responsive system at scale, even in the face of application failures and network partitions.
 
 ### Subject Mapping and Traffic Shaping
 

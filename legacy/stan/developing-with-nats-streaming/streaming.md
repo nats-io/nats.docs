@@ -10,7 +10,7 @@ The decision to use at least once delivery through NATS streaming is important. 
 
 In modern systems applications can expose services or produce and consume data streams. At a high level, if observability is required, applications need to consume messages in the future, need to come consume at their own pace, or need all messages, then at-least-once semantics (NATS streaming) makes sense. If observation needs to be realtime and the most recent message is the most important, then use _At-Most-Once_ delivery semantics with core NATS.
 
-Just be aware that using an at least once guarantee is the facet of messaging with the highest cost in terms of compute and storage. The NATS Maintainers highly recommend a strategy of defaulting to core NATS using a service pattern (request/reply) to guarantee delivery at the application level and using streaming only when necessary. This ultimately results in a more stable distributed system. Entire systems such as Cloud Foundry have been built upon core NATS with no messaging persistence involved.
+Just be aware that using an at least once guarantee is the facet of messaging with the highest cost in terms of compute and storage. The NATS Maintainers highly recommend a strategy of defaulting to core NATS using a service pattern (request-reply) to guarantee delivery at the application level and using streaming only when necessary. This ultimately results in a more stable distributed system. Entire systems such as Cloud Foundry have been built upon core NATS with no messaging persistence involved.
 
 ### When to use NATS Streaming
 
@@ -41,7 +41,7 @@ Using core NATS is ideal for the fast request path for scalable services where t
 
 These include:
 
-* Service patterns where there is a tightly coupled request/reply
+* Service patterns where there is a tightly coupled request-reply
   *   A request is made, and the application handles error cases upon timeout
 
       (resends, errors, etc). __Relying on a messaging system to resend here is
@@ -59,7 +59,7 @@ These include:
     or expires quickly.
 *   The expected consumer set for a message is available a-priori and consumers
 
-    are expected to be live. The request/reply pattern works well here or
+    are expected to be live. The request-reply pattern works well here or
 
     consumers can send an application level acknowledgement.
 

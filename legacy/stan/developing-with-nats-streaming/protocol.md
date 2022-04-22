@@ -6,7 +6,7 @@ In the event you would want to write your own NATS Streaming library, you could 
 
 ## NATS Streaming Protocol
 
-The NATS streaming protocol sits atop the core NATS protocol and uses [Google's Protocol Buffers](https://developers.google.com/protocol-buffers/). Protocol buffer messages are marshaled into bytes and published as NATS messages on specific subjects described below. In communicating with the NATS Streaming Server, the NATS request/reply pattern is used for all protocol messages that have a corresponding reply.
+The NATS streaming protocol sits atop the core NATS protocol and uses [Google's Protocol Buffers](https://developers.google.com/protocol-buffers/). Protocol buffer messages are marshaled into bytes and published as NATS messages on specific subjects described below. In communicating with the NATS Streaming Server, the NATS request-reply pattern is used for all protocol messages that have a corresponding reply.
 
 ### NATS streaming protocol conventions
 

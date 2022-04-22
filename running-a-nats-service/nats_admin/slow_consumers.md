@@ -76,7 +76,7 @@ For a simple example, if you have a service that receives telemetry data from Io
 
 **Meter the publisher**
 
-A less favorable option may be to meter the publisher. There are several ways to do this varying from simply slowing down your publisher to a more complex approach periodically issuing a blocking request/reply to match subscriber rates.
+A less favorable option may be to meter the publisher. There are several ways to do this varying from simply slowing down your publisher to a more complex approach periodically issuing a blocking request-reply to match subscriber rates.
 
 **Tune NATS through configuration**
 

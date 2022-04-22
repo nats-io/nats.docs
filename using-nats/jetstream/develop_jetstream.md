@@ -34,7 +34,7 @@ Using core NATS is ideal for the fast request path for scalable services where t
 
 These include:
 
-* Service patterns where there is a tightly coupled request/reply
+* Service patterns where there is a tightly coupled request-reply
     * A request is made, and the application handles error cases upon timeout
 
       \(resends, errors, etc\). __Relying on a messaging system to resend here is
@@ -54,7 +54,7 @@ These include:
 
 * The expected consumer set for a message is available a-priori and consumers
 
-  are expected to be live. The request/reply pattern works well here or
+  are expected to be live. The request-reply pattern works well here or
 
   consumers can send an application level acknowledgement.
 

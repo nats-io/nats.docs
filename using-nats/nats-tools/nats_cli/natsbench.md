@@ -176,7 +176,7 @@ NATS Pub/Sub stats: 7,019,849 msgs/sec ~ 107.11 MB/sec
   min 1,170,250 | avg 1,170,821 | max 1,171,181 | stddev 349 msgs
 ```
 
-## Run a request/reply latency test
+## Run a request-reply latency test
 
 In one shell start a nats bench in 'reply mode' and let it run
 
@@ -190,15 +190,15 @@ And in another shell send some requests
 nats bench foo --pub 1 --request --msgs 10000
 ```
 ```text
-23:47:35 Benchmark in request/reply mode
-23:47:35 Starting request/reply benchmark [msgs=10,000, msgsize=128 B, pubs=1, subs=0, js=false, request=true, reply=false]
+23:47:35 Benchmark in request-reply mode
+23:47:35 Starting request-reply benchmark [msgs=10,000, msgsize=128 B, pubs=1, subs=0, js=false, request=true, reply=false]
 23:47:35 Starting publisher, publishing 10,000 messages
 Finished      1s [==============================================================================================================================================================================================================================================================================================================================================================================================================================================================] 100%
 
 Pub stats: 8,601 msgs/sec ~ 1.05 MB/sec
 ```
 
-In this case the average latency of request/reply between the two `nats bench` processes over NATS was 1/8,601th of a second (116.2655505 microseconds).
+In this case the average latency of request-reply between the two `nats bench` processes over NATS was 1/8,601th of a second (116.2655505 microseconds).
 
 You can now hit control-c to kill that `nats bench --reply` process
 

@@ -6,7 +6,7 @@ One way some of the libraries deal with bursty message traffic is to buffer inco
 
 Receiving and dropping messages from the server keeps the connection to the server healthy, but creates an application requirement. There are several common patterns:
 
-* Use request/reply to throttle the sender and prevent overloading the subscriber
+* Use request-reply to throttle the sender and prevent overloading the subscriber
 * Use a queue with multiple subscribers splitting the work
 * Persist messages with something like NATS streaming
 
