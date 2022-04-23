@@ -22,7 +22,7 @@ Let’s run through the process of creating some identities and JWTs and work th
 
 ## Creating an Operator, Account and User
 
-Let’s create an operator called `Operator`:
+Let’s create an operator called `MyOperator`:
 
 ```bash
 nsc add operator MyOperator
