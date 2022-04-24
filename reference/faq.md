@@ -27,6 +27,7 @@
 * [How do I gracefully shut down an asynchronous subscriber?](faq.md#how-do-i-gracefully-shut-down-an-asynchronous-subscriber)
 * [How do I create subjects?](faq.md#how-do-i-create-subjects)
 * [How many clients can connect simultaneously?](faq.md#how-many-clients-can-connect-simultaneously)
+* [How do I ensure clients are compatible with server versions?](faq.md#how-do-i-ensure-clients-are-compatible-with-server-versions)
 
 ## General
 
@@ -161,3 +162,12 @@ Most systems can handle several thousand NATS connections per server without any
 If you are using TLS you'll want to be sure the hardware can handle the CPU load created by TLS negotiation when there is the thundering herd of inbound connections after an outage or network partition event. This often overlooked factor is usually the constraint limiting the number of connections a single server should support. Choosing a cipher suite that is supported by TLS acceleration can mitigate this \(e.g. AES with x86\). Thinking of the entire system, you'll also want to look at a range of reconnect delay times or add reconnect jitter to the NATS clients to even out the distribution of connection attempts over time and reduce CPU spikes.
 
 All said, each server can be tuned to handle a large number of clients, and given the flexibility and scalability of NATS with clusters, superclusters, and leaf nodes one can build a NATS deployment supporting many millions of connections.
+
+### How do I ensure clients are compatible with server versions?
+
+We care deeply about always supporting the client base. So in general, say with a new feature that the server supports, the client needs to signal to the server that the client supports the new feature. The server usually signals the features it __can__ support, but for anything that would break backward compatibility, the client, not the server, needs to signal that support.
+
+**Example: Headers Feature**
+While the server version in use may support headers, each client has to signal to the server that it supports headers. Otherwise, the server will not send header enabled messages to that client at all; stripping them from the original message such that the client can still receive the message body itself.
+
+As of this writing (April 24, 2022), and because of this strategy, apps that were written 10 years ago can still connect and function against the version 2.8.1 server.
