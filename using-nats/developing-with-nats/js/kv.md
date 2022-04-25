@@ -196,7 +196,7 @@ KeyValueEntry get(String key, long revision) throws IOException, JetStreamApiExc
 async get(k: string): Promise<KvEntry | null>
 ```
 {% endtab %}
-{% tab title="Python"}
+{% tab title="Python" %}
 ```python
 async def get(self, key: str) -> Entry:
    """

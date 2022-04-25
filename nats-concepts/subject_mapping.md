@@ -4,7 +4,7 @@ Subject mapping is a very powerful feature of the NATS server, useful for canary
 
 There are two places where you can apply subject mappings: each account has its own set of subject mappings, which will apply to any message published by client applications, and you can also use subject mappings as part of the imports and exports between accounts.
 
-When not using operator JWT security, you can define the subject mappings in server configuration files, and you simply need to send a signal for the nats-server processe to reload the configuration whenever you change a mapping for the change to take effect. 
+When not using operator JWT security, you can define the subject mappings in server configuration files, and you simply need to send a signal for the nats-server process to reload the configuration whenever you change a mapping for the change to take effect. 
 
 When using operator JWT security with the built-in resolver you define the mappings and the import/exports in the account JWT so after modifying them they will take effect as soon as you push the updated account JWT to the servers.
 
