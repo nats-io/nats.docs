@@ -10,13 +10,13 @@ You can use [nats-top](https://github.com/nats-io/nats-top) to monitor in realti
 ## 1. Install nats-top
 
 ```bash
-go get github.com/nats-io/nats-top
+go install github.com/nats-io/nats-top
 ```
 
 You may need to run the following instead:
 
 ```bash
-sudo -E go get github.com/nats-io/nats-top
+sudo -E go install github.com/nats-io/nats-top
 ```
 
 ## 2. Start the NATS server with monitoring enabled
