@@ -77,7 +77,7 @@ static async bind(
 destroy(): Promise<boolean>
 ```
 {% endtab %}
-{% tab title="Python"}
+{% tab title="Python" %}
 ```python
 # from the JetStreamContext
 
@@ -329,7 +329,7 @@ create(k: string, data: Uint8Array): Promise<number>
 update(k: string, data: Uint8Array, version: number): Promise<number>
 ```
 {% endtab %}
-{% tab title="Python"}
+{% tab title="Python" %}
 ```python
 async def put(self, key: str, value: bytes) -> int:
     """
@@ -457,7 +457,7 @@ delete(k: string): Promise<void>
 purge(k: string): Promise<void>
 ```
 {% endtab %}
-{% tab title="Python"}
+{% tab title="Python" %}
 ```python
 async def delete(self, key: str) -> bool:
     """
@@ -543,7 +543,7 @@ List<String> keys() throws IOException, JetStreamApiException, InterruptedExcept
 async keys(k = ">"): Promise<QueuedIterator<string>>
 ```
 {% endtab %}
-{% tab title="Python"}
+{% tab title="Python" %}
 ```python
 
 ```
