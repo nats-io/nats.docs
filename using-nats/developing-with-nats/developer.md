@@ -25,4 +25,5 @@ There are many other NATS client libraries and examples contributed and maintain
 * [Tcl](https://github.com/Kazmirchuk/nats-tcl)
 * [Crystal](https://github.com/jgaskins/nats)
 * [PHP](https://github.com/basis-company/nats.php) and [PHP](https://github.com/repejota/phpnats)
+* [Pascal](https://github.com/biot2/nats.pas/blob/main/nats.core.pas)
 * and many [more](https://github.com/search?o=desc&p=1&q=nats+client&s=updated&type=Repositories)...
