@@ -543,11 +543,6 @@ List<String> keys() throws IOException, JetStreamApiException, InterruptedExcept
 async keys(k = ">"): Promise<QueuedIterator<string>>
 ```
 {% endtab %}
-{% tab title="Python" %}
-```python
-
-```
-{% endtab %}
 {% tab title="C" %}
 ```C
 NATS_EXTERN natsStatus 	kvStore_Keys (kvKeysList *list, kvStore *kv, kvWatchOptions *opts)
