@@ -3,31 +3,37 @@
 {% tabs %}
 {% tab title="Go" %}
 ```go
-// Synchronously publish a message to the stream 
-js.Publish("foo", []byte("hello"))
+func ExampleJetStream() {
+	nc, err := nats.Connect("localhost")
+	if err != nil {
+		log.Fatal(err)
+	}
 
-// Asynchronously publish 10 messages
-futures := make([]nats.PubAckFuture, 10)
-for j := 0; j < 10; j++ {
-    futures[j], err = js.PublishAsync("foo",[]byte("hello"))
-    if err != nil {
-        log.FatalF("PublishAsync error: %v", err)
-    }
+	// Use the JetStream context to produce and consumer messages
+	// that have been persisted.
+	js, err := nc.JetStream(nats.PublishAsyncMaxPending(256))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	js.AddStream(&nats.StreamConfig{
+		Name:     "FOO",
+		Subjects: []string{"foo"},
+	})
+
+	js.Publish("foo", []byte("Hello JS!"))
+
+	// Publish messages asynchronously.
+	for i := 0; i < 500; i++ {
+		js.PublishAsync("foo", []byte("Hello JS Async!"))
+	}
+	select {
+	case <-js.PublishAsyncComplete():
+	case <-time.After(5 * time.Second):
+		fmt.Println("Did not resolve in time")
+	}
 }
 
-// Wait for the acks or timeout
-select {
-    case <-js.PublishAsyncComplete():
-        for future := range futures {
-            select {
-                case <-futures[future].Ok():
-                case e := <-futures[future].Err():
-                log.FatalF("PublishAsync %v not OK, err=%v", future, e)
-            }
-        }
-    case <-time.After(30 * time.Second):
-        log.FatalF("JS PublishAsync did not receive an ack/error")
-}
 ```
 {% endtab %}
 
@@ -48,6 +54,33 @@ try (Connection nc = Nats.connect("demo.nats.io"){
 
 {% tab title="JavaScript" %}
 ```javascript
+import { connect, Empty } from "../../src/mod.ts";
+
+const nc = await connect();
+
+const jsm = await nc.jetstreamManager();
+await jsm.streams.add({ name: "B", subjects: ["b.a"] });
+
+const js = await nc.jetstream();
+// the jetstream client provides a publish that returns
+// a confirmation that the message was received and stored
+// by the server. You can associate various expectations
+// when publishing a message to prevent duplicates.
+// If the expectations are not met, the message is rejected.
+let pa = await js.publish("b.a", Empty, {
+  msgID: "a",
+  expect: { streamName: "B" },
+});
+console.log(`${pa.stream}[${pa.seq}]: duplicate? ${pa.duplicate}`);
+
+pa = await js.publish("b.a", Empty, {
+  msgID: "a",
+  expect: { lastSequence: 1 },
+});
+console.log(`${pa.stream}[${pa.seq}]: duplicate? ${pa.duplicate}`);
+
+await jsm.streams.delete("B");
+await nc.drain();
 ```
 {% endtab %}
 

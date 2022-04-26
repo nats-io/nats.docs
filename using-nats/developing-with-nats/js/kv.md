@@ -60,8 +60,8 @@ KeyValueStatus getBucketInfo(String bucketName) throws IOException, JetStreamApi
 void delete(String bucketName) throws IOException, JetStreamApiException;
 ```
 {% endtab %}
-{% tab title="JS" %}
-```js
+{% tab title="JavaScript" %}
+```javascript
   static async create(
     js: JetStreamClient,
     name: string,
@@ -191,8 +191,8 @@ KeyValueEntry get(String key) throws IOException, JetStreamApiException;
 KeyValueEntry get(String key, long revision) throws IOException, JetStreamApiException;
 ```  
 {% endtab %}
-{% tab title="JS %}
-```js
+{% tab title="JavaScript %}
+```javascript
 async get(k: string): Promise<KvEntry | null>
 ```
 {% endtab %}
@@ -316,8 +316,8 @@ long create(String key, byte[] value) throws IOException, JetStreamApiException;
 long update(String key, byte[] value, long expectedRevision) throws IOException, JetStreamApiException;
 ```
 {% endtab %}
-{% tab title="JS" %}
-```js
+{% tab title="JavaScript" %}
+```javascript
   async put(
     k: string,
     data: Uint8Array,
@@ -450,8 +450,8 @@ void delete(String key) throws IOException, JetStreamApiException;
 void purge(String key) throws IOException, JetStreamApiException;
 ```
 {% endtab %}
-{% tab title="JS" %}
-```js
+{% tab title="JavaScript" %}
+```javascript
 delete(k: string): Promise<void>
     
 purge(k: string): Promise<void>
@@ -538,8 +538,8 @@ Keys(opts ...WatchOpt) ([]string, error)
 List<String> keys() throws IOException, JetStreamApiException, InterruptedException;
 ```
 {% endtab %}
-{% tab title="JS" %}
-```js
+{% tab title="JavaScript" %}
+```javascript
 async keys(k = ">"): Promise<QueuedIterator<string>>
 ```
 {% endtab %}
@@ -594,16 +594,11 @@ History(key string, opts ...WatchOpt) ([]KeyValueEntry, error)
 List<KeyValueEntry> history(String key) throws IOException, JetStreamApiException, InterruptedException;
 ```
 {% endtab %}
-{% tab title="JS" %}
-```js
+{% tab title="JavaScript" %}
+```javascript
 async history(
     opts: { key?: string; headers_only?: boolean } = {},
   ): Promise<QueuedIterator<KvEntry>>
-```
-{% endtab %}
-{% tab title="Python"}
-```python
-
 ```
 {% endtab %}
 {% tab title="C" %}
@@ -670,8 +665,8 @@ NatsKeyValueWatchSubscription watch(String key, KeyValueWatcher watcher, KeyValu
 NatsKeyValueWatchSubscription watchAll(KeyValueWatcher watcher, KeyValueWatchOption... watchOptions) throws IOException, JetStreamApiException, InterruptedException;
 ```
 {% endtab %}
-{% tab title="JS" %}
-```js
+{% tab title="JavaScript" %}
+```javascript
   async watch(
     opts: {
       key?: string;
@@ -679,11 +674,6 @@ NatsKeyValueWatchSubscription watchAll(KeyValueWatcher watcher, KeyValueWatchOpt
       initializedFn?: callbackFn;
     } = {},
   ): Promise<QueuedIterator<KvEntry>>
-```
-{% endtab %}
-{% tab title="Python"}
-```python
-
 ```
 {% endtab %}
 {% tab title="C" %}
