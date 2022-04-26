@@ -100,6 +100,17 @@ mqtt {
 }
 ```
 
+## Server name
+
+MQTT requires a server name to be set. Server names must be unique in a cluster or super-cluster topology. The server name is set in the top-level section of the server configuration. Here is an example:
+```
+server_name: "my_mqtt_server"
+mqtt {
+    port: 1883
+    ...
+}
+```
+
 ## Authentication/Authorization of MQTT Users
 
 ### Operator mode
