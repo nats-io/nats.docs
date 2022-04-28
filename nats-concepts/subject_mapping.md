@@ -26,13 +26,13 @@ Deterministic token partitioning allows you to use subject based addressing to d
 
 For example: new customer orders are published on `neworders.<customer id>`, you can partition those messages over 3 partition numbers (buckets), using the `partition(number of partitions, wildcard token positions...)` function which returns a partition number (between 0 and number of partitions-1) by using the following mapping `"neworders.*" : "neworders.{{wildcard(1)}}.{{partition(3,1)}}"`.
 
-This particular mapping means that any message published on `neworders.<customer id>` will be mapped to `subject.<customer id>.<a partition number 0, 1, or 2>`. i.e.:
+This particular mapping means that any message published on `neworders.<customer id>` will be mapped to `neworders.<customer id>.<a partition number 0, 1, or 2>`. i.e.:
 
 
 | Published on          | Mapped to               |
 |-----------------------|-------------------------|
 | neworders.customerid1 | neworders.customerid1.0 |
-| neworders.customerid2 | neworders.customerid1.2 |
+| neworders.customerid2 | neworders.customerid2.2 |
 | neworders.customerid3 | neworders.customerid3.1 |
 | neworders.customerid4 | neworders.customerid4.2 |
 | neworders.customerid5 | neworders.customerid5.1 |
