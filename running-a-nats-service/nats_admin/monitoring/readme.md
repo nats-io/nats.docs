@@ -19,7 +19,7 @@ The NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSON
 See 
 > Warning: `nats-server` does not have authentication/authorization for the monitoring endpoint. When you plan to open your `nats-server` to the internet make sure to not expose the monitoring port as well. By default monitoring binds to every interface `0.0.0.0` so consider setting monitoring to `localhost` or have appropriate firewall rules.
 >
-> In other words don't do what `http://demo.nats.io:8222/` does! It is done on purpose to simplify the examples below.
+> In other words don't do what `https://demo.nats.io:8222/` does! It is done on purpose to simplify the examples below.
 
 ### Enabling monitoring from the command line
 
@@ -82,7 +82,7 @@ N/A
 
 #### Example
 
-[http://demo.nats.io:8222/varz](http://demo.nats.io:8222/varz)
+[https://demo.nats.io:8222/varz](https://demo.nats.io:8222/varz)
 
 #### Response
 
@@ -185,13 +185,13 @@ _The server will default to holding the last 10,000 closed connections._
 
 #### Examples
 
-Get up to 1024 connections: [http://demo.nats.io:8222/connz](http://demo.nats.io:8222/connz)
+Get up to 1024 connections: [https://demo.nats.io:8222/connz](https://demo.nats.io:8222/connz)
 
-Control limit and offset: [http://demo.nats.io:8222/connz?limit=16&offset=128](http://demo.nats.io:8222/connz?limit=16&offset=128).
+Control limit and offset: [https://demo.nats.io:8222/connz?limit=16&offset=128](https://demo.nats.io:8222/connz?limit=16&offset=128).
 
-Get closed connection information: [http://demo.nats.io:8222/connz?state=closed](http://demo.nats.io:8222/connz?state=closed).
+Get closed connection information: [https://demo.nats.io:8222/connz?state=closed](https://demo.nats.io:8222/connz?state=closed).
 
-You can also report detailed subscription information on a per connection basis using subs=1. For example: [http://demo.nats.io:8222/connz?limit=1&offset=1&subs=1](http://demo.nats.io:8222/connz?limit=1&offset=1&subs=1).
+You can also report detailed subscription information on a per connection basis using subs=1. For example: [https://demo.nats.io:8222/connz?limit=1&offset=1&subs=1](https://demo.nats.io:8222/connz?limit=1&offset=1&subs=1).
 
 #### Response
 
@@ -286,11 +286,11 @@ The `/routez` endpoint reports information on active routes for a cluster. Route
 | :--- | :--- | :--- |
 | subs | true, 1, false, 0 or `detail` | Include subscriptions. Default is false. When set to `detail` a list with more detailed subscription information will be returned. |
 
-As noted above, the `routez` endpoint does support the `subs` argument from the `/connz` endpoint. For example: [http://demo.nats.io:8222/routez?subs=1](http://demo.nats.io:8222/routez?subs=1)
+As noted above, the `routez` endpoint does support the `subs` argument from the `/connz` endpoint. For example: [https://demo.nats.io:8222/routez?subs=1](https://demo.nats.io:8222/routez?subs=1)
 
 #### Example
 
-* Get route information:  [http://demo.nats.io:8222/routez?subs=1](http://demo.nats.io:8222/routez?subs=1)
+* Get route information:  [https://demo.nats.io:8222/routez?subs=1](https://demo.nats.io:8222/routez?subs=1)
 
 #### Response
 
@@ -338,7 +338,7 @@ The `/gatewayz` endpoint reports information about gateways used to create a NAT
 
 #### Examples
 
-* Retrieve Gateway Information: [http://demo.nats.io:8222/gatewayz](http://demo.nats.io:8222/gatewayz)
+* Retrieve Gateway Information: [https://demo.nats.io:8222/gatewayz](https://demo.nats.io:8222/gatewayz)
 
 #### Response
 
@@ -472,11 +472,11 @@ The `/leafz` endpoint reports detailed information about the leaf node connectio
 | :--- | :--- | :--- |
 | subs | true, 1, false, 0 | Include internal subscriptions.  Default is false. |
 
-As noted above, the `leafz` endpoint does support the `subs` argument from the `/connz` endpoint. For example: [http://demo.nats.io:8222/leafz?subs=1](http://demo.nats.io:8222/leafz?subs=1)
+As noted above, the `leafz` endpoint does support the `subs` argument from the `/connz` endpoint. For example: [https://demo.nats.io:8222/leafz?subs=1](https://demo.nats.io:8222/leafz?subs=1)
 
 #### Example
 
-* Get leaf nodes information:  [http://demo.nats.io:8222/leafz?subs=1](http://demo.nats.io:8222/leafz?subs=1)
+* Get leaf nodes information:  [https://demo.nats.io:8222/leafz?subs=1](https://demo.nats.io:8222/leafz?subs=1)
 
 #### Response
 
@@ -526,7 +526,7 @@ The `/subsz` endpoint reports detailed information about the current subscriptio
 
 #### Example
 
-* Get subscription routing information:  [http://demo.nats.io:8222/subsz](http://demo.nats.io:8222/subsz)
+* Get subscription routing information:  [https://demo.nats.io:8222/subsz](https://demo.nats.io:8222/subsz)
 
 #### Response
 
@@ -560,8 +560,8 @@ The `/accountz` endpoint reports information on a server's active accounts. The 
 
 #### Example
 
-* Get list of all accounts:  [http://demo.nats.io:8222/accountz](http://demo.nats.io:8222/accountz)
-* Get details for specific account `$G`:  [http://demo.nats.io:8222/accountz?acc=$G](http://demo.nats.io:8222/accountz?acc=$G)
+* Get list of all accounts:  [https://demo.nats.io:8222/accountz](https://demo.nats.io:8222/accountz)
+* Get details for specific account `$G`:  [https://demo.nats.io:8222/accountz?acc=$G](https://demo.nats.io:8222/accountz?acc=$G)
 
 #### Response
 
@@ -671,11 +671,11 @@ The `/jsz` endpoint reports more detailed information on JetStream. For accounts
 
 #### Examples
 
-Get basic JetStream information: [http://demo.nats.io:8222/jsz](http://demo.nats.io:8222/jsz)
+Get basic JetStream information: [https://demo.nats.io:8222/jsz](https://demo.nats.io:8222/jsz)
 
-Request accounts and control limit and offset: [http://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128](http://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128).
+Request accounts and control limit and offset: [https://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128](https://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128).
 
-You can also report detailed consumer information on a per connection basis using consumer=true. For example: [http://demo.nats.io:8222/jsz?consumers=true](http://demo.nats.io:8222/jsz/consumer=true).
+You can also report detailed consumer information on a per connection basis using consumer=true. For example: [https://demo.nats.io:8222/jsz?consumers=true](https://demo.nats.io:8222/jsz/consumer=true).
 
 #### Response
 
@@ -793,13 +793,13 @@ NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSONP) a
 For example:
 
 ```text
-http://demo.nats.io:8222/connz?callback=cb
+https://demo.nats.io:8222/connz?callback=cb
 ```
 
 Here is a JQuery example implementation:
 
 ```javascript
-$.getJSON('http://demo.nats.io:8222/connz?callback=?', function(data) {
+$.getJSON('https://demo.nats.io:8222/connz?callback=?', function(data) {
   console.log(data);
 });
 ```
