@@ -72,7 +72,13 @@ When first consuming messages, start with messages on or after this time. The co
 
 ## DeliverySubject
 
-The subject to deliver observed messages. Not allowed for pull subscriptions. A delivery subject is required for queue subscribing as it configures a subject that all the queue consumers should listen on.
+The delivery subject is used by Nats to orchestrate how messages reach subscriptions. When a message is published to a JetStream, Nats will know of all consumers that have registered an interested in that message. It will then deliver the message to each consumer via their `DeliverySubject`. In this sense, a `DeliverySubject` can be considered like an "inbox" for each subscription.
+
+For this reason, `DeliverySubject` is not allowed for pull subscriptions, since in that case the subscription is fetching the messages for itself. Similarly, a delivery subject is required for all push subscriptions, as well as for queue subscribing as it configures a subject that all the queue consumers should listen on.
+
+The delivery subject should not be confused with the stream's subject. In fact, if a delivery subject had the same value as a stream's subject, it could create an infinite loop as Nats would re-deliver messages to the same subjects again and again. Nats will prevent the creation of this by emitting the following error: `Consumer creation failed: consumer deliver subject forms a cycle (10081)`.
+
+If two consumers share the same `DeliverySubject` then the messages will be delivered to both, since subscriptions will be bound to the same subject. In cases in which you want a subscription to receive all (filtered) messages of a stream, a unique `DeliverySubject` should be provided.
 
 ## Durable \(Name\)
 
