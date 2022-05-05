@@ -24,7 +24,7 @@ You can deploy and run your own NATS service infrastructure of nats-server insta
 
 ### Virtualization and containerization considerations
 
-You certainly can (and very many people do) use container orchestration systems such as Kubernetes (we recommend that you use the Helm charts), Nomad or Docker Swarm to deploy your infrastructure of NATS servers, if you are building an 'heavy duty' NATS infrastructure we recommend to look at the NATS service infrastructure as just that: **Infrastructure**. Meaning that the _best_ _possible_ deployment model is to run **at the same level** as your container infrastructure, not _inside it_.
+You certainly can (and very many people do) use container orchestration systems such as Kubernetes (we recommend that you use the Helm charts), Nomad or Docker Swarm to deploy your infrastructure of NATS servers, if you are building a 'heavy duty' NATS infrastructure we recommend to look at the NATS service infrastructure as just that: **Infrastructure**. Meaning that the _best_ _possible_ deployment model is to run **at the same level** as your container infrastructure, not _inside it_.
 
 NATS servers are effectively 'message routers'. They constantly get data over the network and send data over the network. They are highly optimized and have many built-in heart-beats, failover and flow control mechanisms. The less the number of layers between the NATS server process, the network and disk, the faster it will work and the less the number of things that can break or places where there can be a configuration error. And you are not relying on some proxy, DNS tricks, or any kind of port and IP address forwarding in order for your client applications to be able to connect to the NATS server instance(s).
 
