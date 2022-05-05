@@ -5,8 +5,8 @@ In order for a NATS client application to connect to the NATS service, and then 
 ## NATS URL
 
 1. A 'NATS URL' which is a string (in a URL format) that specifies the IP address and port where the NATS server(s) can be reached, and what kind of connection to establish:
-   * Plain un-encrypted TCP connection (i.e. NATS URLs starting with `nats://...`)
-   * TLS encrypted TCP connection (i.e. NATS URLs starting with `tls://...`)
+   * TLS encrypted _only_ TCP connection (i.e. NATS URLs starting with `tls://...`)
+   * TLS encrypted if the server is configured for it or plain un-encrypted TCP connection otherwise (i.e. NATS URLs starting with `nats://...`)
    * Websocket connection (i.e. NATS URLs starting with `ws://...`)
 
 ### Connecting to clusters
@@ -36,7 +36,7 @@ Besides the connectivity and security details, there are numerous options for a 
 
 WebSocket and NATS&#x20;
 
-{% embed url="https://www.youtube.com/watch?t=1s&v=AbAR9zgJnjY" %}
+{% embed url="https://www.youtube.com/watch?v=AbAR9zgJnjY" %}
 WebSocket and NATS | Hello World
 {% endembed %}
 

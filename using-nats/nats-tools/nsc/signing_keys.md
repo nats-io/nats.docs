@@ -28,9 +28,6 @@ Creating the operator:
 ```shell
 nsc add operator O2
 ```
-
-Output
-
 ```
 [ OK ] generated and stored operator key "OABX3STBZZRBHMWMIMVHNQVNUG2O3D54BMZXX5LMBYKSAPDSHIWPMMFY"
 [ OK ] added operator "O2"
@@ -41,9 +38,6 @@ To add a signing key we have to first generate one with `nsc`:
 ```shell
 nsc generate nkey --operator --store
 ```
-
-Output
-
 ```
 SOAEW6Z4HCCGSLZJYZQMGFQY2SY6ZKOPIAKUQ5VZY6CW23WWYRNHTQWVOA
 OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5
@@ -57,9 +51,6 @@ Now we are going to edit the operator by adding a signing key with the `--sk` fl
 ```shell
 nsc edit operator --sk OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5
 ```
-
-Output
-
 ```
 [ OK ] added signing key "OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5"
 [ OK ] edited operator "O2"
@@ -70,9 +61,6 @@ Check our handy work:
 ```shell
 nsc describe operator
 ```
-
-Output
-
 ```
 ╭─────────────────────────────────────────────────────────────────────────╮
 │                            Operator Details                             │
@@ -92,9 +80,6 @@ Now let’s create an account called `A` and sign it with the generated operator
 ```shell
 nsc add account A -K ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk 
 ```
-
-Output
-
 ```
 [ OK ] generated and stored account key "ACDXQQ6KD5MVSFMK7GNF5ARK3OJC6PEICWCH5PQ7HO27VKGCXQHFE33B"
 [ OK ] added account "A"
@@ -105,9 +90,6 @@ Let’s generate an account signing key, again we use `nk`:
 ```bash
 nsc generate nkey --account --store 
 ```
-
-Output
-
 ```
 SAAA4BVFTJMBOW3GAYB3STG3VWFSR4TP4QJKG2OCECGA26SKONPFGC4HHE
 ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7
@@ -119,9 +101,6 @@ Let’s add the signing key to the account, and remember to sign the account wit
 ```shell
 nsc edit account --sk ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7 -K ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk 
 ```
-
-Output
-
 ```
 [ OK ] added signing key "ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7"
 [ OK ] edited account "A"
@@ -130,9 +109,6 @@ Let's take a look at the account
 ```shell
 nsc describe account
 ```
-
-Output
-
 ``` 
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
@@ -166,9 +142,6 @@ Now let’s create a user and sign it with the account signing key starting with
 ```shell
 nsc add user U -K ~/.nkeys/keys/A/DU/ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7.nk
 ```
-
-Output
-
 ```
 [ OK ] generated and stored user key "UD47TOTKVDY4IQRGI6D7XMLZPHZVNV5FCD4CNQICLV3FXLQBY72A4UXL"
 [ OK ] generated user creds file "~/.nkeys/creds/O2/A/U.creds"
@@ -178,9 +151,6 @@ Check the account
 ```shell
 nsc describe user
 ```
-
-Output
-
 ```
 ╭─────────────────────────────────────────────────────────────────────────────────╮
 │                                      User                                       │
@@ -214,9 +184,6 @@ On connect, the nats-server will assign the permissions associated with that sig
 ```shell
 nsc add account A
 ```
-
-Output
-
 ```
 [ OK ] generated and stored account key "ADLGEVANYDKDQ6WYXPNBEGVUURXZY4LLLK5BJPOUDN6NGNXLNH4ATPWR"
 [ OK ] push jwt to account server:
@@ -231,9 +198,6 @@ Generate the signing key
 ```shell
 nsc edit account -n A --sk generate
 ```
-
-Output
-
 ```
 [ OK ] added signing key "AAZQXKDPOTGUCOCOGDW7HWWVR5WEGF3KYL7EKOEHW2XWRS2PT5AOTRH3"
 [ OK ] push jwt to account server
@@ -246,9 +210,6 @@ Add a service to the account
 ```shell
 nsc edit signing-key --account A --role service --sk AAZQXKDPOTGUCOCOGDW7HWWVR5WEGF3KYL7EKOEHW2XWRS2PT5AOTRH3 --allow-sub "q.>" --deny-pub ">" --allow-pub-response
 ```
-
-Output
-
 ```
 [ OK ] set max responses to 1
 [ OK ] added deny pub ">"
@@ -263,9 +224,6 @@ Since the signing key has a unique role name within an account, it can be subseq
 ```shell
 nsc add user U -K service
 ```
-
-Output
-
 ```
 [ OK ] generated and stored user key "UBFRJ6RNBYJWSVFBS7O4ZW5MM6J3EPE75II3ULPVUWOUH7K7A23D3RQE"
 [ OK ] generated user creds file `~/test/issue-2621/keys/creds/synadia/A/U.creds`

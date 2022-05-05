@@ -9,7 +9,6 @@ To add a service to your account:
 ```bash
 nsc add export --name help --subject help --service
 ```
-Output
 ```text
 [ OK ] added public service export "help"
 ```
@@ -19,7 +18,6 @@ To review the service export:
 ```bash
 nsc describe account
 ```
-Example output
 ```text
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
@@ -67,7 +65,6 @@ First let's create a second account to import the service into:
 ```bash
 nsc add account B
 ```
-Example output
 ```text
 [ OK ] generated and stored account key "AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
 [ OK ] added account "B"
@@ -78,7 +75,6 @@ Add the import of the subject 'help'
 ```shell
 nsc add import --src-account ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFTV5NGE --remote-subject help --service
 ```
-Example output
 ```text
 [ OK ] added service import "help"
 ```
@@ -88,7 +84,6 @@ Verifying our work:
 ```bash
 nsc describe account
 ```
-Example output
 ```text
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
@@ -125,7 +120,6 @@ Let's also add a user to make requests from the service:
 ```bash
 nsc add user b
 ```
-Example output
 ```text
 [ OK ] generated and stored user key "UDKNTNEL5YD66U2FZZ2B3WX2PLJFKEFHAPJ3NWJBFF44PT76Y2RAVFVE"
 [ OK ] generated user creds file "~/.nkeys/creds/O/B/b.creds"
@@ -177,7 +171,6 @@ Or more simply:
 nsc reply --account A --user U help "I will help"
 nsc req --account B --user b help me
 ```
-Output
 ```text
 published request: [help] : 'me'
 received reply: [_INBOX.GCJltVq1wRSb5FoJrJ6SE9.w8utbBXR] : 'I will help'
@@ -192,7 +185,6 @@ If you want to create a service that is only accessible to accounts you designat
 ```shell
 nsc add export --subject "private.help.*" --private --service --account A
 ```
-Output
 ```text
 [ OK ] added private service export "private.help.*"
 ```
@@ -202,7 +194,6 @@ As before, we declared an export, but this time we added the `--private` flag. T
 ```bash
 nsc describe account A
 ```
-Example output
 ```text
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
@@ -244,7 +235,6 @@ To generate a token, you’ll need to know the public key of the account importi
 ```bash
 nsc list keys --account B
 ```
-Example output
 ```text
 ╭──────────────────────────────────────────────────────────────────────────────────────────╮
 │                                           Keys                                           │
@@ -260,7 +250,6 @@ Example output
 ```shell
 nsc generate activation --account A --target-account AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H --subject private.help.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H -o /tmp/activation.jwt
 ```
-Example output
 ```text
 [ OK ] generated "private.help.*" activation for account "AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
 [ OK ] wrote account description to "/tmp/activation.jwt"
@@ -273,7 +262,6 @@ For completeness, the contents of the JWT file looks like this:
 ```bash
 cat /tmp/activation.jwt
 ```
-Example output
 ```text
 -----BEGIN NATS ACTIVATION JWT-----
 eyJ0eXAiOiJqd3QiLCJhbGciOiJlZDI1NTE5In0.eyJqdGkiOiJUS01LNEFHT1pOVERDTERGUk9QTllNM0hHUVRDTEJTUktNQUxXWTVSUUhFVEVNNE1VTDdBIiwiaWF0IjoxNTc1NDkxNjEwLCJpc3MiOiJBREVUUFQzNldCSUJVS00zSUJDVk00QTVZVVNEWEZFSlBXNE02R0dWQllDQlc3UlJORlRWNU5HRSIsIm5hbWUiOiJwcml2YXRlLmhlbHAuQUFNNDZFM1lGNVdPWlNFNVdOWVdITjNZWUlTVlpPU0k2WEhURjJRNjRFQ1BYU0ZRWlJPSk1QMkgiLCJzdWIiOiJBQU00NkUzWUY1V09aU0U1V05ZV0hOM1lZSVNWWk9TSTZYSFRGMlE2NEVDUFhTRlFaUk9KTVAySCIsInR5cGUiOiJhY3RpdmF0aW9uIiwibmF0cyI6eyJzdWJqZWN0IjoicHJpdmF0ZS5oZWxwLkFBTTQ2RTNZRjVXT1pTRTVXTllXSE4zWVlJU1ZaT1NJNlhIVEYyUTY0RUNQWFNGUVpST0pNUDJIIiwidHlwZSI6InNlcnZpY2UifX0.4tFx_1UzPUwbV8wFNIJsQYu91K9hZaGRLE10nOphfHGetvMPv1384KC-1AiNdhApObSDFosdDcpjryD0QxaDCQ
@@ -285,7 +273,6 @@ When decoded it looks like this:
 ```shell
 nsc describe jwt -f /tmp/activation.jwt
 ```
-Example output
 ```text
 ╭─────────────────────────────────────────────────────────────────────────────────────────╮
 │                                       Activation                                        │
@@ -319,7 +306,6 @@ Importing a private service is more natural than a public one because the activa
 ```shell
 nsc add import --account B -u /tmp/activation.jwt --local-subject private.help --name private.help
 ```
-Example output
 ```text
 [ OK ] added service import "private.help.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
 ```
@@ -328,7 +314,6 @@ Describe account B
 ```shell
 nsc describe account B
 ```
-Example output
 ```text
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
@@ -371,7 +356,6 @@ Testing a private service is no different than a public one:
 nsc reply --account A --user U "private.help.*" "help is here"
 nsc req --account B --user b private.help help_me
 ```
-Example output
 ```text
 published request: [private.help] : 'help_me'
 received reply: [_INBOX.3MhS0iCHfqO8wUl1x59bHB.jpE2jvEj] : 'help is here'

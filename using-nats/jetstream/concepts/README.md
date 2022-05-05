@@ -37,7 +37,7 @@ The most obvious way to avoid 'slow consumers' would be to implement some form o
 If you were to implement a form of flow control for basic 'Core NATS' publish-subscribe you would have to implement an 'end-to-end' form of flow control (meaning between the publisher and all of its current subscribers) and it would mean that you would end up flow controlling you publisher(s) to the _lowest common denominator_ of all the current subscribers. Meaning that the publisher(s) would be slowed down to not publish faster than the _slowest_ of all its subscribers.
 Because of this 'lowest common denominator' aspect of end-to-end flow control in 1-to-N or N-to-M communications and because one of the most important use-case for publish-subscribe messaging systems is the distribution of *real-time* data, 'Core NATS' does _not_ implement any kind of end-to-end flow control.
 
-While you can certainly implement you own form of end-to-end flow-control with 'Core NATS' by leveraging the request/reply operaions, it is instead much easier (and better) to use JetStream and leverage the *de-coupled* flow control functionality that it offers.
+While you can certainly implement your own form of end-to-end flow-control with 'Core NATS' by leveraging the request-reply interaction, it is instead much easier (and better) to use JetStream and leverage the *de-coupled* flow control functionality that it offers.
 
 Flow-control over JetStream is *de-coupled* because it is not 'end-to-end' but rather independently between the client application publishing with JetStream and stream (i.e. the JetStream enabled nats-server(s)) and between the stream and the client applications using JetStream consumers.
 

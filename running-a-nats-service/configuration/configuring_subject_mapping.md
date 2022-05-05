@@ -123,5 +123,5 @@ You can both split and introduce loss for testing. Here, 90% of requests would g
   ]
 ```
 
-_Note: Subject Mapping and Traffic Shaping are also supported in the NATS JWT model, although currently only through the_ [_JWT API_](https://github.com/nats-io/jwt)_. `nsc` tooling support for subject mapping is coming soon._
+_Note: Subject Mapping and Traffic Shaping are also supported in the NATS JWT model, either through the_ [_JWT API_](https://github.com/nats-io/jwt)_ or using `nsc add mapping`._
 

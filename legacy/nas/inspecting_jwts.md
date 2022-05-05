@@ -7,7 +7,6 @@ The endpoint for retrieving an account JWT is: `/jwt/v1/accounts/<account_id>`. 
 ```shell
 curl http://localhost:9090/jwt/v1/accounts/AC7PO3MREV26U3LFZFP5BN3HAI32X3PKLBRVMPAETLEHWPQEUG7EJY4H\?decode=true
 ```
-Example output
 ```text
 {
     "typ": "jwt",

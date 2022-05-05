@@ -12,7 +12,7 @@ The `resolver` configuration option is used in conjunction with [NATS JWT Authen
 
 The NATS based resolver is the preferred and easiest way to enable account lookup for the nats servers. It is built-in into `nats-server` and stores the account JWTs in a local (not shared) directory that the server has access to (i.e. you can't have more than one `nats-server`s using the same directory. All the servers in the cluster or super-cluster must be configured to use it, and they implement an 'eventually consistent' mechanism via NATS and the system account to synchronize (or lookup) the account data between themselves.
 
-In order to avoid having to store all account JWT on every `nats-server` (i.e. is you have a _lot_ of accounts), this resolver has two sub types `full` and `cache`.
+In order to avoid having to store all account JWT on every `nats-server` (i.e. if you have a _lot_ of accounts), this resolver has two sub types `full` and `cache`.
 
 In this mode of operation administrators typically use the [`nsc`](../../../../using-nats/nats-tools/nsc/README.md) CLI tool to create/manage the JWTs locally, and use `nsc push` to push new JWTs to the nats-servers' built-in resolvers, `nsc pull` to refresh their local copy of account JWTs, and `nsc revocations` to revoke them.
 

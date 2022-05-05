@@ -40,7 +40,6 @@ Check that it worked
 ```shell
 kubectl get svc nats-nlb -o wide
 ```
-Example output
 ```text
 NAME       TYPE           CLUSTER-IP      EXTERNAL-IP                                                                     PORT(S)          AGE    SELECTOR
 nats-nlb   LoadBalancer   10.100.67.123   a18b60a948fc611eaa7840286c60df32-9e96a2af4b5675ec.elb.us-east-2.amazonaws.com   4222:30297/TCP   151m   app=nats
@@ -109,7 +108,6 @@ Confirm the public IP that was allocated to the `nats-lb` service that was creat
 ```shell
 kubectl get svc -o wide
 ```
-Output
 ```text
 NAME         TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)                                                 AGE     SELECTOR
 kubernetes   ClusterIP      10.0.0.1      <none>         443/TCP                                                 81d     <none>
@@ -147,7 +145,6 @@ Create a subscriber and publish a test message
 nats sub -s localhost:4222 foo &
 nats pub -s localhost:4223 foo hello 
 ```
-Output
 ```text
 Listening on [foo]
 [#1] Received on [foo] : 'hello'

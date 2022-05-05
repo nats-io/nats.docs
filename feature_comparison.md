@@ -65,7 +65,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Streams and Services through built in publish/subscribe, request/reply, and load balanced queue subscriber patterns. Dynamic request permissioning and request subject obfuscation is supported.
+            Streams and Services through built in publish/subscribe, request-reply, and load balanced queue subscriber patterns. Dynamic request permissioning and request subject obfuscation is supported.
         </td>
     </tr>
     <tr>
@@ -74,7 +74,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Streams through publish/subscribe.  Load balancing can be achieved with consumer groups.  Application code must correlate requests with replies over multiple topics for a service (request/reply) pattern.
+            Streams through publish/subscribe.  Load balancing can be achieved with consumer groups.  Application code must correlate requests with replies over multiple topics for a service (request-reply) pattern.
         </td>
     </tr>
     <tr>
@@ -83,7 +83,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Streams through publish/subscribe, and services with a direct reply-to feature.  Load balancing can be achieved with a Work Queue.  Applications must correlate requests with replies over multiple topics for a  service (request/reply) pattern.
+            Streams through publish/subscribe, and services with a direct reply-to feature.  Load balancing can be achieved with a Work Queue.  Applications must correlate requests with replies over multiple topics for a  service (request-reply) pattern.
         </td>
     </tr>
     <tr>
@@ -92,7 +92,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Streams through publish/subscribe.  Multiple competing consumer patterns support load balancing.  Application code must correlate requests with replies over multiple topics for a  service (request/reply) pattern.  
+            Streams through publish/subscribe.  Multiple competing consumer patterns support load balancing.  Application code must correlate requests with replies over multiple topics for a  service (request-reply) pattern.  
         </td>
     </tr>
     <tr>

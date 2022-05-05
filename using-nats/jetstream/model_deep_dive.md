@@ -10,13 +10,13 @@ The `Retention Policy` describes based on what criteria a set will evict message
 
 | Retention Policy | Description |
 | :--- | :--- |
-| `LimitsPolicy` | Limits are set for how many messages, how big the storage and how old messages may be |
-| `WorkQueuePolicy` | Messages are kept until they were consumed by any one single observer and then removed |
-| `InterestPolicy` | Messages are kept as long as there are Consumers active for them |
+| `LimitsPolicy` | Limits are set for how many messages, how big the storage and how old messages may be.|
+| `WorkQueuePolicy` | Messages are kept until they are consumed: meaning delivered ( by *the* consumer filtering on the message's subject (in this mode of operation you can not have any overlapping consumers defined on the Stream - each subject captured by the stream can only have one consumer at a time)) to a subscribing application and explicitly acknowledged by that application.|
+| `InterestPolicy` | Messages are kept as long as there are Consumers on the stream (matching the message's subject if they are filtered consumers) for which the message has not yet been ACKed. Once all currently defined consumers have received explicit acknowledgement from a subscribing application for the message it is then removed from the stream.|
 
 In all Retention Policies the basic limits apply as upper bounds, these are `MaxMsgs` for how many messages are kept in total, `MaxBytes` for how big the set can be in total and `MaxAge` for what is the oldest message that will be kept. These are the only limits in play with `LimitsPolicy` retention.
 
-One can then define additional ways a message may be removed from the Stream earlier than these limits. In `WorkQueuePolicy` the messages will be removed as soon as any Consumer received an Acknowledgement. In `InterestPolicy` messages will be removed as soon as there are no more Consumers.
+One can then define additional ways a message may be removed from the Stream earlier than these limits. In `WorkQueuePolicy` the messages will be removed as soon as *the* Consumer received an Acknowledgement. In `InterestPolicy` messages will be removed as soon as *all* Consumers of the stream for that subject have received an Acknowledgement for the message.
 
 In both `WorkQueuePolicy` and `InterestPolicy` the age, size and count limits will still apply as upper bounds.
 
@@ -24,7 +24,7 @@ A final control is the Maximum Size any single message may have. NATS have it's 
 
 The `Discard Policy` sets how messages are discarded when limits set by `LimitsPolicy` are reached. The `DiscardOld` option removes old messages making space for new, while `DiscardNew` refuses any new messages.
 
-The `WorkQueuePolicy` mode is a specialized mode where a message, once consumed and acknowledged, is discarded from the Stream. In this mode, there are a few limits on consumers. Inherently it's about 1 message to one consumer, this means you cannot have overlapping consumers defined on the Stream - needs unique filter subjects.
+The `WorkQueuePolicy` mode is a specialized mode where a message, once consumed and acknowledged, is removed from the Stream.
 
 ## Message Deduplication
 
@@ -70,7 +70,6 @@ To understand how Consumers track messages we will start with a clean `ORDERS` S
 ```shell
 nats str info ORDERS
 ```
-Output
 ```text
 ...
 Statistics:
@@ -87,7 +86,6 @@ The Set is entirely empty
 ```shell
 nats con info ORDERS DISPATCH
 ```
-Output
 ```text
 ...
 State:
@@ -105,7 +103,6 @@ We publish one message to the Stream and see that the Stream received it:
 ```shell
 nats pub ORDERS.processed "order 4"
 ```
-Output
 ```text
 Published 7 bytes to ORDERS.processed
 $ nats str info ORDERS
@@ -124,7 +121,6 @@ As the Consumer is pull-based, we can fetch the message, ack it, and check the C
 ```shell
 nats con next ORDERS DISPATCH
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 4
@@ -148,7 +144,6 @@ We'll publish another message, fetch it but not Ack it this time and see the sta
 ```shell
 nats pub ORDERS.processed "order 5"
 ```
-Output
 ```text
 Published 7 bytes to ORDERS.processed
 
@@ -157,7 +152,6 @@ Get the next message from the consumer (but do not acknowledge it)
 ```shell
 nats consumer next ORDERS DISPATCH --no-ack
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 5
@@ -167,7 +161,6 @@ Show the consumer info
 ```shell
 nats consumer info ORDERS DISPATCH
 ```
-Output
 ```text
 State:
 
@@ -184,7 +177,6 @@ If I fetch it again and again do not ack it:
 ```shell
 nats consumer next ORDERS DISPATCH --no-ack
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 5
@@ -193,7 +185,6 @@ Show the consumer info again
 ```shell
 nats consumer info ORDERS DISPATCH
 ```
-Output
 ```text
 State:
 
@@ -210,7 +201,6 @@ Finally, if I then fetch it again and ack it this time:
 ```shell
 nats consumer next ORDERS DISPATCH 
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 5
@@ -221,7 +211,6 @@ Show the consumer info
 ```shell
 nats consumer info ORDERS DISPATCH
 ```
-Output
 ```text
 State:
 
@@ -255,7 +244,7 @@ JetStream supports Exactly Once delivery by combining Message Deduplication and 
 
 On the publishing side you can avoid duplicate message ingestion using the [Message Deduplication](model_deep_dive.md#message-deduplication) feature.
 
-Consumers can be 100% sure a message was correctly processed by requesting the server Acknowledge having received your acknowledgement by setting a reply subject on the Ack. If you receive this response you will never receive that message again.
+Consumers can be 100% sure a message was correctly processed by requesting the server Acknowledge having received your acknowledgement (sometimes referred to as double-acking) by calling the message's `AckSync()` (rather than `Ack()`) function which sets a reply subject on the Ack and waits for a response from the server on the reception and processing of the acknowledgement. If the response received from the server indicates success you can be sure that the message will never be re-delivered by the consumer (due to a loss of your acknowledgement).
 
 ## Consumer Starting Position
 
@@ -279,7 +268,6 @@ Now create a `DeliverAll` pull-based Consumer:
 nats consumer add ORDERS ALL --pull --filter ORDERS.processed --ack none --replay instant --deliver all 
 nats consumer next ORDERS ALL
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 1
@@ -293,7 +281,6 @@ Now create a `DeliverLast` pull-based Consumer:
 nats consumer add ORDERS LAST --pull --filter ORDERS.processed --ack none --replay instant --deliver last
 nats consumer next ORDERS LAST
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 100
@@ -307,7 +294,6 @@ Now create a `MsgSetSeq` pull-based Consumer:
 nats consumer add ORDERS TEN --pull --filter ORDERS.processed --ack none --replay instant --deliver 10
 nats consumer next ORDERS TEN
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 10
@@ -332,7 +318,6 @@ Then create a Consumer that starts 2 minutes ago:
 nats consumer add ORDERS 2MIN --pull --filter ORDERS.processed --ack none --replay instant --deliver 2m
 nats consumer next ORDERS 2MIN
 ```
-Output
 ```text
 --- received on ORDERS.processed
 order 2
@@ -373,7 +358,6 @@ You can only set `ReplayPolicy` on push-based Consumers.
 ```shell
 nats consumer add ORDERS REPLAY --target out.original --filter ORDERS.processed --ack none --deliver all --sample 100 --replay original
 ```
-Output
 ```text
 ...
      Replay Policy: original
@@ -389,7 +373,6 @@ do
   sleep 10
 done
 ```
-Output
 ```text
 Published [ORDERS.processed] : 'order 1'
 Published [ORDERS.processed] : 'order 2'
@@ -401,7 +384,6 @@ And when we consume them they will come to us 10 seconds apart:
 ```shell
 nats sub -t out.original
 ```
-Output
 ```text
 Listening on [out.original]
 2020/01/03 15:17:26 [#1] Received on [ORDERS.processed]: 'order 1'
@@ -432,49 +414,6 @@ Output contains
 ...
      Sampling Rate: 100
 ...
-```
-
-### Consuming
-
-Samples are published to `$JS.EVENT.METRIC.CONSUMER_ACK.<stream>.<consumer>` in JSON format containing `api.ConsumerAckMetric`. Use the `nats con events` command to view samples:
-
-```shell
-nats consumer events ORDERS NEW
-```
-Output
-```text
-Listening for Advisories on $JS.EVENT.ADVISORY.*.ORDERS.NEW
-Listening for Metrics on $JS.EVENT.METRIC.*.ORDERS.NEW
-
-15:08:31] [Ph0fsiOKRg1TS0c2k0mMz2] Acknowledgement Sample
-             Consumer: ORDERS > NEW
-      Stream Sequence: 40
-    Consumer Sequence: 161
-           Deliveries: 1
-                Delay: 1.009ms
-```
-
-```shell
-nats consumer events ORDERS NEW --json
-```
-Output
-```text
-{
-  "stream": "ORDERS",
-  "consumer": "NEW",
-  "consumer_seq": 155,
-  "stream_seq": 143,
-  "ack_time": 5387000,
-  "delivered": 1
-}
-{
-  "stream": "ORDERS",
-  "consumer": "NEW",
-  "consumer_seq": 156,
-  "stream_seq": 144,
-  "ack_time": 5807800,
-  "delivered": 1
-}
 ```
 
 ## Storage Overhead

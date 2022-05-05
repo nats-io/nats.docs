@@ -98,9 +98,6 @@ Below you can see a sample connection string from a telnet connection to the `de
 ```bash
 telnet demo.nats.io 4222
 ```
-
-Output
-
 ```
 Trying 107.170.221.32...
 Connected to demo.nats.io.

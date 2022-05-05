@@ -62,7 +62,6 @@ The nats-account-server has to be running before that nats-server starts, as cur
 ```shell
 nats-account-server -c nas_not.conf
 ```
-Output
 ```text
 2019/05/31 18:00:26.327583 [INF] loading configuration from "/Users/synadia/Desktop/nats_jwt_doc/as_dir/nas_not.conf"
 2019/05/31 18:00:26.327833 [INF] starting NATS Account server, version 0.0-dev
@@ -87,7 +86,6 @@ Then start the NATS server:
 ```shell
 nats-server -c /tmp/server.conf
 ```
-Output
 ```text
 [57440] 2019/05/31 18:01:29.940149 [INF] Starting nats-server version 1.4.1
 [57440] 2019/05/31 18:01:29.940234 [INF] Git commit [not set]
@@ -100,7 +98,6 @@ At this point, you have both servers running. You can submit updates to the nats
 ```shell
 nsc push -A
 ```
-Output
 ```text
 successfully pushed all accounts [A, B, SYS]
 ```

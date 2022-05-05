@@ -15,7 +15,6 @@ To generate a _User_ NKEY:
 ```shell
 nk -gen user -pubout
 ```
-Example output
 ```text
 SUACSSL3UAHUDXKFSNVUZRF5UHPMWZ6BFDTJ7M6USDXIEDNPPQYYYCU3VY
 UDXU4RCSJNZOIQHZNWXHXORDPRTGNJAHAHFRGZNEEJCPQTT2M7NLCNF4
@@ -39,7 +38,7 @@ Note that the user section sets the `nkey` property \(user/password/token proper
 
 ## Client Configuration
 
-Now that you have a user nkey, let's configure a [client](../../../../using-nats/developing-with-nats/security/nkey.md) to use it for authentication. As an example, here are the connect options for the node client:
+Now that you have a user nkey, let's configure a [client](../../../../using-nats/developing-with-nats/connecting/security/nkey.md) to use it for authentication. As an example, here are the connect options for the node client:
 
 ```javascript
 const NATS = require('nats');

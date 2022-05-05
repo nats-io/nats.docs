@@ -9,7 +9,6 @@ To add a stream to your account:
 ```shell
 nsc add export --name abc --subject "a.b.c.>"
 ```
-Output
 ```text
   [ OK ] added public stream export "abc"
 ```
@@ -21,7 +20,6 @@ To review the stream export:
 ```shell
 nsc describe account
 ```
-Output BV             MM
 ```text
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
@@ -71,7 +69,6 @@ With the required information, we can add an import to the public stream.
 ```bash
 nsc add account B
 ```
-Output
 ```text
 [ OK ] generated and stored account key "AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
 [ OK ] added account "B"
@@ -80,7 +77,6 @@ Output
 ```shell
 nsc add import --src-account ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFTV5NGE --remote-subject "a.b.c.>"
 ```
-Output
 ```text
 [ OK ] added stream import "a.b.c.>"
 ```
@@ -92,7 +88,6 @@ And verifying it:
 ```shell
 nsc describe account
 ```
-Output
 ```text
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
@@ -129,7 +124,6 @@ Let's also add a user to make requests from the service:
 ```bash
 nsc add user b
 ```
-Output
 ```text
 [ OK ] generated and stored user key "UDKNTNEL5YD66U2FZZ2B3WX2PLJFKEFHAPJ3NWJBFF44PT76Y2RAVFVE"
 [ OK ] generated user creds file "~/.nkeys/creds/O/B/b.creds"
@@ -168,7 +162,6 @@ Similarly when we defined an export, but this time we added the `--private` flag
 ```shell
 nsc describe account A
 ```
-Output
 ```text
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
@@ -210,7 +203,6 @@ To generate a token, you’ll need to know the public key of the account importi
 ```bash
 nsc list keys --account B
 ```
-Output
 ```text
 ╭──────────────────────────────────────────────────────────────────────────────────────────╮
 │                                           Keys                                           │
@@ -226,7 +218,6 @@ Output
 ```bash
 nsc generate activation --account A --target-account AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H --subject private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H -o /tmp/activation.jwt
 ```
-Output
 ```text
 [ OK ] generated "private.abc.*" activation for account "AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
 [ OK ] wrote account description to "/tmp/activation.jwt"
@@ -239,7 +230,6 @@ For completeness, the contents of the JWT file look like this:
 ```shell
 cat /tmp/activation.jwt
 ```
-Output
 ```text
 -----BEGIN NATS ACTIVATION JWT-----
 eyJ0eXAiOiJqd3QiLCJhbGciOiJlZDI1NTE5In0.eyJqdGkiOiJIS1FPQU9aQkVKS1JYNFJRUVhXS0xYSVBVTlNOSkRRTkxXUFBTSTQ3NkhCVVNYT0paVFFRIiwiaWF0IjoxNTc1NTU1OTczLCJpc3MiOiJBREVUUFQzNldCSUJVS00zSUJDVk00QTVZVVNEWEZFSlBXNE02R0dWQllDQlc3UlJORlRWNU5HRSIsIm5hbWUiOiJwcml2YXRlLmFiYy5BQU00NkUzWUY1V09aU0U1V05ZV0hOM1lZSVNWWk9TSTZYSFRGMlE2NEVDUFhTRlFaUk9KTVAySCIsInN1YiI6IkFBTTQ2RTNZRjVXT1pTRTVXTllXSE4zWVlJU1ZaT1NJNlhIVEYyUTY0RUNQWFNGUVpST0pNUDJIIiwidHlwZSI6ImFjdGl2YXRpb24iLCJuYXRzIjp7InN1YmplY3QiOiJwcml2YXRlLmFiYy5BQU00NkUzWUY1V09aU0U1V05ZV0hOM1lZSVNWWk9TSTZYSFRGMlE2NEVDUFhTRlFaUk9KTVAySCIsInR5cGUiOiJzdHJlYW0ifX0.yD2HWhRQYUFy5aQ7zNV0YjXzLIMoTKnnsBB_NsZNXP-Qr5fz7nowyz9IhoP7UszkN58m__ovjIaDKI9ml0l9DA
@@ -251,7 +241,6 @@ When decoded it looks like this:
 ```shell
 nsc describe jwt -f /tmp/activation.jwt 
 ```
-Output
 ```text
 ╭────────────────────────────────────────────────────────────────────────────────────────╮
 │                                       Activation                                       │
@@ -285,7 +274,6 @@ Importing a private stream is more natural than a public one as the activation t
 ```shell
 nsc add import --account B --token /tmp/activation.jwt 
 ```
-Output
 ```text
 [ OK ] added stream import "private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
 ```
@@ -295,7 +283,6 @@ Describe account B
 ```shell
 nsc describe account B
 ```
-Output
 ```text
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │

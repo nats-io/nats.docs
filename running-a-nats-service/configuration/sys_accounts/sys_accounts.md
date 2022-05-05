@@ -14,7 +14,6 @@ Let's create an operator, system account and system account user:
 ```shell
 nsc add operator -n SAOP
 ```
-Output
 ```text
 Generated operator key - private key stored "~/.nkeys/SAOP/SAOP.nk"
 Success! - added operator "SAOP"
@@ -24,7 +23,6 @@ Add the system account
 ```shell
 nsc add account -n SYS
 ```
-Output
 ```text
 Generated account key - private key stored "~/.nkeys/SAOP/accounts/SYS/SYS.nk"
 Success! - added account "SYS"
@@ -34,7 +32,6 @@ Add a system account user
 ```shell
 nsc add user -n SYSU
 ```
-Output
 ```text
 Generated user key - private key stored "~/.nkeys/SAOP/accounts/SYS/users/SYSU.nk"
 Generated user creds file "~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds"
@@ -66,7 +63,6 @@ The only thing we don't have handy is the public key for the system account. We 
 ```shell
 nsc list accounts 
 ```
-Output
 ```text
 ╭─────────────────────────────────────────────────────────────────╮
 │                            Accounts                             │
@@ -162,7 +158,6 @@ To discover servers in the cluster, and get a small heath summary, publish a req
 ```shell
 nats request --creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds \$SYS.REQ.SERVER.PING ""
 ```
-Output
 ```text
 Published [$SYS.REQ.SERVER.PING] : ''
 Received  [_INBOX.G5mbsf0k7l7nb4eWHa7GTT.omklmvnm] : '{
@@ -202,7 +197,6 @@ If you know the server id for a particular server \(such as from a response to `
 ```shell
 nats request --creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds \$SYS.REQ.SERVER.NC7AKPQRC6CIZGWRJOTVFIGVSL7VW7WXTQCTUJFNG7HTCMCKQTGE5PUL.STATSZ ""
 ```
-Output
 ```text
 Published [$SYS.REQ.SERVER.NC7AKPQRC6CIZGWRJOTVFIGVSL7VW7WXTQCTUJFNG7HTCMCKQTGE5PUL.STATSZ] : ''
 Received  [_INBOX.DQD44ugVt0O4Ur3pWIOOD1.WQOBevoq] : '{

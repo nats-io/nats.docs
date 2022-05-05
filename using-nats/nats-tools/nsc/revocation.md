@@ -13,7 +13,6 @@ Let's look at an example. Suppose you created a user JWT with access to the subj
 ```bash
 nsc revocations -h
 ```
-Output
 ```text
 Manage revocation for users and activations from an account
 

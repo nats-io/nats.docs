@@ -40,7 +40,7 @@ If you receive a series of messages, you only have to ack the last one you recei
 
 ## AckWait
 
-Ack Wait is the time in nanoseconds that the server will wait for an ack for any individual message. If an ack is not received in time, the message will be redelivered.
+Ack Wait is the time in nanoseconds that the server will wait for an ack for any individual message _once it has been delivered to a consumer_. If an ack is not received in time, the message will be redelivered.
 
 ## DeliverPolicy / OptStartSeq / OptStartTime
 
@@ -72,7 +72,7 @@ When first consuming messages, start with messages on or after this time. The co
 
 ## DeliverySubject
 
-The subject to deliver observed messages. Not allowed for pull subscriptions. A delivery subject is required for queue subscribing as it configures a subject that all the queue consumers should listen on.
+The subject to deliver observed messages, specifying a delivery subject makes the consumer a 'push consumer' as 'pull consumers' do not need a static delivery subject. If you want to distribute the messages between the subscribers to the consumer then you also need to specify a queue group name.
 
 ## Durable \(Name\)
 
@@ -88,15 +88,7 @@ MaxAckPending implements a simple form of _one-to-many_ flow control. It sets th
 
 ### Note about push and pull consumers: 
 
-The MaxAckPending's one-to-many flow control functionality is only useful for push consumers. For pull consumers you should disable it (i.e. -1), as it can otherwise place a limit on the horizontal scalability of the processing of the stream. Because delivery of the messages to the client application through pull consumers is client demand-driven rather than server initiated, there is no need for any kind of one-to-many flow control. With pull consumers at a given point in time, the number of pending acks is a function of the number of client applications calling `fetch` on the pull consumer and the requested batch size for that operation. 
-
-## FlowControl
-
-This flow control setting is to enable or not another form of flow control in parallel to MaxAckPending. But unlike MaxAckPending it is a _one-to-one_ flow control that operates independently for each individual subscriber to the consumer. It uses a sliding-window flow-control protocol whose attributes (e.g. size of the window) are _not_ user adjustable.
-
-## IdleHeartbeat
-
-If the idle heartbeat period is set, the server will regularly send a status message to the client (i.e. when the period has elapsed) while there are no new messages to send. This lets the client know that the JetStream service is still up and running, even when there is no activity on the stream. The message status header will have a code of 100. Unlike FlowControl, it will have no reply to address. It may have a description like "Idle Heartbeat"
+The MaxAckPending's one-to-many flow control functionality applies for both push and pull consumers. For push consumers MaxAckPending is the _only_ form of flow control. However, for pull consumers because the delivery of the messages to the client application is demand-driven (hence the 'pull') rather than server initiated (hence the 'push') there is an implicit one-to-one flow control with the subscribers (the maximum batch size of the Fetch calls). There you should remember to set it to an appropriately high value (e.g. the default value of 20000), as it can otherwise place a limit on the horizontal scalability of the processing of the stream in high throughput situations.
 
 ## MaxDeliver
 
@@ -113,4 +105,15 @@ The replay policy applies when the DeliverPolicy is `DeliverAll`, `DeliverByStar
 ## SampleFrequency
 
 Sets the percentage of acknowledgements that should be sampled for observability, 0-100 This value is a string and for example allows both `30` and `30%` as valid values.
+
+## Push consumer specific attributes
+These attributes apply only to push consumers as they are not needed by pull consumers.
+
+### FlowControl
+
+This flow control setting is to enable or not another form of flow control in parallel to MaxAckPending. But unlike MaxAckPending it is a _one-to-one_ flow control that operates independently for each individual subscriber to the consumer. It uses a sliding-window flow-control protocol whose attributes (e.g. size of the window) are _not_ user adjustable.
+
+### IdleHeartbeat
+
+If the idle heartbeat period is set, the server will regularly send a status message to the client (i.e. when the period has elapsed) while there are no new messages to send. This lets the client know that the JetStream service is still up and running, even when there is no activity on the stream. The message status header will have a code of 100. Unlike FlowControl, it will have no reply to address. It may have a description like "Idle Heartbeat"
 

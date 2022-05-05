@@ -34,7 +34,6 @@ You should see the following, indicating that the NATS Streaming Server is runni
 ```bash
 go run nats-streaming-server.go
 ```
-Example output
 ```text
 [59232] 2019/05/22 14:24:54.426344 [INF] STREAM: Starting nats-streaming-server[test-cluster] version 0.14.2
 [59232] 2019/05/22 14:24:54.426423 [INF] STREAM: ServerID: 3fpvAuXHo3C66Rkd4rmfFX
@@ -77,7 +76,6 @@ Use the `--all` flag to receive all published messages.
 cd $GOPATH/src/github.com/nats-io/stan.go/examples/stan-sub
 go run main.go --all -c test-cluster -id myID foo
 ```
-Example output
 ```text
 Connected to nats://localhost:4222 clusterID: [test-cluster] clientID: [myID]
 subscribing with DeliverAllAvailable

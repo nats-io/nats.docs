@@ -2,15 +2,66 @@
 
 Subject mapping is a very powerful feature of the NATS server, useful for canary deployments, A/B testing, chaos testing, and migrating to a new subject namespace.
 
+There are two places where you can apply subject mappings: each account has its own set of subject mappings, which will apply to any message published by client applications, and you can also use subject mappings as part of the imports and exports between accounts.
+
+When not using operator JWT security, you can define the subject mappings in server configuration files, and you simply need to send a signal for the nats-server process to reload the configuration whenever you change a mapping for the change to take effect. 
+
+When using operator JWT security with the built-in resolver you define the mappings and the import/exports in the account JWT so after modifying them they will take effect as soon as you push the updated account JWT to the servers.
+
 ## Simple Mapping
 
 The example of `foo:bar` is straightforward. All messages the server receives on subject `foo` are remapped and can be received by clients subscribed to `bar`.
 
 ## Subject Token Reordering
 
-Wildcard tokens may be referenced via `$<position>`. For example, the first wildcard token is $1, the second is $2, etc. Referencing these tokens can allow for reordering.
+Wildcard tokens may be referenced by position number in the destination mapping using (only for versions 2.8.0 and above of `nats-server`) `{{wildcard(position)}}`. E.g. `{{wildcard(1)}}` references the first wildcard token, `{{wildcard(2)}}` references the second wildcard token, etc...
 
-For example with this mapping `bar.*.*: baz.$2.$1`, messages that were originally published to `bar.a.b` are remapped in the server to `baz.b.a`. Messages arriving at the server on `bar.one.two` would be mapped to `baz.two.one`, and so forth.
+You can also (for all versions of `nats-server`) use the legacy notation of `$position`. E.g. `$1` references the first wild card token, `$2` the second wildcard token, etc...
+
+Example: with this mapping `"bar.*.*" : "baz.{{wildcard(2)}}.{{wildcard(1)}}"`, messages that were originally published to `bar.a.b` are remapped in the server to `baz.b.a`. Messages arriving at the server on `bar.one.two` would be mapped to `baz.two.one`, and so forth.
+
+## Deterministic Subject token Partitioning
+
+Deterministic token partitioning allows you to use subject based addressing to deterministically divide (partition) a flow of messages where one or more of the subject tokens make up the key upon which the partitioning will be based, into a number of smaller message flows.
+
+For example: new customer orders are published on `neworders.<customer id>`, you can partition those messages over 3 partition numbers (buckets), using the `partition(number of partitions, wildcard token positions...)` function which returns a partition number (between 0 and number of partitions-1) by using the following mapping `"neworders.*" : "neworders.{{wildcard(1)}}.{{partition(3,1)}}"`.
+
+This particular mapping means that any message published on `neworders.<customer id>` will be mapped to `neworders.<customer id>.<a partition number 0, 1, or 2>`. i.e.:
+
+
+| Published on          | Mapped to               |
+|-----------------------|-------------------------|
+| neworders.customerid1 | neworders.customerid1.0 |
+| neworders.customerid2 | neworders.customerid2.2 |
+| neworders.customerid3 | neworders.customerid3.1 |
+| neworders.customerid4 | neworders.customerid4.2 |
+| neworders.customerid5 | neworders.customerid5.1 |
+| neworders.customerid6 | neworders.customerid6.0 |
+
+The mapping is deterministic because (as long as the number of partitions is 3) 'customerid1' will always map to the same partition number. The mapping is hash based, it's distribution is random but tending towards 'perfectly balanced' distribution (i.e. the more keys you map the more the number of keys for each partition will tend to converge to the same number).
+
+You can partition on more than one subject wildcard token at a time, e.g.: `{{partition(10,1,2)}}` distributes the union of token wildcards 1 and 2 over 10 partitions.
+
+| Published on | Mapped to |
+|--------------|-----------|
+| foo.1.a      | foo.1.a.1 |
+| foo.1.b      | foo.1.b.0 |
+| foo.2.b      | foo.2.b.9 |
+| foo.2.a      | foo.2.a.2 |
+
+What this deterministic partition mapping enables is the distribution of the messages that are subscribed to using a single subscriber (on `neworders.*`) into three separate subscribers (respectively on `neworders.*.0`, `neworders.*.1` and `neworders.*.2`) that can operate in parallel.
+
+### When is deterministic partitioning needed
+
+The core NATS queue-groups and JetStream durable consumer mechanisms to distribute messages amongst a number of subscribers are partition-less and non-deterministic, meaning that there is no guarantee that two sequential messages published on the same subject are going to be distributed to the same subscriber. While in most use cases a completely dynamic, demand-driven distribution is what you need, it does come at the cost of guaranteed ordering because if two subsequent messages can be sent to two different subscribers which would then both process those messages at the same time at different speeds (or the message has to be re-transmitted, or the network is slow, etc...) and that could result in potential 'out of order' message delivery. 
+
+This means that if the application requires strictly ordered message processing, you need to limit distribution of messages to 'one at a time' (per consumer/queue-group, i.e. using the 'max acks pending' setting), which in turns hurts scalability because it means no matter how many workers you have subscribed only one at a time is doing any processing work.
+
+Being able to evenly split (i.e. partition) subjects in a deterministic manner (meaning that all the messages on a particular subject are always mapped to the same partition) allows you to distribute and scale the processing of messages in a subject stream while still maintaining strict ordering per subject.
+
+Another reason to need deterministic mapping is in the extreme message rates scenarios where you are reaching the limits of the throughput of incoming messages into a stream capturing messages using a wildcard subject. This limit can be ultimately reached at very high message rates due to the fact that a single nats-server process is acting as the RAFT leader (coordinator) for any given stream and can therefore become a limiting factor. In that case, distributing (i.e. partitioning) that stream into a number of smaller streams (each one with their own RAFT leader and therefore all these RAFT leaders are spread over all of the JetStream-enabled nats-servers in the cluster rather than a single one) in order to scale.
+
+Yet another use case where deterministic partitioning can help is if you want to leverage local data caching of data (context or potentially heavy historical data for example) that the subscribing process need to access as part of the processing of the messages.
 
 ## Weighted Mappings for A/B Testing or Canary Releases
 

@@ -33,7 +33,6 @@ You can generate bcrypted tokens and passwords using the [`nats`](../../../../us
 ```shell
 nats server passwd
 ```
-Output
 ```text
 ? Enter password [? for help] **********************
 ? Reenter password [? for help] **********************

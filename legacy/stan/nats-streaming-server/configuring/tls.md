@@ -53,9 +53,6 @@ However, NATS Streaming Server uses the NATS Server command line parsing code an
 ```bash
 nats-streaming-server -tls_ca_cert test/certs/ca.pem
 ```
-
-Output
-
 ```
 TLS Server certificate must be present and valid
 ```

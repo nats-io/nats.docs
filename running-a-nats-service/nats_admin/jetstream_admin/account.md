@@ -7,7 +7,6 @@ JetStream is multi-tenant so you will need to check that your account is enabled
 ```shell
 nats account info
 ```
-Example output
 ```text
 Connection Information:
                Client ID: 8

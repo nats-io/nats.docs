@@ -29,7 +29,6 @@ The ORDERS and RETURNS streams as normal, I will not show how to create them.
 ```shell
 nats s report
 ```
-Example output
 ```text
 Obtaining Stream stats
 
@@ -46,23 +45,58 @@ We now add the ARCHIVE:
 ```shell
 nats s add ARCHIVE --source ORDERS --source RETURNS
 ```
-Output
 ```text
 ? Storage backend file
 ? Retention Policy Limits
 ? Discard Policy Old
-? Message count limit -1
+? Stream Messages Limit -1
 ? Message size limit -1
 ? Maximum message age limit -1
 ? Maximum individual message size -1
-? Duplicate tracking time window 2m
-? Number of replicas to store 3
+? Duplicate tracking time window 2m0s
+? Allow message Roll-ups No
+? Allow message deletion Yes
+? Allow purging subjects or the entire stream Yes
+? Replicas 1
+? Adjust source "ORDERS" start Yes
 ? ORDERS Source Start Sequence 0
 ? ORDERS Source UTC Time Stamp (YYYY:MM:DD HH:MM:SS)
 ? ORDERS Source Filter source by subject
-? RETURNS Source Start Sequence 0
-? RETURNS Source UTC Time Stamp (YYYY:MM:DD HH:MM:SS)
-? RETURNS Source Filter source by subject
+? Import "ORDERS" from a different JetStream domain No
+? Import "ORDERS" from a different account No
+? Adjust source "RETURNS" start No
+? Import "RETURNS" from a different JetStream domain No
+? Import "RETURNS" from a different account No
+Stream ARCHIVE was created
+
+Information for Stream ARCHIVE created 2022-01-21T11:49:52-08:00
+
+Configuration:
+
+     Acknowledgements: true
+            Retention: File - Limits
+             Replicas: 1
+       Discard Policy: Old
+     Duplicate Window: 2m0s
+    Allows Msg Delete: true
+         Allows Purge: true
+       Allows Rollups: false
+     Maximum Messages: unlimited
+        Maximum Bytes: unlimited
+          Maximum Age: unlimited
+ Maximum Message Size: unlimited
+    Maximum Consumers: unlimited
+              Sources: ORDERS
+                       RETURNS
+
+
+State:
+
+             Messages: 0
+                Bytes: 0 B
+             FirstSeq: 0
+              LastSeq: 0
+     Active Consumers: 0
 ```
 
 And we add the REPORT:
@@ -70,20 +104,50 @@ And we add the REPORT:
 ```shell
 nats s add REPORT --mirror ARCHIVE
 ```
-Output
 ```text
 ? Storage backend file
 ? Retention Policy Limits
 ? Discard Policy Old
-? Message count limit -1
+? Stream Messages Limit -1
 ? Message size limit -1
-? Maximum message age limit 1M
+? Maximum message age limit -1
 ? Maximum individual message size -1
-? Duplicate tracking time window 2m
-? Number of replicas to store 1
-? Mirror Start Sequence 0
-? Mirror Start Time (YYYY:MM:DD HH:MM:SS)
-? Mirror subject filter
+? Allow message Roll-ups No
+? Allow message deletion Yes
+? Allow purging subjects or the entire stream Yes
+? Replicas 1
+? Adjust mirror start No
+? Import mirror from a different JetStream domain No
+? Import mirror from a different account No
+Stream REPORT was created
+
+Information for Stream REPORT created 2022-01-21T11:50:55-08:00
+
+Configuration:
+
+     Acknowledgements: true
+            Retention: File - Limits
+             Replicas: 1
+       Discard Policy: Old
+     Duplicate Window: 2m0s
+    Allows Msg Delete: true
+         Allows Purge: true
+       Allows Rollups: false
+     Maximum Messages: unlimited
+        Maximum Bytes: unlimited
+          Maximum Age: unlimited
+ Maximum Message Size: unlimited
+    Maximum Consumers: unlimited
+               Mirror: ARCHIVE
+
+
+State:
+
+             Messages: 0
+                Bytes: 0 B
+             FirstSeq: 0
+              LastSeq: 0
+     Active Consumers: 0
 ```
 
 When configured we'll see some additional information in a `nats stream info` output:
@@ -122,7 +186,6 @@ We can confirm all our setup using a `nats stream report`:
 ```shell
 nats s report
 ```
-Output
 ```text
 +--------------------------------------------------------------------------------------------------------+
 |                                            Stream Report                                               |
@@ -158,7 +221,6 @@ We can now see from a Stream Report that the data has been replicated:
 ```shell
 nats s report --dot replication.dot
 ```
-Example output
 ```text
 Obtaining Stream stats
 

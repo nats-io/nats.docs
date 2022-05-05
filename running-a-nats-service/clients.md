@@ -8,6 +8,12 @@ Other NATS client tools to know about are the [`nsc`](/using-nats/nats-tools/nsc
 
 Also, most client libraries come with sample programs that allow you to publish, subscribe, send requests and reply messages.
 
+## Embedding NATS
+
+If your application is in Go, and if it fits your use case and deployment scenarios, you can even embed a NATS server inside your application.
+
+[Embedding NATS in Go](https://dev.to/karanpratapsingh/embedding-nats-in-go-19o)
+
 ## Installing the `nats` CLI Tool
 
 For macOS:
@@ -32,7 +38,6 @@ Open a terminal and [start a nats-server](/running-a-nats-service/introduction/r
 ```shell
 nats-server
 ```
-Example output
 ```text
 [45695] 2021/09/29 02:22:53.570667 [INF] Starting nats-server
 [45695] 2021/09/29 02:22:53.570796 [INF]   Version:  2.6.1
@@ -47,7 +52,6 @@ On another terminal session first check the connection to the server
 ```shell
 nats server check
 ```
-Example output
 ```text
 OK Connection OK:connected to nats://127.0.0.1:4222 in 790.28µs OK:rtt time 69.896µs OK:round trip took 0.000102s | connect_time=0.0008s;0.5000;1.0000 rtt=0.0001s;0.5000;1.0000 request_time=0.0001s;0.5000;1.0000
 ```
@@ -65,7 +69,6 @@ To make the server output more lively, you can specify the `-V` flag to enable l
 ```shell
 nats-server -V
 ```
-Example output
 ```text
 [45703] 2021/09/29 02:23:05.189377 [INF] Starting nats-server
 [45703] 2021/09/29 02:23:05.189489 [INF]   Version:  2.6.1

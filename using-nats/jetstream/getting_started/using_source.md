@@ -17,7 +17,6 @@ Starting the server you can use the `-js` flag. This will setup the server to re
 ```shell
 nats-server -js
 ```
-Output
 ```text
 [16928] 2019/12/04 19:16:29.596968 [INF] Starting nats-server version 2.2.0
 [16928] 2019/12/04 19:16:29.597056 [INF] Git commit [not set]
@@ -37,7 +36,6 @@ You can override the storage directory if you want.
 ```shell
 nats-server -js -sd /tmp/test
 ```
-Output
 ```text
 [16943] 2019/12/04 19:20:00.874148 [INF] Starting nats-server version 2.2.0
 [16943] 2019/12/04 19:20:00.874247 [INF] Git commit [not set]

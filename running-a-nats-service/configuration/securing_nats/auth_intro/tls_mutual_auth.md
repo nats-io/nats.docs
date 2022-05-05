@@ -55,9 +55,6 @@ When present, the server will check if a Subject Alternative Name (SAN) maps to 
 ```shell
 openssl x509 -noout -text -in  client-cert.pem
 ```
-
-Output
-
 ```
 Certificate:
 ...
@@ -84,9 +81,6 @@ Use the [RFC 2253 Distinguished Names](https://tools.ietf.org/html/rfc2253) synt
 ```shell
 openssl x509 -noout -text -in client-cert.pem
 ```
-
-Output
-
 ```
 Certificate:
     Data:

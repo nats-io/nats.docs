@@ -25,7 +25,6 @@ You'll get a credential file somewhere like `~/.nkeys/creds/synadia/YourAccount/
 ```shell
 docker run -ti -v ~/.nkeys/creds/synadia/YourAccount/leafnode.creds:/leafnode.creds --name jetstream nats:latest
 ```
-Output
 ```text
 [1] 2021/10/08 21:48:51.426008 [INF] Starting nats-server
 [1] 2021/10/08 21:48:51.426091 [INF]   Version:  2.6.1

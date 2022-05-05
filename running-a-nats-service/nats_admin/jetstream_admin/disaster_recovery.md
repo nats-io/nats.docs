@@ -83,6 +83,45 @@ Configuration:
 ...
 ```
 
+The `/data/js-backup/ORDERS.tgz` file can also be extracted into the data dir of a stopped NATS Server.
+
+Progress using the terminal bar can be disabled using `--no-progress`, it will then issue log lines instead.
+
+## Interactive CLI
+
+In environments where the `nats` CLI is used interactively to configure the server you do not have a desired state to recreate the server from. This is not the ideal way to administer the server, we recommend Configuration Management, but many will use this approach.
+
+Here you can back up the configuration into a directory from where you can recover the configuration later. The data for File backed stores can also be backed up.
+
+```shell
+nats backup /data/js-backup
+```
+```text
+15:56:11 Creating JetStream backup into /data/js-backup
+15:56:11 Stream ORDERS to /data/js-backup/stream_ORDERS.json
+15:56:11 Consumer ORDERS > NEW to /data/js-backup/stream_ORDERS_consumer_NEW.json
+15:56:11 Configuration backup complete
+```
+
+This backs up Stream and Consumer configuration.
+
+During the same process the data can also be backed up by passing `--data`, this will create files like `/data/js-backup/stream_ORDERS.tgz`.
+
+Later the data can be restored, for Streams we support editing the Stream configuration in place to match what was in the backup.
+
+```shell
+nats restore /tmp/backup --update-streams
+```
+```text
+15:57:42 Reading file /tmp/backup/stream_ORDERS.json
+15:57:42 Reading file /tmp/backup/stream_ORDERS_consumer_NEW.json
+15:57:42 Updating Stream ORDERS configuration
+15:57:42 Restoring Consumer ORDERS > NEW
+```
+
+The `nats restore` tool does not support restoring data, the same process using `nats stream restore`, as outlined earlier, can be used which will also restore Stream and Consumer configurations and state.
+
+
 {% hint style="warning" %}
 On restore, if a stream already exists in the server of same name and account, you will receive a `Stream {name} already exist` error.
 {% endhint %}

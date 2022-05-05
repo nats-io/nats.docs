@@ -52,11 +52,13 @@ The server is never aware of private keys but can verify that a signer or issuer
 
 Lastly, all NATS JWTs \(Operators, Accounts, Users and others\) are expected to be signed using the [Ed25519](https://ed25519.cr.yp.to/) algorithm. If they are not, they are rejected by the system.
 
-## Decentralized Authentication and Authorization - Configuration
+## Decentralized Authentication and Authorization - Configuration and nsc
+
+There is very little to configure on the nats-server to enable operator JWT security, once the servers have been initially configured the authentication and authorization tasks are typically done by using the `nsc` administration tool locally and synchronizing with the account resolvers built into the nats-server.
 
 Configuration is broken up into separate steps. Depending on organizational needs these are performed by the same or different entities.
 
-JWT configuration is done using the [`nsc` tool](../../../../using-nats/nats-tools/nsc/). It can be set up to issue [NKeys](../auth_intro/nkey_auth.md) and corresponding JWTs for all [nkey roles](./#nkey-roles): Operator/Account/User \([Example usage](../../../../using-nats/nats-tools/nsc/basics.md#creating-an-operator-account-and-user)\). Despite Account and User creation not happening in server configuration, this model is a centralized authentication and authorization setup.
+Practically, JWT configuration is done using the [`nsc` tool](../../../../using-nats/nats-tools/nsc/README.md). It can be set up to issue [NKeys](../auth_intro/nkey_auth.md) and corresponding JWTs for all [nkey roles](#nkey-roles): Operator/Account/User \([Example usage](../../../../using-nats/nats-tools/nsc/basics.md#creating-an-operator-account-and-user)\). Despite Account and User creation not happening in server configuration, this model is a centralized authentication and authorization setup.
 
 Provided institutional trust, it is also possible to use nsc to import account or user public [NKeys](../auth_intro/nkey_auth.md) and issue corresponding JWTs. This way an operator can issue account JWTs and a separate entity can issue JWTs for user associated with it's account. Neither entity has to be aware of the other's private Nkey. This not only allows users to be configured some place other than servers, but also by different organizations altogether. Say administrators of a NATS installation controlling operators, issuing account JWTs to individual prod/dev teams managing their own user. This is a fully decentralized authorization setup!
 
