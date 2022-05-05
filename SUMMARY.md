@@ -87,7 +87,7 @@
     * [Wildcard Subscriptions](using-nats/developing-with-nats/receiving/wildcards.md)
     * [Queue Subscriptions](using-nats/developing-with-nats/receiving/queues.md)
     * [Draining Messages Before Disconnect](using-nats/developing-with-nats/receiving/drain.md)
-    * [REceiving Structured Data](using-nats/developing-with-nats/receiving/structure.md)
+    * [Receiving Structured Data](using-nats/developing-with-nats/receiving/structure.md)
   * [Sending Messages](using-nats/developing-with-nats/sending/README.md)
     * [Including a Reply Subject](using-nats/developing-with-nats/sending/replyto.md)
     * [Request-Reply Semantics](using-nats/developing-with-nats/sending/request_reply.md)
