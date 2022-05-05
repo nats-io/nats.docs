@@ -96,7 +96,7 @@ nats sub -s 142.93.251.181 hello
 nats pub -s 161.35.2.153 hello 'Hello World!'
 ```
 
-# Using leafnodes and NATS super clusters to communicate across regions
+## Using leafnodes and NATS super clusters to communicate across regions
 
 You can also create a multi-region NATS topology by using leafnodes connecting to a NATS super cluster (which could also be a much simpler way!).
 
@@ -174,7 +174,7 @@ nats-k8s-sfo2-default-pool-3ciqd   Ready    <none>   37m   v1.17.5   10.138.4.19
 nats-k8s-sfo2-default-pool-3ciqv   Ready    <none>   37m   v1.17.5   10.138.148.237   206.189.79.131   Debian GNU/Linux 9 (stretch)   4.19.0-0.bpo.6-amd64   docker://18.9.2
 ```
 
-Send a message from Amsterdam t SFO via the super cluster connected with leafnodes:
+Send a message from Amsterdam to SFO via the super cluster connected with leafnodes:
 
 ```
 $ nats-sub -s 188.166.32.235 hello        # From Amsterdam
