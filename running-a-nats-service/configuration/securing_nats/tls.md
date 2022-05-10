@@ -13,7 +13,7 @@ The NATS server uses modern TLS semantics to encrypt client, route, and monitori
 | `timeout` | TLS handshake [timeout](tls.md#tls-timeout) in fractional seconds. Default set to `0.5` seconds. |  |  |
 | `verify` | If `true`, require and [verify](auth_intro/tls_mutual_auth.md#validating-a-client-certificate) client certificates. To support use by Browser, this option does not apply to monitoring. |  |  |
 | `verify_and_map` | If `true`, require and verify client certificates and [map](auth_intro/tls_mutual_auth.md#mapping-client-certificates-to-a-user) certificate values for authentication purposes. Does not apply to monitoring either. |  |  |
-| `verify_cert_and_check_known_urls` | Only settable in a non client context where `verify: true` is the default \([cluster](../clustering/)/[gateway](../gateways/)\). The incoming connections certificate's `X509v3 Subject Alternative Name` `DNS` entries will be matched against all urls in the configuration context that contains this tls map. If a match is found, the connection is accepted and rejected otherwise. Meaning for gateways we will match all DNS entries in the certificate against all gateway urls. For cluster we will match against all route urls. As a consequence of this, dynamic cluster growth may require config changes in other cluster where this flag is true. DNS name checking is performed according to [rfc6125](https://tools.ietf.org/html/rfc6125#section-6.4.1). Only the full wildcard `*` is supported for the left most label. This would be one way to keep cluster growth flexible. |  |  |
+| `verify_cert_and_check_known_urls` | Only settable in a non client context where `verify: true` is the default \([cluster](../clustering/)/[gateway](../gateways/)\). The incoming connections certificate's `X509v3 Subject Alternative Name` `DNS` entries will be matched against all urls in the configuration context that contains this tls map. If a match is found, the connection is accepted and rejected otherwise. Meaning for gateways we will match all DNS entries in the certificate against all gateway urls. For cluster, we will match against all route urls. As a consequence of this, dynamic cluster growth may require config changes in other clusters where this flag is true. DNS name checking is performed according to [rfc6125](https://tools.ietf.org/html/rfc6125#section-6.4.1). Only the full wildcard `*` is supported for the left most label. This would be one way to keep cluster growth flexible. |  |  |
 | `pinned_certs` | List of hex-encoded SHA256 of DER encoded public key fingerprints. When present, during the TLS handshake, the provided certificate's fingerprint is required to be present in the list or the connection is closed. This sequence of commands generates an entry for a provided certificate: \`openssl x509 -noout -pubkey -in  | openssl pkey -pubin -outform DER | openssl dgst -sha256\`. |
 
 The simplest configuration:
@@ -77,7 +77,7 @@ Explaining [Public key infrastructure](https://en.wikipedia.org/wiki/Public_key_
 
 If anybody outside your organization needs to connect, get certs from a public certificate authority. Think carefully about revocation and cycling times, as well as automation, when picking a CA. If arbitrary applications inside your organization need to connect, use a cert from your in-house CA. If only resources inside a specific environment need to connect, that environment might have its own dedicated automatic CA, eg in Kubernetes clusters, so use that.
 
-**Only** for **testing** purposes does it makes sense to generate self signed certificates, even your own CA. This is a **short** guide on how to do just that and what to watch out for.
+**Only** for **testing** purposes does it make sense to generate self-signed certificates, even your own CA. This is a **short** guide on how to do just that and what to watch out for.
 
 > **DO NOT USE these certificates in production!!!**
 
@@ -87,21 +87,21 @@ If anybody outside your organization needs to connect, get certs from a public c
 
 As they should, these are **not trusted** by the system your server or clients are running on.
 
-One option is to specify the CA in every client you are using. In case you make use of `verify`, `verify_and_map` or `verify_cert_and_check_known_urls` you need to specify `ca_file` in the server. If you are having a more complex setup involving cluster, gateways or leaf nodes, `ca_file` needs to be present in `tls` maps used to connect to the server with self signed certificates. While this works for server and libraries from the NATS eco system, you will experience issues when connecting with other tools such as your Browser.
+One option is to specify the CA in every client you are using. In case you make use of `verify`, `verify_and_map` or `verify_cert_and_check_known_urls` you need to specify `ca_file` in the server. If you are having a more complex setup involving cluster, gateways or leaf nodes, `ca_file` needs to be present in `tls` maps used to connect to the server with self-signed certificates. While this works for server and libraries from the NATS ecosystem, you will experience issues when connecting with other tools such as your Browser.
 
-Another option is to configure your system's trust store to include self signed certificate\(s\). Which trust store needs to be configured depends on what you are testing.
+Another option is to configure your system's trust store to include self-signed certificate\(s\). Which trust store needs to be configured depends on what you are testing.
 
 * This may be your OS for server and certain clients.
 * The runtime environment for other clients like Java, Python or Node.js.
 * Your browser for monitoring endpoints and websockets.
 
-Please check your system's documentation on how to trust a particular self signed certificate.
+Please check your system's documentation on how to trust a particular self-signed certificate.
 
 #### Missing Subject Alternative Name
 
 Another common problem is failed [identity validation](https://tools.ietf.org/html/rfc6125). The IP or DNS name to connect to needs to match a [Subject Alternative Name \(SAN\)](https://tools.ietf.org/html/rfc4985) inside the certificate. Meaning, if a client/browser/server connect via tls to `127.0.0.1`, the server needs to present a certificate with a SAN containing the IP `127.0.0.1` or the connection will be closed with a handshake error.
 
-When `verify_cert_and_check_known_urls` is specified, [Subject Alternative Name \(SAN\)](https://tools.ietf.org/html/rfc4985) `DNS` records are necessary. In order to succesfully connect there must be an overlap between the `DNS` records provided as part of the certificate and the urls configured. If you dynaimcally grow your cluster and use a new certificate, this route or gateway the server connects to will have to be reconfigured to include a url for the new server. Only then can the new server connect. If the `DNS` record is a wildcard, matching according to [rfc6125](https://tools.ietf.org/html/rfc6125#section-6.4.1) will be performed. Using certificates with a wildcard [Subject Alternative Name \(SAN\)](https://tools.ietf.org/html/rfc4985) and configuration with url\(s\) that would match are a way to keep the flexibility of dynamic cluster growth without configuration changes in ohter cluster.
+When `verify_cert_and_check_known_urls` is specified, [Subject Alternative Name \(SAN\)](https://tools.ietf.org/html/rfc4985) `DNS` records are necessary. In order to successfully connect there must be an overlap between the `DNS` records provided as part of the certificate and the urls configured. If you dynamically grow your cluster and use a new certificate, this route or gateway the server connects to will have to be reconfigured to include an url for the new server. Only then can the new server connect. If the `DNS` record is a wildcard, matching according to [rfc6125](https://tools.ietf.org/html/rfc6125#section-6.4.1) will be performed. Using certificates with a wildcard [Subject Alternative Name \(SAN\)](https://tools.ietf.org/html/rfc4985) and configuration with url\(s\) that would match are a way to keep the flexibility of dynamic cluster growth without configuration changes in other clusters.
 
 #### Wrong Key Usage
 
@@ -119,7 +119,7 @@ Note that it's common practice for non-web protocols to use the `TLS WWW` authen
 
 ### Creating Self Signed Certificates for Testing
 
-The simplest way to generate a CA as well as client and server certificates is [mkcert](https://github.com/FiloSottile/mkcert). This zero config tool generates and installs the CA into your **local** system trust store\(s\) and makes providing SAN straight forward. Check it's [documentation](https://github.com/FiloSottile/mkcert/blob/master/README.md) for installation and your system's trust store. Here is a simple example:
+The simplest way to generate a CA as well as client and server certificates is [mkcert](https://github.com/FiloSottile/mkcert). This zero config tool generates and installs the CA into your **local** system trust store\(s\) and makes providing SAN straight forward. Check its [documentation](https://github.com/FiloSottile/mkcert/blob/master/README.md) for installation and your system's trust store. Here is a simple example:
 
 Generate a CA as well as a certificate, valid for server authentication by `localhost` and the IP `::1`\(`-cert-file` and `-key-file` overwrite default file names\). Then start a NATS server using the generated certificate.
 
