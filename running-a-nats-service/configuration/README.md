@@ -18,7 +18,7 @@ The NATS configuration file is parsed with UTF-8 encoding.
 
 #### Note
 
-The NATS configuration in the file can also be rendered as a JSON object.
+The NATS configuration in the file can also be rendered as a JSON object (with comments!), but to combine it with variables the variables still have to be unquoted.
 
 ## Strings and Numbers
 
@@ -51,12 +51,12 @@ authorization: {
 
 ## Variables
 
-Server configurations can specify variables. Variables allow you to reference a value from one or more sections in the configuration.
+Server configurations can specify variables. Variables allow you to reference a value from one or more sections in the configuration
 
 Variables:
 
 * Are block-scoped
-* Are referenced with a `$` prefix.
+* Are referenced with a `$` prefix. They have to be unquoted when being referenced, for example an assigment like `foo = "$example"` will result in `foo` being the literal string `"$example"`.
 * Can be resolved from environment variables having the same name
 
 > If the environment variable value begins with a number you may have trouble resolving it depending on the server version you are running.
