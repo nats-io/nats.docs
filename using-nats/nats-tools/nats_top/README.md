@@ -30,6 +30,8 @@ nats-top can be installed using `go install`. For example:
 go install github.com/nats-io/nats-top
 ```
 
+With newer versions of Go, you will be required to use `go install github.com/nats-io/nats-top@latest`.
+
 NOTE: You may have to run the above command as user `sudo` depending on your setup. If you receive an error that you cannot install nats-top because your $GOPATH is not set, when in fact it is set, use command `sudo -E go get github.com/nats-io/nats-top` to install nats-top. The `-E` flag tells sudo to preserve the current user's environment.
 
 ## Usage
