@@ -1,6 +1,6 @@
-# Subject Mapping and Traffic Shaping
+# Subject Mapping and Partitioning
 
-Subject mapping is a very powerful feature of the NATS server, useful for canary deployments, A/B testing, chaos testing, and migrating to a new subject namespace.
+Subject mapping and partitioning is a very powerful feature of the NATS server, useful for scaling some forms of distributed message processing through partitioning, for canary deployments, A/B testing, chaos testing, and migrating to a new subject namespace.
 
 There are two places where you can apply subject mappings: each account has its own set of subject mappings, which will apply to any message published by client applications, and you can also use subject mappings as part of the imports and exports between accounts.
 
