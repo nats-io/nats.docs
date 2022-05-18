@@ -227,4 +227,3 @@ The Subject shows where the message was received, Data is base64 encoded and Tim
 ## Consumer Samples
 
 Samples are published to a specific subject per Consumer, something like `$JS.EVENT.METRIC.CONSUMER_ACK.<stream>.<consumer>` you can just subscribe to that and get `api.ConsumerAckMetric` messages in JSON format. The prefix is defined in `api.JetStreamMetricConsumerAckPre`.
-
