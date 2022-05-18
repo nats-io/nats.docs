@@ -82,7 +82,7 @@ The API uses JSON for inputs and outputs, all the responses are typed using a `t
 | `$JS.API.CONSUMER.LIST.*`             | `api.JSApiConsumerListT` | Paged list of known Consumers including their current info                      | `api.JSApiConsumerListRequest` | `api.JSApiConsumerListResponse` |
 | `$JS.API.CONSUMER.NAMES.*`            | `api.JSApiConsumerNamesT` | Paged list of known Consumer names                                              | `api.JSApiConsumerNamesRequest` | `api.JSApiConsumerNamesResponse` |
 | `$JS.API.CONSUMER.INFO.*.*`           | `api.JSApiConsumerInfoT` | Information about an Consumer                                                   | empty payload, Stream and Consumer names in subject | `api.JSApiConsumerInfoResponse` |
-| `$JS.API.CONSUMER.DELETE.*.*`         | `api.JSApiConsumerDeleteT` | Deletes an Consumer                                                             | empty payload, Stream and Consumer names in subject | `api.JSApiConsumerDeleteResponse` |
+| `$JS.API.CONSUMER.DELETE.*.*`         | `api.JSApiConsumerDeleteT` | Deletes a Consumer                                                             | empty payload, Stream and Consumer names in subject | `api.JSApiConsumerDeleteResponse` |
 | `$JS.FC.>` | N/A | Consumer to subscriber flow control messages (also needed for stream mirroring) | | | 
 
 ### ACLs
