@@ -75,14 +75,15 @@ The API uses JSON for inputs and outputs, all the responses are typed using a `t
 
 ### Consumers
 
-| Subject                               | Constant | Description | Request Payload | Response Payload |
-|:--------------------------------------| :--- | :--- | :--- | :--- |
-| `$JS.API.CONSUMER.CREATE.*`           | `api.JSApiConsumerCreateT` | Create an ephemeral Consumer | `api.ConsumerConfig`, Stream name in subject | `api.JSApiConsumerCreateResponse` |
-| `$JS.API.CONSUMER.DURABLE.CREATE.*.*` | `api.JSApiDurableCreateT` | Create an Consumer | `api.ConsumerConfig`, Stream name in subject | `api.JSApiConsumerCreateResponse` |
-| `$JS.API.CONSUMER.LIST.*`             | `api.JSApiConsumerListT` | Paged list of known Consumers including their current info | `api.JSApiConsumerListRequest` | `api.JSApiConsumerListResponse` |
-| `$JS.API.CONSUMER.NAMES.*`            | `api.JSApiConsumerNamesT` | Paged list of known Consumer names | `api.JSApiConsumerNamesRequest` | `api.JSApiConsumerNamesResponse` |
-| `$JS.API.CONSUMER.INFO.*.*`           | `api.JSApiConsumerInfoT` | Information about an Consumer | empty payload, Stream and Consumer names in subject | `api.JSApiConsumerInfoResponse` |
-| `$JS.API.CONSUMER.DELETE.*.*`         | `api.JSApiConsumerDeleteT` | Deletes an Consumer | empty payload, Stream and Consumer names in subject | `api.JSApiConsumerDeleteResponse` |
+| Subject                               | Constant | Description                                                                     | Request Payload | Response Payload |
+|:--------------------------------------| :--- |:--------------------------------------------------------------------------------| :--- | :--- |
+| `$JS.API.CONSUMER.CREATE.*`           | `api.JSApiConsumerCreateT` | Create an ephemeral Consumer                                                    | `api.ConsumerConfig`, Stream name in subject | `api.JSApiConsumerCreateResponse` |
+| `$JS.API.CONSUMER.DURABLE.CREATE.*.*` | `api.JSApiDurableCreateT` | Create an Consumer                                                              | `api.ConsumerConfig`, Stream name in subject | `api.JSApiConsumerCreateResponse` |
+| `$JS.API.CONSUMER.LIST.*`             | `api.JSApiConsumerListT` | Paged list of known Consumers including their current info                      | `api.JSApiConsumerListRequest` | `api.JSApiConsumerListResponse` |
+| `$JS.API.CONSUMER.NAMES.*`            | `api.JSApiConsumerNamesT` | Paged list of known Consumer names                                              | `api.JSApiConsumerNamesRequest` | `api.JSApiConsumerNamesResponse` |
+| `$JS.API.CONSUMER.INFO.*.*`           | `api.JSApiConsumerInfoT` | Information about an Consumer                                                   | empty payload, Stream and Consumer names in subject | `api.JSApiConsumerInfoResponse` |
+| `$JS.API.CONSUMER.DELETE.*.*`         | `api.JSApiConsumerDeleteT` | Deletes a Consumer                                                             | empty payload, Stream and Consumer names in subject | `api.JSApiConsumerDeleteResponse` |
+| `$JS.FC.>` | N/A | Consumer to subscriber flow control messages (also needed for stream mirroring) | | | 
 
 ### ACLs
 
@@ -124,6 +125,7 @@ $JS.API.CONSUMER.MSG.NEXT.<stream>.<consumer>
 $JS.ACK.<stream>.<consumer>.x.x.x
 $JS.SNAPSHOT.ACK.<stream>.<msg id>
 $JS.SNAPSHOT.RESTORE.<stream>.<msg id>
+$JS.FC.>
 ```
 
 Events and Advisories:
@@ -227,4 +229,3 @@ The Subject shows where the message was received, Data is base64 encoded and Tim
 ## Consumer Samples
 
 Samples are published to a specific subject per Consumer, something like `$JS.EVENT.METRIC.CONSUMER_ACK.<stream>.<consumer>` you can just subscribe to that and get `api.ConsumerAckMetric` messages in JSON format. The prefix is defined in `api.JetStreamMetricConsumerAckPre`.
-
