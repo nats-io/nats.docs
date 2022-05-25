@@ -19,7 +19,7 @@ You can set limits for your buckets, such as:
 * the maximum size for any single value
 * a TTL: how long the store will keep values for
 
-You finally, you can even also do things that you typically can not do with a Key/Value Store:
+Finally, you can even do things that typically can not be done with a Key/Value Store:
 
 * watch: watch for changes the changes happening for a key, which is similar to subscribing (in the publish/subscribe sense) to the key: the watcher receives updates due to put or delete operations on the key pushed to it in real-time as they happen
 * watch all: watch for all the changes happening on all the keys in the bucket 
