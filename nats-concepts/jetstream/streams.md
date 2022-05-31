@@ -1,6 +1,6 @@
 # Streams
 
-Streams are 'message stores', each stream defines how messages are stored and what the limits (duration, size, interest) of the retention are. Streams consume normal NATS subjects, any message published on those subjects will be captured in the defined storage system. You can do a normal publish to the subject for unacknowledged delivery, though it better to use the JetStream publish calls instead as the JetStream server will reply with an acknowledgement that it was successfully stored.
+Streams are 'message stores', each stream defines how messages are stored and what the limits (duration, size, interest) of the retention are. Streams consume normal NATS subjects, any message published on those subjects will be captured in the defined storage system. You can do a normal publish to the subject for unacknowledged delivery, though it's better to use the JetStream publish calls instead as the JetStream server will reply with an acknowledgement that it was successfully stored.
 
 ![Orders](../../.gitbook/assets/streams-and-consumers-75p.png)
 
