@@ -805,6 +805,6 @@ $.getJSON('https://demo.nats.io:8222/connz?callback=?', function(data) {
 
 ## Monitoring Tools
 
-In addition to writing custom monitoring tools, you can monitor nats-server in Prometheus. The [Prometheus NATS Exporter](https://github.com/nats-io/prometheus-nats-exporter) allows you to configure the metrics you want to observe and store in Prometheus, and there are Grafana dashboards available for you do visualize the server metrics.
+In addition to writing custom monitoring tools, you can monitor nats-server in Prometheus. The [Prometheus NATS Exporter](https://github.com/nats-io/prometheus-nats-exporter) allows you to configure the metrics you want to observe and store in Prometheus, and there are Grafana dashboards available for you to visualize the server metrics.
 
 See the [Walkthrough of Monitoring NATS with Prometheus and Grafana](https://github.com/nats-io/prometheus-nats-exporter/tree/main/walkthrough) for more details.
