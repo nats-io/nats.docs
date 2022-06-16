@@ -331,8 +331,6 @@ So far, all the Consumers you have seen were Durable, meaning they exist even af
 
 In this case, we can make an Ephemeral Consumer by first subscribing to the delivery subject, then creating a durable and giving it no durable name. An Ephemeral Consumer exists as long as any subscription is active on its delivery subject. It is automatically be removed, after a short grace period to handle restarts, when there are no subscribers.
 
-Ephemeral Consumers can only be push-based.
-
 Terminal 1:
 
 ```shell

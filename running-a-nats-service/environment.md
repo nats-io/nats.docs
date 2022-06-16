@@ -1,0 +1,28 @@
+# Environmental considerations
+
+## Networking
+
+### Load balancers
+It is possible to deploy a load balancer between the client applications and the cluster servers (or even between servers in a cluster or between clusters in a super-cluster), but you don't need to: NATS already has its own mechanisms to balance the connections between the seeds in the connection URL and to automatically re-established dropped connections.
+If you have a cluster with 3 seed nodes you often get more network throughput than going through a load balancer (cloud provider's load balancers can be woefully underpowered, not to mention it costs you more money as the load balancer is typically billed by the amount of data going through it).
+Finally, if you want to use TLS for authentication you do not want the load balancer to handle the encryption.
+
+If you do use load balancers you just need to understand the potential issues with having load balancers and adjust the settings accordingly. The main concerns are problems caused by incorrectly configured idle detection, protocol problems due to packet inspection, and ephemeral port problems at high scale.
+
+If routes or gateway connections go through load balancers then you could very well have the same problems as above, which could results in JetStream lost quorum periods and create undue re-synchronization and protocol overhead traffic.
+
+## Virtualization and its effect on maximum performance
+
+NATS is 'cloud native' and expected to be deployed in virtual environments. However, when it comes to maximum performance, such as when running benchmarks in order to estimate the size of future production deployments, it is good to keep a few things in mind.
+
+Think of Core NATS servers are a software equivalent of network switches. Enable JetStream, and they also become a new kind of DataBase server as well. 
+
+What you need to keep in mind is that when selecting the instance types and storage options for your NATS server host instances that in public clouds: *you get what you pay for*.
+
+For example non network optimized instances may give you 10 Gb/s of network bandwidth... but only for some period of time (like 30 minutes), after which the available bandwidth may drop down dramatically (like to 5 Gb/s) for another period of time. So select network optimized instances types instead if you always need the advertised bandwidth.
+
+It's the same when it comes to storage options: local SSDs instance types can provide the best latency, while using Elastic Block Storage, being a distributed service, can provide the highest overall throughput. When using EBS again you get what you pay for: general purpose storage type may give you a certain number of IOPS, but you can sustain those rates only for some period of time after which the number can drop down dramatically. So select IO optimized storage types if you want to continuously sustain the same max number of IOPS.
+
+### Containerization
+
+What is true for virtualization extends to containerization: nothing comes for free. That includes all the networking (DNS, port mappings and address translations), and also applies to persistent sets. Systems like Kubernetes or Nomad ultimately do become bottlenecks that limit maximum throughput (sometimes dramatically) that NATS server can deliver compared to when running the NATS servers directly as processes on the VM, alongside the container infrastructure rather than inside it. While it may be more convenient for Ops to deploy absolutely everything - including the NATS servers - in pods. So if you need to unlock the highest possible throughput consider your NATS server as part of your infrastructure, that runs alongside Kubernetes rather than inside it.
