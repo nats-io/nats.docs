@@ -66,3 +66,6 @@ With an Operator JWT in place, the server needs to be configured to trust it by 
 
 > It is possible to [mix](jwt_nkey_auth.md) JWT and [NKEY](../auth_intro/nkey_auth.md)/[Account](../accounts.md) based Authentication/Authorization.
 
+# Managing JWT authentication
+
+A lot more information is available in the [In Depth Guide](../../../../running-a-nats-service/nats_admin/jwt.md).
