@@ -29,3 +29,5 @@ You certainly can (and very many people do) use container orchestration systems 
 NATS servers are effectively 'message routers'. They constantly get data over the network and send data over the network. They are highly optimized and have many built-in heart-beats, failover and flow control mechanisms. The less the number of layers between the NATS server process, the network and disk, the faster it will work and the less the number of things that can break or places where there can be a configuration error. And you are not relying on some proxy, DNS tricks, or any kind of port and IP address forwarding in order for your client applications to be able to connect to the NATS server instance(s).
 
 If they are JetStream enabled, nats-server containers are not stateless they need to constantly read and write to files, and therefore they need to be able to access its persistent storage at all times (in that regard a JetStream enabled NATS server is just like any other database server).
+
+*_See also: [containerization considerations](../running-a-nats-service/environment.md#containerization)._*
