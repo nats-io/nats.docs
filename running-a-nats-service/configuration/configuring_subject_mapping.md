@@ -4,6 +4,16 @@ _Supported since NATS Server version 2.2_
 
 Subject mapping is a very powerful feature of the NATS server, useful for canary deployments, A/B testing, chaos testing, and migrating to a new subject namespace.
 
+## Configuring subject mapping
+
+Subject mappings are defined and applied at the account level. If you are using static account security you will need to edit the server configuration file, however if you are using JWT Security (Operator Mode), then you need to use nsc or customer tools to edit and push changes to you account.
+
+NOTE: _You can also use subject mapping as part of defining imports and exports between accounts_
+
+### Static authentication
+
+In any of the static authentication modes the mappings are defined in the server configuration file, any changes to mappings in the configuration file will take effect as soon as a reload signal is sent to the server process (e.g. use `nats-server --signal reload`).
+
 The `mappings` stanza can occur at the top level to apply to the global account or be scoped within a specific account.
 
 ```text
@@ -40,6 +50,17 @@ mappings = {
   foo.loss.>: [ { destination: foo.loss.>, weight: 50% } ]
 }
 ```
+
+### JWT authentication 
+
+When using the JWT authentication mode, the mappings are defined in the account's JWT. Account JWTs can be created or modified either through the_ [_JWT API_](https://github.com/nats-io/jwt)_ or using the `nsc` CLI too. For more detailed information see `nsc add mapping --help`, `nsc delete mapping --help`. Subject mapping changes take effect as soon as the modified account JWT is pushed to the nats servers (i.e. `nsc push`).
+
+Examples of using `nsc` to manage mappings:
+
+* Add a new mapping: `nsc add mapping --from "a" --to "b"`
+* Modify an entry, say to set a weight after the fact: `nsc add mapping --from "a" --to "b" --weight 50`
+* Add two entries from one subject, set weights and execute multiple times: `nsc add mapping --from "a" --to "c" --weight 50`
+* Delete a mapping: `nsc delete mapping --from "a"`
 
 ## Simple Mapping
 
@@ -122,6 +143,4 @@ You can both split and introduce loss for testing. Here, 90% of requests would g
     # the remaining 2% is "lost"
   ]
 ```
-
-_Note: Subject Mapping and Traffic Shaping are also supported in the NATS JWT model, either through the_ [_JWT API_](https://github.com/nats-io/jwt)_ or using `nsc add mapping`._
 
