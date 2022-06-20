@@ -6,9 +6,9 @@ Subject mapping is a very powerful feature of the NATS server, useful for canary
 
 ## Configuring subject mapping
 
-Subject mappings are defined and applied at the account level. So if you are using static account security in the server configuration file, or if you are using JWT security in the account JWTs.
+Subject mappings are defined and applied at the account level. If you are using static account security you will need to edit the server configuration file, however if you are using JWT Security (Operator Mode), then you need to use nsc or customer tools to edit and push changes to you account.
 
-_You can also use subject mapping as part of defining imports and exports between accounts_
+NOTE: _You can also use subject mapping as part of defining imports and exports between accounts_
 
 ### Static authentication
 
