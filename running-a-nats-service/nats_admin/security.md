@@ -62,4 +62,4 @@ func createAccount() {
 }
 ```
 
-Note: to delete accounts use the `"$SYS.REQ.CLAIMS.DELETE"` and make sure to enable JWT deletion in your nats-server resolver `config allow_delete: true` in the `resolver` stanza of the server configuration.
+Note: to delete accounts use the `"$SYS.REQ.CLAIMS.DELETE"` (see [reference](https://docs.nats.io/running-a-nats-service/nats_admin/security/jwt#subjects-available-when-using-nats-based-resolver)) and make sure to enable JWT deletion in your nats-server resolver `config allow_delete: true` in the `resolver` stanza of the server configuration.
