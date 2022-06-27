@@ -132,7 +132,7 @@ authorization: {
 | :--- | :--- | :--- |
 | `ping_interval` | Duration at which pings are sent to clients, leaf nodes and routes. In the presence of client traffic, such as messages or client side pings, the server will not send pings. Therefore it is recommended to keep this value bigger than what [clients use](../../using-nats/developing-with-nats/connecting/pingpong.md). | `"2m"` |
 | `ping_max` | After how many unanswered pings the server will allow before closing the connection. | `2` |
-| `write_deadline` | Maximum number of seconds the server will block when writing. Once this threshold is exceeded the connection will be closed. See [_slow consumer_](/using-nats/developing-with-nats/events/slow.md) on how to deal with this on the client. | `"2s"` |
+| `write_deadline` | Maximum number of seconds the server will block when writing. Once this threshold is exceeded the connection will be closed. See [_slow consumer_](/using-nats/developing-with-nats/events/slow.md) on how to deal with this on the client. | `"10s"` |
 
 ### Limits
 
