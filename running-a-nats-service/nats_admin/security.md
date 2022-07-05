@@ -136,7 +136,7 @@ func createUser(accountSeed, userName string) (string, error) {
 
 ### Notes
 
-You can see the of key and signing keys of your operator using `nsc list keys --show-seeds`. You should use a 'signing key' to create the account JWTs (as signing keys can be revoked/rotated easily).
+You can see the key (and any signing keys) of your operator using `nsc list keys --show-seeds`, you should use a 'signing key' to create the account JWTs (as singing keys can be revoked/rotated easily)
 
 To delete accounts use the `"$SYS.REQ.CLAIMS.DELETE"` (see [reference](/running-a-nats-service/nats_admin/security/jwt#subjects-available-when-using-nats-based-resolver)) and make sure to enable JWT deletion in your nats-server resolver (`config allow_delete: true` in the `resolver` stanza of the server configuration).
 
