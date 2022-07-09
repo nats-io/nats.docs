@@ -420,8 +420,7 @@ types. Which one to pick depends upon your needs:
   * Easier clustering when compared to `nats-account-server`. Will
     eventually converge on the union of all account JWTs known to
     every participating `nats-server`,
-  * Requires persistent storage in the form of a NON-NTFS directory
-    for `nats-server` to exclusively write into,
+  * Requires persistent storage in the form of a directory for `nats-server` to _exclusively_ write into (it can be on a shared Network File System, but the directories themselves can not be shared between servers),
   * Optionally, directly supports Account JWT removal,
   * Between `nats-resolver` and `url-resolver`, the `nats-resolver` is
     the clear recommendation.
