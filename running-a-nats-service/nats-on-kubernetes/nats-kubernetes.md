@@ -60,7 +60,7 @@ and run
 helm install nats nats/nats --values ha.yaml
 ```
 
-### JetSteam
+### JetStream
 
 Similarly to HA, enabling JetStream requires changing few values:
 
