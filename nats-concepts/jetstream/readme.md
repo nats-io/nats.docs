@@ -61,7 +61,7 @@ You can impose the following limits on a stream
 
 You must also select a **discard policy** which specifies what should happen once the stream has reached one of its limits and a new message is published:
 * _discard old_ means that the stream will automatically delete the oldest message in the stream to make room for the new messages.
-* _disacrd new_ means that the new message is discarded (and the JetStream publish call returns an error indicating that a limit was reached).
+* _discard new_ means that the new message is discarded (and the JetStream publish call returns an error indicating that a limit was reached).
 
 **Retention policy**
 
