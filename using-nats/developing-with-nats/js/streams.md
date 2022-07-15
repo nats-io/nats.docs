@@ -4,7 +4,8 @@ Streams and durable consumers can be defined administratively outside the applic
 
 Common stream management operations are:
 
-- Add (or delete) a stream. This is an idempotent function, meaning that it will create the stream if it doesn't exist already, and if it does already exist on succeed if the already defined stream matches exactly the attributes specified in the 'add' call.
+- Add a stream. Adding a stream is an idempotent function, which means that if a stream does not exist, it will be created, and if a stream already exists, then the add operation will succeed only if the existing stream matches exactly the attributes specified in the 'add' call.
+- Delete a stream.
 - Purge a stream (delete all the messages stored in the stream)
 - Get or remove a specific message from a stream by sequence number
 - Add or update (or delete) a consumer
