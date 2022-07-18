@@ -28,7 +28,7 @@ nats sub msg.test
 
 You should see the message: _Listening on \[msg.test\]_
 
-### 2. Create a Publisher
+### 2. Create a Publisher and publish a message
 
 In another shell or command prompt, create a NATS publisher and send a message.  
 
@@ -41,7 +41,7 @@ Where `<subject>` is the subject name and `<message>` is the text to publish.
 For example:
 
 ```bash
-nats pub msg.test hello
+nats pub msg.test nats-message-1
 ```
 
 ### 3. Verify message publication and receipt
