@@ -238,9 +238,9 @@ All of these acknowledgement modes, except `AckNext`, support double acknowledge
 
 The `+NXT` acknowledgement can have a few formats: `+NXT 10` requests 10 messages and `+NXT {"no_wait": true}` which is the same data that can be sent in a Pull Request.
 
-## Exactly Once Delivery
+## Exactly Once Semantics
 
-JetStream supports Exactly Once delivery by combining Message Deduplication and double acks.
+JetStream supports Exactly Once publication and consumption by combining Message Deduplication and double acks.
 
 On the publishing side you can avoid duplicate message ingestion using the [Message Deduplication](model_deep_dive.md#message-deduplication) feature.
 

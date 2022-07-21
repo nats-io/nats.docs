@@ -113,7 +113,7 @@ When using the JetStream publish calls to publish to streams there is an acknowl
 
 On the subscriber side the sending of messages from the nats server to the client applications receiving or consuming messages from streams is also flow controlled.
 
-### Exactly once message delivery
+### Exactly once semantics
 
 Because publications to streams using the JetStream publish calls are acknowledged by the server the base quality of service offered by streams is '_at least once_', meaning that while reliable and normally duplicate free there are some specific failure scenarios that could result in a publishing application believing (wrongly) that a message was not published successfully and therefore publishing it again, and there are failure scenarios that could result in a client application's consumption acknowledgement getting lost and therefore in the message being re-sent to the consumer by the server. Those failure scenarios while being rare and even difficult to reproduce do exist and can result in perceived 'message duplication' at the application level.
 
