@@ -21,7 +21,7 @@
 * [What do ‘verbose’ and ‘pedantic’ mean when using CONNECT?](faq.md#what-do-verbose-and-pedantic-mean-when-using-connect)
 * [Does NATS offer any guarantee of message ordering?](faq.md#does-nats-offer-any-guarantee-of-message-ordering)
 * [Is there a message size limitation in NATS?](faq.md#is-there-a-message-size-limitation-in-nats)
-* [Does NATS impose any limits on the \# of subjects?](faq.md#does-nats-impose-any-limits-on-the--of-subjects)
+* [Does NATS impose any limits on the \# of subjects?](faq.md#does-nats-impose-any-limits-on-the-of-subjects)
 * [Does NATS guarantee message delivery?](faq.md#does-nats-guarantee-message-delivery)
 * [Does NATS support replay/redelivery of historical data?](faq.md#does-nats-support-replayredelivery-of-historical-data)
 * [How do I gracefully shut down an asynchronous subscriber?](faq.md#how-do-i-gracefully-shut-down-an-asynchronous-subscriber)
