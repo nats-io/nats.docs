@@ -180,7 +180,7 @@ Besides temporal decoupling and queuing, JetStream also enables higher qualities
 
 ## Key Value Store
 
-The [Key Value Store](js/kv.md) functionality is implemented on top of JetStream, but offers a different interface in the form of keys and values rather than subject names and messages. You can use a bucket to put (including compare and set), get and delete a value (a byte array like a message payload) associated with a key (a string, like a subject). It also allows you to 'watch' for changes to the buket as they happen. And finally it allows you to maintain a history of the values associated with a key over time, as well as get a specific revision of the value.
+The [Key Value Store](js/kv.md) functionality is implemented on top of JetStream, but offers a different interface in the form of keys and values rather than subject names and messages. You can use a bucket to put (including compare and set), get and delete a value (a byte array like a message payload) associated with a key (a string, like a subject). It also allows you to 'watch' for changes to the bucket as they happen. And finally it allows you to maintain a history of the values associated with a key over time, as well as get a specific revision of the value.
 
 ## Object Store
 
