@@ -79,11 +79,11 @@ async def cb(msg):
   nonlocal future
   future.set_result(msg)
 
-sid = await nc.subscribe("updates", cb=cb)
+sub = await nc.subscribe("updates", cb=cb)
 await nc.publish("updates", b'All is Well')
 
 # Remove interest in subject
-await nc.unsubscribe(sid)
+await sub.unsubscribe()
 
 # Won't be received...
 await nc.publish("updates", b'...')
