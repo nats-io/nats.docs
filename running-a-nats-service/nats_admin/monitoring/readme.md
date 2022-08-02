@@ -674,7 +674,7 @@ Get basic JetStream information: [https://demo.nats.io:8222/jsz](https://demo.na
 
 Request accounts and control limit and offset: [https://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128](https://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128).
 
-You can also report detailed consumer information on a per connection basis using consumer=true. For example: [https://demo.nats.io:8222/jsz?consumers=true](https://demo.nats.io:8222/jsz/consumer=true).
+You can also report detailed consumer information on a per connection basis using consumer=true. For example: [https://demo.nats.io:8222/jsz?consumers=true](https://demo.nats.io:8222/jsz?consumer=true).
 
 #### Response
 
