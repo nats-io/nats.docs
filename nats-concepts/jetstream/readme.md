@@ -56,7 +56,6 @@ You can impose the following limits on a stream
 * Maximum total stream size (in bytes).
 * Maximum number of messages in the stream.
 * Maximum individual message size.
-* You can specify a discard policy: when a limit is reached and a new message is published to the stream you can choose to discard either the oldest or the newest message currently in the stream in order to make room for that new message.
 * You can also set limits on the number of consumers that can be defined for the stream at any given point in time.
 
 You must also select a **discard policy** which specifies what should happen once the stream has reached one of its limits and a new message is published:
