@@ -95,8 +95,6 @@ In all cases, the process of subscribing involves having the client library tell
 
 A client will receive a message for each matching subscription, so if a connection has multiple subscriptions using identical or overlapping subjects \(say `foo` and `>`\) the same message will be sent to the client multiple times.
 
-A client will receive a message for each matching subscription, so if a connection has multiple subscriptions using identical or overlapping subjects \(say `foo` and `>`\) the same message will be sent to the client multiple times.
-
 ### Subscribe as part of a queue group
 You can also subscribe [as part of a distributed *queue group*](receiving/queues.md). All the subscribers with the same queue group name form the distributed queue. The NATS Servers automatically distributes the messages published on the matching subject(s) between the members of the queue group.
 
