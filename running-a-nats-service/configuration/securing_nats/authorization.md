@@ -14,7 +14,7 @@ The `permissions` map specify subjects that can be subscribed to or published by
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `publish`         | subject, list of subjects, or [permission map](authorization.md#permission-map) the client can publish                                                                                                                                                                                                 |
 | `subscribe`       | subject, list of subjects, or [permission map](authorization.md#permission-map) the client can subscribe to. In this context it is possible to provide an optional queue name: `<subject> <queue>` to express queue group permissions. These permissions can also use wildcards such as `v2.*` or `>`. |
-| `allow_responses` | boolean or [responses map](authorization.md#allow-responses-map), default is `false`                                                                                                                                                                                                                   |
+| `allow_responses` | boolean or [responses map](authorization.md#allow-responses-map), default is `false`. Enabling this implicitly denies publish to other subjects, however an explicit `publish` allow on a subject will override this implicit deny for that subject. |
 
 ## Permission Map
 
@@ -29,7 +29,7 @@ The `permission` map provides additional properties for configuring a `permissio
 
 ## Allow Responses Map
 
-The `allow_responses` option dynamically allows publishing to reply subjects and works well for service responders. When set to `true`, only one response is allowed, meaning the permission to publish to the reply subject defaults to only once. The `allow_responses` map allows you to configure a maximum number of responses and how long the permission is valid.
+The `allow_responses` option dynamically allows publishing to reply subjects and is designed for [service](/nats-concepts/core-nats/reqreply) responders. When set to `true`, an implicit *publish allow* permission is enforced which enables the service to have temporary permission to publish to the `reply` subject during a request-reply exchange. If `true`, the client supports a one-time `publish`. If `allow_responses` is a map, it allows you to configure a maximum number of responses and how long the permission is valid.
 
 | Property  | Description                                                                                                                                                   |
 | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -97,13 +97,13 @@ authorization: {
                 subscribe: ">"
             }
         }
-        { 
+        {
             user: test
             password: test
             permissions: {
                 publish: {
                     deny: ">"
-                }, 
+                },
                 subscribe: {
                     allow: "client.>"
                 }
@@ -123,11 +123,15 @@ authorization: {
         { user: a, password: a },
         { user: b, password: b, permissions: {subscribe: "q", allow_responses: true } },
         { user: c, password: c, permissions: {subscribe: "q", allow_responses: { max: 5, expires: "1m" } } }
+        { user: d, password: d, permissions: {subscribe: "q", publish: "x", allow_responses: true } }
     ]
 }
 ```
 
-User `a` has no restrictions. User `b` can listen on `q` for requests and can only publish once to reply subjects. All other subjects will be denied. User `c` can also listen on `q` for requests, but is able to return at most 5 reply messages, and the reply subject can be published at most for `1` minute.
+- User `a` has no restrictions.
+- User `b` can listen on `q` for requests and can only publish once to reply subjects. *All other publish subjects are denied implicitly when `allow_responses` is set.*
+- User `c` can listen on `q` for requests, but is able to return at most 5 reply messages, and the reply subject can be published at most for `1` minute.
+- User `d` has the same behavior as user `b`, except that it can explicitly publish to subject `x` as well, which overrides the implicit deny from `allow_responses`.
 
 ### Queue Permissions
 
