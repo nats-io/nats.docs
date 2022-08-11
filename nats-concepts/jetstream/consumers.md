@@ -16,6 +16,9 @@ Some messages may cause your applications to crash and cause a never ending loop
 
 To assist with creating monitoring applications, one can set a `SampleFrequency` which is a percentage of messages for which the system should sample and create events. These events will include delivery counts and ack waits.
 
+### Consumer names
+Consumer names should not contain any of the following characters: ` ` (space), `.`, `*`, `>`, or a path separator (forward or backwards slash) or any non-printable characters.
+# Consumer configuration
 When defining Consumers the items below make up the entire configuration of the Consumer:
 
 ## AckPolicy
