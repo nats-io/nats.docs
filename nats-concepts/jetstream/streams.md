@@ -30,3 +30,5 @@ When defining Streams the items below make up the entire configuration of the se
 | Discard | When a Stream reaches it's limits either, `DiscardNew` refuses new messages while `DiscardOld` \(default\) deletes old messages |
 | Duplicates | The window within which to track duplicate messages, expressed in nanoseconds. |
 
+## Stream Names
+Stream names should not contain any of the following characters: ` ` (space), `.`, `*`, `>`, or a path separator (forward or backwards slash) or any non-printable characters.
