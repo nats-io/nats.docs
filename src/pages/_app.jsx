@@ -48,14 +48,29 @@ function collectHeadings(nodes, slugify = slugifyWithCounter()) {
   return sections
 }
 
+function getHeadingTitle(nodes) {
+  for (let node of nodes) {
+    if (node.name === 'h1') {
+      return getNodeText(node)
+    }
+  }
+}
+
+function getDescription(nodes) {
+  for (let node of nodes) {
+    if (node.name === 'p') {
+      return getNodeText(node)
+    }
+  }
+}
+
 export default function App({ Component, pageProps }) {
-  let title = pageProps.markdoc?.frontmatter.title
+  let title = pageProps.markdoc?.frontmatter.title ||
+    getHeadingTitle(pageProps.markdoc.content)
 
-  let pageTitle =
-    pageProps.markdoc?.frontmatter.pageTitle ||
-    `${pageProps.markdoc?.frontmatter.title} - Docs`
+  let pageTitle = title
 
-  let description = pageProps.markdoc?.frontmatter.description
+  let description = getDescription(pageProps.markdoc.content)
 
   let tableOfContents = pageProps.markdoc?.content
     ? collectHeadings(pageProps.markdoc.content)
@@ -67,7 +82,7 @@ export default function App({ Component, pageProps }) {
         <title>{pageTitle}</title>
         {description && <meta name="description" content={description} />}
       </Head>
-      <Layout title={title} tableOfContents={tableOfContents}>
+      <Layout tableOfContents={tableOfContents}>
         <Component {...pageProps} />
       </Layout>
     </>
