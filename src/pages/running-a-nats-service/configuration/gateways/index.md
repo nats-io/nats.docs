@@ -29,11 +29,11 @@ A nats-server in a gateway role will specify a port where it will accept gateway
 
 If the local cluster has three gateway nodes, this means there will be three outbound connections from the local cluster to each external gateway cluster.
 
-![Gateway Connections](../../../.gitbook/assets/simple.svg)
+![Gateway Connections](/assets/simple.svg)
 
 > In the example above cluster _A_ has configured gateway connections for _B_ \(solid lines\). B has discovered gateway connections to _A_ \(dotted lines\). Note that the number of outgoing connections always matches the number of gateways with the same name.
 
-![Gateway Discovered Gateways](../../../.gitbook/assets/three_gw.svg)
+![Gateway Discovered Gateways](/assets/three_gw.svg)
 
 > In this second example, again configured connections are shown with solid lines and discovered gateway connections are shown using dotted lines. Gateways _A_ and _C_ were both discovered via gossiping; _B_ discovered _A_ and _A_ discovered _C_.
 

@@ -4,7 +4,7 @@ By default a NATS connection will echo messages if the connection also has inter
 
 The NoEcho option can be useful in BUS patterns where all applications subscribe and publish to the same subject. Usually a publish represents a state change that the application already knows about, so in the case where the application publishes an update it does not need to process the update itself.
 
-![](../../../.gitbook/assets/noecho.svg)
+![](/assets/noecho.svg)
 
 Keep in mind that each connection will have to turn off echo, and that it is per connection, not per application. Also, turning echo on and off can result in a major change to your applications communications protocol since messages will flow or stop flowing based on this setting and the subscribing code won't have any indication as to why.
 

@@ -17,6 +17,6 @@ The increased complexity of modern systems necessitates features like [location 
 
 ## The pattern
 
-![](../../../.gitbook/assets/reqrepl.svg)
+![](/assets/reqrepl.svg)
 
 Try NATS request-reply on your own, using a live server by walking through the [request-reply walkthrough.](reqreply_walkthrough.md)

@@ -8,7 +8,7 @@ The simplest version of a NATS service infrastructure is a single `nats-server` 
 
 Client applications establish a connection to the URL of that nats-server process (e.g. `"nats://localhost"`).
 
-![](../.gitbook/assets/single-server.svg)
+![](/assets/single-server.svg)
 
 ## A cluster of servers
 
@@ -16,7 +16,7 @@ If you need a fault-tolerant NATS service or if you need to scale your service c
 
 Client applications establish and maintain a connection to (one of) the nats server URL(s) composing the cluster (e.g. `"nats://server1","nats://server2",...`).
 
-![](../.gitbook/assets/server-cluster.svg)
+![](/assets/server-cluster.svg)
 
 ## A super-cluster
 
@@ -24,7 +24,7 @@ You can go further than a single cluster and have disaster recovery and get glob
 
 Client applications establish a connection to (one of) the nats server URL(s) of one of the clusters (e.g. `"nats://us-west-1.company.com","nats://us-west-2.company.com",...`).
 
-![](../.gitbook/assets/super_cluster.svg)
+![](/assets/super_cluster.svg)
 
 ## With Leaf Nodes
 
@@ -34,7 +34,7 @@ Leaf nodes appear to the cluster as a single account connection. Leaf nodes can 
 
 Client applications are configured with the URLs of their 'local' leaf node server(s) and establish a connection to (one of) the leaf node server(s) (e.g. `"nats://leaf-node-1","nats://leaf-node-2",...`).
 
-![](../.gitbook/assets/leaf_nodes.svg)
+![](/assets/leaf_nodes.svg)
 
 ## See Also
 

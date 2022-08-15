@@ -2,7 +2,7 @@
 
 The client and server use a simple PING/PONG protocol to check that either of them are still connected to the other. On a regular interval the client will ping the server, which responds with a pong.
 
-![](../../../.gitbook/assets/pingpong.svg)
+![](/assets/pingpong.svg)
 
 Once a configurable maximum of outstanding pings without a single pong reply is hit, the connection is closed as stale. Together these two values define a timeout for the connection which specifies how quickly the client will be notified of a problem. This will also help when there is a remote network partition where the operating system does not detect a socket error. Upon connection close, the client will attempt to reconnect. When it knows about other servers, these will be tried next.
 

@@ -22,7 +22,7 @@ When a request is made to a service (request/reply) and the NATS Server knows th
 
 With [JetStream](../../jetstream/readme.md) a stream can also be used as a queue by setting the retention policy to `WorkQueuePolicy` and leveraging [`pull` consumers](../../jetstream/consumers.md) to get easy horizontal scalability of the processing (or using an explicit ack push consumer with a queue group of subscribers).
 
-![](../../../.gitbook/assets/queue.svg)
+![](/assets/queue.svg)
 
 ### Queuing geo-affinity
 

@@ -4,7 +4,7 @@ Subscribing to a [queue group](../../../nats-concepts/core-nats/queue-groups/que
 
 Keep in mind that queue groups in NATS are dynamic and do not require any server configuration.
 
-![](../../../.gitbook/assets/queues.svg)
+![](/assets/queues.svg)
 
 As an example, to subscribe to the queue `workers` with the subject `updates`:
 

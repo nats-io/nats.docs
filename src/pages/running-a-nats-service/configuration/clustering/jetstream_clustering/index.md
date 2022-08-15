@@ -23,15 +23,15 @@ In order to ensure data consistency across complete restarts, a quorum of server
 
 **Meta Group** - all servers join the Meta Group and the JetStream API is managed by this group. A leader is elected and this owns the API and takes care of server placement.
 
-![Meta Group](../../../../.gitbook/assets/meta-group.png)
+![Meta Group](/assets/meta-group.png)
 
 **Stream Group** - each Stream creates a RAFT group, this group synchronizes state and data between its members. The elected leader handles ACKs and so forth, if there is no leader the stream will not accept messages.
 
-![Stream Groups](../../../../.gitbook/assets/stream-groups.png)
+![Stream Groups](/assets/stream-groups.png)
 
 **Consumer Group** - each Consumer creates a RAFT group, this group synchronizes consumer state between its members. The group will live on the machines where the Stream Group is and handle consumption ACKs etc. Each Consumer will have their own group.
 
-![Consumer Groups](../../../../.gitbook/assets/consumer-groups.png)
+![Consumer Groups](/assets/consumer-groups.png)
 
 ### Cluster Size
 
