@@ -133,7 +133,7 @@ await (async () => {
 await nc.close();
 ```
 {% /tab %}
-{% tab title= "Python" %}
+{% tab title="Python" %}
 ```python
 import asyncio
 
@@ -166,7 +166,7 @@ if __name__ == '__main__':
     asyncio.run(main())
 ```
 {% /tab %}
-{$ /tabs %}
+{% /tabs %}
 
 ## Durable consumers 
 Durable consumers are meant to be used by multiple instances of an application, either to distribute and scale out the 
@@ -384,7 +384,7 @@ setTimeout(() => {
 }, 20000);
 ```
 {% /tab %}
-{% tab title= "Python" %}
+{% tab title="Python" %}
 ```python
 import asyncio
 
@@ -646,7 +646,7 @@ int main(int argc, char **argv)
 }
 ```
 {% /tab %}
-{$ /tabs %}
+{% /tabs %}
 
 
 A push consumer can also be used in some other use cases such as without a queue group, or with no acknowledgement or cumulative acknowledgements. 
@@ -1235,4 +1235,4 @@ int main(int argc, char **argv)
 }
 ```
 {% /tab %}
-{$ /tabs %}
+{% /tabs %}

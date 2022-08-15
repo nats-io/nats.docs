@@ -496,5 +496,3 @@ int main(int argc, char **argv)
 ```
 {% /tab %}
 {% /tabs %}
-{% /tab %}
-{% /tabs %}

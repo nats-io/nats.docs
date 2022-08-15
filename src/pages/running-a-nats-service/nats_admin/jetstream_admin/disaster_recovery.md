@@ -5,10 +5,10 @@ In the event of unrecoverable JetStream message persistence on one (or more) ser
 * Automatic recovery from intact quorum nodes
 * Manual recovery from existing stream snapshots (backups)
 
-{% hint style="danger" %}
+{% callout type="warning" %}
 For R1 streams, data is persisted on one server node only. If that server node is unrecoverable then recovery from
 backup is the sole option.
-{% endhint %}
+{% /callout %}
 
 ## Automatic Recovery
 
@@ -33,9 +33,9 @@ The backup includes (by default):
 
 The `nats stream backup` CLI command is used to create snapshots of a stream and its durable consumers.
 
-{% hint style="info" %}
+{% callout %}
 As an account owner, if you wish to make a backup of ALL streams in your account, you may use `nats account backup` instead.
-{% endhint %}
+{% /callout %}
 
 ```shell
 nats stream backup ORDERS '/data/js-backup/backup1'
@@ -52,17 +52,17 @@ Received 13 MiB bytes of compressed data in 3368 chunks for stream "ORDERS" in 1
 During a backup operation, the stream is placed in a status where it's configuration cannot change and no data will be
 evicted based on stream retention policies.
 
-{% hint style="info" %}
+{% callout %}
 Progress using the terminal bar can be disabled using `--no-progress`, it will then issue log lines instead.
-{% endhint %}
+{% /callout %}
 
 ### Restore
 
 An existing backup (as above) can be restored to the same or a new NATS server (or cluster) using the `nats stream restore` command.
 
-{% hint style="info" %}
+{% callout %}
 If there are multiple streams in the backup directory, they will all be restored.
-{% endhint %}
+{% /callout %}
 
 ```shell
 nats stream restore '/data/js-backup/backup1'
@@ -122,6 +122,6 @@ nats restore /tmp/backup --update-streams
 The `nats restore` tool does not support restoring data, the same process using `nats stream restore`, as outlined earlier, can be used which will also restore Stream and Consumer configurations and state.
 
 
-{% hint style="warning" %}
+{% callout type="warning" %}
 On restore, if a stream already exists in the server of same name and account, you will receive a `Stream {name} already exist` error.
-{% endhint %}
+{% /callout %}

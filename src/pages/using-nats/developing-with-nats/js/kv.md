@@ -191,7 +191,7 @@ KeyValueEntry get(String key) throws IOException, JetStreamApiException;
 KeyValueEntry get(String key, long revision) throws IOException, JetStreamApiException;
 ```  
 {% /tab %}
-{% tab title="JavaScript %}
+{% tab title="JavaScript" %}
 ```javascript
 async get(k: string): Promise<KvEntry | null>
 ```

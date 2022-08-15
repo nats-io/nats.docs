@@ -2,7 +2,6 @@ import { Callout } from '@/components/Callout'
 import { Embed } from '@/components/Embed'
 import { QuickLink, QuickLinks } from '@/components/QuickLinks'
 import { Tab, Tabs } from '@/components/Tabs'
-import { Tag } from '@markdoc/markdoc'
 
 const tags = {
   callout: {
