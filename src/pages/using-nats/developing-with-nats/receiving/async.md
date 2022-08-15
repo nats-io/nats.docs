@@ -29,7 +29,7 @@ if _, err := nc.Subscribe("updates", func(m *nats.Msg) {
 // Wait for a message to come in
 wg.Wait()
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Java" %}
 ```java
@@ -54,7 +54,7 @@ latch.await();
 // Close the connection
 nc.close();
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -92,7 +92,7 @@ sub.closed
     t.err(`subscription closed with an error ${err.message}`);
   });
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Python" %}
 ```python
@@ -113,7 +113,7 @@ await nc.flush()
 # Wait for message to come in
 msg = await asyncio.wait_for(future, 1)
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -128,7 +128,7 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
   nc.publish("updates", "All is Well")
 end
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="C" %}
 ```c
@@ -167,6 +167,6 @@ if (s == NATS_OK)
 natsSubscription_Destroy(sub);
 natsConnection_Destroy(conn);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 

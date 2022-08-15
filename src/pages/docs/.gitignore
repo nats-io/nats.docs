@@ -1,8 +1,0 @@
-_book/
-_docs/
-
-.vscode
-.idea/
-node_modules
-
-.DS_Store

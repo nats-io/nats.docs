@@ -48,7 +48,7 @@ if _, err := ec.Subscribe("updates", func(s *stock) {
 // Wait for a message to come in
 wg.Wait()
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Java" %}
 ```java
@@ -97,7 +97,7 @@ public class SubscribeJSON {
     }
 }
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -109,7 +109,7 @@ const sub = nc.subscribe(subj, {
   max: 1,
 });
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Python" %}
 ```python
@@ -135,7 +135,7 @@ async def run(loop):
     await asyncio.sleep(1, loop=loop)
     await nc.close()
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -151,12 +151,12 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
   end
 end
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="C" %}
 ```c
 // Structured data is not configurable in C NATS Client.
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 

@@ -43,7 +43,7 @@ You should see that only one of the my-queue group subscribers receives the mess
 ### 6. Publish another message
 
 ```bash
-nats pub foo "Another simple request"
+nats request foo "Another simple request"
 ```
 
 You should see that a different queue group subscriber receives the message this time, chosen at random among the 3 queue group members.
@@ -59,6 +59,6 @@ You can at any time start yet another service instance, or kill one and see how 
 
 Queue groups using the NATS CLI
 
-{% embed url="https://www.youtube.com/embed/jLTVhP08Tq0?start=101" %}
+{% embed url="https://youtu.be/jLTVhP08Tq0?t=101" %}
 Queue Groups NATS CLI
-{% /embed %}
+{% endembed %}

@@ -4,7 +4,7 @@ NATS is a [publish subscribe](pubsub.md) messaging system [based on subjects](..
   
 This simple walkthrough demonstrates some ways in which subscribers listen on subjects, and publishers send messages on specific subjects.  
   
-![](/assets/pubsubtut.svg)
+![](../../../.gitbook/assets/pubsubtut.svg)
 
 ## Walkthrough prerequisites
 
@@ -110,4 +110,4 @@ Publish-subscribe pattern with the NATS CLI&#x20;
 
 {% embed url="https://www.youtube.com/watch?v=jLTVhP08Tq0" %}
 Publish-subscribe pattern - NATS CLI
-{% /embed %}
+{% endembed %}

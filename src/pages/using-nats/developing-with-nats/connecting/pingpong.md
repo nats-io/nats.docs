@@ -2,7 +2,7 @@
 
 The client and server use a simple PING/PONG protocol to check that either of them are still connected to the other. On a regular interval the client will ping the server, which responds with a pong.
 
-![](/assets/pingpong.svg)
+![](../../../.gitbook/assets/pingpong.svg)
 
 Once a configurable maximum of outstanding pings without a single pong reply is hit, the connection is closed as stale. Together these two values define a timeout for the connection which specifies how quickly the client will be notified of a problem. This will also help when there is a remote network partition where the operating system does not detect a socket error. Upon connection close, the client will attempt to reconnect. When it knows about other servers, these will be tried next.
 
@@ -22,7 +22,7 @@ defer nc.Close()
 
 // Do something with the connection
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Java" %}
 ```java
@@ -37,7 +37,7 @@ Connection nc = Nats.connect(options);
 
 nc.close();
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -46,7 +46,7 @@ const nc = await connect({
     servers: ["demo.nats.io:4222"],
 });
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Python" %}
 ```python
@@ -61,7 +61,7 @@ await nc.connect(
 
 # Do something with the connection.
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -79,7 +79,7 @@ NATS.start(ping_interval: 20, max_outstanding_pings: 5) do |nc|
   # Do something with the connection
 end
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="C" %}
 ```c
@@ -103,6 +103,6 @@ if (s == NATS_OK)
 natsConnection_Destroy(conn);
 natsOptions_Destroy(opts);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 

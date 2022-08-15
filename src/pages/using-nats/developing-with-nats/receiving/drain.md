@@ -71,7 +71,7 @@ case e := <-errCh:
 default:
 }
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Java" %}
 ```java
@@ -99,7 +99,7 @@ CompletableFuture<Boolean> drained = nc.drain(Duration.ofSeconds(10));
 // Wait for the drain to complete
 drained.get();
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -108,7 +108,7 @@ const sub = nc.subscribe(createInbox(), () => {});
 nc.publish(sub.getSubject());
 await nc.drain();
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Python" %}
 ```python
@@ -145,7 +145,7 @@ async def example(loop):
 
     print("Received {} responses".format(len(responses)))
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -172,7 +172,7 @@ NATS.start(drain_timeout: 1) do |nc|
   end
 end
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="C" %}
 ```c
@@ -238,8 +238,8 @@ natsSubscription_Destroy(sub);
 natsConnection_Destroy(conn);
 natsOptions_Destroy(opts);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 
 The mechanics of drain for a subscription are simpler:
 
@@ -307,7 +307,7 @@ The API for drain can generally be used instead of unsubscribe:
         // OK!
     }
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Java" %}
 ```java
@@ -338,7 +338,7 @@ drained.get();
 // Close the connection
 nc.close();
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -348,7 +348,7 @@ nc.publish(subj);
 nc.publish(subj);
 await sub.drain();
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Python" %}
 ```python
@@ -374,13 +374,13 @@ async def example(loop):
     # Gracefully unsubscribe the subscription
     await nc.drain(sid)
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Ruby" %}
 ```ruby
 # There is currently no API to drain a single subscription, the whole connection can be drained though via NATS.drain
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="C" %}
 ```c
@@ -415,8 +415,8 @@ if (s == NATS_OK)
 natsSubscription_Destroy(sub);
 natsConnection_Destroy(conn);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 
 Because draining can involve messages flowing to the server, for a flush and asynchronous message processing, the timeout for drain should generally be higher than the timeout for a simple message request-reply or similar.
 

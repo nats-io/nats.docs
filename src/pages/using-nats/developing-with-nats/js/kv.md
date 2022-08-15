@@ -2,7 +2,7 @@
 
 As the Key Value Store is built on top of the JetStream persistence layer you obtain a KeyValueManager object from your JetStream [context](context.md).
 
-## Creating, and deleting KV buckets
+### Creating, and deleting KV buckets
 
 You can create as many independent key/value store instance, called 'buckets', as you need. Buckets are typically created, purged or deleted administratively (e.g. using the `nats` CLI tool), but this can also be done using one of the following KeyValueManager calls:
 
@@ -16,7 +16,7 @@ CreateKeyValue(cfg *KeyValueConfig) (KeyValue, error)
 // DeleteKeyValue will delete this KeyValue store (JetStream stream).
 DeleteKeyValue(bucket string) error
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="Java" %}
 ```java
 /**
@@ -59,7 +59,7 @@ KeyValueStatus getBucketInfo(String bucketName) throws IOException, JetStreamApi
 */
 void delete(String bucketName) throws IOException, JetStreamApiException;
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="JavaScript" %}
 ```javascript
   static async create(
@@ -76,7 +76,7 @@ static async bind(
 
 destroy(): Promise<boolean>
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="Python" %}
 ```python
 # from the JetStreamContext
@@ -98,7 +98,7 @@ async def delete_key_value(self, bucket: str) -> bool:
     the associated stream.
     """  
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="C" %}
 ```C
 NATS_EXTERN natsStatus 	kvConfig_Init (kvConfig *cfg)
@@ -116,7 +116,7 @@ NATS_EXTERN natsStatus 	js_DeleteKeyValue (jsCtx *js, const char *bucket)
 NATS_EXTERN void 	kvStore_Destroy (kvStore *kv)
  	Destroys a KeyValue store object.
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="C#" %}
 ```Csharp
 /// <summary>
@@ -149,10 +149,10 @@ KeyValueStatus GetBucketInfo(string bucketName);
 /// <param name="bucketName"></param>
 void Delete(string bucketName);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 
-## Getting
+### Getting
 
 You can do a get to get the current value on a key, or ask to get a specific revision of the value.
 
@@ -164,7 +164,7 @@ Get(key string) (entry KeyValueEntry, err error)
 // GetRevision returns a specific revision value for the key.
 GetRevision(key string, revision uint64) (entry KeyValueEntry, err error)
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="Java" %}
 ```java
 /**
@@ -190,12 +190,12 @@ KeyValueEntry get(String key) throws IOException, JetStreamApiException;
 */
 KeyValueEntry get(String key, long revision) throws IOException, JetStreamApiException;
 ```  
-{% /tab %}
-{% tab title="JavaScript" %}
+{% endtab %}
+{% tab title="JavaScript %}
 ```javascript
 async get(k: string): Promise<KvEntry | null>
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="Python" %}
 ```python
 async def get(self, key: str) -> Entry:
@@ -203,7 +203,7 @@ async def get(self, key: str) -> Entry:
    get returns the latest value for the key.
    """
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="C" %}
 ```C
 NATS_EXTERN natsStatus 	kvStore_Get (kvEntry **new_entry, kvStore *kv, const char *key)
@@ -212,7 +212,7 @@ NATS_EXTERN natsStatus 	kvStore_Get (kvEntry **new_entry, kvStore *kv, const cha
 NATS_EXTERN natsStatus 	kvStore_GetRevision (kvEntry **new_entry, kvStore *kv, const char *key, uint64_t revision)
  	Returns the entry at the specific revision for the key.
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="C#" %}
 ```Csharp
 /// <summary>
@@ -232,10 +232,10 @@ KeyValueEntry Get(string key);
 /// <returns>The entry</returns>
 KeyValueEntry Get(string key, ulong revision);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 
-## Putting
+### Putting
 
 The key is always a string, you can simply use Put to store a byte array, or the convenience `PutString` to put a string. For 'compare and set' functionality you can use `Create` and `Update`.
 
@@ -250,7 +250,7 @@ Create(key string, value []byte) (revision uint64, err error)
 // Update will update the value iff the latest revision matches.
 Update(key string, value []byte, last uint64) (revision uint64, err error)
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="Java" %}
 ```java
 /**
@@ -315,7 +315,7 @@ long create(String key, byte[] value) throws IOException, JetStreamApiException;
  */
 long update(String key, byte[] value, long expectedRevision) throws IOException, JetStreamApiException;
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="JavaScript" %}
 ```javascript
   async put(
@@ -328,7 +328,7 @@ create(k: string, data: Uint8Array): Promise<number>
     
 update(k: string, data: Uint8Array, version: number): Promise<number>
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="Python" %}
 ```python
 async def put(self, key: str, value: bytes) -> int:
@@ -342,7 +342,7 @@ async def update(self, key: str, value: bytes, last: int) -> int:
     update will update the value iff the latest revision matches.
     """    
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="C" %}
 ```C
 NATS_EXTERN natsStatus 	kvStore_Put (uint64_t *rev, kvStore *kv, const char *key, const void *data, int len)
@@ -363,7 +363,7 @@ NATS_EXTERN natsStatus 	kvStore_Update (uint64_t *rev, kvStore *kv, const char *
 NATS_EXTERN natsStatus 	kvStore_UpdateString (uint64_t *rev, kvStore *kv, const char *key, const char *data, uint64_t last)
  	Updates the value (as a string) for the key into the store if and only if the latest revision matches.
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="C#" %}
 ```Csharp
 /// <summary>
@@ -413,10 +413,10 @@ ulong Create(string key, byte[] value);
 /// <returns>the revision number for the key</returns>
 ulong Update(string key, byte[] value, ulong expectedRevision);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 
-## Deleting
+### Deleting
 
 You can delete a specific key, or purge the whole key/value bucket.
 
@@ -428,7 +428,7 @@ Delete(key string) error
 // Purge will place a delete marker and remove all previous revisions.
 Purge(key string) error
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="Java" %}
 ```java
 /**
@@ -449,14 +449,14 @@ void delete(String key) throws IOException, JetStreamApiException;
 */
 void purge(String key) throws IOException, JetStreamApiException;
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="JavaScript" %}
 ```javascript
 delete(k: string): Promise<void>
     
 purge(k: string): Promise<void>
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="Python" %}
 ```python
 async def delete(self, key: str) -> bool:
@@ -469,7 +469,7 @@ async def purge(self, key: str) -> bool:
     purge will remove the key and all revisions.
     """    
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="C" %}
 ```C
 NATS_EXTERN natsStatus 	kvStore_Delete (kvStore *kv, const char *key)
@@ -481,7 +481,7 @@ NATS_EXTERN natsStatus 	kvStore_Purge (kvStore *kv, const char *key, kvPurgeOpti
 NATS_EXTERN natsStatus 	kvStore_PurgeDeletes (kvStore *kv, kvPurgeOptions *opts)
  	Purge and removes delete markers.
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="C#" %}
 ```Csharp
 /// <summary>
@@ -511,10 +511,10 @@ void PurgeDeletes();
 /// </summary>
 void PurgeDeletes(KeyValuePurgeOptions options);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 
-## Getting all the keys
+### Getting all the keys
 
 You can get the list of all the keys currently having a value associated using `Keys()`
 
@@ -524,7 +524,7 @@ You can get the list of all the keys currently having a value associated using `
 // Keys will return all keys.
 Keys(opts ...WatchOpt) ([]string, error)
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="Java" %}
 ```java
 /**
@@ -537,12 +537,12 @@ Keys(opts ...WatchOpt) ([]string, error)
  */
 List<String> keys() throws IOException, JetStreamApiException, InterruptedException;
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="JavaScript" %}
 ```javascript
 async keys(k = ">"): Promise<QueuedIterator<string>>
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="C" %}
 ```C
 NATS_EXTERN natsStatus 	kvStore_Keys (kvKeysList *list, kvStore *kv, kvWatchOptions *opts)
@@ -551,7 +551,7 @@ NATS_EXTERN natsStatus 	kvStore_Keys (kvKeysList *list, kvStore *kv, kvWatchOpti
 NATS_EXTERN void 	kvKeysList_Destroy (kvKeysList *list)
  	Destroys this list of KeyValue store key strings.
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="C#" %}
 ```Csharp
 /// <summary>
@@ -561,10 +561,10 @@ NATS_EXTERN void 	kvKeysList_Destroy (kvKeysList *list)
 /// <returns>The list of keys</returns>
 IList<string> Keys();
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 
-## Getting the history for a key
+### Getting the history for a key
 
 The JetStream key/value store has a feature you don't usually find in key/value stores: the ability to keep a history of the values associated with a key (rather than just the current value). The depth of the history is specified when the key/value bucket is created, and the default is a history depth of 1 (i.e. no history).
 
@@ -574,7 +574,7 @@ The JetStream key/value store has a feature you don't usually find in key/value 
 // History will return all historical values for the key.
 History(key string, opts ...WatchOpt) ([]KeyValueEntry, error)
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="Java" %}
 ```java
 /**
@@ -588,14 +588,14 @@ History(key string, opts ...WatchOpt) ([]KeyValueEntry, error)
  */
 List<KeyValueEntry> history(String key) throws IOException, JetStreamApiException, InterruptedException;
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="JavaScript" %}
 ```javascript
 async history(
     opts: { key?: string; headers_only?: boolean } = {},
   ): Promise<QueuedIterator<KvEntry>>
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="C" %}
 ```C
 NATS_EXTERN natsStatus 	kvStore_History (kvEntryList *list, kvStore *kv, const char *key, kvWatchOptions *opts)
@@ -604,7 +604,7 @@ NATS_EXTERN natsStatus 	kvStore_History (kvEntryList *list, kvStore *kv, const c
 NATS_EXTERN void 	kvEntryList_Destroy (kvEntryList *list)
  	Destroys this list of KeyValue store entries.
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="C#" %}
 ```Csharp
 /// <summary>
@@ -615,10 +615,10 @@ NATS_EXTERN void 	kvEntryList_Destroy (kvEntryList *list)
 /// <returns>The list of KeyValueEntry</returns>
 IList<KeyValueEntry> History(string key);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 
-## Watching for changes
+### Watching for changes
 
 Watching a key/value bucket is like subscribing to updates: you provide a callback and you can watch all of the keys in the bucket or specify which specific key(s) you want to be kept updated about.
 
@@ -631,7 +631,7 @@ Watch(keys string, opts ...WatchOpt) (KeyWatcher, error)
 // WatchAll will invoke the callback for all updates.
 WatchAll(opts ...WatchOpt) (KeyWatcher, error)
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="Java" %}
 ```java
 /**
@@ -659,7 +659,7 @@ NatsKeyValueWatchSubscription watch(String key, KeyValueWatcher watcher, KeyValu
  */
 NatsKeyValueWatchSubscription watchAll(KeyValueWatcher watcher, KeyValueWatchOption... watchOptions) throws IOException, JetStreamApiException, InterruptedException;
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="JavaScript" %}
 ```javascript
   async watch(
@@ -670,7 +670,7 @@ NatsKeyValueWatchSubscription watchAll(KeyValueWatcher watcher, KeyValueWatchOpt
     } = {},
   ): Promise<QueuedIterator<KvEntry>>
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="C" %}
 ```C
 NATS_EXTERN natsStatus 	kvStore_Watch (kvWatcher **new_watcher, kvStore *kv, const char *keys, kvWatchOptions *opts)
@@ -679,7 +679,7 @@ NATS_EXTERN natsStatus 	kvStore_Watch (kvWatcher **new_watcher, kvStore *kv, con
 NATS_EXTERN natsStatus 	kvStore_WatchAll (kvWatcher **new_watcher, kvStore *kv, kvWatchOptions *opts)
  	Returns a watcher for any updates to any keys of the KeyValue store bucket.
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="C#" %}
 ```Csharp
 /// <summary>
@@ -709,5 +709,5 @@ KeyValueWatchSubscription Watch(string key, IKeyValueWatcher watcher, params Key
 /// <returns>The KeyValueWatchSubscription</returns>
 KeyValueWatchSubscription WatchAll(IKeyValueWatcher watcher, params KeyValueWatchOption[] watchOptions);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}

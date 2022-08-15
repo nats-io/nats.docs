@@ -1,6 +1,6 @@
 # FAQ
 
-## General
+### General
 
 * [What is NATS?](faq.md#what-is-nats)
 * [What language is NATS written in?](faq.md#what-language-is-nats-written-in)
@@ -9,7 +9,7 @@
 * [What does the NATS acronym stand for?](faq.md#what-does-the-nats-acronym-stand-for)
 * [JetStream and NATS Streaming?](faq.md#jetstream-and-nats-streaming)
 
-## Technical Questions
+### Technical Questions
 
 * [What is the difference between Request\(\) and Publish\(\)?](faq.md#what-is-the-difference-between-request-and-publish)
 * [Can multiple subscribers receive a Request?](faq.md#can-multiple-subscribers-receive-a-request)

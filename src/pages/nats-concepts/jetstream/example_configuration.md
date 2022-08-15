@@ -2,7 +2,7 @@
 
 Consider this architecture
 
-![Orders](/assets/streams-and-consumers-75p (1).png>)
+![Orders](<../../.gitbook/assets/streams-and-consumers-75p (1).png>)
 
 While it is an incomplete architecture it does show a number of key points:
 

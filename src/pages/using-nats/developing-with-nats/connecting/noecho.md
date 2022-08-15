@@ -4,7 +4,7 @@ By default a NATS connection will echo messages if the connection also has inter
 
 The NoEcho option can be useful in BUS patterns where all applications subscribe and publish to the same subject. Usually a publish represents a state change that the application already knows about, so in the case where the application publishes an update it does not need to process the update itself.
 
-![](/assets/noecho.svg)
+![](../../../.gitbook/assets/noecho.svg)
 
 Keep in mind that each connection will have to turn off echo, and that it is per connection, not per application. Also, turning echo on and off can result in a major change to your applications communications protocol since messages will flow or stop flowing based on this setting and the subscribing code won't have any indication as to why.
 
@@ -20,7 +20,7 @@ defer nc.Close()
 
 // Do something with the connection
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Java" %}
 ```java
@@ -34,7 +34,7 @@ Connection nc = Nats.connect(options);
 
 nc.close();
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -49,7 +49,7 @@ await sub.drain();
 // we won't get our own messages
 t.is(sub.getProcessed(), 0);
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Python" %}
 ```python
@@ -74,7 +74,7 @@ await asyncio.sleep(1)
 await ncA.drain()
 await ncB.drain()
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -82,7 +82,7 @@ NATS.start("nats://demo.nats.io:4222", no_echo: true) do |nc|
   # ...
 end
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="C" %}
 ```c
@@ -102,6 +102,6 @@ if (s == NATS_OK)
 natsConnection_Destroy(conn);
 natsOptions_Destroy(opts);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 

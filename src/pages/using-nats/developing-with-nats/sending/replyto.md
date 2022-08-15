@@ -35,7 +35,7 @@ if err != nil {
 // Use the response
 log.Printf("Reply: %s", msg.Data)
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Java" %}
 ```java
@@ -60,7 +60,7 @@ System.out.println(new String(msg.getData(), StandardCharsets.UTF_8));
 // Close the connection
 nc.close();
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -83,7 +83,7 @@ const sub = nc.subscribe(inbox, {
 
 nc.publish("time", Empty, { reply: inbox });
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Python" %}
 ```python
@@ -105,7 +105,7 @@ await nc.publish("time", b'', unique_reply_to)
 msg = await asyncio.wait_for(future, 1)
 print("Reply:", msg)
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -129,7 +129,7 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
   end.resume
 end
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="C" %}
 ```c
@@ -146,6 +146,6 @@ if (s == NATS_OK)
 // Destroy objects that were created
 natsConnection_Destroy(conn);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 

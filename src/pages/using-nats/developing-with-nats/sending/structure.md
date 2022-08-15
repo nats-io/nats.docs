@@ -30,7 +30,7 @@ if err := ec.Publish("updates", &stock{Symbol: "GOOG", Price: 1200}); err != nil
     log.Fatal(err)
 }
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Java" %}
 ```java
@@ -66,14 +66,14 @@ public class PublishJSON {
     }
 }
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="JavaScript" %}
 ```javascript
 const jc = JSONCodec();
 nc.publish("updates", jc.encode({ ticker: "GOOG", price: 2868.87 }));
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Python" %}
 ```python
@@ -83,7 +83,7 @@ await nc.connect(servers=["nats://demo.nats.io:4222"])
 
 await nc.publish("updates", json.dumps({"symbol": "GOOG", "price": 1200 }).encode())
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -94,12 +94,12 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
   nc.publish("updates", {"symbol": "GOOG", "price": 1200}.to_json)
 end
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="C" %}
 ```c
 // Structured data is not configurable in C NATS Client.
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 

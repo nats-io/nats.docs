@@ -4,7 +4,7 @@ Subscribing to a [queue group](../../../nats-concepts/core-nats/queue-groups/que
 
 Keep in mind that queue groups in NATS are dynamic and do not require any server configuration.
 
-![](/assets/queues.svg)
+![](../../../.gitbook/assets/queues.svg)
 
 As an example, to subscribe to the queue `workers` with the subject `updates`:
 
@@ -31,7 +31,7 @@ if _, err := nc.QueueSubscribe("updates", "workers", func(m *nats.Msg) {
 // Wait for messages to come in
 wg.Wait()
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Java" %}
 ```java
@@ -56,7 +56,7 @@ latch.await();
 // Close the connection
 nc.close();
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -74,7 +74,7 @@ nc.subscribe(subj, {
     },
 });
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Python" %}
 ```python
@@ -94,7 +94,7 @@ await nc.publish("updates", b'All is Well')
 msg = await asyncio.wait_for(future, 1)
 print("Msg", msg)
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -117,7 +117,7 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
   end.resume
 end
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="C" %}
 ```c
@@ -153,8 +153,8 @@ if (s == NATS_OK)
 natsSubscription_Destroy(sub);
 natsConnection_Destroy(conn);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 
 If you run this example with the publish examples that send to `updates`, you will see that one of the instances gets a message while the others you run won't. But the instance that receives the message will change.
 

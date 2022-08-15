@@ -4,7 +4,7 @@ Request-Reply is a common pattern in modern distributed systems. A request is se
   
 The increased complexity of modern systems necessitates features like [location transparency](https://en.wikipedia.org/wiki/Location_transparency), scale-up and scale-down, observability (measuring a system's state based on the data it generates) and more. In order to implement this feature-set, various other technologies needed to incorporate additional components, sidecars (processes or services that support the primary application) and proxies. NATS on the other hand, implemented Request-Reply much more easily.   
   
-## NATS makes Request-Reply simple and powerful
+### NATS makes Request-Reply simple and powerful
 - NATS supports the Request-Reply pattern using its core communication mechanism — publish and subscribe. A request is published on a given subject using a reply subject. Responders listen on that subject and send responses to the reply subject. Reply subjects are called "**inbox**". These are unique subjects that are dynamically directed back to the requester, regardless of the location of either party.  
   
 - Multiple NATS responders can form dynamic queue groups. Therefore, it's not necessary to manually add or remove subscribers from the group for them to start or stop being distributed messages. It’s done automatically. This allows responders to scale up or down as per demand.  
@@ -15,8 +15,8 @@ The increased complexity of modern systems necessitates features like [location 
   
 - The power of NATS even allows multiple responses, where the first response is utilized and the system efficiently discards the additional ones. This allows for a sophisticated pattern to have multiple responders, reduce response latency and jitter. 
 
-## The pattern
+### The pattern
 
-![](/assets/reqrepl.svg)
+![](../../../.gitbook/assets/reqrepl.svg)
 
 Try NATS request-reply on your own, using a live server by walking through the [request-reply walkthrough.](reqreply_walkthrough.md)

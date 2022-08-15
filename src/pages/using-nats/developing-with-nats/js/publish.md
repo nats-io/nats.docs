@@ -35,7 +35,7 @@ func ExampleJetStream() {
 }
 
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="Java" %}
 ```java
 package io.nats.examples.jetstream;
@@ -119,7 +119,7 @@ public class NatsJsPub {
     }
 }
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="JavaScript" %}
 ```javascript
 import { connect, Empty } from "../../src/mod.ts";
@@ -150,7 +150,7 @@ console.log(`${pa.stream}[${pa.seq}]: duplicate? ${pa.duplicate}`);
 await jsm.streams.delete("B");
 await nc.drain();
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="Python" %}
 ```python
 import asyncio
@@ -177,7 +177,7 @@ async def main():
 if __name__ == '__main__':
     asyncio.run(main())
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="C" %}
 ```C
 #include "examples.h"
@@ -369,5 +369,5 @@ int main(int argc, char **argv)
     return 0;
 }
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}

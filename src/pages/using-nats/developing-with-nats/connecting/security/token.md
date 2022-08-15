@@ -24,7 +24,7 @@ defer nc.Close()
 
 // Do something with the connection
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Java" %}
 ```java
@@ -38,7 +38,7 @@ Connection nc = Nats.connect(options);
 
 nc.close();
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -47,7 +47,7 @@ const nc = await connect({
   token: "aToK3n",
 });
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Python" %}
 ```python
@@ -57,7 +57,7 @@ await nc.connect(servers=["nats://demo.nats.io:4222"], token="mytoken")
 
 # Do something with the connection.
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -65,7 +65,7 @@ NATS.start(token: "mytoken") do |nc|
   puts "Connected using token"
 end
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="C" %}
 ```c
@@ -85,8 +85,8 @@ if (s == NATS_OK)
 natsConnection_Destroy(conn);
 natsOptions_Destroy(opts);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 
 ## Connecting with a Token in the URL
 
@@ -108,7 +108,7 @@ defer nc.Close()
 
 // Do something with the connection
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Java" %}
 ```java
@@ -118,13 +118,13 @@ Connection nc = Nats.connect("nats://mytoken@localhost:4222");//Token in URL
 
 nc.close();
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="JavaScript" %}
 ```javascript
   // JavaScript doesn't support tokens in urls use the `token` option
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Python" %}
 ```python
@@ -134,7 +134,7 @@ await nc.connect(servers=["nats://mytoken@demo.nats.io:4222"])
 
 # Do something with the connection.
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -142,7 +142,7 @@ NATS.start("mytoken@127.0.0.1:4222") do |nc|
   puts "Connected using token!"
 end
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="C" %}
 ```c
@@ -162,6 +162,6 @@ if (s == NATS_OK)
 natsConnection_Destroy(conn);
 natsOptions_Destroy(opts);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 

@@ -35,7 +35,7 @@ if err := sub.AutoUnsubscribe(1); err != nil {
     log.Fatal(err)
 }
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Java" %}
 ```java
@@ -56,7 +56,7 @@ d.unsubscribe("updates", 1);
 // Close the connection
 nc.close();
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -81,7 +81,7 @@ const sub2 = nc.subscribe(subj, {
 // won't get any more messages
 sub2.unsubscribe(10);
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Python" %}
 ```python
@@ -99,7 +99,7 @@ await nc.publish("updates", b'All is Well')
 # Won't be received...
 await nc.publish("updates", b'...')
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -126,7 +126,7 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
   end.resume
 end
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="C" %}
 ```c
@@ -166,6 +166,6 @@ if (s == NATS_OK)
 natsSubscription_Destroy(sub);
 natsConnection_Destroy(conn);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 

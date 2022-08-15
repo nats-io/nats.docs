@@ -5,14 +5,15 @@ Fundamentally, NATS is about publishing and listening for messages. Both of thes
 **What is a Subject?**  
 At its simplest, a subject is just a string of characters that form a name which the publisher and subscriber can use to find each other. It helps scope messages into streams or topics.   
 
-![](/assets/subjects1.svg)
+![](../.gitbook/assets/subjects1.svg)
   
-## Characters allowed for subject names
+### Characters allowed for subject names
 
 For compatibility across clients, we recommend using ASCII characters (this may change in future).  
   
 **Recommended characters:** `a` to `z`, `A` to `Z` and `0` to `9` (names are case sensitive, and cannot contain whitespace).  
 **Special characters:** The period `.` (which is used to separate the tokens in the subject) and `*` and also `>` (the `*` and `>` are used as wildcards).  
+**Reserved subject names:** By convention subject names starting with a `$` are reserved for system use (e.g. subject names starting with `$SYS` or `$JS` or `$KV`, etc...)
   
 ## Subject Hierarchies
 
@@ -34,13 +35,13 @@ NATS provides two _wildcards_ that can take the place of one or more elements in
 
 The first wildcard is `*` which will match a single token. For example, if an application wanted to listen for eastern time zones, they could subscribe to `time.*.east`, which would match `time.us.east` and `time.eu.east`.
 
-![](/assets/subjects2.svg)
+![](../.gitbook/assets/subjects2.svg)
 
 ### Matching Multiple Tokens
 
 The second wildcard is `>` which will match one or more tokens, and can only appear at the end of the subject. For example, `time.us.>` will match `time.us.east` and `time.us.east.atlanta`, while `time.us.*` would only match `time.us.east` since it can't match more than one token.
 
-![](/assets/subjects3.svg)
+![](../.gitbook/assets/subjects3.svg)
 
 ### Monitoring and Wire Taps
 

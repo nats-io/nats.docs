@@ -1,6 +1,6 @@
 # Docker Swarm
 
-## Step 1:
+### Step 1:
 
 Create an overlay network for the cluster \(in this example, `nats-cluster-example`\), and instantiate an initial NATS server.
 
@@ -16,7 +16,7 @@ Next instantiate an initial "seed" server for a NATS cluster listening for other
 docker service create --network nats-cluster-example --name nats-cluster-node-1 nats:1.0.0 -cluster nats://0.0.0.0:6222 -DV
 ```
 
-## Step 2:
+### Step 2:
 
 The 2nd step is to create another service which connects to the NATS server within the overlay network. Note that we connect to to the server at `nats-cluster-node-1`:
 
@@ -46,7 +46,7 @@ docker service create --name ruby-nats --network nats-cluster-example wallyqs/ru
   end'
 ```
 
-## Step 3:
+### Step 3:
 
 Now you can add more nodes to the Swarm cluster via more docker services, referencing the seed server in the `-routes` parameter:
 

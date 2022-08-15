@@ -29,7 +29,7 @@ log.Printf("Reply: %s", msg.Data)
 // Close the connection
 nc.Close()
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Java" %}
 ```java
@@ -44,7 +44,7 @@ System.out.println(new String(msg.getData(), StandardCharsets.UTF_8));
 // Close the connection
 nc.close();
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -59,7 +59,7 @@ nc.subscribe("time", {
 const r = await nc.request("time");
 t.log(sc.decode(r.data));
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Python" %}
 ```python
@@ -79,7 +79,7 @@ try:
 except asyncio.TimeoutError:
   print("Timed out waiting for response")
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -98,7 +98,7 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
   end.resume
 end
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="C" %}
 ```c
@@ -128,8 +128,8 @@ if (s == NATS_OK)
 // Destroy objects that were created
 natsConnection_Destroy(conn);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 
 You can think of request-reply in the library as a subscribe, get one message, unsubscribe pattern. In Go this might look something like:
 

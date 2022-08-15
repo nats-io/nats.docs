@@ -28,7 +28,7 @@ if err != nil {
 // Use the response
 log.Printf("Reply: %s", msg.Data)
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Java" %}
 ```java
@@ -46,25 +46,25 @@ System.out.println(str);
 // Close the connection
 nc.close();
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="JavaScript" %}
 ```javascript
 // node-nats subscriptions are always async.
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Python" %}
 ```python
 # Asyncio NATS client currently does not have a sync subscribe API
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Ruby" %}
 ```ruby
 # The Ruby NATS client subscriptions are all async.
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="C" %}
 ```c
@@ -100,5 +100,6 @@ if (s == NATS_OK)
 natsSubscription_Destroy(sub);
 natsConnection_Destroy(conn);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
+

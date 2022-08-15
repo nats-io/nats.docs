@@ -27,7 +27,7 @@ if err := nc.FlushTimeout(time.Second); err != nil {
     log.Fatal(err)
 }
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Java" %}
 ```java
@@ -38,7 +38,7 @@ nc.flush(Duration.ofSeconds(1)); // Flush the message queue
 
 nc.close();
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -47,7 +47,7 @@ nc.flush().then(() => {
   t.log("round trip completed in", Date.now() - start, "ms");
 });
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Python" %}
 ```python
@@ -61,7 +61,7 @@ await nc.publish("updates", b'All is Well')
 # This gives guarantee that the server has processed above message.
 await nc.flush(timeout=1)
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -81,7 +81,7 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
   end
 end
 ```
-{% /tab %}
+{% endtab %}
 
 {% tab title="C" %}
 ```c
@@ -104,8 +104,8 @@ if (s == NATS_OK)
 // Destroy objects that were created
 natsConnection_Destroy(conn);
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{% endtabs %}
 
 ## Flush and Ping/Pong
 

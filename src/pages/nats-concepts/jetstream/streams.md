@@ -2,7 +2,7 @@
 
 Streams are 'message stores', each stream defines how messages are stored and what the limits (duration, size, interest) of the retention are. Streams consume normal NATS subjects, any message published on those subjects will be captured in the defined storage system. You can do a normal publish to the subject for unacknowledged delivery, though it's better to use the JetStream publish calls instead as the JetStream server will reply with an acknowledgement that it was successfully stored.
 
-![Orders](/assets/streams-and-consumers-75p.png)
+![Orders](../../.gitbook/assets/streams-and-consumers-75p.png)
 
 In the diagram above we show the concept of storing all `ORDERS.*` in the Stream even though there are many types of order related messages. We'll show how you can selectively consume subsets of messages later. Relatively speaking the Stream is the most resource consuming component so being able to combine related data in this manner is important to consider.
 
@@ -30,3 +30,5 @@ When defining Streams the items below make up the entire configuration of the se
 | Discard | When a Stream reaches it's limits either, `DiscardNew` refuses new messages while `DiscardOld` \(default\) deletes old messages |
 | Duplicates | The window within which to track duplicate messages, expressed in nanoseconds. |
 
+## Stream Names
+Stream names should not contain any of the following characters: ` ` (space), `.`, `*`, `>`, or a path separator (forward or backwards slash) or any non-printable characters.

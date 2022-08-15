@@ -43,7 +43,7 @@ func ExampleJetStream() {
 	}, nats.OrderedConsumer())
 }
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="Java" %}
 ```java
 package io.nats.examples.jetstream;
@@ -107,7 +107,7 @@ public class myExample {
  }
 }
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="JavaScript" %}
 ```js
 import { connect, consumerOpts } from "../../src/mod.ts";
@@ -132,8 +132,8 @@ await (async () => {
 
 await nc.close();
 ```
-{% /tab %}
-{% tab title="Python" %}
+{% endtab %}
+{% tab title= "Python" %}
 ```python
 import asyncio
 
@@ -165,8 +165,8 @@ async def main():
 if __name__ == '__main__':
     asyncio.run(main())
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{$ endtabs %}
 
 ## Durable consumers 
 Durable consumers are meant to be used by multiple instances of an application, either to distribute and scale out the 
@@ -237,7 +237,7 @@ A pull consumer is functionally equivalent to a push consumer using a queue grou
 	}
 }
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="Java" %}
 ```java
 package io.nats.examples.jetstream;
@@ -321,7 +321,7 @@ public class NatsJsPullSubBatchSize {
     }
 }
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="JavaScript" %}
 ```javascript
 import { AckPolicy, connect, nanos } from "../../src/mod.ts";
@@ -383,8 +383,8 @@ setTimeout(() => {
   nc.drain();
 }, 20000);
 ```
-{% /tab %}
-{% tab title="Python" %}
+{% endtab %}
+{% tab title= "Python" %}
 ```python
 import asyncio
 
@@ -418,7 +418,7 @@ async def main():
 if __name__ == '__main__':
     asyncio.run(main())
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="C" %}
 ```C
 #include "examples.h"
@@ -645,8 +645,8 @@ int main(int argc, char **argv)
     return 0;
 }
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{$ endtabs %}
 
 
 A push consumer can also be used in some other use cases such as without a queue group, or with no acknowledgement or cumulative acknowledgements. 
@@ -736,7 +736,7 @@ func ExampleJetStream() {
 	}
 }
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="Java" %}
 ```java
 package io.nats.examples.jetstream;
@@ -913,7 +913,7 @@ public class NatsJsPushSubQueueDurable {
     }
 }
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="JavaScript" %}
 ```javascript
 import { AckPolicy, connect } from "../../src/mod.ts";
@@ -951,7 +951,7 @@ nc.publish(`${subj}.F.A.B`);
 await done;
 await nc.close();
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="Python" %}
 ```python
 import asyncio
@@ -1007,7 +1007,7 @@ async def main():
 if __name__ == '__main__':
     asyncio.run(main())
 ```
-{% /tab %}
+{% endtab %}
 {% tab title="C" %}
 ```C
 #include "examples.h"
@@ -1234,5 +1234,5 @@ int main(int argc, char **argv)
     return 0;
 }
 ```
-{% /tab %}
-{% /tabs %}
+{% endtab %}
+{$ endtabs %}

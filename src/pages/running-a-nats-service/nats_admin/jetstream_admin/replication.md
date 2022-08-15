@@ -2,7 +2,7 @@
 
 Replication allows you to move data between streams in either a 1:1 mirror style or by multiplexing multiple source streams into a new stream. In future builds this will allow data to be replicated between accounts as well, ideal for sending data from a Leafnode into a central store.
 
-![](/assets/replication.png)
+![](../../../.gitbook/assets/replication.png)
 
 Here we have 2 main streams - _ORDERS_ and _RETURNS_ - these streams are clustered across 3 nodes. These Streams have short retention periods and are memory based.
 
@@ -246,5 +246,5 @@ Obtaining Stream stats
 
 Here we also pass the `--dot replication.dot` argument that writes a GraphViz format map of the replication setup.
 
-![](/assets/replication-setup.png)
+![](../../../.gitbook/assets/replication-setup.png)
 
