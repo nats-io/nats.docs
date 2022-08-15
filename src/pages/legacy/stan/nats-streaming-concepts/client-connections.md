@@ -1,0 +1,26 @@
+# Client Connections
+
+As described, clients are not directly connected to the streaming server. Instead, they send connection requests. The request includes a `client ID` which is used by the server to uniquely identify, and restrict, a given client. That is, no two connections with the same client ID will be able to run concurrently.
+
+This client ID links a given connection to its published messages, subscriptions, especially durable subscriptions. Indeed, durable subscriptions are stored as a combination of the client ID and durable name. More on durable subscriptions later.
+
+It is also used to resolve the issue of not having direct client connections to the server. For instance, say that a client crashes without closing the connection. It later restarts with the same client ID. The server will detect that this client ID is already in-use. It will try to contact that known client to its original private inbox. If the server does not receive a response - which would be the case if the client crashed - it will replace the old client with this new one. Otherwise, the server would reject the connection request since the client ID is already in-use.
+
+## Note - Important Things to Know About Reconnections
+
+A common misunderstanding from users moving from NATS to NATS Streaming has to do with how reconnection works. It is important to understand how NATS Streaming relates to NATS "core". You can find some information in [NATS Streaming Concepts/Relation to NATS](relation-to-nats.md).
+
+The NATS Streaming library uses the NATS library to connect to a NATS Server and indirectly communicates with the NATS Streaming "server". To better understand the issues, you should assume that the server has no direct connection with the client, and the client may possibly never lose its TCP connection to a NATS Server and yet may not have access to a streaming server \(streaming client connected to a NATS Server, that is cluster to another, to which the NATS Streaming "server" is connected to\).
+
+When the low-level NATS TCP connection is broken, the reconnection logic triggers in the core NATS library. Once the connection is re-established, the low level NATS subscriptions used by the Streaming library to communicate with the streaming servers will be resent. All of that activity could have happened and the Streaming server would not know \(see topology example described above\). But from the server that is not a problem, after all, if a message is delivered while the client is disconnected, the server won't receive an ACK and will redeliver that message after the AckWait interval.
+
+It is worth noting that a frequent mistake made by new users is to run the NATS Streaming server with memory store, which is the default if no persistence mode is specified, storing its state in memory. This means that if the streaming server is stopped, all state is lost. On server restart, since no connection information is recovered, running applications will stop receiving messages and newly published messages will be rejected with an `invalid publish request` error. Client libraries that support and set the `Connection Lost` handler \(refer to [connection status](https://github.com/nats-io/stan.go#connection-status) for more information\) will be notified that the connection is lost with the error `client has been replaced or is no longer registered`.
+
+To maintain the streaming connection \(a better name may have been "session"\), both server and clients send heartbeats/PINGs. If the server misses a configured amount of heartbeats from the client, it will close the connection, which also means deleting all non-durable subscriptions. If the client was "network partitioned" from the server when that happened, even after the partition is resolved, the client would not know what happened. Again, to understand how that is possible, see the topology example above: the network partition happened between the two clustered NATS Servers, and no TCP connection between the streaming client and/or streaming server was ever lost.
+
+To solve that, the client sends PINGs to the server, and if missing enough of them, will close the connection and report it as lost through the ConnectionLost handler. See [connection status](https://github.com/nats-io/stan.go#connection-status) for more details. In the case of the network partition example above, even if the client's number of PINGs has not reached its maximum count when the partition is resolved, the server will respond with an error to the next PING going through because it will detect that this specific client instance has been closed due to timeouts.
+
+When that point is reached, the connection **and its subscriptions** are no longer valid and need to be recreated by the user.
+
+The client-to-server PINGs are by default set to pretty aggressive values and should likely be increased in a normal setup. That is, with the default values, the client would not tolerate a server being down/not responding for only 15 seconds or so. Users should adjust the `Pings()` option, deciding how long they are willing to have their application not able to communicate with a server without "knowing", versus declaring the connection lost too soon \(and having to recreate the state: connection and all subscriptions\).
+

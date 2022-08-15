@@ -1,0 +1,111 @@
+<svg id="b1d30e31-1d2f-4233-9a27-9999e9b7f3c7" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="599.12" height="170.11" viewBox="0 0 599.12 170.11">
+  <defs>
+    <style>
+      .acb36d7c-e9e6-442c-a3ac-51a13a71d47c {
+        fill: #fff;
+      }
+
+      .a5bfd3d6-82a8-4343-b4d7-faa8a83758ab, .ae774916-e215-4601-b29f-ce749bd26651, .b6226756-b94a-4350-b705-a1d292fb40c0, .f2d35eb2-49aa-4a64-a4e6-b227b1cdc737 {
+        fill: none;
+        stroke: #000;
+      }
+
+      .bd8fe327-ec19-4651-93a7-22869d3bfcb8, .f2539402-2ee0-485c-b86d-ec9a91679b8b, .f7a7ef56-41a1-448e-94ac-cc87eeb5ed74 {
+        isolation: isolate;
+      }
+
+      .f2539402-2ee0-485c-b86d-ec9a91679b8b, .f7a7ef56-41a1-448e-94ac-cc87eeb5ed74 {
+        font-size: 14px;
+        font-family: Times-Roman, Times;
+      }
+
+      .f2539402-2ee0-485c-b86d-ec9a91679b8b {
+        letter-spacing: -0.16em;
+      }
+
+      .a5bfd3d6-82a8-4343-b4d7-faa8a83758ab, .b6226756-b94a-4350-b705-a1d292fb40c0, .f2d35eb2-49aa-4a64-a4e6-b227b1cdc737 {
+        stroke-width: 0.5px;
+      }
+
+      .a5bfd3d6-82a8-4343-b4d7-faa8a83758ab {
+        stroke-dasharray: 9.74 9.74;
+      }
+
+      .b6226756-b94a-4350-b705-a1d292fb40c0 {
+        stroke-dasharray: 10;
+      }
+    </style>
+  </defs>
+  <polygon class="acb36d7c-e9e6-442c-a3ac-51a13a71d47c" points="0 170.11 0 0 599.12 0 599.12 170.11 0 170.11"/>
+  <g id="fcbc9004-fd11-4ab3-9c64-4f61b9504403" data-name="node1">
+    <path class="ae774916-e215-4601-b29f-ce749bd26651" d="M82.64,112.87H16.09c-6,0-12,6-12,12v12c0,6,6,12,12,12H82.64c6,0,12-6,12-12v-12c0-6-6-12-12-12"/>
+    <g class="bd8fe327-ec19-4651-93a7-22869d3bfcb8">
+      <text class="f7a7ef56-41a1-448e-94ac-cc87eeb5ed74" transform="translate(13 135.07)">N</text>
+      <text class="f2539402-2ee0-485c-b86d-ec9a91679b8b" transform="translate(23.11 135.07)">A</text>
+      <text class="f7a7ef56-41a1-448e-94ac-cc87eeb5ed74" transform="translate(31.67 135.07)">TS Client</text>
+    </g>
+  </g>
+  <g id="bea76211-2fc3-4639-9305-f863edc7816f" data-name="node2">
+    <circle class="ae774916-e215-4601-b29f-ce749bd26651" cx="167.16" cy="130.87" r="36"/>
+    <text class="f7a7ef56-41a1-448e-94ac-cc87eeb5ed74" transform="translate(136.46 135.07)">nats-server</text>
+  </g>
+  <g id="bcfd377c-20c6-4fdf-9e60-896d3f486067" data-name="edge1">
+    <path class="ae774916-e215-4601-b29f-ce749bd26651" d="M94.65,130.87h35.76"/>
+  </g>
+  <g id="bb394746-90bf-4cad-8949-0284d02d35ec" data-name="node3">
+    <path class="ae774916-e215-4601-b29f-ce749bd26651" d="M582.32,21.25H515.78c-6,0-12,6-12,12v12c0,6,6,12,12,12h66.54c6,0,12-6,12-12v-12c0-6-6-12-12-12"/>
+    <g class="bd8fe327-ec19-4651-93a7-22869d3bfcb8">
+      <text class="f7a7ef56-41a1-448e-94ac-cc87eeb5ed74" transform="translate(512.68 43.45)">N</text>
+      <text class="f2539402-2ee0-485c-b86d-ec9a91679b8b" transform="translate(522.79 43.45)">A</text>
+      <text class="f7a7ef56-41a1-448e-94ac-cc87eeb5ed74" transform="translate(531.35 43.45)">TS Client</text>
+    </g>
+  </g>
+  <g id="e574e14e-7080-4083-8138-5f24f8987314" data-name="edge2">
+    <path class="ae774916-e215-4601-b29f-ce749bd26651" d="M467.19,39.25h35.74"/>
+  </g>
+  <g id="b0bda1cb-d628-4036-b283-ca0ab7edbfb0" data-name="node2-2">
+    <circle class="ae774916-e215-4601-b29f-ce749bd26651" cx="241.91" cy="85.18" r="36"/>
+    <text class="f7a7ef56-41a1-448e-94ac-cc87eeb5ed74" transform="translate(211.21 89.38)">nats-server</text>
+  </g>
+  <g id="e3210e68-b08b-4ebc-a3f0-61e2b969e2d2" data-name="node2-3">
+    <circle class="ae774916-e215-4601-b29f-ce749bd26651" cx="167.16" cy="40.99" r="36"/>
+    <text class="f7a7ef56-41a1-448e-94ac-cc87eeb5ed74" transform="translate(136.46 45.19)">nats-server</text>
+  </g>
+  <g id="a86ca6ee-412d-4276-adb1-7be92a313d66" data-name="edge1-2">
+    <path class="ae774916-e215-4601-b29f-ce749bd26651" d="M167.38,77.68l-.43,17"/>
+  </g>
+  <g id="a0816c8b-a293-4394-9957-9d25bb6cd991" data-name="edge2-2">
+    <path class="ae774916-e215-4601-b29f-ce749bd26651" d="M197.16,61.26l12,9.17"/>
+  </g>
+  <g id="a7496eae-3c91-4b42-8e94-fdbe0cb9606d" data-name="edge2-3">
+    <path class="ae774916-e215-4601-b29f-ce749bd26651" d="M196.19,109.35l13.95-5.78"/>
+  </g>
+  <g id="e70dcf16-56ce-49cd-9cf1-8288a0608f64" data-name="node2-4">
+    <circle class="ae774916-e215-4601-b29f-ce749bd26651" cx="430.34" cy="129.12" r="36"/>
+    <text class="f7a7ef56-41a1-448e-94ac-cc87eeb5ed74" transform="translate(399.64 133.32)">nats-server</text>
+  </g>
+  <g id="a624b894-6907-453d-86e2-14e873b0b30a" data-name="node2-5">
+    <circle class="ae774916-e215-4601-b29f-ce749bd26651" cx="357.02" cy="85.18" r="36"/>
+    <text class="f7a7ef56-41a1-448e-94ac-cc87eeb5ed74" transform="translate(326.31 89.38)">nats-server</text>
+  </g>
+  <g id="b216ac9a-86ac-4da5-878b-b373b613d1aa" data-name="node2-6">
+    <circle class="ae774916-e215-4601-b29f-ce749bd26651" cx="430.34" cy="39.25" r="36"/>
+    <text class="f7a7ef56-41a1-448e-94ac-cc87eeb5ed74" transform="translate(399.64 43.45)">nats-server</text>
+  </g>
+  <g id="ae90c2bd-ba77-4f75-8ac0-f71f5efee81c" data-name="edge1-3">
+    <path class="ae774916-e215-4601-b29f-ce749bd26651" d="M430.56,75.94l-.43,17"/>
+  </g>
+  <g id="bb70fc01-aba0-4136-9a1b-f08898b3d938" data-name="edge2-4">
+    <path class="ae774916-e215-4601-b29f-ce749bd26651" d="M402.13,62.25l-13.28,7.18"/>
+  </g>
+  <g id="ee82e57a-4e2f-4d1e-bec5-7ef03e3eae03" data-name="edge2-5">
+    <path class="ae774916-e215-4601-b29f-ce749bd26651" d="M389.19,99.92l12.6,8.33"/>
+  </g>
+  <line class="f2d35eb2-49aa-4a64-a4e6-b227b1cdc737" x1="200" y1="26.37" x2="205" y2="26.35"/>
+  <line class="a5bfd3d6-82a8-4343-b4d7-faa8a83758ab" x1="214.74" y1="26.32" x2="385.13" y2="25.72"/>
+  <line class="f2d35eb2-49aa-4a64-a4e6-b227b1cdc737" x1="390" y1="25.7" x2="395" y2="25.68"/>
+  <line class="f2d35eb2-49aa-4a64-a4e6-b227b1cdc737" x1="200" y1="149.22" x2="205" y2="149.2"/>
+  <line class="a5bfd3d6-82a8-4343-b4d7-faa8a83758ab" x1="214.74" y1="149.16" x2="385.13" y2="148.56"/>
+  <line class="f2d35eb2-49aa-4a64-a4e6-b227b1cdc737" x1="390" y1="148.54" x2="395" y2="148.53"/>
+  <line class="b6226756-b94a-4350-b705-a1d292fb40c0" x1="277.91" y1="85.18" x2="321.02" y2="85.18"/>
+</svg>
