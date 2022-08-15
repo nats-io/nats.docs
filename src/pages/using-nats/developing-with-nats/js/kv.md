@@ -2,7 +2,7 @@
 
 As the Key Value Store is built on top of the JetStream persistence layer you obtain a KeyValueManager object from your JetStream [context](context.md).
 
-### Creating, and deleting KV buckets
+## Creating, and deleting KV buckets
 
 You can create as many independent key/value store instance, called 'buckets', as you need. Buckets are typically created, purged or deleted administratively (e.g. using the `nats` CLI tool), but this can also be done using one of the following KeyValueManager calls:
 
@@ -152,7 +152,7 @@ void Delete(string bucketName);
 {% /tab %}
 {% /tabs %}
 
-### Getting
+## Getting
 
 You can do a get to get the current value on a key, or ask to get a specific revision of the value.
 
@@ -235,7 +235,7 @@ KeyValueEntry Get(string key, ulong revision);
 {% /tab %}
 {% /tabs %}
 
-### Putting
+## Putting
 
 The key is always a string, you can simply use Put to store a byte array, or the convenience `PutString` to put a string. For 'compare and set' functionality you can use `Create` and `Update`.
 
@@ -416,7 +416,7 @@ ulong Update(string key, byte[] value, ulong expectedRevision);
 {% /tab %}
 {% /tabs %}
 
-### Deleting
+## Deleting
 
 You can delete a specific key, or purge the whole key/value bucket.
 
@@ -514,7 +514,7 @@ void PurgeDeletes(KeyValuePurgeOptions options);
 {% /tab %}
 {% /tabs %}
 
-### Getting all the keys
+## Getting all the keys
 
 You can get the list of all the keys currently having a value associated using `Keys()`
 
@@ -564,7 +564,7 @@ IList<string> Keys();
 {% /tab %}
 {% /tabs %}
 
-### Getting the history for a key
+## Getting the history for a key
 
 The JetStream key/value store has a feature you don't usually find in key/value stores: the ability to keep a history of the values associated with a key (rather than just the current value). The depth of the history is specified when the key/value bucket is created, and the default is a history depth of 1 (i.e. no history).
 
@@ -618,7 +618,7 @@ IList<KeyValueEntry> History(string key);
 {% /tab %}
 {% /tabs %}
 
-### Watching for changes
+## Watching for changes
 
 Watching a key/value bucket is like subscribing to updates: you provide a callback and you can watch all of the keys in the bucket or specify which specific key(s) you want to be kept updated about.
 

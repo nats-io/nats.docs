@@ -2,7 +2,7 @@
 
 To share messages you publish with other accounts, you have to _Export_ a _Stream_. _Exports_ are associated with the account performing the export and advertised in exporting account’s JWT.
 
-### Adding a Public Stream Export
+## Adding a Public Stream Export
 
 To add a stream to your account:
 
@@ -53,7 +53,7 @@ nsc describe account
 
 Messages this account publishes on `a.b.c.>` will be forwarded to all accounts that import this stream.
 
-### Importing a Stream
+## Importing a Stream
 
 Importing a stream enables you to receive messages that are published by a different _Account_. To import a Stream, you have to create an _Import_. To create an _Import_ you need to know:
 
@@ -129,13 +129,13 @@ nsc add user b
 [ OK ] generated user creds file "~/.nkeys/creds/O/B/b.creds"
 [ OK ] added user "b" to account "B"
 ```
-### Pushing the changes to the nats servers
+## Pushing the changes to the nats servers
 
 If your nats servers are configured to use the built-in NATS resolver, remember that you need to 'push' any account changes you may have done (locally) using `nsc add` to the servers for those changes to take effect.
 
 e.g. `ncs push -i` or `nsc push -a B -u nats://localhost`
 
-### Testing the Stream
+## Testing the Stream
 
 ```bash
 nsc sub --account B --user b "a.b.c.>"
