@@ -28,7 +28,7 @@ if _, err := nc.Subscribe("time.*.east", func(m *nats.Msg) {
 // Wait for the 2 messages to come in
 wg.Wait()
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -54,7 +54,7 @@ latch.await();
 // Close the connection
 nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -89,7 +89,7 @@ nc.subscribe("time.us.*", (_err, msg) => {
     t.log(subject, time);
 });
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -114,7 +114,7 @@ msg_B = await queue.get()
 print("Msg A:", msg_A)
 print("Msg B:", msg_B)
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -142,7 +142,7 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
   end.resume
 end
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -176,8 +176,8 @@ if (s == NATS_OK)
 natsSubscription_Destroy(sub);
 natsConnection_Destroy(conn);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 
 or do something similar with `>`:
 
@@ -208,7 +208,7 @@ wg.Wait()
 // Close the connection
 nc.Close()
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -234,7 +234,7 @@ latch.await();
 // Close the connection
 nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -265,7 +265,7 @@ nc.subscribe('time.>', (msg, reply, subject) => {
     t.log(subject, time);
 });
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -292,7 +292,7 @@ for i in range(0, 4):
 
 await nc.close()
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -320,7 +320,7 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
   end.resume
 end
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="TypeScript" %}
 ```typescript
@@ -347,7 +347,7 @@ await nc.subscribe('time.>', (err, msg) => {
     t.log(msg.subject, time);
 });
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -381,8 +381,8 @@ if (s == NATS_OK)
 natsSubscription_Destroy(sub);
 natsConnection_Destroy(conn);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 
 The following example can be used to test these two subscribers. The `*` subscriber should receive at most 2 messages, while the `>` subscriber receives 4. More importantly the `time.*.east` subscriber won't receive on `time.us.east.atlanta` because that won't match.
 
@@ -416,7 +416,7 @@ formatted = zoneDateTime.String()
 nc.Publish("time.eu.east", []byte(formatted))
 nc.Publish("time.eu.east.warsaw", []byte(formatted))
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -437,7 +437,7 @@ nc.publish("time.eu.east.warsaw", formatted.getBytes(StandardCharsets.UTF_8));
 nc.flush(Duration.ZERO);
 nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -446,7 +446,7 @@ nc.publish('time.us.central');
 nc.publish('time.us.mountain');
 nc.publish('time.us.west');
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -462,7 +462,7 @@ await nc.publish("time.eu.east.warsaw", b'...')
 
 await nc.close()
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -476,7 +476,7 @@ NATS.start do |nc|
    nc.drain
 end
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="TypeScript" %}
 ```typescript
@@ -485,6 +485,6 @@ nc.publish('time.us.central');
 nc.publish('time.us.mountain');
 nc.publish('time.us.west');
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 

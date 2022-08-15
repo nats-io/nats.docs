@@ -43,7 +43,7 @@ func ExampleJetStream() {
 	}, nats.OrderedConsumer())
 }
 ```
-{% endtab %}
+{% /tab %}
 {% tab title="Java" %}
 ```java
 package io.nats.examples.jetstream;
@@ -107,7 +107,7 @@ public class myExample {
  }
 }
 ```
-{% endtab %}
+{% /tab %}
 {% tab title="JavaScript" %}
 ```js
 import { connect, consumerOpts } from "../../src/mod.ts";
@@ -132,7 +132,7 @@ await (async () => {
 
 await nc.close();
 ```
-{% endtab %}
+{% /tab %}
 {% tab title= "Python" %}
 ```python
 import asyncio
@@ -165,8 +165,8 @@ async def main():
 if __name__ == '__main__':
     asyncio.run(main())
 ```
-{% endtab %}
-{$ endtabs %}
+{% /tab %}
+{$ /tabs %}
 
 ## Durable consumers 
 Durable consumers are meant to be used by multiple instances of an application, either to distribute and scale out the 
@@ -237,7 +237,7 @@ A pull consumer is functionally equivalent to a push consumer using a queue grou
 	}
 }
 ```
-{% endtab %}
+{% /tab %}
 {% tab title="Java" %}
 ```java
 package io.nats.examples.jetstream;
@@ -321,7 +321,7 @@ public class NatsJsPullSubBatchSize {
     }
 }
 ```
-{% endtab %}
+{% /tab %}
 {% tab title="JavaScript" %}
 ```javascript
 import { AckPolicy, connect, nanos } from "../../src/mod.ts";
@@ -383,7 +383,7 @@ setTimeout(() => {
   nc.drain();
 }, 20000);
 ```
-{% endtab %}
+{% /tab %}
 {% tab title= "Python" %}
 ```python
 import asyncio
@@ -418,7 +418,7 @@ async def main():
 if __name__ == '__main__':
     asyncio.run(main())
 ```
-{% endtab %}
+{% /tab %}
 {% tab title="C" %}
 ```C
 #include "examples.h"
@@ -645,8 +645,8 @@ int main(int argc, char **argv)
     return 0;
 }
 ```
-{% endtab %}
-{$ endtabs %}
+{% /tab %}
+{$ /tabs %}
 
 
 A push consumer can also be used in some other use cases such as without a queue group, or with no acknowledgement or cumulative acknowledgements. 
@@ -736,7 +736,7 @@ func ExampleJetStream() {
 	}
 }
 ```
-{% endtab %}
+{% /tab %}
 {% tab title="Java" %}
 ```java
 package io.nats.examples.jetstream;
@@ -913,7 +913,7 @@ public class NatsJsPushSubQueueDurable {
     }
 }
 ```
-{% endtab %}
+{% /tab %}
 {% tab title="JavaScript" %}
 ```javascript
 import { AckPolicy, connect } from "../../src/mod.ts";
@@ -951,7 +951,7 @@ nc.publish(`${subj}.F.A.B`);
 await done;
 await nc.close();
 ```
-{% endtab %}
+{% /tab %}
 {% tab title="Python" %}
 ```python
 import asyncio
@@ -1007,7 +1007,7 @@ async def main():
 if __name__ == '__main__':
     asyncio.run(main())
 ```
-{% endtab %}
+{% /tab %}
 {% tab title="C" %}
 ```C
 #include "examples.h"
@@ -1234,5 +1234,5 @@ int main(int argc, char **argv)
     return 0;
 }
 ```
-{% endtab %}
-{$ endtabs %}
+{% /tab %}
+{$ /tabs %}

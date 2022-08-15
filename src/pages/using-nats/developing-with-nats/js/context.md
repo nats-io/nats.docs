@@ -31,7 +31,7 @@ jsctx.AddStream(&nats.StreamConfig{Name: "BAR"})
 jsctx.Publish("bar", []byte("hello world"))
 }
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -40,7 +40,7 @@ JetStream js = nc.jetStream();
 // Getting the JetStream management context
 JetStreamManagement jsm = nc.jetStreamManagement();
 ```
-{% endtab %}
+{% /tab %}
 {% tab title="JavaScript" %}
 ```javascript
 const nc = await connect();
@@ -49,7 +49,7 @@ const js = nc.jetstream();
 // Getting the JetStream management context
 const jsm = await nc.jetstreamManager();
 ```
-{% endtab %}
+{% /tab %}
 {% tab title="Python" %}
 ```Python
 async def main():
@@ -61,7 +61,7 @@ async def main():
 if __name__ == '__main__':
 asyncio.run(main())
 ```
-{% endtab %}
+{% /tab %}
 {% tab title="C" %}
 ```C
 int main(int argc, char **argv)
@@ -102,5 +102,5 @@ int main(int argc, char **argv)
     return 0;
 }
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}

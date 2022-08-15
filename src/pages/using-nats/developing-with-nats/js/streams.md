@@ -56,7 +56,7 @@ func ExampleJetStreamManager() {
 	js.DeleteStream("FOO")
 }
 ```
-{% endtab %}
+{% /tab %}
 {% tab title="Java" %}
 ```java
 package io.nats.examples.jetstream;
@@ -202,7 +202,7 @@ public class NatsJsManageStreams {
     }
 }
 ```
-{% endtab %}
+{% /tab %}
 {% tab title="JavaScript" %}
 ```javascript
 import { AckPolicy, connect, Empty } from "../../src/mod.ts";
@@ -280,7 +280,7 @@ console.log(ci);
 // delete a particular consumer
 await jsm.consumers.delete(stream, "me");
 ```
-{% endtab %}
+{% /tab %}
 {% tab title="Python" %}
 ```python
 import asyncio
@@ -302,7 +302,7 @@ async def main():
 if __name__ == '__main__':
     asyncio.run(main())    
 ```
-{% endtab %}
+{% /tab %}
 {% tab title="C" %}
 ```C
 #include "examples.h"
@@ -494,7 +494,7 @@ int main(int argc, char **argv)
     return 0;
 }
 ```
-{% endtab %}
-{% endtabs %}
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
+{% /tab %}
+{% /tabs %}

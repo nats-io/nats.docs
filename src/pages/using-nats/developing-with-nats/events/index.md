@@ -29,7 +29,7 @@ nc.Close()
 
 log.Printf("The connection is %v\n", getStatusTxt(nc))
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -41,7 +41,7 @@ nc.close();
 
 System.out.println("The Connection is: " + nc.getStatus());
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -52,7 +52,7 @@ t.log(`connected to a nats server version ${nc.info.version}`);
 const stats = nc.stats();
 t.log(`client sent ${stats.outMsgs} messages and received ${stats.inMsgs}`);
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -76,7 +76,7 @@ await nc.close()
 
 print("The connection is closed?", nc.is_closed)
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -97,6 +97,6 @@ NATS.start(max_reconnect_attempts: 2) do |nc|
   end
 end
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 

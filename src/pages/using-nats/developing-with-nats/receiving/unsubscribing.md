@@ -31,7 +31,7 @@ if err := sub.Unsubscribe(); err != nil {
     log.Fatal(err)
 }
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -52,7 +52,7 @@ d.unsubscribe("updates");
 // Close the connection
 nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -65,7 +65,7 @@ const sub = nc.subscribe(createInbox(), (_err, m) => {
 // you can also specify how many messages are expected by the subscription
 sub.unsubscribe();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -88,7 +88,7 @@ await sub.unsubscribe()
 # Won't be received...
 await nc.publish("updates", b'...')
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -117,7 +117,7 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
   end.resume
 end
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -141,6 +141,6 @@ if (s == NATS_OK)
 natsSubscription_Destroy(sub);
 natsConnection_Destroy(conn);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 

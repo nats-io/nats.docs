@@ -31,7 +31,7 @@ timeAsBytes := []byte(time.Now().String())
 // Send the time as the response.
 msg.Respond(timeAsBytes)
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -55,7 +55,7 @@ nc.publish(msg.getReplyTo(), timeAsBytes);
 nc.flush(Duration.ZERO);
 nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -66,7 +66,7 @@ for await (const m of sub) {
   m.respond(sc.encode(new Date().toLocaleDateString()));
 }
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -92,7 +92,7 @@ msg = await asyncio.wait_for(future, 1)
 time_as_bytes = "{}".format(datetime.now()).encode()
 await nc.publish(msg.reply, time_as_bytes)
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -116,7 +116,7 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
   end.resume
 end
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -154,6 +154,6 @@ if (s == NATS_OK)
 natsSubscription_Destroy(sub);
 natsConnection_Destroy(conn);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 

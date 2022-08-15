@@ -20,7 +20,7 @@ defer nc.Close()
 
 // Do something with the connection
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -34,7 +34,7 @@ Connection nc = Nats.connect(options);
 
 nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -49,7 +49,7 @@ await sub.drain();
 // we won't get our own messages
 t.is(sub.getProcessed(), 0);
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -74,7 +74,7 @@ await asyncio.sleep(1)
 await ncA.drain()
 await ncB.drain()
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -82,7 +82,7 @@ NATS.start("nats://demo.nats.io:4222", no_echo: true) do |nc|
   # ...
 end
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -102,6 +102,6 @@ if (s == NATS_OK)
 natsConnection_Destroy(conn);
 natsOptions_Destroy(opts);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 

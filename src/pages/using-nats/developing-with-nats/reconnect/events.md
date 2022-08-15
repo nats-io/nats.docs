@@ -22,7 +22,7 @@ defer nc.Close()
 
 // Do something with the connection
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -42,7 +42,7 @@ Connection nc = Nats.connect(options);
 
 nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -63,7 +63,7 @@ const nc = await connect({
   })().then();
 });
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -85,7 +85,7 @@ await nc.connect(
 
 # Do something with the connection.
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -102,7 +102,7 @@ NATS.start(servers: ["nats://127.0.0.1:1222", "nats://127.0.0.1:1223", "nats://1
   end
 end
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -143,6 +143,6 @@ if (s == NATS_OK)
 natsConnection_Destroy(conn);
 natsOptions_Destroy(opts);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 

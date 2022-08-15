@@ -25,7 +25,7 @@ defer nc.Close()
 
 // Do something with the connection
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -101,7 +101,7 @@ public class ConnectTLS {
     }
 }
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -119,7 +119,7 @@ const nc = await connect({
   },
 });
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -135,7 +135,7 @@ await nc.connect(servers=["nats://demo.nats.io:4222"], tls=ssl_ctx)
 
 # Do something with the connection.
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -188,7 +188,7 @@ EM.run do
   end
 end
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -210,8 +210,8 @@ if (s == NATS_OK)
 natsConnection_Destroy(conn);
 natsOptions_Destroy(opts);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 
 ## Connecting with the TLS Protocol
 

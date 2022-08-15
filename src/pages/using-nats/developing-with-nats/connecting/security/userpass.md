@@ -38,7 +38,7 @@ defer nc.Close()
 
 // Do something with the connection
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -52,7 +52,7 @@ Connection nc = Nats.connect(options);
 
 nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -62,7 +62,7 @@ nc.close();
       pass: "password",
 });
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -72,7 +72,7 @@ await nc.connect(servers=["nats://myname:password@demo.nats.io:4222"])
 
 # Do something with the connection.
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -94,7 +94,7 @@ NATS.start(servers:["nats://myname:password@127.0.0.1:4222"], name: "my-connecti
   nc.close
 end
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -114,8 +114,8 @@ if (s == NATS_OK)
 natsConnection_Destroy(conn);
 natsOptions_Destroy(opts);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 
 ## Connecting with a User/Password in the URL
 
@@ -137,7 +137,7 @@ defer nc.Close()
 
 // Do something with the connection
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -147,13 +147,13 @@ Connection nc = Nats.connect("nats://myname:password@localhost:4222");
 
 nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
 // JavaScript clients don't support username/password in urls use `user` and `pass` options.
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -163,7 +163,7 @@ await nc.connect(servers=["nats://myname:password@demo.nats.io:4222"])
 
 # Do something with the connection.
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -185,7 +185,7 @@ NATS.start(servers:["nats://myname:password@127.0.0.1:4222"], name: "my-connecti
   nc.close
 end
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -205,6 +205,6 @@ if (s == NATS_OK)
 natsConnection_Destroy(conn);
 natsOptions_Destroy(opts);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 

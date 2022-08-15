@@ -20,7 +20,7 @@ log.Printf("Maximum payload is %v bytes", mp)
 
 // Do something with the max payload
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -31,13 +31,13 @@ long max = nc.getMaxPayload();
 
 nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
 t.log(`max payload for the server is ${nc.info.max_payload} bytes`);
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -49,7 +49,7 @@ print("Maximum payload is %d bytes" % nc.max_payload)
 
 # Do something with the max payload.
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -68,7 +68,7 @@ NATS.start(max_outstanding_pings: 5) do |nc|
   puts "Maximum Payload is #{nc.server_info[:max_payload]} bytes"
 end
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -87,8 +87,8 @@ if (s == NATS_OK)
 // Destroy objects that were created
 natsConnection_Destroy(conn);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 
 ## Turn On Pedantic Mode
 
@@ -113,7 +113,7 @@ defer nc.Close()
 
 // Do something with the connection
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -127,7 +127,7 @@ Connection nc = Nats.connect(options);
 
 nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -141,7 +141,7 @@ const nc = await connect({
     debug: true,
 });
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -151,7 +151,7 @@ await nc.connect(servers=["nats://demo.nats.io:4222"], pedantic=True)
 
 # Do something with the connection.
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -169,7 +169,7 @@ NATS.start(pedantic: true) do |nc|
   nc.close
 end
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -189,8 +189,8 @@ if (s == NATS_OK)
 natsConnection_Destroy(conn);
 natsOptions_Destroy(opts);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 
 ## Set the Maximum Control Line Size
 
@@ -205,7 +205,7 @@ For example, to set the maximum control line size to 2k:
 ```go
 // This does not apply to the NATS Go Client
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -219,32 +219,32 @@ Connection nc = Nats.connect(options);
 
 nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
 // the max control line is determined automatically by the client
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
 # Asyncio NATS client does not allow custom control lines.
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
 # There is no need to customize this in the Ruby NATS client.
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
 // control line is not configurable on C NATS client.
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 
 ## Turn On/Off Verbose Mode
 
@@ -269,7 +269,7 @@ defer nc.Close()
 
 // Do something with the connection
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -283,7 +283,7 @@ Connection nc = Nats.connect(options);
 
 nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -292,7 +292,7 @@ const nc = await connect({
     servers: ["demo.nats.io:4222"],
 });
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -302,7 +302,7 @@ await nc.connect(servers=["nats://demo.nats.io:4222"], verbose=True)
 
 # Do something with the connection.
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -320,7 +320,7 @@ NATS.start(verbose: true) do |nc|
   nc.close
 end
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -340,5 +340,5 @@ if (s == NATS_OK)
 natsConnection_Destroy(conn);
 natsOptions_Destroy(opts);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}

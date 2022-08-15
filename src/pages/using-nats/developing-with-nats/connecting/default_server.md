@@ -13,7 +13,7 @@ defer nc.Close()
 
 // Do something with the connection
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -23,7 +23,7 @@ Connection nc = Nats.connect();
 
 nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -33,7 +33,7 @@ doSomething();
 // When done close it
 await nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -44,7 +44,7 @@ await nc.connect()
 
 await nc.close()
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -57,7 +57,7 @@ NATS.start do |nc|
    nc.close
 end
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -71,5 +71,5 @@ if (s != NATS_OK)
 // Destroy connection, no-op if conn is NULL.
 natsConnection_Destroy(conn);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}

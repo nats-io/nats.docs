@@ -17,7 +17,7 @@ if err := nc.Publish("updates", []byte("All is Well")); err != nil {
     log.Fatal(err)
 }
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -29,14 +29,14 @@ nc.publish("updates", "All is Well".getBytes(StandardCharsets.UTF_8));
 nc.flush(Duration.ZERO);
 nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
 const sc = StringCodec();
 nc.publish("updates", sc.encode("All is Well"));
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -46,7 +46,7 @@ await nc.connect(servers=["nats://demo.nats.io:4222"])
 
 await nc.publish("updates", b'All is Well')
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -56,6 +56,6 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
   nc.publish("updates", "All is Well")
 end
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 

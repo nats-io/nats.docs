@@ -32,7 +32,7 @@ ClosedHandler(cb ConnHandler)
 DiscoveredServersHandler(cb ConnHandler)
 ErrorHandler(cb ErrHandler)
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -61,7 +61,7 @@ public class SetConnectionListener {
     }
 }
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -100,7 +100,7 @@ nc.closed().then(() => {
     }
 })().then();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -129,7 +129,7 @@ options["closed_cb"] = closed_cb
 
 await nc.connect(**options)
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -148,7 +148,7 @@ end
 NATS.on_error do
 end
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -195,8 +195,8 @@ if (s == NATS_OK)
 natsConnection_Destroy(conn);
 natsOptions_Destroy(opts);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 
 ## Listen for New Servers
 
@@ -219,7 +219,7 @@ defer nc.Close()
 
 // Do something with the connection
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -252,7 +252,7 @@ public class ListenForNewServers {
     }
 }
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -269,19 +269,19 @@ const nc = await connect({ servers: ["demo.nats.io:4222"] });
   }
 })().then();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
 # Asyncio NATS client does not support discovered servers handler right now
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
 # The Ruby NATS client does not support discovered servers handler right now
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -327,8 +327,8 @@ if (s == NATS_OK)
 natsConnection_Destroy(conn);
 natsOptions_Destroy(opts);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 
 ## Listen for Errors
 
@@ -349,7 +349,7 @@ defer nc.Close()
 
 // Do something with the connection
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -387,7 +387,7 @@ public class SetErrorListener {
     }
 }
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -417,7 +417,7 @@ nc.closed().then((err) => {
   }
 })().then();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -434,7 +434,7 @@ await nc.connect(
 
 # Do something with the connection.
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -448,7 +448,7 @@ NATS.start(servers:["nats://demo.nats.io:4222"]) do |nc|
   nc.close
 end
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -477,6 +477,6 @@ if (s == NATS_OK)
 natsConnection_Destroy(conn);
 natsOptions_Destroy(opts);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 

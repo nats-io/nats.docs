@@ -31,7 +31,7 @@ if _, err := nc.QueueSubscribe("updates", "workers", func(m *nats.Msg) {
 // Wait for messages to come in
 wg.Wait()
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -56,7 +56,7 @@ latch.await();
 // Close the connection
 nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
@@ -74,7 +74,7 @@ nc.subscribe(subj, {
     },
 });
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -94,7 +94,7 @@ await nc.publish("updates", b'All is Well')
 msg = await asyncio.wait_for(future, 1)
 print("Msg", msg)
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
@@ -117,7 +117,7 @@ NATS.start(servers:["nats://127.0.0.1:4222"]) do |nc|
   end.resume
 end
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -153,8 +153,8 @@ if (s == NATS_OK)
 natsSubscription_Destroy(sub);
 natsConnection_Destroy(conn);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 
 If you run this example with the publish examples that send to `updates`, you will see that one of the instances gets a message while the others you run won't. But the instance that receives the message will change.
 

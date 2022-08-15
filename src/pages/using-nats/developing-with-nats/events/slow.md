@@ -50,7 +50,7 @@ sub2.SetPendingLimits(-1, -1)
 // Close the connection
 nc.Close()
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -74,13 +74,13 @@ sub.setPendingLimits(1_000, 5 * 1024 * 1024); // Set limits on a subscription
 // Close the connection
 nc.close();
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
 // slow pending limits are not configurable on node-nats
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -97,13 +97,13 @@ async def cb(msg):
 # Set limits of 1000 messages or 5MB
 await nc.subscribe("updates", cb=cb, pending_bytes_limit=5*1024*1024, pending_msgs_limit=1000)
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
 # The Ruby NATS client currently does not have option to specify a subscribers pending limits.
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -137,8 +137,8 @@ natsSubscription_Destroy(sub1);
 natsSubscription_Destroy(sub2);
 natsConnection_Destroy(conn);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 
 ## Detect a Slow Consumer and Check for Dropped Messages
 
@@ -158,7 +158,7 @@ defer nc.Close()
 
 // Do something with the connection
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Java" %}
 ```java
@@ -196,13 +196,13 @@ public class SlowConsumerListener {
     }
 }
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="JavaScript" %}
 ```javascript
 // slow consumer detection is not configurable on NATS JavaScript client.
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Python" %}
 ```python
@@ -247,13 +247,13 @@ public class SlowConsumerListener {
 
    await nc.close()
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="Ruby" %}
 ```ruby
 # The Ruby NATS client currently does not have option to customize slow consumer limits per sub.
 ```
-{% endtab %}
+{% /tab %}
 
 {% tab title="C" %}
 ```c
@@ -283,6 +283,6 @@ if (s == NATS_OK)
 natsConnection_Destroy(conn);
 natsOptions_Destroy(opts);
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
 

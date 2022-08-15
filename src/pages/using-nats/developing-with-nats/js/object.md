@@ -75,5 +75,5 @@ type ObjectStore interface {
 	Status() (ObjectStoreStatus, error)
 }
 ```
-{% endtab %}
-{% endtabs %}
+{% /tab %}
+{% /tabs %}
