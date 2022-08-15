@@ -65,12 +65,9 @@ function getDescription(nodes) {
 }
 
 export default function App({ Component, pageProps }) {
-  let title = pageProps.markdoc?.frontmatter.title ||
-    getHeadingTitle(pageProps.markdoc.content)
-
+  let title = pageProps.markdoc && getHeadingTitle(pageProps.markdoc.content)
+  let description = pageProps.markdoc && getDescription(pageProps.markdoc.content)
   let pageTitle = title
-
-  let description = getDescription(pageProps.markdoc.content)
 
   let tableOfContents = pageProps.markdoc?.content
     ? collectHeadings(pageProps.markdoc.content)
