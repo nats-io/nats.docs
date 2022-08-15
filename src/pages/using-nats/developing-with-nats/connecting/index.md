@@ -38,11 +38,11 @@ WebSocket and NATS&#x20;
 
 {% embed url="https://www.youtube.com/watch?v=AbAR9zgJnjY" %}
 WebSocket and NATS | Hello World
-{% endembed %}
+{% /embed %}
 
 NATS WebSockets and React
 
 {% embed url="https://www.youtube.com/watch?v=XS_Q0i6orSk" %}
 NATS WebSockets and React
-{% endembed %}
+{% /embed %}
 

@@ -42,4 +42,4 @@ NATS Service Geo-affinity in Queues&#x20;
 
 {% embed url="https://youtu.be/jLTVhP08Tq0?t=190" %}
 Geo-affinity in Queues
-{% endembed %}
+{% /embed %}

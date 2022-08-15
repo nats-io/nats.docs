@@ -61,4 +61,4 @@ Queue groups using the NATS CLI
 
 {% embed url="https://youtu.be/jLTVhP08Tq0?t=101" %}
 Queue Groups NATS CLI
-{% endembed %}
+{% /embed %}

@@ -110,4 +110,4 @@ Publish-subscribe pattern with the NATS CLI&#x20;
 
 {% embed url="https://www.youtube.com/watch?v=jLTVhP08Tq0" %}
 Publish-subscribe pattern - NATS CLI
-{% endembed %}
+{% /embed %}
