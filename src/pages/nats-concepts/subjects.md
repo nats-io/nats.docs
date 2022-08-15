@@ -7,7 +7,7 @@ At its simplest, a subject is just a string of characters that form a name which
 
 ![](../.gitbook/assets/subjects1.svg)
   
-### Characters allowed for subject names
+## Characters allowed for subject names
 
 For compatibility across clients, we recommend using ASCII characters (this may change in future).  
   
