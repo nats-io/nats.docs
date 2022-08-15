@@ -304,7 +304,7 @@ if __name__ == '__main__':
 ```
 {% endtab %}
 {% tab title="C" %}
-````C
+```C
 #include "examples.h"
 
 static const char *usage = ""\

@@ -21,7 +21,7 @@ Here is a simple cluster running on the same machine:
 Server A - the 'seed server'
 ```bash
 nats-server -p 4222 -cluster nats://localhost:4248 --cluster_name test-cluster
-````
+```
 
 Server B
 ```shell
