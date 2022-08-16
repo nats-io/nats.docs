@@ -193,3 +193,6 @@ The above example shows how clients without authentication can be associated wit
 >
 > Despite `no_auth_user` being set, clients still need to communicate that they will not be using credentials. The [authentication timeout](auth_intro/auth_timeout.md) applies to this process as well. When your connection is slow, you may run into this timeout and the resulting `Authentication Timeout` error, despite not providing credentials.
 
+# See Also
+
+[Multi-tenancy and resource management](https://docs.nats.io/running-a-nats-service/configuration/resource_management#multi-tenancy-and-resource-mgmt)
