@@ -1,5 +1,9 @@
 # Authentication
 
+NATS authentication is multi-level. All the security mode have an [_accounts_](../../../../running-a-nats-service/configuration/securing_nats/auth_intro) level with [_users_](./#user-configuration-map) belonging to those accounts. The decentralized JWT Authentication also has an _operator_ to which the accounts belong. 
+
+Each account has its own independent subject name space: a message published on subject foo in one account not see by subscribers to foo in other accounts. Accounts can however define exports and imports of subject(s) streams as well as expose request-reply services between accounts. Users within an account will share the same subject name space but can be restricted to only be able to publish-subscribe to specific subjects.
+
 The NATS server provides various ways of authenticating clients:
 
 * [Token Authentication](tokens.md)
@@ -8,11 +12,11 @@ The NATS server provides various ways of authenticating clients:
 * [NKEY with Challenge](nkey_auth.md)
 * [Decentralized JWT Authentication/Authorization](../jwt/)
 
-Authentication deals with allowing a NATS client to connect to the server. Except for JWT authentication, authentication and authorization are configured in the `authorization` section of the configuration.
+Authentication deals with allowing a NATS client to connect to the server. Except for JWT authentication, authentication and authorization are configured in the `authorization` section of the configuration. With JWT authentication the account and user information are stored in the [resolver](../jwt/resolver.md) rather than in the server configuration file.
 
 ## Authorization Map
 
-The `authorization` block provides _authentication_ configuration as well as _authorization_:
+The `authorization` block provides _authentication_ configuration as well as [_authorization_](../authorization.md):
 
 | Property | Description |
 | :--- | :--- |
