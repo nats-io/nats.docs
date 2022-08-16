@@ -1,7 +1,9 @@
 export function Embed({ children, url }) {
 
   const embedURL = () => {
-    return url.replace("youtube.com/watch", "youtube.com/embed")
+    return url.
+      replace("youtube.com/watch?v=", "youtube.com/embed/").
+      replace("youtu.be/", "youtube.com/embed/")
   }
 
   return (

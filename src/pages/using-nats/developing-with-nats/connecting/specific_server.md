@@ -8,7 +8,7 @@ For example, to connect to the demo server with a URL you can use:
 
 {% tabs %}
 {% tab title="Go" %}
-```java
+```go
 // If connecting to the default port, the URL can be simplified
 // to just the hostname/IP.
 // That is, the connect below is equivalent to:
@@ -24,7 +24,7 @@ defer nc.Close()
 {% /tab %}
 
 {% tab title="Java" %}
-```text
+```java
 Connection nc = Nats.connect("nats://demo.nats.io:4222");
 
 // Do something with the connection
