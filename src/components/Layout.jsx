@@ -307,7 +307,7 @@ function GitHubIcon(props) {
   )
 }
 
-function Header({ navigation }) {
+function Header({ navigation, githubLink = "" }) {
   let [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
@@ -343,7 +343,7 @@ function Header({ navigation }) {
       </div>
       <div className="relative flex basis-0 justify-end gap-6 sm:gap-8 md:flex-grow">
         <ThemeSelector className="relative z-10" />
-        <Link href="https://github.com" className="group" aria-label="GitHub">
+        <Link href={githubLink} className="group" aria-label="GitHub">
           <GitHubIcon className="h-6 w-6 fill-slate-400 group-hover:fill-slate-500 dark:group-hover:fill-slate-300" />
         </Link>
       </div>
@@ -394,9 +394,8 @@ function useTableOfContents(tableOfContents) {
   return currentSection
 }
 
-export function Layout({ children, title, tableOfContents }) {
+export function Layout({ children, title, tableOfContents, markdoc }) {
   let router = useRouter()
-  let isHomePage = router.pathname === '/'
 
   const getAllLinks = (children) => children.flatMap((c) => [c].concat(getAllLinks(c.links || [])))
   const getAllHrefs = ({ href, links = [] }) => [href].concat(links.map(getAllHrefs))
@@ -421,9 +420,18 @@ export function Layout({ children, title, tableOfContents }) {
     return section.children.findIndex(isActive) > -1
   }
 
+  function githubLink() {
+    if (markdoc) {
+      // TODO: change this to master when we move to production
+      return "https://github.com/nats-io/nats.docs/edit/JMS-NATS-Docs-2.0/src/pages/" + markdoc.file.path
+    } else {
+      return "https://github.com/nats-io/nats.docs"
+    }
+  }
+
   return (
     <>
-      <Header navigation={navigation} />
+      <Header navigation={navigation} githubLink={githubLink()} />
 
       <div className="relative mx-auto flex max-w-8xl justify-center sm:px-2 lg:px-8 xl:px-12">
         <div className="hidden lg:relative lg:block lg:flex-none">

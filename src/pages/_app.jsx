@@ -79,7 +79,7 @@ export default function App({ Component, pageProps }) {
         <title>{pageTitle}</title>
         {description && <meta name="description" content={description} />}
       </Head>
-      <Layout tableOfContents={tableOfContents}>
+      <Layout tableOfContents={tableOfContents} markdoc={pageProps.markdoc}>
         <Component {...pageProps} />
       </Layout>
     </>
