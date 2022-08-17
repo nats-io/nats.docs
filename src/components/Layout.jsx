@@ -47,10 +47,6 @@ function astToNavigation(ast) {
 }
 
 var ast = Markdoc.transform(Markdoc.parse(`
-## Welcome
-
-* [Welcome](welcome)
-
 ## Release Notes
 
 * [What's New!](release_notes/whats_new)
@@ -340,8 +336,8 @@ function Header({ navigation }) {
       </div>
       <div className="relative flex flex-grow basis-0 items-center">
         <Link href="/" aria-label="Home page">
-          <Logomark className="h-9 w-9 lg:hidden" />
-          <Logo className="hidden h-9 w-auto fill-slate-700 dark:fill-sky-100 lg:block" />
+          <Logomark className="h-10 w-10 fill-slate-700 dark:fill-sky-100 lg:hidden" />
+          <Logo className="hidden h-10 w-auto fill-slate-700 dark:fill-sky-100 lg:block" />
         </Link>
       </div>
       <div className="-my-5 mr-6 sm:mr-8 md:mr-0">
@@ -430,8 +426,6 @@ export function Layout({ children, title, tableOfContents }) {
   return (
     <>
       <Header navigation={navigation} />
-
-      {isHomePage && <Hero />}
 
       <div className="relative mx-auto flex max-w-8xl justify-center sm:px-2 lg:px-8 xl:px-12">
         <div className="hidden lg:relative lg:block lg:flex-none">
