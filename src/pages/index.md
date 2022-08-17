@@ -13,9 +13,9 @@ NATS is Open Source as is this documentation. Please [let us know](mailto:info@n
 
 {% quick-link title="NATS Concepts" icon="presets" href="/overview" description="Learn the core concepts behind a NATS system." /%}
 
-{% quick-link title="Developing with NATS" icon="plugins" href="/" description="Write applications using NATS in one of our many supported language clients" /%}
+{% quick-link title="Developing with NATS" icon="plugins" href="/using-nats/developing-with-nats/developer" description="Write applications using NATS in one of our many supported language clients" /%}
 
-{% quick-link title="Configuring NATS" icon="theming" href="/" description="Configure NATS to fit your architecture, security and operational constraints." /%}
+{% quick-link title="Configuring NATS" icon="theming" href="/running-a-nats-service/configuration" description="Configure NATS to fit your architecture, security and operational constraints." /%}
 
 {% /quick-links %}
 
