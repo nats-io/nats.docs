@@ -46,6 +46,9 @@ function astToNavigation(ast) {
 }
 
 var ast = Markdoc.transform(Markdoc.parse(`
+## Welcome
+* [Getting Started]()
+
 ## Release Notes
 
 * [What's New!](release_notes/whats_new)
