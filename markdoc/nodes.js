@@ -1,5 +1,6 @@
 import { Fence } from '@/components/Fence'
-import { nodes as defaultNodes } from '@markdoc/markdoc'
+import { Link } from '@/components/Link'
+import { nodes as defaultNodes, Tag } from '@markdoc/markdoc'
 
 const nodes = {
   document: {
@@ -23,6 +24,10 @@ const nodes = {
       },
     },
   },
+  link: {
+    ...defaultNodes.link,
+    render: Link
+  }
 }
 
 export default nodes
