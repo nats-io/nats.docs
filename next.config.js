@@ -1,4 +1,5 @@
 const withMarkdoc = require('@markdoc/next.js')
+const redirects = require("./redirects.json")
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -12,6 +13,10 @@ const nextConfig = {
   },
 
   async redirects() {
+    let redirectData = Object.keys(redirects).map((k) => {
+      return { source: k, destination: redirects[k], permanent: false }
+    })
+
     return [
       {
         source: "/:path*/readme",
@@ -28,7 +33,7 @@ const nextConfig = {
         destination: "/:path*",
         permanent: false,
       },
-    ]
+      ...redirectData]
   }
 }
 
