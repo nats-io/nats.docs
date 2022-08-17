@@ -307,7 +307,7 @@ function GitHubIcon(props) {
   )
 }
 
-function Header({ navigation, githubLink = "" }) {
+function Header({ navigation }) {
   let [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
@@ -343,7 +343,7 @@ function Header({ navigation, githubLink = "" }) {
       </div>
       <div className="relative flex basis-0 justify-end gap-6 sm:gap-8 md:flex-grow">
         <ThemeSelector className="relative z-10" />
-        <Link href={githubLink} className="group" aria-label="GitHub">
+        <Link href="https://github.com/nats-io" className="group" aria-label="GitHub">
           <GitHubIcon className="h-6 w-6 fill-slate-400 group-hover:fill-slate-500 dark:group-hover:fill-slate-300" />
         </Link>
       </div>
@@ -431,7 +431,7 @@ export function Layout({ children, title, tableOfContents, markdoc }) {
 
   return (
     <>
-      <Header navigation={navigation} githubLink={githubLink()} />
+      <Header navigation={navigation} />
 
       <div className="relative mx-auto flex max-w-8xl justify-center sm:px-2 lg:px-8 xl:px-12">
         <div className="hidden lg:relative lg:block lg:flex-none">
@@ -504,7 +504,7 @@ export function Layout({ children, title, tableOfContents, markdoc }) {
                   id="on-this-page-title"
                   className="font-display text-sm font-medium text-slate-900 dark:text-white"
                 >
-                  On this page
+                  Outline - <a className='text-sky-500 text-sm font-medium' href={githubLink()}>Edit in GitHub</a>
                 </h2>
                 <ol role="list" className="mt-4 space-y-3 text-sm">
                   {tableOfContents.map((section) => (
