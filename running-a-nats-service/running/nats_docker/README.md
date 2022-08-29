@@ -6,6 +6,10 @@ The NATS server is provided as a Docker image on [Docker Hub](https://hub.docker
 
 [Synadia](https://synadia.com) actively maintains and supports the NATS server Docker image.
 
+### Nightly
+
+The nightly build container can be found [here](https://hub.docker.com/r/synadia/nats-server)
+
 ### Usage
 
 To use the Docker container image, install Docker and pull the public image:
