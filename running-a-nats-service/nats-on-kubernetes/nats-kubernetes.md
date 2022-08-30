@@ -33,8 +33,8 @@ kubectl exec -n default -it deployment/my-nats-box -- /bin/sh -l
 and try subscribing and publishing
 
 ```bash
-nats-box:~# nats-sub test &
-nats-box:~# nats-pub test hi
+nats-box:~# nats sub test &
+nats-box:~# nats pub test hi
 ```
 
 If you're seeing the messages, all went well and you have successfully installed NATS.
