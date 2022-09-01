@@ -650,6 +650,8 @@ The `/jsz` endpoint reports more detailed information on JetStream. For accounts
 
 **Endpoint:** `http://server:port/jsz`
 
+> **Note:** If you're in a clustered environment, it's recommended to retrivie the information from the leader to get most accurate and up to date data.
+
 | Result | Return Code |
 | :--- | :--- |
 | Success | 200 \(OK\) |
