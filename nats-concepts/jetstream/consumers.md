@@ -140,7 +140,7 @@ The consumer's number of replicas _can_ be adjusted after the initial creation o
 
 ## MemoryStorage
 
-If set forces the consumer state to be kept in memory rather than inherit the setting from the stream.
+If set, MemoryStorage forces the consumer state to be kept in memory rather than inherit the setting from the stream.
 
 {% hint style="info" %}
 The consumer's number of replicas _can_ be adjusted after the initial creation of the consumer
