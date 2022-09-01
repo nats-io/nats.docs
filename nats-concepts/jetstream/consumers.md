@@ -18,6 +18,7 @@ To assist with creating monitoring applications, one can set a `SampleFrequency`
 
 ### Consumer names
 Consumer names should not contain any of the following characters: ` ` (space), `.`, `*`, `>`, or a path separator (forward or backwards slash) or any non-printable characters.
+
 # Consumer configuration
 When defining Consumers the items below make up the entire configuration of the Consumer:
 
@@ -28,6 +29,10 @@ How messages should be acknowledged. If an ack is required but is not received w
 > IMPORTANT
 >
 > The server may consider an ack arriving out of the window. If a first process fails to ack within the window it's entirely possible, for instance in queue situation, that the message has been redelivered to another consumer. Since this will technically restart the window, the ack from the first consumer will be considered.
+
+{% hint style="warning" %}
+The consumer's acknowledgement policy **_can not_** be adjusted after the initial creation of the consumer
+{% endhint %}
 
 ### AckExplicit
 
@@ -45,9 +50,17 @@ If you receive a series of messages, you only have to ack the last one you recei
 
 Ack Wait is the time in nanoseconds that the server will wait for an ack for any individual message _once it has been delivered to a consumer_. If an ack is not received in time, the message will be redelivered.
 
+{% hint style="info" %}
+The consumer's ack wait value _can_ be adjusted after the initial creation of the consumer
+{% endhint %}
+
 ## DeliverPolicy / OptStartSeq / OptStartTime
 
 When a consumer is first created, it can specify where in the stream it wants to start receiving messages. This is the `DeliverPolicy` and it's options are as follows:
+
+{% hint style="warning" %}
+The consumer's deliver policy **_can not_** be adjusted after the initial creation of the consumer
+{% endhint %}
 
 ### DeliverAll
 
@@ -73,21 +86,29 @@ When first consuming messages, start at this particular message in the set. The 
 
 When first consuming messages, start with messages on or after this time. The consumer is required to specify `OptStartTime`, the time in the stream to start at. It will receive the closest available message on or after that time.
 
-## DeliverySubject
-
-The subject to deliver observed messages, specifying a delivery subject makes the consumer a 'push consumer' as 'pull consumers' do not need a static delivery subject. If you want to distribute the messages between the subscribers to the consumer then you also need to specify a queue group name.
-
 ## Durable \(Name\)
 
 The name of the Consumer, which the server will track, allowing resuming consumption where left off. By default, a consumer is ephemeral. To make the consumer durable, set the name.
+
+{% hint style="warning" %}
+The consumer's name **_can not_** be adjusted after the initial creation of the consumer
+{% endhint %}
 
 ## FilterSubject
 
 When consuming from a stream with a wildcard subject, this allows you to select a subset of the full wildcard subject to receive messages from.
 
+{% hint style="info" %}
+The consumer's filter subject _can_ be adjusted after the initial creation of the consumer
+{% endhint %}
+
 ## MaxAckPending
 
 MaxAckPending implements a simple form of _one-to-many_ flow control. It sets the maximum number of messages without an acknowledgement that can be outstanding, once this limit is reached message delivery will be suspended. It cannot be used with AckNone ack policy. This maximum number of pending acks applies for _all_ of the consumer's subscriber processes. A value of -1 means there can be any number of pending acks (i.e. no flow control).
+
+{% hint style="info" %}
+The consumer's max number of acks pending _can_ be adjusted after the initial creation of the consumer
+{% endhint %}
 
 ### Note about push and pull consumers: 
 
@@ -95,28 +116,94 @@ The MaxAckPending's one-to-many flow control functionality applies for both push
 
 ## MaxDeliver
 
-The maximum number of times a specific message will be delivered. Applies to any message that is re-sent due to ack policy.
+The maximum number of times a specific message delivery will be attempted. Applies to any message that is re-sent due to ack policy (i.e. due to a negative ack, or no ack being sent by consumer).
 
-## RateLimit
-
-Used to throttle the delivery of messages to the consumer, in bits per second.
+{% hint style="info" %}
+The consumer's max number of delivery attempts _can_ be adjusted after the initial creation of the consumer
+{% endhint %}
 
 ## ReplayPolicy
 
 The replay policy applies when the DeliverPolicy is `DeliverAll`, `DeliverByStartSequence` or `DeliverByStartTime` since those deliver policies begin reading the stream at a position other than the end. If the policy is `ReplayOriginal`, the messages in the stream will be pushed to the client at the same rate that they were originally received, simulating the original timing of messages. If the policy is `ReplayInstant` \(the default\), the messages will be pushed to the client as fast as possible while adhering to the Ack Policy, Max Ack Pending and the client's ability to consume those messages.
 
+{% hint style="warning" %}
+The replay policy **_can not_** be adjusted after the initial creation of the consumer
+{% endhint %}
+
+## Replicas
+
+Sets the number of replicas for the consumer's state. By default, consumers inherit the number of replicas from the stream (expressed as the value being `0`).
+
+{% hint style="info" %}
+The consumer's number of replicas _can_ be adjusted after the initial creation of the consumer
+{% endhint %}
+
+## MemoryStorage
+
+If set, MemoryStorage forces the consumer state to be kept in memory rather than inherit the setting from the stream.
+
+{% hint style="info" %}
+The consumer's number of replicas _can_ be adjusted after the initial creation of the consumer
+{% endhint %}
+
 ## SampleFrequency
 
 Sets the percentage of acknowledgements that should be sampled for observability, 0-100 This value is a string and for example allows both `30` and `30%` as valid values.
 
+{% hint style="info" %}
+The consumer's sample frequency _can_ be adjusted after the initial creation of the consumer
+{% endhint %}
+
+## Pull consumer specific attributes
+These attributes apply only to pull consumers.
+
+### MaxWaiting
+
+The maximum number of waiting pull requests.
+
+{% hint style="warning" %}
+The consumer's maximum number of waiting pull requests **_can not_** be adjusted after the initial creation of the consumer
+{% endhint %}
+
 ## Push consumer specific attributes
-These attributes apply only to push consumers as they are not needed by pull consumers.
+These attributes apply only to push consumers.
+
+### DeliverSubject
+
+The subject to deliver observed messages, specifying a delivery subject makes the consumer a 'push consumer' as 'pull consumers' do not need a static delivery subject. If you want to distribute the messages between the subscribers to the consumer then you also need to specify a queue group name.
+
+{% hint style="warning" %}
+The push consumer's deliver subject **_can not_** be adjusted after the initial creation of the consumer
+{% endhint %}
+
+### DeliverGroup
+
+The queue group name which, if specified, is then used to distribute the messages between the subscribers to the consumer.
+
+{% hint style="info" %}
+The push consumer's queue group name _can_ be adjusted after the initial creation of the consumer
+{% endhint %}
 
 ### FlowControl
 
 This flow control setting is to enable or not another form of flow control in parallel to MaxAckPending. But unlike MaxAckPending it is a _one-to-one_ flow control that operates independently for each individual subscriber to the consumer. It uses a sliding-window flow-control protocol whose attributes (e.g. size of the window) are _not_ user adjustable.
 
+{% hint style="info" %}
+The push consumer's flow control setting _can_ be adjusted after the initial creation of the consumer
+{% endhint %}
+
 ### IdleHeartbeat
 
-If the idle heartbeat period is set, the server will regularly send a status message to the client (i.e. when the period has elapsed) while there are no new messages to send. This lets the client know that the JetStream service is still up and running, even when there is no activity on the stream. The message status header will have a code of 100. Unlike FlowControl, it will have no reply to address. It may have a description like "Idle Heartbeat"
+If the idle heartbeat period is set, the server will regularly send a status message to the client (i.e. when the period has elapsed) while there are no new messages to send. This lets the client know that the JetStream service is still up and running, even when there is no activity on the stream. The message status header will have a code of 100. Unlike FlowControl, it will have no reply to address. It may have a description like "Idle Heartbeat".
 
+{% hint style="info" %}
+The push consumer's idle heartbeat period _can_ be adjusted after the initial creation of the consumer
+{% endhint %}
+
+### RateLimit
+
+Used to throttle the delivery of messages to the consumer, in bits per second.
+
+{% hint style="info" %}
+The push rate limit _can_ be adjusted after the initial creation of the consumer
+{% endhint %}
