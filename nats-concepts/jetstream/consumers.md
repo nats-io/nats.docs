@@ -94,6 +94,14 @@ The name of the Consumer, which the server will track, allowing resuming consump
 The consumer's name **_can not_** be adjusted after the initial creation of the consumer
 {% endhint %}
 
+## Description
+
+A description of the Consumer. This is particularly useful for ephemeral consumers to indicate their purpose since the durable name cannot be provided.
+
+{% hint style="info" %}
+The consumer's description _can_ be adjusted after the initial creation of the consumer
+{% endhint %}
+
 ## FilterSubject
 
 When consuming from a stream with a wildcard subject, this allows you to select a subset of the full wildcard subject to receive messages from.
@@ -110,7 +118,7 @@ MaxAckPending implements a simple form of _one-to-many_ flow control. It sets th
 The consumer's max number of acks pending _can_ be adjusted after the initial creation of the consumer
 {% endhint %}
 
-### Note about push and pull consumers: 
+### Note about push and pull consumers:
 
 The MaxAckPending's one-to-many flow control functionality applies for both push and pull consumers. For push consumers MaxAckPending is the _only_ form of flow control. However, for pull consumers because the delivery of the messages to the client application is demand-driven (hence the 'pull') rather than server initiated (hence the 'push') there is an implicit one-to-one flow control with the subscribers (the maximum batch size of the Fetch calls). Therefore you should remember to set it to an appropriately high value (e.g. the default value of 20000), as it can otherwise place a limit on the horizontal scalability of the processing of the stream in high throughput situations.
 
