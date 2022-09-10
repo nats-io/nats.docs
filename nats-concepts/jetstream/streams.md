@@ -30,6 +30,10 @@ When defining Streams the items below make up the entire configuration of the se
 | Retention | How message retention is considered, `LimitsPolicy` \(default\), `InterestPolicy` or `WorkQueuePolicy` |
 | Discard | When a Stream reaches it's limits either, `DiscardNew` refuses new messages while `DiscardOld` \(default\) deletes old messages |
 | Duplicates | The window within which to track duplicate messages, expressed in nanoseconds. |
+| Sealed | Sealed streams do not allow messages to be deleted via limits or API, sealed streams can not be unsealed via configuration update. Can only be set on already created streams via the Update API. |
+| DenyDelete | Restricts the ability to delete messages from a stream via the API. Cannot be changed once set to true. |
+| DenyPurge | Restricts the ability to purge messages from a stream via the API. Cannot be change once set to true. |
+| AllowRollup | Allows the use of the `Nats-Rollup` header to replace all contents of a stream, or subject in a stream, with a single new message. |
 
 ## Stream Names
 Stream names should not contain any of the following characters: ` ` (space), `.`, `*`, `>`, or a path separator (forward or backwards slash) or any non-printable characters.
