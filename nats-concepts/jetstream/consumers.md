@@ -218,7 +218,7 @@ The push rate limit _can_ be adjusted after the initial creation of the consumer
 
 ### HeadersOnly
 
-Delivers only the headers of messages in the stream and not the bodies. Additionally adds Nats-Msg-Size header to indicate the size of the removed payload.
+Delivers only the headers of messages in the stream and not the bodies. Additionally adds `Nats-Msg-Size` header to indicate the size of the removed payload.
 
 {% hint style="info" %}
 This field _can_ be updated after the initial creation of the consumer.
