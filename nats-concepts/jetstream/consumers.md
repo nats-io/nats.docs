@@ -215,3 +215,11 @@ Used to throttle the delivery of messages to the consumer, in bits per second.
 {% hint style="info" %}
 The push rate limit _can_ be adjusted after the initial creation of the consumer
 {% endhint %}
+
+### HeadersOnly
+
+Delivers only the headers of messages in the stream and not the bodies. Additionally adds `Nats-Msg-Size` header to indicate the size of the removed payload.
+
+{% hint style="info" %}
+This field _can_ be updated after the initial creation of the consumer.
+{% endhint %}
