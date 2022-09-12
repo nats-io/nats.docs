@@ -150,7 +150,7 @@ You can enable JetStream in the server's configuration by simply adding a `jetst
 By default, the JetStream subsystem will store data in the /tmp directory, but you can specify the directory to use via the `store_dir`, as well as the limits for JetStream storage (a value of 0 means no limit).
 
 | Property | Description | Default | Version |
-| :--- | :--- | :--- |
+| :--- | :--- | :--- | :--- |
 | `store_dir` | Directory to use for JetStream storage. | `/tmp/nats/jetstream` | 2.2+ |
 | `max_memory_store` | Maximum size of the 'memory' storage | 75% of available memory | 2.2+ |
 | `max_file_store` | Maximum size of the 'file' storage | Up to 1TB if available | 2.2+ |
