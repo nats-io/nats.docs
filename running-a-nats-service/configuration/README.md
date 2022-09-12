@@ -149,12 +149,12 @@ authorization: {
 You can enable JetStream in the server's configuration by simply adding a `jetstream {}` map.
 By default, the JetStream subsystem will store data in the /tmp directory, but you can specify the directory to use via the `store_dir`, as well as the limits for JetStream storage (a value of 0 means no limit).
 
-| Property | Description | Default |
+| Property | Description | Default | Version |
 | :--- | :--- | :--- |
-| `store_dir` | Directory to use for JetStream storage. | `/tmp/nats/jetstream` |
-| `max_memory_store` | Maximum size of the 'memory' storage | 75% of available memory |
-| `max_file_store` | Maximum size of the 'file' storage | Up to 1TB if available |
-
+| `store_dir` | Directory to use for JetStream storage. | `/tmp/nats/jetstream` | 2.2+ |
+| `max_memory_store` | Maximum size of the 'memory' storage | 75% of available memory | 2.2+ |
+| `max_file_store` | Maximum size of the 'file' storage | Up to 1TB if available | 2.2+ |
+| `max_outstanding_catchup` | Max in-flight bytes for stream catch-up | 32MB | 2.9+ |
 
 Here's an example minimal file that will store data in a local "nats" directory with some limits.
 
@@ -164,7 +164,7 @@ Here's an example minimal file that will store data in a local "nats" directory 
 # js.conf
 jetstream {
    store_dir=nats
-   
+
    // 1GB
    max_memory_store: 1073741824
 
