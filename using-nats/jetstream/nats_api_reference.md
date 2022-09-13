@@ -83,7 +83,7 @@ The API uses JSON for inputs and outputs, all the responses are typed using a `t
 | `$JS.API.CONSUMER.NAMES.*`            | `api.JSApiConsumerNamesT` | Paged list of known Consumer names                                              | `api.JSApiConsumerNamesRequest` | `api.JSApiConsumerNamesResponse` |
 | `$JS.API.CONSUMER.INFO.*.*`           | `api.JSApiConsumerInfoT` | Information about an Consumer                                                   | empty payload, Stream and Consumer names in subject | `api.JSApiConsumerInfoResponse` |
 | `$JS.API.CONSUMER.DELETE.*.*`         | `api.JSApiConsumerDeleteT` | Deletes a Consumer                                                             | empty payload, Stream and Consumer names in subject | `api.JSApiConsumerDeleteResponse` |
-| `$JS.FC.>` | N/A | Consumer to subscriber flow control messages (also needed for stream mirroring) | | | 
+| `$JS.FC.>` | N/A | Consumer to subscriber flow control messages (also needed for stream mirroring) | | |
 
 ### ACLs
 
@@ -122,7 +122,8 @@ Stream and Consumer Use
 
 ```text
 $JS.API.CONSUMER.MSG.NEXT.<stream>.<consumer>
-$JS.ACK.<stream>.<consumer>.x.x.x
+$JS.ACK.<stream>.<consumer>.x.x.x.x.x
+$JS.ACK.<domain>.<account-hash>.<stream>.<consumer>.x.x.x.x.x
 $JS.SNAPSHOT.ACK.<stream>.<msg id>
 $JS.SNAPSHOT.RESTORE.<stream>.<msg id>
 $JS.FC.>
@@ -154,7 +155,9 @@ This design allows you to easily create ACL rules that limit users to a specific
 
 ## Acknowledging Messages
 
-Messages that need acknowledgement will have a Reply subject set, something like `$JS.ACK.ORDERS.test.1.2.2`, this is the prefix defined in `api.JetStreamAckPre` followed by `<stream>.<consumer>.<delivered count>.<stream sequence>.<consumer sequence>.<timestamp>.<pending messages>`.
+Messages that need acknowledgement will have a Reply subject set having one of two forms, both having the `$JS.ACK.` prefix. The v1 form is a 9 token format with the following additional tokens: `<stream>.<consumer>.<delivered count>.<stream sequence>.<consumer sequence>.<timestamp>.<pending messages>`, for example `$JS.ACK.ORDERS.test.1.2.2.1663081081.2`.
+
+The v2 form is an 11 (or more) token format with the following additional tokens: `<domain>.<account hash>.<stream>.<consumer>.<delivered count>.<stream sequence>.<consumer sequence>.<timestamp>.<pending messages>`, for example `$JS.ACK._.xxxx.ORDERS.test.1.2.2.1663081081.2`.
 
 In all of the Synadia maintained API's you can simply do `msg.Respond(nil)` \(or language equivalent\) which will send nil to the reply subject.
 
