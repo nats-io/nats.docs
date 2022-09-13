@@ -110,6 +110,15 @@ When consuming from a stream with a wildcard subject, this allows you to select 
 The consumer's filter subject _can_ be adjusted after the initial creation of the consumer
 {% endhint %}
 
+## InactiveThreshold
+
+Duration that instructs the server to cleanup consumers that are inactive for that long.
+
+{% hint style="info" %}
+The consumer's inactive threshold _can_ be changed after the initial creation of the consumer.
+**Note:** Prior to NATS server 2.9, this only applied to ephemeral consumers.
+{% endhint %}
+
 ## MaxAckPending
 
 MaxAckPending implements a simple form of _one-to-many_ flow control. It sets the maximum number of messages without an acknowledgement that can be outstanding, once this limit is reached message delivery will be suspended. It cannot be used with AckNone ack policy. This maximum number of pending acks applies for _all_ of the consumer's subscriber processes. A value of -1 means there can be any number of pending acks (i.e. no flow control).
