@@ -8,6 +8,19 @@ NATS philosophy is simplicity. Installation is just decompressing a zip file and
 * [Release Zip](installation.md#downloading-a-release-build)
 * [Development Build](installation.md#installing-from-the-source)
 
+## Supported operating systems and architectures
+
+The following table indicates the current supported NATS server build combinations for operating systems and architectures.
+
+| Operating System | Architectures |
+| :--- | :--- |
+| Darwin (macOS) | amd64, arm64 |
+| Linux | amd64, 386, arm6, arm7, arm64, mips64le, s390x |
+| Windows | amd64, 386, arm6, arm7, arm64 |
+| FreeBSD | amd64 |
+
+*Note, not all installation methods below have distributions for all OS and architecture combinations.*
+
 ## Installing via Docker
 
 With Docker you can install the server easily without scattering binaries and other artifacts on your system. The only pre-requisite is to [install docker](https://docs.docker.com/install).
