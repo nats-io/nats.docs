@@ -14,7 +14,7 @@ Streams support deduplication using a `Nats-Msg-Id` header and a sliding window 
 
 ## Configuration
 
-When defining Streams the items below make up the entire configuration of the set. The field names
+When defining Streams the items below make up the entire configuration of the set.
 
 | Field | Description | Version |
 | :--- | :--- | :--- |
