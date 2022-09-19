@@ -210,6 +210,7 @@ The Configuration options here refer to [JWT](/running-a-nats-service/configurat
 | Property | Description | Default |
 | :--- | :--- | :--- |
 | `server_name` | The servers name, shows up in logging. Defaults to the server's id. When JetStream is used, withing a domain, all server names need to be unique. | Generated Server ID |
+| `server_tags` | A set of tags describing properties of the server. This will be exposed through `/varz` and can be used for system resource requests, such as placement of streams. |
 | `trace` | If `true` enable protocol trace log messages. Excludes the system account. | `false`, disabled |
 | `trace_verbose` | If `true` enable protocol trace log messages. Includes the system account. | `false`, disabled |
 | `debug` | If `true` enable debug log messages | `false`, disabled |
