@@ -2,6 +2,10 @@
 
 The NATS.io team is always working to bring you features to improve your NATS experience. Below you will find feature summaries for new implementations to NATS. Check back often for release highlights and updates.
 
+## Server release v2.9.0
+
+Please check out the [announcement post](https://nats.io/blog/nats-server-29-release/) on the blog and the [detailed release notes](https://github.com/nats-io/nats-server/releases/tag/v2.9.0) in the server repo.
+
 ## Server release v2.8.0
 
 ### LeafNode
