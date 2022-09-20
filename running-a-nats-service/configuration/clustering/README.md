@@ -62,7 +62,7 @@ Clustering can also be configured using the server [config file](cluster_config.
 The following example demonstrates how to run a cluster of 3 servers on the same host. We will start with the seed server and use the `-D` command line parameter to produce debug information.
 
 ```bash
-nats-server -p 4222 -cluster nats://localhost:5222 -D
+nats-server -p 4222 -cluster nats://localhost:4248 -D
 ```
 
 Alternatively, you could use a configuration file, let's call it `seed.conf`, with a content similar to this:
