@@ -142,7 +142,7 @@ This is the general pattern for the entire `nats` utility as it relates to JetSt
 A stream can be copied into another, which also allows the configuration of the new one to be adjusted via CLI flags:
 
 ```shell
-nats str cp ORDERS ARCHIVE --subjects "ORDERS_ARCVHIVE.*" --max-age 2y
+nats str cp ORDERS ARCHIVE --subjects "ORDERS_ARCHIVE.*" --max-age 2y
 ```
 ```text
 Stream ORDERS was created
