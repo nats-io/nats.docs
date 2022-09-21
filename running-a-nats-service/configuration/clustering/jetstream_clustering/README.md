@@ -53,6 +53,10 @@ Below are explicitly listed server configuration for a three-node cluster across
 server_name=n1-c1
 listen=4222
 
+accounts {
+ $SYS { users = [ { user: "admin", pass: "s3cr3t!" } ] }
+}
+
 jetstream {
    store_dir=/nats/storage
 }
@@ -73,6 +77,10 @@ cluster {
 server_name=n2-c1
 listen=4222
 
+accounts {
+ $SYS { users = [ { user: "admin", pass: "s3cr3t!" } ] }
+}
+
 jetstream {
    store_dir=/nats/storage
 }
@@ -92,6 +100,10 @@ cluster {
 ```text
 server_name=n3-c1
 listen=4222
+
+accounts {
+ $SYS { users = [ { user: "admin", pass: "s3cr3t!" } ] }
+}
 
 jetstream {
    store_dir=/nats/storage
