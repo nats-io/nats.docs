@@ -74,6 +74,10 @@ nats:
     key: "tls.key"
 ```
 
+Example of creating the _nats-client-tls_ k8s secret with three named values matching the above setup:
+```text
+kubectl create secret generic nats-client-tls --from-file=tls.crt=./broker.crt --from-file=tls.key=./broker.key --from-file=ca.crt=./ca.pem
+```
 ## Clustering
 
 If clustering is enabled, then a 3-node cluster will be set up. More info at: [running-a-nats-server/configuration/clustering#nats-server-clustering](/running-a-nats-service/configuration/clustering/#nats-server-clustering)
@@ -218,7 +222,7 @@ bootconfig:
 
 ### Using LoadBalancers
 
-When using a load balancer for external access, it is recommended to disable no advertise so that internal IPs from the NATS Servers are not advertised to the clients connecting through the load balancer.
+When using a load balancer for external access, it is recommended to disable advertisement so that internal IPs from the NATS Servers are not advertised to the clients connecting through the load balancer.
 
 ```yaml
 nats:
