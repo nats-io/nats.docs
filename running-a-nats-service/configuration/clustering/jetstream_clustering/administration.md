@@ -93,7 +93,7 @@ Systems users can view state of the Meta Group - but not individual Stream or Co
 We have a high level report of cluster state:
 
 ```shell
-nats server report jetstream --user system
+nats server report jetstream --user admin --password s3cr3t!
 ```
 ```text
 +--------------------------------------------------------------------------------------------------+
@@ -133,7 +133,7 @@ In the Meta Group report the server `n2-c1` is not current and has not been seen
 This report is built using raw data that can be obtained from the monitor port on the `/jsz` url, or over nats using:
 
 ```shell
-nats server req jetstream --help
+nats server req jetstream --user admin --password s3cr3t! --help
 ```
 ```text
 usage: nats server request jetstream [<flags>] [<wait>]
@@ -176,7 +176,7 @@ Args:
 ```
 
 ```shell
-nats server req jetstream --leader
+nats server req jetstream --user admin --password s3cr3t! --leader
 ```
 
 This will produce a wealth of raw information about the current state of your cluster - here requesting it from the leader only.
@@ -186,7 +186,7 @@ This will produce a wealth of raw information about the current state of your cl
 Similar to Streams and Consumers above the Meta Group allows leader stand down. The Meta Group is cluster wide and spans all accounts, therefore to manage the meta group you have to use a `SYSTEM` user.
 
 ```shell
-nats server raft step-down --user system
+nats server raft step-down --user admin --password s3cr3t!
 ```
 ```text
 17:44:24 Current leader: n2-c2
