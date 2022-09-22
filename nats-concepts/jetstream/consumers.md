@@ -10,11 +10,11 @@ For examples on how to configure consumers with your preferred NATS client, see 
 
 [core-nats]: https://docs.nats.io/nats-concepts/core-nats
 
-## Configuration
+# Configuration
 
 Below are the set of consumer configuration options that can be defined. The `Version` column indicates the version of the server the option was introduced. The `Editable` column indicates the option can be edited after the consumer is created.
 
-### General
+## General
 
 | Field | Description | Version | Editable |
 | :--- | :--- | :--- | :--- |
@@ -60,13 +60,11 @@ The policies choices include:
 - `DeliverByStartSequence` - When first consuming messages, start at this particular message in the set. The consumer is required to specify `OptStartSeq`, the sequence number to start on. It will receive the closest available message moving forward in the sequence should the message specified have been removed based on the stream limit policy.
 - `DeliverByStartTime` - When first consuming messages, start with messages on or after this time. The consumer is required to specify `OptStartTime`, the time in the stream to start at. It will receive the closest available message on or after that time.
 
-### Flow Control
+### MaxAckPending
 
-The `MaxAckPending` capability provides one-to-many flow control and applies to both push and pull consumers.
+The `MaxAckPending` capability provides one-to-many flow control and applies to both push and pull consumers. For push consumers, `MaxAckPending` is the _only_ form of flow control. However, for pull consumers because the delivery of the messages to the client application is client-driven (hence the 'pull') rather than server initiated (hence the 'push') there is an implicit one-to-one flow control with the subscribers (the maximum batch size of the Fetch calls). Therefore you should remember to set it to an appropriately high value (e.g. the default value of 20000), as it can otherwise place a limit on the horizontal scalability of the processing of the stream in high throughput situations.
 
-For push consumers, `MaxAckPending` is the _only_ form of flow control. However, for pull consumers because the delivery of the messages to the client application is client-driven (hence the 'pull') rather than server initiated (hence the 'push') there is an implicit one-to-one flow control with the subscribers (the maximum batch size of the Fetch calls). Therefore you should remember to set it to an appropriately high value (e.g. the default value of 20000), as it can otherwise place a limit on the horizontal scalability of the processing of the stream in high throughput situations.
-
-## Pull Consumer
+## Pull-specific
 
 These options apply only to pull consumers.
 
@@ -78,7 +76,7 @@ These options apply only to pull consumers.
 | MaxRequestMaxBytes | The maximum total bytes that can be requested in a given batch. When set with `MaxRequestBatch`, the batch size will be constrained by whichever limit is hit first. | 2.8.3 | Yes |
 
 
-## Push Consumer
+## Push-specific
 
 These options apply only to push consumers.
 
