@@ -43,7 +43,7 @@ The policies choices include:
 - `AckNone` - You do not have to ack any messages, the server will assume ack on delivery.
 - `AckAll` - If you receive a series of messages, you only have to ack the last one you received. All the previous messages received are automatically acknowledged.
 
-If an ack is required but is not received within the `AckWait` window, the message will be redelivered
+If an ack is required but is not received within the `AckWait` window, the message will be redelivered.
 
 {% hint style="warning" %}
 The server may consider an ack arriving out of the window. If a first process fails to ack within the window it's entirely possible, for instance in queue situation, that the message has been redelivered to another consumer. Since this will technically restart the window, the ack from the first consumer will be considered.
