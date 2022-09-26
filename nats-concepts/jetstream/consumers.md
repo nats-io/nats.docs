@@ -4,9 +4,7 @@ Unlike with [core NATS][core-nats] which provides an **at most once** delivery g
 
 Consumers can be **push**-based where messages will be delivered to a specified subject or **pull**-based which allows clients to request batches of messages on demand. The choice of what kind of consumer to use depends on the use-case but typically in the case of a client application that needs to get their own individual replay of messages from a stream you would use an 'ordered push consumer'. If there is a need to process messages and easily scale horizontally, you would use a 'pull consumer'.
 
-In addition to the choice of being push or pull, a consumer can also be **ephemeral** or **durable**. A durable consumer simply by having a *durable name* defined when creating the consumer initially, whereas an ephemeral does not. Durables and ephemeral behave exactly the same except that an ephemeral will be automatically *cleaned up* (deleted) after a period of inactivity, specifically when there are no subscriptions bound to the consumer. By default, durables will remain even when there are periods of inactivity (unless `InactiveThreshold` is set explicitly).
-
-For examples on how to configure consumers with your preferred NATS client, see [NATS by Example](https://natsbyexample.com).
+In addition to the choice of being push or pull, a consumer can also be **ephemeral** or **durable**. A consumer is considered *durable* when an explicit name is set on the `Durable` field when creating the consumer, otherwise it is considered ephemeral. Durables and ephemeral behave exactly the same except that an ephemeral will be automatically *cleaned up* (deleted) after a period of inactivity, specifically when there are no subscriptions bound to the consumer. By default, durables will remain even when there are periods of inactivity (unless `InactiveThreshold` is set explicitly).
 
 [core-nats]: https://docs.nats.io/nats-concepts/core-nats
 
@@ -18,7 +16,7 @@ Below are the set of consumer configuration options that can be defined. The `Ve
 
 | Field | Description | Version | Editable |
 | :--- | :--- | :--- | :--- |
-| Durable | If set, clients can have subscriptions bind to the consumer and _resume_ until the consumer is explicitly deleted. The consumer will durable name cannot contain whitespace, `.`, `*`, `>`, path separators (forward or backwards slash), and non-printable characters. | 2.2.0 | No |
+| Durable | If set, clients can have subscriptions bind to the consumer and _resume_ until the consumer is explicitly deleted. A durable name cannot contain whitespace, `.`, `*`, `>`, path separators (forward or backwards slash), and non-printable characters. | 2.2.0 | No |
 | FilterSubject | An overlapping subject with the subjects bound to the stream which will filter the set of messages received by the consumer. | 2.2.0 | Yes |
 | [AckPolicy](#ackpolicy) | The requirement of client acknowledgements, either `AckExplicit`, `AckNone`, or `AckAll`. | 2.2.0 | No |
 | AckWait | The duration that the server will wait for an ack for any individual message _once it has been delivered to a consumer_. If an ack is not received in time, the message will be redelivered. | 2.2.0 | Yes |
@@ -57,8 +55,8 @@ The policies choices include:
 - `DeliverLast` - When first consuming messages, the consumer will start receiving messages with the last message added to the stream, or the last message in the stream that matches the consumer's filter subject if defined.
 - `DeliverLastPerSubject` - When first consuming messages, start with the latest one for each filtered subject currently in the stream.
 - `DeliverNew` - When first consuming messages, the consumer will only start receiving messages that were created after the consumer was created.
-- `DeliverByStartSequence` - When first consuming messages, start at this particular message in the set. The consumer is required to specify `OptStartSeq`, the sequence number to start on. It will receive the closest available message moving forward in the sequence should the message specified have been removed based on the stream limit policy.
-- `DeliverByStartTime` - When first consuming messages, start with messages on or after this time. The consumer is required to specify `OptStartTime`, the time in the stream to start at. It will receive the closest available message on or after that time.
+- `DeliverByStartSequence` - When first consuming messages, start at the first message having the sequence number or the next one available. The consumer is required to specify `OptStartSeq` which defines the sequence number.
+- `DeliverByStartTime` - When first consuming messages, start with messages on or after this time. The consumer is required to specify `OptStartTime` which defines this start time.
 
 ### MaxAckPending
 
@@ -66,7 +64,8 @@ The `MaxAckPending` capability provides one-to-many flow control and applies to 
 
 ## Pull-specific
 
-These options apply only to pull consumers.
+These options apply only to pull consumers. For an example on how configure a pull consumer using your preferred client, see [NATS by Example](https://natsbyexample.com/examples/jetstream/pull-consumer/go).
+
 
 | Field | Description | Version | Editable |
 | :--- | :--- | :--- | :--- |
@@ -78,7 +77,7 @@ These options apply only to pull consumers.
 
 ## Push-specific
 
-These options apply only to push consumers.
+These options apply only to push consumers. For an example on how to configure a push consumer using your preferred client, see [NATS by Example](https://natsbyexample.com/examples/jetstream/push-consumer/go).
 
 | Field | Description | Version | Editable |
 | :--- | :--- | :--- | :--- |
