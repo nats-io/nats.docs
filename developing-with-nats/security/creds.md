@@ -78,7 +78,8 @@ await nc.close()
 
 {% tab title="TypeScript" %}
 ```typescript
-// credentials file contains the JWT and the secret signing key
+// Credentials file contains the JWT and the secret signing key. This example
+// show how the file could be read using the Node.js runtime.
 const data = fs.readFileSync(credsFile);
 
 let nc = await connect({
