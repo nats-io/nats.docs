@@ -79,7 +79,7 @@ await nc.close()
 {% tab title="TypeScript" %}
 ```typescript
 // credentials file contains the JWT and the secret signing key
-const data = fs.readFileSync(creds_file_path);
+const data = fs.readFileSync(credsFile);
 
 let nc = await connect({
     servers: [url],
