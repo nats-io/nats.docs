@@ -50,8 +50,8 @@ nc.close();
 {% tab title="JavaScript" %}
 ```javascript
 // credentials file contains the JWT and the secret signing key
-const data = fs.readFileSync(creds_file_path);
-  let nc = NATS.connect({
+const data = fs.readFileSync(credsFile);
+let nc = NATS.connect({
     servers: [url],
     authenticator: credsAuthenticator(data)
 });
