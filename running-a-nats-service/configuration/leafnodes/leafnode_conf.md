@@ -98,7 +98,7 @@ If other form of credentials are used (jwt, nkey or other), then the server will
 
 ### Signature Handler
 
-Since `v.2.9.0`, for users embedding the NATS Server, it is possible to replace the use of the credentials file by a signature callback which will sign the `nonce` and provide the JWT in the `CONNECT` protocol. The `RemoteLeafOpts` has a new filed:
+As of NATS Server v.2.9.0, for users embedding the NATS Server, it is possible to replace the use of the credentials file by a signature callback which will sign the `nonce` and provide the JWT in the `CONNECT` protocol. The `RemoteLeafOpts` has a new filed:
 ```go
 SignatureCB  SignatureHandler
 ```
