@@ -96,6 +96,21 @@ If other form of credentials are used (jwt, nkey or other), then the server will
 | `ws_compression` | If connecting with [Websocket](leafnode_conf.md#connecting-using-websocket-protocol) protocol, this boolean (`true` or `false`) indicates to the remote server that it wishes to use compression. The default is `false`.                                                 |
 | `ws_no_masking`  | If connecting with [Websocket](leafnode_conf.md#connecting-using-websocket-protocol) protocol, this boolean indicates to the remote server that it wishes not to mask outbound WebSocket frames. The default is `false`, which means that outbound frames will be masked. |
 
+### Signature Handler
+
+As of NATS Server v.2.9.0, for users embedding the NATS Server, it is possible to replace the use of the credentials file by a signature callback which will sign the `nonce` and provide the JWT in the `CONNECT` protocol. The `RemoteLeafOpts` has a new field:
+```go
+SignatureCB  SignatureHandler
+```
+The callback definition is:
+```go
+// SignatureHandler is used to sign a nonce from the server while
+// authenticating with Nkeys. The callback should sign the nonce and
+// return the JWT and the raw signature.
+type SignatureHandler func([]byte) (string, []byte, error)
+```
+And example of how to use it can be found [here](https://github.com/nats-io/nats-server/blob/7baf7bd8870a0719e3692e6523b09a14653f717d/server/leafnode_test.go#L4402)
+
 ### Connecting using WebSocket protocol
 
 Since NATS 2.2.0, Leaf nodes support outbound WebSocket connections by specifying `ws` as the scheme component of the remote server URLs:
