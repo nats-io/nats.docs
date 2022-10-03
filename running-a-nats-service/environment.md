@@ -3,8 +3,8 @@
 ## Networking
 
 ### Load balancers
-It is possible to deploy a load balancer between the client applications and the cluster servers (or even between servers in a cluster or between clusters in a super-cluster), but you don't need to: NATS already has its own mechanisms to balance the connections between the seeds in the connection URL (including the clients randomizing the returned DNS A records) and to automatically re-established dropped connections.
-If you have a cluster with 3 seed nodes you often get more network throughput than going through a load balancer (cloud provider's load balancers can be woefully underpowered, not to mention it costs you more money as the load balancer is typically billed by the amount of data going through it).
+It is possible to deploy a load balancer between the client applications and the cluster servers (or even between servers in a cluster or between clusters in a super-cluster), but you don't need to: NATS already has its own mechanisms to balance the connections between the seeds in the connection URL (including the clients randomizing the returned DNS A records) and to automatically re-establish dropped connections.
+If you have a cluster with 3 seed nodes you often get more network throughput than going through a load balancer (cloud provider load balancers can be woefully underpowered, not to mention it costs you more money as the load balancer is typically billed by the amount of data going through it).
 Finally, if you want to use TLS for authentication you do not want the load balancer to be the TLS termination point.
 
 If you do use load balancers you just need to understand the potential issues with having load balancers and adjust the settings accordingly. The main concerns are problems caused by incorrectly configured idle detection, protocol problems due to packet inspection, and ephemeral port problems at high scale.
