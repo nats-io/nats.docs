@@ -36,7 +36,7 @@ For high throughput use cases, the network interface card (NIC) or the available
 The table below notes the minimum number of cores and memory with the different combinations of publishers, subscribers, and message rate where the single server or cluster remained stable (not slow nor hitting an out-of-memory). These were tested inside a container with `GOMEMLIMIT` set to 90% of the memory allocation.
 
 | Cluster Size | CPU cores | Memory | Subscribers | Publishers | Publish Rate | Total Message Rate |
-| :--- | :--- | :--- | :--- | :--- | :--- |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 1 | 1 | 32 MiB | 1 | 100 | 1000 | 100,000 |
 | 1 | 1 | 64 MiB | 1 | 1000 | 100 | 100,000 |
 | 3 | 1 | 32 MiB | 1 | 1000 | 100 | 100,000 |
@@ -47,7 +47,7 @@ The table below notes the minimum number of cores and memory with the different 
 This table follows the same pattern as above, however the published messages are being received by a stream using file storage with the one replica or three (for a cluster size of three). The subscriber is relying on a "pull consumer" for fetching messages.
 
 | Cluster Size | CPU cores | Memory | Subscribers | Publishers | Publish Rate | Total Message Rate |
-| :--- | :--- | :--- | :--- | :--- | :--- |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 1 | 1 | 32 MiB | 1 | 10 | 100 | 1,000 |
 | 1 | 1 | 32 MiB | 1 | 100 | 10 | 1,000 |
 | 1 | 1 | 64 MiB | 1 | 100 | 100 | 10,000 |
