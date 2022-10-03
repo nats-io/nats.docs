@@ -21,6 +21,29 @@ The following table indicates the current supported NATS server build combinatio
 
 *Note, not all installation methods below have distributions for all OS and architecture combinations.*
 
+## System Requirements
+
+The NATS server itself has minimal hardware requirements to support small edge devices, but can take advantage of more resources if available. For high throughput use cases, the network interface card (NIC) or the available bandwidth are often the bottleneck.
+
+A core NATS server with one publisher and receiver at ~2M messages/sec will use about 11 MB RSS. CPU should be considered in accepting TLS connections. After a network partition, every disconnected client will attempt to connect to a NATS server in the cluster simultaneously, so CPU on those servers will momentarily spike. When there are many clients this can be mitigated with reconnect jitter settings, and errors can be reduced with longer TLS timeouts, and scaling up cluster sizes.
+
+We highly recommend testing to see if smaller, cheaper machines suffice - often they do! We suggest starting here and adjusting resources after load testing specific to your environment. When using cloud provider instance types make sure the node has a sufficient NIC to support the required bandwidth for the application needs.
+
+#### Core Server
+
+| Resource | Minimum |
+|------|----|
+| Memory | 32 MB |
+| CPU | 1 core |
+
+#### With JetStream
+
+| Resource | Minimum |
+|------|----|
+| Memory | 64 MB |
+| CPU | 1 cores |
+| Storage | Local Disk/Drive |
+
 ## Installing via Docker
 
 With Docker you can install the server easily without scattering binaries and other artifacts on your system. The only pre-requisite is to [install docker](https://docs.docker.com/install).
