@@ -21,7 +21,7 @@ The following table indicates the current supported NATS server build combinatio
 
 *Note, not all installation methods below have distributions for all OS and architecture combinations.*
 
-## System Requirements
+## Hardware requirements
 
 The NATS server itself has minimal hardware requirements to support small edge devices, but can take advantage of more resources if available.
 
