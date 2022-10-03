@@ -23,26 +23,39 @@ The following table indicates the current supported NATS server build combinatio
 
 ## System Requirements
 
-The NATS server itself has minimal hardware requirements to support small edge devices, but can take advantage of more resources if available. For high throughput use cases, the network interface card (NIC) or the available bandwidth are often the bottleneck.
+The NATS server itself has minimal hardware requirements to support small edge devices, but can take advantage of more resources if available.
 
-A core NATS server with one publisher and receiver at ~2M messages/sec will use about 11 MB RSS. CPU should be considered in accepting TLS connections. After a network partition, every disconnected client will attempt to connect to a NATS server in the cluster simultaneously, so CPU on those servers will momentarily spike. When there are many clients this can be mitigated with reconnect jitter settings, and errors can be reduced with longer TLS timeouts, and scaling up cluster sizes.
+CPU should be considered in accepting TLS connections. After a network partition, every disconnected client will attempt to connect to a NATS server in the cluster simultaneously, so CPU on those servers will momentarily spike. When there are many clients this can be mitigated with reconnect jitter settings, and errors can be reduced with longer TLS timeouts, and scaling up cluster sizes.
 
-We highly recommend testing to see if smaller, cheaper machines suffice - often they do! We suggest starting here and adjusting resources after load testing specific to your environment. When using cloud provider instance types make sure the node has a sufficient NIC to support the required bandwidth for the application needs.
+We highly recommend testing to see if smaller, cheaper machines suffice for your workload - often they do! We suggest starting here and adjusting resources after load testing specific to your environment. When using cloud provider instance types make sure the node has a sufficient NIC to support the required bandwidth for the application needs.
 
-#### Core Server
+For high throughput use cases, the network interface card (NIC) or the available bandwidth are often the bottleneck, so ensure the hardware or cloud provider instance types are sufficient for your needs.
 
-| Resource | Minimum |
-|------|----|
-| Memory | 32 MB |
-| CPU | 1 core |
+### Core NATS
 
-#### With JetStream
+The table below notes the minimum number of cores and memory with the different combinations of publishers, subscribers, and message rate where the single server or cluster remained stable (not slow nor hitting an out-of-memory). These were tested inside a container with `GOMEMLIMIT` set to 90% of the memory allocation.
 
-| Resource | Minimum |
-|------|----|
-| Memory | 64 MB |
-| CPU | 1 cores |
-| Storage | Local Disk/Drive |
+| Cluster Size | CPU cores | Memory | Subscribers | Publishers | Publish Rate | Total Message Rate |
+|------|----|----|----|----|----|
+| 1 | 1 | 32 MiB | 1 | 100 | 1000 | 100,000 |
+| 1 | 1 | 64 MiB | 1 | 1000 | 100 | 100,000 |
+| 3 | 1 | 32 MiB | 1 | 1000 | 100 | 100,000 |
+| 3 | 1 | 64 MiB | 1 | 1000 | 100 | 100,000 |
+
+### With JetStream
+
+This table follows the same pattern as above, however the published messages are being received by a stream using file storage with the one replica or three (for a cluster size of three). The subscriber is relying on a "pull consumer" for fetching messages.
+
+| Cluster Size | CPU cores | Memory | Subscribers | Publishers | Publish Rate | Total Message Rate |
+|------|----|----|----|----|----|
+| 1 | 1 | 32 MiB | 1 | 10 | 100 | 1,000 |
+| 1 | 1 | 32 MiB | 1 | 100 | 10 | 1,000 |
+| 1 | 1 | 64 MiB | 1 | 100 | 100 | 10,000 |
+| 1 | 1 | 64 MiB | 1 | 1000 | 10 | 10,000 |
+| 3 | 1 | 32 MiB | 1 | 100 | 10 | 1,000 |
+| 3 | 1 | 64 MiB | 1 | 100 | 100 | 10,000 |
+| 3 | 1 | 64 MiB | 1 | 1000 | 10 | 10,000 |
+| 3 | 1 | 256 MiB | 1 | 1000 | 100 | 100,000 |
 
 ## Installing via Docker
 
