@@ -2627,6 +2627,11 @@ it is also possible to express interest in every subject that may exist in NATS:
 <td style="text-align:left">Publish a message to a subject, with optional reply subject</td>
 </tr>
 <tr>
+    <td><a href="#hpub"><code>HPUB</code></a></td>
+    <td style="text-align:left">Client</td>
+    <td style="text-align:left">Publish a message to a subject including NATS headers, with optional reply subject</td>
+</tr>
+<tr>
 <td><a href="#sub"><code>SUB</code></a></td>
 <td style="text-align:left">Client</td>
 <td style="text-align:left">Subscribe to a subject (or subject wildcard)</td>
@@ -2640,6 +2645,11 @@ it is also possible to express interest in every subject that may exist in NATS:
 <td><a href="#msg"><code>MSG</code></a></td>
 <td style="text-align:left">Server</td>
 <td style="text-align:left">Delivers a message payload to a subscriber</td>
+</tr>
+<tr>
+    <td><a href="#hmsg"><code>HMSG</code></a></td>
+    <td style="text-align:left">Server</td>
+    <td style="text-align:left">Delivers a message payload to a subscriber with NATS headers</td>
 </tr>
 <tr>
 <td><a href="#pingpong"><code>PING</code></a></td>
@@ -2740,6 +2750,31 @@ INFO <span class="token punctuation">{</span><span class="token string">&quot;se
 <p><code>PUB FRONT.DOOR INBOX.22 11\r\nKnock Knock\r\n</code></p>
 <p>To publish an empty message to subject NOTIFY:</p>
 <p><code>PUB NOTIFY 0\r\n\r\n</code></p>
+<h2 id="hpub"><a name="hpub" class="plugin-anchor" href="#hpub"><i class="fa fa-link" aria-hidden="true"></i></a>HPUB</h2>
+<h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
+<p>The <code>HPUB</code> message is the same as <code>PUB</code> but extends total message payload <b>to include NATS headers</b>. Note that the payload itself is optional. To omit the payload, set the total message size to the same as the headers size. Note that the trailing CRLF is still required.</p>
+<p>NATS headers are similar in semantic to HTTP headers as <code>name: value</code> pairs. Multi-value headers are allowed. Headers can be mixed case and NATS will preserve case between message publisher and message receiver(s).  See also <a href="https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-4.md">ADR-4 NATS Message Headers</a>.
+
+<h4 id="syntax"><a name="syntax" class="plugin-anchor" href="#syntax"><i class="fa fa-link" aria-hidden="true"></i></a>Syntax</h4>
+<p><code>HPUB <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>subject</span><span class="token punctuation">&gt;</span></span> [reply-to] <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#header bytes</span><span class="token punctuation">&gt;</span> <span class="token punctuation">&lt;</span>#total bytes</span><span class="token punctuation">&gt;</span>\r\n[headers]</span>\r\n\r\n[payload]\r\n</code></p>
+<p>where:</p>
+<ul>
+    <li><code>subject</code>: The destination subject to publish to</li>
+    <li><code>reply-to</code>: The optional reply inbox subject that subscribers can use to send a response back to the publisher/requestor</li>
+    <li><code>#header bytes</code>: The size of the headers section in bytes including the <code>\r\n\r\n</code> delimiter before the payload</li>
+    <li><code>#total bytes</code>: The total size of headers and payload sections in bytes</li>
+    <li><code>headers</code>: Header version <code>NATS/1.0\r\n</code> followed by one or more <code>name: value</code> pairs, each separated by <code>\r\n</code></li>
+    <li><code>payload</code>: The message payload data</li>
+</ul>
+<h4 id="example"><a name="example" class="plugin-anchor" href="#example"><i class="fa fa-link" aria-hidden="true"></i></a>Example</h4>
+<p>To publish the ASCII string message payload &quot;Hello NATS!&quot; to subject FOO with one header Bar with value Baz:</p>
+<p><code>HPUB FOO 22 33\r\nNATS/1.0\r\nBar: Baz\r\n\r\nHello NATS!\r\n</code></p>
+<p>To publish a request message &quot;Knock Knock&quot; to subject FRONT.DOOR with reply subject INBOX.22 and two headers:</p>
+<p><code>HPUB FRONT.DOOR INBOX.22 45 56\r\nNATS/1.0\r\nBREAKFAST: donut\r\nLUNCH: burger\r\n\r\nKnock Knock\r\n</code></p>
+<p>To publish an empty message to subject NOTIFY with one header Bar with value Baz:</p>
+<p><code>HPUB NOTIFY 22 22\r\nNATS/1.0\r\nBar: Baz\r\n\r\n\r\n</code></p>
+<p>To publish a message to subject MORNING MENU with one header BREAKFAST having two values and payload "Yum!"</p>
+<p><code>HPUB MORNING.MENU 47 51\r\nNATS/1.0\r\nBREAKFAST: donut\r\nBREAKFAST: eggs\r\n\r\nYum!\r\n</code></p>
 <h2 id="sub"><a name="sub" class="plugin-anchor" href="#sub"><i class="fa fa-link" aria-hidden="true"></i></a>SUB</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
 <p><code>SUB</code> initiates a subscription to a subject, optionally joining a distributed queue group.</p>
@@ -2789,6 +2824,26 @@ INFO <span class="token punctuation">{</span><span class="token string">&quot;se
 <p><code>MSG FOO.BAR 9 11\r\nHello World\r\n</code></p>
 <p>To deliver the same message along with a reply inbox:</p>
 <p><code>MSG FOO.BAR 9 INBOX.34 11\r\nHello World\r\n</code></p>
+<h2 id="hmsg"><a name="hmsg" class="plugin-anchor" href="#hmsg"><i class="fa fa-link" aria-hidden="true"></i></a>HMSG</h2>
+<h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
+<p>The <code>HMSG</code> message is the same as <code>MSG</code> but extends message payload <b>with headers</b>. See also <a href="https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-4.md">ADR-4 NATS Message Headers</a>.</p>
+<h4 id="syntax"><a name="syntax" class="plugin-anchor" href="#syntax"><i class="fa fa-link" aria-hidden="true"></i></a>Syntax</h4>
+<p><code>HMSG <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>subject</span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sid</span><span class="token punctuation">&gt;</span></span> [reply-to] <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#header bytes</span><span class="token punctuation">&gt;</span> <span class="token punctuation">&lt;</span>#total bytes</span><span class="token punctuation">&gt;</span>\r\n[headers]</span>\r\n\r\n[payload]\r\n</code></p>
+<p>where:</p>
+<ul>
+    <li><code>subject</code>: Subject name this message was received on</li>
+    <li><code>sid</code>: The unique alphanumeric subscription ID of the subject</li>
+    <li><code>reply-to</code>: The inbox subject on which the publisher is listening for responses</li>
+    <li><code>#header bytes</code>: The size of the headers section in bytes including the <code>\r\n\r\n</code> delimiter before the payload</li>
+    <li><code>#total bytes</code>: The total size of headers and payload sections in bytes</li>
+    <li><code>headers</code>: Header version <code>NATS/1.0\r\n</code> followed by one or more <code>name: value</code> pairs, each separated by <code>\r\n</code></li>
+    <li><code>payload</code>: The message payload data</li>
+</ul>
+<h4 id="example"><a name="example" class="plugin-anchor" href="#example"><i class="fa fa-link" aria-hidden="true"></i></a>Example</h4>
+<p>The following message delivers an application message from subject <code>FOO.BAR</code> with a header:</p>
+<p><code>HMSG FOO.BAR 34 45\r\nNATS/1.0\r\nFoodGroup: vegetable\r\n\r\nHello World\r\n</code></p>
+<p>To deliver the same message along with a reply inbox:</p>
+<p><code>HMSG FOO.BAR 9 INBOX.69 34 45\r\nNATS/1.0\r\nFoodGroup: vegetable\r\n\r\nHello World\r\n</code></p>
 <h2 id="pingpong"><a name="pingpong" class="plugin-anchor" href="#pingpong"><i class="fa fa-link" aria-hidden="true"></i></a>PING/PONG</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
 <p><code>PING</code> and <code>PONG</code> implement a simple keep-alive mechanism between client and server. Once a client establishes a connection to the NATS server, the server will continuously send <code>PING</code> messages to the client at a configurable interval. If the client fails to respond with a <code>PONG</code> message within the configured response interval, the server will terminate its connection. If your connection stays idle for too long, it is cut off.</p>
