@@ -14,7 +14,7 @@ The NATS server implements a [zero allocation byte parser](https://youtu.be/ylRK
 
 **Field Delimiters**: The fields of NATS protocol messages are delimited by whitespace characters ` `(space) or `	`(tab). Multiple whitespace characters will be treated as a single field delimiter.
 
-**Newlines**: NATS uses `CR` followed by `LF` (`CR+LF`, `\r\n`, `0x0D0A`) to terminate protocol messages. This newline sequence is also used to mark the end of the message payload in `PUB`, `MSG`, `HPUB`, and `HMSG` protocol messages.
+**Newlines**: NATS uses ␍ followed by ␊ (␍␊, `0x0D0A`) to terminate protocol messages. This newline sequence is also used to mark the end of the message payload in `PUB`, `MSG`, `HPUB`, and `HMSG` protocol messages.
 
 **Subject names**: Subject names, including reply subject (INBOX) names, are case-sensitive and must be non-empty alphanumeric strings with no embedded whitespace. All ascii alphanumeric characters except spaces/tabs and separators which are `.` and `>` are allowed. Subject names can be optionally token-delimited using the dot character (`.`), e.g.:
 
