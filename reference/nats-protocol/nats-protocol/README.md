@@ -40,18 +40,20 @@ The following table briefly describes the NATS protocol messages. NATS protocol 
 
 Click the name to see more detailed information, including syntax:
 
-| OP Name                 | Sent By | Description                                                 |
-| ----------------------- | ------- | ----------------------------------------------------------- |
-| [`INFO`](./#info)       | Server  | Sent to client after initial TCP/IP connection              |
-| [`CONNECT`](./#connect) | Client  | Sent to server to specify connection information            |
-| [`PUB`](./#pub)         | Client  | Publish a message to a subject, with optional reply subject |
-| [`SUB`](./#sub)         | Client  | Subscribe to a subject (or subject wildcard)                |
-| [`UNSUB`](./#unsub)     | Client  | Unsubscribe (or auto-unsubscribe) from subject              |
-| [`MSG`](./#msg)         | Server  | Delivers a message payload to a subscriber                  |
-| [`PING`](./#pingpong)   | Both    | PING keep-alive message                                     |
-| [`PONG`](./#pingpong)   | Both    | PONG keep-alive response                                    |
-| [`+OK`](./#okerr)       | Server  | Acknowledges well-formed protocol message in `verbose` mode |
-| [`-ERR`](./#okerr)      | Server  | Indicates a protocol error. May cause client disconnect.    |
+| OP Name                 | Sent By | Description                                                                        |
+|-------------------------|---------|------------------------------------------------------------------------------------|
+| [`INFO`](./#info)       | Server  | Sent to client after initial TCP/IP connection                                     |
+| [`CONNECT`](./#connect) | Client  | Sent to server to specify connection information                                   |
+| [`PUB`](./#pub)         | Client  | Publish a message to a subject, with optional reply subject                        |
+| [`HPUB`](./#hpub)       | Client  | Publish a message to a subject including NATS headers, with optional reply subject |
+| [`SUB`](./#sub)         | Client  | Subscribe to a subject (or subject wildcard)                                       |
+| [`UNSUB`](./#unsub)     | Client  | Unsubscribe (or auto-unsubscribe) from subject                                     |
+| [`MSG`](./#msg)         | Server  | Delivers a message payload to a subscriber                                         |
+| [`HMSG`](./#hmsg)       | Server  | Delivers a message payload to a subscriber with NATS headers                       |
+| [`PING`](./#pingpong)   | Both    | PING keep-alive message                                                            |
+| [`PONG`](./#pingpong)   | Both    | PONG keep-alive response                                                           |
+| [`+OK`](./#okerr)       | Server  | Acknowledges well-formed protocol message in `verbose` mode                        |
+| [`-ERR`](./#okerr)      | Server  | Indicates a protocol error. May cause client disconnect.                           |
 
 The following sections explain each protocol message.
 
@@ -172,6 +174,45 @@ To publish an empty message to subject NOTIFY:
 
 `PUB NOTIFY 0\r\n\r`
 
+## HPUB
+
+### Description
+
+The `HPUB` message is the same as `PUB` but extends total message payload to include NATS headers. Note that the payload itself is optional. To omit the payload, set the total message size to the same as the headers size. Note that the trailing CRLF is still required.
+
+NATS headers are similar in semantic to HTTP headers as `name: value` pairs. Multi-value headers are allowed. Headers can be mixed case and NATS will preserve case between message publisher and message receiver(s).  See also [ADR-4 NATS Message Headers](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-4.md).
+
+### Syntax
+
+`HPUB <subject> [reply-to] <#header bytes> <#total bytes>\r\n[headers]\r\n\r\n[payload]\r\n`
+
+where:
+
+* `subject`: The destination subject to publish to
+* `reply-to`: The optional reply inbox subject that subscribers can use to send a response back to the publisher/requestor
+* `#header bytes`: The size of the headers section in bytes including the `\r\n\r\n` delimiter before the payload
+* `#total bytes`: The total size of headers and payload sections in bytes
+* `headers`: Header version `NATS/1.0\r\n` followed by one or more `name: value` pairs, each separated by `\r\n`
+* `payload`: The message payload data
+
+### Example
+
+To publish the ASCII string message payload &quot;Hello NATS!&quot; to subject FOO with one header Bar with value Baz:
+
+`HPUB FOO 22 33\r\nNATS/1.0\r\nBar: Baz\r\n\r\nHello NATS!\r\n`
+
+To publish a request message "Knock Knock" to subject FRONT.DOOR with reply subject INBOX.22 and two headers:
+
+`HPUB FRONT.DOOR INBOX.22 45 56\r\nNATS/1.0\r\nBREAKFAST: donut\r\nLUNCH: burger\r\n\r\nKnock Knock\r\n`
+
+To publish an empty message to subject NOTIFY with one header Bar with value Baz:
+
+`HPUB NOTIFY 22 22\r\nNATS/1.0\r\nBar: Baz\r\n\r\n\r\n`
+
+To publish a message to subject MORNING MENU with one header BREAKFAST having two values and payload "Yum!"
+
+`HPUB MORNING.MENU 47 51\r\nNATS/1.0\r\nBREAKFAST: donut\r\nBREAKFAST: eggs\r\n\r\nYum!\r\n`
+
 ## SUB
 
 ### Description
@@ -250,6 +291,36 @@ The following message delivers an application message from subject `FOO.BAR`:
 To deliver the same message along with a reply inbox:
 
 `MSG FOO.BAR 9 INBOX.34 11\r\nHello World\r`
+
+## HMSG
+
+### Description
+
+The `HMSG` message is the same as `MSG` but extends message payload with headers. See also [ADR-4 NATS Message Headers](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-4.md).
+
+### Syntax
+
+`HMSG <subject> <sid> [reply-to] <#header bytes> <#total bytes>\r\n[payload]\r\n`
+
+where:
+
+* `subject`: Subject name this message was received on
+* `sid`: The unique alphanumeric subscription ID of the subject
+* `reply-to`: The inbox subject on which the publisher is listening for responses
+* `#header bytes`: The size of the headers section in bytes including the `\r\n\r\n` delimiter before the payload
+* `#total bytes`: The total size of headers and payload sections in bytes
+* `headers`: Header version `NATS/1.0\r\n` followed by one or more `name: value` pairs, each separated by `\r\n`
+* `payload`: The message payload data
+
+### Example
+
+The following message delivers an application message from subject `FOO.BAR` with a header:
+
+`HMSG FOO.BAR 34 45\r\nNATS/1.0\r\nFoodGroup: vegetable\r\n\r\nHello World\r\n`
+
+To deliver the same message along with a reply inbox:
+
+`HMSG FOO.BAR 9 INBOX.69 34 45\r\nNATS/1.0\r\nFoodGroup: vegetable\r\n\r\nHello World\r\n`
 
 ## PING/PONG
 
