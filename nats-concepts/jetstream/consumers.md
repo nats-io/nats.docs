@@ -1,6 +1,6 @@
 A consumer is a stateful **view** of a stream. It acts as interface for clients to *consume* a subset of messages stored in a stream and will keep track of which messages were delivered and acknowledged by clients.
 
-Unlike with [core NATS][core-nats] which provides an **at most once** delivery guarantee of a message, a consumer can provide an **at least once** delivery guarantee. This is achieved by the combination of published messages being persisted to the stream as well as the consumer tracking delivery and acknowledgement of each individual message as clients receive and process them.
+Unlike with [core NATS][core-nats] which provides an **at most once** delivery guarantee of a message, a consumer can provide an **at least once** delivery guarantee. This is achieved by the combination of published messages being persisted to the stream as well as the consumer tracking delivery and acknowledgement of each individual message as clients receive and process them. JetStream consumers support multiple kinds of acknowledgements and multiple acknowledgement policies. They will take care of automatically re-deliver un-acked (or 'nacked') messages up to a user specified maximum number of delivery attempts (there is an advisory being emitted when a message reaches this limit).
 
 Consumers can be **push**-based where messages will be delivered to a specified subject or **pull**-based which allows clients to request batches of messages on demand. The choice of what kind of consumer to use depends on the use-case but typically in the case of a client application that needs to get their own individual replay of messages from a stream you would use an 'ordered push consumer'. If there is a need to process messages and easily scale horizontally, you would use a 'pull consumer'.
 
@@ -37,9 +37,9 @@ Below are the set of consumer configuration options that can be defined. The `Ve
 
 The policies choices include:
 
-- `AckExplicit` - The default policy. It means that each individual message must be acknowledged. It is the only allowed option for pull consumers.
+- `AckExplicit` - The default policy. It means that each individual message must be acknowledged. It is recommended to use this mode, as it provides the most reliability and functionality.
 - `AckNone` - You do not have to ack any messages, the server will assume ack on delivery.
-- `AckAll` - If you receive a series of messages, you only have to ack the last one you received. All the previous messages received are automatically acknowledged.
+- `AckAll` - If you receive a series of messages, you only have to ack the last one you received. All the previous messages received are automatically acknowledged at the same time.
 
 If an ack is required but is not received within the `AckWait` window, the message will be redelivered.
 
