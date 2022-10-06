@@ -36,7 +36,7 @@ For example, the wildcard subscriptions `foo.*.quux` and `foo.>` both match `foo
 
 ## Protocol messages
 
-The following table briefly describes the NATS protocol messages. NATS protocol operation names are case insensitive, thus `SUB foo 1\r` and `sub foo 1\r` are equivalent.
+The following table briefly describes the NATS protocol messages. NATS protocol operation names are case insensitive, thus `SUB foo 1␍␊` and `sub foo 1␍␊` are equivalent.
 
 Click the name to see more detailed information, including syntax:
 
@@ -67,7 +67,7 @@ When using the updated client protocol (see [`CONNECT`](./#connect) below), `INF
 
 ### Syntax
 
-`INFO {["option_name":option_value],...}\r\n`
+`INFO {["option_name":option_value],...}␍␊`
 
 The valid options are as follows:
 
@@ -115,7 +115,7 @@ The `CONNECT` message is the client version of the [`INFO`](./#info) message. On
 
 ### Syntax
 
-`CONNECT {["option_name":option_value],...}\r\n`
+`CONNECT {["option_name":option_value],...}␍␊`
 
 The valid options are as follows:
 
@@ -138,7 +138,7 @@ The valid options are as follows:
 Here is an example from the default string of the Go client:
 
 ```
-CONNECT {"verbose":false,"pedantic":false,"tls_required":false,"name":"","lang":"go","version":"1.2.2","protocol":1}\r\n
+CONNECT {"verbose":false,"pedantic":false,"tls_required":false,"name":"","lang":"go","version":"1.2.2","protocol":1}␍␊
 ```
 
 Most clients set `verbose` to `false` by default. This means that the server should not confirm each message it receives on this connection with a [`+OK`](./#okerr) back to the client.
@@ -151,7 +151,7 @@ The `PUB` message publishes the message payload to the given subject name, optio
 
 ### Syntax
 
-`PUB <subject> [reply-to] <#bytes>\r\n[payload]\r\n`
+`PUB <subject> [reply-to] <#bytes>␍␊[payload]␍␊`
 
 where:
 
@@ -164,15 +164,15 @@ where:
 
 To publish the ASCII string message payload "Hello NATS!" to subject FOO:
 
-`PUB FOO 11\r\nHello NATS!\r\n`
+`PUB FOO 11␍␊Hello NATS!␍␊`
 
 To publish a request message "Knock Knock" to subject FRONT.DOOR with reply subject INBOX.22:
 
-`PUB FRONT.DOOR INBOX.22 11\r\nKnock Knock\r\n`
+`PUB FRONT.DOOR INBOX.22 11␍␊Knock Knock␍␊`
 
 To publish an empty message to subject NOTIFY:
 
-`PUB NOTIFY 0\r\n\r\n`
+`PUB NOTIFY 0␍␊␍␊`
 
 ## HPUB
 
@@ -184,34 +184,34 @@ NATS headers are similar in semantic to HTTP headers as `name: value` pairs. Mul
 
 ### Syntax
 
-`HPUB <subject> [reply-to] <#header bytes> <#total bytes>\r\n[headers]\r\n\r\n[payload]\r\n`
+`HPUB <subject> [reply-to] <#header bytes> <#total bytes>␍␊[headers]␍␊␍␊[payload]␍␊`
 
 where:
 
 * `subject`: The destination subject to publish to
 * `reply-to`: The optional reply inbox subject that subscribers can use to send a response back to the publisher/requestor
-* `#header bytes`: The size of the headers section in bytes including the `\r\n\r\n` delimiter before the payload
+* `#header bytes`: The size of the headers section in bytes including the `␍␊␍␊` delimiter before the payload
 * `#total bytes`: The total size of headers and payload sections in bytes
-* `headers`: Header version `NATS/1.0\r\n` followed by one or more `name: value` pairs, each separated by `\r\n`
+* `headers`: Header version `NATS/1.0␍␊` followed by one or more `name: value` pairs, each separated by `␍␊`
 * `payload`: The message payload data
 
 ### Example
 
 To publish the ASCII string message payload &quot;Hello NATS!&quot; to subject FOO with one header Bar with value Baz:
 
-`HPUB FOO 22 33\r\nNATS/1.0\r\nBar: Baz\r\n\r\nHello NATS!\r\n`
+`HPUB FOO 22 33␍␊NATS/1.0␍␊Bar: Baz␍␊␍␊Hello NATS!␍␊`
 
 To publish a request message "Knock Knock" to subject FRONT.DOOR with reply subject INBOX.22 and two headers:
 
-`HPUB FRONT.DOOR INBOX.22 45 56\r\nNATS/1.0\r\nBREAKFAST: donut\r\nLUNCH: burger\r\n\r\nKnock Knock\r\n`
+`HPUB FRONT.DOOR INBOX.22 45 56␍␊NATS/1.0␍␊BREAKFAST: donut␍␊LUNCH: burger␍␊␍␊Knock Knock␍␊`
 
 To publish an empty message to subject NOTIFY with one header Bar with value Baz:
 
-`HPUB NOTIFY 22 22\r\nNATS/1.0\r\nBar: Baz\r\n\r\n\r\n`
+`HPUB NOTIFY 22 22␍␊NATS/1.0␍␊Bar: Baz␍␊␍␊␍␊`
 
 To publish a message to subject MORNING MENU with one header BREAKFAST having two values and payload "Yum!"
 
-`HPUB MORNING.MENU 47 51\r\nNATS/1.0\r\nBREAKFAST: donut\r\nBREAKFAST: eggs\r\n\r\nYum!\r\n`
+`HPUB MORNING.MENU 47 51␍␊NATS/1.0␍␊BREAKFAST: donut␍␊BREAKFAST: eggs␍␊␍␊Yum!␍␊`
 
 ## SUB
 
@@ -221,7 +221,7 @@ To publish a message to subject MORNING MENU with one header BREAKFAST having tw
 
 ### Syntax
 
-`SUB <subject> [queue group] <sid>\r\n`
+`SUB <subject> [queue group] <sid>␍␊`
 
 where:
 
@@ -233,11 +233,11 @@ where:
 
 To subscribe to the subject `FOO` with the connection-unique subscription identifier (sid) `1`:
 
-`SUB FOO 1\r\n`
+`SUB FOO 1␍␊`
 
 To subscribe the current connection to the subject `BAR` as part of distribution queue group `G1` with sid `44`:
 
-`SUB BAR G1 44\r\n`
+`SUB BAR G1 44␍␊`
 
 ## UNSUB
 
@@ -247,7 +247,7 @@ To subscribe the current connection to the subject `BAR` as part of distribution
 
 ### Syntax
 
-`UNSUB <sid> [max_msgs]\r\n`
+`UNSUB <sid> [max_msgs]␍␊`
 
 where:
 
@@ -258,11 +258,11 @@ where:
 
 The following examples concern subject `FOO` which has been assigned sid `1`. To unsubscribe from `FOO`:
 
-`UNSUB 1\r\n`
+`UNSUB 1␍␊`
 
 To auto-unsubscribe from `FOO` after 5 messages have been received:
 
-`UNSUB 1 5\r\n`
+`UNSUB 1 5␍␊`
 
 ## MSG
 
@@ -272,7 +272,7 @@ The `MSG` protocol message is used to deliver an application message to the clie
 
 ### Syntax
 
-`MSG <subject> <sid> [reply-to] <#bytes>\r\n[payload]\r\n`
+`MSG <subject> <sid> [reply-to] <#bytes>␍␊[payload]␍␊`
 
 where:
 
@@ -286,11 +286,11 @@ where:
 
 The following message delivers an application message from subject `FOO.BAR`:
 
-`MSG FOO.BAR 9 11\r\nHello World\r\n`
+`MSG FOO.BAR 9 11␍␊Hello World␍␊`
 
 To deliver the same message along with a reply inbox:
 
-`MSG FOO.BAR 9 INBOX.34 11\r\nHello World\r\n`
+`MSG FOO.BAR 9 INBOX.34 11␍␊Hello World␍␊`
 
 ## HMSG
 
@@ -300,27 +300,27 @@ The `HMSG` message is the same as `MSG` but extends message payload with headers
 
 ### Syntax
 
-`HMSG <subject> <sid> [reply-to] <#header bytes> <#total bytes>\r\n[payload]\r\n`
+`HMSG <subject> <sid> [reply-to] <#header bytes> <#total bytes>␍␊[payload]␍␊`
 
 where:
 
 * `subject`: Subject name this message was received on
 * `sid`: The unique alphanumeric subscription ID of the subject
 * `reply-to`: The inbox subject on which the publisher is listening for responses
-* `#header bytes`: The size of the headers section in bytes including the `\r\n\r\n` delimiter before the payload
+* `#header bytes`: The size of the headers section in bytes including the `␍␊␍␊` delimiter before the payload
 * `#total bytes`: The total size of headers and payload sections in bytes
-* `headers`: Header version `NATS/1.0\r\n` followed by one or more `name: value` pairs, each separated by `\r\n`
+* `headers`: Header version `NATS/1.0␍␊` followed by one or more `name: value` pairs, each separated by `␍␊`
 * `payload`: The message payload data
 
 ### Example
 
 The following message delivers an application message from subject `FOO.BAR` with a header:
 
-`HMSG FOO.BAR 34 45\r\nNATS/1.0\r\nFoodGroup: vegetable\r\n\r\nHello World\r\n`
+`HMSG FOO.BAR 34 45␍␊NATS/1.0␍␊FoodGroup: vegetable␍␊␍␊Hello World␍␊`
 
 To deliver the same message along with a reply inbox:
 
-`HMSG FOO.BAR 9 INBOX.69 34 45\r\nNATS/1.0\r\nFoodGroup: vegetable\r\n\r\nHello World\r\n`
+`HMSG FOO.BAR 9 INBOX.69 34 45␍␊NATS/1.0␍␊FoodGroup: vegetable␍␊␍␊Hello World␍␊`
 
 ## PING/PONG
 
@@ -334,9 +334,9 @@ The server uses normal traffic as a ping/pong proxy, so a client that has messag
 
 ### Syntax
 
-`PING\r\n`
+`PING␍␊`
 
-`PONG\r\n`
+`PONG␍␊`
 
 ### Example
 
@@ -367,9 +367,9 @@ Handling of these errors usually has to be done asynchronously.
 
 ### Syntax
 
-`+OK\r\n`
+`+OK␍␊`
 
-`-ERR <error message>\r\n`
+`-ERR <error message>␍␊`
 
 Some protocol errors result in the server closing the connection. Upon receiving these errors, the connection is no longer valid and the client should clean up relevant resources. These errors include:
 
