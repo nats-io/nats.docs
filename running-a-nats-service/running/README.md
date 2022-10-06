@@ -43,6 +43,10 @@ docker run -p 4222:4222 -ti nats:latest
 ...
 ```
 
+## Running nats-server as a systemd service on Linux
+You can easily and quickly use `systemd` to start (and restart if needed) the `nats-server` process. 
+
+Please see the example files located in the `util` directory of the [nats-server repo](https://github.com/nats-io/nats-server/tree/main/util) that you can use to generate your own `/etc/systemd/system/nats.service` file.
 
 ## JetStream
 
