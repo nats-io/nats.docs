@@ -21,6 +21,6 @@ You can set limits for your buckets, such as:
 
 Finally, you can even do things that typically can not be done with a Key/Value Store:
 
-* watch: watch for changes the changes happening for a key, which is similar to subscribing (in the publish/subscribe sense) to the key: the watcher receives updates due to put or delete operations on the key pushed to it in real-time as they happen
+* watch: watch for changes happening for a key, which is similar to subscribing (in the publish/subscribe sense) to the key: the watcher receives updates due to put or delete operations on the key pushed to it in real-time as they happen
 * watch all: watch for all the changes happening on all the keys in the bucket 
 * history: retrieve a history of the values (and delete operations) associated with each key over time (by default the history of buckets is set to 1, meaning that only the latest value/operation is stored)
