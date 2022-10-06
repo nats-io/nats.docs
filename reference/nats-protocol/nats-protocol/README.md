@@ -10,11 +10,11 @@ The NATS server implements a [zero allocation byte parser](https://youtu.be/ylRK
 
 ## Protocol conventions
 
-**Control Line with Optional Content**: Each interaction between the client and server consists of a control, or protocol, line of text followed, optionally by message content. Most of the protocol messages don't require content, only `PUB` and `MSG` include payloads.
+**Control Line with Optional Content**: Each interaction between the client and server consists of a control, or protocol, line of text followed, optionally by message content. Most of the protocol messages don't require content, only `PUB`, `MSG`, `HPUB`, and `HMSG` include payloads.
 
 **Field Delimiters**: The fields of NATS protocol messages are delimited by whitespace characters ` `(space) or `	`(tab). Multiple whitespace characters will be treated as a single field delimiter.
 
-**Newlines**: NATS uses `CR` followed by `LF` (`CR+LF`, `\r`, `0x0D0A`) to terminate protocol messages. This newline sequence is also used to mark the end of the message payload in a `PUB` or `MSG` protocol message.
+**Newlines**: NATS uses `CR` followed by `LF` (`CR+LF`, `\r\n`, `0x0D0A`) to terminate protocol messages. This newline sequence is also used to mark the end of the message payload in `PUB`, `MSG`, `HPUB`, and `HMSG` protocol messages.
 
 **Subject names**: Subject names, including reply subject (INBOX) names, are case-sensitive and must be non-empty alphanumeric strings with no embedded whitespace. All ascii alphanumeric characters except spaces/tabs and separators which are `.` and `>` are allowed. Subject names can be optionally token-delimited using the dot character (`.`), e.g.:
 
@@ -67,7 +67,7 @@ When using the updated client protocol (see [`CONNECT`](./#connect) below), `INF
 
 ### Syntax
 
-`INFO {["option_name":option_value],...}`
+`INFO {["option_name":option_value],...}\r\n`
 
 The valid options are as follows:
 
@@ -115,7 +115,7 @@ The `CONNECT` message is the client version of the [`INFO`](./#info) message. On
 
 ### Syntax
 
-`CONNECT {["option_name":option_value],...}`
+`CONNECT {["option_name":option_value],...}\r\n`
 
 The valid options are as follows:
 
@@ -138,7 +138,7 @@ The valid options are as follows:
 Here is an example from the default string of the Go client:
 
 ```
-[CONNECT {"verbose":false,"pedantic":false,"tls_required":false,"name":"","lang":"go","version":"1.2.2","protocol":1}]\r
+CONNECT {"verbose":false,"pedantic":false,"tls_required":false,"name":"","lang":"go","version":"1.2.2","protocol":1}\r\n
 ```
 
 Most clients set `verbose` to `false` by default. This means that the server should not confirm each message it receives on this connection with a [`+OK`](./#okerr) back to the client.
@@ -151,7 +151,7 @@ The `PUB` message publishes the message payload to the given subject name, optio
 
 ### Syntax
 
-`PUB <subject> [reply-to] <#bytes>\r\n[payload]\r`
+`PUB <subject> [reply-to] <#bytes>\r\n[payload]\r\n`
 
 where:
 
@@ -164,21 +164,21 @@ where:
 
 To publish the ASCII string message payload "Hello NATS!" to subject FOO:
 
-`PUB FOO 11\r\nHello NATS!\r`
+`PUB FOO 11\r\nHello NATS!\r\n`
 
 To publish a request message "Knock Knock" to subject FRONT.DOOR with reply subject INBOX.22:
 
-`PUB FRONT.DOOR INBOX.22 11\r\nKnock Knock\r`
+`PUB FRONT.DOOR INBOX.22 11\r\nKnock Knock\r\n`
 
 To publish an empty message to subject NOTIFY:
 
-`PUB NOTIFY 0\r\n\r`
+`PUB NOTIFY 0\r\n\r\n`
 
 ## HPUB
 
 ### Description
 
-The `HPUB` message is the same as `PUB` but extends total message payload to include NATS headers. Note that the payload itself is optional. To omit the payload, set the total message size to the same as the headers size. Note that the trailing CRLF is still required.
+The `HPUB` message is the same as `PUB` but extends total message payload to include NATS headers. Note that the payload itself is optional. To omit the payload, set the total message size to the same as the headers size. Note that the trailing CR+LF is still required.
 
 NATS headers are similar in semantic to HTTP headers as `name: value` pairs. Multi-value headers are allowed. Headers can be mixed case and NATS will preserve case between message publisher and message receiver(s).  See also [ADR-4 NATS Message Headers](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-4.md).
 
@@ -221,7 +221,7 @@ To publish a message to subject MORNING MENU with one header BREAKFAST having tw
 
 ### Syntax
 
-`SUB <subject> [queue group] <sid>\r`
+`SUB <subject> [queue group] <sid>\r\n`
 
 where:
 
@@ -233,11 +233,11 @@ where:
 
 To subscribe to the subject `FOO` with the connection-unique subscription identifier (sid) `1`:
 
-`SUB FOO 1\r`
+`SUB FOO 1\r\n`
 
 To subscribe the current connection to the subject `BAR` as part of distribution queue group `G1` with sid `44`:
 
-`SUB BAR G1 44\r`
+`SUB BAR G1 44\r\n`
 
 ## UNSUB
 
@@ -247,7 +247,7 @@ To subscribe the current connection to the subject `BAR` as part of distribution
 
 ### Syntax
 
-`UNSUB <sid> [max_msgs]`
+`UNSUB <sid> [max_msgs]\r\n`
 
 where:
 
@@ -258,11 +258,11 @@ where:
 
 The following examples concern subject `FOO` which has been assigned sid `1`. To unsubscribe from `FOO`:
 
-`UNSUB 1\r`
+`UNSUB 1\r\n`
 
 To auto-unsubscribe from `FOO` after 5 messages have been received:
 
-`UNSUB 1 5\r`
+`UNSUB 1 5\r\n`
 
 ## MSG
 
@@ -272,7 +272,7 @@ The `MSG` protocol message is used to deliver an application message to the clie
 
 ### Syntax
 
-`MSG <subject> <sid> [reply-to] <#bytes>\r\n[payload]\r`
+`MSG <subject> <sid> [reply-to] <#bytes>\r\n[payload]\r\n`
 
 where:
 
@@ -286,11 +286,11 @@ where:
 
 The following message delivers an application message from subject `FOO.BAR`:
 
-`MSG FOO.BAR 9 11\r\nHello World\r`
+`MSG FOO.BAR 9 11\r\nHello World\r\n`
 
 To deliver the same message along with a reply inbox:
 
-`MSG FOO.BAR 9 INBOX.34 11\r\nHello World\r`
+`MSG FOO.BAR 9 INBOX.34 11\r\nHello World\r\n`
 
 ## HMSG
 
@@ -334,9 +334,9 @@ The server uses normal traffic as a ping/pong proxy, so a client that has messag
 
 ### Syntax
 
-`PING\r`
+`PING\r\n`
 
-`PONG\r`
+`PONG\r\n`
 
 ### Example
 
@@ -367,9 +367,9 @@ Handling of these errors usually has to be done asynchronously.
 
 ### Syntax
 
-`+OK`
+`+OK\r\n`
 
-`-ERR <error message>`
+`-ERR <error message>\r\n`
 
 Some protocol errors result in the server closing the connection. Upon receiving these errors, the connection is no longer valid and the client should clean up relevant resources. These errors include:
 
