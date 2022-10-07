@@ -1236,3 +1236,32 @@ int main(int argc, char **argv)
 ```
 {% endtab %}
 {$ endtabs %}
+
+## Reliability and Acknowledgements
+
+In order to provide for the reliable processing of the messages, clients must acknowledge successful reception and processing of each message. Acknowledgements enable the consumers to re-send messages as needed, thereby providing reliability to the processing of the messages even in the face of client failures.
+
+### Ack policy
+
+Consumers have an [Acknowledgement Policy](/nats-concepts/jetstream/consumers.md#ackpolicy) specifying the level of reliability required.
+
+### Client Acknowledging
+
+When the consumer is set to require explicit acknowledgements the client applications are able to use more than one kind of [acknowledgement](/using-nats/developing-with-nats/anatomy.md#consumer-acknowledgements) to indicate successful (or not) reception and processing of the messages being sent from the consumer.
+
+### Message re-deliveries
+
+When a message is sent from the consumer to a subscribing client application, if the message is not acknowledged within a period of time (specified by the consumer's `AckWait` setting, and which can be extended by the client application using `AckProgress`), or if it is negatively acknowledged by the client application, then the consumer will make a new delivery attempt of the message. If the client applications are liable to negatively acknowledge messages (for example because some external resource is temporarily unavailable), you should also specify a list of retransmission `BackOff` intervals in the consumer's settings.
+
+#### "Dead Letter Queues" type functionality
+
+You can set a maximum number of delivery attempts using the consumer's `MaxDeliver` setting.
+
+Whenever a message reaches its maximum number of delivery attempts an advisory message is published on the `$JS.EVENT.ADVISORY.CONSUMER.MAX_DELIVERIES.<STREAM>.<CONSUMER>` subject. The advisory message's payload (use `nats schema info io.nats.jetstream.advisory.v1.max_deliver` for specific information) contains a `stream_seq` field that contains the sequence number of the message in the stream.
+
+Similarly, whenever a client application terminates delivery attempts for the message using `AckTerm` an advisory message is published on the `$JS.EVENT.ADVISORY.CONSUMER.MSG_TERMINATED.<STREAM>.<CONSUMER>` subject, and its payload (see `nats schema info io.nats.jetstream.advisory.v1.terminated`) contains a `stream_seq` field.
+
+You can leverage those advisory messages to implement "Dead Letter Queue" (DLQ) types of functionalities. For example:
+* If you only need to know about each time a message is 'dead' (considered un-re-deliverable by the consumer), then listening to the advisories is enough.
+* If you also need to have access to the message in question then you can use the message's sequence number included in the advisory to retrieve that specific message by sequence number from the stream.
+* However, if the stream uses 'WorkingQueue' or 'Interest' for its retention policy then you have to assume that the message can be already deleted from the stream by the time the advisory message is received by any listening application. In that case, you can create a second stream that is a _mirror_ of the stream that the client applications are using, such that when the advisory is received by a subscribing application monitoring for 'dead messages', it will still be able to find a copy of the message in that mirror stream. For efficiency's sake, since the messages in that mirror stream only need to be retained for as long as the monitoring application reacting to the advisory messages requires, you would configure this mirror stream to only keep messages for a short amount of time.
