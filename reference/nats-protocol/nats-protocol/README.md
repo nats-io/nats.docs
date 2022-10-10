@@ -178,7 +178,7 @@ To publish an empty message to subject NOTIFY:
 
 ### Description
 
-The `HPUB` message is the same as `PUB` but extends total message payload to include NATS headers. Note that the payload itself is optional. To omit the payload, set the total message size to the same as the headers size. Note that the trailing CR+LF is still required.
+The `HPUB` message is the same as `PUB` but extends the message payload to include NATS headers. Note that the payload itself is optional. To omit the payload, set the total message size equal the size of the headers. Note that the trailing CR+LF is still required.
 
 NATS headers are similar, in structure and semantics, to HTTP headers as `name: value` pairs including supporting multi-value headers. Headers can be mixed case and NATS will preserve case between message publisher and message receiver(s).  See also [ADR-4 NATS Message Headers](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-4.md).
 
