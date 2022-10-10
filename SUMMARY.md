@@ -96,6 +96,7 @@
   * [JetStream](using-nats/jetstream/develop_jetstream.md)
     * [JetStream Model Deep Dive](using-nats/jetstream/model_deep_dive.md)
     * [Managing Streams and consumers](using-nats/developing-with-nats/js/streams.md)
+    * [Consumer Details](using-nats/developing-with-nats/js/consumers.md)
     * [Publishing to Streams](using-nats/developing-with-nats/js/publish.md)
     * [Using the Key/Value Store](using-nats/developing-with-nats/js/kv.md)
     * [Using the Object Store](using-nats/developing-with-nats/js/object.md)
