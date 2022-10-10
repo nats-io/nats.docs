@@ -296,7 +296,7 @@ To deliver the same message along with a reply inbox:
 
 ### Description
 
-The `HMSG` message is the same as `MSG` but extends message payload with headers. See also [ADR-4 NATS Message Headers](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-4.md).
+The `HMSG` message is the same as `MSG`, but extends the message payload with headers. See also [ADR-4 NATS Message Headers](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-4.md).
 
 ### Syntax
 
