@@ -34,7 +34,7 @@ func ExampleJetStream() {
 	})
 
 	js.Publish("foo", []byte("Hello JS!"))
-	
+
 	// ordered push consumer
 	js.Subscribe("foo", func(msg *nats.Msg) {
 		meta, _ := msg.Metadata()
@@ -166,10 +166,10 @@ if __name__ == '__main__':
     asyncio.run(main())
 ```
 {% endtab %}
-{$ endtabs %}
+{% endtabs %}
 
-## Durable consumers 
-Durable consumers are meant to be used by multiple instances of an application, either to distribute and scale out the 
+## Durable consumers
+Durable consumers are meant to be used by multiple instances of an application, either to distribute and scale out the
 processing, or to persist the position of the consumer over the stream between runs of an application.
 
 Durable consumers as the name implies are meant to last 'forever' and are typically created and deleted administratively rather than by the application code which only needs to specify the durable's well known name to use it.
@@ -420,7 +420,7 @@ if __name__ == '__main__':
 ```
 {% endtab %}
 {% tab title="C" %}
-```C
+```c
 #include "examples.h"
 
 static const char *usage = ""\
@@ -646,10 +646,10 @@ int main(int argc, char **argv)
 }
 ```
 {% endtab %}
-{$ endtabs %}
+{% endtabs %}
 
 
-A push consumer can also be used in some other use cases such as without a queue group, or with no acknowledgement or cumulative acknowledgements. 
+A push consumer can also be used in some other use cases such as without a queue group, or with no acknowledgement or cumulative acknowledgements.
 
 #### Push
 {% tabs %}
@@ -1009,7 +1009,7 @@ if __name__ == '__main__':
 ```
 {% endtab %}
 {% tab title="C" %}
-```C
+```c
 #include "examples.h"
 
 static const char *usage = ""\
@@ -1235,7 +1235,7 @@ int main(int argc, char **argv)
 }
 ```
 {% endtab %}
-{$ endtabs %}
+{% endtabs %}
 
 ## Reliability and Acknowledgements
 
