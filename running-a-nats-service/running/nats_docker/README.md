@@ -200,7 +200,7 @@ nats-2_1  | [1] 2021/09/28 10:42:37.744332 [INF] 172.18.0.4:40250 - rid:5 - Rout
 Now, the following should work: make a subscription on one of the nodes and publish it from another node. You should be able to receive the message without problems.
 
 ```bash
-docker run --network nats --rm -it synadia/nats-box
+docker run --network nats --rm -it natsio/nats-box
 ```
 Inside the container
 ```shell
