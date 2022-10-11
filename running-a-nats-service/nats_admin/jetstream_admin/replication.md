@@ -12,7 +12,7 @@ Finally, we create a _REPORT_ stream mirrored from _ARCHIVE_ that is not cluster
 
 ## Mirrors
 
-A _mirror_ copies data from 1 other stream, as far as possible IDs and ordering will match exactly the source. A _mirror_ does not listen on a subject for any data to be added. The Start Sequence and Start Time can be set, but no subject filter. A stream can only have 1 _mirror_ and if it is a mirror it cannot also have any _source_.
+A _mirror_ copies data from 1 other stream, as far as possible IDs and ordering will match exactly the source. A _mirror_ does not listen on a subject for any data to be added. A _mirror_ can filter by subject and the Start Sequence and Start Time can be set. A stream can only have 1 _mirror_ and if it is a mirror it cannot also have any _source_.
 
 ## Sources
 
