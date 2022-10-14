@@ -24,12 +24,10 @@ The `authorization` block provides _authentication_ configuration as well as [_a
 | Property | Description |
 | :--- | :--- |
 | [`token`](tokens.md) | Specifies a global token that can be used to authenticate to the server \(exclusive of user and password\) |
-| [`user`](username_password.md) | Specifies a single _global_ user name for clients to the server \(exclusive of token\) |
+| [`user`](username_password.md#single-user) | Specifies a single _global_ user name for clients to the server \(exclusive of token\) |
 | [`password`](username_password.md) | Specifies a single _global_ password for clients to the server \(exclusive of `token`\) |
-| `users` | A list of [user configuration](./#user-configuration-map) maps |
+| [`users`](username_password.md#multiple-users) | A list of [user configuration](#user-configuration-map) maps.  For multiple username and password credentials, specify a `users` list. |
 | [`timeout`](auth_timeout.md) | Maximum number of seconds to wait for client authentication |
-
-For multiple username and password credentials, specify a `users` list.
 
 ## User Configuration Map
 
