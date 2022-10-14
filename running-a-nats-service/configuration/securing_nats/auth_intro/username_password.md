@@ -1,5 +1,7 @@
 # Username/Password
 
+## Plain Text Passwords
+
 You can authenticate one or more clients using username and passwords; this enables you to have greater control over the management and issuance of credential secrets.
 
 For a single user:

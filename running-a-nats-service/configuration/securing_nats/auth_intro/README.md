@@ -4,10 +4,13 @@ NATS authentication is multi-level. All of the security mode have an [_accounts_
 
 Each account has its own independent subject name space: a message published on subject 'foo' in one account will not be seen by subscribers to 'foo' in other accounts. Accounts can however define exports and imports of subject(s) streams as well as expose request-reply services between accounts. Users within an account will share the same subject name space but can be restricted to only be able to publish-subscribe to specific subjects.
 
+## Authentication Methods
+
 The NATS server provides various ways of authenticating clients:
 
 * [Token Authentication](tokens.md)
-* [Username/Password credentials](username_password.md)
+* [Plain Text Username/Password credentials](username_password.md#plain-text-passwords)
+* [Bcrypted Username/Password credentials](username_password.md#bcrypted-passwords)
 * [TLS Certificate](tls_mutual_auth.md)
 * [NKEY with Challenge](nkey_auth.md)
 * [Decentralized JWT Authentication/Authorization](../jwt/)
