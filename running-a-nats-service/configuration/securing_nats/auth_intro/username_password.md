@@ -2,7 +2,7 @@
 
 You can authenticate one or more clients using username and passwords; this enables you to have greater control over the management and issuance of credential secrets.
 
-For a single user:
+## Single User
 
 ```
 authorization: {
@@ -17,7 +17,7 @@ You can also specify a single username/password by:
 > nats-server --user a --pass b
 ```
 
-For multiple users:
+## Multiple users
 
 ```
 authorization: {
