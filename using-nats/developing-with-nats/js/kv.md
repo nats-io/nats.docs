@@ -245,9 +245,9 @@ The key is always a string, you can simply use Put to store a byte array, or the
 Put(key string, value []byte) (revision uint64, err error)
 // PutString will place the string for the key into the store.
 PutString(key string, value string) (revision uint64, err error)
-// Create will add the key/value pair iff it does not exist.
+// Create will add the key/value pair if it does not exist.
 Create(key string, value []byte) (revision uint64, err error)
-// Update will update the value iff the latest revision matches.
+// Update will update the value if the latest revision matches.
 Update(key string, value []byte, last uint64) (revision uint64, err error)
 ```
 {% endtab %}
