@@ -18,6 +18,8 @@ These events are enabled by configuring `system_account` and [subscribing/reques
 
 ## Available Events and Services
 
+### System Account
+
 The system account publishes messages under well known subject patterns.
 
 Server initiated events:
