@@ -20,3 +20,14 @@ The increased complexity of modern systems necessitates features like [location 
 ![](../../../.gitbook/assets/reqrepl.svg)
 
 Try NATS request-reply on your own, using a live server by walking through the [request-reply walkthrough.](reqreply_walkthrough.md)
+
+### No responders
+
+When a request is sent to a topic that has no subscribers, it can be convenient to know about it right away. For this use-case, a NATS client can [opt-into no_responder messages](reference/reference-protocols/nats-protocol#connect). This requires a server and client that support headers. When enabled, a request sent to a topic with no subscribers will immediately receive a reply that has no body, and a `503` status.
+
+Most clients will represent this case by raising or returning an error. For example:
+
+```go
+m, err := nc.Request("foo", nil, time.Second);
+# err == nats.ErrNoResponders
+```
