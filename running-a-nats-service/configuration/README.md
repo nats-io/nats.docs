@@ -225,7 +225,7 @@ The Configuration options here refer to [JWT](/running-a-nats-service/configurat
 | [`https_port`](/running-a-nats-service/configuration/monitoring.md) | https port for server monitoring. This is influenced by the tls property. |  |
 | [`http_base_path`](/running-a-nats-service/configuration/monitoring.md) | base path for monitoring endpoints. | `/` |
 | [`https`](/running-a-nats-service/configuration/monitoring.md) | Listen specification `<host>:<port>`for TLS server monitoring. |  |
-| `system_account` | Name of the system account. Users of this account can subscribe to system events. See [System Accounts](/running-a-nats-service/configuration/sys_accounts/README.md) for more details. |  |
+| `system_account` | Name of the system account. Users of this account can subscribe to system events. See [System Accounts](/running-a-nats-service/configuration/sys_accounts/README.md#system-account) for more details. |  |
 | `pid_file` | File containing PID, relative to ... This can serve as input to [nats-server --signal](/running-a-nats-service/nats_admin/signals.md) |  |
 | `port_file_dir` | Directory to write a file containing the servers open ports to, relative to ... |  |
 | `connect_error_reports` | Number of attempts at which a repeated failed route, gateway or leaf node connection is reported. Connect attempts are made once every second. | `3600`, approx every hour |
