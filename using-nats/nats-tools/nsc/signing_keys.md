@@ -253,7 +253,7 @@ To see the permissions for the user enter `nsc describe user` - you will see in 
 
 *Available as of NATS 2.9.0*
 
-Although scoped signing are very useful and improve security, by limiting the scope of a particular signing key, the permissions that are set may be too rigid in multi-user setups. For example, given two users `pam` and `joe`, we may want to allow them to subscribe to their own namespaced subject in order to service requests, e.g. `pam.>` and `joe.>`. The permission _structure_ is the same between these users, but they differ in the concrete subjects which are further scoped to some property about that user.
+Although scoped signing keys are very useful and improve security, by limiting the scope of a particular signing key, the permissions that are set may be too rigid in multi-user setups. For example, given two users `pam` and `joe`, we may want to allow them to subscribe to their own namespaced subject in order to service requests, e.g. `pam.>` and `joe.>`. The permission _structure_ is the same between these users, but they differ in the concrete subjects which are further scoped to some property about that user.
 
 Template functions can be used to declare the structure within a scope signing key, but utilize basic templating so that each user that is created with the signing key has user-specific subjects.
 
