@@ -38,6 +38,7 @@ To add a signing key we have to first generate one with `nsc`:
 ```shell
 nsc generate nkey --operator --store
 ```
+
 ```
 SOAEW6Z4HCCGSLZJYZQMGFQY2SY6ZKOPIAKUQ5VZY6CW23WWYRNHTQWVOA
 OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5
@@ -51,6 +52,7 @@ Now we are going to edit the operator by adding a signing key with the `--sk` fl
 ```shell
 nsc edit operator --sk OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5
 ```
+
 ```
 [ OK ] added signing key "OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5"
 [ OK ] edited operator "O2"
@@ -61,6 +63,7 @@ Check our handy work:
 ```shell
 nsc describe operator
 ```
+
 ```
 ╭─────────────────────────────────────────────────────────────────────────╮
 │                            Operator Details                             │
@@ -78,8 +81,9 @@ nsc describe operator
 Now let’s create an account called `A` and sign it with the generated operator private signing key. To sign it with the key specify the `-K` flag and the private key or a path to the private key:
 
 ```shell
-nsc add account A -K ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk 
+nsc add account A -K ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk
 ```
+
 ```
 [ OK ] generated and stored account key "ACDXQQ6KD5MVSFMK7GNF5ARK3OJC6PEICWCH5PQ7HO27VKGCXQHFE33B"
 [ OK ] added account "A"
@@ -88,8 +92,9 @@ nsc add account A -K ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WU
 Let’s generate an account signing key, again we use `nk`:
 
 ```bash
-nsc generate nkey --account --store 
+nsc generate nkey --account --store
 ```
+
 ```
 SAAA4BVFTJMBOW3GAYB3STG3VWFSR4TP4QJKG2OCECGA26SKONPFGC4HHE
 ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7
@@ -99,17 +104,20 @@ account key stored ~/.nkeys/keys/A/DU/ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKN
 Let’s add the signing key to the account, and remember to sign the account with the operator signing key:
 
 ```shell
-nsc edit account --sk ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7 -K ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk 
+nsc edit account --sk ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7 -K ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk
 ```
+
 ```
 [ OK ] added signing key "ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7"
 [ OK ] edited account "A"
 ```
 Let's take a look at the account
+
 ```shell
 nsc describe account
 ```
-``` 
+
+```
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
 ├───────────────────────────┬──────────────────────────────────────────────────────────┤
@@ -142,6 +150,7 @@ Now let’s create a user and sign it with the account signing key starting with
 ```shell
 nsc add user U -K ~/.nkeys/keys/A/DU/ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7.nk
 ```
+
 ```
 [ OK ] generated and stored user key "UD47TOTKVDY4IQRGI6D7XMLZPHZVNV5FCD4CNQICLV3FXLQBY72A4UXL"
 [ OK ] generated user creds file "~/.nkeys/creds/O2/A/U.creds"
@@ -151,6 +160,7 @@ Check the account
 ```shell
 nsc describe user
 ```
+
 ```
 ╭─────────────────────────────────────────────────────────────────────────────────╮
 │                                      User                                       │
@@ -184,6 +194,7 @@ On connect, the nats-server will assign the permissions associated with that sig
 ```shell
 nsc add account A
 ```
+
 ```
 [ OK ] generated and stored account key "ADLGEVANYDKDQ6WYXPNBEGVUURXZY4LLLK5BJPOUDN6NGNXLNH4ATPWR"
 [ OK ] push jwt to account server:
@@ -195,9 +206,11 @@ nsc add account A
 [ OK ] added account "A"
 ```
 Generate the signing key
+
 ```shell
 nsc edit account -n A --sk generate
 ```
+
 ```
 [ OK ] added signing key "AAZQXKDPOTGUCOCOGDW7HWWVR5WEGF3KYL7EKOEHW2XWRS2PT5AOTRH3"
 [ OK ] push jwt to account server
@@ -206,10 +219,13 @@ nsc edit account -n A --sk generate
        > allow wildcard exports changed from true to false
 [ OK ] edited account "A"
 ```
+
 Add a service to the account
+
 ```shell
 nsc edit signing-key --account A --role service --sk AAZQXKDPOTGUCOCOGDW7HWWVR5WEGF3KYL7EKOEHW2XWRS2PT5AOTRH3 --allow-sub "q.>" --deny-pub ">" --allow-pub-response
 ```
+
 ```
 [ OK ] set max responses to 1
 [ OK ] added deny pub ">"
@@ -224,9 +240,57 @@ Since the signing key has a unique role name within an account, it can be subseq
 ```shell
 nsc add user U -K service
 ```
+
 ```
 [ OK ] generated and stored user key "UBFRJ6RNBYJWSVFBS7O4ZW5MM6J3EPE75II3ULPVUWOUH7K7A23D3RQE"
 [ OK ] generated user creds file `~/test/issue-2621/keys/creds/synadia/A/U.creds`
 [ OK ] added user "U" to account "A"
 ```
-To see the permissions for the user enter `nsc describe user` - you will see in the report  that the user is scoped, and has the permissions listed. You can inspect and modify the scopedpermissions with `nsc edit signing keys` - pushing updates to the account will reassign user permissions
+
+To see the permissions for the user enter `nsc describe user` - you will see in the report  that the user is scoped, and has the permissions listed. You can inspect and modify the scoped permissions with `nsc edit signing keys` - pushing updates to the account will reassign user permissions
+
+### Template functions
+
+*Available as of NATS 2.9.0*
+
+Although scoped signing keys are very useful and improve security, by limiting the scope of a particular signing key, the permissions that are set may be too rigid in multi-user setups. For example, given two users `pam` and `joe`, we may want to allow them to subscribe to their own namespaced subject in order to service requests, e.g. `pam.>` and `joe.>`. The permission _structure_ is the same between these users, but they differ in the concrete subjects which are further scoped to some property about that user.
+
+Template functions can be used to declare the structure within a scope signing key, but utilize basic templating so that each user that is created with the signing key has user-specific subjects.
+
+The following template functions will expand when a user is created.
+
+- `{{name()}}` - expands to the name of the user, e.g. `pam`
+- `{{subject()}}` - expands to the user public nkey value of the user, e.g. `UAC...`
+- `{{account-name()}}` - expands to the signing account name, e.g. `sales`
+- `{{account-subject()}}` - expands to the account public nkey value, e.g. `AXU...`
+- `{{tag(key)}}` - expands `key:value` tags associated with the signing key
+
+For example, given a scoped signing key with a templated `--allow-sub` subject:
+
+```
+nsc edit signing-key \
+  --account sales \
+  --role team-service \
+  --sk AXUQXKDPOTGUCOCOGDW7HWWVR5WEGF3KYL7EKOEHW2XWRS2PT5AOTRH3 \
+  --allow-sub "{{account-name()}}.{{tag(team)}}.{{name()}}.>" \
+  --allow-pub-response
+```
+
+We can create two users in different teams.
+
+```
+nsc add user pam -K team-service --tag team:support
+nsc add user joe -K team-service --tag team:leads
+```
+
+The resulting `--allow-sub` permission per user would be expanded to:
+
+```
+sales.support.pam.>
+```
+
+and
+
+```
+sales.leads.joe.>
+```
