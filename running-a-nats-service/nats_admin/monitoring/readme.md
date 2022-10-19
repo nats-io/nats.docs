@@ -10,65 +10,41 @@ To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP 
 * [Leaf Nodes](readme.md#leaf-nodes-information)
 * [Subscription Routing](readme.md#subscription-routing-information)
 * [Account Information](readme.md#account-information)
+* [Account Stats](readme.md#account-stats)
 * [JetStream Information](readme.md#jetstream-information)
 
 All endpoints return a JSON object.
 
 The NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSONP) and [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing#How_CORS_works), making it easy to create single page monitoring web applications. Part of the NATS ecosystem is a tool called [nats-top](/using-nats/nats-tools/nats_top) that visualizes data from these endpoints on the command line.
 
-See 
-> Warning: `nats-server` does not have authentication/authorization for the monitoring endpoint. When you plan to open your `nats-server` to the internet make sure to not expose the monitoring port as well. By default monitoring binds to every interface `0.0.0.0` so consider setting monitoring to `localhost` or have appropriate firewall rules.
->
-> In other words don't do what `https://demo.nats.io:8222/` does! It is done on purpose to simplify the examples below.
+{% hint style="warning" %}
+`nats-server` does not have authentication/authorization for the monitoring endpoint. When you plan to open your `nats-server` to the internet make sure to not expose the monitoring port as well. By default, monitoring binds to every interface `0.0.0.0` so consider setting monitoring to `localhost` or have appropriate firewall rules.
+{% endhint %}
 
-### Enabling monitoring from the command line
+### Enabling monitoring
 
-To enable the monitoring server, start the NATS server with the monitoring flag `-m` and the monitoring port, or turn it on in the [configuration file](readme.md#enable-monitoring-from-the-configuration-file).
+Monitoring can be enabled in [server configuration][config] or as a server [command-line option][options]. The conventional port is `8222`.
 
-```text
--m, --http_port PORT             HTTP PORT for monitoring
--ms,--https_port PORT            Use HTTPS PORT for monitoring
-```
-
-Example:
-
-```bash
-nats-server -m 8222
-```
-```text
-[4528] 2019/06/01 20:09:58.572939 [INF] Starting nats-server version 2.0.0
-[4528] 2019/06/01 20:09:58.573007 [INF] Starting http monitor on port 8222
-[4528] 2019/06/01 20:09:58.573071 [INF] Listening for client connections on 0.0.0.0:4222
-[4528] 2019/06/01 20:09:58.573090 [INF] nats-server is ready</td>
-```
-
-To test, run `nats-server -m 8222`, then go to [http://localhost:8222/](http://localhost:8222/)
-
-### Enable monitoring from the configuration file
-
-You can also enable monitoring using the configuration file as follows:
+As server configuration:
 
 ```yaml
 http_port: 8222
 ```
+As a command-line option:
 
-Binding to `localhost` as well:
-
-```yaml
-http: localhost:8222
+```bash
+nats-server -m 8222
 ```
+Once the server is running using one of the two methods, go to [http://localhost:8222](http://localhost:8222) to browse the available endpoints detailed below.
 
-For example, to monitor this server locally, the endpoint would be [http://localhost:8222/varz](http://localhost:8222/varz). It reports various general statistics.
+[config]: /running-a-nats-service/configuration#monitoring-and-tracing
+[options]: /running-a-nats-service/introduction/flags#server-options
 
 ## Monitoring Endpoints
-
-The following sections describe each supported monitoring endpoint: `varz`, `connz`, `routez`, `subsz`, `gatewayz`, `leafz`, `accountz`, and `jsz`. There are not any required arguments, however use of arguments can let you tailor monitoring to your environment and tooling.
 
 ### General Information
 
 The `/varz` endpoint returns general information about the server state and configuration.
-
-**Endpoint:** `http://server:port/varz`
 
 | Result | Return Code |
 | :--- | :--- |
@@ -141,8 +117,6 @@ N/A
 ### Connection Information
 
 The `/connz` endpoint reports more detailed information on current and recently closed connections. It uses a paging mechanism which defaults to 1024 connections.
-
-**Endpoint:** `http://server:port/connz`
 
 | Result | Return Code |
 | :--- | :--- |
@@ -272,8 +246,6 @@ You can also report detailed subscription information on a per connection basis 
 
 The `/routez` endpoint reports information on active routes for a cluster. Routes are expected to be low, so there is no paging mechanism with this endpoint.
 
-**Endpoint:** `http://server:port/routez`
-
 | Result | Return Code |
 | :--- | :--- |
 | Success | 200 \(OK\) |
@@ -319,8 +291,6 @@ As noted above, the `routez` endpoint does support the `subs` argument from the 
 ### Gateway Information
 
 The `/gatewayz` endpoint reports information about gateways used to create a NATS supercluster. Like routes, the number of gateways are expected to be low, so there is no paging mechanism with this endpoint.
-
-**Endpoint:** `http://server:port/gatewayz`
 
 | Result | Return Code |
 | :--- | :--- |
@@ -458,8 +428,6 @@ The `/gatewayz` endpoint reports information about gateways used to create a NAT
 
 The `/leafz` endpoint reports detailed information about the leaf node connections.
 
-**Endpoint:** `http://server:port/leafz`
-
 | Result | Return Code |
 | :--- | :--- |
 | Success | 200 \(OK\) |
@@ -507,8 +475,6 @@ As noted above, the `leafz` endpoint does support the `subs` argument from the `
 
 The `/subsz` endpoint reports detailed information about the current subscriptions and the routing data structure. It is not normally used.
 
-**Endpoint:** `http://server:port/subsz`
-
 | Result | Return Code |
 | :--- | :--- |
 | Success | 200 \(OK\) |
@@ -545,8 +511,6 @@ The `/subsz` endpoint reports detailed information about the current subscriptio
 ### Account Information
 
 The `/accountz` endpoint reports information on a server's active accounts. The default behavior is to return a list of all accounts known to the server.
-
-**Endpoint:** `http://server:port/accountz`
 
 | Result | Return Code |
 | :--- | :--- |
@@ -644,11 +608,70 @@ Retrieve specific account:
 }
 ```
 
+### Account Statistics
+
+The `/accstatz` endpoint reports per-account statistics such as the number of connections, messages/bytes in/out, etc.
+
+| Result | Return Code |
+| :--- | :--- |
+| Success | 200 \(OK\) |
+| Error | 400 \(Bad Request\) |
+
+#### Arguments
+
+| Argument | Values | Description |
+| :--- | :--- | :--- |
+| unused | true, 1, false, 0 | If true, include accounts that do not have any current connections. Default is false. |
+
+#### Examples
+
+- Accounts with active connections - https://demo.nats.io:8222/accstatz
+- Include ones without any connections (in this case `$SYS`)- https://demo.nats.io:8222/accstatz?unused=1
+
+#### Response
+
+```json
+{
+  "server_id": "NDJ5M4F5WAIBUA26NJ3QMH532AQPN7QNTJP3Y4SBHSHL4Y7QUAKNJEAF",
+  "now": "2022-10-19T17:16:20.881296749Z",
+  "account_statz": [
+    {
+      "acc": "default",
+      "conns": 31,
+      "leafnodes": 2,
+      "total_conns": 33,
+      "sent": {
+        "msgs": 1876970,
+        "bytes": 246705616
+      },
+      "received": {
+        "msgs": 1347454,
+        "bytes": 219438308
+      },
+      "slow_consumers": 29
+    },
+    {
+      "acc": "$G",
+      "conns": 1,
+      "leafnodes": 0,
+      "total_conns": 1,
+      "sent": {
+        "msgs": 0,
+        "bytes": 0
+      },
+      "received": {
+        "msgs": 107,
+        "bytes": 1094
+      },
+      "slow_consumers": 0
+    }
+  ]
+}
+```
+
 ### JetStream Information
 
 The `/jsz` endpoint reports more detailed information on JetStream. For accounts, it uses a paging mechanism that defaults to 1024 connections.
-
-**Endpoint:** `http://server:port/jsz`
 
 > **Note:** If you're in a clustered environment, it is recommended to retrieve the information from the stream's leader in order to get the most accurate and up-to-date data.
 
