@@ -54,7 +54,7 @@ If encryption was enabled on the server and the server is restarted with a diffe
 Error decrypting our stream metafile: chacha20poly1305: message authentication failed
 ```
 
-Note, that this impact JetStream functionality, but the server will still support core NATS functionality.
+Note, that this will impact JetStream functionality, but the server will still support core NATS functionality.
 
 ### Changing the cipher
 
