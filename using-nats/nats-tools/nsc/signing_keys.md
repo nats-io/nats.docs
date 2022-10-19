@@ -247,7 +247,7 @@ nsc add user U -K service
 [ OK ] added user "U" to account "A"
 ```
 
-To see the permissions for the user enter `nsc describe user` - you will see in the report  that the user is scoped, and has the permissions listed. You can inspect and modify the scopedpermissions with `nsc edit signing keys` - pushing updates to the account will reassign user permissions
+To see the permissions for the user enter `nsc describe user` - you will see in the report  that the user is scoped, and has the permissions listed. You can inspect and modify the scoped permissions with `nsc edit signing keys` - pushing updates to the account will reassign user permissions
 
 ### Template functions
 
