@@ -1229,7 +1229,7 @@ int main(int argc, char **argv)
     natsOptions_Destroy(opts);
 
     // To silence reports of memory still in used with valgrind
-    nats_Close();
+    nats_Close();.
 
     return 0;
 }
@@ -1237,23 +1237,28 @@ int main(int argc, char **argv)
 {% endtab %}
 {% endtabs %}
 
-## Reliability and Acknowledgements
+## Delivery reliability
 
-In order to provide for the reliable processing of the messages, clients must acknowledge successful reception and processing of each message. Acknowledgements enable the consumers to re-send messages as needed, thereby providing reliability to the processing of the messages even in the face of client failures.
+JetStream consumers can ensure not just the reliability of message delivery but also the reliability of the processing of the messages, even in the face of client application or downstream failures. It does so by using message level acknowledgements and message re-deliveries.
 
-### Ack policy
+Consumers have an [Acknowledgement Policy](/nats-concepts/jetstream/consumers.md#ackpolicy) specifying the level of reliability required. In increasing order of reliability the available policies are: 'none' for no application level acknowledgements, 'all' where acknowledging a specific message also implicitly acknowledges all previous messages in the stream, and 'explicit' where each message must be individually acknowledged.
 
-Consumers have an [Acknowledgement Policy](/nats-concepts/jetstream/consumers.md#ackpolicy) specifying the level of reliability required.
+When the consumer is set to require explicit acknowledgements the client applications are able to use more than one kind of [acknowledgement](/using-nats/developing-with-nats/anatomy.md#consumer-acknowledgements) to indicate successful (or not) reception and processing of the messages being received from the consumer.
 
-### Client Acknowledging
+Applications can:
+* Acknowledge the successfull processing of a message (`Ack()`).
+* Acknowledge the successfull processing of a message and request an acknowledgement of the reception of the acknowledgement by the consumer (`AckSync()`).
+* Indicate that the processing is still in progress and more time is needed (`inProgress()`).
+* Negatively acknowledge a message, indicating that the client application is currently (temporarily) unable to process the message and that the consumer should attempt to re-deliver it later (`Nak()`).
+* Terminate a message (typically, because there is a problem with the data inside the message such that the client application is never going to be able to process it), indicating that the consumer should not attempt to re-deliver the message (`Term()`).
 
-When the consumer is set to require explicit acknowledgements the client applications are able to use more than one kind of [acknowledgement](/using-nats/developing-with-nats/anatomy.md#consumer-acknowledgements) to indicate successful (or not) reception and processing of the messages being sent from the consumer.
+After a message is sent from the consumer to a subscribing client application by the server an 'AckWait' timer is started. This timer is deleted when either a positive (`Ack()`) or a termination (`Term()`) acknowledgement is received from the client application. The timer gets reset upon reception of an in-progress (`inProgress()`) acknowledgement.
 
-### Message re-deliveries
+If at the end of a period of time no acknowledgement has been received from the client application (or if it sent back a negative (`Nak()`) acknowledgement), the server will attempt to re-deliver the message. If there is more than one client application instance subscribing to the consumer, there is no guarantee that the re-delivery would be to any particular client instance.
 
-When a message is sent from the consumer to a subscribing client application, if the message is not acknowledged within a period of time (specified by the consumer's `AckWait` setting, and which can be extended by the client application using `AckProgress`), or if it is negatively acknowledged by the client application, then the consumer will make a new delivery attempt of the message. If the client applications are liable to negatively acknowledge messages (for example because some external resource is temporarily unavailable), you should also specify a list of retransmission `BackOff` intervals in the consumer's settings.
+You can control the timing of re-deliveries using either the single `AckWait` duration attribute of the consumer, or as a sequence of durations in the `BackOff` attribute (which overrides `AckWait`).
 
-#### "Dead Letter Queues" type functionality
+### "Dead Letter Queues" type functionality
 
 You can set a maximum number of delivery attempts using the consumer's `MaxDeliver` setting.
 
