@@ -17,7 +17,7 @@ NATS is 'cloud native' and expected to be deployed in virtual environments and/o
 
 However, when it comes to ensuring the highest possible level of performance that NATS can provide it is good to keep a few things in mind.
 
-Think of Core NATS servers are a software equivalent of network switches. Enable JetStream, and they also become a new kind of DB server as well. 
+Think of Core NATS servers as a software equivalent of network switches. Enable JetStream, and they also become a new kind of DB server as well. 
 
 What you need to keep in mind is that when selecting the instance types and storage options for your NATS server host instances that in public clouds: *you get what you pay for*.
 
