@@ -19,7 +19,7 @@ However, when it comes to ensuring the highest possible level of performance tha
 
 Think of Core NATS servers as a software equivalent of network switches. Enable JetStream, and they also become a new kind of DB server as well. 
 
-What you need to keep in mind is that when selecting the instance types and storage options for your NATS server host instances that in public clouds: *you get what you pay for*.
+What you need to remember is that when selecting the instance types and storage options for your NATS server host instances that in public clouds: *you get what you pay for*.
 
 For example non network optimized instances may give you 10 Gb/s of network bandwidth... but only for some period of time (like 30 minutes), after which the available bandwidth may drop down dramatically (like to 5 Gb/s) for another period of time. So select network optimized instances types instead if you always need the advertised bandwidth.
 
