@@ -120,11 +120,16 @@ authorization: {
 | `listen` | Listen specification `<host>:<port>` for client connections. Either use this or the options `host` and/or `port`. | same as `host`, `port` |
 | `client_advertise` | Alternative client listen specification `<host>:<port>` or just `<host>` to advertise to clients and other server. Useful in [cluster](clustering/cluster_config.md) setups with NAT. | Advertise what `host` and `port` specify. |
 | [`tls`](/running-a-nats-service/configuration/securing_nats/tls.md) | Configuration map for tls for client and http monitoring. |  |
-| [`cluster`](/running-a-nats-service/configuration/clustering/cluster_config.md) | Configuration map for [cluster](/running-a-nats-service/configuration/clustering). |  |
 | [`gateway`](/running-a-nats-service/configuration/gateways/gateway.md#gateway-configuration-block) | Configuration map for [gateway](/running-a-nats-service/configuration/gateways). |  |
 | [`leafnode`](/running-a-nats-service/configuration/leafnodes/leafnode_conf.md) | Configuration map for a [leafnode](/running-a-nats-service/configuration/leafnodes). |  |
 | [`mqtt`](/running-a-nats-service/configuration/mqtt/mqtt_config.md) | Configuration map for [mqtt](/running-a-nats-service/configuration/mqtt). |  |
 | [`websocket`](/running-a-nats-service/configuration/websocket/websocket_conf.md) | Configuration map for [websocket](/running-a-nats-service/configuration/websocket). |  |
+
+### Clustering
+
+| Property | Description | Default |
+| :--- | :--- | :--- |
+| [`cluster`](/running-a-nats-service/configuration/clustering/cluster_config.md) | Configuration map for [cluster](/running-a-nats-service/configuration/clustering). |  |
 
 ### Connection Timeouts
 
