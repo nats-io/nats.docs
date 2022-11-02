@@ -69,4 +69,4 @@ Reduce risk when onboarding new services. Canary deployments, A/B testing, and t
 
 ### Account Monitoring - More Meaningful Metrics
 
-NATS now allows for [fine-grained monitoring](nats-server/configuration/monitoring.md#account-information) to identify usage metrics tied to a particular account. Inspect messages and bytes sent or received and various connection statistics for a particular account. Accounts can represent anything - a group of applications, a team or organization, a geographic location, or even roles. If NATS is enabling your SaaS solution you could use NATS account scoped metrics to bill users.
+NATS now allows for [fine-grained monitoring](running-a-nats-service/nats_admin/monitoring#account-information) to identify usage metrics tied to a particular account. Inspect messages and bytes sent or received and various connection statistics for a particular account. Accounts can represent anything - a group of applications, a team or organization, a geographic location, or even roles. If NATS is enabling your SaaS solution you could use NATS account scoped metrics to bill users.
