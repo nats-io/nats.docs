@@ -24,4 +24,4 @@ You can deploy and run your own NATS service infrastructure of nats-server insta
 
 ### Virtualization and containerization considerations
 
-If using Kubernetes we recommend you use the [Heml charts](https://github.com/nats-io/k8s/tree/main/helm/charts/nats).
+If using Kubernetes we recommend you use the [Helm charts](https://github.com/nats-io/k8s/tree/main/helm/charts/nats).
