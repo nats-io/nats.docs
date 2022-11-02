@@ -19,7 +19,7 @@ JetStream:
 * is account aware
 * allows for detailed granularity of security, by stream, by consumer, by function
 
-Get started with [JetStream](https://github.com/jnmoyne/nats.docs/tree/7a4b8659c99476fadc855d3569dfcd973e15a4a9/jetstream/jetstream.md).
+Get started with [JetStream](/nats-concepts/jetstream/).
 
 ## Security and Simplified Account Management
 
@@ -31,19 +31,19 @@ By specifying a CIDR block restriction for a user, policy can be applied to limi
 
 ### Time-Based Account Restrictions
 
-Scoped to the user, you can now [specify a specific block of time](nats-tools/nsc/basics.md#user-authorization) during the day when applications can connect. For example, permit certain users or applications to access the system during specified business hours, or protect business operations during the busiest parts of the day from batch driven back-office applications that could adversely impact the system when run at the wrong time.
+Scoped to the user, you can now [specify a specific block of time](/using-nats/nats-tools/nsc/basics.md#user-authorization) during the day when applications can connect. For example, permit certain users or applications to access the system during specified business hours, or protect business operations during the busiest parts of the day from batch driven back-office applications that could adversely impact the system when run at the wrong time.
 
 ### Default User Permissions
 
-Now you can specify [default user permissions](nats-server/configuration/securing_nats/authorization.md#examples) within an account. This significantly reduces efforts around policy, reduces chances for error in permissioning, and simplifies the provisioning of user credentials.
+Now you can specify [default user permissions](/running-a-nats-service/configuration/securing_nats/authorization.md#examples) within an account. This significantly reduces efforts around policy, reduces chances for error in permissioning, and simplifies the provisioning of user credentials.
 
 ## WebSockets
 
-Connect mobile and web applications to any NATS server using [WebSockets](nats-server/configuration/websocket/). Built to more easily traverse firewalls and load balancers, NATS WebSocket support provides even more flexibility to NATS deployments and makes it easier to communicate to the edge and endpoints. This is currently supported in NATS server leaf nodes, nats.ts, nats.deno, and the nats.js clients.
+Connect mobile and web applications to any NATS server using [WebSockets](/running-a-nats-service/configuration/websocket/). Built to more easily traverse firewalls and load balancers, NATS WebSocket support provides even more flexibility to NATS deployments and makes it easier to communicate to the edge and endpoints. This is currently supported in NATS server leaf nodes, nats.ts, nats.deno, and the nats.js clients.
 
 ## Native MQTT Support
 
-With the [Adaptive Edge architecture](https://nats.io/blog/synadia-adaptive-edge/) and the ease with which NATS can extend a cloud deployment to the edge, it makes perfect sense to leverage existing investments in IoT deployments. It’s expensive to update devices and large edge deployments. Our goal is to enable the hyperconnected world, so we added first-class support for [MQTT 3.1.1](nats-server/configuration/mqtt/) directly into the NATS Server.
+With the [Adaptive Edge architecture](https://nats.io/blog/synadia-adaptive-edge/) and the ease with which NATS can extend a cloud deployment to the edge, it makes perfect sense to leverage existing investments in IoT deployments. It’s expensive to update devices and large edge deployments. Our goal is to enable the hyperconnected world, so we added first-class support for [MQTT 3.1.1](/running-a-nats-service/configuration/mqtt/) directly into the NATS Server.
 
 Seamlessly integrate existing IoT deployments using MQTT 3.1.1 with a cloud-native NATS deployment. Add a leaf node that is MQTT enabled and instantly send and receive messages to your MQTT applications and devices from a NATS deployment whether it be edge, single-cloud, multi-cloud, on-premise, or any combination thereof.
 
@@ -57,7 +57,7 @@ We’ve added the ability to optionally use headers, following the HTTP semantic
 
 ### Seamless Maintenance with Lame Duck Notifications
 
-When taking down a server for maintenance, servers can be signaled to enter [Lame Duck Mode](nats-server/nats_admin/lame_duck_mode.md) where they do not accept new connections and evict existing connections over a period of time. Maintainer supported clients will notify applications that a server has entered this state and will be shutting down, allowing a client to smoothly transition to another server or cluster and better maintain business continuity during scheduled maintenance periods.
+When taking down a server for maintenance, servers can be signaled to enter [Lame Duck Mode](/running-a-nats-service/nats_admin/lame_duck_mode.md) where they do not accept new connections and evict existing connections over a period of time. Maintainer supported clients will notify applications that a server has entered this state and will be shutting down, allowing a client to smoothly transition to another server or cluster and better maintain business continuity during scheduled maintenance periods.
 
 ### React Quicker with No-Responder Notifications
 
@@ -65,8 +65,8 @@ Why wait for timeouts when services aren’t available? When a request is made t
 
 ### Subject Mapping and Traffic Shaping
 
-Reduce risk when onboarding new services. Canary deployments, A/B testing, and transparent teeing of data streams are now fully supported in NATS. The NATS Server allows accounts to form subject mappings from one subject to another for both client inbound and service import invocations and allows weighted sets for the destinations. Map any percentage - 1 to 100 percent of your traffic - to other subjects, and change this at runtime with a server configuration reload. You can even artificially drop a percentage of traffic to introduce chaos testing into your system. See [Configuring Subject Mapping and Traffic Shaping](nats-server/configuration/configuring_subject_mapping.md) in NATS Server configuration for more details.
+Reduce risk when onboarding new services. Canary deployments, A/B testing, and transparent teeing of data streams are now fully supported in NATS. The NATS Server allows accounts to form subject mappings from one subject to another for both client inbound and service import invocations and allows weighted sets for the destinations. Map any percentage - 1 to 100 percent of your traffic - to other subjects, and change this at runtime with a server configuration reload. You can even artificially drop a percentage of traffic to introduce chaos testing into your system. See [Configuring Subject Mapping and Traffic Shaping](/running-a-nats-service/configuration/configuring_subject_mapping.md) in NATS Server configuration for more details.
 
 ### Account Monitoring - More Meaningful Metrics
 
-NATS now allows for [fine-grained monitoring](nats-server/configuration/monitoring.md#account-information) to identify usage metrics tied to a particular account. Inspect messages and bytes sent or received and various connection statistics for a particular account. Accounts can represent anything - a group of applications, a team or organization, a geographic location, or even roles. If NATS is enabling your SaaS solution you could use NATS account scoped metrics to bill users.
+NATS now allows for [fine-grained monitoring](/running-a-nats-service/nats_admin/monitoring#account-information) to identify usage metrics tied to a particular account. Inspect messages and bytes sent or received and various connection statistics for a particular account. Accounts can represent anything - a group of applications, a team or organization, a geographic location, or even roles. If NATS is enabling your SaaS solution you could use NATS account scoped metrics to bill users.
