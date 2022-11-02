@@ -19,7 +19,7 @@ JetStream:
 * is account aware
 * allows for detailed granularity of security, by stream, by consumer, by function
 
-Get started with [JetStream](/nats-concepts/jetstream).
+Get started with [JetStream](/nats-concepts/jetstream/).
 
 ## Security and Simplified Account Management
 
