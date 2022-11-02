@@ -136,6 +136,7 @@
     * [Clustering Configuration](running-a-nats-service/configuration/clustering/cluster_config.md)
     * [JetStream Clustering](running-a-nats-service/configuration/clustering/jetstream_clustering/README.md)
       * [Administration](running-a-nats-service/configuration/clustering/jetstream_clustering/administration.md)
+      * [Troubleshooting](running-a-nats-service/configuration/clustering/jetstream_clustering/troubleshooting.md)
   * [Super-cluster with Gateways](running-a-nats-service/configuration/gateways/README.md)
     * [Configuration](running-a-nats-service/configuration/gateways/gateway.md)
   * [Leaf Nodes](running-a-nats-service/configuration/leafnodes/README.md)
