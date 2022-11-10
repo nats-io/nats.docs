@@ -199,4 +199,4 @@ See: <https://github.com/nats-io/nats.js/issues/369>
 
 ### nats.rs
 
-Something around here: <https://github.com/nats-io/nats.rs/blob/master/src/connector.rs#L232>
+Something around here: <https://github.com/nats-io/nats.rs/blob/master/src/connector.rs#L242>
