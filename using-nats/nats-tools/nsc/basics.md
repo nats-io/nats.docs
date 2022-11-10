@@ -33,7 +33,7 @@ nsc add operator MyOperator
 [ OK ] When running your own nats-server, make sure they run at least version 2.2.0
 ```
 
-With the above incantation, the tool generated an NKEY for the operator, stored the private key safely in it's keystore.
+With the above command, the tool generated an NKEY for the operator, stored the private key safely in its keystore.
 
 Lets add a service URL to the operator. Service URLs specify where the nats-server is listening. Tooling such as `nsc` can make use of that configuration:
 
