@@ -64,7 +64,7 @@ If the MQTT subscription is QoS1 and an MQTT publisher publishes an MQTT QoS1 me
 When the server delivers a QoS 1 message to a QoS 1 subscription, it will keep the message until it receives the PUBACK for the corresponding packet identifier. If it does not receive it within the "ack_wait" interval, that message will be resent.
 
 ## Max Ack Pending
-z
+
 This is the amount of QoS 1 messages the server can send to a subscription without receiving any PUBACK for those messages. The maximum value is 65535.
 
 The total of subscriptions' `max_ack_pending` on a given session cannot exceed 65535. Attempting to create a subscription that would bring the total above the limit would result in the server returning a failure code in the SUBACK for this subscription.
