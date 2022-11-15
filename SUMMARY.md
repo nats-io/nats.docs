@@ -194,7 +194,7 @@
   * [NATS Cluster Protocol](reference/nats-protocol/nats-server-protocol.md)
   * [JetStream wire API Reference](using-nats/jetstream/nats_api_reference.md)
 * [Roadmap](reference/roadmap.md)
-* [contributing](reference/contributing.md)
+* [Contributing](reference/contributing.md)
   
 ## Legacy
 
