@@ -193,7 +193,9 @@
     * [Developing a Client](reference/nats-protocol/nats-protocol/nats-client-dev.md)
   * [NATS Cluster Protocol](reference/nats-protocol/nats-server-protocol.md)
   * [JetStream wire API Reference](using-nats/jetstream/nats_api_reference.md)
-
+* [Roadmap](reference/roadmap.md)
+* [Contributing](reference/contributing.md)
+  
 ## Legacy
 
 * [STAN aka 'NATS Streaming'](legacy/stan/README.md)

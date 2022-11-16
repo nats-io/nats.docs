@@ -73,6 +73,8 @@ redirects:
   nats-concepts/intro: ./nats-concepts/what-is-nats/readme.md
   walkthrough/walkthrough_setup: ./nats-concepts/what-is-nats/walkthrough_setup.md
   faq: ./reference/faq.md
+  roadmap: ./reference/roadmap.md
+  contributing: ./reference/contributing.md
   nats-protocol/nats-protocol-demo: ./reference/nats-protocol/nats-protocol-demo.md
   nats-protocol/nats-protocol: ./reference/nats-protocol/nats-protocol/README.md
   nats-protocol/nats-protocol/nats-client-dev: ./reference/nats-protocol/nats-protocol/nats-client-dev.md
