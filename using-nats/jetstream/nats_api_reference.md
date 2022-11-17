@@ -77,13 +77,14 @@ The API uses JSON for inputs and outputs, all the responses are typed using a `t
 
 | Subject                               | Constant | Description                                                                     | Request Payload | Response Payload |
 |:--------------------------------------| :--- |:--------------------------------------------------------------------------------| :--- | :--- |
-| `$JS.API.CONSUMER.CREATE.*`           | `api.JSApiConsumerCreateT` | Create an ephemeral Consumer                                                    | `api.ConsumerConfig`, Stream name in subject | `api.JSApiConsumerCreateResponse` |
-| `$JS.API.CONSUMER.DURABLE.CREATE.*.*` | `api.JSApiDurableCreateT` | Create an Consumer                                                              | `api.ConsumerConfig`, Stream name in subject | `api.JSApiConsumerCreateResponse` |
-| `$JS.API.CONSUMER.LIST.*`             | `api.JSApiConsumerListT` | Paged list of known Consumers including their current info                      | `api.JSApiConsumerListRequest` | `api.JSApiConsumerListResponse` |
-| `$JS.API.CONSUMER.NAMES.*`            | `api.JSApiConsumerNamesT` | Paged list of known Consumer names                                              | `api.JSApiConsumerNamesRequest` | `api.JSApiConsumerNamesResponse` |
-| `$JS.API.CONSUMER.INFO.*.*`           | `api.JSApiConsumerInfoT` | Information about an Consumer                                                   | empty payload, Stream and Consumer names in subject | `api.JSApiConsumerInfoResponse` |
-| `$JS.API.CONSUMER.DELETE.*.*`         | `api.JSApiConsumerDeleteT` | Deletes a Consumer                                                             | empty payload, Stream and Consumer names in subject | `api.JSApiConsumerDeleteResponse` |
-| `$JS.FC.>` | N/A | Consumer to subscriber flow control messages (also needed for stream mirroring) | | | 
+| `$JS.API.CONSUMER.CREATE.<stream>`           | `api.JSApiConsumerCreateT` | Create an ephemeral consumer                                                    | `api.ConsumerConfig` | `api.JSApiConsumerCreateResponse` |
+| `$JS.API.CONSUMER.DURABLE.CREATE.<stream>.<consumer>` | `api.JSApiDurableCreateT` | Create a consumer                                                              | `api.ConsumerConfig` | `api.JSApiConsumerCreateResponse` |
+| `$JS.API.CONSUMER.CREATE.<stream>.<consumer>.<filter>` | `api.JSApiConsumerCreateExT` | Create a consumer (server 2.9+) | `api.CreateConsumerRequest` | `api.JSApiConsumerCreateResponse` |
+| `$JS.API.CONSUMER.LIST.<stream>`             | `api.JSApiConsumerListT` | Paged list of known consumers including their current info for a given stream | `api.JSApiConsumerListRequest` | `api.JSApiConsumerListResponse` |
+| `$JS.API.CONSUMER.NAMES.<stream>`            | `api.JSApiConsumerNamesT` | Paged list of known consumer names for a given stream | `api.JSApiConsumerNamesRequest` | `api.JSApiConsumerNamesResponse` |
+| `$JS.API.CONSUMER.INFO.<stream>.<consumer>`           | `api.JSApiConsumerInfoT` | Information about a specific consumer by name | empty payload | `api.JSApiConsumerInfoResponse` |
+| `$JS.API.CONSUMER.DELETE.<stream>.<consumer>` | `api.JSApiConsumerDeleteT` | Deletes a Consumer                                                             | empty payload | `api.JSApiConsumerDeleteResponse` |
+| `$JS.FC.>` | N/A | Consumer to subscriber flow control messages (also needed for stream mirroring) | | |
 
 ### ACLs
 
