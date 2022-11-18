@@ -32,7 +32,7 @@ The following tips and commands (while not an exhaustive list) can be useful whe
 | :--- | :--- |
 | `nats server report connections` |  Report on connections |
 | `nats server report accounts` | Report on account activity |
-| [nats server report jetstream](./administration.md#viewing-the-cluster-state) | Report on JetStream activity |
+| [`nats server report jetstream`](./administration.md#viewing-the-cluster-state) | Report on JetStream activity |
 
 ### `nats server request` commands
 
