@@ -1,7 +1,7 @@
 # Troubleshooting NATS JetStream clusters
 
 Diagnosing problems in NATS JetStream clusters requires:
-* knowledge of [JetStream concepts](/nats-concepts/jetstream/#jetstream-1)
+* knowledge of [JetStream concepts](../../../nats-concepts/jetstream/#jetstream-1)
 * knowledge of the [NATS Command Line Interface (CLI)](https://github.com/nats-io/natscli#the-nats-command-line-interface)
 
 The following tips and commands (while not an exhaustive list) can be useful when diagnosing problems in NATS JetStream clusters:
@@ -32,13 +32,13 @@ The following tips and commands (while not an exhaustive list) can be useful whe
 | :--- | :--- |
 | `nats server report connections` |  Report on connections |
 | `nats server report accounts` | Report on account activity |
-| [nats server report jetstream](./administration.md#viewing-the-cluster-state) | Report on JetStream activity |
+| [`nats server report jetstream`](./administration.md#viewing-the-cluster-state) | Report on JetStream activity |
 
 ### `nats server request` commands
 
 | Command | Description |
 | :--- | :--- |
-|  [nats server request jetstream](./administration.md#viewing-the-cluster-state) | Show JetStream details |
+|  [`nats server request jetstream`](./administration.md#viewing-the-cluster-state) | Show JetStream details |
 |  `nats server request subscriptions` |  Show subscription information |
 |  `nats server request variables`   |   Show runtime variables |
 |  `nats server request connections` |   Show connection details |
@@ -51,14 +51,14 @@ The following tips and commands (while not an exhaustive list) can be useful whe
 
 | Command | Description |
 | :--- | :--- |
-| [nats server raft step-down](./administration.md#forcing-stream-and-consumer-leader-election) | Force a new leader election by standing down the current meta leader |
-| [nats server raft peer-remove](./administration.md#evicting-a-peer) |  Removes a server from a JetStream cluster |
+| [`nats server raft step-down`](./administration.md#forcing-stream-and-consumer-leader-election) | Force a new leader election by standing down the current meta leader |
+| [`nats server raft peer-remove`](./administration.md#evicting-a-peer) |  Removes a server from a JetStream cluster |
 
 ### Experimental commands
 
 | Command | Description |
 | :--- | :--- |
-|  [nats traffic](https://github.com/nats-io/natscli/blob/main/cli/traffic_command.go) |  Monitor NATS traffic. (**Experimental command**) |
+|  [`nats traffic`](https://github.com/nats-io/natscli/blob/main/cli/traffic_command.go) |  Monitor NATS traffic. (**Experimental command**) |
 
 ## Further troubleshooting references
 
