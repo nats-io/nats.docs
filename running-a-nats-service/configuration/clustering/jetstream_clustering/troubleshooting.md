@@ -58,7 +58,7 @@ The following tips and commands (while not an exhaustive list) can be useful whe
 
 | Command | Description |
 | :--- | :--- |
-|  [nats traffic](https://github.com/nats-io/natscli/blob/main/cli/traffic_command.go) |  Monitor NATS traffic. (**Experimental command**) |
+|  [`nats traffic`](https://github.com/nats-io/natscli/blob/main/cli/traffic_command.go) |  Monitor NATS traffic. (**Experimental command**) |
 
 ## Further troubleshooting references
 
