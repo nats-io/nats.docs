@@ -1,7 +1,7 @@
 # Troubleshooting NATS JetStream clusters
 
 Diagnosing problems in NATS JetStream clusters requires:
-* knowledge of [JetStream concepts](../../../nats-concepts/jetstream/#jetstream-1)
+* knowledge of [JetStream concepts](../../../nats-concepts/jetstream/readme.md)
 * knowledge of the [NATS Command Line Interface (CLI)](https://github.com/nats-io/natscli#the-nats-command-line-interface)
 
 The following tips and commands (while not an exhaustive list) can be useful when diagnosing problems in NATS JetStream clusters:
@@ -15,7 +15,7 @@ The following tips and commands (while not an exhaustive list) can be useful whe
 
 | Command | Description |
 | :--- | :--- |
-| [nats account info](../../../nats_admin/jetstream_admin/account.md) | Verify that JetStream is enabled on account |
+| [`nats account info`](../../../nats_admin/jetstream_admin/account.md) | Verify that JetStream is enabled on account |
 
 ###  Basic `nats server` commands
 
@@ -24,7 +24,7 @@ The following tips and commands (while not an exhaustive list) can be useful whe
 | `nats server ls` | List known servers |
 |  `nats server ping`  |    Ping all servers |
 |  `nats server info`  |    Show information about a single server |
-|  [nats server check](../../../clients.md#testing-your-setup) | Health check for NATS servers |
+|  [`nats server check`](../../../clients.md#testing-your-setup) | Health check for NATS servers |
 
 ### `nats server report` commands
 
