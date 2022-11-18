@@ -8,7 +8,7 @@ The following tips and commands (while not an exhaustive list) can be useful whe
 
 ## Troubleshooting tips
 
-1. Look at [nats-server](https://github.com/nats-io/nats-server#readme) logs
+1. Look at [nats-server](https://github.com/nats-io/nats-server) logs. By default, only warning and error logs are produced, but debug and trace logs can be turned on from the command line using `-D` and `-DV`, respectively. Alternatively, enabling `debug` or `trace` in the [server config](https://docs.nats.io/running-a-nats-service/configuration#monitoring-and-tracing).
 2. Make sure that in the [NATS JetStream configuration](./README.md#configuration), at least one system user is configured in this section: `{ $SYS { users } }`.
 
 ### `nats account` commands
