@@ -38,7 +38,7 @@ The following tips and commands (while not an exhaustive list) can be useful whe
 
 | Command | Description |
 | :--- | :--- |
-|  [nats server request jetstream](./administration.md#viewing-the-cluster-state) | Show JetStream details |
+|  [`nats server request jetstream`](./administration.md#viewing-the-cluster-state) | Show JetStream details |
 |  `nats server request subscriptions` |  Show subscription information |
 |  `nats server request variables`   |   Show runtime variables |
 |  `nats server request connections` |   Show connection details |
