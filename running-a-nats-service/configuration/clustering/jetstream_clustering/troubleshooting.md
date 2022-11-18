@@ -1,7 +1,7 @@
 # Troubleshooting NATS JetStream clusters
 
 Diagnosing problems in NATS JetStream clusters requires:
-* knowledge of [JetStream concepts](/nats-concepts/jetstream/#jetstream-1)
+* knowledge of [JetStream concepts](../../../../nats-concepts/jetstream/readme.md)
 * knowledge of the [NATS Command Line Interface (CLI)](https://github.com/nats-io/natscli#the-nats-command-line-interface)
 
 The following tips and commands (while not an exhaustive list) can be useful when diagnosing problems in NATS JetStream clusters:
