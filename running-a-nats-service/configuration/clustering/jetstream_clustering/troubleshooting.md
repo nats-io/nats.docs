@@ -24,7 +24,7 @@ The following tips and commands (while not an exhaustive list) can be useful whe
 | `nats server ls` | List known servers |
 |  `nats server ping`  |    Ping all servers |
 |  `nats server info`  |    Show information about a single server |
-|  [nats server check](../../../clients.md#testing-your-setup) | Health check for NATS servers |
+|  [`nats server check`](../../../clients.md#testing-your-setup) | Health check for NATS servers |
 
 ### `nats server report` commands
 
