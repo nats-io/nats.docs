@@ -67,9 +67,9 @@ When using the updated client protocol (see [`CONNECT`](./#connect) below), `INF
 
 ### Syntax
 
-`INFO {["option_name":option_value],...}␍␊`
+`INFO {"option_name":option_value,...}␍␊`
 
-The valid options are as follows:
+The valid options are as follows, encoded as JSON:
 
 * `server_id`: The unique identifier of the NATS server
 * `version`: The version of the NATS server
@@ -115,9 +115,9 @@ The `CONNECT` message is the client version of the [`INFO`](./#info) message. On
 
 ### Syntax
 
-`CONNECT {["option_name":option_value],...}␍␊`
+`CONNECT {"option_name":option_value,...}␍␊`
 
-The valid options are as follows:
+The valid options are as follows, encoded as JSON:
 
 * `verbose`: Turns on [`+OK`](./#okerr) protocol acknowledgements.
 * `pedantic`: Turns on additional strict format checking, e.g. for properly formed subjects
