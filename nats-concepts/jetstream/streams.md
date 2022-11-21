@@ -31,11 +31,11 @@ Below are the set of stream configuration options that can be defined. The `Vers
 | MaxConsumers | How many Consumers can be defined for a given Stream, `-1` for unlimited | 2.2.0 | No |
 | NoAck | Disables acknowledging messages that are received by the Stream | 2.2.0 | Yes |
 | [Retention](#retentionpolicy) | Declares the retention policy for the stream. | 2.2.0 | No |
-| [Discard](#discardpolicy) | The behavior of discarding messages when any streams limits have been reached. | 2.2.0 | Yes |
+| [Discard](#discardpolicy) | The behavior of discarding messages when any streams' limits have been reached. | 2.2.0 | Yes |
 | Duplicates | The window within which to track duplicate messages, expressed in nanoseconds. | 2.2.0 | Yes |
 | [Placement](#placement) | Used to declare where the stream should be placed via tags and/or an explicit cluster name. | 2.2.0 | Yes |
 | [Mirror](#mirror) | If set, indicates this stream is a mirror of another stream. See [mirrors](/running-a-nats-service/nats_admin/jetstream_admin/replication#mirrors). | 2.2.0 | No (if defined) |
-| [Sources](#sources) | If defined, declares one or more stream this stream will source messages from. See [sources](/running-a-nats-service/nats_admin/jetstream_admin/replication#sources). | 2.2.0 | Yes |
+| [Sources](#sources) | If defined, declares one or more streams this stream will source messages from. See [sources](/running-a-nats-service/nats_admin/jetstream_admin/replication#sources). | 2.2.0 | Yes |
 | MaxMsgsPerSubject | Limits how many messages in the stream to retain _per subject_. | 2.3.0 | Yes |
 | Description | A verbose description of the stream. | 2.3.3 | Yes |
 | Sealed | Sealed streams do not allow messages to be deleted via limits or API, sealed streams can not be unsealed via configuration update. Can only be set on already created streams via the Update API. | 2.6.2 | Yes (once) |
