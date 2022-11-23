@@ -4,7 +4,7 @@ Subject mapping and partitioning is a very powerful feature of the NATS server, 
 
 There are two places where you can apply subject mappings: each account has its own set of subject mappings, which will apply to any message published by client applications, and you can also use subject mappings as part of the imports and exports between accounts.
 
-When not using operator JWT security, you can define the subject mappings in server configuration files, and you simply need to send a signal for the nats-server process to reload the configuration whenever you change a mapping for the change to take effect. 
+When not using operator JWT security, you can define the subject mappings in server configuration files, and you simply need to send a signal for the nats-server process to reload the configuration whenever you change a mapping for the change to take effect.
 
 When using operator JWT security with the built-in resolver you define the mappings and the import/exports in the account JWT so after modifying them they will take effect as soon as you push the updated account JWT to the servers.
 
@@ -25,6 +25,10 @@ Example: with this mapping `"bar.*.*" : "baz.{{wildcard(2)}}.{{wildcard(1)}}"`, 
 Deterministic token partitioning allows you to use subject based addressing to deterministically divide (partition) a flow of messages where one or more of the subject tokens make up the key upon which the partitioning will be based, into a number of smaller message flows.
 
 For example: new customer orders are published on `neworders.<customer id>`, you can partition those messages over 3 partition numbers (buckets), using the `partition(number of partitions, wildcard token positions...)` function which returns a partition number (between 0 and number of partitions-1) by using the following mapping `"neworders.*" : "neworders.{{wildcard(1)}}.{{partition(3,1)}}"`.
+
+{% hint style="info" %}
+Note that multiple token positions can be specified to form a kind of *composite partition key*. For example, a subject with the form `foo.*.*` can have a partition mapping of `foo.$1.$2.{{partition(5,1,2)}}` which will result in five partitions in the form `foo.$1.$2.<n>`, but using the hash of the two wildcard tokens when computing the partition number.
+{% endhint %}
 
 This particular mapping means that any message published on `neworders.<customer id>` will be mapped to `neworders.<customer id>.<a partition number 0, 1, or 2>`. i.e.:
 
@@ -53,7 +57,7 @@ What this deterministic partition mapping enables is the distribution of the mes
 
 ### When is deterministic partitioning needed
 
-The core NATS queue-groups and JetStream durable consumer mechanisms to distribute messages amongst a number of subscribers are partition-less and non-deterministic, meaning that there is no guarantee that two sequential messages published on the same subject are going to be distributed to the same subscriber. While in most use cases a completely dynamic, demand-driven distribution is what you need, it does come at the cost of guaranteed ordering because if two subsequent messages can be sent to two different subscribers which would then both process those messages at the same time at different speeds (or the message has to be re-transmitted, or the network is slow, etc...) and that could result in potential 'out of order' message delivery. 
+The core NATS queue-groups and JetStream durable consumer mechanisms to distribute messages amongst a number of subscribers are partition-less and non-deterministic, meaning that there is no guarantee that two sequential messages published on the same subject are going to be distributed to the same subscriber. While in most use cases a completely dynamic, demand-driven distribution is what you need, it does come at the cost of guaranteed ordering because if two subsequent messages can be sent to two different subscribers which would then both process those messages at the same time at different speeds (or the message has to be re-transmitted, or the network is slow, etc...) and that could result in potential 'out of order' message delivery.
 
 This means that if the application requires strictly ordered message processing, you need to limit distribution of messages to 'one at a time' (per consumer/queue-group, i.e. using the 'max acks pending' setting), which in turns hurts scalability because it means no matter how many workers you have subscribed only one at a time is doing any processing work.
 
