@@ -18,7 +18,7 @@ Enabling encryption is done through the `jetstream` [configuration block](/runni
 ```text
 jetstream : {
   cipher: chachapoly
-  key : "mykey"
+  key : "6dYfBV0zzEkR3vxZCNjxmnVh/aIqgid1"
 }
 ```
 
