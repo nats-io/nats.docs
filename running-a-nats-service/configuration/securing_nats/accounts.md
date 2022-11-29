@@ -195,4 +195,5 @@ The above example shows how clients without authentication can be associated wit
 
 # See Also
 
-[Multi-tenancy and resource management](https://docs.nats.io/running-a-nats-service/configuration/resource_management#multi-tenancy-and-resource-mgmt)
+ * [Multi-tenancy and resource management](https://docs.nats.io/running-a-nats-service/configuration/resource_management#multi-tenancy-and-resource-mgmt)
+ * [Connect Streams Cross Accounts](https://github.com/nats-io/jetstream-leaf-nodes-demo#connect-streams-cross-accounts)

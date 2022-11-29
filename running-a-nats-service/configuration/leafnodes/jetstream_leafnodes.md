@@ -698,3 +698,6 @@ func main() {
 
 A push subscriber will need a similar setup. It will require the `ACK` subject. However, instead of exporting/importing the `NEXT` subject, the delivery subject shown for source/mirror needs to be used.
 
+# See Also
+
+[JetStream Leaf Nodes demo](https://github.com/nats-io/jetstream-leaf-nodes-demo) and its companion [video recording](https://www.youtube.com/watch?v=0MkS_S7lyHk).
