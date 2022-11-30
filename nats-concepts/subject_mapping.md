@@ -8,9 +8,17 @@ When not using operator JWT security, you can define the subject mappings in ser
 
 When using operator JWT security with the built-in resolver you define the mappings and the import/exports in the account JWT so after modifying them they will take effect as soon as you push the updated account JWT to the servers.
 
+{% hint style="info" %}
+You can easily test subject mappings using the [`nats`](../using-nats/nats-tools/nats_cli/readme.md) CLI tool command `nats server mapping`.
+{% endhint %}
+
 ## Simple Mapping
 
 The example of `foo:bar` is straightforward. All messages the server receives on subject `foo` are remapped and can be received by clients subscribed to `bar`.
+
+```
+nats server mapping foo bar
+```
 
 ## Subject Token Reordering
 
@@ -18,7 +26,39 @@ Wildcard tokens may be referenced by position number in the destination mapping 
 
 You can also (for all versions of `nats-server`) use the legacy notation of `$position`. E.g. `$1` references the first wild card token, `$2` the second wildcard token, etc...
 
-Example: with this mapping `"bar.*.*" : "baz.{{wildcard(2)}}.{{wildcard(1)}}"`, messages that were originally published to `bar.a.b` are remapped in the server to `baz.b.a`. Messages arriving at the server on `bar.one.two` would be mapped to `baz.two.one`, and so forth.
+Example: with this mapping `"bar.*.*" : "baz.{{wildcard(2)}}.{{wildcard(1)}}"`, messages that were originally published to `bar.a.b` are remapped in the server to `baz.b.a`. Messages arriving at the server on `bar.one.two` would be mapped to `baz.two.one`, and so forth. Try it for yourself using `nats server mapping`.
+
+```
+nats server mapping "bar.*.*"  "baz.{{wildcard(2)}}.{{wildcard(1)}}"
+```
+
+## Splitting Tokens
+
+There is two ways you can split tokens:
+
+### Splitting on a separator
+
+You can split a token on each occurrence of a separator string using the `split(separator)` mapping function.
+
+Examples:
+* Split on '-': `nats server mapping "*" "{{split(1,-)}}" foo-bar` returns `foo.bar`.
+* Split on '--': `nats server mapping "*" "{{split(1,--)}}" foo--bar` returns `foo.bar`.
+
+### Splitting at an offset
+
+You can split a token in two at a specific location from the start or the end of the token using the `SplitFromLeft(wildcard index, offset)` and `SplitFromRight(wildcard index, offset)` mapping functions (note that the upper camel case on all subject mapping function names is optional you can also use all lowercase function names if you prefer).
+
+Examples:
+* Split the token at 4 from the left: `nats server mapping "*" "{{splitfromleft(1,4)}}" 1234567` returns `1234.567`.
+* Split the token at 4 from the right: `nats server mapping "*" "{{splitfromright(1,4)}}" 1234567` returns `123.4567`.
+
+## Slicing Tokens
+
+You can slice tokens into multiple parts at a specific interval from the start or the end of the token by using the `SliceFromLeft(wildcard index, number of characters)` and `SliceFromRight(wildcard index, number of characters)` mapping functions.
+
+Examples:
+* Split every 2 characters from the left: `nats server mapping "*" "{{slicefromleft(1,2)}}" 1234567` returns `12.34.56.7`.
+* Split every 2 characters from the right: `nats server mapping "*" "{{slicefromright(1,2)}}" 1234567` returns `1.23.45.67`.
 
 ## Deterministic Subject token Partitioning
 
@@ -27,7 +67,7 @@ Deterministic token partitioning allows you to use subject based addressing to d
 For example: new customer orders are published on `neworders.<customer id>`, you can partition those messages over 3 partition numbers (buckets), using the `partition(number of partitions, wildcard token positions...)` function which returns a partition number (between 0 and number of partitions-1) by using the following mapping `"neworders.*" : "neworders.{{wildcard(1)}}.{{partition(3,1)}}"`.
 
 {% hint style="info" %}
-Note that multiple token positions can be specified to form a kind of *composite partition key*. For example, a subject with the form `foo.*.*` can have a partition mapping of `foo.$1.$2.{{partition(5,1,2)}}` which will result in five partitions in the form `foo.$1.$2.<n>`, but using the hash of the two wildcard tokens when computing the partition number.
+Note that multiple token positions can be specified to form a kind of *composite partition key*. For example, a subject with the form `foo.*.*` can have a partition mapping of `foo.{{wildcard(1)}}.{{wildcard(2)}}.{{partition(5,1,2)}}` which will result in five partitions in the form `foo.*.*.<n>`, but using the hash of the two wildcard tokens when computing the partition number.
 {% endhint %}
 
 This particular mapping means that any message published on `neworders.<customer id>` will be mapped to `neworders.<customer id>.<a partition number 0, 1, or 2>`. i.e.:
@@ -55,6 +95,10 @@ You can partition on more than one subject wildcard token at a time, e.g.: `{{pa
 
 What this deterministic partition mapping enables is the distribution of the messages that are subscribed to using a single subscriber (on `neworders.*`) into three separate subscribers (respectively on `neworders.*.0`, `neworders.*.1` and `neworders.*.2`) that can operate in parallel.
 
+```
+nats server mapping "foo.*.*" "foo.{{wildcard(1)}}.{{wildcard(2)}}.{{partition(3,1,2)}}"
+```
+
 ### When is deterministic partitioning needed
 
 The core NATS queue-groups and JetStream durable consumer mechanisms to distribute messages amongst a number of subscribers are partition-less and non-deterministic, meaning that there is no guarantee that two sequential messages published on the same subject are going to be distributed to the same subscriber. While in most use cases a completely dynamic, demand-driven distribution is what you need, it does come at the cost of guaranteed ordering because if two subsequent messages can be sent to two different subscribers which would then both process those messages at the same time at different speeds (or the message has to be re-transmitted, or the network is slow, etc...) and that could result in potential 'out of order' message delivery.
@@ -67,9 +111,13 @@ Another reason to need deterministic mapping is in the extreme message rates sce
 
 Yet another use case where deterministic partitioning can help is if you want to leverage local data caching of data (context or potentially heavy historical data for example) that the subscribing process need to access as part of the processing of the messages.
 
-## Weighted Mappings for A/B Testing or Canary Releases
+## Weighted Mappings
 
-Traffic can be split by percentage from one subject to multiple subjects. Here's an example for canary deployments, starting with version 1 of your service.
+Traffic can be split by percentage from one subject mapping to multiple subject mappings.
+
+### For A/B Testing or Canary Releases
+
+Here's an example for canary deployments, starting with version 1 of your service.
 
 Applications would make requests of a service at `myservice.requests`. The responders doing the work of the server would subscribe to `myservice.requests.v1`. Your configuration would look like this:
 
@@ -96,13 +144,13 @@ For example the configuration below means 98% of the requests will be sent to ve
 
 Once you've determined Version 2 is stable you can switch 100% of the traffic over to it and you can then shutdown the version 1 instance of your service.
 
-## Traffic Shaping in Testing
+### For Traffic Shaping in Testing
 
 Traffic shaping is also useful in testing. You might have a service that runs in QA that simulates failure scenarios which could receive 20% of the traffic to test the service requestor.
 
 `myservice.requests.*: [{ destination: myservice.requests.$1, weight: 80% }, { destination: myservice.requests.fail.$1, weight: 20% }`
 
-## Artificial Loss
+### For Artificial Loss
 
 Alternatively, introduce loss into your system for chaos testing by mapping a percentage of traffic to the same subject. In this drastic example, 50% of the traffic published to `foo.loss.a` would be artificially dropped by the server.
 
