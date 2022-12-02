@@ -1249,14 +1249,16 @@ Applications can:
 * Acknowledge the successfull processing of a message (`Ack()`).
 * Acknowledge the successfull processing of a message and request an acknowledgement of the reception of the acknowledgement by the consumer (`AckSync()`).
 * Indicate that the processing is still in progress and more time is needed (`inProgress()`).
-* Negatively acknowledge a message, indicating that the client application is currently (temporarily) unable to process the message and that the consumer should attempt to re-deliver it later (`Nak()`).
+* Negatively acknowledge a message, indicating that the client application is currently (temporarily) unable to process the message and that the consumer should attempt to re-deliver it (`Nak()`).
 * Terminate a message (typically, because there is a problem with the data inside the message such that the client application is never going to be able to process it), indicating that the consumer should not attempt to re-deliver the message (`Term()`).
 
 After a message is sent from the consumer to a subscribing client application by the server an 'AckWait' timer is started. This timer is deleted when either a positive (`Ack()`) or a termination (`Term()`) acknowledgement is received from the client application. The timer gets reset upon reception of an in-progress (`inProgress()`) acknowledgement.
 
-If at the end of a period of time no acknowledgement has been received from the client application (or if it sent back a negative (`Nak()`) acknowledgement), the server will attempt to re-deliver the message. If there is more than one client application instance subscribing to the consumer, there is no guarantee that the re-delivery would be to any particular client instance.
+If at the end of a period of time no acknowledgement has been received from the client application, the server will attempt to re-deliver the message. If there is more than one client application instance subscribing to the consumer, there is no guarantee that the re-delivery would be to any particular client instance.
 
 You can control the timing of re-deliveries using either the single `AckWait` duration attribute of the consumer, or as a sequence of durations in the `BackOff` attribute (which overrides `AckWait`).
+
+You can also control the timing of re-deliveries when messages are negatively acknowledged with `Nak()`, by passing a `nakDelay()` option (or using `NakWithDelay()`), otherwise the re-delivery attempt will happen right after the reception of the Nak by the server.
 
 ### "Dead Letter Queues" type functionality
 
