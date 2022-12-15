@@ -90,7 +90,7 @@ To exercise listed examples please have the following installed:
 > go install github.com/nats-io/nats-server/v2@latest
 > go install github.com/nats-io/natscli/nats@latest
 > go install github.com/nats-io/nkeys/nk@latest
-> go install github.com/nats-io/nsc@latest
+> go install github.com/nats-io/nsc/v2@latest
 > ```
 > To practice the examples below:
 >
