@@ -32,7 +32,7 @@ For a complete list of signals, see [process signaling](../nats_admin/signals.md
 
 ### `NATS_STARTUP_DELAY` environment variable
 
-The Windows service system requires communication with programs that run as Windows services. One important signal form the program is the initial "ready" signal, where the program informs Windows that it is running as expected.
+The Windows service system requires communication with programs that run as Windows services. One important signal from the program is the initial "ready" signal, where the program informs Windows that it is running as expected.
 
 By default `nats-server` allows itself 10 seconds to send this signal.
 If the server is not ready after this time, the server will signal a failure to start.
