@@ -28,7 +28,7 @@ nats-server.exe --signal stop=<service name>
 
 For a complete list of signals, see [process signaling](../nats_admin/signals.md).
 
-## Windows service specific settings
+## Windows Service Specific Settings
 
 ### `NATS_STARTUP_DELAY` environment variable
 
