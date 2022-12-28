@@ -113,4 +113,4 @@ If using a certificate bundle which accompanied the issuance of a certificate th
 
 ### Gateway behind Load Balancer
 
-When running in a private network ( such as VPC in the cloud ), you'd probably want to setup a LoadBalancer to expose the gateway port. In this case, it's important to set `advertise` value of each NATS servers to the Load Balancer hostname and port serving them. Otherwise, they will advertise their own private IP and port, and can generate failures and downtime if any reconnection is required.
+When running in a private network ( such as VPC in the cloud ), you'd probably want to setup a Load Balancer to expose the gateway port. In this case, it's important to set the `advertise` value of each NATS server to the Load Balancer hostname and port serving them. Otherwise, they will advertise their own private IP and port, and can generate failures and downtime if any reconnection is required.
