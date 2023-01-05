@@ -152,4 +152,4 @@ Listening on [foo]
 
 ## Using a Load Balancer for External Access to NATS Gateway
 
-You may need to set the `advertise` value in the `gateway` scope of your NATS server to the hostname and port of the Load Balancer. See the [gateway settings](running-a-nats-service/configuration/gateways/gateway) for more information.
+You may need to set the `advertise` value in the `gateway` scope of your NATS server to the hostname and port of the Load Balancer. See the [gateway settings](../configuration/gateways/gateway.md) for more information.
