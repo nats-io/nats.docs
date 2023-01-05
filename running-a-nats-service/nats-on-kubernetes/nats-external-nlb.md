@@ -150,3 +150,6 @@ Listening on [foo]
 [#1] Received on [foo] : 'hello'
 ```
 
+## Using a Load Balancer for External Access to NATS Gateway
+
+You may need to set the `advertise` value in the `gateway` scope of your NATS server to the hostname and port of the Load Balancer. See the [gateway settings](../configuration/gateways/gateway.md) for more information.
