@@ -1,6 +1,6 @@
 # Profiling NATS
 
-When investigating and debugging a performance issue with the NATS Server (i.e. unexpectedly high CPU or RAM utilisation) we may ask you to collect and provide profiles from your deployment. These profiles are crucial in helping us to understand where CPU time and memory are being spent.
+When investigating and debugging a performance issue with the NATS Server (i.e. unexpectedly high CPU or RAM utilisation), it may be necessary for you to collect and provide profiles from your deployment for troublshooting. These profiles are crucial to understand where CPU time and memory are being spent.
 
 Note that profiling is an advanced operation for development purposes only. Server operators should use the [monitoring port](/running-a-nats-service/nats_admin/monitoring) instead for monitoring day-to-day runtime statistics.
 
