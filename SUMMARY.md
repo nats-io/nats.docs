@@ -184,6 +184,7 @@
   * [Slow Consumers](running-a-nats-service/nats_admin/slow_consumers.md)
   * [Signals](running-a-nats-service/nats_admin/signals.md)
   * [Lame Duck Mode](running-a-nats-service/nats_admin/lame_duck_mode.md)
+  * [Profiling](running-a-nats-service/nats_admin/profiling.md)
 
 ## Reference
 
