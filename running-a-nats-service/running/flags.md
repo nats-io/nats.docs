@@ -38,8 +38,8 @@ The following options control straightforward authentication:
 
 | Flag     | Description                                                                              |
 | -------- | ---------------------------------------------------------------------------------------- |
-| `--user` | Required _username_ for connections (exclusive of `--token`).                            |
-| `--pass` | Required _password_ for connections (exclusive of `--token`).                            |
+| `--user` | Required _username_ for connections (exclusive of `--auth`).                             |
+| `--pass` | Required _password_ for connections (exclusive of `--auth`).                             |
 | `--auth` | Required _authorization token_ for connections (exclusive of `--user` and `--password`). |
 
 See [token authentication](../configuration/securing_nats/auth_intro/tokens.md), and [username/password](../configuration/securing_nats/auth_intro/username_password.md) for more information.
