@@ -22,7 +22,9 @@ Let’s run through the process of creating some identities and JWTs and work th
 
 ## Creating an Operator, Account and User
 
-Let’s create an operator called `MyOperator`:
+Let’s create an operator called `MyOperator`. 
+
+_There is an additional switch `--sys` that sets up the system account which is required for interacting with the nats server. You can create and set the system account later._
 
 ```bash
 nsc add operator MyOperator
@@ -350,7 +352,8 @@ The nats-server requires a designated account for operations and monitoring of t
 
 Then there is no system account to interact with the server and you need to add one to the configuration or operator JWT. Let’s add one to the operator JWT using `nsc`:
 
-`nsc edit operator --system-account MyAccount`
+`nsc add account -n SYS`
+`nsc edit operator --system-account SYS`
 
 Now start the local test server using: `nats-server -c myconfig.cfg`
 
