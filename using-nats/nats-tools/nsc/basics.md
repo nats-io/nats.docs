@@ -24,7 +24,7 @@ Let’s run through the process of creating some identities and JWTs and work th
 
 Let’s create an operator called `MyOperator`. 
 
-_There is an additional switch `--sys` that sets up the system account which is required for interacting with the nats server. You can create and set the system account later._
+_There is an additional switch `--sys` that sets up the system account which is required for interacting with the NATS server. You can create and set the system account later._
 
 ```bash
 nsc add operator MyOperator
