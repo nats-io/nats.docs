@@ -28,3 +28,13 @@ nats-server.exe --signal stop=<service name>
 
 For a complete list of signals, see [process signaling](../nats_admin/signals.md).
 
+## Windows Service Specific Settings
+
+### `NATS_STARTUP_DELAY` environment variable
+
+The Windows service system requires communication with programs that run as Windows services. One important signal from the program is the initial "ready" signal, where the program informs Windows that it is running as expected.
+
+By default `nats-server` allows itself 10 seconds to send this signal.
+If the server is not ready after this time, the server will signal a failure to start.
+This delay can be adjusted by setting the `NATS_STARTUP_DELAY` environment variable to a suitable duration (e.g. "20s" for 20 seconds, "1m" for one minute).
+This adjustment can be necessary in cases where NATS is correctly running from command-line, but the service fails to start in this timeframe.
