@@ -30,3 +30,15 @@ The first output line starts with the letter `S` for _Seed_. The second letter `
 
 The second line starts with the letter `U` for _User_, and is a public key which can be safely shared.
 
+To use `nkey` authentication, add a user, and set the `nkey` property to the public key of the user you want to authenticate. You are only required to use the public key and no other properties are required. Here is a snippet of configuration for the `nats-server`:
+
+```
+authorization: {
+  users: [
+    { nkey: UDXU4RCSJNZOIQHZNWXHXORDPRTGNJAHAHFRGZNEEJCPQTT2M7NLCNF4 }
+  ]
+}
+```
+
+To complete the end-to-end configuration and use an `nkey`, the [client is configured](https://docs.nats.io/running-a-nats-service/configuration/securing\_nats/auth\_intro/nkey\_auth#client-configuration) to use the seed, which is the private key.
+
