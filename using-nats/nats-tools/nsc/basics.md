@@ -352,8 +352,10 @@ The nats-server requires a designated account for operations and monitoring of t
 
 Then there is no system account to interact with the server and you need to add one to the configuration or operator JWT. Let’s add one to the operator JWT using `nsc`:
 
-`nsc add account -n SYS`
-`nsc edit operator --system-account SYS`
+```shell
+nsc add account -n SYS`
+nsc edit operator --system-account SYS
+```
 
 Now start the local test server using: `nats-server -c myconfig.cfg`
 
