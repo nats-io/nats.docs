@@ -368,7 +368,7 @@ For example to push the account named 'MyAccount' that you have just created int
 nsc push -a MyAccount -u nats://localhost
 ```
 
-You can also use `nsc pull -u nats://localhost` to pull the view of the accounts that the local nats server has into your local nsc copy (i.e. in `~/.nsc`)
+You can also use `nsc pull -u nats://localhost` to pull the view of the accounts that the local NATS server has into your local nsc copy (i.e. in `~/.nsc`)
 
 As soon as you  'push' an the account JWT to the server (that server's built-in NATS account resolver will take care of distributing that new (or new version of) the account JWT to the other nats servers in the cluster) then the changes will take effect and for example any users you may have created with that account will then be able to connect to any of the nats server in the cluster using the user's JWT.
 ## Client Testing
