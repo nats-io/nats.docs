@@ -22,7 +22,9 @@ Let’s run through the process of creating some identities and JWTs and work th
 
 ## Creating an Operator, Account and User
 
-Let’s create an operator called `MyOperator`:
+Let’s create an operator called `MyOperator`. 
+
+_There is an additional switch `--sys` that sets up the system account which is required for interacting with the NATS server. You can create and set the system account later._
 
 ```bash
 nsc add operator MyOperator
@@ -344,16 +346,29 @@ At minimum, the server requires the `operator` JWT, which we have pointed at dir
 
 Now start this local test server using `nats-server -c myconfig.cfg`
 
+The nats-server requires a designated account for operations and monitoring of the server, cluster, or supercluster. If you see this error message:
+
+`nats-server: using nats based account resolver - the system account needs to be specified in configuration or the operator jwt`&#x20;
+
+Then there is no system account to interact with the server and you need to add one to the configuration or operator JWT. Let’s add one to the operator JWT using `nsc`:
+
+```shell
+nsc add account -n SYS`
+nsc edit operator --system-account SYS
+```
+
+Now start the local test server using: `nats-server -c myconfig.cfg`
+
 ## Pushing the local nsc changes to the nats server
 
 In order for the nats servers to know about the account(s) you have created or changes to the attributes for those accounts, you need to push any new accounts or any changes to account attributes you may have done locally using `nsc` into the built-in account resolver of the nats-server. You can do this using `nsc push`:
 
-For example to push the account named 'A' that you have just created into the nats server running locally on your machine use:
+For example to push the account named 'MyAccount' that you have just created into the nats server running locally on your machine use:
 ```shell
-nsc push -a A -u nats://localhost
+nsc push -a MyAccount -u nats://localhost
 ```
 
-You can also use `nsc pull -u nats://localhost` to pull the view of the accounts that the local nats server has into your local nsc copy (i.e. in `~/.nsc`)
+You can also use `nsc pull -u nats://localhost` to pull the view of the accounts that the local NATS server has into your local nsc copy (i.e. in `~/.nsc`)
 
 As soon as you  'push' an the account JWT to the server (that server's built-in NATS account resolver will take care of distributing that new (or new version of) the account JWT to the other nats servers in the cluster) then the changes will take effect and for example any users you may have created with that account will then be able to connect to any of the nats server in the cluster using the user's JWT.
 ## Client Testing
