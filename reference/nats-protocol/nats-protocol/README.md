@@ -301,7 +301,7 @@ The `HMSG` message is the same as `MSG`, but extends the message payload with he
 
 ### Syntax
 
-`HMSG <subject> <sid> [reply-to] <#header bytes> <#total bytes>␍␊[payload]␍␊`
+`HMSG <subject> <sid> [reply-to] <#header bytes> <#total bytes>␍␊[headers]␍␊␍␊[payload]␍␊`
 
 where:
 
