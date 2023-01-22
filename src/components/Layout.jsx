@@ -1,15 +1,17 @@
-import { useCallback, useEffect, useState } from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import {useRouter} from 'next/router'
 import clsx from 'clsx'
 
-import { LogoColored } from '@/components/Logo'
-import { MobileNavigation } from '@/components/MobileNavigation'
-import { Navigation } from '@/components/Navigation'
-import { Prose } from '@/components/Prose'
-import { Search } from '@/components/Search'
-import { ThemeSelector } from '@/components/ThemeSelector'
+import {LogoColored} from '@/components/Logo'
+import {MobileNavigation} from '@/components/MobileNavigation'
+import {Navigation} from '@/components/Navigation'
+import {Prose} from '@/components/Prose'
+import {Search} from '@/components/Search'
+import {ThemeSelector} from '@/components/ThemeSelector'
 import Markdoc from "@markdoc/markdoc"
+
+import tocMarkdown from "../toc.js"
 
 function liToLink(node) {
   const a = node.children[0]
@@ -21,7 +23,7 @@ function liToLink(node) {
     }
   }
 
-  return { title: a.children[0], href: "/" + a.attributes.href.replace("", "") }
+  return {title: a.children[0], href: "/" + a.attributes.href.replace("", "")}
 }
 
 function astToNavigation(ast) {
@@ -29,7 +31,7 @@ function astToNavigation(ast) {
   ast.children.forEach(child => {
     switch (child.name) {
       case "h2":
-        sections.push({ title: child.children[0] })
+        sections.push({title: child.children[0]})
         break;
       case "ul":
         if (sections.length > 0) {
@@ -45,262 +47,10 @@ function astToNavigation(ast) {
   return sections
 }
 
-var ast = Markdoc.transform(Markdoc.parse(`
-## Welcome
-* [Getting Started]()
-
-## Release Notes
-
-* [What's New!](release_notes/whats_new)
-  * [NATS 2.2](release_notes/whats_new_22)
-  * [NATS 2.0](release_notes/whats_new_20)
-
-## NATS Concepts
-
-* [Overview](overview)
-  * [Compare NATS](nats-concepts/overview/compare-nats)
-* [What is NATS](nats-concepts/what-is-nats)
-  * [Walkthrough Setup](nats-concepts/what-is-nats/walkthrough_setup)
-* [Subject-Based Messaging](nats-concepts/subjects)
-* [Core NATS](nats-concepts/core-nats)
-  * [Publish-Subscribe](nats-concepts/core-nats/publish-subscribe/pubsub)
-    * [Pub/Sub Walkthrough](nats-concepts/core-nats/publish-subscribe/pubsub_walkthrough)
-  * [Request-Reply](nats-concepts/core-nats/request-reply/reqreply)
-    * [Request-Reply Walkthrough](nats-concepts/core-nats/request-reply/reqreply_walkthrough)
-  * [Queue Groups](nats-concepts/core-nats/queue-groups/queue)
-    * [Queueing Walkthrough](nats-concepts/core-nats/queue-groups/queues_walkthrough)
-* [JetStream](nats-concepts/jetstream)
-  * [Streams](nats-concepts/jetstream/streams)
-  * [Consumers](nats-concepts/jetstream/consumers)
-    * [Example](nats-concepts/jetstream/example_configuration)
-  * [JetStream Walkthrough](nats-concepts/jetstream/js_walkthrough)
-  * [Key/Value Store](nats-concepts/jetstream/key-value-store)
-    * [Key/Value Store Walkthrough](nats-concepts/jetstream/key-value-store/kv_walkthrough)
-  * [Object Store](nats-concepts/jetstream/object-store/obj_store)
-    * [Object Store Walkthrough](nats-concepts/jetstream/object-store/obj_walkthrough)
-* [Subject Mapping and Partitioning](nats-concepts/subject_mapping)
-* [NATS Service Infrastructure](nats-concepts/service_infrastructure)
-  * [NATS Adaptive Deployment Architectures](nats-concepts/adaptive_edge_deployment)
-* [Security](nats-concepts/security)
-* [Connectivity](nats-concepts/connectivity)
-
-## Using NATS
-
-* [NATS Tools](using-nats/nats-tools)
-  * [nats](using-nats/nats-tools/nats_cli)
-    * [nats bench](using-nats/nats-tools/nats_cli/natsbench)
-  * [nk](using-nats/nats-tools/nk)
-  * [nsc](using-nats/nats-tools/nsc)
-    * [Basics](using-nats/nats-tools/nsc/basics)
-    * [Streams](using-nats/nats-tools/nsc/streams)
-    * [Services](using-nats/nats-tools/nsc/services)
-    * [Signing Keys](using-nats/nats-tools/nsc/signing_keys)
-    * [Revocation](using-nats/nats-tools/nsc/revocation)
-    * [Managed Operators](using-nats/nats-tools/nsc/managed)
-  * [nats-top](using-nats/nats-tools/nats_top)
-    * [Tutorial](using-nats/nats-tools/nats_top/nats-top-tutorial)
-* [Developing With NATS](using-nats/developing-with-nats/developer)
-  * [Anatomy of a NATS application](using-nats/developing-with-nats/anatomy)
-  * [Connecting](using-nats/developing-with-nats/connecting)
-    * [Connecting to the Default Server](using-nats/developing-with-nats/connecting/default_server)
-    * [Connecting to a Specific Server](using-nats/developing-with-nats/connecting/specific_server)
-    * [Connecting to a Cluster](using-nats/developing-with-nats/connecting/cluster)
-    * [Connection Name](using-nats/developing-with-nats/connecting/name)
-    * [Authenticating with a User and Password](using-nats/developing-with-nats/connecting/security/userpass)
-    * [Authenticating with a Token](using-nats/developing-with-nats/connecting/security/token)
-    * [Authenticating with an NKey](using-nats/developing-with-nats/connecting/security/nkey)
-    * [Authenticating with a Credentials File](using-nats/developing-with-nats/connecting/security/creds)
-    * [Encrypting Connections with TLS](using-nats/developing-with-nats/connecting/security/tls)
-    * [Setting a Connect Timeout](using-nats/developing-with-nats/connecting/connect_timeout)
-    * [Ping/Pong Protocol](using-nats/developing-with-nats/connecting/pingpong)
-    * [Turning Off Echo'd Messages](using-nats/developing-with-nats/connecting/noecho)
-    * [Miscellaneous functionalities](using-nats/developing-with-nats/connecting/misc)
-    * [Automatic Reconnections](using-nats/developing-with-nats/reconnect)
-      * [Disabling Reconnect](using-nats/developing-with-nats/reconnect/disable)
-      * [Set the Number of Reconnect Attempts](using-nats/developing-with-nats/reconnect/max)
-      * [Avoiding the Thundering Herd](using-nats/developing-with-nats/reconnect/random)
-      * [Pausing Between Reconnect Attempts](using-nats/developing-with-nats/reconnect/wait)
-      * [Listening for Reconnect Events](using-nats/developing-with-nats/reconnect/events)
-      * [Buffering Messages During Reconnect Attempts](using-nats/developing-with-nats/reconnect/buffer)
-    * [Monitoring the Connection](using-nats/developing-with-nats/events)
-      * [Listen for Connection Events](using-nats/developing-with-nats/events/events)
-      * [Slow Consumers](using-nats/developing-with-nats/events/slow)
-  * [Receiving Messages](using-nats/developing-with-nats/receiving)
-    * [Synchronous Subscriptions](using-nats/developing-with-nats/receiving/sync)
-    * [Asynchronous Subscriptions](using-nats/developing-with-nats/receiving/async)
-    * [Unsubscribing](using-nats/developing-with-nats/receiving/unsubscribing)
-    * [Unsubscribing After N Messages](using-nats/developing-with-nats/receiving/unsub_after)
-    * [Replying to a Message](using-nats/developing-with-nats/receiving/reply)
-    * [Wildcard Subscriptions](using-nats/developing-with-nats/receiving/wildcards)
-    * [Queue Subscriptions](using-nats/developing-with-nats/receiving/queues)
-    * [Draining Messages Before Disconnect](using-nats/developing-with-nats/receiving/drain)
-    * [Receiving Structured Data](using-nats/developing-with-nats/receiving/structure)
-  * [Sending Messages](using-nats/developing-with-nats/sending)
-    * [Including a Reply Subject](using-nats/developing-with-nats/sending/replyto)
-    * [Request-Reply Semantics](using-nats/developing-with-nats/sending/request_reply)
-    * [Caches, Flush and Ping](using-nats/developing-with-nats/sending/caches)
-    * [Sending Structured Data](using-nats/developing-with-nats/sending/structure)
-  * [JetStream](using-nats/jetstream/develop_jetstream)
-    * [JetStream Model Deep Dive](using-nats/jetstream/model_deep_dive)
-    * [Managing Streams and consumers](using-nats/developing-with-nats/js/streams)
-    * [Publishing to Streams](using-nats/developing-with-nats/js/publish)
-    * [Using the Key/Value Store](using-nats/developing-with-nats/js/kv)
-    * [Using the Object Store](using-nats/developing-with-nats/js/object)
-  * [Tutorials](using-nats/developing-with-nats/tutorials)
-    * [Advanced Connect and Custom Dialer in Go](using-nats/developing-with-nats/tutorials/custom_dialer)
-
-## Running a NATS service
-
-* [Installing, running and deploying a NATS Server](running-a-nats-service/introduction)
-  * [Installing a NATS Server](running-a-nats-service/installation)
-  * [Running and deploying a NATS Server](running-a-nats-service/running)
-  * [Windows Service](running-a-nats-service/running/windows_srv)
-  * [Flags](running-a-nats-service/running/flags)
-* [Environmental considerations](running-a-nats-service/environment)
-* [NATS and Docker](running-a-nats-service/running/nats_docker)
-  * [Tutorial](running-a-nats-service/running/nats_docker/nats-docker-tutorial)
-  * [Docker Swarm](running-a-nats-service/running/nats_docker/docker_swarm)
-  * [Python and NGS Running in Docker](running-a-nats-service/running/nats_docker/ngs-docker-python)
-  * [JetStream](running-a-nats-service/running/nats_docker/jetstream_docker)
-* [NATS and Kubernetes](running-a-nats-service/nats-on-kubernetes/nats-kubernetes)
-  * [Deploying NATS with Helm](running-a-nats-service/nats-on-kubernetes/helm-charts)
-  * [Creating a Kubernetes Cluster](running-a-nats-service/nats-on-kubernetes/create-k8s-cluster)
-  * [NATS Cluster and Cert Manager](running-a-nats-service/nats-on-kubernetes/nats-cluster-and-cert-manager)
-  * [Securing a NATS Cluster with cfssl](running-a-nats-service/nats-on-kubernetes/operator-tls-setup-with-cfssl)
-  * [Using a Load Balancer for External Access to NATS](running-a-nats-service/nats-on-kubernetes/nats-external-nlb)
-  * [Creating a NATS Super Cluster in Digital Ocean with Helm](running-a-nats-service/nats-on-kubernetes/super-cluster-on-digital-ocean)
-  * [From Zero to K8S to Leafnodes using Helm](running-a-nats-service/nats-on-kubernetes/from-zero-to-leafnodes)
-* [NATS Server Clients](running-a-nats-service/clients)
-* [Configuring NATS Server](running-a-nats-service/configuration)
-  * [Configuring JetStream](running-a-nats-service/configuration/jetstream-config/resource_management)
-    * [Configuration Management](running-a-nats-service/configuration/jetstream-config/configuration_mgmt)
-      * [NATS Admin CLI](running-a-nats-service/configuration/jetstream-config/configuration_mgmt/nats-admin-cli)
-      * [Terraform](running-a-nats-service/configuration/jetstream-config/configuration_mgmt/terraform)
-      * [GitHub Actions](running-a-nats-service/configuration/jetstream-config/configuration_mgmt/github_actions)
-      * [Kubernetes Controller](running-a-nats-service/configuration/jetstream-config/configuration_mgmt/kubernetes_controller)
-  * [Clustering](running-a-nats-service/configuration/clustering)
-    * [Clustering Configuration](running-a-nats-service/configuration/clustering/cluster_config)
-    * [JetStream Clustering](running-a-nats-service/configuration/clustering/jetstream_clustering)
-      * [Administration](running-a-nats-service/configuration/clustering/jetstream_clustering/administration)
-  * [Super-cluster with Gateways](running-a-nats-service/configuration/gateways)
-    * [Configuration](running-a-nats-service/configuration/gateways/gateway)
-  * [Leaf Nodes](running-a-nats-service/configuration/leafnodes)
-    * [Configuration](running-a-nats-service/configuration/leafnodes/leafnode_conf)
-    * [JetStream on Leaf Nodes](running-a-nats-service/configuration/leafnodes/jetstream_leafnodes)
-  * [Securing NATS](running-a-nats-service/configuration/securing_nats)
-    * [Enabling TLS](running-a-nats-service/configuration/securing_nats/tls)
-    * [Authentication](running-a-nats-service/configuration/securing_nats/auth_intro)
-      * [Tokens](running-a-nats-service/configuration/securing_nats/auth_intro/tokens)
-      * [Username/Password](running-a-nats-service/configuration/securing_nats/auth_intro/username_password)
-      * [TLS Authentication](running-a-nats-service/configuration/securing_nats/auth_intro/tls_mutual_auth)
-        * [TLS Authentication in clusters](running-a-nats-service/configuration/clustering/cluster_tls)
-      * [NKeys](running-a-nats-service/configuration/securing_nats/auth_intro/nkey_auth)
-      * [Authentication Timeout](running-a-nats-service/configuration/securing_nats/auth_intro/auth_timeout)
-      * [Decentralized JWT Authentication/Authorization](running-a-nats-service/configuration/securing_nats/jwt)
-        * [Account lookup using Resolver](running-a-nats-service/configuration/securing_nats/jwt/resolver)
-        * [Memory Resolver Tutorial](running-a-nats-service/configuration/securing_nats/jwt/mem_resolver)
-        * [Mixed Authentication/Authorization Setup](running-a-nats-service/configuration/securing_nats/jwt/jwt_nkey_auth)
-    * [Authorization](running-a-nats-service/configuration/securing_nats/authorization)
-    * [Multi Tenancy using Accounts](running-a-nats-service/configuration/securing_nats/accounts)
-    * [OCSP Stapling](running-a-nats-service/configuration/ocsp)
-  * [Logging](running-a-nats-service/configuration/logging)
-  * [Enabling Monitoring](running-a-nats-service/configuration/monitoring)
-  * [MQTT](running-a-nats-service/configuration/mqtt)
-    * [Configuration](running-a-nats-service/configuration/mqtt/mqtt_config)
-  * [Configuring Subject Mapping](running-a-nats-service/configuration/configuring_subject_mapping)
-  * [System Events](running-a-nats-service/configuration/sys_accounts)
-    * [System Events & Decentralized JWT Tutorial](running-a-nats-service/configuration/sys_accounts/sys_accounts)
-  * [WebSocket](running-a-nats-service/configuration/websocket)
-    * [Configuration](running-a-nats-service/configuration/websocket/websocket_conf)
-* [Managing and Monitoring your NATS Server Infrastructure](running-a-nats-service/nats_admin)
-  * [Monitoring](running-a-nats-service/nats_admin/monitoring)
-    * [Monitoring JetStream](running-a-nats-service/nats_admin/monitoring/monitoring_jetstream)
-  * [Managing JetStream](running-a-nats-service/nats_admin/jetstream_admin)
-    * [Account Information](running-a-nats-service/nats_admin/jetstream_admin/account)
-    * [Naming Streams, Consumers, and Accounts](running-a-nats-service/nats_admin/jetstream_admin/naming)
-    * [Streams](running-a-nats-service/nats_admin/jetstream_admin/streams)
-    * [Consumers](running-a-nats-service/nats_admin/jetstream_admin/consumers)
-    * [Data Replication](running-a-nats-service/nats_admin/jetstream_admin/replication)
-    * [Disaster Recovery](running-a-nats-service/nats_admin/jetstream_admin/disaster_recovery)
-    * [Encryption at Rest](running-a-nats-service/nats_admin/jetstream_admin/encryption_at_rest)
-  * [Managing JWT Security](running-a-nats-service/nats_admin/security)
-    * [In Depth JWT Guide](running-a-nats-service/nats_admin/jwt)
-  * [Upgrading a Cluster](running-a-nats-service/nats_admin/upgrading_cluster)
-  * [Slow Consumers](running-a-nats-service/nats_admin/slow_consumers)
-  * [Signals](running-a-nats-service/nats_admin/signals)
-  * [Lame Duck Mode](running-a-nats-service/nats_admin/lame_duck_mode)
-
-## Reference
-
-* [FAQ](reference/faq)
-* [NATS Protocols](reference-protocols)
-  * [Protocol Demo](reference/nats-protocol/nats-protocol-demo)
-  * [Client Protocol](reference/nats-protocol/nats-protocol)
-    * [Developing a Client](reference/nats-protocol/nats-protocol/nats-client-dev)
-  * [NATS Cluster Protocol](reference/nats-protocol/nats-server-protocol)
-  * [JetStream wire API Reference](using-nats/jetstream/nats_api_reference)
-
-## Legacy
-
-* [STAN aka 'NATS Streaming'](legacy/stan)
-  * [STAN Concepts](legacy/stan/nats-streaming-concepts/intro)
-    * [Relation to NATS](legacy/stan/nats-streaming-concepts/relation-to-nats)
-    * [Client Connections](legacy/stan/nats-streaming-concepts/client-connections)
-    * [Channels](legacy/stan/nats-streaming-concepts/channels)
-      * [Message Log](legacy/stan/nats-streaming-concepts/channels/message-log)
-      * [Subscriptions](legacy/stan/nats-streaming-concepts/channels/subscriptions)
-        * [Regular](legacy/stan/nats-streaming-concepts/channels/subscriptions/regular)
-        * [Durable](legacy/stan/nats-streaming-concepts/channels/subscriptions/durable)
-        * [Queue Group](legacy/stan/nats-streaming-concepts/channels/subscriptions/queue-group)
-        * [Redelivery](legacy/stan/nats-streaming-concepts/channels/subscriptions/redelivery)
-    * [Store Interface](legacy/stan/nats-streaming-concepts/store-interface)
-    * [Store Encryption](legacy/stan/nats-streaming-concepts/store-encryption)
-    * [Clustering](legacy/stan/nats-streaming-concepts/clustering)
-      * [Supported Stores](legacy/stan/nats-streaming-concepts/clustering/supported-stores)
-      * [Configuration](legacy/stan/nats-streaming-concepts/clustering/configuration)
-      * [Auto Configuration](legacy/stan/nats-streaming-concepts/clustering/auto-configuration)
-      * [Containers](legacy/stan/nats-streaming-concepts/clustering/containers)
-    * [Fault Tolerance](legacy/stan/nats-streaming-concepts/ft)
-      * [Active Server](legacy/stan/nats-streaming-concepts/ft/active-server)
-      * [Standby Servers](legacy/stan/nats-streaming-concepts/ft/standby-server)
-      * [Shared State](legacy/stan/nats-streaming-concepts/ft/shared-state)
-      * [Failover](legacy/stan/nats-streaming-concepts/ft/failover)
-    * [Partitioning](legacy/stan/nats-streaming-concepts/partitioning)
-    * [Monitoring](legacy/stan/nats-streaming-concepts/monitoring)
-      * [Endpoints](legacy/stan/nats-streaming-concepts/monitoring/endpoints)
-  * [Developing With STAN](legacy/stan/developing-with-nats-streaming/streaming)
-    * [Connecting to NATS Streaming Server](legacy/stan/developing-with-nats-streaming/connecting)
-    * [Publishing to a Channel](legacy/stan/developing-with-nats-streaming/publishing)
-    * [Receiving Messages from a Channel](legacy/stan/developing-with-nats-streaming/receiving)
-    * [Durable Subscriptions](legacy/stan/developing-with-nats-streaming/durables)
-    * [Queue Subscriptions](legacy/stan/developing-with-nats-streaming/queues)
-    * [Acknowledgements](legacy/stan/developing-with-nats-streaming/acks)
-    * [The Streaming Protocol](legacy/stan/developing-with-nats-streaming/protocol)
-  * [STAN NATS Streaming Server](legacy/stan/nats-streaming-server/changes)
-    * [Installing](legacy/stan/nats-streaming-server/install)
-    * [Running](legacy/stan/nats-streaming-server/run)
-    * [Configuring](legacy/stan/nats-streaming-server/configuring)
-      * [Command Line Arguments](legacy/stan/nats-streaming-server/configuring/cmdline)
-      * [Configuration File](legacy/stan/nats-streaming-server/configuring/cfgfile)
-      * [Store Limits](legacy/stan/nats-streaming-server/configuring/storelimits)
-      * [Persistence](legacy/stan/nats-streaming-server/configuring/persistence)
-        * [File Store](legacy/stan/nats-streaming-server/configuring/persistence/file_store)
-        * [SQL Store](legacy/stan/nats-streaming-server/configuring/persistence/sql_store)
-      * [Securing](legacy/stan/nats-streaming-server/configuring/tls)
-    * [Process Signaling](legacy/stan/nats-streaming-server/process-signaling)
-    * [Windows Service](legacy/stan/nats-streaming-server/windows-service)
-    * [Embedding NATS Streaming Server](legacy/stan/nats-streaming-server/embedding)
-    * [Docker Swarm](legacy/stan/nats-streaming-server/swarm)
-    * [Kubernetes](legacy/stan/nats-streaming-server/kubernetes/stan-kubernetes)
-      * [NATS Streaming with Fault Tolerance.](legacy/stan/nats-streaming-server/kubernetes/stan-ft-k8s-aws)
-* [nats-account-server](legacy/nas)
-  * [Basics](legacy/nas/nas_conf)
-  * [Inspecting JWTs](legacy/nas/inspecting_jwts)
-  * [Directory Store](legacy/nas/dir_store)
-  * [Update Notifications](legacy/nas/notifications)
-`), {})
-
-const navigation = astToNavigation(ast)
+// Load the table of contents and parse it into a navigation structure.
+const navigation = astToNavigation(
+  Markdoc.transform(Markdoc.parse(tocMarkdown), {}),
+)
 
 function GitHubIcon(props) {
   return (
@@ -310,7 +60,7 @@ function GitHubIcon(props) {
   )
 }
 
-function Header({ navigation }) {
+function Header({navigation}) {
   let [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
@@ -318,9 +68,9 @@ function Header({ navigation }) {
       setIsScrolled(window.scrollY > 0)
     }
     onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('scroll', onScroll, {passive: true})
     return () => {
-      window.removeEventListener('scroll', onScroll, { passive: true })
+      window.removeEventListener('scroll', onScroll, {passive: true})
     }
   }, [])
 
@@ -368,7 +118,7 @@ function useTableOfContents(tableOfContents) {
         let scrollMt = parseFloat(style.scrollMarginTop)
 
         let top = window.scrollY + el.getBoundingClientRect().top - scrollMt
-        return { id, top }
+        return {id, top}
       })
   }, [])
 
@@ -387,21 +137,22 @@ function useTableOfContents(tableOfContents) {
       }
       setCurrentSection(current)
     }
-    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('scroll', onScroll, {passive: true})
     onScroll()
     return () => {
-      window.removeEventListener('scroll', onScroll, { passive: true })
+      window.removeEventListener('scroll', onScroll, {passive: true})
     }
   }, [getHeadings, tableOfContents])
 
   return currentSection
 }
 
-export function Layout({ children, title, tableOfContents, markdoc }) {
+export function Layout({children, title, tableOfContents, markdoc}) {
   let router = useRouter()
 
-  const getAllLinks = (children) => children.flatMap((c) => [c].concat(getAllLinks(c.links || [])))
-  const getAllHrefs = ({ href, links = [] }) => [href].concat(links.map(getAllHrefs))
+  const getAllLinks = (children) => children.flatMap((c) => [c].concat(getAllLinks(c.links || [])));
+
+  const getAllHrefs = ({href, links = []}) => [href].concat(links.map(getAllHrefs))
 
   let allLinks = getAllLinks(navigation.flatMap((section) => section.links))
   let linkIndex = allLinks.findIndex((link) => link.href === router.pathname)

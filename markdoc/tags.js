@@ -1,12 +1,12 @@
-import { Callout } from '@/components/Callout'
-import { Embed } from '@/components/Embed'
-import { QuickLink, QuickLinks } from '@/components/QuickLinks'
-import { Tab, Tabs } from '@/components/Tabs'
+import {Callout} from '@/components/Callout'
+import {Embed} from '@/components/Embed'
+import {QuickLink, QuickLinks} from '@/components/QuickLinks'
+import {Tab, Tabs} from '@/components/Tabs'
 
 const tags = {
   callout: {
     attributes: {
-      title: { type: String },
+      title: {type: String},
       type: {
         type: String,
         default: 'note',
@@ -19,11 +19,11 @@ const tags = {
   figure: {
     selfClosing: true,
     attributes: {
-      src: { type: String },
-      alt: { type: String },
-      caption: { type: String },
+      src: {type: String},
+      alt: {type: String},
+      caption: {type: String},
     },
-    render: ({ src, alt = '', caption }) => (
+    render: ({src, alt = '', caption}) => (
       <figure>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={src} alt={alt} />
@@ -33,7 +33,7 @@ const tags = {
   },
   embed: {
     attributes: {
-      url: { type: String },
+      url: {type: String},
     },
     render: Embed
   },
@@ -44,10 +44,10 @@ const tags = {
     selfClosing: true,
     render: QuickLink,
     attributes: {
-      title: { type: String },
-      description: { type: String },
-      icon: { type: String },
-      href: { type: String },
+      title: {type: String},
+      description: {type: String},
+      icon: {type: String},
+      href: {type: String},
     },
   },
   tabs: {
@@ -56,7 +56,7 @@ const tags = {
   tab: {
     render: Tab,
     attributes: {
-      title: { type: String }
+      title: {type: String}
     },
   }
 }

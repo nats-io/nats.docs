@@ -1,4 +1,46 @@
-# Syntax
+# NATS Docs
+
+## Content
+
+All content exists under `src/pages`.
+
+## Redirects
+
+The `redirects.json` file contains redirects of existing paths to the new paths. The redirect are applied in `next.config.js` along with default redirects for `readme` or `index` naming.
+
+## Markdoc
+
+The Markdoc configuration is under `./markdoc` and bootstrapped in `next.config.js`.
+
+The `./markdoc/nodes.js` file registers custom components that override the default ones used for rendering the core Markdown components. For example, an `##` rendering an `h2` element. The current overrides include:
+
+- `th` - table head cell
+- `fence` - code block fence
+- `link` - link/anchor
+
+
+The `./markdoc/tags.js` file registers custom components using the tag syntax, e.g. `{% mytag /%}`. The current set includes:
+
+- `callout`
+  - title
+  - type: note | warning
+- `figure`
+  - src
+  - alt
+  - caption
+- `embed`
+  - url
+- `quick-links` - must contain `quick-link` tags
+- `quick-link`
+  - title
+  - description
+  - icon
+  - href
+- `tabs` - must contain `tab` tags
+- `tab`
+  - title
+
+## Syntax
 
 Syntax is a [Tailwind UI](https://tailwindui.com) site template built using [Tailwind CSS](https://tailwindcss.com) and [Next.js](https://nextjs.org).
 

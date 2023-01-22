@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import { slugifyWithCounter } from '@sindresorhus/slugify'
+import {slugifyWithCounter} from '@sindresorhus/slugify'
 
-import { Layout } from '@/components/Layout'
+import {Layout} from '@/components/Layout'
 
 import 'focus-visible'
 import '@/styles/tailwind.css'
@@ -21,7 +21,7 @@ function collectHeadings(nodes, slugify = slugifyWithCounter()) {
   let sections = []
 
   for (let node of nodes) {
-    if (node.name === 'h2' || node.name === 'h3') {
+    if (node.name === 'h2' || node.name === 'h3' || node.name === 'h4') {
       let title = getNodeText(node)
       if (title) {
         let id = slugify(title)
@@ -37,7 +37,7 @@ function collectHeadings(nodes, slugify = slugifyWithCounter()) {
             title,
           })
         } else {
-          sections.push({ ...node.attributes, title, children: [] })
+          sections.push({...node.attributes, title, children: []})
         }
       }
     }
@@ -64,7 +64,7 @@ function getDescription(nodes) {
   }
 }
 
-export default function App({ Component, pageProps }) {
+export default function App({Component, pageProps}) {
   let title = pageProps.markdoc && (pageProps.markdoc.frontmatter.title || getHeadingTitle(pageProps.markdoc.content))
   let description = pageProps.markdoc && getDescription(pageProps.markdoc.content)
   let pageTitle = title

@@ -1,6 +1,6 @@
-import { Fence } from '@/components/Fence'
-import { Link } from '@/components/Link'
-import { nodes as defaultNodes, Tag } from '@markdoc/markdoc'
+import {Fence} from '@/components/Fence'
+import {Link} from '@/components/Link'
+import {nodes as defaultNodes} from '@markdoc/markdoc'
 
 const nodes = {
   document: {
