@@ -23,7 +23,7 @@ Try NATS request-reply on your own, using a live server by walking through the [
 
 ### No responders
 
-When a request is sent to a topic that has no subscribers, it can be convenient to know about it right away. For this use-case, a NATS client can [opt-into no_responder messages](reference/reference-protocols/nats-protocol#connect). This requires a server and client that support headers. When enabled, a request sent to a topic with no subscribers will immediately receive a reply that has no body, and a `503` status.
+When a request is sent to a subject that has no subscribers, it can be convenient to know about it right away. For this use-case, a NATS client can [opt-into no_responder messages](reference/reference-protocols/nats-protocol#connect). This requires a server and client that support headers. When enabled, a request sent to a subject with no subscribers will immediately receive a reply that has no body, and a `503` status.
 
 Most clients will represent this case by raising or returning an error. For example:
 
