@@ -34,7 +34,7 @@ nats server mapping "bar.*.*"  "baz.{{wildcard(2)}}.{{wildcard(1)}}"
 
 ## Splitting Tokens
 
-There is two ways you can split tokens:
+There are two ways you can split tokens:
 
 ### Splitting on a separator
 
