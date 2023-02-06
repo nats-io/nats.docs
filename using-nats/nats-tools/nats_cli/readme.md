@@ -93,6 +93,15 @@ Output extract
 
 You can set these using the CLI flag, the environment variable - like **NATS_URL** - or using our context feature.
 
+For example: if you want to create a script that prompts the user for the system user password (so that for example it doesn't appear in `ps` or `history` or maybe you don't want it stored in the profile) and then execute one or more `nats` commands you do something like:
+```shell
+#!/bin/bash
+echo "-n" "system user password: "
+read -s NATS_PASSWORD
+export NATS_PASSWORD
+nats server report jetstream --user system
+```
+
 ### NATS Contexts
 A context is a named configuration that stores all of these settings, you can switch between access configurations and designate a default.
 
