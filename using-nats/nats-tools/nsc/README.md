@@ -18,7 +18,7 @@ Installing `nsc` is easy:
 ```shell
 curl -L https://raw.githubusercontent.com/nats-io/nsc/master/install.py | python
 ```
-> Additional ways of installing nsc are described at [nsc's github repository](https://github.com/nats-io/nats.deno#installation)
+> Additional ways of installing nsc are described at [nsc's github repository](https://github.com/nats-io/nsc#install)
 
 The script will download the latest version of `nsc` and install it into your system.
 
