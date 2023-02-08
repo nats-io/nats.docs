@@ -151,8 +151,7 @@ export function Layout({children, title, tableOfContents, markdoc}) {
   let router = useRouter()
 
   const getAllLinks = (children) => children.flatMap((c) => [c].concat(getAllLinks(c.links || [])));
-
-  const getAllHrefs = ({href, links = []}) => [href].concat(links.map(getAllHrefs))
+  const getAllHrefs = ({href, links = []}) => [href].concat(links.map(getAllHrefs));
 
   let allLinks = getAllLinks(navigation.flatMap((section) => section.links))
   let linkIndex = allLinks.findIndex((link) => link.href === router.pathname)

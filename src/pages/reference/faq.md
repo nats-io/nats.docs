@@ -2,34 +2,6 @@
 
 ## General
 
-* [What is NATS?](faq.md#what-is-nats)
-* [What language is NATS written in?](faq.md#what-language-is-nats-written-in)
-* [Who maintains NATS?](faq.md#who-maintains-nats)
-* [What clients does NATS support?](faq.md#what-client-support-exists-for-nats)
-* [What does the NATS acronym stand for?](faq.md#what-does-the-nats-acronym-stand-for)
-* [JetStream and NATS Streaming?](faq.md#jetstream-and-nats-streaming)
-
-## Technical Questions
-
-* [What is the difference between Request\(\) and Publish\(\)?](faq.md#what-is-the-difference-between-request-and-publish)
-* [Can multiple subscribers receive a Request?](faq.md#can-multiple-subscribers-receive-a-request)
-* [How can I monitor my NATS cluster?](faq.md#how-can-i-monitor-my-nats-cluster)
-* [Does NATS do queuing? Does NATS do load balancing?](faq.md#does-nats-do-queuing-does-nats-do-load-balancing)
-* [Can I list the subjects that exist in my NATS cluster?](faq.md#can-i-list-the-subjects-that-exist-in-my-nats-cluster)
-* [Does NATS support subject wildcards?](faq.md#does-nats-support-subject-wildcards)
-* [What is the right kind of Stream consumer to use?](faq.md)
-* [What do ‘verbose’ and ‘pedantic’ mean when using CONNECT?](faq.md#what-do-verbose-and-pedantic-mean-when-using-connect)
-* [Does NATS offer any guarantee of message ordering?](faq.md#does-nats-offer-any-guarantee-of-message-ordering)
-* [Is there a message size limitation in NATS?](faq.md#is-there-a-message-size-limitation-in-nats)
-* [Does NATS impose any limits on the \# of subjects?](faq.md#does-nats-impose-any-limits-on-the-of-subjects)
-* [Does NATS guarantee message delivery?](faq.md#does-nats-guarantee-message-delivery)
-* [Does NATS support replay/redelivery of historical data?](faq.md#does-nats-support-replayredelivery-of-historical-data)
-* [How do I gracefully shut down an asynchronous subscriber?](faq.md#how-do-i-gracefully-shut-down-an-asynchronous-subscriber)
-* [How do I create subjects?](faq.md#how-do-i-create-subjects)
-* [How many clients can connect simultaneously?](faq.md#how-many-clients-can-connect-simultaneously)
-
-## General
-
 ### What is NATS?
 
 NATS is an open source, lightweight, high-performance cloud native infrastructure messaging system. It implements a highly scalable and elegant publish-subscribe \(pub/sub\) distribution model. The performant nature of NATS make it an ideal base for building modern, reliable, scalable cloud native distributed systems.

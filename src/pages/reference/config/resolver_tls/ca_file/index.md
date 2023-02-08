@@ -1,0 +1,6 @@
+# ca_file
+
+/ [config](/reference/config/index.md) / [resolver_tls](/reference/config/config/resolver_tls/index.md) 
+
+TLS certificate authority file. Defaults to system trust store.
+

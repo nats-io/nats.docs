@@ -1,7 +1,7 @@
 # NATS Documentation
 Learn how to use NATS to build systems that securely communicate across any combination of cloud vendors, on-premise, edge, web and mobile, and devices. {% .lead %}
 
-## 👋 Welcome 
+## 👋 Welcome
 
 Here you will find everything you need to know about the Connective Technology for Adaptive Edge & Distributed Systems - NATS!
 
@@ -9,7 +9,7 @@ NATS is Open Source as is this documentation. Please [let us know](mailto:info@n
 
 {% quick-links %}
 
-{% quick-link title="Installation" icon="installation" href="/running-a-nats-service/installation" description="Step-by-step guides to setting up NATS in various environments." /%}
+{% quick-link title="Installing and Upgrading" icon="installation" href="/running-a-nats-service/installation" description="Step-by-step guides to setting up NATS in various environments." /%}
 
 {% quick-link title="NATS Concepts" icon="presets" href="/overview" description="Learn the core concepts behind a NATS system." /%}
 
