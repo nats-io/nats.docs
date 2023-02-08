@@ -174,7 +174,7 @@ processing, or to persist the position of the consumer over the stream between r
 
 Durable consumers as the name implies are meant to last 'forever' and are typically created and deleted administratively rather than by the application code which only needs to specify the durable's well known name to use it.
 
-You create a durable consumer using the `nats consumer add` CLI tool command, or programmatically by passing a durable name option to the stream creation call.
+You create a durable consumer using the `nats consumer add` CLI tool command, or programmatically by passing a durable name option to the subscription creation call.
 
 ### Push and Pull consumers
 
