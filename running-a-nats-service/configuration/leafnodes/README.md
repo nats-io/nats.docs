@@ -105,6 +105,7 @@ In this example, we connect a leaf node to Synadia's [NGS](https://www.synadia.c
 
 The `nsc` tool can operate with many accounts and operators, so it's essential to make sure you're working with the right operator and account. You can set the account using the `nsc` tool like below. The `DELETE_ME` account is used as an example, which is registered with NGS as a free account.
 
+```bash
 ❯ nsc env -a DELETE_ME
 ❯ nsc describe account
 +--------------------------------------------------------------------------------------+
