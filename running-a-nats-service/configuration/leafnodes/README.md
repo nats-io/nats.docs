@@ -101,106 +101,40 @@ Received  [_INBOX.Ua82OJamRdWof5FBoiKaRm.gZhJP6RU] : '42'
 
 ## Leaf Node Example Using a Remote Global Service
 
-In this example, we connect a leaf node to Synadia's [NGS](https://www.synadia.com/ngs). Leaf nodes are supported on developer and paid accounts. To sign up for a developer account, you'll need the `ngs` tool which you can install by following instructions in [https://github.com/ConnectEverything/ngs-cli](https://github.com/ConnectEverything/ngs-cli).
+In this example, we connect a leaf node to Synadia's [NGS](https://www.synadia.com/ngs). Leaf nodes are supported on free developer and paid accounts. To use NGS, ensure that you've signed up and have an account loaded on your local system. It takes less than 30 seconds to grab yourself a free account to follow along if you don't have one already!
 
-Once you have the ngs tool installed, you can go ahead and import the synadia operator from ngs:
-
-```bash
-nsc add operator -u synadia
-```
-```text
-[ OK ] imported operator "synadia"
-```
-
-Add (or create) an account named 'leaftest'
-
-```shell
-nsc add account leaftest
-```
-```text
-[ OK ] generated and stored account key "ACR4E2VU2ZC4GPTGOLL6GLO3WHUBBIQBM2JWOGRCEJJQEV6SVXL64JWD"
-[ OK ] push jwt to account server:
-    [ OK ] pushed account jwt to the account server
-    > NGS created a new free billing account for your JWT, leaftest [ACR4E2VU2ZC4].
-    > Use the 'ngs' command to manage your billing plan.
-    > If your account JWT is *not* in ~/.nsc, use the -d flag on ngs commands to locate it.
-[ OK ] pull jwt from account server
-[ OK ] added account "leaftest" to operator "Synadia Communications Inc."
-```
-
-In order to use leaf nodes, you'll have to upgrade the account to the developer plan. The developer plan has zero cost, but requires specifying an email and providing a credit card number:
+The `nsc` tool can operate with many accounts and operators, so it's essential to make sure you're working with the right operator and account. You can set the account using the `nsc` tool like below. The `DELETE_ME` account is used as an example, which is registered with NGS as a free account.
 
 ```bash
-ngs edit
-```
-```text
-
-Please select your new plan. For a complete description of offerings,
-please visit our website at https://www.https://www.synadia.com/.
-
-? Select a Messaging Plan Developer $0.00/month
-
-Synadia will report service notifications and billing updates with the
-email address you associate with your account. This address will be
-verified if changed.
-
-? Email natsuser@test.com
-
-╭────────────────────────────────╮
-│        Account Details         │
-├────────┬───────────────────────┤
-│ Email: │ natsuser@test.com     |
-│ Plan:  │ Developer $0.00/month │
-╰────────┴───────────────────────╯
-
-
-? Check your account details OK
-
-Your changes were sent to Synadia, but it looks like we need to verify
-your email and credit card before updating your account. You should
-receive a welcome email shortly.
-Once the update succeeds use nsc to sync the latest version of your
-synadia account JWT to disk.
+❯ nsc env -a DELETE_ME
+❯ nsc describe account
++--------------------------------------------------------------------------------------+
+|                                   Account Details                                    |
++---------------------------+----------------------------------------------------------+
+| Name                      | DELETE_ME                                                |
+| Account ID                | ABF3NX7FJLDCUO5QXBH56PV6EU4PR5HFCUJBXAG57AKSDUBTGORDFOLI |
+| Issuer ID                 | ODSKBNDIT3LTZWFSRAWOBXSBZ7VZCDQVU6TBJX3TQGYXUWRU46ANJJS4 |
+| Issued                    | 2023-03-02 18:18:42 UTC                                  |
+| Expires                   |                                                          |
++---------------------------+----------------------------------------------------------+
+| Max Connections           | 10                                                       |
+| Max Leaf Node Connections | Not Allowed                                              |
+| Max Data                  | 1.0 GB (1000000000 bytes)                                |
+| Max Exports               | 2                                                        |
+| Max Imports               | 7                                                        |
+| Max Msg Payload           | 1.0 kB (1000 bytes)                                      |
+| Max Subscriptions         | 10                                                       |
+| Exports Allows Wildcards  | True                                                     |
+| Disallow Bearer Token     | False                                                    |
+| Response Permissions      | Not Set                                                  |
++---------------------------+----------------------------------------------------------+
+| Jetstream                 | Disabled                                                 |
++---------------------------+----------------------------------------------------------+
+| Exports                   | None                                                     |
++---------------------------+----------------------------------------------------------+
 ```
 
-Check your email, verify the email, and specify an credit card, after that:
-
-```bash
-nsc pull
-```
-```text
-[ OK ] pulled "leaftest" from the account server
-```
-Show the account info
-```shell
-nsc describe account
-```
-```text
-╭──────────────────────────────────────────────────────────────────────────────────────╮
-│                                   Account Details                                    │
-├───────────────────────────┬──────────────────────────────────────────────────────────┤
-│ Name                      │ leaftest                                                 │
-│ Account ID                │ ACR4E2VU2ZC4GPTGOLL6GLO3WHUBBIQBM2JWOGRCEJJQEV6SVXL64JWD │
-│ Issuer ID                 │ ODSKBNDIT3LTZWFSRAWOBXSBZ7VZCDQVU6TBJX3TQGYXUWRU46ANJJS4 │
-│ Issued                    │ 2019-12-09 14:44:55 UTC                                  │
-│ Expires                   │                                                          │
-├───────────────────────────┼──────────────────────────────────────────────────────────┤
-│ Max Connections           │ 50                                                       │
-│ Max Leaf Node Connections │ 2                                                        │
-│ Max Data                  │ 5.0 GB (5000000000 bytes)                                │
-│ Max Exports               │ Unlimited                                                │
-│ Max Imports               │ Unlimited                                                │
-│ Max Msg Payload           │ 4.0 kB (4000 bytes)                                      │
-│ Max Subscriptions         │ 50                                                       │
-│ Exports Allows Wildcards  │ False                                                    │
-├───────────────────────────┼──────────────────────────────────────────────────────────┤
-│ Exports                   │ None                                                     │
-╰───────────────────────────┴──────────────────────────────────────────────────────────╯
-
-....
-```
-
-Note the limits on the account, specify that the account can have up-to 2 leaf node connections. Let's use them:
+The `nsc` tool is aware of the account, so let's proceed to create a user for our example.
 
 ```bash
 nsc add user leaftestuser
@@ -233,9 +167,9 @@ nats-server -c /tmp/ngs_leaf.conf
 ```
 ```text
 ...
-[4985] 2019/12/09 10:55:51.577569 [INF] Listening for client connections on 0.0.0.0:4222
+[4985] 2023/03/03 10:55:51.577569 [INF] Listening for client connections on 0.0.0.0:4222
 ...
-[4985] 2019/12/09 10:55:51.918781 [INF] Connected leafnode to "connect.ngs.global"
+[4985] 2023/03/03 10:55:51.918781 [INF] Connected leafnode to "connect.ngs.global"
 ```
 
 Again, let's connect a replier, but this time to Synadia's NGS. NSC connects specifying the credentials file:
