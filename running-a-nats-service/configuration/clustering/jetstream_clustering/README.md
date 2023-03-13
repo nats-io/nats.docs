@@ -47,6 +47,11 @@ To configure JetStream clusters, just configure clusters as you normally would b
 
 Below are explicitly listed server configuration for a three-node cluster across three machines, `n1-c1`, `n2-c1`, and `n3-c1`.
 
+### Server password configuration
+
+A user and password under the [system account ($SYS)](../sys_accounts/README.md#system-account)
+should be configured.  The following configuration uses a [bcrypted password](../securing_nats/auth_intro/username_password.md#bcrypted-passwords): `a very long s3cr3t! password`.
+
 ### Server 1 \(host_a\)
 
 ```text
@@ -54,7 +59,13 @@ server_name=n1-c1
 listen=4222
 
 accounts {
- $SYS { users = [ { user: "admin", pass: "s3cr3t!" } ] }
+  $SYS {
+    users = [
+      { user: "admin",
+        pass: "$2a$11$DRh4C0KNbNnD8K/hb/buWe1zPxEHrLEiDmuq1Mi0rRJiH/W25Qidm"
+      }
+    ]
+  }
 }
 
 jetstream {
@@ -78,7 +89,13 @@ server_name=n2-c1
 listen=4222
 
 accounts {
- $SYS { users = [ { user: "admin", pass: "s3cr3t!" } ] }
+  $SYS {
+    users = [
+      { user: "admin",
+        pass: "$2a$11$DRh4C0KNbNnD8K/hb/buWe1zPxEHrLEiDmuq1Mi0rRJiH/W25Qidm"
+      }
+    ]
+  }
 }
 
 jetstream {
@@ -102,7 +119,13 @@ server_name=n3-c1
 listen=4222
 
 accounts {
- $SYS { users = [ { user: "admin", pass: "s3cr3t!" } ] }
+  $SYS {
+    users = [
+      { user: "admin",
+        pass: "$2a$11$DRh4C0KNbNnD8K/hb/buWe1zPxEHrLEiDmuq1Mi0rRJiH/W25Qidm"
+      }
+    ]
+  }
 }
 
 jetstream {
