@@ -3,8 +3,8 @@
 The `resolver` configuration option is used in conjunction with [NATS JWT Authentication](README.md) and [nsc](../../../../using-nats/nats-tools/nsc/README.md). The `resolver` option specifies a URL where the nats-server can retrieve an account JWT. There are 3 resolver implementations:
 
 * [NATS Based Resolver](resolver.md#nats-based-resolver) which is the preferred option and should be your default selection
-* [`MEMORY`](resolver.md#MEMORY) if you want to statically define the accounts in the server configuration
-* [`URL`](resolver.md#URL-Resolver) if you want to build your own account service, typically in order to have some integration of NATS security with some external security system.
+* [`MEMORY`](resolver.md#memory) if you want to statically define the accounts in the server configuration
+* [`URL`](resolver.md#url-Resolver) if you want to build your own account service, typically in order to have some integration of NATS security with some external security system.
 
 > If the operator JWT specified in `operator` contains an account resolver URL, `resolver` only needs to be specified in order to overwrite that default.
 
