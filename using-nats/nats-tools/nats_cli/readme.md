@@ -135,7 +135,7 @@ modified with`nats context edit my_context_name`:
 
 This context is stored in the file `~/.config/nats/context/my_context_name.json`.
 
-A context can also be created with by specifying settings with `nats context save`
+A context can also be created by specifying settings with `nats context save`
 
 ```shell
 nats context save example --server nats://nats.example.net:4222 --description 'Example.Net Server'
