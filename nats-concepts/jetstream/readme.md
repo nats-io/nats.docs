@@ -8,6 +8,17 @@ JetStream is built-in to `nats-server` and you only need 1 (or 3 or 5 if you wan
 
 JetStream was created to solve the problems identified with streaming in technology today - complexity, fragility, and a lack of scalability. Some technologies address these better than others, but no current streaming technology is truly multi-tenant, horizontally scalable, and supports multiple deployment models. No other technology that we are aware of can scale from edge to cloud under the same security context while having complete deployment observability for operations.
 
+### Configuration
+
+To configure a `nats-server` with JetStream refer to:
+
+* [Configuring JetStream](../../running-a-nats-service/configuration/jetstream-config/resource_management.md)
+* [JetStream Clustering](../../running-a-nats-service/configuration/clustering/jetstream_clustering/README.md)
+
+###  Examples
+
+For runnable JetStream code examples, refer to [NATS by Example](https://natsbyexample.com).
+
 ### Goals
 
 JetStream was developed with the following goals in mind:
