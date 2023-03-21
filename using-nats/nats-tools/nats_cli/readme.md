@@ -37,6 +37,7 @@ Binaries are also available as [GitHub Releases](https://github.com/nats-io/nats
 
 ## Using `nats`
 ### Getting help
+* [NATS Command Line Interface README](https://github.com/nats-io/natscli#readme)
 * `nats help`
 * `nats help [<command>...]` or `nats [<command>...] --help`
 * Remember to look at the cheat sheets!
@@ -70,7 +71,7 @@ Binaries are also available as [GitHub Releases](https://github.com/nats-io/nats
 
 ## Configuration Contexts
 
-In practice, it is quite common for the administrators of a NATS service infrastructure to have to connect using various NATS URLs and security credentials, the CLI has a number of environment configuration settings that can be passed as command line arguments or set in environment variables. In order to facilitate switching between NATS environments or servers, clusters, operators, etc... nats lets you use 'contexts' that you can store and easily select.
+The CLI has a number of configuration settings that can be passed either as command line arguments or set in environment variables.
 
 ```shell
 nats --help
@@ -78,21 +79,23 @@ nats --help
 Output extract
 ```text
 ...
-  -s, --server=NATS_URL         NATS servers
-      --user=NATS_USER          Username of Token
-      --password=NATS_PASSWORD  Password
-      --creds=NATS_CREDS        User credentials
-      --nkey=NATS_NKEY          User NKEY
-      --tlscert=NATS_CERT       TLS public certificate
-      --tlskey=NATS_KEY         TLS private key
-      --tlsca=NATS_CA           TLS certificate authority chain
-      --timeout=NATS_TIMEOUT    Time to wait on responses from NATS
-      --context=CONTEXT         NATS Configuration Context to use for access
+  -s, --server=URL              NATS server urls ($NATS_URL)
+      --user=USER               Username or Token ($NATS_USER)
+      --password=PASSWORD       Password ($NATS_PASSWORD)
+      --creds=FILE              User credentials ($NATS_CREDS)
+      --nkey=FILE               User NKEY ($NATS_NKEY)
+      --tlscert=FILE            TLS public certificate ($NATS_CERT)
+      --tlskey=FILE             TLS private key ($NATS_KEY)
+      --tlsca=FILE              TLS certificate authority chain ($NATS_CA)
+      --timeout=DURATION        Time to wait on responses from NATS
+                                ($NATS_TIMEOUT)
+      --context=NAME            Configuration context ($NATS_CONTEXT)
 ...
 ```
 
-You can set these using the CLI flag, the environment variable - like **NATS_URL** - or using our context feature.
+The server URL can be set using the `--server` CLI flag, or the `NATS_URL` environment variable,  or using [NATS Contexts](#nats-contexts).
 
+The password can be set using the `--password` CLI flag, or the `NATS_PASSWORD` environment variable,  or using [NATS Contexts](#nats-contexts).
 For example: if you want to create a script that prompts the user for the system user password (so that for example it doesn't appear in `ps` or `history` or maybe you don't want it stored in the profile) and then execute one or more `nats` commands you do something like:
 ```shell
 #!/bin/bash
@@ -103,16 +106,42 @@ nats server report jetstream --user system
 ```
 
 ### NATS Contexts
-A context is a named configuration that stores all of these settings, you can switch between access configurations and designate a default.
+A context is a named configuration that stores all of these settings.
+You can designate a default context and switch between contexts.
 
-Creating one is easy, just specify the settings with `nats context save`
+A context can be created with `nats context create my_context_name` and then
+modified with`nats context edit my_context_name`:
+
+```json
+{
+  "description": "",
+  "url": "nats://127.0.0.1:4222",
+  "token": "",
+  "user": "",
+  "password": "",
+  "creds": "",
+  "nkey": "",
+  "cert": "",
+  "key": "",
+  "ca": "",
+  "nsc": "",
+  "jetstream_domain": "",
+  "jetstream_api_prefix": "",
+  "jetstream_event_prefix": "",
+  "inbox_prefix": "",
+  "user_jwt": ""
+}
+```
+
+This context is stored in the file `~/.config/nats/context/my_context_name.json`.
+
+A context can also be created by specifying settings with `nats context save`
 
 ```shell
 nats context save example --server nats://nats.example.net:4222 --description 'Example.Net Server'
 nats context save local --server nats://localhost:4222 --description 'Local Host' --select 
 ```
 
-Or you can use `nats context create my_context_name` and then edit the created context file (i.e. in `~/.config/nats/context/my_context_name.json`)
 
 List your contexts
 ```shell
@@ -170,6 +199,7 @@ The server list and credentials path will now be resolved via `nsc`, if these ar
 ## Generating bcrypted passwords
 
 The server supports hashing of passwords and authentication tokens using `bcrypt`. To take advantage of this, simply replace the plaintext password in the configuration with its `bcrypt` hash, and the server will automatically utilize `bcrypt` as needed.
+See also: [Bcrypted Passwords](../../../running-a-nats-service/configuration/securing_nats/auth_intro/username_password.md#bcrypted-passwords).
 
 The `nats` utility has a command for creating `bcrypt` hashes. This can be used for a password or a token in the configuration.
 
