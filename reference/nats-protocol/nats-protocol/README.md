@@ -71,19 +71,33 @@ When using the updated client protocol (see [`CONNECT`](./#connect) below), `INF
 
 The valid options are as follows, encoded as JSON:
 
-* `server_id`: The unique identifier of the NATS server
-* `version`: The version of the NATS server
-* `go`: The version of golang the NATS server was built with
-* `host`: The IP address used to start the NATS server, by default this will be `0.0.0.0` and can be configured with `-client_advertise host:port`
-* `port`: The port number the NATS server is configured to listen on
-* `max_payload`: Maximum payload size, in bytes, that the server will accept from the client.
-* `proto`: An integer indicating the protocol version of the server. The server version 1.2.0 sets this to `1` to indicate that it supports the "Echo" feature.
-* `client_id`: An optional unsigned integer (64 bits) representing the internal client identifier in the server. This can be used to filter client connections in monitoring, correlate with error logs, etc...
-* `auth_required`: If this is set, then the client should try to authenticate upon connect.
-* `tls_required`: If this is set, then the client must perform the TLS/1.2 handshake. Note, this used to be `ssl_required` and has been updated along with the protocol from SSL to TLS.
-* `tls_verify`: If this is set, the client must provide a valid certificate during the TLS handshake.
-* `connect_urls` : An optional list of server urls that a client can connect to.
-* `ldm`: If the server supports _Lame Duck Mode_ notifications, and the current server has transitioned to lame duck, `ldm` will be set to `true`.
+| name              | description                                                                                                                                                            | type     | presence |
+|-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|----------|
+| `server_id`       | The unique identifier of the NATS server.                                                                                                                              | string   | always   |
+| `server_name`     | The name of the NATS server.                                                                                                                                           | string   | always   |
+| `version`         | The version of NATS.                                                                                                                                                   | string   | always   |
+| `go`              | The version of golang the NATS server was built with.                                                                                                                  | string   | always   |
+| `host`            | The IP address used to start the NATS server, by default this will be `0.0.0.0` and can be configured with `-client_advertise host:port`.                              | string   | always   |
+| `port`            | The port number the NATS server is configured to listen on.                                                                                                            | int      | always   |
+| `headers`         | Whether the server supports headers.                                                                                                                                   | bool     | always   |
+| `max_payload`     | Maximum payload size, in bytes, that the server will accept from the client.                                                                                           | int      | always   |
+| `proto`           | An integer indicating the protocol version of the server. The server version 1.2.0 sets this to `1` to indicate that it supports the "Echo" feature.                   | int      | always   |
+| `client_id`       | The internal client identifier in the server. This can be used to filter client connections in monitoring, correlate with error logs, etc...                           | uint64   | optional |
+| `auth_required`   | If this is true, then the client should try to authenticate upon connect.                                                                                              | bool     | optional |
+| `tls_required`    | If this is true, then the client must perform the TLS/1.2 handshake. Note, this used to be `ssl_required` and has been updated along with the protocol from SSL to TLS.| bool     | optional |
+| `tls_verify`      | If this is true, the client must provide a valid certificate during the TLS handshake.                                                                                 | bool     | optional |
+| `tls_available`   | If this is true, the client can provide a valid certificate during the TLS handshake.                                                                                  | bool     | optional |
+| `connect_urls`    | List of server urls that a client can connect to.                                                                                                                      | [string] | optional |
+| `ws_connect_urls` | List of server urls that a websocket client can connect to.                                                                                                            | [string] | optional |
+| `ldm`             | If the server supports _Lame Duck Mode_ notifications, and the current server has transitioned to lame duck, `ldm` will be set to `true`.                              | bool     | optional |
+| `git_commit`      | The git hash at which the NATS server was built.                                                                                                                       | string   | optional |
+| `jetstream`       | Whether the server supports JetStream.                                                                                                                                 | bool     | optional |
+| `ip`              | The IP of the server.                                                                                                                                                  | string   | optional |
+| `client_id`       | The ID of the client.                                                                                                                                                  | string   | optional |
+| `client_ip`       | The IP of the client.                                                                                                                                                  | string   | optional |
+| `nonce`           | The nonce for use in CONNECT.                                                                                                                                          | string   | optional |
+| `cluster`         | The name of the cluster.                                                                                                                                               | string   | optional |
+| `domain`          | The configured NATS domain of the server.                                                                                                                              | string   | optional |
 
 #### connect_urls
 
@@ -119,20 +133,24 @@ The `CONNECT` message is the client version of the [`INFO`](./#info) message. On
 
 The valid options are as follows, encoded as JSON:
 
-* `verbose`: Turns on [`+OK`](./#okerr) protocol acknowledgements.
-* `pedantic`: Turns on additional strict format checking, e.g. for properly formed subjects
-* `tls_required`: Indicates whether the client requires an SSL connection.
-* `auth_token`: Client authorization token (if `auth_required` is set)
-* `user`: Connection username (if `auth_required` is set)
-* `pass`: Connection password (if `auth_required` is set)
-* `name`: Optional client name
-* `lang`: The implementation language of the client.
-* `version`: The version of the client.
-* `protocol`: _optional int_. Sending `0` (or absent) indicates client supports original protocol. Sending `1` indicates that the client supports dynamic reconfiguration of cluster topology changes by asynchronously receiving [`INFO`](./#info) messages with known servers it can reconnect to.
-* `echo`: Optional boolean. If set to `true`, the server (version 1.2.0+) will not send originating messages from this connection to its own subscriptions. Clients should set this to `true` only for server supporting this feature, which is when `proto` in the `INFO` protocol is set to at least `1`.
-* `sig`: In case the server has responded with a `nonce` on `INFO`, then a NATS client must use this field to reply with the signed `nonce`.
-* `jwt`: The JWT that identifies a user permissions and account.
-* `no_responders`: _optional bool_. Enable [quick replies for cases where a request is sent to a topic with no responders](nats-concepts/core-nats/reqreply#no_responders).
+| name            | description                                                                                                                                                                                                                                                                       | type   | required                     |
+|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|------------------------------|
+| `verbose`       | Turns on [`+OK`](./#okerr) protocol acknowledgements.                                                                                                                                                                                                                             | bool   | true                         |
+| `pedantic`      | Turns on additional strict format checking, e.g. for properly formed subjects.                                                                                                                                                                                                    | bool   | true                         |
+| `tls_required`  | Indicates whether the client requires an SSL connection.                                                                                                                                                                                                                          | bool   | true                         |
+| `auth_token`    | Client authorization token.                                                                                                                                                                                                                                                       | string | if `auth_required` is `true` |
+| `user`          | Connection username.                                                                                                                                                                                                                                                              | string | if `auth_required` is `true` |
+| `pass`          | Connection password.                                                                                                                                                                                                                                                              | string | if `auth_required` is `true` |
+| `name`          | Client name.                                                                                                                                                                                                                                                                      | string | false                        |
+| `lang`          | The implementation language of the client.                                                                                                                                                                                                                                        | string | true                         |
+| `version`       | The version of the client.                                                                                                                                                                                                                                                        | string | true                         |
+| `protocol`      | Sending `0` (or absent) indicates client supports original protocol. Sending `1` indicates that the client supports dynamic reconfiguration of cluster topology changes by asynchronously receiving [`INFO`](./#info) messages with known servers it can reconnect to.            | int    | false                        |
+| `echo`          | If set to `false`, the server (version 1.2.0+) will not send originating messages from this connection to its own subscriptions. Clients should set this to `false` only for server supporting this feature, which is when `proto` in the `INFO` protocol is set to at least `1`. | bool   | false                        |
+| `sig`           | In case the server has responded with a `nonce` on `INFO`, then a NATS client must use this field to reply with the signed `nonce`.                                                                                                                                               | string | if `nonce` received          |
+| `jwt`           | The JWT that identifies a user permissions and account.                                                                                                                                                                                                                           | string | false                        |
+| `no_responders` | Enable [quick replies for cases where a request is sent to a topic with no responders](nats-concepts/core-nats/reqreply#no_responders).                                                                                                                                           | bool   | false                        |
+| `headers`       | Whether the client supports headers.                                                                                                                                                                                                                                              | bool   | false                        |
+| `nkey`          | The public NKey to authenticate the client. This will be used to verify the signature (`sig`) against the `nonce` provided in the `INFO` message.                                                                                                                                 | string | false                        |
 
 ### Example
 
@@ -156,10 +174,13 @@ The `PUB` message publishes the message payload to the given subject name, optio
 
 where:
 
-* `subject`: The destination subject to publish to
-* `reply-to`: The optional reply subject that subscribers can use to send a response back to the publisher/requestor
-* `#bytes`: The payload size in bytes
-* `payload`: The message payload data
+| name       | description                                                                                   | type   | required |
+|------------|-----------------------------------------------------------------------------------------------|--------|----------|
+| `subject`  | The destination subject to publish to.                                                        | string | true     |
+| `reply-to` | The reply subject that subscribers can use to send a response back to the publisher/requestor.| string | false    |
+| `#bytes`   | The payload size in bytes.                                                                    | int    | true     |
+| `payload`  | The message payload data.                                                                     | string | false    |
+
 
 ### Example
 
@@ -189,12 +210,14 @@ NATS headers are similar, in structure and semantics, to HTTP headers as `name: 
 
 where:
 
-* `subject`: The destination subject to publish to
-* `reply-to`: The optional reply subject that subscribers can use to send a response back to the publisher/requestor
-* `#header bytes`: The size of the headers section in bytes including the `␍␊␍␊` delimiter before the payload
-* `#total bytes`: The total size of headers and payload sections in bytes
-* `headers`: Header version `NATS/1.0␍␊` followed by one or more `name: value` pairs, each separated by `␍␊`
-* `payload`: The message payload data
+| name            | description                                                                                     | type   | required |
+|-----------------|-------------------------------------------------------------------------------------------------|--------|----------|
+| `subject`       | The destination subject to publish to.                                                          | string | true     |
+| `reply-to`      | The reply subject that subscribers can use to send a response back to the publisher/requestor.  | string | false    |
+| `#header bytes` | The size of the headers section in bytes including the `␍␊␍␊` delimiter before the payload.     | int    | true     |
+| `#total bytes`  | The total size of headers and payload sections in bytes.                                        | int    | true     |
+| `headers`       | Header version `NATS/1.0␍␊` followed by one or more `name: value` pairs, each separated by `␍␊`.| string | false    |
+| `payload`       | The message payload data.                                                                       | string | false    |
 
 ### Example
 
@@ -226,9 +249,11 @@ To publish a message to subject MORNING MENU with one header BREAKFAST having tw
 
 where:
 
-* `subject`: The subject name to subscribe to
-* `queue group`: If specified, the subscriber will join this queue group
-* `sid`: A unique alphanumeric subscription ID, generated by the client
+| name          | description                                                    | type   | required |
+|---------------|----------------------------------------------------------------|--------|----------|
+| `subject`     | The subject name to subscribe to.                              | string | true     |
+| `queue group` | If specified, the subscriber will join this queue group.       | string | false    |
+| `sid`         | A unique alphanumeric subscription ID, generated by the client.| string | true     |
 
 ### Example
 
@@ -252,8 +277,10 @@ To subscribe the current connection to the subject `BAR` as part of distribution
 
 where:
 
-* `sid`: The unique alphanumeric subscription ID of the subject to unsubscribe from
-* `max_msgs`: An optional number of messages to wait for before automatically unsubscribing
+| name       | description                                                                | type   | required |
+|------------|----------------------------------------------------------------------------|--------|----------|
+| `sid`      | The unique alphanumeric subscription ID of the subject to unsubscribe from.| string | true     |
+| `max_msgs` | A number of messages to wait for before automatically unsubscribing.       | int    | false    |
 
 ### Example
 
@@ -277,11 +304,13 @@ The `MSG` protocol message is used to deliver an application message to the clie
 
 where:
 
-* `subject`: Subject name this message was received on
-* `sid`: The unique alphanumeric subscription ID of the subject
-* `reply-to`: The subject on which the publisher is listening for responses
-* `#bytes`: Size of the payload in bytes
-* `payload`: The message payload data
+| name       | description                                                   | type   | presence |
+|------------|---------------------------------------------------------------|--------|----------|
+| `subject`  | Subject name this message was received on.                    | string | always   |
+| `sid`      | The unique alphanumeric subscription ID of the subject.       | string | always   |
+| `reply-to` | The subject on which the publisher is listening for responses.| string | optional |
+| `#bytes`   | Size of the payload in bytes.                                 | int    | always   |
+| `payload`  | The message payload data.                                     | string | optional |
 
 ### Example
 
@@ -305,13 +334,15 @@ The `HMSG` message is the same as `MSG`, but extends the message payload with he
 
 where:
 
-* `subject`: Subject name this message was received on
-* `sid`: The unique alphanumeric subscription ID of the subject
-* `reply-to`: The subject on which the publisher is listening for responses
-* `#header bytes`: The size of the headers section in bytes including the `␍␊␍␊` delimiter before the payload
-* `#total bytes`: The total size of headers and payload sections in bytes
-* `headers`: Header version `NATS/1.0␍␊` followed by one or more `name: value` pairs, each separated by `␍␊`
-* `payload`: The message payload data
+| name            | description                                                                                     | type   | presence |
+|-----------------|-------------------------------------------------------------------------------------------------|--------|----------|
+| `subject`       | Subject name this message was received on.                                                      | string | always   |
+| `sid`           | The unique alphanumeric subscription ID of the subject.                                         | string | always   |
+| `reply-to`      | The subject on which the publisher is listening for responses.                                  | string | optional |
+| `#header bytes` | The size of the headers section in bytes including the `␍␊␍␊` delimiter before the payload.     | int    | always   |
+| `#total bytes`  | The total size of headers and payload sections in bytes.                                        | int    | always   |
+| `headers`       | Header version `NATS/1.0␍␊` followed by one or more `name: value` pairs, each separated by `␍␊`.| string | optional |
+| `payload`       | The message payload data.                                                                       | string | optional |
 
 ### Example
 
