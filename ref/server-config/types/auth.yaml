@@ -1,0 +1,209 @@
+---
+types:
+  authorization:
+    type: object
+    examples:
+      - label: Username/password
+        value: |
+          authorization {
+            username: app
+            password: s3cret!
+          }
+
+      - label: Token
+        value: |
+          authorization {
+            token: 6d37bfcc-3eba-4f1f-a6e9-88a3c6ddbf9c
+          }
+
+      - label: Users and default permissions
+        value: |
+          authorization {
+            default_permissions: {
+              publish: "app.services.*"
+              subscribe: {
+                deny: "_INBOX.>"
+              }
+            }
+            users: [
+              {
+                username: pam,
+                password: pam,
+                permissions: {
+                  subscribe: "_pam.>"
+                }
+              },
+              {
+                username: joe,
+                password: joe,
+                permissions: {
+                  subscribe: "_joe.>"
+                }
+              }
+            ]
+          }
+
+    properties:
+      username:
+        type: string
+        description: |-
+          Specifies a global user name that clients can use to authenticate
+          the server (requires `password`, exclusive of `token`).
+        aliases:
+          - user
+
+      password:
+        type: string
+        description: |-
+          Specifies a global password that clients can use to authenticate
+          the server (requires `user`, exclusive of `token`).
+        aliases:
+          - pass
+
+      token:
+        type: string
+        description: |-
+          Specifies a global token that clients can use to authenticate with
+          the server (exclusive of `user` and `password`).
+
+      users:
+        type: array(user)
+        description: |-
+          A list of multiple users with different credentials.
+
+      default_permissions:
+        type: permissions
+        description: |-
+          The default permissions applied to users, if permissions are
+          not explicitly defined for them.
+
+      timeout:
+        type: float
+        default: 1
+        description: |-
+          Maximum number of seconds to wait for a client to authenticate.
+
+      auth_callout:
+        type: auth-callout
+        description: |-
+          Enables the auth callout functionality.
+          All client connections requiring authentication will have
+          their credentials pass-through to a dedicated auth service.
+
+
+  permissions:
+    type: object
+    properties:
+      publish:
+        types:
+          - string
+          - array(string)
+          - allow-deny-map
+        description: |-
+          A single subject, list of subjects, or a allow-deny map of
+          subjects for publishing. Specifying a single subject or list
+          of subjects denotes an *allow* and implcitly denies publishing
+          to all other subjects.
+        examples:
+          - label: Allow publish to `foo`
+            value: "foo"
+          - label: Allow publish on `foo` and `bar.*`
+            value: "[foo, bar.*]"
+          - label: Allow publish to `foo.*` except `foo.bar`
+            value: |-
+              {
+                allow: "foo.*"
+                deny: "foo.bar"
+              }
+
+        aliases:
+          - pub
+
+      subscribe:
+        types:
+          - string
+          - array(string)
+          - allow-deny-map
+        description: |-
+          A single subject, list of subjects, or a allow-deny map of
+          subjects for subscribing. Note, that the subject permission can
+          have an optional second value declaring a queue name.
+        examples:
+          - label: Allow subscribe on `foo`
+            value: "foo"
+          - label: Allow subscribe on `foo` in group matching `*.dev`
+            value: "foo *.dev"
+          - label: Allow subscribe on `foo.>` and `bar` in group `v1`
+            value: '[foo.>, "bar v1"]'
+          - label: Allow subscribe to `foo.*` except `foo.bar`
+            value: |-
+              {
+                allow: "foo.*"
+                deny: "foo.bar"
+              }
+
+        aliases:
+          - sub
+
+      allow_responses:
+        types:
+          - boolean
+          - allow-responses
+
+  allow-deny-map:
+    type: object
+    properties:
+      allow:
+        type: array(string)
+        description: |-
+          List of subjects that are allowed to the client.
+
+      deny:
+        type: array(string)
+        description: |-
+          List of subjects that are denied to the client.
+
+  allow-responses:
+    type: object
+    properties:
+      max:
+        type: integer
+        description: |-
+          The maximum number of response messages that can be published.
+      expires:
+        type: duration
+        description: |-
+          The amount of time the permission is valid. Values such
+          as 1s, 1m, 1h (1 second, minute, hour) etc can be specified.
+          Default doesn't have a time limit.
+
+  auth-callout:
+    type: object
+    properties:
+      issuer:
+        type: string
+        description: |-
+          An account public NKey.
+
+      account:
+        type: string
+        aliases: [acc]
+        default: "$G"
+        description: |-
+          The name or public NKey of an account of the users which will
+          be used by the authorization service to connect to the server.
+
+      users:
+        type: array(string)
+        aliases: [auth_users]
+        description: |-
+          The names or public NKeys of users within the defined account
+          that will be used by the the auth service itself and thus bypass
+          auth callout.
+
+      key:
+        type: string
+        aliases: [xkey]
+        description: |-
+          A public XKey that will encrypt server requests to the auth
+          service.

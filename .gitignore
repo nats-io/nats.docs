@@ -1,9 +1,6 @@
-_book/
-_docs/
-
 .vscode
-.idea/
-node_modules
+.idea
 .next
-
 .DS_Store
+
+node_modules

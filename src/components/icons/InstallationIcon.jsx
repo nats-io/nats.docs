@@ -1,4 +1,4 @@
-import { DarkMode, Gradient, LightMode } from '@/components/Icon'
+import { DarkMode, Gradient, LightMode } from './Style'
 
 export function InstallationIcon({ id, color }) {
   return (

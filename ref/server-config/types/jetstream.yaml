@@ -1,0 +1,33 @@
+---
+types:
+  jetstream:
+    type: object
+    properties:
+      enabled:
+        type: boolean
+        default: false
+        description: |-
+          If true, enables the JetStream subsystem.
+
+      store_dir:
+        type: string
+        default: /tmp/nats/jetstream
+        description: |-
+          Directory to use for JetStream storage.
+
+      max_memory_store:
+        type: string
+        aliases:
+          - max_memory
+        description: |-
+          Maximum size of the *memory* storage.
+          Defaults to 75% of available memory.
+
+      max_file_store:
+        type: string
+        aliases:
+          - max_file
+        description: |-
+          Maximum size of the *file* storage.
+          Defaults to up to 1TB if available.
+

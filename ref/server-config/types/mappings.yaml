@@ -1,0 +1,4 @@
+types:
+  mappings:
+    type: object
+    properties:

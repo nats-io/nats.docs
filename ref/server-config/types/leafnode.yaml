@@ -1,0 +1,178 @@
+types:
+  leafnode:
+    type: object
+    disabled: true
+    description: |-
+
+    sections:
+      - name: Incoming Connections
+        description: |-
+          A server that has been configured to *accept* connections
+          from one or more leaf nodes. This would be the *hub* in a
+          hub-and-spoke topology, for example.
+
+        properties:
+          host:
+            type: host
+            description: |-
+              Host name the server will listen on for incoming
+              leaf node connections.
+
+          port:
+            type: integer
+            description: |-
+              Port the server will listen for incoming leaf node
+              connections.
+            default: 7422
+
+          listen:
+            type: listen
+
+          tls:
+            type: tls
+            description: |-
+              TLS configuration for securing leaf node connections.
+
+          advertise:
+            type: string
+            description: |-
+              Hostport to advertise how this sever be contacted
+              by leaf nodes. This is useful for setups with a NAT.
+
+          no_advertise:
+            type: boolean
+            default: false
+            description: |-
+              If true, the server will not be advertised to leaf nodes.
+
+          authorization:
+            type: authorization
+            description: |-
+              Authorization scoped to accepting leaf node connections.
+
+          min_version:
+            type: string
+            description: |-
+              The minimum server version required of the connecting
+              leaf node. This must be at least version `2.8.0`.
+
+
+      - name: Outgoing Connections
+        description: |-
+          A server that has been configured to *connect* to another
+          server configured to accept leaf node connections. In a
+          hub-and-spoke topology, this would be the *spoke*, typically
+          in a remote location or on an edge device.
+
+        properties:
+          remotes:
+            type: array(remote)
+            reloadable: false
+            description: |-
+              List of entries specifiying servers where the leaf
+              node client connection can be made.
+
+          reconnect:
+            type: integer
+            description: |-
+              Interval in seconds at which reconnect attempts to a
+              remote server are made.
+
+  remote:
+    type: object
+    properties:
+      url:
+        types:
+          - string
+          - array(string)
+        description: |-
+          URL or list of URLs of a remote server accepting leaf
+          node connections.
+          If username/password or token authentication is required
+          on the remote, this should be encoded in the URL itself,
+          e.g. `nats-leaf://username:password@localhost:7422`.
+          Note, the URL scheme should be `nats-leaf` or `ws`.
+        aliases:
+          - urls
+
+      no_randomize:
+        type: boolean
+        description: |-
+          If true and more than one URL is specified, the first one
+          in the list will be used. If the client disconnects from the
+          server, then the next URL will be used in order.
+        aliases:
+          - dont_randomize
+
+      account:
+        type: string
+        description: |-
+          Account name or public NKey identifying the *local* account
+          to bind to this remote server. Any traffic locally on
+          this account will be forwarded to the remote server.
+        aliases:
+          - local
+
+      credentials:
+        type: string
+        description: |-
+          Path to a credentials file. This is application when
+          decentralized auth is used on the remote.
+        aliases:
+          - creds
+
+      tls:
+        type: tls
+        description: |-
+          TLS configuration for connecting/authenticating with
+          the remote if mutual TLS is required.
+
+      hub:
+        type: boolean
+        description: |-
+
+      deny_imports:
+        types:
+          - string
+          - array(string)
+        description: |-
+        aliases:
+          - deny_import
+
+      deny_exports:
+        types:
+          - string
+          - array(string)
+        description: |-
+        aliases:
+          - deny_export
+
+      ws_compression:
+        type: boolean
+        default: false
+        description: |-
+          If true, and connecting with the WebSocket protocol,
+          the connection will indicate to the remote that
+          it wishes compression to be used.
+        aliases:
+          - ws_compress
+          - websocket_compress
+          - websocket_compression
+
+      ws_no_masking:
+        type: boolean
+        default: false
+        description: |-
+          If true and connecting with the WebSocket protocol,
+          the connection will indicate to the remote that it
+          wishes *not* to mask outbound WebSocket frames.
+        aliases:
+          - websocket_no_masking
+
+      jetstream_cluster_migrate:
+        type: boolean
+        default: true
+        description: |-
+        aliases:
+          - js_cluster_migrate
+

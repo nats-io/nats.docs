@@ -1,0 +1,4 @@
+types:
+  ocsp:
+    type: object
+    properties: {}

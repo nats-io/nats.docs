@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import {slugifyWithCounter} from '@sindresorhus/slugify'
-
 import {Layout} from '@/components/Layout'
 
 import 'focus-visible'
@@ -17,11 +16,13 @@ function getNodeText(node) {
   return text
 }
 
-function collectHeadings(nodes, slugify = slugifyWithCounter()) {
+// collectHeadings is a recursive function that collects all headings from the
+// page in order to build a table of contents.
+function collectHeadings(nodes = [], slugify = slugifyWithCounter()) {
   let sections = []
 
   for (let node of nodes) {
-    if (node.name === 'h2' || node.name === 'h3' || node.name === 'h4') {
+    if (node.name === 'h2' || node.name === 'h3') {
       let title = getNodeText(node)
       if (title) {
         let id = slugify(title)
@@ -48,7 +49,9 @@ function collectHeadings(nodes, slugify = slugifyWithCounter()) {
   return sections
 }
 
-function getHeadingTitle(nodes) {
+// Fallback to get the title from the first `h1` tag
+// if not defined in the frontmatter.
+function getHeadingTitle(nodes = []) {
   for (let node of nodes) {
     if (node.name === 'h1') {
       return getNodeText(node)
@@ -56,7 +59,9 @@ function getHeadingTitle(nodes) {
   }
 }
 
-function getDescription(nodes) {
+// Fallback to get the description from the first `p` tag
+// if not defined in the frontmatter.
+function getDescription(nodes = []) {
   for (let node of nodes) {
     if (node.name === 'p') {
       return getNodeText(node)
@@ -65,18 +70,19 @@ function getDescription(nodes) {
 }
 
 export default function App({Component, pageProps}) {
-  let title = pageProps.markdoc && (pageProps.markdoc.frontmatter.title || getHeadingTitle(pageProps.markdoc.content))
-  let description = pageProps.markdoc && getDescription(pageProps.markdoc.content)
-  let pageTitle = title
+  const frontmatter = pageProps.markdoc?.frontmatter || {};
+  const children = pageProps.markdoc?.content?.children;
 
-  let tableOfContents = pageProps.markdoc?.content
-    ? collectHeadings(pageProps.markdoc.content)
-    : []
+  let title = frontmatter.title || getHeadingTitle(children)
+
+  let description = frontmatter.description || getDescription(children)
+
+  let tableOfContents = collectHeadings(children);
 
   return (
     <>
       <Head>
-        <title>{pageTitle}</title>
+        <title>{title}</title>
         {description && <meta name="description" content={description} />}
       </Head>
       <Layout tableOfContents={tableOfContents} markdoc={pageProps.markdoc}>
