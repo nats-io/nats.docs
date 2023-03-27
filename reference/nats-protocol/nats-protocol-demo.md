@@ -55,7 +55,7 @@ An `+OK` message will follow, indicating a successful subscription.
 
 NATS connection are bi-directional, so we can not only subscribe to subjects, but we can publish to them as well.
 
-We can send the `PUB` command followed by the subject, and the length of the message payload that will be follow on the second line. In this case, `hello` is the payload. Once that is typed, hit return which will send the message.
+We can send the `PUB` command followed by the subject, and the length of the message payload that will be followed on the second line. In this case, `hello` is the payload. Once that is typed, hit return which will send the message.
 
 ```text
 PUB foo.bar 5
