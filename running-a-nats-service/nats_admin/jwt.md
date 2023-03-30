@@ -1271,9 +1271,10 @@ func GetAccountSigningKey() nkeys.KeyPair {
 
 func RequestUser() {
     // Setup! Obtain the account signing key!
+    accountPublicKey := GetAccountPublicKey()
     accountSigningKey := GetAccountSigningKey()
     userPublicKey, userSeed, userKeyPair := generateUserKey()
-    userJWT := generateUserJWT(userPublicKey, accountSigningKey)
+    userJWT := generateUserJWT(userPublicKey, accountPublicKey, accountSigningKey)
     // userJWT and userKeyPair can be used in conjunction with this nats.Option
     var jwtAuthOption nats.Option
     jwtAuthOption = nats.UserJWT(func() (string, error) {
@@ -1316,20 +1317,17 @@ func generateUserKey() (userPublicKey string, userSeed []byte, userKeyPair nkeys
 #### **Create user JWT**
 
 ```go
-func generateUserJWT(userPublicKey string, accountSigningKey nkeys.KeyPair) (userJWT string) {
+func generateUserJWT(userPublicKey, accountPublicKey string, accountSigningKey nkeys.KeyPair) (userJWT string) {
     uc := jwt.NewUserClaims(userPublicKey)
     uc.Pub.Allow.Add("subject.foo") // only allow publishing to subject.foo
     uc.Expires = time.Now().Add(time.Hour).Unix() // expire in an hour
-    var err error
-    uc.IssuerAccount, err = accountSigningKey.PublicKey()
-    if err != nil {
-        return ""
-    }
+    uc.IssuerAccount = accountPublicKey
     vr := jwt.ValidationResults{}
     uc.Validate(&vr)
     if vr.IsBlocking(true) {
         panic("Generated user claim is invalid")
     }
+    var err error
     userJWT, err = uc.Encode(accountSigningKey)
     if err != nil {
         return ""
