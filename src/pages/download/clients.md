@@ -10,8 +10,6 @@ Forwards and backwards compatibility of the [client protocol](/reference/protoco
 
 ### Go
 
-
-
 ```sh
 go get github.com/nats-io/nats.go@v{% version name="go" /%}
 ```
@@ -33,7 +31,6 @@ cargo add nats@{% version name="rust" /%}
 ```
 
 ##### async-nats
-
 
 ```sh
 cargo add async-nats@{% version name="rust-async" /%}

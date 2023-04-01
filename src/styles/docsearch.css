@@ -32,8 +32,7 @@
   --docsearch-emphasis-color: theme('colors.white');
   --docsearch-logo-color: theme('colors.slate.300');
   --docsearch-modal-background: theme('colors.slate.800');
-  --docsearch-modal-shadow: 0 0 0 1px theme('colors.slate.700'),
-    theme('boxShadow.xl');
+  --docsearch-modal-shadow: 0 0 0 1px theme('colors.slate.700'), theme('boxShadow.xl');
   --docsearch-hit-color: theme('colors.slate.300');
   --docsearch-hit-active-color: theme('colors.sky.400');
   --docsearch-hit-active-background: rgb(51 65 85 / 0.3);
@@ -184,14 +183,12 @@
 .DocSearch-Dropdown {
   height: 100%;
   max-height: calc(
-    var(--docsearch-vh, 1vh) * 100 - var(--docsearch-searchbox-height) -
-      var(--docsearch-footer-height)
+    var(--docsearch-vh, 1vh) * 100 - var(--docsearch-searchbox-height) - var(--docsearch-footer-height)
   );
   overflow-y: auto;
   overflow-y: overlay;
   padding: 1rem 0.5rem;
-  scrollbar-color: var(--docsearch-muted-color)
-    var(--docsearch-modal-background);
+  scrollbar-color: var(--docsearch-muted-color) var(--docsearch-modal-background);
   scrollbar-width: thin;
 }
 
@@ -496,8 +493,7 @@ svg.DocSearch-Hit-Select-Icon {
   .DocSearch-Dropdown {
     height: auto;
     max-height: calc(
-      var(--docsearch-modal-height) - var(--docsearch-searchbox-height) -
-        var(--docsearch-footer-height)
+      var(--docsearch-modal-height) - var(--docsearch-searchbox-height) - var(--docsearch-footer-height)
     );
   }
 }

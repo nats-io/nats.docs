@@ -90,7 +90,6 @@ types:
           All client connections requiring authentication will have
           their credentials pass-through to a dedicated auth service.
 
-
   permissions:
     type: object
     properties:
@@ -106,9 +105,9 @@ types:
           to all other subjects.
         examples:
           - label: Allow publish to `foo`
-            value: "foo"
+            value: 'foo'
           - label: Allow publish on `foo` and `bar.*`
-            value: "[foo, bar.*]"
+            value: '[foo, bar.*]'
           - label: Allow publish to `foo.*` except `foo.bar`
             value: |-
               {
@@ -130,9 +129,9 @@ types:
           have an optional second value declaring a queue name.
         examples:
           - label: Allow subscribe on `foo`
-            value: "foo"
+            value: 'foo'
           - label: Allow subscribe on `foo` in group matching `*.dev`
-            value: "foo *.dev"
+            value: 'foo *.dev'
           - label: Allow subscribe on `foo.>` and `bar` in group `v1`
             value: '[foo.>, "bar v1"]'
           - label: Allow subscribe to `foo.*` except `foo.bar`
@@ -188,7 +187,7 @@ types:
       account:
         type: string
         aliases: [acc]
-        default: "$G"
+        default: '$G'
         description: |-
           The name or public NKey of an account of the users which will
           be used by the authorization service to connect to the server.

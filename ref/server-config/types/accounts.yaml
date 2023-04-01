@@ -39,7 +39,7 @@ types:
           A subject or subject with wildcards that the account will publish to.
           Exclusive of `service`.
         examples:
-          - value: "foo.>"
+          - value: 'foo.>'
 
       service:
         type: string
@@ -47,7 +47,7 @@ types:
           A subject or subject with wildcards that the account will subscribe to.
           Exclusive of `stream`.
         examples:
-          - value: "bar.>"
+          - value: 'bar.>'
 
       accounts:
         type: array(string)
@@ -56,7 +56,7 @@ types:
           If not specified, the service or stream is public and any account
           can import it.
         examples:
-          - value: "[B, C]"
+          - value: '[B, C]'
 
       response_type:
         type: string

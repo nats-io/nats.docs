@@ -38,4 +38,3 @@ export function Icon({ color = 'blue', icon, className, ...props }) {
     </svg>
   )
 }
-

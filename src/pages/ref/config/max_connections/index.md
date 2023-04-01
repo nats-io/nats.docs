@@ -1,10 +1,10 @@
 # max_connections
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
 Maximum number of active client connections.
 
-*Default value*: `64K`
-*Aliases*
-- `max_conns`
+_Default value_: `64K`
+_Aliases_
 
+- `max_conns`

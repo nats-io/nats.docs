@@ -1,26 +1,24 @@
 const embedURL = (url) => {
-  return url.
-    replace("youtube.com/watch?v=", "youtube.com/embed/").
-    replace("youtu.be/", "youtube.com/embed/")
+  return url.replace('youtube.com/watch?v=', 'youtube.com/embed/').replace('youtu.be/', 'youtube.com/embed/')
 }
 
-function Embed({children, url}) {
+function Embed({ children, url }) {
   return (
-    <div className='w-full aspect-video'>
+    <div className="aspect-video w-full">
       <iframe
-        className='w-full h-full border-none'
+        className="h-full w-full border-none"
         src={embedURL(url)}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
-      <span className="prose-sm text-center">
-        {children}
-      </span>
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+      <span className="prose-sm text-center">{children}</span>
     </div>
   )
 }
 
 export default {
   attributes: {
-    url: {type: String},
+    url: { type: String },
   },
-  render: Embed
+  render: Embed,
 }

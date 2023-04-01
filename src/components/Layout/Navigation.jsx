@@ -27,9 +27,7 @@ function LinkItem({ title, href, links = [] }) {
       </li>
       {links && links.length > 0 && isOpen(router.pathname) && (
         <ul role="list" className="ml-5 mt-2 space-y-2">
-          {links && links.map((link, i) => (
-            <LinkItem key={i} {...link} nested={true} />
-          ))}
+          {links && links.map((link, i) => <LinkItem key={i} {...link} nested={true} />)}
         </ul>
       )}
     </div>
@@ -42,9 +40,7 @@ export function Navigation({ navigation, className }) {
       <ul role="list" className="space-y-9">
         {navigation.map((section) => (
           <li key={section.title}>
-            <h2 className="font-display font-medium text-slate-900 dark:text-white">
-              {section.title}
-            </h2>
+            <h2 className="font-display font-medium text-slate-900 dark:text-white">{section.title}</h2>
             <ul
               role="list"
               className="mt-2 space-y-2 border-l-2 border-slate-100 dark:border-slate-800 lg:mt-4 lg:space-y-4 lg:border-slate-200"

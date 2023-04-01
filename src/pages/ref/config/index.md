@@ -1,7 +1,5 @@
 # Config
 
-
-
 ## Properties
 
 **Connectivity**
@@ -37,8 +35,6 @@ TLS configuration for client and HTTP monitoring.
 Allow mixed TLS and non-TLS on the same port.
 
 ### [`ocsp`](/ref/config/ocsp/index.md)
-
-
 
 ### [`mqtt`](/ref/config/mqtt/index.md)
 
@@ -81,26 +77,20 @@ the `operator` if defined.
 
 ### [`resolver_tls`](/ref/config/resolver_tls/index.md)
 
-
-
 ### [`resolver_preload`](/ref/config/resolver_preload/index.md)
 
 Map of account public key to the account JWT.
 
 ### [`resolver_pinned_accounts`](/ref/config/resolver_pinned_accounts/index.md)
 
-
-
 ### [`system_account`](/ref/config/system_account/index.md)
 
 Name or public key of the account that will be deemed the
-*system* account.
+_system_ account.
 
 Default value: `$SYS`
 
 ### [`no_system_account`](/ref/config/no_system_account/index.md)
-
-
 
 **Clustering**
 
@@ -123,13 +113,9 @@ Configuration for setting up leaf node connections.
 
 ### [`jetstream`](/ref/config/jetstream/index.md)
 
-
-
 **Subject Mapping**
 
 ### [`mappings`](/ref/config/mappings/index.md)
-
-
 
 **Logging**
 
@@ -267,8 +253,6 @@ Default value: `0`
 
 ### [`max_subscription_tokens`](/ref/config/max_subscription_tokens/index.md)
 
-
-
 ### [`ping_interval`](/ref/config/ping_interval/index.md)
 
 Duration at which pings are sent to clients, leaf nodes and routes.
@@ -320,17 +304,10 @@ Default value: `10s`
 
 ### [`pidfile`](/ref/config/pidfile/index.md)
 
-
-
 ### [`ports_file_dir`](/ref/config/ports_file_dir/index.md)
 
-
-
 ### [`prof_port`](/ref/config/prof_port/index.md)
-
-
 
 ### [`default_js_domain`](/ref/config/default_js_domain/index.md)
 
 Account to domain name mapping.
-

@@ -34,7 +34,7 @@ Notable files and directories.
 
 ### Markdoc
 
-The Markdoc configuration is under `markdoc/` and bootstrapped in `next.config.js`.
+The Markdoc is bootstrapped in `next.config.js` using the `markdoc/` directory as the default location for customization.
 
 #### Nodes
 

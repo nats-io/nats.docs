@@ -4,11 +4,7 @@ export function PresetsIcon({ id, color }) {
   return (
     <>
       <defs>
-        <Gradient
-          id={`${id}-gradient`}
-          color={color}
-          gradientTransform="matrix(0 21 -21 0 20 3)"
-        />
+        <Gradient id={`${id}-gradient`} color={color} gradientTransform="matrix(0 21 -21 0 20 3)" />
         <Gradient
           id={`${id}-gradient-dark`}
           color={color}

@@ -1,6 +1,6 @@
 # jetstream
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
 ## Properties
 
@@ -18,11 +18,10 @@ Default value: `/tmp/nats/jetstream`
 
 ### [`max_memory_store`](/ref/config/max_memory_store/index.md)
 
-Maximum size of the *memory* storage.
+Maximum size of the _memory_ storage.
 Defaults to 75% of available memory.
 
 ### [`max_file_store`](/ref/config/max_file_store/index.md)
 
-Maximum size of the *file* storage.
+Maximum size of the _file_ storage.
 Defaults to up to 1TB if available.
-

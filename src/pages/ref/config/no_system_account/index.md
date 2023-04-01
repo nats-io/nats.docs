@@ -1,8 +1,8 @@
 # no_system_account
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
-*Aliases*
+_Aliases_
+
 - `no_system`
 - `no_sys_acc`
-

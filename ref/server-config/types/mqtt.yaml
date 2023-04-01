@@ -2,4 +2,3 @@ types:
   mqtt:
     type: object
     properties:
-

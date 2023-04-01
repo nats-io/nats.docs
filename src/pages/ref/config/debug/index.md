@@ -1,7 +1,7 @@
 # debug
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
 If true, enables debug log messages.
 
-*Default value*: `false`
+_Default value_: `false`

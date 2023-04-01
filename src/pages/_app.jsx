@@ -1,6 +1,7 @@
 import Head from 'next/head'
-import {slugifyWithCounter} from '@sindresorhus/slugify'
-import {Layout} from '@/components/Layout'
+import { slugifyWithCounter } from '@sindresorhus/slugify'
+import { Layout } from '@/components/Layout'
+import { GlobalProvider } from '@/contexts/global'
 
 import 'focus-visible'
 import '@/styles/tailwind.css'
@@ -29,16 +30,14 @@ function collectHeadings(nodes = [], slugify = slugifyWithCounter()) {
         node.attributes.id = id
         if (node.name === 'h3') {
           if (!sections[sections.length - 1]) {
-            throw new Error(
-              'Cannot add `h3` to table of contents without a preceding `h2`'
-            )
+            throw new Error('Cannot add `h3` to table of contents without a preceding `h2`')
           }
           sections[sections.length - 1].children.push({
             ...node.attributes,
             title,
           })
         } else {
-          sections.push({...node.attributes, title, children: []})
+          sections.push({ ...node.attributes, title, children: [] })
         }
       }
     }
@@ -69,15 +68,15 @@ function getDescription(nodes = []) {
   }
 }
 
-export default function App({Component, pageProps}) {
-  const frontmatter = pageProps.markdoc?.frontmatter || {};
-  const children = pageProps.markdoc?.content?.children;
+export default function App({ Component, pageProps }) {
+  const frontmatter = pageProps.markdoc?.frontmatter || {}
+  const children = pageProps.markdoc?.content?.children
 
   let title = frontmatter.title || getHeadingTitle(children)
 
   let description = frontmatter.description || getDescription(children)
 
-  let tableOfContents = collectHeadings(children);
+  let tableOfContents = collectHeadings(children)
 
   return (
     <>
@@ -85,9 +84,11 @@ export default function App({Component, pageProps}) {
         <title>{title}</title>
         {description && <meta name="description" content={description} />}
       </Head>
-      <Layout tableOfContents={tableOfContents} markdoc={pageProps.markdoc}>
-        <Component {...pageProps} />
-      </Layout>
+      <GlobalProvider>
+        <Layout tableOfContents={tableOfContents} markdoc={pageProps.markdoc}>
+          <Component {...pageProps} />
+        </Layout>
+      </GlobalProvider>
     </>
   )
 }

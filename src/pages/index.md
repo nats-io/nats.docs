@@ -18,4 +18,3 @@ Learn all things NATS. {% .lead %}
 {% quick-link title="Reference Docs" icon="plugins" href="/ref" description="Need the laundry list of details? Use the reference docs to get all of the server configuration, wire protocols, CLI commands, and more." /%}
 
 {% /quick-links %}
-

@@ -1,11 +1,12 @@
 # host
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
 Host for client connections.
 
-*Default value*: `0.0.0.0`
-*Aliases*
+_Default value_: `0.0.0.0`
+_Aliases_
+
 - `net`
 
 ## Examples
@@ -13,10 +14,11 @@ Host for client connections.
 ```
 127.0.0.1
 ```
+
 ```
 localhost
 ```
+
 ```
 [::]
 ```
-

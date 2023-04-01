@@ -4,29 +4,29 @@
 
 This guide provides you with considerations for developing NATS clients, including:
 
-* CONNECT handling
-* Authorization
-* Verbose \(acks\)
-* Pedantic mode
-* Ping/pong interval
-* Parsing the protocol
-* Deciding on a parsing strategy
-* Storing and dispatching subscription callbacks
-* Implementing requests/response
-* Error handling, disconnecting and reconnecting
-* Cluster support
+- CONNECT handling
+- Authorization
+- Verbose \(acks\)
+- Pedantic mode
+- Ping/pong interval
+- Parsing the protocol
+- Deciding on a parsing strategy
+- Storing and dispatching subscription callbacks
+- Implementing requests/response
+- Error handling, disconnecting and reconnecting
+- Cluster support
 
 Probably the best way to learn about implementing a client is to look at one of the client's maintained by the Synadia team. These clients are generally full featured, so if you can use them, that is even better, but if you have to write a client these may go beyond your needs while still capturing many of the design considerations discussed here.
 
-* [go](https://github.com/nats-io/nats.go)
-* [node](https://github.com/nats-io/nats.js)
-* [typescript](https://github.com/nats-io/nats.ts)
-* [python2](https://github.com/nats-io/nats.py2)
-* [python asyncio](https://github.com/nats-io/nats.py)
-* [java](https://github.com/nats-io/nats.java)
-* [c\#](https://github.com/nats-io/nats.net)
-* [ruby](https://github.com/nats-io/nats.rb)
-* [c](https://github.com/nats-io/nats.c)
+- [go](https://github.com/nats-io/nats.go)
+- [node](https://github.com/nats-io/nats.js)
+- [typescript](https://github.com/nats-io/nats.ts)
+- [python2](https://github.com/nats-io/nats.py2)
+- [python asyncio](https://github.com/nats-io/nats.py)
+- [java](https://github.com/nats-io/nats.java)
+- [c\#](https://github.com/nats-io/nats.net)
+- [ruby](https://github.com/nats-io/nats.rb)
+- [c](https://github.com/nats-io/nats.c)
 
 ## Client connection options
 
@@ -106,4 +106,3 @@ Considerations for error handling primarily include handling client disconnectio
 ## Cluster support
 
 The NATS client has reconnection logic. So, if you are implementing clustering, you need to implement reconnect callbacks a priori, meaning you cannot modify it during runtime. When you start it, you need to have that information already.
-

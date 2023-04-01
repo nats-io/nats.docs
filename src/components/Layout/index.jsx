@@ -1,13 +1,13 @@
 import Link from 'next/link'
-import {useRouter} from 'next/router'
-import Markdoc from "@markdoc/markdoc"
+import { useRouter } from 'next/router'
+import Markdoc from '@markdoc/markdoc'
 
-import {Navigation} from './Navigation'
-import {Prose} from './Prose'
-import {TableOfContents} from './TableOfContents'
-import {Header} from '@/components/Header'
+import { Navigation } from './Navigation'
+import { Prose } from './Prose'
+import { TableOfContents } from './TableOfContents'
+import { Header } from '@/components/Header'
 
-import tocMarkdown from "@/toc.js"
+import tocMarkdown from '@/toc.js'
 
 function liToLink(node) {
   const a = node.children[0]
@@ -15,32 +15,34 @@ function liToLink(node) {
 
   if (ul) {
     return {
-      title: a.children[0], href: "/" + a.attributes.href.replace("", ""), links: ul.children.map(liToLink)
+      title: a.children[0],
+      href: '/' + a.attributes.href.replace('', ''),
+      links: ul.children.map(liToLink),
     }
   }
 
-  return {title: a.children[0], href: "/" + a.attributes.href.replace("", "")}
+  return { title: a.children[0], href: '/' + a.attributes.href.replace('', '') }
 }
 
 function astToNavigation(ast) {
   let sections = []
 
-  ast.children.forEach(child => {
+  ast.children.forEach((child) => {
     switch (child.name) {
-      case "h2":
-        if (child.children[0].name === "a") {
-          sections.push({title: child.children[0]})
+      case 'h2':
+        if (child.children[0].name === 'a') {
+          sections.push({ title: child.children[0] })
         } else {
-          sections.push({title: child.children[0]})
+          sections.push({ title: child.children[0] })
         }
-        break;
-      case "ul":
+        break
+      case 'ul':
         if (sections.length > 0) {
           sections[sections.length - 1].links = child.children.map(liToLink)
         }
-        break;
+        break
       default:
-        break;
+        break
     }
   })
 
@@ -48,15 +50,13 @@ function astToNavigation(ast) {
 }
 
 // Load the table of contents and parse it into a navigation structure.
-const navigation = astToNavigation(
-  Markdoc.transform(Markdoc.parse(tocMarkdown), {}),
-)
+const navigation = astToNavigation(Markdoc.transform(Markdoc.parse(tocMarkdown), {}))
 
-export function Layout({children, title, tableOfContents, markdoc}) {
+export function Layout({ children, title, tableOfContents, markdoc }) {
   let router = useRouter()
 
-  const getAllLinks = (children) => children.flatMap((c) => [c].concat(getAllLinks(c.links || [])));
-  const getAllHrefs = ({href, links = []}) => [href].concat(links.map(getAllHrefs));
+  const getAllLinks = (children) => children.flatMap((c) => [c].concat(getAllLinks(c.links || [])))
+  const getAllHrefs = ({ href, links = [] }) => [href].concat(links.map(getAllHrefs))
 
   let allLinks = getAllLinks(navigation.flatMap((section) => section.links))
   let linkIndex = allLinks.findIndex((link) => link.href === router.pathname)
@@ -70,16 +70,13 @@ export function Layout({children, title, tableOfContents, markdoc}) {
     <>
       <Header navigation={navigation} />
 
-      <div className="relative mx-auto flex max-w-8xl justify-center sm:px-2 lg:px-8 xl:px-12">
+      <div className="max-w-8xl relative mx-auto flex justify-center sm:px-2 lg:px-8 xl:px-12">
         <div className="hidden lg:relative lg:block lg:flex-none">
           <div className="absolute inset-y-0 right-0 w-[50vw] bg-slate-50 dark:hidden" />
           <div className="sticky top-[4.5rem] -ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto py-8 pl-0.5">
             <div className="absolute top-16 bottom-0 right-0 hidden h-12 w-px bg-gradient-to-t from-slate-800 dark:block" />
             <div className="absolute top-28 bottom-0 right-0 hidden w-px bg-slate-800 dark:block" />
-            <Navigation
-              navigation={navigation}
-              className="w-48 pr-8"
-            />
+            <Navigation navigation={navigation} className="w-48 pr-8" />
           </div>
         </div>
 
@@ -88,9 +85,7 @@ export function Layout({children, title, tableOfContents, markdoc}) {
             {(title || section) && (
               <header className="mb-4 space-y-1">
                 {section && (
-                  <p className="font-display text-sm font-medium text-slate-400">
-                    {section.title}
-                  </p>
+                  <p className="font-display text-sm font-medium text-slate-400">{section.title}</p>
                 )}
                 {title && (
                   <h1 className="font-display text-3xl tracking-tight text-slate-900 dark:text-white">
@@ -105,9 +100,7 @@ export function Layout({children, title, tableOfContents, markdoc}) {
           <dl className="mt-6 flex border-t border-slate-200 pt-6 dark:border-slate-800">
             {previousPage && (
               <div>
-                <dt className="font-display text-sm font-medium text-slate-900 dark:text-white">
-                  Previous
-                </dt>
+                <dt className="font-display text-sm font-medium text-slate-900 dark:text-white">Previous</dt>
                 <dd className="mt-1">
                   <Link
                     href={previousPage.href}
@@ -121,9 +114,7 @@ export function Layout({children, title, tableOfContents, markdoc}) {
 
             {nextPage && (
               <div className="ml-auto text-right">
-                <dt className="font-display text-sm font-medium text-slate-900 dark:text-white">
-                  Next
-                </dt>
+                <dt className="font-display text-sm font-medium text-slate-900 dark:text-white">Next</dt>
                 <dd className="mt-1">
                   <Link
                     href={nextPage.href}
@@ -137,9 +128,7 @@ export function Layout({children, title, tableOfContents, markdoc}) {
           </dl>
         </div>
 
-        <TableOfContents
-          toc={tableOfContents}
-          markdoc={markdoc} />
+        <TableOfContents toc={tableOfContents} markdoc={markdoc} />
       </div>
     </>
   )

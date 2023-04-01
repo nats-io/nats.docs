@@ -1,6 +1,5 @@
 # ocsp
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
 ## Properties
-

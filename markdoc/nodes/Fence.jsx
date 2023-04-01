@@ -1,10 +1,10 @@
-import {Fragment, useState, useEffect} from 'react'
-import Highlight, {defaultProps} from 'prism-react-renderer'
-import {CopyToClipboard} from 'react-copy-to-clipboard'
+import { Fragment, useState, useEffect } from 'react'
+import Highlight, { defaultProps } from 'prism-react-renderer'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import versions from '@/versions.json'
 
-function Fence({children, language}) {
+function Fence({ children, language }) {
   let [copied, setCopied] = useState(false)
 
   useEffect(() => {
@@ -19,32 +19,29 @@ function Fence({children, language}) {
   // with Markdoc since the default `fence` supports
   // `process=true` to render tags within the block.
   if (typeof children === 'object') {
-    children = children.map((child) => {
-      if (child.type?.name === 'Version') {
-        return versions[child.props.name] || ''
-      } else {
-        return child
-      }
-    }).join('');
+    children = children
+      .map((child) => {
+        if (child.type?.name === 'Version') {
+          return versions[child.props.name] || ''
+        } else {
+          return child
+        }
+      })
+      .join('')
   }
 
   return (
-    <div className="relative group">
-      <Highlight
-        {...defaultProps}
-        code={children.trimEnd()}
-        language={language}
-        theme={undefined}
-      >
-        {({className, style, tokens, getTokenProps}) => (
+    <div className="group relative">
+      <Highlight {...defaultProps} code={children.trimEnd()} language={language} theme={undefined}>
+        {({ className, style, tokens, getTokenProps }) => (
           <pre className={className} style={style}>
-            <code className='pr-16 peer'>
+            <code className="peer pr-16">
               {tokens.map((line, lineIndex) => (
                 <Fragment key={lineIndex}>
                   {line
                     .filter((token) => !token.empty)
                     .map((token, tokenIndex) => (
-                      <span key={tokenIndex} {...getTokenProps({token})} />
+                      <span key={tokenIndex} {...getTokenProps({ token })} />
                     ))}
                   {'\n'}
                 </Fragment>
@@ -55,8 +52,8 @@ function Fence({children, language}) {
       </Highlight>
 
       <CopyToClipboard text={children.trimEnd()} onCopy={() => setCopied(true)}>
-        <button className='invisible group-hover:visible absolute top-0 right-0 px-4 py-2 text-xs bg-gray-800 rounded-tr-xl text-sky-500 uppercase'>
-          {copied ? "🎉 copied!" : "copy"}
+        <button className="invisible absolute top-0 right-0 rounded-tr-xl bg-gray-800 px-4 py-2 text-xs uppercase text-sky-500 group-hover:visible">
+          {copied ? '🎉 copied!' : 'copy'}
         </button>
       </CopyToClipboard>
     </div>

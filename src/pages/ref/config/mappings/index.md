@@ -1,9 +1,9 @@
 # mappings
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
-*Aliases*
+_Aliases_
+
 - `maps`
 
 ## Properties
-

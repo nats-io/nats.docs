@@ -1,5 +1,3 @@
 # Security
 
 ## Auth Callout
-
-

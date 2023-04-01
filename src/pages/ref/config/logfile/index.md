@@ -1,9 +1,9 @@
 # logfile
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
 Log file name.
 
-*Aliases*
-- `log_file`
+_Aliases_
 
+- `log_file`

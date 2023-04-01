@@ -1,6 +1,6 @@
 # tls
 
-/ [config](/ref/config/index.md) / [gateway](/ref/config/config/gateway/index.md) 
+/ [config](/ref/config/index.md) / [gateway](/ref/config/config/gateway/index.md)
 
 A `tls` configuration map for securing gateway connections. `verify`
 is always enabled. Unless otherwise, `cert_file` will be the default
@@ -66,11 +66,8 @@ the left most domain.
 
 ### [`connection_rate_limit`](/ref/config/gateway/tls/connection_rate_limit/index.md)
 
-
-
 ### [`pinned_certs`](/ref/config/gateway/tls/pinned_certs/index.md)
 
 List of hex-encoded SHA256 of DER-encoded public key fingerprints. When present, during the TLS handshake, the
 provided certificate's fingerprint is required to be present in the list, otherwise the connection will be
 closed.
-

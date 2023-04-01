@@ -1,6 +1,6 @@
 # authorization
 
-/ [config](/ref/config/index.md) / [cluster](/ref/config/config/cluster/index.md) 
+/ [config](/ref/config/index.md) / [cluster](/ref/config/config/cluster/index.md)
 
 Authorization map for configuring cluster routes. When a single username/password is used, it defines the authentication mechanism
 this server expects, and how this server will authenticate itself when establishing a connection to a discovered route. This will
@@ -46,6 +46,7 @@ Default value: `1`
 ## Examples
 
 Username/password
+
 ```
 authorization {
   username: app
@@ -53,14 +54,18 @@ authorization {
 }
 
 ```
+
 Token
+
 ```
 authorization {
   token: 6d37bfcc-3eba-4f1f-a6e9-88a3c6ddbf9c
 }
 
 ```
+
 Users and default permissions
+
 ```
 authorization {
   default_permissions: {
@@ -88,4 +93,3 @@ authorization {
 }
 
 ```
-

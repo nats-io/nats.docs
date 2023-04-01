@@ -1,6 +1,6 @@
 # cluster
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
 Configuration for clustering a set of servers.
 
@@ -51,7 +51,7 @@ be required, specify them as part of the URL.
 
 ### [`connect_retries`](/ref/config/connect_retries/index.md)
 
-After how many failed connect attempts to give up establishing a connection to a *discovered* route. Default is 0, do not retry.
+After how many failed connect attempts to give up establishing a connection to a _discovered_ route. Default is 0, do not retry.
 When enabled, attempts will be made once a second. This, does not apply to explicitly configured routes.
 
 Default value: `0`
@@ -66,4 +66,3 @@ mode, either use the same credentials throughout the system or list every route 
 If the `tls` configuration map specifies `verify_and_map` only, provide the expected username. Here different certificates can be
 used, but they have to map to the same `username`. The authorization map also allows for timeout which is honored but users and
 token configuration are not supported and will prevent the server from starting. The `permissions` block is ignored.
-

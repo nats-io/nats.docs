@@ -1,10 +1,10 @@
 # max_file_store
 
-/ [config](/ref/config/index.md) / [jetstream](/ref/config/config/jetstream/index.md) 
+/ [config](/ref/config/index.md) / [jetstream](/ref/config/config/jetstream/index.md)
 
-Maximum size of the *file* storage.
+Maximum size of the _file_ storage.
 Defaults to up to 1TB if available.
 
-*Aliases*
-- `max_file`
+_Aliases_
 
+- `max_file`

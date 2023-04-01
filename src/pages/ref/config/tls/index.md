@@ -1,6 +1,6 @@
 # tls
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
 TLS configuration for client and HTTP monitoring.
 
@@ -64,11 +64,8 @@ the left most domain.
 
 ### [`connection_rate_limit`](/ref/config/connection_rate_limit/index.md)
 
-
-
 ### [`pinned_certs`](/ref/config/pinned_certs/index.md)
 
 List of hex-encoded SHA256 of DER-encoded public key fingerprints. When present, during the TLS handshake, the
 provided certificate's fingerprint is required to be present in the list, otherwise the connection will be
 closed.
-

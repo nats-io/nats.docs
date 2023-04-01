@@ -1,6 +1,6 @@
-import clsx from "clsx"
+import clsx from 'clsx'
 
-function Figure({src, alt, caption, className}) {
+function Figure({ src, alt, caption, className }) {
   return (
     <figure className="text-center">
       <img className={clsx('m-0 m-auto', className)} src={src} alt={alt} />
@@ -12,10 +12,10 @@ function Figure({src, alt, caption, className}) {
 export default {
   selfClosing: true,
   attributes: {
-    src: {type: String},
-    alt: {type: String},
-    caption: {type: String},
-    className: {type: String},
+    src: { type: String },
+    alt: { type: String },
+    caption: { type: String },
+    className: { type: String },
   },
   render: Figure,
 }

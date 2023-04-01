@@ -1,4 +1,4 @@
-import {nodes as defaultNodes} from '@markdoc/markdoc'
+import { nodes as defaultNodes } from '@markdoc/markdoc'
 
 export default {
   ...defaultNodes.th,

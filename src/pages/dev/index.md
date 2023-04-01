@@ -9,4 +9,5 @@ The core NATS API is [messaging](dev/messaging), providing stateless, low-latenc
 [Streaming](dev/streaming) brings persistence and replayability to messaging as well as removes the need for publishers and subscribers to be connected at the same time.
 
 The [key-value](dev/key-value)
+
 - [Object Store](./object-store)

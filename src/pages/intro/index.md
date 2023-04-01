@@ -33,4 +33,3 @@ Another advantage to utilizing a NATS is that it allows a hybrid mix of SaaS/Uti
 ### Adaptive
 
 Today’s systems will fall short with new demands. As modern systems continue to evolve and utilize more components and process more data, supporting patterns beyond 1:1 communications, with addressing and discovery tied to DNS is critical. Foundational technologies like NATS promise the most return on investment. Incumbent technologies will not work as modern systems unify cloud, Edge, IoT and beyond. NATS does.
-

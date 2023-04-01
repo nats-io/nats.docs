@@ -51,7 +51,6 @@ sections:
         aliases:
           - ws
 
-
   - name: Centralized Auth
     properties:
       authorization:
@@ -70,7 +69,6 @@ sections:
           Name of the user that non-authenticated clients
           will inherit the authorization controls of. This must be a user
           defined in either the `authorization` or `accounts` block.
-
 
   - name: Decentralized Auth
     properties:
@@ -117,7 +115,7 @@ sections:
 
       system_account:
         type: string
-        default: "$SYS"
+        default: '$SYS'
         description: |-
           Name or public key of the account that will be deemed the
           *system* account.
@@ -144,7 +142,6 @@ sections:
           Configuration for setting up gateway connections
           between clusters.
 
-
   - name: Leafnodes
     properties:
       leafnodes:
@@ -153,12 +150,10 @@ sections:
         aliases:
           - leaf
 
-
   - name: JetStream
     properties:
       jetstream:
         type: jetstream
-
 
   - name: Subject Mapping
     properties:
@@ -166,7 +161,6 @@ sections:
         type: mappings
         aliases:
           - maps
-
 
   - name: Logging
     properties:
@@ -228,7 +222,6 @@ sections:
         description: |-
           Remote syslog address.
 
-
   - name: Monitoring and Tracing
     properties:
       server_name:
@@ -248,8 +241,8 @@ sections:
           One or more tags associated with the server. This is currently
           used for placement of JetStream streams and consumers.
         examples:
-          - value: "cloud:aws"
-          - value: "[region:us-west, az:1b]"
+          - value: 'cloud:aws'
+          - value: '[region:us-west, az:1b]'
 
       http:
         type: listen
@@ -299,8 +292,6 @@ sections:
           Set a limit to the trace of the payload of a message.
         default: 0
 
-
-
   - name: Runtime Configuration
     properties:
       max_control_line:
@@ -337,7 +328,6 @@ sections:
         description: |-
           Maximum numbers of subscriptions per client and leafnode accounts connection. A value of `0` means unlimited.
 
-
       max_subscription_tokens:
         type: integer
         aliases:
@@ -371,7 +361,6 @@ sections:
         type: boolean
         description: |-
           Disables support for message headers.
-
 
       disable_sublist_cache:
         type: boolean

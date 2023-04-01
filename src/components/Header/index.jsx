@@ -1,15 +1,14 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import clsx from 'clsx'
 
 import Link from 'next/link'
-import {Search} from './Search'
-import {LogoColored} from './Logo'
-import {MobileNavigation} from './MobileNavigation'
-import {ThemeSelector} from './ThemeSelector'
-import {GitHubLogo} from './GitHubLogo'
+import { Search } from './Search'
+import { LogoColored } from './Logo'
+import { MobileNavigation } from './MobileNavigation'
+import { ThemeSelector } from './ThemeSelector'
+import { GitHubLogo } from './GitHubLogo'
 
-
-export function Header({navigation}) {
+export function Header({ navigation }) {
   let [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
@@ -17,9 +16,9 @@ export function Header({navigation}) {
       setIsScrolled(window.scrollY > 0)
     }
     onScroll()
-    window.addEventListener('scroll', onScroll, {passive: true})
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => {
-      window.removeEventListener('scroll', onScroll, {passive: true})
+      window.removeEventListener('scroll', onScroll, { passive: true })
     }
   }, [])
 

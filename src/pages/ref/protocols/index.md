@@ -7,4 +7,3 @@ This section of the documentation contains the reference documentation for the N
 - [Cluster](./cluster) - The protocol used between servers within a cluster.
 - [Gateway](./gateway) - The protocol used between two clusters.
 - [Leafnode](./leafnode) - The protocol used between a server and a leafnode.
-

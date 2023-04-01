@@ -81,7 +81,6 @@ types:
         description: |-
           List of gateway entries.
 
-
   gateway:
     type: object
     properties:
@@ -107,5 +106,3 @@ types:
           both client and server purposes, it is possible to omit this one
           and the server will use the certificates from the gateway{tls{}}
           section.
-
-

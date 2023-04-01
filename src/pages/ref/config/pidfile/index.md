@@ -1,7 +1,7 @@
 # pidfile
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
-*Aliases*
+_Aliases_
+
 - `pid_file`
-

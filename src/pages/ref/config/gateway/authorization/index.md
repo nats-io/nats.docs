@@ -1,6 +1,6 @@
 # authorization
 
-/ [config](/ref/config/index.md) / [gateway](/ref/config/config/gateway/index.md) 
+/ [config](/ref/config/index.md) / [gateway](/ref/config/config/gateway/index.md)
 
 Authorization map for gateways. When a single username/password is
 used, it defines the authentication mechanism this server expects,
@@ -51,6 +51,7 @@ Default value: `1`
 ## Examples
 
 Username/password
+
 ```
 authorization {
   username: app
@@ -58,14 +59,18 @@ authorization {
 }
 
 ```
+
 Token
+
 ```
 authorization {
   token: 6d37bfcc-3eba-4f1f-a6e9-88a3c6ddbf9c
 }
 
 ```
+
 Users and default permissions
+
 ```
 authorization {
   default_permissions: {
@@ -93,4 +98,3 @@ authorization {
 }
 
 ```
-

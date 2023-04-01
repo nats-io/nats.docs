@@ -1,10 +1,11 @@
 # leafnodes
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
 Configuration for setting up leaf node connections.
 
-*Aliases*
+_Aliases_
+
 - `leaf`
 
 ## Properties
@@ -64,4 +65,3 @@ node client connection can be made.
 
 Interval in seconds at which reconnect attempts to a
 remote server are made.
-

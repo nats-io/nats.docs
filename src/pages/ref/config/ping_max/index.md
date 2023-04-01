@@ -1,8 +1,8 @@
 # ping_max
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
 After how many unanswered pings the server will allow before closing
 the connection.
 
-*Default value*: `2`
+_Default value_: `2`

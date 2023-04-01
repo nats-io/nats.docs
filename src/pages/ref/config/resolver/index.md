@@ -1,13 +1,13 @@
 # resolver
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
 Takes takes precedence over the value obtained from
 the `operator` if defined.
 
-*Aliases*
+_Aliases_
+
 - `account_resolver`
 - `account_resolvers`
 
 ## Properties
-

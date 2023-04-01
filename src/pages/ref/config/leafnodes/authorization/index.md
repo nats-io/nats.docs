@@ -1,6 +1,6 @@
 # authorization
 
-/ [config](/ref/config/index.md) / [leafnodes](/ref/config/config/leafnodes/index.md) 
+/ [config](/ref/config/index.md) / [leafnodes](/ref/config/config/leafnodes/index.md)
 
 Authorization scoped to accepting leaf node connections.
 
@@ -39,6 +39,7 @@ Default value: `1`
 ## Examples
 
 Username/password
+
 ```
 authorization {
   username: app
@@ -46,14 +47,18 @@ authorization {
 }
 
 ```
+
 Token
+
 ```
 authorization {
   token: 6d37bfcc-3eba-4f1f-a6e9-88a3c6ddbf9c
 }
 
 ```
+
 Users and default permissions
+
 ```
 authorization {
   default_permissions: {
@@ -81,4 +86,3 @@ authorization {
 }
 
 ```
-

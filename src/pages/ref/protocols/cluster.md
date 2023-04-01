@@ -51,16 +51,16 @@ Any servers in a cluster receiving an `INFO` message with an `ip` field will att
 
 The valid options are as follows:
 
-* `server_id`: The unique identifier of the NATS server
-* `version`: The version of the NATS server
-* `go`: The version of golang the NATS server was built with
-* `host`: The host specified in the cluster parameter/options
-* `port`: The port number specified in the cluster parameter/options
-* `auth_required`: If this is set, then the server should try to authenticate upon connect.
-* `tls_required`: If this is set, then the server must authenticate using TLS.
-* `max_payload`: Maximum payload size that the server will accept.
-* `connect_urls` : A list of server urls that a client can connect to.
-* `ip`:  Optional route connection address of a server, `nats-route://<hostname>:<port>`
+- `server_id`: The unique identifier of the NATS server
+- `version`: The version of the NATS server
+- `go`: The version of golang the NATS server was built with
+- `host`: The host specified in the cluster parameter/options
+- `port`: The port number specified in the cluster parameter/options
+- `auth_required`: If this is set, then the server should try to authenticate upon connect.
+- `tls_required`: If this is set, then the server must authenticate using TLS.
+- `max_payload`: Maximum payload size that the server will accept.
+- `connect_urls` : A list of server urls that a client can connect to.
+- `ip`: Optional route connection address of a server, `nats-route://<hostname>:<port>`
 
 ### Example
 
@@ -82,13 +82,13 @@ The `CONNECT` message is analogous to the [`INFO`](nats-server-protocol.md#info)
 
 The valid options are as follows:
 
-* `tls_required`: Indicates whether the server requires an SSL connection.
-* `auth_token`:  Authorization token
-* `user`: Connection username (if `auth_required` is set)
-* `pass`: Connection password (if `auth_required` is set)
-* `name`: Generated Server Name
-* `lang`: The implementation language of the server (go).
-* `version`: The version of the server.
+- `tls_required`: Indicates whether the server requires an SSL connection.
+- `auth_token`: Authorization token
+- `user`: Connection username (if `auth_required` is set)
+- `pass`: Connection password (if `auth_required` is set)
+- `name`: Generated Server Name
+- `lang`: The implementation language of the server (go).
+- `version`: The version of the server.
 
 ### Example
 
@@ -110,10 +110,10 @@ Here is an example from the default string from a server.
 
 where:
 
-* `account`: The account associated with the subject interest
-* `subject`: The subject
-* `queue`: Optional queue group name
-* `weight`: Optional queue group weight representing how much interest/subscribers
+- `account`: The account associated with the subject interest
+- `subject`: The subject
+- `queue`: Optional queue group name
+- `weight`: Optional queue group weight representing how much interest/subscribers
 
 ## RS-
 
@@ -127,8 +127,8 @@ where:
 
 where:
 
-* `account`: The account associated with the subject interest
-* `subject`: The subject
+- `account`: The account associated with the subject interest
+- `subject`: The subject
 
 ## RMSG
 
@@ -142,11 +142,11 @@ The `RMSG` protocol message delivers a message to another server.
 
 where:
 
-* `account`: The account associated with the subject interest
-* `subject`: Subject name this message was received on
-* `reply-to`: The optional reply subject
-* `#bytes`: Size of the payload in bytes
-* `payload`: The message payload data
+- `account`: The account associated with the subject interest
+- `subject`: Subject name this message was received on
+- `reply-to`: The optional reply subject
+- `#bytes`: Size of the payload in bytes
+- `payload`: The message payload data
 
 ## PING/PONG
 

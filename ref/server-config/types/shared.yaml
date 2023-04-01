@@ -9,15 +9,14 @@ types:
       - net
     reloadable: false
     examples:
-      - value: "127.0.0.1"
-      - value: "localhost"
-      - value: "[::]"
+      - value: '127.0.0.1'
+      - value: 'localhost'
+      - value: '[::]'
 
   listen:
     type: string
     description: |-
       This is an alternate to setting the `host` and `port` separately.
     examples:
-      - value: "localhost:4222"
-      - value: "[::]:4222"
-
+      - value: 'localhost:4222'
+      - value: '[::]:4222'

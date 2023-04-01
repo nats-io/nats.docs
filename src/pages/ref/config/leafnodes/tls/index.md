@@ -1,6 +1,6 @@
 # tls
 
-/ [config](/ref/config/index.md) / [leafnodes](/ref/config/config/leafnodes/index.md) 
+/ [config](/ref/config/index.md) / [leafnodes](/ref/config/config/leafnodes/index.md)
 
 TLS configuration for securing leaf node connections.
 
@@ -64,11 +64,8 @@ the left most domain.
 
 ### [`connection_rate_limit`](/ref/config/leafnodes/tls/connection_rate_limit/index.md)
 
-
-
 ### [`pinned_certs`](/ref/config/leafnodes/tls/pinned_certs/index.md)
 
 List of hex-encoded SHA256 of DER-encoded public key fingerprints. When present, during the TLS handshake, the
 provided certificate's fingerprint is required to be present in the list, otherwise the connection will be
 closed.
-

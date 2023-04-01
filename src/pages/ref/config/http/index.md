@@ -1,6 +1,6 @@
 # http
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
 Listen specification `<host>:<port>` for server monitoring.
 
@@ -9,7 +9,7 @@ Listen specification `<host>:<port>` for server monitoring.
 ```
 localhost:4222
 ```
+
 ```
 [::]:4222
 ```
-

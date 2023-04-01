@@ -8,8 +8,8 @@ NATS is an open source, lightweight, high-performance cloud native infrastructur
 
 NATS is offered in two interoperable modules in a single "NATS Server" binary \(often referred to as `nats-server` throughout this site\):
 
-* 'Core NATS' is the set of core NATS functionalities and qualities of service.
-* ['JetStream'](/using-nats/jetstream/develop_jetstream.md) is the (optionally enabled) built-in persistence layer that adds streaming, at-least-once and exactly-once guarantees, historical data replay, decoupled flow-control and key/value store functionalities to Core NATS.
+- 'Core NATS' is the set of core NATS functionalities and qualities of service.
+- ['JetStream'](/using-nats/jetstream/develop_jetstream.md) is the (optionally enabled) built-in persistence layer that adds streaming, at-least-once and exactly-once guarantees, historical data replay, decoupled flow-control and key/value store functionalities to Core NATS.
 
 NATS was created by Derek Collison, who has over 25 years of experience designing, building, and using publish-subscribe messaging systems. NATS is maintained by an amazing Open Source Ecosystem, find more at [GitHub](https://www.github.com/nats-io).
 
@@ -49,10 +49,10 @@ Yes. NATS is a publish and subscribe system that also has distributed queueing f
 
 NATS can be deployed to have an HTTP\(s\) monitoring port - see the demo server here: [https://demo.nats.io:8222/](https://demo.nats.io:8222/). Alternately, there are several options available, including some from the active NATS community:
 
-* [Prometheus NATS Exporter](https://github.com/nats-io/prometheus-nats-exporter) Use Prometheus to configure metrics and Grafana to create a visual display.
-* [nats-top](https://github.com/nats-io/nats-top) A top-like monitoring tool developed by Wally Quevedo of Synadia.
-* [natsboard](https://github.com/cmfatih/natsboard) A monitoring tool developed by Fatih Cetinkaya.
-* [nats-mon](https://github.com/repejota/nats-mon) A monitoring tool developed by Raül Pérez and Adrià Cidre.
+- [Prometheus NATS Exporter](https://github.com/nats-io/prometheus-nats-exporter) Use Prometheus to configure metrics and Grafana to create a visual display.
+- [nats-top](https://github.com/nats-io/nats-top) A top-like monitoring tool developed by Wally Quevedo of Synadia.
+- [natsboard](https://github.com/cmfatih/natsboard) A monitoring tool developed by Fatih Cetinkaya.
+- [nats-mon](https://github.com/repejota/nats-mon) A monitoring tool developed by Raül Pérez and Adrià Cidre.
 
 A more detailed overview of monitoring is available under [NATS Server Monitoring](../running-a-nats-service/configuration/monitoring.md).
 
@@ -101,7 +101,6 @@ NATS implements source ordered delivery per publisher. That is to say, messages 
 ### Is there a message size limitation in NATS?
 
 Messages have a maximum size (which is set in the server configuration with `max_payload`) that is enforced by the server and communicated to the client during connection setup. The size is set to 1 MB by default, but can be increased up to 64 MB if needed (though we recommend keeping the max message size to something more reasonable like 8 MB).
-
 
 ### Does NATS impose any limits on the \# of subjects?
 

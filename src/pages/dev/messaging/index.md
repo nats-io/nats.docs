@@ -1,6 +1,6 @@
 # Messaging
 
-Messaging is the foundational communication mechanism in NATS. Clients connect to the NATS server and exchange *messages* by publishing and subscribing to *subjects*.
+Messaging is the foundational communication mechanism in NATS. Clients connect to the NATS server and exchange _messages_ by publishing and subscribing to _subjects_.
 
 {% figure
   src="/assets/messaging-1.svg"
@@ -12,7 +12,7 @@ Messaging is used as the basis for all other capabilities in NATS, including add
 
 ## Messages
 
-A message is the unit of communication *exchange* in NATS. Every message originates from a publishing client and may be received by zero or more subscribing clients.
+A message is the unit of communication _exchange_ in NATS. Every message originates from a publishing client and may be received by zero or more subscribing clients.
 
 Messages have an intentionally simple data model.
 
@@ -45,11 +45,9 @@ If you are curious about the NATS client protocol, refer to the [reference docum
 
 ### Payload agnostic
 
-
-
 ## Subjects
 
-Subjects are the unit of *addressability* for messages. When a client publishes a message, it must specify the subject it will be published to. Likewise, if a client wants to subscribe to messages, it specifies a subject.
+Subjects are the unit of _addressability_ for messages. When a client publishes a message, it must specify the subject it will be published to. Likewise, if a client wants to subscribe to messages, it specifies a subject.
 
 For example a client might publish a moisture reading.
 
@@ -79,7 +77,6 @@ time.eu.warsaw
 ### Wildcards
 
 NATS provides two _wildcards_ that can take the place of one or more elements in a dot-separated subject. Subscribers can use these wildcards to listen to multiple subjects with a single subscription but Publishers will always use a fully specified subject, without the wildcard.
-
 
 The first wildcard is `*` which will match a single token. For example, if an application wanted to listen for eastern time zones, they could subscribe to `time.*.east`, which would match `time.us.east` and `time.eu.east`.
 

@@ -22,7 +22,7 @@ docker run -p 4222:4222 nats
 
 The [NATS CLI](/reference/clients/cli) is a comprehensive tool for interacting with a NATS deployment. Follow the [install instructions](/download/clients/cli) for your platform.
 
-Once installed, we will save and select a *connection context* for the demo server so we don't need to type the server URL every time.
+Once installed, we will save and select a _connection context_ for the demo server so we don't need to type the server URL every time.
 
 ```sh
 nats context save demo --server tls://demo.nats.io --select
@@ -38,3 +38,4 @@ To illustrate this, we can publish a message and then attempt to subscribe to it
 
 ```sh
 nats pub 'hello'
+```

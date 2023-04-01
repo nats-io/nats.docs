@@ -1,8 +1,8 @@
 # trace
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
 If true, enables protocol trace log messages,
 excluding the system account.
 
-*Default value*: `false`
+_Default value_: `false`

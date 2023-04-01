@@ -70,7 +70,6 @@ apt-get install nats-server
 yum install nats-server
 ```
 
-
 #### Arch
 
 ```sh
@@ -123,4 +122,3 @@ Building from source requires a recent version of the [Go compiler](https://go.d
 ```sh
 go get github.com/nats-io/nats-server/v2
 ```
-

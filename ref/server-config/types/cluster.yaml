@@ -78,5 +78,3 @@ types:
           If the `tls` configuration map specifies `verify_and_map` only, provide the expected username. Here different certificates can be
           used, but they have to map to the same `username`. The authorization map also allows for timeout which is honored but users and
           token configuration are not supported and will prevent the server from starting. The `permissions` block is ignored.
-
-

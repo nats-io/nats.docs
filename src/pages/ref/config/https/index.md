@@ -1,6 +1,6 @@
 # https
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
 Listen specification `<host>:<port>` for TLS server monitoring.
 
@@ -9,7 +9,7 @@ Listen specification `<host>:<port>` for TLS server monitoring.
 ```
 localhost:4222
 ```
+
 ```
 [::]:4222
 ```
-

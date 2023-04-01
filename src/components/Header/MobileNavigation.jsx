@@ -8,14 +8,7 @@ import { Navigation } from '@/components/Layout/Navigation'
 
 function MenuIcon(props) {
   return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      strokeWidth="2"
-      strokeLinecap="round"
-      {...props}
-    >
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" {...props}>
       <path d="M4 7h16M4 12h16M4 17h16" />
     </svg>
   )
@@ -23,14 +16,7 @@ function MenuIcon(props) {
 
 function CloseIcon(props) {
   return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      strokeWidth="2"
-      strokeLinecap="round"
-      {...props}
-    >
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" {...props}>
       <path d="M5 5l14 14M19 5l-14 14" />
     </svg>
   )
@@ -58,12 +44,7 @@ export function MobileNavigation({ navigation }) {
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setIsOpen(true)}
-        className="relative"
-        aria-label="Open navigation"
-      >
+      <button type="button" onClick={() => setIsOpen(true)} className="relative" aria-label="Open navigation">
         <MenuIcon className="h-6 w-6 stroke-slate-500" />
       </button>
       <Dialog
@@ -74,11 +55,7 @@ export function MobileNavigation({ navigation }) {
       >
         <Dialog.Panel className="min-h-full w-full max-w-xs bg-white px-4 pt-5 pb-12 dark:bg-slate-900 sm:px-6">
           <div className="flex items-center">
-            <button
-              type="button"
-              onClick={() => setIsOpen(false)}
-              aria-label="Close navigation"
-            >
+            <button type="button" onClick={() => setIsOpen(false)} aria-label="Close navigation">
               <CloseIcon className="h-6 w-6 stroke-slate-500" />
             </button>
             <Link href="/" className="ml-6" aria-label="Home page">

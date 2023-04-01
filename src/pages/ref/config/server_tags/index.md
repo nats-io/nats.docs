@@ -1,6 +1,6 @@
 # server_tags
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
 One or more tags associated with the server. This is currently
 used for placement of JetStream streams and consumers.
@@ -10,7 +10,7 @@ used for placement of JetStream streams and consumers.
 ```
 cloud:aws
 ```
+
 ```
 [region:us-west, az:1b]
 ```
-

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "format": "prettier --cache --write .",
+    "format:check": "prettier --cache --check ."
   },
   "browserslist": "defaults, not ie <= 11",
   "dependencies": {
@@ -16,6 +17,7 @@
     "@markdoc/next.js": "^0.1.5",
     "@sindresorhus/slugify": "^2.1.0",
     "@tailwindcss/typography": "^0.5.2",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
     "autoprefixer": "^10.4.7",
     "clsx": "^1.2.0",
     "focus-visible": "^5.2.0",
@@ -29,9 +31,9 @@
     "tailwindcss": "^3.1.7"
   },
   "devDependencies": {
-    "eslint": "8.19.0",
-    "eslint-config-next": "^13.0.6",
     "prettier": "^2.7.1",
-    "prettier-plugin-tailwindcss": "^0.1.11"
+    "prettier-plugin-organize-imports": "^3.2.2",
+    "prettier-plugin-tailwindcss": "^0.1.13",
+    "remark-parse": "^10.0.1"
   }
 }

@@ -1,6 +1,6 @@
 # gateway
 
-/ [config](/ref/config/index.md) 
+/ [config](/ref/config/index.md)
 
 Configuration for setting up gateway connections
 between clusters.
@@ -78,4 +78,3 @@ server from starting. The permissions block is ignored.
 ### [`gateways`](/ref/config/gateways/index.md)
 
 List of gateway entries.
-

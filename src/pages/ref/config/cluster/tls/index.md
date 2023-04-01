@@ -1,6 +1,6 @@
 # tls
 
-/ [config](/ref/config/index.md) / [cluster](/ref/config/config/cluster/index.md) 
+/ [config](/ref/config/index.md) / [cluster](/ref/config/config/cluster/index.md)
 
 TLS configuration for securing cluster connections.
 `verify` is always enabled and `cert_file` is used for
@@ -66,11 +66,8 @@ the left most domain.
 
 ### [`connection_rate_limit`](/ref/config/cluster/tls/connection_rate_limit/index.md)
 
-
-
 ### [`pinned_certs`](/ref/config/cluster/tls/pinned_certs/index.md)
 
 List of hex-encoded SHA256 of DER-encoded public key fingerprints. When present, during the TLS handshake, the
 provided certificate's fingerprint is required to be present in the list, otherwise the connection will be
 closed.
-
