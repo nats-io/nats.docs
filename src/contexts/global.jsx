@@ -23,16 +23,29 @@ function useThemeState() {
   const [theme, setTheme] = useState()
 
   useEffect(() => {
-    // If the theme is defined, store it and toggle the document.
-    if (theme) {
-      localStorage.setItem('theme', theme)
-      toggleDocumentTheme(theme)
+    // Check for stored theme or default to system.
+    if (!theme) {
+      setTheme(localStorage.getItem('theme') || 'system')
       return
     }
 
-    // Check for stored theme or default to system.
-    const defaultTheme = localStorage.getItem('theme') || 'system'
-    setTheme(defaultTheme)
+    // Store the theme, toggle it, and setup a listener for system theme changes.
+    localStorage.setItem('theme', theme)
+    toggleDocumentTheme(theme)
+
+    // Listen for changes to the system theme if the current theme is system.
+    const handler = (e) => {
+      console.log(theme, e)
+      if (theme === 'system') {
+        e.matches ? toggleDocumentTheme('dark') : toggleDocumentTheme('light')
+      }
+    }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', handler)
+
+    return () => {
+      window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', handler)
+    }
   }, [theme])
 
   return {
