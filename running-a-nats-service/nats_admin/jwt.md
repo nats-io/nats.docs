@@ -1675,7 +1675,7 @@ Each of the subjects can be used without any input. However, for each request ty
 
 | Subject                                   | Alternative Mapping                           |
 | ----------------------------------------- | --------------------------------------------- |
-| `$SYS.REQ.SERVER.PING`                    | `$SYS.REQ.SERVER.PING.STATZ`                  |
+| `$SYS.REQ.SERVER.PING`                    | `$SYS.REQ.SERVER.PING.STATSZ`                 |
 | `$SYS.ACCOUNT.<account-id>.CLAIMS.UPDATE` | `$SYS.REQ.ACCOUNT.<account-id>.CLAIMS.LOOKUP` |
 
 ### Leaf Node Connections - Outgoing
