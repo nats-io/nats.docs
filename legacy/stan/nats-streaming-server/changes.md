@@ -43,7 +43,7 @@ The `vendor` directory has been removed in favor of native `go mod` support.
 
 ## Version `0.23.0`
 
-In cluster mode, redelivery of message can now be performed to any member of a group rather than strictly the member it was originall delivered to.
+In cluster mode, redelivery of a message can now be performed to any member of a group rather than strictly the member it was originally delivered to.
 
 ## Version `0.22.0`
 
