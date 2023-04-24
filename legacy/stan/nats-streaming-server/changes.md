@@ -8,7 +8,20 @@ The NATS Streaming Server is being deprecated. Critical bug fixes and security f
 
 Refer to the [release notes](https://github.com/nats-io/nats-streaming-server/releases) for granular details.
 
-- [Version `0.25.4`](changes.md#version-0254)
+- [Version `0.25.0`](changes.md#version-0250)
+- [Version `0.24.0`](changes.md#version-0240)
+- [Version `0.23.0`](changes.md#version-0230)
+- [Version `0.22.0`](changes.md#version-0220)
+- [Version `0.21.0`](changes.md#version-0210)
+- [Version `0.20.0`](changes.md#version-0200)
+- [Version `0.19.0`](changes.md#version-0190)
+- [Version `0.18.0`](changes.md#version-0180)
+- [Version `0.17.0`](changes.md#version-0170)
+- [Version `0.16.0`](changes.md#version-0160)
+- [Version `0.15.0`](changes.md#version-0150)
+- [Version `0.14.0`](changes.md#version-0140)
+- [Version `0.12.0`](changes.md#version-0120)
+- [Version `0.11.0`](changes.md#version-0110)
 - [Version `0.10.0`](changes.md#version-0100)
 - [Version `0.9.0`](changes.md#version-090)
 - [Version `0.8.0-beta`](changes.md#version-080-beta)
@@ -16,9 +29,87 @@ Refer to the [release notes](https://github.com/nats-io/nats-streaming-server/re
 - [Version `0.5.0`](changes.md#version-050)
 - [Version `0.4.0`](changes.md#version-040)
 
-## Version `0.25.4`
+## Version `0.25.0`
 
-The server could get stuck while performing leadership-acquired actions due to an insufficiently-sized notification channel. This would make the cluster unavailable to clients.
+This release has the following changes:
+
+- Channel names are now treated as case-insensitive, but requires clients to use the same case as it was originally defined
+- FileStore now supported a `RecordSizeLimit`
+- Leadershp-acquired actions could get stuck due to an insufficiently-sized notification channel causing the cluster unavailable to clients
+
+## Version `0.24.0`
+
+The `vendor` directory has been removed in favor of native `go mod` support.
+
+## Version `0.23.0`
+
+In cluster mode, redelivery of message can now be performed to any member of a group rather than strictly the member it was originall delivered to.
+
+## Version `0.22.0`
+
+This release exposes the HTTP handler in embedded mode and fixes a possible panic on shutdown in cluster mode.
+
+## Version `0.21.0`
+
+This release adds the subscription count to the monitoring endpoint. In addition, clustering performance and contention has been improved.
+
+See [**deprecation notice**](https://github.com/nats-io/nats-streaming-server#warning--deprecation-notice-warning).
+
+## Version `0.20.0`
+
+This release adds support for the `replace_durable` configuration option. If enabled, when a connection sends a subscription request for a durable that is detected as a duplicate, the server will replace the old one with the new one.
+
+In addition, a `bulk_insert_limit` option within the `sql { }` block can be defined to control the transaction size.
+
+## Version `0.19.0`
+
+This release adds:
+
+- NKey authentication support
+- Authentication fields in the streaming config block
+- The ability to add and remove nodes at runtime in clustered mode
+
+## Version `0.18.0`
+
+This release adds a `streaming/isFTActive` endpoint to determine if FT mode is active or not as well as a handful of fixes.
+
+## Version `0.17.0`
+
+This release adds:
+
+- additional details to the monitoring endpoint
+- `server_name` and `skip_verify` configuration parameters
+- support for redelivery count on messages
+
+## Version `0.16.0`
+
+This release adds support for the RISC-V platform, adds a few optimizations to the store backends, and introduces official Debian and RPM packages.
+
+## Version `0.15.0`
+
+This release embeds NATS v2.0.0 which is a new major version of the server including the wire protocol.
+
+**Backwards compatibility note**
+
+Note that the Streaming server itself is backward compatible with previous releases, however, v0.15.0 now embeds a NATS Server 2.0, which means that if you run with the embedded NATS server and want to route it to your existing v0.14.3- servers, it will fail due to NATS Server routing protocol change. You can however use v0.15.0 and connect it to existing NATS cluster and therefore have a mix of v0.15.0 and v0.14.3- streaming servers.
+
+## Version `0.14.0`
+
+This release adds support for custom NATS client options in the the server configuration.
+
+In addition, a variety of fixes and improvements were made to clustering.
+
+## Version `0.12.0`
+
+This release adds encryption at rest for message payloads as well as open and max file descriptor counts were added to the `streaming/serverz` monitoring endpoint.
+
+In addition, a variety of fixes on subscriptions and clustering were made.
+
+## Version `0.11.0`
+
+This adds the ability to run STAN as a Windows service.
+
+In addition, a variety of fixes were applied to the File and SQL store backends, including the potential of redelivery of acknowledged messages.
 
 ## Version `0.10.0`
 
