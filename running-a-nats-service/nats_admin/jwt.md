@@ -1692,11 +1692,11 @@ The outgoing connection is not in Operator mode, thus the system account may dif
 leafnodes {
     remotes = [
         {
-          url: "nats-leaf://localhost:4222"
+          url: "nats://localhost:4222"
           credentials: "./your-account.creds"
         },
         {
-          url: "nats-leaf://localhost:4222"
+          url: "nats://localhost:4222"
           account: "$SYS"
           credentials: "./system-account.creds"
         },
@@ -1714,12 +1714,12 @@ system_account: AAAXAUVSGK7TCRHFIRAS4SYXVJ76EWDMNXZM6ARFGXP7BASNDGLKU7A5
 leafnodes {
     remotes = [
         {
-          url: "nats-leaf://localhost:4222"
+          url: "nats://localhost:4222"
           account: "ADKGAJU55CHYOIF5H432K2Z2ME3NPSJ5S3VY5Q42Q3OTYOCYRRG7WOWV"
           credentials: "./your-account.creds"
         },
         {
-          url: "nats-leaf://localhost:4222"
+          url: "nats://localhost:4222"
           account: "AAAXAUVSGK7TCRHFIRAS4SYXVJ76EWDMNXZM6ARFGXP7BASNDGLKU7A5"
           credentials: "./system-account.creds"
         },
