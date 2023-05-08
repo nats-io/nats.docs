@@ -847,6 +847,10 @@ url (used by `url-resolver` and `nats-resolver`), `nsc` does not
 require them being specified on subsequent commands. `nsc edit
 operator --account-jwt-server-url "nats://localhost:4222"`
 
+> Note that if you update an operator JWT that is installed on a server
+you will need to manually update the operator JWT and reload the server
+While `nsc` is able to update accounts, it never updates the operator.
+
 We always recommend using signing keys for an operator. Generate one
 for an operator (`-o`) and store it in the key directory
 (`--store`). The output will display the public portion of the signing
