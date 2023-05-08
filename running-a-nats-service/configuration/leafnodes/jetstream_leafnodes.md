@@ -82,11 +82,11 @@ jetstream {
 leafnodes {
     remotes = [
         {
-            urls: ["nats-leaf://admin:admin@0.0.0.0:7422"]
+            urls: ["nats://admin:admin@0.0.0.0:7422"]
             account: "SYS"
         },
         {
-            urls: ["nats-leaf://acc:acc@0.0.0.0:7422"]
+            urls: ["nats://acc:acc@0.0.0.0:7422"]
             account: "ACC"
         }
     ]

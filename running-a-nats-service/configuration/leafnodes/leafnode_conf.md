@@ -128,7 +128,7 @@ Note that if a URL has the `ws` scheme, all URLs the list must be `ws`. You cann
 ```
   remotes [
     # Invalid configuration that will prevent the server from starting
-    {urls: ["ws://hostname1:443", "nats-leaf://hostname2:7422"]}
+    {urls: ["ws://hostname1:443", "nats://hostname2:7422"]}
   ]
 ```
 

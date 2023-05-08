@@ -36,8 +36,8 @@ cluster {
   # Other servers can connect to us if they supply the correct credentials
   # in their routes definitions from above.
   routes = [
-    nats-route://route_user:pwd@127.0.0.1:4245
-    nats-route://route_user:pwd@127.0.0.1:4246
+    nats://route_user:pwd@127.0.0.1:4245
+    nats://route_user:pwd@127.0.0.1:4246
   ]
 }
 ```
