@@ -100,7 +100,7 @@ Here is an example from the default string from a server.
 
 ### Description
 
-`RS+` initiates a subscription to a subject on on a given account, optionally with a distributed queue group name and weighting factor. Note that queue subscriptions will use RS+ for increases and descreases to queue weight except when the weighting factor is 0.
+`RS+` initiates a subscription to a subject on on a given account, optionally with a distributed queue group name and weighting factor. Note that queue subscriptions will use RS+ for increases and decreases to queue weight except when the weighting factor is 0.
 
 ### Syntax
 
