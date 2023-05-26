@@ -18,34 +18,34 @@ For examples on how to configure streams with your preferred NATS client, see [N
 
 Below are the set of stream configuration options that can be defined. The `Version` column indicates the version of the server the option was introduced. The `Editable` column indicates the option can be edited after the stream created. See client-specific examples [here](https://natsbyexample.com).
 
-| Field | Description | Version | Editable |
-| :--- | :--- | :--- | :--- |
-| Name | Names cannot contain whitespace, `.`, `*`, `>`, path separators (forward or backwards slash), and non-printable characters. | 2.2.0 | No |
-| [Storage](#storagetype) | The storage type for stream data. | 2.2.0 | No |
-| Subjects | A list of subjects to consume, supports wildcards | 2.2.0 | No |
-| Replicas | How many replicas to keep for each message in a clustered JetStream, maximum 5 | 2.2.0 | Yes |
-| MaxAge | Maximum age of any message in the Stream, expressed in nanoseconds. | 2.2.0 | Yes |
-| MaxBytes | How many bytes the Stream may contain. Adheres to Discard Policy, removing oldest or refusing new messages if the Stream exceeds this size | 2.2.0 | Yes |
-| MaxMsgs | How many messages may be in a Stream. Adheres to Discard Policy, removing oldest or refusing new messages if the Stream exceeds this number of messages | 2.2.0 | Yes |
-| MaxMsgSize | The largest message that will be accepted by the Stream | 2.2.0 | Yes |
-| MaxConsumers | How many Consumers can be defined for a given Stream, `-1` for unlimited | 2.2.0 | No |
-| NoAck | Disables acknowledging messages that are received by the Stream | 2.2.0 | Yes |
-| [Retention](#retentionpolicy) | Declares the retention policy for the stream. | 2.2.0 | No |
-| [Discard](#discardpolicy) | The behavior of discarding messages when any streams' limits have been reached. | 2.2.0 | Yes |
-| Duplicates | The window within which to track duplicate messages, expressed in nanoseconds. | 2.2.0 | Yes |
-| [Placement](#placement) | Used to declare where the stream should be placed via tags and/or an explicit cluster name. | 2.2.0 | Yes |
-| [Mirror](#mirror) | If set, indicates this stream is a mirror of another stream. See [mirrors](/running-a-nats-service/nats_admin/jetstream_admin/replication#mirrors). | 2.2.0 | No (if defined) |
-| [Sources](#sources) | If defined, declares one or more streams this stream will source messages from. See [sources](/running-a-nats-service/nats_admin/jetstream_admin/replication#sources). | 2.2.0 | Yes |
-| MaxMsgsPerSubject | Limits how many messages in the stream to retain _per subject_. | 2.3.0 | Yes |
-| Description | A verbose description of the stream. | 2.3.3 | Yes |
-| Sealed | Sealed streams do not allow messages to be deleted via limits or API, sealed streams can not be unsealed via configuration update. Can only be set on already created streams via the Update API. | 2.6.2 | Yes (once) |
-| DenyDelete | Restricts the ability to delete messages from a stream via the API. | 2.6.2 | No |
-| DenyPurge | Restricts the ability to purge messages from a stream via the API. | 2.6.2 | No |
-| AllowRollup | Allows the use of the `Nats-Rollup` header to replace all contents of a stream, or subject in a stream, with a single new message. | 2.6.2 | Yes |
-| [RePublish](#republish) | If set, messages stored to the stream will be immediately *republished* to the configured subject. | 2.8.3 | No (if defined) |
-| AllowDirect | If true, and the stream has more than one replica, each replica will respond to *direct get* requests for individual messages, not only the leader. | 2.9.0 | Yes |
-| MirrorDirect | If true, and the stream is a mirror, the mirror will participate in a serving *direct get* requests for individual messages from origin stream. | 2.9.0 | Yes |
-| DiscardNewPerSubject | If true, applies discard new semantics on a per subject basis. Requires `DiscardPolicy` to be `DiscardNew` and the `MaxMsgsPerSubject` to be set. | 2.9.0 | Yes |
+| Field                         | Description                                                                                                                                                                                       | Version | Editable        |
+| :---------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------ | :-------------- |
+| Name                          | Names cannot contain whitespace, `.`, `*`, `>`, path separators (forward or backwards slash), and non-printable characters.                                                                       | 2.2.0   | No              |
+| [Storage](#storagetype)       | The storage type for stream data.                                                                                                                                                                 | 2.2.0   | No              |
+| [Subjects](#subjects)         | A list of subjects to bind. Wildcard are supported.                                                                                                                                               | 2.2.0   | Yes             |
+| Replicas                      | How many replicas to keep for each message in a clustered JetStream, maximum 5                                                                                                                    | 2.2.0   | Yes             |
+| MaxAge                        | Maximum age of any message in the Stream, expressed in nanoseconds.                                                                                                                               | 2.2.0   | Yes             |
+| MaxBytes                      | How many bytes the Stream may contain. Adheres to Discard Policy, removing oldest or refusing new messages if the Stream exceeds this size                                                        | 2.2.0   | Yes             |
+| MaxMsgs                       | How many messages may be in a Stream. Adheres to Discard Policy, removing oldest or refusing new messages if the Stream exceeds this number of messages                                           | 2.2.0   | Yes             |
+| MaxMsgSize                    | The largest message that will be accepted by the Stream                                                                                                                                           | 2.2.0   | Yes             |
+| MaxConsumers                  | How many Consumers can be defined for a given Stream, `-1` for unlimited                                                                                                                          | 2.2.0   | No              |
+| NoAck                         | Disables acknowledging messages that are received by the Stream                                                                                                                                   | 2.2.0   | Yes             |
+| [Retention](#retentionpolicy) | Declares the retention policy for the stream.                                                                                                                                                     | 2.2.0   | No              |
+| [Discard](#discardpolicy)     | The behavior of discarding messages when any streams' limits have been reached.                                                                                                                   | 2.2.0   | Yes             |
+| Duplicates                    | The window within which to track duplicate messages, expressed in nanoseconds.                                                                                                                    | 2.2.0   | Yes             |
+| [Placement](#placement)       | Used to declare where the stream should be placed via tags and/or an explicit cluster name.                                                                                                       | 2.2.0   | Yes             |
+| [Mirror](#mirror)             | If set, indicates this stream is a mirror of another stream. See [mirrors](/running-a-nats-service/nats_admin/jetstream_admin/replication#mirrors).                                               | 2.2.0   | No (if defined) |
+| [Sources](#sources)           | If defined, declares one or more streams this stream will source messages from. See [sources](/running-a-nats-service/nats_admin/jetstream_admin/replication#sources).                            | 2.2.0   | Yes             |
+| MaxMsgsPerSubject             | Limits how many messages in the stream to retain _per subject_.                                                                                                                                   | 2.3.0   | Yes             |
+| Description                   | A verbose description of the stream.                                                                                                                                                              | 2.3.3   | Yes             |
+| Sealed                        | Sealed streams do not allow messages to be deleted via limits or API, sealed streams can not be unsealed via configuration update. Can only be set on already created streams via the Update API. | 2.6.2   | Yes (once)      |
+| DenyDelete                    | Restricts the ability to delete messages from a stream via the API.                                                                                                                               | 2.6.2   | No              |
+| DenyPurge                     | Restricts the ability to purge messages from a stream via the API.                                                                                                                                | 2.6.2   | No              |
+| AllowRollup                   | Allows the use of the `Nats-Rollup` header to replace all contents of a stream, or subject in a stream, with a single new message.                                                                | 2.6.2   | Yes             |
+| [RePublish](#republish)       | If set, messages stored to the stream will be immediately _republished_ to the configured subject.                                                                                                | 2.8.3   | No (if defined) |
+| AllowDirect                   | If true, and the stream has more than one replica, each replica will respond to _direct get_ requests for individual messages, not only the leader.                                               | 2.9.0   | Yes             |
+| MirrorDirect                  | If true, and the stream is a mirror, the mirror will participate in a serving _direct get_ requests for individual messages from origin stream.                                                   | 2.9.0   | Yes             |
+| DiscardNewPerSubject          | If true, applies discard new semantics on a per subject basis. Requires `DiscardPolicy` to be `DiscardNew` and the `MaxMsgsPerSubject` to be set.                                                 | 2.9.0   | Yes             |
 
 ### StorageType
 
@@ -54,16 +54,20 @@ The storage types include:
 - `File` (default) - Uses file-based storage for stream data.
 - `Memory` - Uses memory-based storage for stream data.
 
+### Subjects
+
+If no explicit subject is specified, the default subject will be the same name as the stream. Multiple subjects can be specified and edited over time. Note, if messages are stored by a stream on a subject that is subsequently removed from the stream config, consumers will still observe those messages if their subject filter overlaps.
+
 ### RetentionPolicy
 
 The retention options include:
 
 - `LimitsPolicy` (default) - Retention based on the various limits that are set including: `MaxMsgs`, `MaxBytes`, `MaxAge`, and `MaxMsgsPerSubject`. If any of these limits are set, whichever limit is hit first will cause the automatic deletion of the respective message(s). See a [full code example][limits-example].
 - `InterestPolicy` - Retention based on the consumer _interest_ in the stream and messages. The base case is that there are zero consumers defined for a stream. If messages are published to the stream, they will be immediately deleted so there is no _interest_. This implies that consumers need to be bound to the stream ahead of messages being published to the stream. Once a given message is ack'ed by all consumers, the message is deleted. See a [full code example][interest-example].
-- `WorkQueuePolicy` - Retention with the typical behavior of a FIFO queue. Each message can be consumed only once. This is enforced by only allowing *one* consumer to be created for a work-queue stream. Once a given message is ack'ed, it will be deleted from the stream. See a [full code example][workqueue-example].
+- `WorkQueuePolicy` - Retention with the typical behavior of a FIFO queue. Each message can be consumed only once. This is enforced by only allowing _one_ consumer to be created for a work-queue stream. Once a given message is ack'ed, it will be deleted from the stream. See a [full code example][workqueue-example].
 
 {% hint style="warning" %}
-If the `InterestPolicy` or `WorkQueuePolicy` is chosen for a stream, note that any limits, if defined, will still be enforced. For example, given a work-queue stream, if `MaxMsgs` are set and the default discard policy of *old*, messages will be automatically deleted even if the consumer did not receive them.
+If the `InterestPolicy` or `WorkQueuePolicy` is chosen for a stream, note that any limits, if defined, will still be enforced. For example, given a work-queue stream, if `MaxMsgs` are set and the default discard policy of _old_, messages will be automatically deleted even if the consumer did not receive them.
 {% endhint %}
 
 [limits-example]: https://natsbyexample.com/examples/jetstream/limits-stream/go
@@ -75,7 +79,7 @@ If the `InterestPolicy` or `WorkQueuePolicy` is chosen for a stream, note that a
 The discard behavior applies only for streams that have at least one limit defined. The options include:
 
 - `DiscardOld` (default) - This policy will delete the oldest messages in order to maintain the limit. For example, if `MaxAge` is set to one minute, the server will automatically delete messages older than one minute with this policy.
-- `DiscardNew` - This policy will reject _new_ messages from being appended to the stream if it would *exceed* one of the limits. An extension to this policy is `DiscardNewPerSubject` which will apply this policy on a per-subject basis within the stream.
+- `DiscardNew` - This policy will reject _new_ messages from being appended to the stream if it would _exceed_ one of the limits. An extension to this policy is `DiscardNewPerSubject` which will apply this policy on a per-subject basis within the stream.
 
 ### Placement
 
@@ -102,7 +106,7 @@ cluster {
 
 If you have multiple clusters that form a supercluster, then each is required to have a different name.
 
-Another placement option are *tags*. Each server can have its own set of tags, [defined in configuration][tag-config], typically describing properties of geography, hosting provider, sizing tiers, etc. In addition, tags are often used in conjunction with the `jetstream.unique_tag` config option to ensure that replicas must be placed on servers having _different_ values for the tag.
+Another placement option are _tags_. Each server can have its own set of tags, [defined in configuration][tag-config], typically describing properties of geography, hosting provider, sizing tiers, etc. In addition, tags are often used in conjunction with the `jetstream.unique_tag` config option to ensure that replicas must be placed on servers having _different_ values for the tag.
 
 For example, a server A, B, and C in the above cluster might all the same configuration except for the availability zone they are deployed to.
 
@@ -137,7 +141,7 @@ nats stream add --tag region:us-east1
 
 If we had a second cluster in Google Cloud with the same region tag, the stream could be placed in either the AWS or GCP cluster. However, the `unique_tag` constraint ensures each replica will be placed in a different AZ in the cluster that was selected implicitly by the placement tags.
 
-Although less common, note that both the cluster *and* tags can be used for placement. This would be used if a single cluster contains servers have different properties.
+Although less common, note that both the cluster _and_ tags can be used for placement. This would be used if a single cluster contains servers have different properties.
 
 [cluster-config]: https://docs.nats.io/running-a-nats-service/configuration/clustering/cluster_config
 [tag-config]: https://docs.nats.io/running-a-nats-service/configuration#monitoring-and-tracing
