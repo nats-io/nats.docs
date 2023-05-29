@@ -186,7 +186,7 @@ A pull consumer is functionally equivalent to a push consumer using a queue grou
 {% tabs %}
 {% tab title="Go" %}
 ```go
-    func ExampleJetStream() {
+func ExampleJetStream() {
     nc, err := nats.Connect("localhost")
     if err != nil {
         log.Fatal(err)
@@ -217,7 +217,7 @@ A pull consumer is functionally equivalent to a push consumer using a queue grou
 	}
 
 	// Create Pull based consumer with maximum 128 inflight.
-	sub, _ = js.PullSubscribe("foo", "wq", nats.PullMaxWaiting(128))
+	sub, _ := js.PullSubscribe("foo", "wq", nats.PullMaxWaiting(128))
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
