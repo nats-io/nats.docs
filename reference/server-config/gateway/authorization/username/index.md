@@ -1,0 +1,10 @@
+# username
+
+/ [config](/reference/server-config/index.md) / [gateway](/reference/server-config/config/gateway/index.md) / [authorization](/reference/server-config/config/gateway/authorization/index.md) 
+
+Specifies a global user name that clients can use to authenticate
+the server (requires `password`, exclusive of `token`).
+
+*Aliases*
+- `user`
+
