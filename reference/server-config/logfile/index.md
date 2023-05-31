@@ -1,6 +1,6 @@
 # logfile
 
-/ [config](/reference/server-config/index.md) 
+/ [config](reference/server-config/index.md) 
 
 Log file name.
 

@@ -1,6 +1,6 @@
 # advertise
 
-/ [config](/reference/server-config/index.md) / [cluster](/reference/server-config/config/cluster/index.md) 
+/ [config](reference/server-config/index.md) / [cluster](reference/server-config/config/cluster/index.md) 
 
 Advertised cluster `<host>:<port>`. Useful for cluster setups since
 behind NAT. When using TLS this is important to set to control the

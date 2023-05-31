@@ -1,42 +1,42 @@
 # authorization
 
-/ [config](/reference/server-config/index.md) / [leafnodes](/reference/server-config/config/leafnodes/index.md) 
+/ [config](reference/server-config/index.md) / [leafnodes](reference/server-config/config/leafnodes/index.md) 
 
 Authorization scoped to accepting leaf node connections.
 
 ## Properties
 
-### [`username`](/reference/server-config/leafnodes/authorization/username/index.md)
+### [`username`](reference/server-config/leafnodes/authorization/username/index.md)
 
 Specifies a global user name that clients can use to authenticate
 the server (requires `password`, exclusive of `token`).
 
-### [`password`](/reference/server-config/leafnodes/authorization/password/index.md)
+### [`password`](reference/server-config/leafnodes/authorization/password/index.md)
 
 Specifies a global password that clients can use to authenticate
 the server (requires `user`, exclusive of `token`).
 
-### [`token`](/reference/server-config/leafnodes/authorization/token/index.md)
+### [`token`](reference/server-config/leafnodes/authorization/token/index.md)
 
 Specifies a global token that clients can use to authenticate with
 the server (exclusive of `user` and `password`).
 
-### [`users`](/reference/server-config/leafnodes/authorization/users/index.md)
+### [`users`](reference/server-config/leafnodes/authorization/users/index.md)
 
 A list of multiple users with different credentials.
 
-### [`default_permissions`](/reference/server-config/leafnodes/authorization/default_permissions/index.md)
+### [`default_permissions`](reference/server-config/leafnodes/authorization/default_permissions/index.md)
 
 The default permissions applied to users, if permissions are
 not explicitly defined for them.
 
-### [`timeout`](/reference/server-config/leafnodes/authorization/timeout/index.md)
+### [`timeout`](reference/server-config/leafnodes/authorization/timeout/index.md)
 
 Maximum number of seconds to wait for a client to authenticate.
 
 Default value: `1`
 
-### [`auth_callout`](/reference/server-config/leafnodes/authorization/auth_callout/index.md)
+### [`auth_callout`](reference/server-config/leafnodes/authorization/auth_callout/index.md)
 
 Enables the auth callout functionality.
 All client connections requiring authentication will have

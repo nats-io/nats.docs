@@ -1,6 +1,6 @@
 # host
 
-/ [config](/reference/server-config/index.md) / [leafnodes](/reference/server-config/config/leafnodes/index.md) 
+/ [config](reference/server-config/index.md) / [leafnodes](reference/server-config/config/leafnodes/index.md) 
 
 Host name the server will listen on for incoming
 leaf node connections.

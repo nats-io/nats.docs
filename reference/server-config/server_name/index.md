@@ -1,6 +1,6 @@
 # server_name
 
-/ [config](/reference/server-config/index.md) 
+/ [config](reference/server-config/index.md) 
 
 The servers name, shows up in logging. Defaults to the generated
 server ID. When JetStream is used, within a domain, all server

@@ -1,6 +1,6 @@
 # system_account
 
-/ [config](/reference/server-config/index.md) 
+/ [config](reference/server-config/index.md) 
 
 Name or public key of the account that will be deemed the
 *system* account.

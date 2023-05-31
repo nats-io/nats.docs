@@ -1,6 +1,6 @@
 # listen
 
-/ [config](/reference/server-config/index.md) / [gateway](/reference/server-config/config/gateway/index.md) 
+/ [config](reference/server-config/index.md) / [gateway](reference/server-config/config/gateway/index.md) 
 
 `<host>:<port>` format. Alternative to `host`/`port`.
 
