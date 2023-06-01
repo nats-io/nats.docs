@@ -1,7 +1,5 @@
 # routes
 
-/ [Server Config](../../README.md) / [cluster](../README.md) 
-
 A list of server URLs to cluster with. Self-routes are ignored. Should authentication via token or username/password
 be required, specify them as part of the URL.
 

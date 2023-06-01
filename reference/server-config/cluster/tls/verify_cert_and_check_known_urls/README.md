@@ -1,7 +1,5 @@
 # verify_cert_and_check_known_urls
 
-/ [Server Config](../../../README.md) / [cluster](../../README.md) / [tls](../README.md) 
-
 Only used in a non-client context where `verify` is true, such as cluster and gateway configurations.
 The incoming connection's certificate x509v3 Subject Alternative Name DNS entries will be matched against
 all URLs. If a match is found, the connection is accepted and rejected otherwise.

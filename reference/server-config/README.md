@@ -1,7 +1,5 @@
 # Server Config
 
-
-
 ## Properties
 
 **Connectivity**

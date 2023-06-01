@@ -1,7 +1,5 @@
 # tls
 
-/ [Server Config](../../README.md) / [leafnodes](../README.md) 
-
 TLS configuration for securing leaf node connections.
 
 ## Properties

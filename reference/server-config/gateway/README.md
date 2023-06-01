@@ -1,7 +1,5 @@
 # gateway
 
-/ [Server Config](../README.md) 
-
 Configuration for setting up gateway connections
 between clusters.
 

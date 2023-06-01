@@ -1,7 +1,5 @@
 # server_tags
 
-/ [Server Config](../README.md) 
-
 One or more tags associated with the server. This is currently
 used for placement of JetStream streams and consumers.
 

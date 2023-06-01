@@ -1,7 +1,5 @@
 # authorization
 
-/ [Server Config](../../README.md) / [leafnodes](../README.md) 
-
 Authorization scoped to accepting leaf node connections.
 
 ## Properties

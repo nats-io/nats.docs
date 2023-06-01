@@ -1,7 +1,5 @@
 # default_permissions
 
-/ [Server Config](../../../README.md) / [gateway](../../README.md) / [authorization](../README.md) 
-
 The default permissions applied to users, if permissions are
 not explicitly defined for them.
 

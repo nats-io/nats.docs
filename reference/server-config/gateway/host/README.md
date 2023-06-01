@@ -1,7 +1,5 @@
 # host
 
-/ [Server Config](../../README.md) / [gateway](../README.md) 
-
 Interface where the gateway will listen for incoming gateway
 connections.
 

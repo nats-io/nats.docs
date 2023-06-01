@@ -1,7 +1,5 @@
 # jetstream
 
-/ [Server Config](../README.md) 
-
 ## Properties
 
 ### [`enabled`](enabled/README.md)

@@ -1,7 +1,5 @@
 # publish
 
-/ [Server Config](../../../../README.md) / [gateway](../../../README.md) / [authorization](../../README.md) / [default_permissions](../README.md) 
-
 A single subject, list of subjects, or a allow-deny map of
 subjects for publishing. Specifying a single subject or list
 of subjects denotes an *allow* and implcitly denies publishing

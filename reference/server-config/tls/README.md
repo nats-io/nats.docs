@@ -1,7 +1,5 @@
 # tls
 
-/ [Server Config](../README.md) 
-
 TLS configuration for client and HTTP monitoring.
 
 ## Properties

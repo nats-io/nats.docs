@@ -1,7 +1,5 @@
 # logfile
 
-/ [Server Config](../README.md) 
-
 Log file name.
 
 *Aliases*

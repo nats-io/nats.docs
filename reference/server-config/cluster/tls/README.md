@@ -1,7 +1,5 @@
 # tls
 
-/ [Server Config](../../README.md) / [cluster](../README.md) 
-
 TLS configuration for securing cluster connections.
 `verify` is always enabled and `cert_file` is used for
 both client and server for mutual TLS.

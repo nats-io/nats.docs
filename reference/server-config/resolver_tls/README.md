@@ -1,7 +1,5 @@
 # resolver_tls
 
-/ [Server Config](../README.md) 
-
 ## Properties
 
 ### [`cert_file`](cert_file/README.md)

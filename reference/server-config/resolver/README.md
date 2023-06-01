@@ -1,7 +1,5 @@
 # resolver
 
-/ [Server Config](../README.md) 
-
 Takes takes precedence over the value obtained from
 the `operator` if defined.
 

@@ -1,7 +1,5 @@
 # auth_callout
 
-/ [Server Config](../../README.md) / [authorization](../README.md) 
-
 Enables the auth callout functionality.
 All client connections requiring authentication will have
 their credentials pass-through to a dedicated auth service.

@@ -1,7 +1,5 @@
 # leafnodes
 
-/ [Server Config](../README.md) 
-
 Configuration for setting up leaf node connections.
 
 *Aliases*

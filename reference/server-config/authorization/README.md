@@ -1,7 +1,5 @@
 # authorization
 
-/ [Server Config](../README.md) 
-
 Static single or multi-user declaration.
 
 ## Properties

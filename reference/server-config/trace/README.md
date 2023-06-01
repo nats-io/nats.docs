@@ -1,7 +1,5 @@
 # trace
 
-/ [Server Config](../README.md) 
-
 If true, enables protocol trace log messages,
 excluding the system account.
 

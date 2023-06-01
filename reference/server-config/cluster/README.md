@@ -1,7 +1,5 @@
 # cluster
 
-/ [Server Config](../README.md) 
-
 Configuration for clustering a set of servers.
 
 ## Properties

@@ -1,7 +1,5 @@
 # authorization
 
-/ [Server Config](../../README.md) / [cluster](../README.md) 
-
 Authorization map for configuring cluster routes. When a single username/password is used, it defines the authentication mechanism
 this server expects, and how this server will authenticate itself when establishing a connection to a discovered route. This will
 not be used for routes explicitly listed in routes and therefore have to be provided as part of the URL. With this authentication

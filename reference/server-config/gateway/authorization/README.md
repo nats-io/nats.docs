@@ -1,7 +1,5 @@
 # authorization
 
-/ [Server Config](../../README.md) / [gateway](../README.md) 
-
 Authorization map for gateways. When a single username/password is
 used, it defines the authentication mechanism this server expects,
 and how this server will authenticate itself when establishing

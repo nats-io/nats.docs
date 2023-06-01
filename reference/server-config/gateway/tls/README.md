@@ -1,7 +1,5 @@
 # tls
 
-/ [Server Config](../../README.md) / [gateway](../README.md) 
-
 A `tls` configuration map for securing gateway connections. `verify`
 is always enabled. Unless otherwise, `cert_file` will be the default
 client certificate.
