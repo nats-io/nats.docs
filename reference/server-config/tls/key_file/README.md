@@ -1,0 +1,6 @@
+# key_file
+
+/ [Config](../../README.md) / [tls](../README.md) 
+
+TLS certificate key file.
+

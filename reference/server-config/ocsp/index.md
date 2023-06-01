@@ -1,6 +1,0 @@
-# ocsp
-
-/ [Config](..) 
-
-## Properties
-

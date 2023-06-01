@@ -1,0 +1,11 @@
+# users
+
+/ [Config](../../../README.md) / [authorization](../../README.md) / [auth_callout](../README.md) 
+
+The names or public NKeys of users within the defined account
+that will be used by the the auth service itself and thus bypass
+auth callout.
+
+*Aliases*
+- `auth_users`
+
