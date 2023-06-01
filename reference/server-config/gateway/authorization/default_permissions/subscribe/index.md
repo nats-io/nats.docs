@@ -1,6 +1,6 @@
 # subscribe
 
-/ [config](reference/server-config/index.md) / [gateway](reference/server-config/config/gateway/index.md) / [authorization](reference/server-config/config/gateway/authorization/index.md) / [default_permissions](reference/server-config/config/gateway/authorization/default_permissions/index.md) 
+/ [Config](../../../..) / [gateway](../../..) / [authorization](../..) / [default_permissions](..) 
 
 A single subject, list of subjects, or a allow-deny map of
 subjects for subscribing. Note, that the subject permission can

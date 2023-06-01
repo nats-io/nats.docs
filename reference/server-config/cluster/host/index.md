@@ -1,6 +1,6 @@
 # host
 
-/ [config](reference/server-config/index.md) / [cluster](reference/server-config/config/cluster/index.md) 
+/ [Config](../..) / [cluster](..) 
 
 Host for cluster route connections.
 

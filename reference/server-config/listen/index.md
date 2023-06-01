@@ -1,6 +1,6 @@
 # listen
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 `<host>:<port>` for a client connections.
 

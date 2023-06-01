@@ -1,6 +1,6 @@
 # http
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Listen specification `<host>:<port>` for server monitoring.
 

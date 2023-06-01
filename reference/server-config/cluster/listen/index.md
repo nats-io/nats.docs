@@ -1,6 +1,6 @@
 # listen
 
-/ [config](reference/server-config/index.md) / [cluster](reference/server-config/config/cluster/index.md) 
+/ [Config](../..) / [cluster](..) 
 
 This is an alternate to setting the `host` and `port` separately.
 

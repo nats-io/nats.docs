@@ -1,6 +1,6 @@
 # port
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Port for client connections. Use `-1` for a
 random available port.

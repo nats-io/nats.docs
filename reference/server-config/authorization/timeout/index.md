@@ -1,6 +1,6 @@
 # timeout
 
-/ [config](reference/server-config/index.md) / [authorization](reference/server-config/config/authorization/index.md) 
+/ [Config](../..) / [authorization](..) 
 
 Maximum number of seconds to wait for a client to authenticate.
 

@@ -1,6 +1,6 @@
 # max_connections
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Maximum number of active client connections.
 

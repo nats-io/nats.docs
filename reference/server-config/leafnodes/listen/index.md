@@ -1,6 +1,6 @@
 # listen
 
-/ [config](reference/server-config/index.md) / [leafnodes](reference/server-config/config/leafnodes/index.md) 
+/ [Config](../..) / [leafnodes](..) 
 
 This is an alternate to setting the `host` and `port` separately.
 

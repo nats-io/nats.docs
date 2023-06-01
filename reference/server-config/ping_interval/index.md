@@ -1,6 +1,6 @@
 # ping_interval
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Duration at which pings are sent to clients, leaf nodes and routes.
 In the presence of client traffic, such as messages or client side

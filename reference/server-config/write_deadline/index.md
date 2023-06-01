@@ -1,6 +1,6 @@
 # write_deadline
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Maximum number of seconds the server will block when writing. Once
 this threshold is exceeded the connection will be closed. See slow

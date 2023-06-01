@@ -1,6 +1,6 @@
 # host
 
-/ [config](reference/server-config/index.md) / [gateway](reference/server-config/config/gateway/index.md) 
+/ [Config](../..) / [gateway](..) 
 
 Interface where the gateway will listen for incoming gateway
 connections.

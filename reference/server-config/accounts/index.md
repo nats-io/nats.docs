@@ -1,6 +1,6 @@
 # accounts
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Static set of accounts.
 

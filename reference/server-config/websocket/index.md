@@ -1,6 +1,6 @@
 # websocket
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Configuration for enabling the WebSocket interface.
 

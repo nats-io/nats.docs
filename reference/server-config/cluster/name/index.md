@@ -1,6 +1,6 @@
 # name
 
-/ [config](reference/server-config/index.md) / [cluster](reference/server-config/config/cluster/index.md) 
+/ [Config](../..) / [cluster](..) 
 
 Name of the cluster.
 

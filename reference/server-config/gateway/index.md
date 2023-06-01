@@ -1,18 +1,18 @@
 # gateway
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Configuration for setting up gateway connections
 between clusters.
 
 ## Properties
 
-### [`name`](reference/server-config/name/index.md)
+### [`name`](name)
 
 Name of this cluster. All gateway connections belonging to the
 same cluster must specify the same name.
 
-### [`reject_unknown_cluster`](reference/server-config/reject_unknown_cluster/index.md)
+### [`reject_unknown_cluster`](reject_unknown_cluster)
 
 If true, gateway will reject connections from cluster that are
 not configured in gateways. It does so by checking if the cluster
@@ -22,35 +22,35 @@ restrict a configured gateway, thus cluster, from dynamically growing.
 
 Default value: `false`
 
-### [`host`](reference/server-config/host/index.md)
+### [`host`](host)
 
 Interface where the gateway will listen for incoming gateway
 connections.
 
 Default value: `0.0.0.0`
 
-### [`port`](reference/server-config/port/index.md)
+### [`port`](port)
 
 Port where the gateway will listen for incoming gateway connections.
 
 Default value: `7222`
 
-### [`listen`](reference/server-config/listen/index.md)
+### [`listen`](listen)
 
 `<host>:<port>` format. Alternative to `host`/`port`.
 
-### [`tls`](reference/server-config/tls/index.md)
+### [`tls`](tls)
 
 A `tls` configuration map for securing gateway connections. `verify`
 is always enabled. Unless otherwise, `cert_file` will be the default
 client certificate.
 
-### [`advertise`](reference/server-config/advertise/index.md)
+### [`advertise`](advertise)
 
 `<host>:<port>` to advertise how this server can be contacted by
 other gateway members. This is useful in setups with NAT.
 
-### [`connect_retries`](reference/server-config/connect_retries/index.md)
+### [`connect_retries`](connect_retries)
 
 After how many failed connect attempts to give up establishing
 a connection to a discovered gateway. Default is 0, do not retry.
@@ -59,7 +59,7 @@ apply to explicitly configured gateways.
 
 Default value: `0`
 
-### [`authorization`](reference/server-config/authorization/index.md)
+### [`authorization`](authorization)
 
 Authorization map for gateways. When a single username/password is
 used, it defines the authentication mechanism this server expects,
@@ -75,7 +75,7 @@ The authorization map also allows for timeout which is honored but
 users and token configuration are not supported and will prevent the
 server from starting. The permissions block is ignored.
 
-### [`gateways`](reference/server-config/gateways/index.md)
+### [`gateways`](gateways)
 
 List of gateway entries.
 

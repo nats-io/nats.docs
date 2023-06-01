@@ -1,6 +1,6 @@
 # operator
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 One or more operator JWTs, either in files or inlined.
 

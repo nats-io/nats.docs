@@ -1,6 +1,6 @@
 # no_system_account
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 *Aliases*
 - `no_system`

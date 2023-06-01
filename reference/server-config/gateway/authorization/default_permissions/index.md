@@ -1,26 +1,26 @@
 # default_permissions
 
-/ [config](reference/server-config/index.md) / [gateway](reference/server-config/config/gateway/index.md) / [authorization](reference/server-config/config/gateway/authorization/index.md) 
+/ [Config](../../..) / [gateway](../..) / [authorization](..) 
 
 The default permissions applied to users, if permissions are
 not explicitly defined for them.
 
 ## Properties
 
-### [`publish`](reference/server-config/gateway/authorization/default_permissions/publish/index.md)
+### [`publish`](publish)
 
 A single subject, list of subjects, or a allow-deny map of
 subjects for publishing. Specifying a single subject or list
 of subjects denotes an *allow* and implcitly denies publishing
 to all other subjects.
 
-### [`subscribe`](reference/server-config/gateway/authorization/default_permissions/subscribe/index.md)
+### [`subscribe`](subscribe)
 
 A single subject, list of subjects, or a allow-deny map of
 subjects for subscribing. Note, that the subject permission can
 have an optional second value declaring a queue name.
 
-### [`allow_responses`](reference/server-config/gateway/authorization/default_permissions/allow_responses/index.md)
+### [`allow_responses`](allow_responses)
 
 
 

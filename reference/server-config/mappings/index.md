@@ -1,6 +1,6 @@
 # mappings
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 *Aliases*
 - `maps`

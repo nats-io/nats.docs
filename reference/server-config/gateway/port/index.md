@@ -1,6 +1,6 @@
 # port
 
-/ [config](reference/server-config/index.md) / [gateway](reference/server-config/config/gateway/index.md) 
+/ [Config](../..) / [gateway](..) 
 
 Port where the gateway will listen for incoming gateway connections.
 

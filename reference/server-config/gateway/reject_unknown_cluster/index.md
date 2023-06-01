@@ -1,6 +1,6 @@
 # reject_unknown_cluster
 
-/ [config](reference/server-config/index.md) / [gateway](reference/server-config/config/gateway/index.md) 
+/ [Config](../..) / [gateway](..) 
 
 If true, gateway will reject connections from cluster that are
 not configured in gateways. It does so by checking if the cluster

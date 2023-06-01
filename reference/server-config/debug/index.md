@@ -1,6 +1,6 @@
 # debug
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 If true, enables debug log messages.
 

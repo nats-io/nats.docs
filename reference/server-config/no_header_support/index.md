@@ -1,6 +1,6 @@
 # no_header_support
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Disables support for message headers.
 

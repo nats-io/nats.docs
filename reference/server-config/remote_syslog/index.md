@@ -1,6 +1,6 @@
 # remote_syslog
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Remote syslog address.
 

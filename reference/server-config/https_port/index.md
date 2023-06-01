@@ -1,6 +1,6 @@
 # https_port
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 HTTPS port for server monitoring.
 

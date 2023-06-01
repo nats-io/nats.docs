@@ -1,6 +1,6 @@
 # logfile_size_limit
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Size in bytes after the log file rolls over to a new one.
 

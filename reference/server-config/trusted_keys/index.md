@@ -1,6 +1,6 @@
 # trusted_keys
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 One or more operator public keys to trust.
 

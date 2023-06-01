@@ -1,6 +1,6 @@
 # http_port
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 HTTP port for server monitoring.
 

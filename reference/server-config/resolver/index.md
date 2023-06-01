@@ -1,6 +1,6 @@
 # resolver
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Takes takes precedence over the value obtained from
 the `operator` if defined.

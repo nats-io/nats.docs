@@ -1,6 +1,6 @@
 # pidfile
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 *Aliases*
 - `pid_file`

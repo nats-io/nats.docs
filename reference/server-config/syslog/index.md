@@ -1,6 +1,6 @@
 # syslog
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Log to syslog.
 

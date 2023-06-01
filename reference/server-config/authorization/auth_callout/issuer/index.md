@@ -1,6 +1,6 @@
 # issuer
 
-/ [config](reference/server-config/index.md) / [authorization](reference/server-config/config/authorization/index.md) / [auth_callout](reference/server-config/config/authorization/auth_callout/index.md) 
+/ [Config](../../..) / [authorization](../..) / [auth_callout](..) 
 
 An account public NKey.
 

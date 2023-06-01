@@ -1,6 +1,6 @@
 # store_dir
 
-/ [config](reference/server-config/index.md) / [jetstream](reference/server-config/config/jetstream/index.md) 
+/ [Config](../..) / [jetstream](..) 
 
 Directory to use for JetStream storage.
 

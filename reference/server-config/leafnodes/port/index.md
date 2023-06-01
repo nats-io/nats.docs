@@ -1,6 +1,6 @@
 # port
 
-/ [config](reference/server-config/index.md) / [leafnodes](reference/server-config/config/leafnodes/index.md) 
+/ [Config](../..) / [leafnodes](..) 
 
 Port the server will listen for incoming leaf node
 connections.

@@ -1,6 +1,6 @@
 # authorization
 
-/ [config](reference/server-config/index.md) / [cluster](reference/server-config/config/cluster/index.md) 
+/ [Config](../..) / [cluster](..) 
 
 Authorization map for configuring cluster routes. When a single username/password is used, it defines the authentication mechanism
 this server expects, and how this server will authenticate itself when establishing a connection to a discovered route. This will
@@ -13,41 +13,35 @@ token configuration are not supported and will prevent the server from starting.
 
 ## Properties
 
-### [`username`](reference/server-config/cluster/authorization/username/index.md)
+### [`username`](username)
 
 Specifies a global user name that clients can use to authenticate
 the server (requires `password`, exclusive of `token`).
 
-### [`password`](reference/server-config/cluster/authorization/password/index.md)
+### [`password`](password)
 
 Specifies a global password that clients can use to authenticate
 the server (requires `user`, exclusive of `token`).
 
-### [`token`](reference/server-config/cluster/authorization/token/index.md)
+### [`token`](token)
 
 Specifies a global token that clients can use to authenticate with
 the server (exclusive of `user` and `password`).
 
-### [`users`](reference/server-config/cluster/authorization/users/index.md)
+### [`users`](users)
 
 A list of multiple users with different credentials.
 
-### [`default_permissions`](reference/server-config/cluster/authorization/default_permissions/index.md)
+### [`default_permissions`](default_permissions)
 
 The default permissions applied to users, if permissions are
 not explicitly defined for them.
 
-### [`timeout`](reference/server-config/cluster/authorization/timeout/index.md)
+### [`timeout`](timeout)
 
 Maximum number of seconds to wait for a client to authenticate.
 
 Default value: `1`
-
-### [`auth_callout`](reference/server-config/cluster/authorization/auth_callout/index.md)
-
-Enables the auth callout functionality.
-All client connections requiring authentication will have
-their credentials pass-through to a dedicated auth service.
 
 ## Examples
 

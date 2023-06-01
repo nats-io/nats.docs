@@ -1,6 +1,6 @@
 # client_advertise
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Advertised client `<host>:<port>`. Useful for cluster setups
 behind a NAT.

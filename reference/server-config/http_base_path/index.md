@@ -1,6 +1,6 @@
 # http_base_path
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Base path for monitoring endpoints.
 

@@ -1,6 +1,6 @@
 # mqtt
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Configuration for enabling the MQTT interface.
 

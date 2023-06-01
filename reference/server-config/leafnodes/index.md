@@ -1,6 +1,6 @@
 # leafnodes
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Configuration for setting up leaf node connections.
 
@@ -11,56 +11,56 @@ Configuration for setting up leaf node connections.
 
 **Incoming Connections**
 
-### [`host`](reference/server-config/host/index.md)
+### [`host`](host)
 
 Host name the server will listen on for incoming
 leaf node connections.
 
 Default value: `0.0.0.0`
 
-### [`port`](reference/server-config/port/index.md)
+### [`port`](port)
 
 Port the server will listen for incoming leaf node
 connections.
 
 Default value: `7422`
 
-### [`listen`](reference/server-config/listen/index.md)
+### [`listen`](listen)
 
 This is an alternate to setting the `host` and `port` separately.
 
-### [`tls`](reference/server-config/tls/index.md)
+### [`tls`](tls)
 
 TLS configuration for securing leaf node connections.
 
-### [`advertise`](reference/server-config/advertise/index.md)
+### [`advertise`](advertise)
 
 Hostport to advertise how this sever be contacted
 by leaf nodes. This is useful for setups with a NAT.
 
-### [`no_advertise`](reference/server-config/no_advertise/index.md)
+### [`no_advertise`](no_advertise)
 
 If true, the server will not be advertised to leaf nodes.
 
 Default value: `false`
 
-### [`authorization`](reference/server-config/authorization/index.md)
+### [`authorization`](authorization)
 
 Authorization scoped to accepting leaf node connections.
 
-### [`min_version`](reference/server-config/min_version/index.md)
+### [`min_version`](min_version)
 
 The minimum server version required of the connecting
 leaf node. This must be at least version `2.8.0`.
 
 **Outgoing Connections**
 
-### [`remotes`](reference/server-config/remotes/index.md)
+### [`remotes`](remotes)
 
 List of entries specifiying servers where the leaf
 node client connection can be made.
 
-### [`reconnect`](reference/server-config/reconnect/index.md)
+### [`reconnect`](reconnect)
 
 Interval in seconds at which reconnect attempts to a
 remote server are made.

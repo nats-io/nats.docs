@@ -1,6 +1,6 @@
 # logtime
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 If false, log without timestamps.
 

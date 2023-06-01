@@ -1,6 +1,6 @@
 # verify_cert_and_check_known_urls
 
-/ [config](reference/server-config/index.md) / [tls](reference/server-config/config/tls/index.md) 
+/ [Config](../..) / [tls](..) 
 
 Only used in a non-client context where `verify` is true, such as cluster and gateway configurations.
 The incoming connection's certificate x509v3 Subject Alternative Name DNS entries will be matched against

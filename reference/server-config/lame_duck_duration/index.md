@@ -1,6 +1,6 @@
 # lame_duck_duration
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Must be at least 30s.
 

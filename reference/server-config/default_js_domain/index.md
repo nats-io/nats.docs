@@ -1,6 +1,6 @@
 # default_js_domain
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Account to domain name mapping.
 

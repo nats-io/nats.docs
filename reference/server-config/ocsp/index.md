@@ -1,6 +1,6 @@
 # ocsp
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 ## Properties
 

@@ -1,6 +1,6 @@
 # trace
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 If true, enables protocol trace log messages,
 excluding the system account.

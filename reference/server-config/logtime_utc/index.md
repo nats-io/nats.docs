@@ -1,6 +1,6 @@
 # logtime_utc
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 If true, log timestamps with be in UTC rather than the local timezone.
 

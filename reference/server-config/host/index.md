@@ -1,6 +1,6 @@
 # host
 
-/ [config](reference/server-config/index.md) 
+/ [Config](..) 
 
 Host for client connections.
 
