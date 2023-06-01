@@ -5,12 +5,12 @@ between clusters.
 
 ## Properties
 
-### [`name`](name/README.md)
+#### [`name`](name/README.md)
 
 Name of this cluster. All gateway connections belonging to the
 same cluster must specify the same name.
 
-### [`reject_unknown_cluster`](reject_unknown_cluster/README.md)
+#### [`reject_unknown_cluster`](reject_unknown_cluster/README.md)
 
 If true, gateway will reject connections from cluster that are
 not configured in gateways. It does so by checking if the cluster
@@ -20,35 +20,35 @@ restrict a configured gateway, thus cluster, from dynamically growing.
 
 Default value: `false`
 
-### [`host`](host/README.md)
+#### [`host`](host/README.md)
 
 Interface where the gateway will listen for incoming gateway
 connections.
 
 Default value: `0.0.0.0`
 
-### [`port`](port/README.md)
+#### [`port`](port/README.md)
 
 Port where the gateway will listen for incoming gateway connections.
 
 Default value: `7222`
 
-### [`listen`](listen/README.md)
+#### [`listen`](listen/README.md)
 
 `<host>:<port>` format. Alternative to `host`/`port`.
 
-### [`tls`](tls/README.md)
+#### [`tls`](tls/README.md)
 
 A `tls` configuration map for securing gateway connections. `verify`
 is always enabled. Unless otherwise, `cert_file` will be the default
 client certificate.
 
-### [`advertise`](advertise/README.md)
+#### [`advertise`](advertise/README.md)
 
 `<host>:<port>` to advertise how this server can be contacted by
 other gateway members. This is useful in setups with NAT.
 
-### [`connect_retries`](connect_retries/README.md)
+#### [`connect_retries`](connect_retries/README.md)
 
 After how many failed connect attempts to give up establishing
 a connection to a discovered gateway. Default is 0, do not retry.
@@ -57,7 +57,7 @@ apply to explicitly configured gateways.
 
 Default value: `0`
 
-### [`authorization`](authorization/README.md)
+#### [`authorization`](authorization/README.md)
 
 Authorization map for gateways. When a single username/password is
 used, it defines the authentication mechanism this server expects,
@@ -73,7 +73,7 @@ The authorization map also allows for timeout which is honored but
 users and token configuration are not supported and will prevent the
 server from starting. The permissions block is ignored.
 
-### [`gateways`](gateways/README.md)
+#### [`gateways`](gateways/README.md)
 
 List of gateway entries.
 

@@ -5,7 +5,7 @@ be required, specify them as part of the URL.
 
 ## Examples
 
-Simple Route URLs
+### Simple Route URLs
 ```
 routes: [
   nats-route://localhost:6222,

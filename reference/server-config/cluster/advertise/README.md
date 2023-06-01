@@ -6,5 +6,7 @@ hostname that clients will use when discovering the route so TLS
 hostname verification does not fail.
 
 *Aliases*
+
 - `cluster_advertise`
+
 

@@ -7,3 +7,4 @@ This effectively disables gossiping of new cluster. It does not
 restrict a configured gateway, thus cluster, from dynamically growing.
 
 *Default value*: `false`
+

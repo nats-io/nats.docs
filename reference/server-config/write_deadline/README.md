@@ -5,3 +5,4 @@ this threshold is exceeded the connection will be closed. See slow
 consumer on how to deal with this on the client.
 
 *Default value*: `10s`
+

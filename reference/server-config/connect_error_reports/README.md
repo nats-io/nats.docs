@@ -5,3 +5,4 @@ or leaf node connection is reported. Connect attempts are made
 once every second.
 
 *Default value*: `3600`
+

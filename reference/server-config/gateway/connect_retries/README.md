@@ -6,3 +6,4 @@ When enabled, attempts will be made once a second. This, does not
 apply to explicitly configured gateways.
 
 *Default value*: `0`
+

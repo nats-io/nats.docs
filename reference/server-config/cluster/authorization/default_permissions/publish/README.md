@@ -6,19 +6,21 @@ of subjects denotes an *allow* and implcitly denies publishing
 to all other subjects.
 
 *Aliases*
+
 - `pub`
+
 
 ## Examples
 
-Allow publish to `foo`
+### Allow publish to `foo`
 ```
 foo
 ```
-Allow publish on `foo` and `bar.*`
+### Allow publish on `foo` and `bar.*`
 ```
 [foo, bar.*]
 ```
-Allow publish to `foo.*` except `foo.bar`
+### Allow publish to `foo.*` except `foo.bar`
 ```
 {
   allow: "foo.*"

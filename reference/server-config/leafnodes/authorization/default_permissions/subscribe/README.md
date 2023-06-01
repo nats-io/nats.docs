@@ -5,23 +5,25 @@ subjects for subscribing. Note, that the subject permission can
 have an optional second value declaring a queue name.
 
 *Aliases*
+
 - `sub`
+
 
 ## Examples
 
-Allow subscribe on `foo`
+### Allow subscribe on `foo`
 ```
 foo
 ```
-Allow subscribe on `foo` in group matching `*.dev`
+### Allow subscribe on `foo` in group matching `*.dev`
 ```
 foo *.dev
 ```
-Allow subscribe on `foo.>` and `bar` in group `v1`
+### Allow subscribe on `foo.>` and `bar` in group `v1`
 ```
 [foo.>, "bar v1"]
 ```
-Allow subscribe to `foo.*` except `foo.bar`
+### Allow subscribe to `foo.*` except `foo.bar`
 ```
 {
   allow: "foo.*"

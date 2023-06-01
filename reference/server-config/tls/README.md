@@ -4,49 +4,49 @@ TLS configuration for client and HTTP monitoring.
 
 ## Properties
 
-### [`cert_file`](cert_file/README.md)
+#### [`cert_file`](cert_file/README.md)
 
 TLS certificate file.
 
-### [`key_file`](key_file/README.md)
+#### [`key_file`](key_file/README.md)
 
 TLS certificate key file.
 
-### [`ca_file`](ca_file/README.md)
+#### [`ca_file`](ca_file/README.md)
 
 TLS certificate authority file. Defaults to system trust store.
 
-### [`cipher_suites`](cipher_suites/README.md)
+#### [`cipher_suites`](cipher_suites/README.md)
 
 When set, only the specified TLS cipher suites will be allowed. Values must match the golang version used to build the server.
 
-### [`curve_preferences`](curve_preferences/README.md)
+#### [`curve_preferences`](curve_preferences/README.md)
 
 List of TLS cipher curves to use in order.
 
-### [`insecure`](insecure/README.md)
+#### [`insecure`](insecure/README.md)
 
 Skip certificate verification. This only applies to outgoing connections, NOT incoming client connections. **not recommended.**
 
-### [`timeout`](timeout/README.md)
+#### [`timeout`](timeout/README.md)
 
 TLS handshake timeout.
 
 Default value: `500ms`
 
-### [`verify`](verify/README.md)
+#### [`verify`](verify/README.md)
 
 If true, require and verify client certificates. Does not apply to monitoring.
 
 Default value: `false`
 
-### [`verify_and_map`](verify_and_map/README.md)
+#### [`verify_and_map`](verify_and_map/README.md)
 
 If true, require and verify client certificates and map certificate values for authentication. Does not apply to monitoring.
 
 Default value: `false`
 
-### [`verify_cert_and_check_known_urls`](verify_cert_and_check_known_urls/README.md)
+#### [`verify_cert_and_check_known_urls`](verify_cert_and_check_known_urls/README.md)
 
 Only used in a non-client context where `verify` is true, such as cluster and gateway configurations.
 The incoming connection's certificate x509v3 Subject Alternative Name DNS entries will be matched against
@@ -60,11 +60,11 @@ A consequence of this, is that dynamic cluster growth may require config changes
 option is true. DNS name checking is performed according to RFC6125. Only the full wildcard is supported for the
 the left most domain.
 
-### [`connection_rate_limit`](connection_rate_limit/README.md)
+#### [`connection_rate_limit`](connection_rate_limit/README.md)
 
 
 
-### [`pinned_certs`](pinned_certs/README.md)
+#### [`pinned_certs`](pinned_certs/README.md)
 
 List of hex-encoded SHA256 of DER-encoded public key fingerprints. When present, during the TLS handshake, the
 provided certificate's fingerprint is required to be present in the list, otherwise the connection will be

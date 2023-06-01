@@ -3,8 +3,11 @@
 Host for client connections.
 
 *Default value*: `0.0.0.0`
+
 *Aliases*
+
 - `net`
+
 
 ## Examples
 

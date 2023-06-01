@@ -1,7 +1,9 @@
 # mappings
 
 *Aliases*
+
 - `maps`
+
 
 ## Properties
 
