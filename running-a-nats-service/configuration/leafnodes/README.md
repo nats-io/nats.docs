@@ -92,7 +92,7 @@ Output extract
 Connect a client to the leaf server and make a request to 'q':
 
 ```bash
-nats-req -s nats://127.0.0.1:4111 q ""
+nats req -s nats://127.0.0.1:4111 q ""
 ```
 ```text
 Published [q] : ''
