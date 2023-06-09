@@ -21,8 +21,8 @@ function Fence({ children, language }) {
   if (typeof children === 'object') {
     children = children
       .map((child) => {
-        if (child.type?.name === 'Version') {
-          return versions[child.props.name] || ''
+        if (child.props && Object.keys(child.props).length === 1 && versions[child.props.name]) {
+          return versions[child.props.name]
         } else {
           return child
         }
@@ -52,7 +52,7 @@ function Fence({ children, language }) {
       </Highlight>
 
       <CopyToClipboard text={children.trimEnd()} onCopy={() => setCopied(true)}>
-        <button className="invisible absolute top-0 right-0 rounded-tr-xl bg-gray-800 px-4 py-2 text-xs uppercase text-sky-500 group-hover:visible">
+        <button className="invisible absolute right-0 top-0 rounded-tr-xl bg-gray-800 px-4 py-2 text-xs uppercase text-sky-500 group-hover:visible">
           {copied ? '🎉 copied!' : 'copy'}
         </button>
       </CopyToClipboard>
