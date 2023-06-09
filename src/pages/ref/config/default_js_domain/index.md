@@ -1,5 +1,13 @@
 # default_js_domain
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
 Account to domain name mapping.
+
+*Reloadable*: `true`
+
+*Types*
+
+- `map(string)`
+
+

@@ -1,7 +1,15 @@
 # port
 
-/ [config](/ref/config/index.md) / [gateway](/ref/config/config/gateway/index.md)
+/ [Server Config](/ref/config/index.md) / [gateway](/ref/config/gateway/index.md) 
 
 Port where the gateway will listen for incoming gateway connections.
 
-_Default value_: `7222`
+*Default value*: `7222`
+
+*Reloadable*: `true`
+
+*Types*
+
+- `integer`
+
+

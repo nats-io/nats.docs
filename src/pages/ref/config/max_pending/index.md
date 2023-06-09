@@ -1,7 +1,15 @@
 # max_pending
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
 Maximum number of bytes buffered for a connection Applies to client connections. Note that applications can also set `PendingLimits` (number of messages and total size) for their subscriptions.
 
-_Default value_: `64MB`
+*Default value*: `64MB`
+
+*Reloadable*: `true`
+
+*Types*
+
+- `string`
+
+

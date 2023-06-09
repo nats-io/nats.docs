@@ -1,25 +1,36 @@
 # host
 
-/ [config](/ref/config/index.md) / [leafnodes](/ref/config/config/leafnodes/index.md)
+/ [Server Config](/ref/config/index.md) / [leafnodes](/ref/config/leafnodes/index.md) 
 
 Host name the server will listen on for incoming
 leaf node connections.
 
-_Default value_: `0.0.0.0`
-_Aliases_
+*Default value*: `0.0.0.0`
+
+*Aliases*
 
 - `net`
 
+
+*Reloadable*: `false`
+
+*Types*
+
+- `string`
+
+
 ## Examples
 
-```
-127.0.0.1
-```
-
+### Hostname
 ```
 localhost
 ```
-
+### IPv4
+```
+127.0.0.1
+```
+### IPv6
 ```
 [::]
 ```
+

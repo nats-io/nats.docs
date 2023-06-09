@@ -1,5 +1,13 @@
 # gateways
 
-/ [config](/ref/config/index.md) / [gateway](/ref/config/config/gateway/index.md)
+/ [Server Config](/ref/config/index.md) / [gateway](/ref/config/gateway/index.md) 
 
 List of gateway entries.
+
+*Reloadable*: `true`
+
+*Types*
+
+- `array(gateway)`
+
+

@@ -1,9 +1,18 @@
 # http_port
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
 HTTP port for server monitoring.
 
-_Aliases_
+*Aliases*
 
 - `monitor_port`
+
+
+*Reloadable*: `true`
+
+*Types*
+
+- `integer`
+
+

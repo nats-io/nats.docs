@@ -1,8 +1,17 @@
 # no_system_account
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
-_Aliases_
+*Aliases*
 
 - `no_system`
 - `no_sys_acc`
+
+
+*Reloadable*: `true`
+
+*Types*
+
+- `boolean`
+
+

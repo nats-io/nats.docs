@@ -1,7 +1,15 @@
 # max_traced_msg_len
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
 Set a limit to the trace of the payload of a message.
 
-_Default value_: `0`
+*Default value*: `0`
+
+*Reloadable*: `true`
+
+*Types*
+
+- `integer`
+
+

@@ -1,36 +1,43 @@
 # authorization
 
-/ [config](/ref/config/index.md) / [leafnodes](/ref/config/config/leafnodes/index.md)
+/ [Server Config](/ref/config/index.md) / [leafnodes](/ref/config/leafnodes/index.md) 
 
 Authorization scoped to accepting leaf node connections.
 
+*Reloadable*: `true`
+
+*Types*
+
+- `object`
+
+
 ## Properties
 
-### [`username`](/ref/config/leafnodes/authorization/username/index.md)
+#### [`username`](/ref/config/leafnodes/authorization/username/index.md)
 
 Specifies a global user name that clients can use to authenticate
 the server (requires `password`, exclusive of `token`).
 
-### [`password`](/ref/config/leafnodes/authorization/password/index.md)
+#### [`password`](/ref/config/leafnodes/authorization/password/index.md)
 
 Specifies a global password that clients can use to authenticate
 the server (requires `user`, exclusive of `token`).
 
-### [`token`](/ref/config/leafnodes/authorization/token/index.md)
+#### [`token`](/ref/config/leafnodes/authorization/token/index.md)
 
 Specifies a global token that clients can use to authenticate with
 the server (exclusive of `user` and `password`).
 
-### [`users`](/ref/config/leafnodes/authorization/users/index.md)
+#### [`users`](/ref/config/leafnodes/authorization/users/index.md)
 
 A list of multiple users with different credentials.
 
-### [`default_permissions`](/ref/config/leafnodes/authorization/default_permissions/index.md)
+#### [`default_permissions`](/ref/config/leafnodes/authorization/default_permissions/index.md)
 
 The default permissions applied to users, if permissions are
 not explicitly defined for them.
 
-### [`timeout`](/ref/config/leafnodes/authorization/timeout/index.md)
+#### [`timeout`](/ref/config/leafnodes/authorization/timeout/index.md)
 
 Maximum number of seconds to wait for a client to authenticate.
 
@@ -38,8 +45,7 @@ Default value: `1`
 
 ## Examples
 
-Username/password
-
+### Username/password
 ```
 authorization {
   username: app
@@ -47,18 +53,14 @@ authorization {
 }
 
 ```
-
-Token
-
+### Token
 ```
 authorization {
   token: 6d37bfcc-3eba-4f1f-a6e9-88a3c6ddbf9c
 }
 
 ```
-
-Users and default permissions
-
+### Users and default permissions
 ```
 authorization {
   default_permissions: {
@@ -86,3 +88,4 @@ authorization {
 }
 
 ```
+

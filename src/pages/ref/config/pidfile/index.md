@@ -1,7 +1,16 @@
 # pidfile
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
-_Aliases_
+*Aliases*
 
 - `pid_file`
+
+
+*Reloadable*: `true`
+
+*Types*
+
+- `string`
+
+

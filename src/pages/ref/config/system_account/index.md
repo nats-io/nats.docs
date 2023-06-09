@@ -1,11 +1,21 @@
 # system_account
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
 Name or public key of the account that will be deemed the
-_system_ account.
+*system* account.
 
-_Default value_: `$SYS`
-_Aliases_
+*Default value*: `$SYS`
+
+*Aliases*
 
 - `system`
+
+
+*Reloadable*: `true`
+
+*Types*
+
+- `string`
+
+

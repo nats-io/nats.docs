@@ -1,7 +1,15 @@
 # debug
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
 If true, enables debug log messages.
 
-_Default value_: `false`
+*Default value*: `false`
+
+*Reloadable*: `true`
+
+*Types*
+
+- `boolean`
+
+

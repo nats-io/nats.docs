@@ -1,7 +1,15 @@
 # logtime
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
 If false, log without timestamps.
 
-_Default value_: `true`
+*Default value*: `true`
+
+*Reloadable*: `true`
+
+*Types*
+
+- `string`
+
+

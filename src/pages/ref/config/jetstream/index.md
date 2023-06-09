@@ -1,27 +1,15 @@
 # jetstream
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
-## Properties
+*Default value*: `false`
 
-### [`enabled`](/ref/config/enabled/index.md)
+*Reloadable*: `true`
 
-If true, enables the JetStream subsystem.
+*Types*
 
-Default value: `false`
+- `boolean`
+- `enable-disable`
+- `jetstream`
 
-### [`store_dir`](/ref/config/store_dir/index.md)
 
-Directory to use for JetStream storage.
-
-Default value: `/tmp/nats/jetstream`
-
-### [`max_memory_store`](/ref/config/max_memory_store/index.md)
-
-Maximum size of the _memory_ storage.
-Defaults to 75% of available memory.
-
-### [`max_file_store`](/ref/config/max_file_store/index.md)
-
-Maximum size of the _file_ storage.
-Defaults to up to 1TB if available.

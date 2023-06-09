@@ -1,7 +1,15 @@
 # timeout
 
-/ [config](/ref/config/index.md) / [tls](/ref/config/config/tls/index.md)
+/ [Server Config](/ref/config/index.md) / [tls](/ref/config/tls/index.md) 
 
 TLS handshake timeout.
 
-_Default value_: `500ms`
+*Default value*: `500ms`
+
+*Reloadable*: `true`
+
+*Types*
+
+- `duration`
+
+

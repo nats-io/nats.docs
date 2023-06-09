@@ -1,24 +1,35 @@
 # host
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
 Host for client connections.
 
-_Default value_: `0.0.0.0`
-_Aliases_
+*Default value*: `0.0.0.0`
+
+*Aliases*
 
 - `net`
 
+
+*Reloadable*: `false`
+
+*Types*
+
+- `string`
+
+
 ## Examples
 
-```
-127.0.0.1
-```
-
+### Hostname
 ```
 localhost
 ```
-
+### IPv4
+```
+127.0.0.1
+```
+### IPv6
 ```
 [::]
 ```
+

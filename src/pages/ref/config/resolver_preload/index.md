@@ -1,5 +1,13 @@
 # resolver_preload
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
 Map of account public key to the account JWT.
+
+*Reloadable*: `true`
+
+*Types*
+
+- `map(string)`
+
+

@@ -1,3 +1,11 @@
 # connection_rate_limit
 
-/ [config](/ref/config/index.md) / [tls](/ref/config/config/tls/index.md)
+/ [Server Config](/ref/config/index.md) / [tls](/ref/config/tls/index.md) 
+
+*Reloadable*: `true`
+
+*Types*
+
+- `integer`
+
+

@@ -1,8 +1,16 @@
 # port
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
 Port for client connections. Use `-1` for a
 random available port.
 
-_Default value_: `4222`
+*Default value*: `4222`
+
+*Reloadable*: `true`
+
+*Types*
+
+- `integer`
+
+

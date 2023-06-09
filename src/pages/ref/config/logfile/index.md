@@ -1,9 +1,18 @@
 # logfile
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
 Log file name.
 
-_Aliases_
+*Aliases*
 
 - `log_file`
+
+
+*Reloadable*: `true`
+
+*Types*
+
+- `string`
+
+

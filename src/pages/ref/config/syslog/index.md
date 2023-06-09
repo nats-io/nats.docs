@@ -1,7 +1,15 @@
 # syslog
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
 Log to syslog.
 
-_Default value_: `false`
+*Default value*: `false`
+
+*Reloadable*: `true`
+
+*Types*
+
+- `boolean`
+
+

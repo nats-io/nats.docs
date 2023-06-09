@@ -1,3 +1,11 @@
 # prof_port
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
+
+*Reloadable*: `true`
+
+*Types*
+
+- `integer`
+
+

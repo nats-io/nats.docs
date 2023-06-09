@@ -1,10 +1,20 @@
 # max_subscriptions
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
 Maximum numbers of subscriptions per client and leafnode accounts connection. A value of `0` means unlimited.
 
-_Default value_: `0`
-_Aliases_
+*Default value*: `0`
+
+*Aliases*
 
 - `max_subs`
+
+
+*Reloadable*: `true`
+
+*Types*
+
+- `string`
+
+

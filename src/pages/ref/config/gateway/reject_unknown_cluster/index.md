@@ -1,6 +1,6 @@
 # reject_unknown_cluster
 
-/ [config](/ref/config/index.md) / [gateway](/ref/config/config/gateway/index.md)
+/ [Server Config](/ref/config/index.md) / [gateway](/ref/config/gateway/index.md) 
 
 If true, gateway will reject connections from cluster that are
 not configured in gateways. It does so by checking if the cluster
@@ -8,4 +8,12 @@ name, provided by the incomming connection, exists as named gateway.
 This effectively disables gossiping of new cluster. It does not
 restrict a configured gateway, thus cluster, from dynamically growing.
 
-_Default value_: `false`
+*Default value*: `false`
+
+*Reloadable*: `true`
+
+*Types*
+
+- `boolean`
+
+

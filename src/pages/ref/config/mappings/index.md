@@ -1,9 +1,18 @@
 # mappings
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
-_Aliases_
+*Aliases*
 
 - `maps`
 
+
+*Reloadable*: `true`
+
+*Types*
+
+- `object`
+
+
 ## Properties
+

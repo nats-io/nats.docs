@@ -1,5 +1,13 @@
 # http_base_path
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
 Base path for monitoring endpoints.
+
+*Reloadable*: `true`
+
+*Types*
+
+- `string`
+
+

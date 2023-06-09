@@ -1,11 +1,20 @@
 # websocket
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
 Configuration for enabling the WebSocket interface.
 
-_Aliases_
+*Aliases*
 
 - `ws`
 
+
+*Reloadable*: `true`
+
+*Types*
+
+- `object`
+
+
 ## Properties
+

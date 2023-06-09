@@ -1,7 +1,16 @@
 # max_subscription_tokens
 
-/ [config](/ref/config/index.md)
+/ [Server Config](/ref/config/index.md) 
 
-_Aliases_
+*Aliases*
 
 - `max_sub_tokens`
+
+
+*Reloadable*: `true`
+
+*Types*
+
+- `integer`
+
+
