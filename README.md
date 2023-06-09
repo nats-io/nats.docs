@@ -66,27 +66,41 @@ The `markdoc/tags.js` file registers custom components as [Markdoc tags](https:/
 {% embed url="..." /%}
 ```
 
-##### Quick Links
+##### Cards
 
 ```
-{% quick-links %}
-  {% quick-link title="Idea!" description="" icon="lightbulb" href="" /%}
-  {% quick-link title="Getting Started" description="" icon="installation" href="" /%}
-{% /quick-links %}
+{% cards %}
+  {% card title="Idea!" description="" icon="lightbulb" href="" /%}
+  {% card title="Getting Started" description="" icon="installation" href="" /%}
+{% /card %}
 ```
 
 ##### Tabs
 
 ```
 {% tabs %}
-  {% tab title="C" %}
+  {% tab name="C" %}
     ...
   {% /tab %}
 
-  {% tab title="Go" %}
+  {% tab name="Go" %}
     ...
   {% /tab %}
 {% /tabs %}
+```
+
+##### Examples
+
+```
+{% example %}
+  {% tab name ="C" %}
+    ...
+  {% /tab %}
+
+  {% tab name="Go" %}
+    ...
+  {% /tab %}
+{% /example %}
 ```
 
 ##### Version
@@ -111,9 +125,6 @@ The `redirects.js` file contains redirects of existing paths to the new paths. T
 - Integrate with service to receive per-page feedback
   - Hotjar, Freddy Feedback, etc.
   - Roll our own..
-- Allow "version switcher" to pin server versions?
-  - Top-level widget that changes the URL
-  - All pages relative to that
 - Allow "client switcher" to pin code examples
   - Requires local state in the browser
 

@@ -1,15 +1,10 @@
-import { useContext } from 'react'
-
-import { TabContext } from './Tabs'
-
-function Tab({ children, title }) {
-  const currentTab = useContext(TabContext)
-  return title !== currentTab ? null : children
+function Tab({ children }) {
+  return children
 }
 
 export default {
   render: Tab,
   attributes: {
-    title: { type: String },
+    name: { type: String },
   },
 }

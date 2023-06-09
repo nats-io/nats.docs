@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useEffect, useState, useContext } from 'react'
+import { useContext } from 'react'
 import { Listbox } from '@headlessui/react'
 
 import { GlobalContext } from '@/contexts/global'

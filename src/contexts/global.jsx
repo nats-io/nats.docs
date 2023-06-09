@@ -19,6 +19,7 @@ function toggleDocumentTheme(theme) {
   }
 }
 
+// Keep track of the choosen theme for the site.
 function useThemeState() {
   const [theme, setTheme] = useState()
 
@@ -54,10 +55,30 @@ function useThemeState() {
   }
 }
 
+// Keep track of the choosen client for code examples throughout the site.
+function useClientState() {
+  const [client, setClient] = useState()
+
+  useEffect(() => {
+    if (!client) {
+      setClient(localStorage.getItem('client') || 'CLI')
+      return
+    }
+
+    localStorage.setItem('client', client)
+  }, [client])
+
+  return {
+    client,
+    setClient,
+  }
+}
+
 // Combine all global hooks
 function useGlobalState() {
   return {
     ...useThemeState(),
+    ...useClientState(),
   }
 }
 
