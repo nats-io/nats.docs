@@ -1,8 +1,0 @@
-types:
-  resolver:
-    type: object
-    properties:
-
-  operator:
-    type: object
-    properties:

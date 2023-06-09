@@ -1,4 +1,0 @@
-types:
-  websocket:
-    type: object
-    properties:
