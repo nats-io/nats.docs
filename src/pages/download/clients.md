@@ -1,4 +1,9 @@
-# Clients
+---
+title: Clients
+description: Client download/install guide.
+---
+
+# {% $markdoc.frontmatter.title %}
 
 The official set of clients follows the [NATS Governance](https://github.com/nats-io/nats-general/blob/main/GOVERNANCE.md) model. These clients are managed under the [nats-io](https://github.com/nats-io) organization and are expected to maintain compatibility with current versions of the NATS server.
 
