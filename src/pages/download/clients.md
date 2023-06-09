@@ -8,6 +8,99 @@ Forwards and backwards compatibility of the [client protocol](/reference/protoco
 
 ## Official Clients
 
+### CLI
+
+The NATS CLI is an essential tool for trying out the core capabilities of NATS without writing any code, but also provides a slew of introspection, management, and benchmarking tools.
+
+#### Builds
+
+Standalone builds for all supported operating systems and CPU architectures are available as downloadable assets on the [GitHub releases page](https://github.com/nats-io/natscli/releases/). For convenience, here is a matrix of with direct links:
+
+|       | Linux                                          | macOS                                      | Windows                                    | FreeBSD                                            |
+| :---- | :--------------------------------------------- | :----------------------------------------- | :----------------------------------------- | :------------------------------------------------- |
+| amd64 | [zip][linux-amd64-zip], [tgz][linux-amd64-tgz] | [zip][mac-amd64-zip], [tgz][mac-amd64-tgz] | [zip][win-amd64-zip], [tgz][win-amd64-tgz] | [zip][freebsd-amd64-zip], [tgz][freebsd-amd64-tgz] |
+| arm64 | [zip][linux-arm64-zip], [tgz][linux-arm64-tgz] | [zip][mac-arm64-zip], [tgz][mac-arm64-tgz] | [zip][win-arm64-zip], [tgz][win-arm64-tgz] | -                                                  |
+| arm6  | [zip][linux-arm6-zip], [tgz][linux-arm6-tgz]   | -                                          | [zip][win-arm6-zip], [tgz][win-arm6-tgz]   | -                                                  |
+| arm7  | [zip][linux-arm7-zip], [tgz][linux-arm7-tgz]   | -                                          | [zip][win-arm7-zip], [tgz][win-arm7-tgz]   | -                                                  |
+| 386   | [zip][linux-386-zip], [tgz][linux-386-tgz]     | -                                          | [zip][win-386-zip], [tgz][win-386-tgz]     | -                                                  |
+
+[linux-amd64-tgz]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-linux-amd64.tar.gz
+[linux-amd64-zip]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-linux-amd64.zip
+[linux-386-tgz]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-linux-386.tar.gz
+[linux-386-zip]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-linux-386.zip
+[linux-arm6-tgz]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-linux-arm6.tar.gz
+[linux-arm6-zip]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-linux-arm6.zip
+[linux-arm7-tgz]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-linux-arm7.tar.gz
+[linux-arm7-zip]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-linux-arm7.zip
+[linux-arm64-tgz]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-linux-arm64.tar.gz
+[linux-arm64-zip]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-linux-arm64.zip
+[mac-amd64-tgz]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-darwin-amd64.tar.gz
+[mac-amd64-zip]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-darwin-amd64.zip
+[mac-arm64-tgz]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-darwin-arm64.tar.gz
+[mac-arm64-zip]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-darwin-arm64.zip
+[win-amd64-tgz]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-windows-amd64.tar.gz
+[win-amd64-zip]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-windows-amd64.zip
+[win-386-tgz]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-windows-386.tar.gz
+[win-386-zip]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-windows-386.zip
+[win-arm6-tgz]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-windows-arm6.tar.gz
+[win-arm6-zip]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-windows-arm6.zip
+[win-arm7-tgz]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-windows-arm7.tar.gz
+[win-arm7-zip]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-windows-arm7.zip
+[win-arm64-tgz]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-windows-arm64.tar.gz
+[win-arm64-zip]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-windows-arm64.zip
+[freebsd-amd64-tgz]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-freebsd-amd64.tar.gz
+[freebsd-amd64-zip]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-freebsd-amd64.zip
+
+#### Packages
+
+Official builds are packaged for Debian and Red Hat-based distributions.
+
+|       | Debian           | RedHat           |
+| :---- | :--------------- | :--------------- |
+| amd64 | [deb][deb-amd64] | [rpm][rpm-amd64] |
+| arm64 | [deb][deb-arm64] | [rpm][rpm-arm64] |
+| arm6  | [deb][deb-arm6]  | [rpm][rpm-arm6]  |
+| arm7  | [deb][deb-arm7]  | [rpm][rpm-arm7]  |
+| 386   | [deb][deb-386]   | [rpm][rpm-386]   |
+
+[deb-amd64]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-amd64.deb
+[deb-arm64]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-arm64.deb
+[deb-arm6]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-arm6.deb
+[deb-arm7]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-arm7.deb
+[deb-386]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-386.deb
+[rpm-amd64]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-amd64.rpm
+[rpm-arm64]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-arm64.rpm
+[rpm-arm6]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-arm6.rpm
+[rpm-arm7]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-arm7.rpm
+[rpm-386]: https://github.com/nats-io/natscli/releases/download/v0.0.35/nats-0.0.35-386.rpm
+
+##### Debian/Ubuntu
+
+Install it using `apt install` with the appropriate permissions (i.e. `sudo`).
+
+```sh
+apt install ./nats-<version>-<arch>.deb
+```
+
+##### CentOS/RedHat
+
+Install it using `rpm` with the appropriate permissions (i.e. `sudo`).
+
+```sh
+rpm -i ./nats-<version>-<arch>.rpm
+```
+
+#### macOS
+
+##### Homebrew
+
+Homebrew is updated via community contribution, but the Formulae is often updated the same day that a new release is made.
+
+```sh
+brew tap nats-io/nats-tools
+brew install nats-io/nats-tools/nats
+```
+
 ### Go
 
 ```sh
@@ -16,9 +109,9 @@ go get github.com/nats-io/nats.go@v{% version name="go" /%}
 
 #### Links
 
-- [Tutorial]() (TODO)
 - [Docs](https://pkg.go.dev/github.com/nats-io/nats.go)
 - [Source](https://github.com/nats-io/nats.go)
+- [Package](https://github.com/nats-io/nats.go)
 
 ### Rust
 
