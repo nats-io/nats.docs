@@ -8,7 +8,7 @@ doctl kubernetes cluster create nats-k8s-sfo2 --count 3 --region sfo2
 doctl kubernetes cluster create nats-k8s-ams3 --count 3 --region ams3
 ```
 
-Next, get your NGS credentials with leafnodes enabled. For this follow [these instructions](https://synadia.com/ngs/signup) and choose the `Developer` plan which is free and will allow you to create leafnode connections for a couple of clusters. Once you got the credentials, upload them as a secret to your K8S clusters:
+Next, get your NGS credentials with leafnodes enabled. For this follow [these instructions](https://app.ngs.global/accounts/new/plans) and choose the `Free` plan. It then will allow you to create leafnode connections for a couple of clusters. Once you got the credentials, upload them as a secret to your K8S clusters:
 
 ```bash
 for ctx in do-ams3-nats-k8s-ams3 do-sfo2-nats-k8s-sfo2; do
