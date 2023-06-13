@@ -31,10 +31,12 @@ NATS Server will convert an MQTT topic following those rules:
 | `/` as last level | `./` | `foo/bar/` | `foo.bar./` |
 | `/` next to another | `./` | `foo//bar` | `foo./.bar` |
 | `/` next to another | `/.` | `//foo/bar` | `/./.foo.bar` |
-| `.` | Not Support | `foo.bar` | Not Supported |
-|  | Not Support | `foo bar` | Not Supported |
+| `.` | `//` (see note below) | `foo.bar` | `foo//bar`  |
+| ` ` | Not Supported | `foo bar` | Not Supported |
 
-As indicated above, if an MQTT topic contains the character ``` or``.\`, NATS will reject it, causing the connection to be closed for published messages, and returning a failure code in the SUBACK packet for a subscriptions.
+*Prior to v2.9.10, the character `.` was not supported. At version v2.9.10 and above, the character `.` will be translated to `//`.*
+
+As indicated above, if an MQTT topic contains the character ` ` (or `.` prior to v2.9.10), NATS will reject it, causing the connection to be closed for published messages, and returning a failure code in the SUBACK packet for a subscriptions.
 
 ### MQTT Wildcards
 
