@@ -1,10 +1,8 @@
 # listen
 
-/ [Server Config](/ref/config/index.md) / [cluster](/ref/config/cluster/index.md) 
-
 This is an alternate to setting the `host` and `port` separately.
 
-*Reloadable*: `true`
+*Reloadable*: Yes
 
 *Types*
 

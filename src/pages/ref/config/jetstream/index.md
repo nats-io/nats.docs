@@ -1,10 +1,8 @@
 # jetstream
 
-/ [Server Config](/ref/config/index.md) 
-
 *Default value*: `false`
 
-*Reloadable*: `true`
+*Reloadable*: Yes
 
 *Types*
 

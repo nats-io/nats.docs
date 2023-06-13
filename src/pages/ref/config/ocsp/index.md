@@ -1,13 +1,16 @@
 # ocsp
 
-/ [Server Config](/ref/config/index.md) 
+OCSP Stapling is honored by default for certificates that have the
+`status_request` `Must-Staple` flag. If explicitly disabled, the
+server will not request staples even if `Must-Staple` is present.
 
-*Reloadable*: `true`
+*Default value*: `true`
+
+*Reloadable*: Yes
 
 *Types*
 
-- `object`
+- `boolean`
+- `ocsp`
 
-
-## Properties
 

@@ -1,7 +1,5 @@
 # logfile
 
-/ [Server Config](/ref/config/index.md) 
-
 Log file name.
 
 *Aliases*
@@ -9,7 +7,7 @@ Log file name.
 - `log_file`
 
 
-*Reloadable*: `true`
+*Reloadable*: Yes
 
 *Types*
 

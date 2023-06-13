@@ -1,8 +1,6 @@
 # ports_file_dir
 
-/ [Server Config](/ref/config/index.md) 
-
-*Reloadable*: `true`
+*Reloadable*: Yes
 
 *Types*
 

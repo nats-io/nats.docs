@@ -1,10 +1,8 @@
 # listen
 
-/ [Server Config](/ref/config/index.md) 
-
 `<host>:<port>` for a client connections.
 
-*Reloadable*: `true`
+*Reloadable*: Yes
 
 *Types*
 

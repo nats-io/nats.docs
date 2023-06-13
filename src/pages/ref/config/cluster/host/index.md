@@ -1,7 +1,5 @@
 # host
 
-/ [Server Config](/ref/config/index.md) / [cluster](/ref/config/cluster/index.md) 
-
 Host for cluster route connections.
 
 *Default value*: `0.0.0.0`
@@ -11,7 +9,7 @@ Host for cluster route connections.
 - `net`
 
 
-*Reloadable*: `false`
+*Reloadable*: No
 
 *Types*
 

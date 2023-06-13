@@ -1,7 +1,5 @@
 # host
 
-/ [Server Config](/ref/config/index.md) / [leafnodes](/ref/config/leafnodes/index.md) 
-
 Host name the server will listen on for incoming
 leaf node connections.
 
@@ -12,7 +10,7 @@ leaf node connections.
 - `net`
 
 
-*Reloadable*: `false`
+*Reloadable*: No
 
 *Types*
 

@@ -1,7 +1,5 @@
 # subscribe
 
-/ [Server Config](/ref/config/index.md) / [gateway](/ref/config/gateway/index.md) / [authorization](/ref/config/gateway/authorization/index.md) / [default_permissions](/ref/config/gateway/authorization/default_permissions/index.md) 
-
 A single subject, list of subjects, or a allow-deny map of
 subjects for subscribing. Note, that the subject permission can
 have an optional second value declaring a queue name.
@@ -11,7 +9,7 @@ have an optional second value declaring a queue name.
 - `sub`
 
 
-*Reloadable*: `true`
+*Reloadable*: Yes
 
 *Types*
 

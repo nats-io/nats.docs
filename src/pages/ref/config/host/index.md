@@ -1,7 +1,5 @@
 # host
 
-/ [Server Config](/ref/config/index.md) 
-
 Host for client connections.
 
 *Default value*: `0.0.0.0`
@@ -11,7 +9,7 @@ Host for client connections.
 - `net`
 
 
-*Reloadable*: `false`
+*Reloadable*: No
 
 *Types*
 

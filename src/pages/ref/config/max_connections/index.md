@@ -1,7 +1,5 @@
 # max_connections
 
-/ [Server Config](/ref/config/index.md) 
-
 Maximum number of active client connections.
 
 *Default value*: `64K`
@@ -11,7 +9,7 @@ Maximum number of active client connections.
 - `max_conns`
 
 
-*Reloadable*: `true`
+*Reloadable*: Yes
 
 *Types*
 

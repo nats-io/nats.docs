@@ -1,10 +1,8 @@
 # listen
 
-/ [Server Config](/ref/config/index.md) / [gateway](/ref/config/gateway/index.md) 
-
 `<host>:<port>` format. Alternative to `host`/`port`.
 
-*Reloadable*: `true`
+*Reloadable*: Yes
 
 *Types*
 

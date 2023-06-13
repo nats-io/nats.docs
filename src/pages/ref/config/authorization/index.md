@@ -1,10 +1,8 @@
 # authorization
 
-/ [Server Config](/ref/config/index.md) 
-
 Static single or multi-user declaration.
 
-*Reloadable*: `true`
+*Reloadable*: Yes
 
 *Types*
 
@@ -13,42 +11,15 @@ Static single or multi-user declaration.
 
 ## Properties
 
-#### [`username`](/ref/config/authorization/username/index.md)
-
-Specifies a global user name that clients can use to authenticate
-the server (requires `password`, exclusive of `token`).
-
-#### [`password`](/ref/config/authorization/password/index.md)
-
-Specifies a global password that clients can use to authenticate
-the server (requires `user`, exclusive of `token`).
-
-#### [`token`](/ref/config/authorization/token/index.md)
-
-Specifies a global token that clients can use to authenticate with
-the server (exclusive of `user` and `password`).
-
-#### [`users`](/ref/config/authorization/users/index.md)
-
-A list of multiple users with different credentials.
-
-#### [`default_permissions`](/ref/config/authorization/default_permissions/index.md)
-
-The default permissions applied to users, if permissions are
-not explicitly defined for them.
-
-#### [`timeout`](/ref/config/authorization/timeout/index.md)
-
-Maximum number of seconds to wait for a client to authenticate.
-
-Default value: `1`
-
-#### [`auth_callout`](/ref/config/authorization/auth_callout/index.md)
-
-Enables the auth callout functionality.
-All client connections requiring authentication will have
-their credentials pass-through to a dedicated auth service.
-
+| Name | Description | Default | Reloadable |
+| :--- | :---------- | :------ | :--------- |
+| [username](/ref/config/authorization/username) | Specifies a global user name that clients can use to authenticate the server (requires `password`, exclusive of `token`). | `-` | Yes |
+| [password](/ref/config/authorization/password) | Specifies a global password that clients can use to authenticate the server (requires `user`, exclusive of `token`). | `-` | Yes |
+| [token](/ref/config/authorization/token) | Specifies a global token that clients can use to authenticate with the server (exclusive of `user` and `password`). | `-` | Yes |
+| [users](/ref/config/authorization/users) | A list of multiple users with different credentials. | `-` | Yes |
+| [default_permissions](/ref/config/authorization/default_permissions) | The default permissions applied to users, if permissions are not explicitly defined for them. | `-` | Yes |
+| [timeout](/ref/config/authorization/timeout) | Maximum number of seconds to wait for a client to authenticate. | ``1`` | Yes |
+| [auth_callout](/ref/config/authorization/auth_callout) | Enables the auth callout functionality. All client connections requiring authentication will have their credentials pass-through to a dedicated auth service. | `-` | Yes |
 ## Examples
 
 ### Username/password

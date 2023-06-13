@@ -1,10 +1,8 @@
 # authorization
 
-/ [Server Config](/ref/config/index.md) / [leafnodes](/ref/config/leafnodes/index.md) 
-
 Authorization scoped to accepting leaf node connections.
 
-*Reloadable*: `true`
+*Reloadable*: Yes
 
 *Types*
 
@@ -13,36 +11,14 @@ Authorization scoped to accepting leaf node connections.
 
 ## Properties
 
-#### [`username`](/ref/config/leafnodes/authorization/username/index.md)
-
-Specifies a global user name that clients can use to authenticate
-the server (requires `password`, exclusive of `token`).
-
-#### [`password`](/ref/config/leafnodes/authorization/password/index.md)
-
-Specifies a global password that clients can use to authenticate
-the server (requires `user`, exclusive of `token`).
-
-#### [`token`](/ref/config/leafnodes/authorization/token/index.md)
-
-Specifies a global token that clients can use to authenticate with
-the server (exclusive of `user` and `password`).
-
-#### [`users`](/ref/config/leafnodes/authorization/users/index.md)
-
-A list of multiple users with different credentials.
-
-#### [`default_permissions`](/ref/config/leafnodes/authorization/default_permissions/index.md)
-
-The default permissions applied to users, if permissions are
-not explicitly defined for them.
-
-#### [`timeout`](/ref/config/leafnodes/authorization/timeout/index.md)
-
-Maximum number of seconds to wait for a client to authenticate.
-
-Default value: `1`
-
+| Name | Description | Default | Reloadable |
+| :--- | :---------- | :------ | :--------- |
+| [username](/ref/config/leafnodes/authorization/username) | Specifies a global user name that clients can use to authenticate the server (requires `password`, exclusive of `token`). | `-` | Yes |
+| [password](/ref/config/leafnodes/authorization/password) | Specifies a global password that clients can use to authenticate the server (requires `user`, exclusive of `token`). | `-` | Yes |
+| [token](/ref/config/leafnodes/authorization/token) | Specifies a global token that clients can use to authenticate with the server (exclusive of `user` and `password`). | `-` | Yes |
+| [users](/ref/config/leafnodes/authorization/users) | A list of multiple users with different credentials. | `-` | Yes |
+| [default_permissions](/ref/config/leafnodes/authorization/default_permissions) | The default permissions applied to users, if permissions are not explicitly defined for them. | `-` | Yes |
+| [timeout](/ref/config/leafnodes/authorization/timeout) | Maximum number of seconds to wait for a client to authenticate. | ``1`` | Yes |
 ## Examples
 
 ### Username/password

@@ -3,7 +3,6 @@ const toc = `
 
 * [Overview](overview)
 * [Use Cases](use-cases)
-* [Guided Tour](tour)
 
 ## Download
 
@@ -226,6 +225,7 @@ const toc = `
     * [remotes](ref/config/leafnodes/remotes)
     * [reconnect](ref/config/leafnodes/reconnect)
   * [jetstream](ref/config/jetstream)
+  * [store_dir](ref/config/store_dir)
   * [mappings](ref/config/mappings)
   * [debug](ref/config/debug)
   * [trace](ref/config/trace)
@@ -273,12 +273,6 @@ const toc = `
   * [Gateway](ref/protocols/gateway)
   * [Leafnode](ref/protocols/leafnode)
 * [FAQ](ref/faq)
-
-## Ecosystem
-
-* [Overview](eco)
-* [Tools](eco/tools)
-* [Integrations](eco/integrations)
 
 ## Releases
 

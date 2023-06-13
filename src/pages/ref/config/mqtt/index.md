@@ -1,10 +1,8 @@
 # mqtt
 
-/ [Server Config](/ref/config/index.md) 
-
 Configuration for enabling the MQTT interface.
 
-*Reloadable*: `true`
+*Reloadable*: Yes
 
 *Types*
 
@@ -13,3 +11,5 @@ Configuration for enabling the MQTT interface.
 
 ## Properties
 
+| Name | Description | Default | Reloadable |
+| :--- | :---------- | :------ | :--------- |

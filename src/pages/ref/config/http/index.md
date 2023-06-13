@@ -1,10 +1,8 @@
 # http
 
-/ [Server Config](/ref/config/index.md) 
-
 Listen specification `<host>:<port>` for server monitoring.
 
-*Reloadable*: `true`
+*Reloadable*: Yes
 
 *Types*
 

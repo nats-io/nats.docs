@@ -1,13 +1,11 @@
 # mappings
 
-/ [Server Config](/ref/config/index.md) 
-
 *Aliases*
 
 - `maps`
 
 
-*Reloadable*: `true`
+*Reloadable*: Yes
 
 *Types*
 
@@ -16,3 +14,5 @@
 
 ## Properties
 
+| Name | Description | Default | Reloadable |
+| :--- | :---------- | :------ | :--------- |

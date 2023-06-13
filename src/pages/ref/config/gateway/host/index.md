@@ -1,7 +1,5 @@
 # host
 
-/ [Server Config](/ref/config/index.md) / [gateway](/ref/config/gateway/index.md) 
-
 Interface where the gateway will listen for incoming gateway
 connections.
 
@@ -12,7 +10,7 @@ connections.
 - `net`
 
 
-*Reloadable*: `false`
+*Reloadable*: No
 
 *Types*
 

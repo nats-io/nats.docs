@@ -1,7 +1,5 @@
 # publish
 
-/ [Server Config](/ref/config/index.md) / [leafnodes](/ref/config/leafnodes/index.md) / [authorization](/ref/config/leafnodes/authorization/index.md) / [default_permissions](/ref/config/leafnodes/authorization/default_permissions/index.md) 
-
 A single subject, list of subjects, or a allow-deny map of
 subjects for publishing. Specifying a single subject or list
 of subjects denotes an *allow* and implcitly denies publishing
@@ -12,7 +10,7 @@ to all other subjects.
 - `pub`
 
 
-*Reloadable*: `true`
+*Reloadable*: Yes
 
 *Types*
 

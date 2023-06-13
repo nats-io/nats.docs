@@ -1,7 +1,5 @@
 # operator
 
-/ [Server Config](/ref/config/index.md) 
-
 One or more operator JWTs, either in files or inlined.
 
 *Aliases*
@@ -13,7 +11,7 @@ One or more operator JWTs, either in files or inlined.
 - `root_operators`
 
 
-*Reloadable*: `true`
+*Reloadable*: Yes
 
 *Types*
 

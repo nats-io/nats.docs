@@ -1,10 +1,8 @@
 # https
 
-/ [Server Config](/ref/config/index.md) 
-
 Listen specification `<host>:<port>` for TLS server monitoring.
 
-*Reloadable*: `true`
+*Reloadable*: Yes
 
 *Types*
 

@@ -1,7 +1,5 @@
 # http_port
 
-/ [Server Config](/ref/config/index.md) 
-
 HTTP port for server monitoring.
 
 *Aliases*
@@ -9,7 +7,7 @@ HTTP port for server monitoring.
 - `monitor_port`
 
 
-*Reloadable*: `true`
+*Reloadable*: Yes
 
 *Types*
 
