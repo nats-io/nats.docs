@@ -156,6 +156,7 @@ _The server will default to holding the last 10,000 closed connections._
 | uptime | Lifetime of the connection |
 | stop | Stop time for a closed connection |
 | reason | Reason for a closed connection |
+| rtt | Round trip time |
 
 #### Examples
 
