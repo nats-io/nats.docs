@@ -694,6 +694,7 @@ The `/jsz` endpoint reports more detailed information on JetStream. For accounts
 | leader-only | true, 1, false, 0 | Only the leader responds. Default is false. |
 | offset | number &gt; 0 | Pagination offset. Default is 0. |
 | limit | number &gt; 0 | Number of results to return. Default is 1024. |
+| raft | true, 1, false, 0 | Include information details about the Raft group. Default is false. |
 
 #### Examples
 
