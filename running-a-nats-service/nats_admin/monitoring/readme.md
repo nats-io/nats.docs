@@ -825,13 +825,14 @@ The `/healthz` endpoint returns OK if the server is able to accept connections.
 
 | Argument | Values | Description |
 | :--- | :--- | :--- |
-| js-enabled | true, 1 | Returns an error if JetStream is disabled. |
+| js-enabled-only | true, 1 | Returns an error if JetStream is disabled. |
 | js-server-only | true, 1 | Skip health check of accounts, streams, and consumers. |
+| js-enabled | true, 1 | Returns an error if JetStream is disabled. (**Deprecated**: use `js-enabled-only` instead). |
 
 #### Example
 
 - Default - https://demo.nats.io:8222/healthz
-- Expect JetStream - https://demo.nats.io:8222/healthz?js-enabled=true
+- Expect JetStream - https://demo.nats.io:8222/healthz?js-enabled-only=true
 
 #### Response
 
