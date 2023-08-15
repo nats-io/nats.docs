@@ -156,6 +156,7 @@ _The server will default to holding the last 10,000 closed connections._
 | uptime | Lifetime of the connection |
 | stop | Stop time for a closed connection |
 | reason | Reason for a closed connection |
+| rtt | Round trip time |
 
 #### Examples
 
@@ -693,6 +694,7 @@ The `/jsz` endpoint reports more detailed information on JetStream. For accounts
 | leader-only | true, 1, false, 0 | Only the leader responds. Default is false. |
 | offset | number &gt; 0 | Pagination offset. Default is 0. |
 | limit | number &gt; 0 | Number of results to return. Default is 1024. |
+| raft | true, 1, false, 0 | Include information details about the Raft group. Default is false. |
 
 #### Examples
 
@@ -700,7 +702,7 @@ Get basic JetStream information: [https://demo.nats.io:8222/jsz](https://demo.na
 
 Request accounts and control limit and offset: [https://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128](https://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128).
 
-You can also report detailed consumer information on a per connection basis using consumer=true. For example: [https://demo.nats.io:8222/jsz?consumers=true](https://demo.nats.io:8222/jsz?consumer=true).
+You can also report detailed consumer information on a per connection basis using consumer=true. For example: [https://demo.nats.io:8222/jsz?consumers=true](https://demo.nats.io:8222/jsz?consumers=true).
 
 #### Response
 
@@ -824,13 +826,14 @@ The `/healthz` endpoint returns OK if the server is able to accept connections.
 
 | Argument | Values | Description |
 | :--- | :--- | :--- |
-| js-enabled | true, 1 | Returns an error if JetStream is disabled. |
+| js-enabled-only | true, 1 | Returns an error if JetStream is disabled. |
 | js-server-only | true, 1 | Skip health check of accounts, streams, and consumers. |
+| js-enabled | true, 1 | Returns an error if JetStream is disabled. (**Deprecated**: use `js-enabled-only` instead). |
 
 #### Example
 
 - Default - https://demo.nats.io:8222/healthz
-- Expect JetStream - https://demo.nats.io:8222/healthz?js-enabled=true
+- Expect JetStream - https://demo.nats.io:8222/healthz?js-enabled-only=true
 
 #### Response
 
