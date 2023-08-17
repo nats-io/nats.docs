@@ -1,82 +1,39 @@
 # Introduction
 
-In this section, you can find several examples of how to deploy NATS and other tools from the NATS ecosystem on Kubernetes.
+The recommended way to deploy NATS on Kubernetes is using [Helm](https://helm.sh/) with the official NATS Helm Chart.
 
-* [Getting Started](nats-kubernetes.md#getting-started)
-* [Advanced Helm chart examples](helm-charts.md)
-* [NATS + Cert Manager in k8s](nats-cluster-and-cert-manager.md)
-* [Securing a NATS Cluster using cfssl](operator-tls-setup-with-cfssl.md)
+## Helm repo
 
-## Running NATS on K8S
+To register the NATS Helm chart run:
 
-### Getting started
-
-The fastest and easiest way to get started is to use [NATS Helm Charts](https://github.com/nats-io/k8s/tree/main/helm/charts/nats).
-
-```bash
+```sh
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
-helm install my-nats nats/nats
-
 ```
 
-This will install NATS Server in basic setup with NATS box utility container that can be used as a simple way to interact with the server using `nats` and `nsc` CLI tools preinstalled.
+## Config values
 
+The default configuration values of the chart will deploy a single NATS server as a `StatefulSet` and a single replica [nats-box](https://github.com/nats-io/nats-box) `Deployment`.
 
-_In case you don't have a cluster already, you can find some notes on how to create a small cluster using one of the hosted Kubernetes providers_ [_here_](create-k8s-cluster.md)_._
+The [ArtifactHub page](https://artifacthub.io/packages/helm/nats/nats) provides the list of Helm configuration values and examples for the current release.
 
-To check if NATS is reacheable from within the cluster connect to NATS box
+_For tracking the development version, refer to the [source repo](https://github.com/nats-io/k8s/tree/main/helm/charts/nats#nats-server)._
 
-```bash
-kubectl exec -n default -it deployment/my-nats-box -- /bin/sh -l
+Once the desired configuration is created, install the chart:
+
+```sh
+helm install nats nats/nats
 ```
 
-and try subscribing and publishing
+## Validate connectivity
 
-```bash
-nats-box:~# nats sub test &
-nats-box:~# nats pub test hi
+Once the pods are up, validate by accessing the `nats-box` container and running a CLI command.
+
+```sh
+kubectl exec -it deployment/nats-box -- nats pub test hi
 ```
 
-If you're seeing the messages, all went well and you have successfully installed NATS.
+The output should indicate a successful publish to NATS.
 
-Now, let's discover some more advanced options.
-
-### NATS HA setup
-
-To setup your cluster in HA manner, you need to customize NATS Helm charts.
-Fortunately, `values.yaml` have most of the features available as easy values customization and there should be no need to manually tweak the templates.
-
-One way to do it is to create your own `.yaml` file with changed only values:
-
-```yaml
-cluster:
-  enabled: true
-  replicas: 3
 ```
-
-and run
-
-```bash
-helm install nats nats/nats --values ha.yaml
+16:17:00 Published 2 bytes to "test"
 ```
-
-### JetStream
-
-Similarly to HA, enabling JetStream requires changing few values:
-
-```yaml
-nats:
-  jetstream:
-    enabled: true
-
-    memStorage:
-      enabled: true
-      size: 2Gi
-
-    fileStorage:
-      enabled: true
-      size: 1Gi
-      storageDirectory: /data/
-```
-
-For more examples, including TLS, Auth, external access, leaf nodes and gateways please check [Advanced Helm chart examples](helm-charts.md)
