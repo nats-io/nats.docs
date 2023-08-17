@@ -219,5 +219,10 @@ redirects:
   nats-tools/nsc/signing_keys: ./using-nats/nats-tools/nsc/signing_keys.md
   nats-tools/nsc/streams: ./using-nats/nats-tools/nsc/streams.md
   nats-tools/nats-tools: ./using-nats/nats-tools/readme.md
-
-  
+  running-a-nats-service/nats-on-kubernetes/create-k8s-cluster: running-a-nats-service/nats-on-kubernetes/nats-kubernetes.md
+  running-a-nats-service/nats-on-kubernetes/from-zero-to-leafnodes: running-a-nats-service/nats-on-kubernetes/nats-kubernetes.md
+  running-a-nats-service/nats-on-kubernetes/helm-charts: running-a-nats-service/nats-on-kubernetes/nats-kubernetes.md
+  running-a-nats-service/nats-on-kubernetes/nats-cluster-and-cert-manager: running-a-nats-service/nats-on-kubernetes/nats-kubernetes.md
+  running-a-nats-service/nats-on-kubernetes/nats-external-nlb: running-a-nats-service/nats-on-kubernetes/nats-kubernetes.md
+  running-a-nats-service/nats-on-kubernetes/operator-tls-setup-with-cfssl: running-a-nats-service/nats-on-kubernetes/nats-kubernetes.md
+  running-a-nats-service/nats-on-kubernetes/super-cluster-on-digital-ocean: running-a-nats-service/nats-on-kubernetes/nats-kubernetes.md
