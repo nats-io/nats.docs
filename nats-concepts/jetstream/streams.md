@@ -32,7 +32,7 @@ Below are the set of stream configuration options that can be defined. The `Vers
 | NoAck                         | Disables acknowledging messages that are received by the Stream                                                                                                                                   | 2.2.0   | Yes             |
 | [Retention](#retentionpolicy) | Declares the retention policy for the stream.                                                                                                                                                     | 2.2.0   | No              |
 | [Discard](#discardpolicy)     | The behavior of discarding messages when any streams' limits have been reached.                                                                                                                   | 2.2.0   | Yes             |
-| Duplicates                    | The window within which to track duplicate messages, expressed in nanoseconds.                                                                                                                    | 2.2.0   | Yes             |
+| Duplicate Window              | The window within which to track duplicate messages, expressed in nanoseconds.                                                                                                                    | 2.2.0   | Yes             |
 | [Placement](#placement)       | Used to declare where the stream should be placed via tags and/or an explicit cluster name.                                                                                                       | 2.2.0   | Yes             |
 | [Mirror](#mirror)             | If set, indicates this stream is a mirror of another stream.                                                                                                                                      | 2.2.0   | No (if defined) |
 | [Sources](#sources)           | If defined, declares one or more streams this stream will source messages from.                                                                                                                   | 2.2.0   | Yes             |
@@ -188,7 +188,39 @@ The fields for configuring republish include:
 
 Every message that is republished will have a set of headers set providing metadata about the source:
 
-- `Nats-Stream` - name of the stream the message was republished from.
+- `Nats-Stream` - Name of the stream the message was republished from.
 - `Nats-Subject` - The original subject of the message
+- `Nats-Time-Stamp` - The original timestamp of the message.
 - `Nats-Sequence` - The original sequence of the message in the stream
 - `Nats-Last-Sequence` - The last sequence of the message having the same subject, otherwise zero if this is the first message for the subject.
+
+## Headers
+
+### Publish
+
+Headers that can be set by a client when a message being published.
+
+| Name                                  | Description                                                                                                                                                                                                       | Example                                                  | Version |
+| :------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------- | :------ |
+| `Nats-Msg-Id`                         | Client-defined unique identifier for a message that will be used by the server apply de-duplication within the configured `Duplicate Window`.                                                                     | `Nats-Msg-Id: 9f01ccf0-8c34-4789-8688-231a2538a98b`      | 2.2.0   |
+| `Nats-Expected-Stream`                | Used to assert the published message is received by some expected stream.                                                                                                                                         | `Nats-Expected-Stream: my-stream`                        | 2.2.0   |
+| `Nats-Expected-Last-Msg-Id`           | Used to apply optimistic concurrency control at the stream-level. The value is the last expected `Nats-Msg-Id` and the server will reject a publish if the current ID does not match.                             | `Nats-Msg-Id: 9f01ccf0-8c34-4789-8688-231a2538a98b`      | 2.2.0   |
+| `Nats-Expected-Last-Sequence`         | Used to apply optimistic concurrency control at the stream-level. The value is the last expected sequence and the server will reject a publish if the current sequence does not match.                            | `Nats-Expected-Last-Sequence: 328`                       | 2.2.0   |
+| `Nats-Expected-Last-Subject-Sequence` | Used to apply optimistic concurrency control at the subject-level. The value is the last expected sequence and the server will reject a publish if the current sequence does not match for the message's subject. | `Nats-Expected-Last-Subject-Sequence: 38`                | 2.3.1   |
+| `Nats-Rollup`                         | Used to apply a purge of all prior messages in the stream or at the subject-level.                                                                                                                                | `Nats-Rollup: all` (stream) `Nats-Rollup: sub` (subject) | 2.6.2   |
+
+### Sources
+
+Headers that are implicitly added to messages sourced from other streams.
+
+| Name                 | Description                                                 | Example                         | Version |
+| :------------------- | :---------------------------------------------------------- | :------------------------------ | :------ |
+| `Nats-Stream-Source` | Specifies the stream a message sourced from, if applicable. | `Nats-Stream-Source: my-stream` | 2.2.0   |
+
+### Headers-only
+
+Headers added to messages when the consumer is configured to be "headers only" omitting the body.
+
+| Name            | Description                          | Example               | Version |
+| :-------------- | :----------------------------------- | :-------------------- | :------ |
+| `Nats-Msg-Size` | Indicates the message size in bytes. | `Nats-Msg-Size: 1024` | 2.6.2   |
