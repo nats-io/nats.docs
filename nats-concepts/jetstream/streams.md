@@ -41,7 +41,7 @@ Below are the set of stream configuration options that can be defined. The `Vers
 | Sealed                        | Sealed streams do not allow messages to be deleted via limits or API, sealed streams can not be unsealed via configuration update. Can only be set on already created streams via the Update API. | 2.6.2   | Yes (once)      |
 | DenyDelete                    | Restricts the ability to delete messages from a stream via the API.                                                                                                                               | 2.6.2   | No              |
 | DenyPurge                     | Restricts the ability to purge messages from a stream via the API.                                                                                                                                | 2.6.2   | No              |
-| AllowRollup                   | Allows the use of the `Nats-Rollup` header to replace all contents of a stream, or subject in a stream, with a single new message.                                                                | 2.6.2   | Yes             |
+| [AllowRollup](#allowrollup)   | Allows the use of the `Nats-Rollup` header to replace all contents of a stream, or subject in a stream, with a single new message.                                                                | 2.6.2   | Yes             |
 | [RePublish](#republish)       | If set, messages stored to the stream will be immediately _republished_ to the configured subject.                                                                                                | 2.8.3   | No (if defined) |
 | AllowDirect                   | If true, and the stream has more than one replica, each replica will respond to _direct get_ requests for individual messages, not only the leader.                                               | 2.9.0   | Yes             |
 | MirrorDirect                  | If true, and the stream is a mirror, the mirror will participate in a serving _direct get_ requests for individual messages from origin stream.                                                   | 2.9.0   | Yes             |
@@ -165,6 +165,14 @@ A stream defining `Sources` is a generalization of the `Mirror` and allows for s
 One functional difference from a mirror is that a stream with sources defined can _also_ be published to. That is, it can define a set of subjects for which clients can publish messages to directly.
 
 The fields per source stream are the same as defined in mirror above.
+
+### AllowRollup
+
+If enabled, the `AllowRollup` stream option allows for a published message having a `Nats-Rollup` header indicating all prior messages should be purged. The scope of the _purge_ is defined by the header value, either `all` or `sub`.
+
+The `Nats-Rollup: all` header will purge all prior messages in the stream. Whereas the `sub` value will purge all prior messages for a given subject.
+
+A common use case for rollup is for state snapshots, where the message being published has accumulated all the necessary state from the prior messages, relative to the stream or a particular subject.
 
 ### RePublish
 
