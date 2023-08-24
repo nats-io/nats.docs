@@ -134,7 +134,7 @@ e.g. `ncs push -i` or `nsc push -a B -u nats://localhost`
 
 ### Testing the Service
 
-To test the service, we can install the ['nats'](/using-nats/nats-tools/nats-tools/natscli.md) CLI tool:
+To test the service, we can install the ['nats'](/using-nats/nats-tools/nats_cli) CLI tool:
 
 Set up a process to handle the request. This process will run from account 'A' using user 'U':
 

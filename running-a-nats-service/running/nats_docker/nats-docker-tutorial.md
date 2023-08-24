@@ -1,6 +1,6 @@
 # Tutorial
 
-In this tutorial you run the [NATS server Docker image](https://hub.docker.com/_/nats/). The Docker image provides an instance of the [NATS Server](/nats-server/). Synadia actively maintains and supports the nats-server Docker image. The NATS image is only 6 MB in size.
+In this tutorial you run the [NATS server Docker image](https://hub.docker.com/_/nats/). The Docker image provides an instance of the NATS Server. Synadia actively maintains and supports the nats-server Docker image. The NATS image is only 6 MB in size.
 
 **1. Set up Docker.**
 

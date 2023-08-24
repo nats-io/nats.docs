@@ -159,11 +159,9 @@ By default, the JetStream subsystem will store data in the /tmp directory, but y
 | `store_dir` | Directory to use for JetStream storage. | `/tmp/nats/jetstream` | 2.2.0 |
 | `max_memory_store` | Maximum size of the 'memory' storage | 75% of available memory | 2.2.0 |
 | `max_file_store` | Maximum size of the 'file' storage | Up to 1TB if available | 2.2.0 |
-| `cipher` | Set to enable storage-level [encryption at rest][encryption]. Choose either `chachapoly` or `aes`. | (not set) | 2.3.0 |
+| `cipher` | Set to enable storage-level [encryption at rest](/running-a-nats-service/nats_admin/jetstream_admin/encryption_at_rest.md). Choose either `chachapoly` or `aes`. | (not set) | 2.3.0 |
 | `key` | The encryption key to use when encryption is enabled. A key length of at least 32 bytes is recommended. Note, this key is HMAC-256 hashed on startup which reduces the byte length to 64. | (not set) | 2.3.0 |
 | `max_outstanding_catchup` | Max in-flight bytes for stream catch-up | 32MB | 2.9.0 |
-
-[encryption]: /running-a-nats-service/nats_admin/jetstream_admin/encryption_at_rest
 
 Here's an example minimal file that will store data in a local "nats" directory with some limits.
 

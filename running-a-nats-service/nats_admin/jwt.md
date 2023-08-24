@@ -193,7 +193,7 @@ This time the message is received by the subscriber:
 user b
 ```
 
-Accounts are a lot more powerful than what has been demonstrated here. Take a look at the complete documentation of [accounts](../configuration/securing_nats/accounts.md#accounts) and the [users](../../nats-server/configuration/securing_nats/auth_intro/) associated with them. All of this is in a plain NATS config file. (Copy the above config and try it using this command: `nats-server -c <filename>`) In order to make any changes, every participating nats-server config file in the same security domain has to change. This configuration is typically controlled by one organization or the administrator.
+Accounts are a lot more powerful than what has been demonstrated here. Take a look at the complete documentation of [accounts](../configuration/securing_nats/accounts.md#accounts) and the [users](/running-a-nats-service/configuration/securing_nats/auth_intro) associated with them. All of this is in a plain NATS config file. (Copy the above config and try it using this command: `nats-server -c <filename>`) In order to make any changes, every participating nats-server config file in the same security domain has to change. This configuration is typically controlled by one organization or the administrator.
 
 #### Key Takeaways
 
@@ -409,7 +409,7 @@ types. Which one to pick depends upon your needs:
   * Will download Accounts from a web server
     * Allows for easy publication of account JWTs programmatically
       generated using NKEYs and the JWT library.
-    * The [`nats-account-server`](../../using-nats/nats-tools/nas/) is
+    * The [`nats-account-server`](https://nats-io.gitbook.io/legacy-nats-docs/nats-account-server) is
       such a webserver. When set up correctly, it will inform
       `nats-server` of Account JWT changes.
   * Depending on configuration, requires read and/or write access to
@@ -1340,7 +1340,7 @@ func generateUserJWT(userPublicKey, accountPublicKey string, accountSigningKey n
 }
 ```
 
-Inspect the [user claim](https://github.com/nats-io/jwt/blob/master/user_claims.go#L39-L45) for all available properties/limits/permissions to set. When using an [account claim](https://github.com/nats-io/jwt/blob/057ba30017beca2abb0ba35e7db6442be3479c5d/account_claims.go#L107-L114) instead, you can dynamically generate accounts. Additional steps are to push the new account as outlined [here](jwt.md#publicize-an-account-with-push---operator-environmentenvironment-with-push-permissions---all-deployment-modes). Depending on your needs, you may want to consider exchanging the accounts identity NKEY in a similar way that the users key is exchanged in the [next section](jwt.md#distributed-user-creation).
+Inspect the [user claim](https://github.com/nats-io/jwt/blob/main/v2/user_claims.go#L57) for all available properties/limits/permissions to set. When using an [account claim](https://github.com/nats-io/jwt/blob/057ba30017beca2abb0ba35e7db6442be3479c5d/account_claims.go#L107-L114) instead, you can dynamically generate accounts. Additional steps are to push the new account as outlined [here](jwt.md#publicize-an-account-with-push---operator-environmentenvironment-with-push-permissions---all-deployment-modes). Depending on your needs, you may want to consider exchanging the accounts identity NKEY in a similar way that the users key is exchanged in the [next section](jwt.md#distributed-user-creation).
 
 #### **Distributed User Creation**
 
