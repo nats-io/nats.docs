@@ -2,7 +2,7 @@
 
 ## NATS Cluster Protocol
 
-The NATS server clustering protocol describes the protocols passed between NATS servers within a [cluster](../running-a-nats-service/configuration/clustering/) to share accounts, subscriptions, forward messages, and share cluster topology regarding new servers. It is a simple text-based protocol. Servers communicate with each other through a regular TCP/IP or TLS socket using a small set of protocol operations that are terminated by newline.
+The NATS server clustering protocol describes the protocols passed between NATS servers within a [cluster](/running-a-nats-service/configuration/clustering/) to share accounts, subscriptions, forward messages, and share cluster topology regarding new servers. It is a simple text-based protocol. Servers communicate with each other through a regular TCP/IP or TLS socket using a small set of protocol operations that are terminated by newline.
 
 The NATS server implements a [zero allocation byte parser](https://youtu.be/ylRKac5kSOk?t=10m46s) that is fast and efficient.
 

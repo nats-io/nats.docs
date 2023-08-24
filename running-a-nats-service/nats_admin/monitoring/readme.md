@@ -24,7 +24,7 @@ The NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSON
 
 ### Enabling monitoring
 
-Monitoring can be enabled in [server configuration][config] or as a server [command-line option][options]. The conventional port is `8222`.
+Monitoring can be enabled in [server configuration](/running-a-nats-service/configuration#monitoring-and-tracing) or as a server [command-line option](/running-a-nats-service/introduction/flags#server-options). The conventional port is `8222`.
 
 As server configuration:
 
@@ -36,10 +36,7 @@ As a command-line option:
 ```bash
 nats-server -m 8222
 ```
-Once the server is running using one of the two methods, go to [http://localhost:8222](http://localhost:8222) to browse the available endpoints detailed below.
-
-[config]: /running-a-nats-service/configuration#monitoring-and-tracing
-[options]: /running-a-nats-service/introduction/flags#server-options
+Once the server is running using one of the two methods, go to http://localhost:8222 to browse the available endpoints detailed below.
 
 ## Monitoring Endpoints
 

@@ -34,7 +34,7 @@ Besides the connectivity and security details, there are numerous options for a 
 
 ## See Also
 
-WebSocket and NATS&#x20;
+WebSocket and NATS
 
 {% embed url="https://www.youtube.com/watch?v=AbAR9zgJnjY" %}
 WebSocket and NATS | Hello World

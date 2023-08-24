@@ -122,4 +122,3 @@ If you want to try on a remote server, the NATS team maintains a demo server you
 ```shell
 nats sub -s nats://demo.nats.io ">"
 ```
-

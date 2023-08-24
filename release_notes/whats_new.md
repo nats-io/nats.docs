@@ -161,7 +161,7 @@ For full release information, see links below;
 
 ## Server release v2.3.0
 
-* [OCSP support](nats-server/configuration/ocsp.md)
+* [OCSP support](/running-a-nats-service/configuration/securing_nats/ocsp)
 
 ### JetStream
 

@@ -18,11 +18,11 @@ You can create, update and delete accounts and users programmatically using the 
 
 #### User JWTs
 
-[User creation in Golang](https://docs.nats.io/running-a-nats-service/nats_admin/security/jwt#automated-sign-up-services-jwt-and-nkey-libraries)
+[User creation in Golang](/running-a-nats-service/nats_admin/security/jwt#automated-sign-up-services-jwt-and-nkey-libraries)
 
 #### Account JWTs
 
-Golang example from https://github.com/bruth/nats-by-example/tree/main/auth/create-jwts
+Golang example from https://natsbyexample.com/examples/auth/nkeys-jwts/go
 
 ```
 package main
