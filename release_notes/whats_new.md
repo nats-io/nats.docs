@@ -9,18 +9,21 @@ Please check out the [announcement post](https://nats.io/blog/nats-server-29-rel
 ## Server release v2.8.0
 
 ### LeafNode
+
 Support for a `min_version` in the `leafnodes{}` that would reject servers with a lower version. Note that this would work only for servers that are v2.8.0 and above.
 
 ### Monitoring
+
 * Server version in monitoring landing page.
 * Logging to `/healthz` endpoint when failure occurs.
 * MQTT and Websocket blocks in the `/varz` endpoint.
 
 ### JetStream
+
 * Consumer check added to `healthz` endpoint.
 * Max stream bytes checks.
 * Ability to limit a consumer's `MaxAckPending` value.
-* Allow streams and consumers to migrate between clusters. *This feature is considered "beta"*.
+* Allow streams and consumers to migrate between clusters. _This feature is considered "beta"_.
 * New `unique_tag` option in `jetstream{}` configuration block to prevent placing a stream in the same availability zone twice.
 * Stream `Alternates` field in `StreamInfo` response. They provide a priority list of mirrors and the source in relation to where the request originated.
 * Deterministic subject tokens to partition mapping.
@@ -30,30 +33,32 @@ For full release information, see links below;
 * Release notes [2.8.0](https://github.com/nats-io/nats-server/releases/tag/v2.8.0)
 * Full list of Changes [2.7.4...2.8.0](https://github.com/nats-io/nats-server/compare/v2.7.4...v2.8.0)
 
-
 ## Server release v2.7.0
 
 ### **Notice for JetStream Users**
+
 See [important note](https://github.com/nats-io/nats-server/pull/2693#issuecomment-996212582) if using LeafNode regarding domains.
 
 ### Configuration
+
 Ability to configure account limits (`max_connections`, `max_subscriptions`, `max_payload`, `max_leafnodes`) in server configuration file.
 
 ### JetStream
+
 * Overflow placement for streams. A stream can now be placed in the closest cluster from the origin request if it can be placed there.
 * Support for ephemeral Pull consumers (client libraries will need to be updated to allow those).
 * New consumer configuration options
-  * For Pull Consumers:
-  `MaxRequestBatch` to limit the batch size any client can request
-  `MaxRequestExpires` to limit the expiration any client can request
-  * For ephemeral consumers:
-  `InactiveThreshold` duration that instructs the server to cleanup ephemeral consumers that are inactive for that long.
+  * For Pull Consumers: `MaxRequestBatch` to limit the batch size any client can request `MaxRequestExpires` to limit the expiration any client can request
+  * For ephemeral consumers: `InactiveThreshold` duration that instructs the server to cleanup ephemeral consumers that are inactive for that long.
 * Ability to configure `max_file_store` and `max_memory_store` in the `jetstream{}` block as strings with the following suffixes `K`, `M`, `G` and `T`, for instance: `max_file_store: "256M"`.
 * Support for the JWT field `MaxBytesRequired`, which defines a per-account maximum bytes for assets.
 
 ### MQTT
+
 Support for websocket protocol. MQTT clients must connect to the opened websocket port and add `/mqtt` to the URL path.
+
 ### TLS
+
 Ability to rate-limit the clients connections by adding the `connection_rate_limit: <number of connections per seconds>` in the `tls{}` top-level block.
 
 For full release information, see links below;
@@ -65,7 +70,7 @@ For full release information, see links below;
 
 ### **Notice for JetStream Users**
 
-See important [note](./#notice-for-jetstream-users) if upgrading from a version prior to NATS Server v2.4.0.
+See important [note](https://github.com/nats-io/nats-server/releases/tag/v2.4.0) if upgrading from a version prior to NATS Server v2.4.0.
 
 ### Notice for MQTT Users
 
@@ -161,7 +166,7 @@ For full release information, see links below;
 
 ## Server release v2.3.0
 
-* [OCSP support](/running-a-nats-service/configuration/ocsp.md)
+* [OCSP support](../running-a-nats-service/configuration/ocsp.md)
 
 ### JetStream
 
@@ -177,7 +182,7 @@ For full release information, see links below;
 
 ## Server release v2.2.0
 
-See [NATS 2.2](whats_new_22.md) for new features.
+See [NATS 2.2](whats\_new\_22.md) for new features.
 
 ## Server release v2.1.7
 
@@ -188,13 +193,13 @@ Monitoring endpoints as listed in the table below are accessible as system servi
 * `$SYS.REQ.SERVER.<id>.<endpoint-name>` (request server monitoring endpoint corresponding to endpoint name.)
 * `$SYS.REQ.SERVER.PING.<endpoint-name>` (from all server request server monitoring endpoint corresponding to endpoint name - will return multiple messages)
 
-For more information on monitoring endpoints see [NATS Server Configurations System Events](nats-server/configuration/sys_accounts/#available-events-and-services).
+For more information on monitoring endpoints see [NATS Server Configurations System Events](nats-server/configuration/sys\_accounts/#available-events-and-services).
 
 ### Addition of `no_auth_user` Configuration
 
 Configuration of `no_auth_user` allows you to refer to a configured user/account when no credentials are provided.
 
-For more information and example, see [Securing NATS](nats-server/configuration/securing_nats/accounts.md#no-auth-user)
+For more information and examples, see [Securing NATS](../running-a-nats-service/configuration/securing\_nats/)
 
 For full release information, see links below;
 
@@ -256,7 +261,7 @@ As services and service mesh functionality has become prominent, we have been lo
 
 ### Response Only Permissions
 
-For services, the authorization for responding to requests usually included wildcards for _INBOX.> and possibly $GR.> with a supercluster for sending responses. What we really wanted was the ability to allow a service responder to only respond to the reply subject it was sent.
+For services, the authorization for responding to requests usually included wildcards for \_INBOX.> and possibly $GR.> with a supercluster for sending responses. What we really wanted was the ability to allow a service responder to only respond to the reply subject it was sent.
 
 ### Response Types
 
