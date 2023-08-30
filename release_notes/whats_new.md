@@ -222,7 +222,7 @@ resolver_tls {
 
 ### Additional Trace & Debug Verbosity Options
 
-`trace_verbose` and command line parameters `-VV` and `-DVV` added. See [NATS Logging Configuration](nats-server/configuration/logging.md)
+`trace_verbose` and command line parameters `-VV` and `-DVV` added. See [NATS Logging Configuration](../running-a-nats-service/configuration/logging.md#configuring-logging)
 
 ### Subscription Details in Monitoring Endpoints
 
@@ -246,7 +246,7 @@ NATS introduces `logfile_size_limit` allowing auto-rotation of log files when th
 
 Queue Permissions allow you to express authorization for queue groups. As queue groups are integral to implementing horizontally scalable microservices, control of who is allowed to join a specific queue group is important to the overall security model. Original PR - [https://github.com/nats-io/nats-server/pull/1143](https://github.com/nats-io/nats-server/pull/1143)
 
-More information on Queue Permissions can be found in the [Developing with NATS](developing-with-nats/receiving/queues.md#queue-permissions) section.
+More information on Queue Permissions can be found in the [Developing with NATS](../using-nats/developing-with-nats/receiving/queues.md) section.
 
 ## Server release v2.1.0
 

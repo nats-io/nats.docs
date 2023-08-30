@@ -2,7 +2,7 @@
 
 ## NATS Server Containerization
 
-The NATS server is provided as a Docker image on [Docker Hub](https://hub.docker.com/_/nats/) that you can run using the Docker daemon. The NATS server Docker image is extremely lightweight, coming in under 10 MB in size.
+The NATS server is provided as a Docker image on [Docker Hub](https://hub.docker.com/\_/nats/) that you can run using the Docker daemon. The NATS server Docker image is extremely lightweight, coming in under 10 MB in size.
 
 [Synadia](https://synadia.com) actively maintains and supports the NATS server Docker image.
 
@@ -52,7 +52,8 @@ First run a server with the ports exposed on the 'nats' `docker network`:
 ```bash
 docker run --name nats --network nats --rm -p 4222:4222 -p 8222:8222 nats --http_port 8222 --cluster_name NATS --cluster nats://0.0.0.0:6222
 ```
-```text
+
+```
 [1] 2021/09/28 09:21:56.554756 [INF] Starting nats-server
 [1] 2021/09/28 09:21:56.554864 [INF]   Version:  2.6.1
 [1] 2021/09/28 09:21:56.554878 [INF]   Git:      [c91f0fe]
@@ -79,7 +80,8 @@ To verify the routes are connected, you can make a request to the monitoring end
 ```bash
 curl http://127.0.0.1:8222/routez
 ```
-```JSON
+
+```
 {
   "server_id": "NDIQLLD2UGGPSAEYBKHW3S2JB2DXIAFHMIWWRUBAX7FC4RTQX4ET2JNQ",
   "now": "2021-09-28T09:22:15.8019785Z",
@@ -153,7 +155,8 @@ Now we use Docker Compose to create the cluster that will be using the `nats` ne
 ```bash
 docker-compose -f nats-cluster.yaml up
 ```
-```text
+
+```
 [+] Running 3/3
  ⠿ Container xxx_nats_1    Created
  ⠿ Container xxx_nats-1_1  Created
@@ -202,7 +205,9 @@ Now, the following should work: make a subscription on one of the nodes and publ
 ```bash
 docker run --network nats --rm -it natsio/nats-box
 ```
+
 Inside the container
+
 ```shell
 nats sub -s nats://nats:4222 hello &
 nats pub -s "nats://nats-1:4222" hello first
@@ -214,8 +219,10 @@ Also stopping the seed node to which the subscription was done, should trigger a
 ```bash
 docker-compose -f nats-cluster.yaml stop nats
 ```
+
 Output extract
-```text
+
+```
 ... 
 16e55f1c4f3c:~# 10:47:28 Disconnected due to: EOF, will attempt reconnect
 10:47:28 Disconnected due to: EOF, will attempt reconnect
@@ -232,4 +239,3 @@ nats pub -s "nats://nats-2:4222" hello again
 ## Tutorial
 
 See the [NATS Docker tutorial](nats-docker-tutorial.md) for more instructions on using the NATS server Docker image.
-

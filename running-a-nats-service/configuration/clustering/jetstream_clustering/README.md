@@ -1,10 +1,10 @@
-# Clustering
+# JetStream Clustering
 
 Clustering in JetStream is required for a highly available and scalable system. Behind clustering is RAFT. There's no need to understand RAFT in depth to use clustering, but knowing a little explains some of the requirements behind setting up JetStream clusters.
 
 ## RAFT
 
-JetStream uses a NATS optimized RAFT algorithm for clustering. Typically RAFT generates a lot of traffic, but the NATS server optimizes this by combining the data plane for replicating messages with the messages RAFT would normally use to ensure consensus. Each server participating requires an unique `server_name` \(only applies within the same domain\).
+JetStream uses a NATS optimized RAFT algorithm for clustering. Typically RAFT generates a lot of traffic, but the NATS server optimizes this by combining the data plane for replicating messages with the messages RAFT would normally use to ensure consensus. Each server participating requires an unique `server_name` (only applies within the same domain).
 
 ### RAFT Groups
 
@@ -49,12 +49,11 @@ Below are explicitly listed server configuration for a three-node cluster across
 
 ### Server password configuration
 
-A user and password under the [system account ($SYS)](/sys_accounts/README.md#system-account)
-should be configured.  The following configuration uses a [bcrypted password](/securing_nats/auth_intro/username_password.md#bcrypted-passwords): `a very long s3cr3t! password`.
+A user and password under the [system account ($SYS)](../../sys\_accounts/#system-account) should be configured. The following configuration uses a [bcrypted password](../../securing\_nats/auth\_intro/username\_password.md): `a very long s3cr3t! password`.
 
-### Server 1 \(host_a\)
+### Server 1 (host\_a)
 
-```text
+```
 server_name=n1-c1
 listen=4222
 
@@ -82,9 +81,9 @@ cluster {
 }
 ```
 
-### Server 2 \(host_b\)
+### Server 2 (host\_b)
 
-```text
+```
 server_name=n2-c1
 listen=4222
 
@@ -112,9 +111,9 @@ cluster {
 }
 ```
 
-### Server 3 \(host_c\)
+### Server 3 (host\_c)
 
-```text
+```
 server_name=n3-c1
 listen=4222
 
@@ -143,4 +142,3 @@ cluster {
 ```
 
 Add nodes as necessary. Choose a data directory that makes sense for your environment, ideally a fast SSD, and launch each server. After two servers are running you'll be ready to use JetStream.
-

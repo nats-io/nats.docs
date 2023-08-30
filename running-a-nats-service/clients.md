@@ -1,10 +1,10 @@
-# Clients
+# NATS Server Clients
 
 A NATS client is an application making a connection to one of the nats servers pointed to by its connection URL, and uses a credential file to authenticate and indicate its authorization to the server and the whole NATS infrastructure.
 
-The nats-server doesn't come bundled with any clients, but its companion is the [`nats`](/using-nats/nats-tools/nats_cli) CLI tool that you should install (even if you don't intend to run your own servers) as it is the best tool to use to test, monitor, manage and generally interact with a NATS infrastructure (regardless of that infrastructure being an isolated local server, a leaf node server, a cluster or even a global super-cluster).
+The nats-server doesn't come bundled with any clients, but its companion is the [`nats`](../using-nats/nats-tools/nats\_cli/) CLI tool that you should install (even if you don't intend to run your own servers) as it is the best tool to use to test, monitor, manage and generally interact with a NATS infrastructure (regardless of that infrastructure being an isolated local server, a leaf node server, a cluster or even a global super-cluster).
 
-Other NATS client tools to know about are the [`nsc`](/using-nats/nats-tools/nsc) CLI tool (to manage accounts attributes and user JWT tokens) and the ['nk'](/using-nats/nats-tools/nk) tool (and library) to manage Nkeys.
+Other NATS client tools to know about are the [`nsc`](../using-nats/nats-tools/nsc/) CLI tool (to manage accounts attributes and user JWT tokens) and the ['nk'](../using-nats/nats-tools/nk.md) tool (and library) to manage Nkeys.
 
 Also, most client libraries come with sample programs that allow you to publish, subscribe, send requests and reply messages.
 
@@ -33,12 +33,13 @@ Binaries are also available as [GitHub Releases](https://github.com/nats-io/nats
 
 ## Testing your setup
 
-Open a terminal and [start a nats-server](/running-a-nats-service/introduction/running):
+Open a terminal and [start a nats-server](broken-reference):
 
 ```shell
 nats-server
 ```
-```text
+
+```
 [45695] 2021/09/29 02:22:53.570667 [INF] Starting nats-server
 [45695] 2021/09/29 02:22:53.570796 [INF]   Version:  2.6.1
 [45695] 2021/09/29 02:22:53.570799 [INF]   Git:      [not set]
@@ -49,10 +50,12 @@ nats-server
 ```
 
 On another terminal session first check the connection to the server
+
 ```shell
 nats server check
 ```
-```text
+
+```
 OK Connection OK:connected to nats://127.0.0.1:4222 in 790.28µs OK:rtt time 69.896µs OK:round trip took 0.000102s | connect_time=0.0008s;0.5000;1.0000 rtt=0.0001s;0.5000;1.0000 request_time=0.0001s;0.5000;1.0000
 ```
 
@@ -69,7 +72,8 @@ To make the server output more lively, you can specify the `-V` flag to enable l
 ```shell
 nats-server -V
 ```
-```text
+
+```
 [45703] 2021/09/29 02:23:05.189377 [INF] Starting nats-server
 [45703] 2021/09/29 02:23:05.189489 [INF]   Version:  2.6.1
 [45703] 2021/09/29 02:23:05.189493 [INF]   Git:      [not set]
@@ -87,7 +91,7 @@ nats-server -V
 
 If you had created a subscriber, you should notice output on the subscriber telling you that it disconnected, and reconnected. The server output above is more interesting. You can see the subscriber send a `CONNECT` protocol message and a `PING` which was responded to by the server with a `PONG`.
 
-> You can learn more about the [NATS protocol here](/reference/reference-protocols/nats-protocol), but more interesting than the protocol description is [an interactive demo](/reference/reference-protocols/nats-protocol-demo).
+> You can learn more about the [NATS protocol here](../reference-protocols.md), but more interesting than the protocol description is [an interactive demo](../reference/nats-protocol/nats-protocol-demo.md).
 
 On a third terminal, publish your first message:
 
@@ -97,7 +101,7 @@ nats pub hello world
 
 On the subscriber window you should see:
 
-```text
+```
 [#1] Received on "hello"
 world
 ```
@@ -113,6 +117,7 @@ NATS URLs take the form of: `nats://<server>:<port>` and `tls://<server>:<port>`
 If you are connecting to a cluster you can specify more than one URL (comma separated). e.g. `nats://localhost:4222,nats://localhost:5222,nats://localhost:6222` if you are running a test cluster of 3 nats servers on your local machine, listening at ports 4222, 5222, and 6222 respectively.
 
 ### Example
+
 ```shell
 nats sub -s nats://server:port ">"
 ```

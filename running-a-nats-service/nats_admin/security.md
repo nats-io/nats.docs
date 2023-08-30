@@ -1,9 +1,8 @@
-# Managing operators, accounts and users JWTs and Nkeys
+# Managing JWT Security
 
-If you are using the [JWT](/running-a-nats-service/configuration/securing_nats/jwt/README.md) model of authentication to secure your NATS infrastructure you can administer authentication and authorization without having to change the servers' configuration files.
+If you are using the [JWT](../configuration/securing\_nats/jwt/) model of authentication to secure your NATS infrastructure you can administer authentication and authorization without having to change the servers' configuration files.
 
-You can use the [`nsc`](/using-nats/nats-tools/nsc/README.md) CLI tool to manage identities. Identities take the form of nkeys. Nkeys are a public-key signature system based on Ed25519 for the NATS ecosystem.
-The nkey identities are associated with NATS configuration in the form of a JSON Web Token (JWT). The JWT is digitally signed by the private key of an issuer forming a chain of trust. The nsc tool creates and manages these identities and allows you to deploy them to a JWT account server, which in turn makes the configurations available to nats-servers.
+You can use the [`nsc`](../../using-nats/nats-tools/nsc/) CLI tool to manage identities. Identities take the form of nkeys. Nkeys are a public-key signature system based on Ed25519 for the NATS ecosystem. The nkey identities are associated with NATS configuration in the form of a JSON Web Token (JWT). The JWT is digitally signed by the private key of an issuer forming a chain of trust. The nsc tool creates and manages these identities and allows you to deploy them to a JWT account server, which in turn makes the configurations available to nats-servers.
 
 You can also use [`nk`](https://github.com/nats-io/nkeys#readme) CLI tool and library to manage keys.
 
@@ -18,7 +17,7 @@ You can create, update and delete accounts and users programmatically using the 
 
 #### User JWTs
 
-[User creation in Golang](/running-a-nats-service/nats_admin/jwt.md#automated-sign-up-services---jwt-and-nkey-libraries)
+[User creation in Golang](jwt.md#automated-sign-up-services---jwt-and-nkey-libraries)
 
 #### Account JWTs
 
@@ -138,6 +137,6 @@ func createUser(accountSeed, userName string) (string, error) {
 
 You can see the key (and any signing keys) of your operator using `nsc list keys --show-seeds`, you should use a 'signing key' to create the account JWTs (as singing keys can be revoked/rotated easily)
 
-To delete accounts use the `"$SYS.REQ.CLAIMS.DELETE"` (see [reference](/running-a-nats-service/nats_admin/security/jwt#subjects-available-when-using-nats-based-resolver)) and make sure to enable JWT deletion in your nats-server resolver (`config allow_delete: true` in the `resolver` stanza of the server configuration).
+To delete accounts use the `"$SYS.REQ.CLAIMS.DELETE"` (see [reference](jwt.md#subjects-available-when-using-nats-based-resolver)) and make sure to enable JWT deletion in your nats-server resolver (`config allow_delete: true` in the `resolver` stanza of the server configuration).
 
 The system is just like any other account, the only difference is that it is listed as system account in the operator's JWT (and the server config).

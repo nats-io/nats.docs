@@ -1,4 +1,4 @@
-# nats CLI
+# nats
 
 A command line utility to interact with and manage NATS.
 
@@ -19,9 +19,7 @@ For Arch Linux:
 
 Download the correct .deb file for your computer from [here](https://github.com/nats-io/natscli/releases).
 
-
-If you have an Intel CPU, then it'll probably be this one (for version X.Y.Z): `nats-X.Y.Z-amd64.deb`
-Then run this command to install the file.
+If you have an Intel CPU, then it'll probably be this one (for version X.Y.Z): `nats-X.Y.Z-amd64.deb` Then run this command to install the file.
 
 ```shell
 sudo dpkg -i nats-X.Y.Z-amd64.deb
@@ -36,7 +34,9 @@ yay natscli
 Binaries are also available as [GitHub Releases](https://github.com/nats-io/natscli/releases).
 
 ## Using `nats`
+
 ### Getting help
+
 * [NATS Command Line Interface README](https://github.com/nats-io/natscli#readme)
 * `nats help`
 * `nats help [<command>...]` or `nats [<command>...] --help`
@@ -44,7 +44,9 @@ Binaries are also available as [GitHub Releases](https://github.com/nats-io/nats
   * `nats cheat`
   * `nats cheat --sections`
   * `nats cheat <section>>`
+
 ### Interacting with NATS
+
 * `nats context`
 * `nats account`
 * `nats pub`
@@ -52,20 +54,28 @@ Binaries are also available as [GitHub Releases](https://github.com/nats-io/nats
 * `nats request`
 * `nats reply`
 * `nats bench`
+
 ### Monitoring NATS
+
 * `nats events`
 * `nats rtt`
 * `nats server`
 * `nats latency`
 * `nats governor`
+
 ### Managing and interacting with streams
+
 * `nats stream`
 * `nats consumer`
 * `nats backup`
 * `nats restore`
+
 ### Managing and interacting with the K/V Store
+
 * `nats kv`
+
 ### Get reference information
+
 * `nats errors`
 * `nats schema`
 
@@ -76,8 +86,10 @@ The CLI has a number of configuration settings that can be passed either as comm
 ```shell
 nats --help
 ```
+
 Output extract
-```text
+
+```
 ...
   -s, --server=URL              NATS server urls ($NATS_URL)
       --user=USER               Username or Token ($NATS_USER)
@@ -93,10 +105,10 @@ Output extract
 ...
 ```
 
-The server URL can be set using the `--server` CLI flag, or the `NATS_URL` environment variable,  or using [NATS Contexts](#nats-contexts).
+The server URL can be set using the `--server` CLI flag, or the `NATS_URL` environment variable, or using [NATS Contexts](./#nats-contexts).
 
-The password can be set using the `--password` CLI flag, or the `NATS_PASSWORD` environment variable,  or using [NATS Contexts](#nats-contexts).
-For example: if you want to create a script that prompts the user for the system user password (so that for example it doesn't appear in `ps` or `history` or maybe you don't want it stored in the profile) and then execute one or more `nats` commands you do something like:
+The password can be set using the `--password` CLI flag, or the `NATS_PASSWORD` environment variable, or using [NATS Contexts](./#nats-contexts). For example: if you want to create a script that prompts the user for the system user password (so that for example it doesn't appear in `ps` or `history` or maybe you don't want it stored in the profile) and then execute one or more `nats` commands you do something like:
+
 ```shell
 #!/bin/bash
 echo "-n" "system user password: "
@@ -106,11 +118,10 @@ nats server report jetstream --user system
 ```
 
 ### NATS Contexts
-A context is a named configuration that stores all of these settings.
-You can designate a default context and switch between contexts.
 
-A context can be created with `nats context create my_context_name` and then
-modified with`nats context edit my_context_name`:
+A context is a named configuration that stores all of these settings. You can designate a default context and switch between contexts.
+
+A context can be created with `nats context create my_context_name` and then modified with`nats context edit my_context_name`:
 
 ```json
 {
@@ -142,12 +153,13 @@ nats context save example --server nats://nats.example.net:4222 --description 'E
 nats context save local --server nats://localhost:4222 --description 'Local Host' --select 
 ```
 
-
 List your contexts
+
 ```shell
 nats context ls
 ```
-```text
+
+```
 Known contexts:
 
    example             Example.Net Server
@@ -157,6 +169,7 @@ Known contexts:
 We passed `--select` to the `local` one meaning it will be the default when nothing is set.
 
 Select a context
+
 ```shell
 nats context select
 ```
@@ -166,7 +179,8 @@ Check the round trip time to the server (using the currently selected context)
 ```shell
 nats rtt
 ```
-```text
+
+```
 nats://localhost:4222:
 
    nats://127.0.0.1:4222: 245.115µs
@@ -178,7 +192,8 @@ You can also specify a context directly
 ```shell
 nats rtt --context example
 ```
-```text
+
+```
 nats://nats.example.net:4222:
 
    nats://192.0.2.10:4222: 41.560815ms
@@ -198,15 +213,15 @@ The server list and credentials path will now be resolved via `nsc`, if these ar
 
 ## Generating bcrypted passwords
 
-The server supports hashing of passwords and authentication tokens using `bcrypt`. To take advantage of this, simply replace the plaintext password in the configuration with its `bcrypt` hash, and the server will automatically utilize `bcrypt` as needed.
-See also: [Bcrypted Passwords](../../../running-a-nats-service/configuration/securing_nats/auth_intro/username_password.md#bcrypted-passwords).
+The server supports hashing of passwords and authentication tokens using `bcrypt`. To take advantage of this, simply replace the plaintext password in the configuration with its `bcrypt` hash, and the server will automatically utilize `bcrypt` as needed. See also: [Bcrypted Passwords](../../../running-a-nats-service/configuration/securing\_nats/auth\_intro/username\_password.md#bcrypted-passwords).
 
 The `nats` utility has a command for creating `bcrypt` hashes. This can be used for a password or a token in the configuration.
 
 ```shell
 nats server passwd
 ```
-```text
+
+```
 ? Enter password [? for help] **********************
 ? Reenter password [? for help] **********************
 
@@ -215,7 +230,7 @@ $2a$11$3kIDaCxw.Glsl1.u5nKa6eUnNDLV5HV9tIuUp7EHhMt6Nm9myW1aS
 
 To use the password on the server, add the hash into the server configuration file's authorization section.
 
-```text
+```
   authorization {
     user: derek
     password: $2a$11$3kIDaCxw.Glsl1.u5nKa6eUnNDLV5HV9tIuUp7EHhMt6Nm9myW1aS
