@@ -2,7 +2,7 @@
 
 The NATS server supports authorization using subject-level permissions on a per-user basis. Permission-based authorization is available with multi-user authentication via the `users` list.
 
-Each permission specifies the subjects the user can publish to and subscribe to. The parser is generous at understanding what the intent is, so both arrays and singletons are processed. For more complex configuration, you can specify a `permission` object which explicitly allows or denies subjects. The specified subjects can specify wildcards as well. Permissions can make use of [variables](/running-a-nats-service/configuration/securing_nats/authorization.md#variables).
+Each permission specifies the subjects the user can publish to and subscribe to. The parser is generous at understanding what the intent is, so both arrays and singletons are processed. For more complex configuration, you can specify a `permission` object which explicitly allows or denies subjects. The specified subjects can specify wildcards as well. Permissions can make use of [variables](authorization.md#variables).
 
 A special field inside the authorization map is `default_permissions`. When present, it contains permissions that apply to users that do not have permissions associated with them.
 
@@ -14,7 +14,7 @@ The `permissions` map specify subjects that can be subscribed to or published by
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `publish`         | subject, list of subjects, or [permission map](authorization.md#permission-map) the client can publish                                                                                                                                                                                                 |
 | `subscribe`       | subject, list of subjects, or [permission map](authorization.md#permission-map) the client can subscribe to. In this context it is possible to provide an optional queue name: `<subject> <queue>` to express queue group permissions. These permissions can also use wildcards such as `v2.*` or `>`. |
-| `allow_responses` | boolean or [responses map](authorization.md#allow-responses-map), default is `false`. Enabling this implicitly denies publish to other subjects, however an explicit `publish` allow on a subject will override this implicit deny for that subject. |
+| `allow_responses` | boolean or [responses map](authorization.md#allow-responses-map), default is `false`. Enabling this implicitly denies publish to other subjects, however an explicit `publish` allow on a subject will override this implicit deny for that subject.                                                   |
 
 ## Permission Map
 
@@ -29,7 +29,7 @@ The `permission` map provides additional properties for configuring a `permissio
 
 ## Allow Responses Map
 
-The `allow_responses` option dynamically allows publishing to reply subjects and is designed for [service](/nats-concepts/core-nats/reqreply) responders. When set to `true`, an implicit *publish allow* permission is enforced which enables the service to have temporary permission to publish to the `reply` subject during a request-reply exchange. If `true`, the client supports a one-time `publish`. If `allow_responses` is a map, it allows you to configure a maximum number of responses and how long the permission is valid.
+The `allow_responses` option dynamically allows publishing to reply subjects and is designed for [service](../../../nats-concepts/core-nats/request-reply/reqreply.md) responders. When set to `true`, an implicit _publish allow_ permission is enforced which enables the service to have temporary permission to publish to the `reply` subject during a request-reply exchange. If `true`, the client supports a one-time `publish`. If `allow_responses` is a map, it allows you to configure a maximum number of responses and how long the permission is valid.
 
 | Property  | Description                                                                                                                                                   |
 | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -78,7 +78,7 @@ authorization {
 * _admin_ has `ADMIN` permissions and can publish/subscribe on any subject. We use the wildcard `>` to match any subject.
 * _client_ is a `REQUESTOR` and can publish requests on subjects `req.a` or `req.b`, and subscribe to anything that is a response (`_INBOX.>`).
 * _service_ is a `RESPONDER` to `req.a` and `req.b` requests, so it needs to be able to subscribe to the request subjects and respond to client's that can publish requests to `req.a` and `req.b`. The reply subject is an inbox. Typically inboxes start with the prefix `_INBOX.` followed by a generated string. The `_INBOX.>` subject matches all subjects that begin with `_INBOX.`.
-* _other_ has no permissions granted and therefore inherits the default permission set.&#x20;
+* _other_ has no permissions granted and therefore inherits the default permission set.
 
 > Note that in the above example, any client with permissions to subscribe to `_INBOX.>` can receive _all_ responses published. More sensitive installations will want to add or subset the prefix to further limit subjects that a client can subscribe. Alternatively, [_Accounts_](accounts.md) allow complete isolation limiting what members of an account can see.
 
@@ -113,7 +113,7 @@ authorization: {
 }
 ```
 
-### allow_responses
+### allow\_responses
 
 Here's an example with `allow_responses`:
 
@@ -128,10 +128,10 @@ authorization: {
 }
 ```
 
-- User `a` has no restrictions.
-- User `b` can listen on `q` for requests and can only publish once to reply subjects. *All other publish subjects are denied implicitly when `allow_responses` is set.*
-- User `c` can listen on `q` for requests, but is able to return at most 5 reply messages, and the reply subject can be published at most for `1` minute.
-- User `d` has the same behavior as user `b`, except that it can explicitly publish to subject `x` as well, which overrides the implicit deny from `allow_responses`.
+* User `a` has no restrictions.
+* User `b` can listen on `q` for requests and can only publish once to reply subjects. _All other publish subjects are denied implicitly when `allow_responses` is set._
+* User `c` can listen on `q` for requests, but is able to return at most 5 reply messages, and the reply subject can be published at most for `1` minute.
+* User `d` has the same behavior as user `b`, except that it can explicitly publish to subject `x` as well, which overrides the implicit deny from `allow_responses`.
 
 ### Queue Permissions
 

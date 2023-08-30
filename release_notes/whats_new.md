@@ -74,7 +74,7 @@ See important [note](https://github.com/nats-io/nats-server/releases/tag/v2.4.0)
 
 ### Notice for MQTT Users
 
-See important [notes](./#mqtt-update) if upgrading from a version prior to v2.5.0.
+See important [notes](https://github.com/nats-io/nats-server/releases/tag/v2.5.0) if upgrading from a version prior to v2.5.0.
 
 ### Monitoring
 
@@ -193,7 +193,7 @@ Monitoring endpoints as listed in the table below are accessible as system servi
 * `$SYS.REQ.SERVER.<id>.<endpoint-name>` (request server monitoring endpoint corresponding to endpoint name.)
 * `$SYS.REQ.SERVER.PING.<endpoint-name>` (from all server request server monitoring endpoint corresponding to endpoint name - will return multiple messages)
 
-For more information on monitoring endpoints see [NATS Server Configurations System Events](nats-server/configuration/sys\_accounts/#available-events-and-services).
+For more information on monitoring endpoints see [NATS Server Configurations System Events](../running-a-nats-service/configuration/sys\_accounts/).
 
 ### Addition of `no_auth_user` Configuration
 
@@ -235,7 +235,7 @@ We've added the option to include subscription details in monitoring endpoints `
 
 ### Log Rotation
 
-NATS introduces `logfile_size_limit` allowing auto-rotation of log files when the size is greater than the configured limit set in `logfile_size_limit` as a number of bytes. You can provide the size with units, such as MB, GB, etc. The backup files will have the same name as the original log file with the suffix .yyyy.mm.dd.hh.mm.ss.micros. For more information see Configuring Logging in the [NATS Server Configuration section](nats-server/configuration/logging.md#using-the-configuration-file).
+NATS introduces `logfile_size_limit` allowing auto-rotation of log files when the size is greater than the configured limit set in `logfile_size_limit` as a number of bytes. You can provide the size with units, such as MB, GB, etc. The backup files will have the same name as the original log file with the suffix .yyyy.mm.dd.hh.mm.ss.micros. For more information see Configuring Logging in the [NATS Server Configuration section](../running-a-nats-service/configuration/logging.md).
 
 * Release notes [2.1.4](https://github.com/nats-io/nats-server/releases/tag/v2.1.4)
 * Full list of Changes [2.1.2...2.1.4](https://github.com/nats-io/nats-server/compare/v2.1.2...v2.1.4)
