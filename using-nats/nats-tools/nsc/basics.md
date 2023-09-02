@@ -331,18 +331,30 @@ If you don’t have a nats-server installed, let’s do that now:
 go get github.com/nats-io/nats-server
 ```
 
-Let’s create a configuration that references our operator JWT and the nats-account-server as a resolver, add this to your `nats-server` config file:
+Let’s create a configuration that references our operator JWT and the nats-account-server as a resolver. You can use `nsc` itself to generate the security part of the server configuration that you can just add to your `nats-server` config file.
 
-```yaml
-operator: /Users/myusername/.nsc/nats/MyOperator/MyOperator.jwt
-resolver: {
-  type: full
-    # Directory in which account jwt will be stored
-    dir: './jwt'
-}
-```
+For example to use the NATS resolver (which is the recommended resolver configuration) use `nsc generate config --nats-resolver`.
+
+Edit this generated configuration as needed (e.g. adjust the location where the server will store the JWTs in `resolver.dir`) and paste it into your nats-server configuration (or save it to a file and import that file from within you server config file).
 
 At minimum, the server requires the `operator` JWT, which we have pointed at directly, and a resolver.
+
+e.g.
+```shell
+nsc generate config --nats-resolver > resolver.conf
+```
+
+And example server config `myconfig.cfg`
+
+```
+server_name: servertest
+listen: 127.0.0.1:4222
+http: 8222
+
+jetstream: enabled
+
+include resolver.conf
+```
 
 Now start this local test server using `nats-server -c myconfig.cfg`
 
@@ -356,6 +368,7 @@ Then there is no system account to interact with the server and you need to add 
 nsc add account -n SYS`
 nsc edit operator --system-account SYS
 ```
+(and re-generate `resolver.conf`)
 
 Now start the local test server using: `nats-server -c myconfig.cfg`
 
@@ -391,6 +404,14 @@ Subscriber shows:
 
 ```text
 Received on [hello]: ’NATS’
+```
+
+### Create a `nats` context
+
+If you are going to use those credentials with `nats` you should create a context so you don't have to pass the connection and authentication arguments each time:
+
+```shell
+nats context add myuser --creds ~/.nkeys/creds/MyOperator/MyAccount/MyUser.creds
 ```
 
 ### NSC Embeds NATS tooling
