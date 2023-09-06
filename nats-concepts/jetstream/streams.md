@@ -22,7 +22,7 @@ Below are the set of stream configuration options that can be defined. The `Vers
 | :---------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------ | :-------------- |
 | Name                          | Names cannot contain whitespace, `.`, `*`, `>`, path separators (forward or backwards slash), and non-printable characters.                                                                       | 2.2.0   | No              |
 | [Storage](#storagetype)       | The storage type for stream data.                                                                                                                                                                 | 2.2.0   | No              |
-| [Subjects](#subjects)         | A list of subjects to bind. Wildcard are supported.                                                                                                                                               | 2.2.0   | Yes             |
+| [Subjects](#subjects)         | A list of subjects to bind. Wildcards are supported. Cannot be set for [mirror](#mirror) streams.                                                                                                 | 2.2.0   | Yes             |
 | Replicas                      | How many replicas to keep for each message in a clustered JetStream, maximum 5                                                                                                                    | 2.2.0   | Yes             |
 | MaxAge                        | Maximum age of any message in the Stream, expressed in nanoseconds.                                                                                                                               | 2.2.0   | Yes             |
 | MaxBytes                      | How many bytes the Stream may contain. Adheres to Discard Policy, removing oldest or refusing new messages if the Stream exceeds this size                                                        | 2.2.0   | Yes             |
@@ -55,6 +55,8 @@ The storage types include:
 - `Memory` - Uses memory-based storage for stream data.
 
 ### Subjects
+
+_Note: a stream configured as a [mirror](#mirror) cannot be configured with a set of subjects. A mirror implicitly sources a subset of the origin stream (optionally with a filter), but does not subscribe to additional subjects._
 
 If no explicit subject is specified, the default subject will be the same name as the stream. Multiple subjects can be specified and edited over time. Note, if messages are stored by a stream on a subject that is subsequently removed from the stream config, consumers will still observe those messages if their subject filter overlaps.
 
@@ -148,7 +150,7 @@ Although less common, note that both the cluster _and_ tags can be used for plac
 
 ### Mirror
 
-When a stream is declared as a mirror, it will automatically and asynchronously replicate messages from the origin stream. There are several options when declaring the mirror configuration.
+When a stream is configured as a mirror, it will automatically and asynchronously replicate messages from the origin stream. There are several options when declaring the mirror configuration.
 
 - `Name` - Name of the origin stream to source messages from.
 - `StartSeq` - An optional start sequence of the origin stream to start mirroring from.
