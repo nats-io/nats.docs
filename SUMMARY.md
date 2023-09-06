@@ -31,6 +31,7 @@
     - [Key/Value Store Walkthrough](nats-concepts/jetstream/key-value-store/kv_walkthrough.md)
   - [Object Store](nats-concepts/jetstream/object-store/obj_store.md)
     - [Object Store Walkthrough](nats-concepts/jetstream/object-store/obj_walkthrough.md)
+  - [Headers](nats-concepts/jetstream/headers.md)
 - [Subject Mapping and Partitioning](nats-concepts/subject_mapping.md)
 - [NATS Service Infrastructure](nats-concepts/service_infrastructure.md)
   - [NATS Adaptive Deployment Architectures](nats-concepts/adaptive_edge_deployment.md)

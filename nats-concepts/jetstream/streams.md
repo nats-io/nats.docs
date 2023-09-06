@@ -32,7 +32,7 @@ Below are the set of stream configuration options that can be defined. The `Vers
 | NoAck                         | Disables acknowledging messages that are received by the Stream                                                                                                                                   | 2.2.0   | Yes             |
 | [Retention](#retentionpolicy) | Declares the retention policy for the stream.                                                                                                                                                     | 2.2.0   | No              |
 | [Discard](#discardpolicy)     | The behavior of discarding messages when any streams' limits have been reached.                                                                                                                   | 2.2.0   | Yes             |
-| Duplicates                    | The window within which to track duplicate messages, expressed in nanoseconds.                                                                                                                    | 2.2.0   | Yes             |
+| Duplicate Window              | The window within which to track duplicate messages, expressed in nanoseconds.                                                                                                                    | 2.2.0   | Yes             |
 | [Placement](#placement)       | Used to declare where the stream should be placed via tags and/or an explicit cluster name.                                                                                                       | 2.2.0   | Yes             |
 | [Mirror](#mirror)             | If set, indicates this stream is a mirror of another stream.                                                                                                                                      | 2.2.0   | No (if defined) |
 | [Sources](#sources)           | If defined, declares one or more streams this stream will source messages from.                                                                                                                   | 2.2.0   | Yes             |
@@ -41,7 +41,7 @@ Below are the set of stream configuration options that can be defined. The `Vers
 | Sealed                        | Sealed streams do not allow messages to be deleted via limits or API, sealed streams can not be unsealed via configuration update. Can only be set on already created streams via the Update API. | 2.6.2   | Yes (once)      |
 | DenyDelete                    | Restricts the ability to delete messages from a stream via the API.                                                                                                                               | 2.6.2   | No              |
 | DenyPurge                     | Restricts the ability to purge messages from a stream via the API.                                                                                                                                | 2.6.2   | No              |
-| AllowRollup                   | Allows the use of the `Nats-Rollup` header to replace all contents of a stream, or subject in a stream, with a single new message.                                                                | 2.6.2   | Yes             |
+| [AllowRollup](#allowrollup)   | Allows the use of the `Nats-Rollup` header to replace all contents of a stream, or subject in a stream, with a single new message.                                                                | 2.6.2   | Yes             |
 | [RePublish](#republish)       | If set, messages stored to the stream will be immediately _republished_ to the configured subject.                                                                                                | 2.8.3   | No (if defined) |
 | AllowDirect                   | If true, and the stream has more than one replica, each replica will respond to _direct get_ requests for individual messages, not only the leader.                                               | 2.9.0   | Yes             |
 | MirrorDirect                  | If true, and the stream is a mirror, the mirror will participate in a serving _direct get_ requests for individual messages from origin stream.                                                   | 2.9.0   | Yes             |
@@ -166,6 +166,14 @@ One functional difference from a mirror is that a stream with sources defined ca
 
 The fields per source stream are the same as defined in mirror above.
 
+### AllowRollup
+
+If enabled, the `AllowRollup` stream option allows for a published message having a `Nats-Rollup` header indicating all prior messages should be purged. The scope of the _purge_ is defined by the header value, either `all` or `sub`.
+
+The `Nats-Rollup: all` header will purge all prior messages in the stream. Whereas the `sub` value will purge all prior messages for a given subject.
+
+A common use case for rollup is for state snapshots, where the message being published has accumulated all the necessary state from the prior messages, relative to the stream or a particular subject.
+
 ### RePublish
 
 If enabled, the `RePublish` stream option will result in the server re-publishing messages received into a stream automatically and immediately after a succesful write, to a distinct destination subject.
@@ -177,10 +185,3 @@ The fields for configuring republish include:
 - `Source` - An optional subject pattern which is a subset of the subjects bound to the stream. It defaults to all messages in the stream, e.g. `>`.
 - `Destination` - The destination subject messages will be re-published to. The source and destination must be a valid [subject mapping](../../nats-concepts/subject_mapping.md).
 - `HeadersOnly` - If true, the message data will not be included in the re-published message, only an additional header `Nats-Msg-Size` indicating the size of the message in bytes.
-
-Every message that is republished will have a set of headers set providing metadata about the source:
-
-- `Nats-Stream` - name of the stream the message was republished from.
-- `Nats-Subject` - The original subject of the message
-- `Nats-Sequence` - The original sequence of the message in the stream
-- `Nats-Last-Sequence` - The last sequence of the message having the same subject, otherwise zero if this is the first message for the subject.
