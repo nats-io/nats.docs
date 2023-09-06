@@ -33,7 +33,7 @@ Headers that are implicitly added to messages sourced from other streams.
 
 | Name                 | Description                                                 | Example     | Version |
 | :------------------- | :---------------------------------------------------------- | :---------- | :------ |
-| `Nats-Stream-Source` | Specifies the stream a message sourced from, if applicable. | `my-stream` | 2.2.0   |
+| `Nats-Stream-Source` | Specifies the origin stream name, the subject and the sequence number plus the subject filter and destination transform of the message being sourced. | `my-stream` | 2.2.0   |
 
 ## Headers-only
 
