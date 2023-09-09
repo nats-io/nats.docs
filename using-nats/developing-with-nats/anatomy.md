@@ -53,7 +53,7 @@ Finally, the application will need to disconnect safely from NATS.
 
 ## Monitoring the NATS connection
 
-It is recommended that the application use [connection event listeners](events/events.md) in order to be altered and log whenever connections, reconnections or disconnections happen. Note that in case of a disconnection from the NATS server process the client library will automatically attempt to [reconnect](reconnect/README.md) to one of the other NATS servers in the cluster. You can also always check the [current connection status](events/README.md).
+It is recommended that the application use [connection event listeners](events/events.md) in order to be alerted and log whenever connections, reconnections or disconnections happen. Note that in case of a disconnection from the NATS server process the client library will automatically attempt to [reconnect](reconnect/README.md) to one of the other NATS servers in the cluster. You can also always check the [current connection status](events/README.md).
 
 ## Disconnecting safely from NATS
 The recommended way to disconnect is to use [Drain()](receiving/drain.md) which will wait for any ongoing processing to conclude and clean everything properly, but if you need to close the connection immediately you can use `close()` from your connection object.
