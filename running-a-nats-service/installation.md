@@ -2,22 +2,24 @@
 
 NATS philosophy is simplicity. Installation is just decompressing a zip file and copying the binary to an appropriate directory; you can also use your favorite package manager. Here's a list of different ways you can install or run NATS:
 
-* [Docker](installation.md#installing-via-docker)
-* [Kubernetes](nats-on-kubernetes/nats-kubernetes.md)
-* [Package Manager](installation.md#installing-via-a-package-manager)
-* [Release Zip](installation.md#downloading-a-release-build)
-* [Development Build](installation.md#installing-from-the-source)
+- [Docker](installation.md#installing-via-docker)
+- [Kubernetes](nats-on-kubernetes/nats-kubernetes.md)
+- [Package Manager](installation.md#installing-via-a-package-manager)
+- [Release Zip](installation.md#downloading-a-release-build)
+- [Development Build](installation.md#installing-from-the-source)
 
 ## Supported operating systems and architectures
 
 The following table indicates the current supported NATS server build combinations for operating systems and architectures.
 
-| Operating System | Architectures                                  |
-| ---------------- | ---------------------------------------------- |
-| Darwin (macOS)   | amd64, arm64                                   |
-| Linux            | amd64, 386, arm6, arm7, arm64, mips64le, s390x |
-| Windows          | amd64, 386, arm6, arm7, arm64                  |
-| FreeBSD          | amd64                                          |
+| Operating System | Architectures                                  | Status       |
+| :--------------- | :--------------------------------------------- | :----------- |
+| Darwin (macOS)   | amd64, arm64                                   | Stable       |
+| Linux            | amd64, 386, arm6, arm7, arm64, mips64le, s390x | Stable       |
+| Windows          | amd64, 386, arm6, arm7, arm64                  | Stable       |
+| FreeBSD          | amd64                                          | Stable       |
+| NetBSD           | -                                              | Experimental |
+| IBM z/OS         | -                                              | Experimental |
 
 _Note, not all installation methods below have distributions for all OS and architecture combinations._
 
@@ -82,7 +84,7 @@ docker run -p 4222:4222 -ti nats:latest
 [1] 2019/05/24 15:42:58.229003 [INF] Listening for route connections on 0.0.0.0:6222
 ```
 
-More information on [containerized NATS is available here](running/nats\_docker/).
+More information on [containerized NATS is available here](running/nats_docker/).
 
 ## Installing via a Package Manager
 
@@ -206,7 +208,7 @@ require (
 )
 ```
 
-1. Next, update the imports within the repo:
+2. Next, update the imports within the repo:
 
 ```bash
 find ./ -type f -name "*.go" -exec sed -i -e 's/github.com\/nats-io\/go-nats-streaming/github.com\/nats-io\/stan.go/g' {} \;
@@ -218,7 +220,7 @@ find ./ -type f -name "*.go" -exec sed -i -e 's/github.com\/nats-io\/gnatsd/gith
 find ./ -type f -name "*.go" -exec sed -i -e 's/github.com\/nats-io\/nats-server/github.com\/nats-io\/nats-server\/v2/g' {} \;
 ```
 
-1. (Recommended) Run Go fmt as the rename will affect the proper ordering of the imports
+3. (Recommended) Run Go fmt as the rename will affect the proper ordering of the imports
 
 ### Gotchas when using `go get`
 
