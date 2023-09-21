@@ -23,16 +23,16 @@ Headers set messages that are republished.
 | :------------------- | :--------------------------------------------------------------------------------------------------------------------- | :---------------------------- | :------ |
 | `Nats-Stream`        | Name of the stream the message was republished from.                                                                   | `Nats-Stream: my-stream`      | 2.8.3   |
 | `Nats-Subject`       | The original subject of the message.                                                                                   | `events.mouse_clicked`        | 2.8.3   |
-| `Nats-Time-Stamp`    | The original timestamp of the message.                                                                                 | `2023-08-23T19:53:05.762416Z` | 2.8.3   |
 | `Nats-Sequence`      | The original sequence of the message.                                                                                  | `193`                         | 2.8.3   |
 | `Nats-Last-Sequence` | The last sequence of the message having the same subject, otherwise zero if this is the first message for the subject. | `190`                         | 2.8.3   |
+| `Nats-Time-Stamp`    | The original timestamp of the message.                                                                                 | `2023-08-23T19:53:05.762416Z` | 2.10.0  |
 
 ## Sources
 
 Headers that are implicitly added to messages sourced from other streams.
 
-| Name                 | Description                                                 | Example     | Version |
-| :------------------- | :---------------------------------------------------------- | :---------- | :------ |
+| Name                 | Description                                                                                                                                           | Example     | Version |
+| :------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------- | :---------- | :------ |
 | `Nats-Stream-Source` | Specifies the origin stream name, the subject and the sequence number plus the subject filter and destination transform of the message being sourced. | `my-stream` | 2.2.0   |
 
 ## Headers-only
