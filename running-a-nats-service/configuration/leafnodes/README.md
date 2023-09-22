@@ -2,7 +2,7 @@
 
 A _Leaf Node_ extends an existing NATS system of any size, optionally bridging both operator and security domains. A leafnode server will transparently route messages as needed from local clients to one or more remote NATS system(s) and vice versa. The leaf node authenticates and authorizes clients using a local policy. Messages are allowed to flow to the cluster or into the leaf node based on leaf node connection permissions of either.
 
-Leaf nodes are useful in IoT and edge scenarios and when the local server traffic should be low RTT and local unless routed to the super cluster. NATS' queue semantics are honored across leaf connections by serving local queue consumer first.
+Leaf nodes are useful in IoT and edge scenarios and when the local server traffic should be low RTT and local unless routed to the super cluster. NATS' queue semantics are honored across leaf connections by serving local queue consumers first.
 
 - Clients to leaf nodes authenticate locally (or just connect if authentication is not required)
 - Traffic between the leaf node and the cluster assumes the restrictions of the user configuration used to create the leaf connection.
@@ -206,4 +206,4 @@ _As of NATS v2.10.0_
 
 Leafnode connections follow the model where when a TCP connection is created to the server, the server will immediately send an [INFO protocol message](../../../reference/nats-protocol/nats-protocol/README.md#info) in clear text. This INFO protocol provides metadata, including whether the server requires a secure connection.
 
-Some environments prefer to not want a server that is configured to accept TLS connections for leafnodes having any traffic sent in clear text. It was possible to by-pass this using a websocket connection. However, if websocket is not desired, the accepting and remote servers can be [configured](./leafnode_conf.md#tls-block) to perform a TLS handshake before sending the INFO protocol message.
+Some environments prefer not to want a server that is configured to accept TLS connections for leafnodes having any traffic sent in clear text. It was possible to by-pass this using a websocket connection. However, if websocket is not desired, the accepting and remote servers can be [configured](./leafnode_conf.md#tls-block) to perform a TLS handshake before sending the INFO protocol message.
