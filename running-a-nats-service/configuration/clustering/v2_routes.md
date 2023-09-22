@@ -100,12 +100,12 @@ There are several modes of compression and there is no requirement to have the s
 - `accept` (default) - Does not initiate compression, but will accept the compression mode of the peer it connects to.
 - `s2_fast` - Applies compression, but optimizes for speed over compression ratio.
 - `s2_better` - Applies compression, providing a balance of speed and compression ratio.
-- `s2_best` - Applies compresions and optimizes for compression ratio over speed.
+- `s2_best` - Applies compression and optimizes for compression ratio over speed.
 - `s2_auto` - Choose the appropriate `s2_*` mode relative to the round-trip time (RTT) measured between the server and the peer. See `rtt_thresholds` below.
 
 ### Round-trip time thresholds
 
-When `s2_auto` compression is used, it relies on an `rtt_thresholds` option, which is a list of three latency thresholds that dictate increasing or decreasing the compression mode.
+When `s2_auto` compression is used, it relies on a `rtt_thresholds` option, which is a list of three latency thresholds that dictate increasing or decreasing the compression mode.
 
 ```
 cluster {
