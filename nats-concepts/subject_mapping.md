@@ -1,6 +1,6 @@
-# Subject Mapping and Partitioning
+# Subject Mapping and Transforms
 
-Subject mapping and partitioning is a very powerful feature of the NATS server, useful for scaling some forms of distributed message processing through partitioning, for canary deployments, A/B testing, chaos testing, and migrating to a new subject namespace.
+Subject mapping and transforms is a very powerful feature of the NATS server, useful for scaling some forms of distributed message processing through partitioning, for canary deployments, A/B testing, chaos testing, and migrating to a new subject namespace.
 
 There are two places where you can apply subject mappings: each account has its own set of subject mappings, which will apply to any message published by client applications, and you can also use subject mappings as part of the imports and exports between accounts.
 
@@ -24,8 +24,6 @@ nats server mapping foo bar
 
 Wildcard tokens may be referenced by position number in the destination mapping using (only for versions 2.8.0 and above of `nats-server`) `{{wildcard(position)}}`. E.g. `{{wildcard(1)}}` references the first wildcard token, `{{wildcard(2)}}` references the second wildcard token, etc...
 
-You can also (for all versions of `nats-server`) use the legacy notation of `$position`. E.g. `$1` references the first wild card token, `$2` the second wildcard token, etc...
-
 Example: with this mapping `"bar.*.*" : "baz.{{wildcard(2)}}.{{wildcard(1)}}"`, messages that were originally published to `bar.a.b` are remapped in the server to `baz.b.a`. Messages arriving at the server on `bar.one.two` would be mapped to `baz.two.one`, and so forth. Try it for yourself using `nats server mapping`.
 
 ```
@@ -41,24 +39,27 @@ There are two ways you can split tokens:
 You can split a token on each occurrence of a separator string using the `split(separator)` mapping function.
 
 Examples:
-* Split on '-': `nats server mapping "*" "{{split(1,-)}}" foo-bar` returns `foo.bar`.
-* Split on '--': `nats server mapping "*" "{{split(1,--)}}" foo--bar` returns `foo.bar`.
+
+- Split on '-': `nats server mapping "*" "{{split(1,-)}}" foo-bar` returns `foo.bar`.
+- Split on '--': `nats server mapping "*" "{{split(1,--)}}" foo--bar` returns `foo.bar`.
 
 ### Splitting at an offset
 
 You can split a token in two at a specific location from the start or the end of the token using the `SplitFromLeft(wildcard index, offset)` and `SplitFromRight(wildcard index, offset)` mapping functions (note that the upper camel case on all subject mapping function names is optional you can also use all lowercase function names if you prefer).
 
 Examples:
-* Split the token at 4 from the left: `nats server mapping "*" "{{splitfromleft(1,4)}}" 1234567` returns `1234.567`.
-* Split the token at 4 from the right: `nats server mapping "*" "{{splitfromright(1,4)}}" 1234567` returns `123.4567`.
+
+- Split the token at 4 from the left: `nats server mapping "*" "{{splitfromleft(1,4)}}" 1234567` returns `1234.567`.
+- Split the token at 4 from the right: `nats server mapping "*" "{{splitfromright(1,4)}}" 1234567` returns `123.4567`.
 
 ## Slicing Tokens
 
 You can slice tokens into multiple parts at a specific interval from the start or the end of the token by using the `SliceFromLeft(wildcard index, number of characters)` and `SliceFromRight(wildcard index, number of characters)` mapping functions.
 
 Examples:
-* Split every 2 characters from the left: `nats server mapping "*" "{{slicefromleft(1,2)}}" 1234567` returns `12.34.56.7`.
-* Split every 2 characters from the right: `nats server mapping "*" "{{slicefromright(1,2)}}" 1234567` returns `1.23.45.67`.
+
+- Split every 2 characters from the left: `nats server mapping "*" "{{slicefromleft(1,2)}}" 1234567` returns `12.34.56.7`.
+- Split every 2 characters from the right: `nats server mapping "*" "{{slicefromright(1,2)}}" 1234567` returns `1.23.45.67`.
 
 ## Deterministic Subject token Partitioning
 
@@ -67,14 +68,13 @@ Deterministic token partitioning allows you to use subject based addressing to d
 For example: new customer orders are published on `neworders.<customer id>`, you can partition those messages over 3 partition numbers (buckets), using the `partition(number of partitions, wildcard token positions...)` function which returns a partition number (between 0 and number of partitions-1) by using the following mapping `"neworders.*" : "neworders.{{wildcard(1)}}.{{partition(3,1)}}"`.
 
 {% hint style="info" %}
-Note that multiple token positions can be specified to form a kind of *composite partition key*. For example, a subject with the form `foo.*.*` can have a partition mapping of `foo.{{wildcard(1)}}.{{wildcard(2)}}.{{partition(5,1,2)}}` which will result in five partitions in the form `foo.*.*.<n>`, but using the hash of the two wildcard tokens when computing the partition number.
+Note that multiple token positions can be specified to form a kind of _composite partition key_. For example, a subject with the form `foo.*.*` can have a partition mapping of `foo.{{wildcard(1)}}.{{wildcard(2)}}.{{partition(5,1,2)}}` which will result in five partitions in the form `foo.*.*.<n>`, but using the hash of the two wildcard tokens when computing the partition number.
 {% endhint %}
 
 This particular mapping means that any message published on `neworders.<customer id>` will be mapped to `neworders.<customer id>.<a partition number 0, 1, or 2>`. i.e.:
 
-
 | Published on          | Mapped to               |
-|-----------------------|-------------------------|
+| --------------------- | ----------------------- |
 | neworders.customerid1 | neworders.customerid1.0 |
 | neworders.customerid2 | neworders.customerid2.2 |
 | neworders.customerid3 | neworders.customerid3.1 |
@@ -87,7 +87,7 @@ The mapping is deterministic because (as long as the number of partitions is 3) 
 You can partition on more than one subject wildcard token at a time, e.g.: `{{partition(10,1,2)}}` distributes the union of token wildcards 1 and 2 over 10 partitions.
 
 | Published on | Mapped to |
-|--------------|-----------|
+| ------------ | --------- |
 | foo.1.a      | foo.1.a.1 |
 | foo.1.b      | foo.1.b.0 |
 | foo.2.b      | foo.2.b.9 |
@@ -148,7 +148,7 @@ Once you've determined Version 2 is stable you can switch 100% of the traffic ov
 
 Traffic shaping is also useful in testing. You might have a service that runs in QA that simulates failure scenarios which could receive 20% of the traffic to test the service requestor.
 
-`myservice.requests.*: [{ destination: myservice.requests.$1, weight: 80% }, { destination: myservice.requests.fail.$1, weight: 20% }`
+`myservice.requests.*: [{ destination: myservice.requests.{{wildcard(1)}}, weight: 80% }, { destination: myservice.requests.fail.{{wildcard(1)}}, weight: 20% }`
 
 ### For Artificial Loss
 
