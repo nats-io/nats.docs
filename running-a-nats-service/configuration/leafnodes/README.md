@@ -4,10 +4,10 @@ A _Leaf Node_ extends an existing NATS system of any size, optionally bridging b
 
 Leaf nodes are useful in IoT and edge scenarios and when the local server traffic should be low RTT and local unless routed to the super cluster. NATS' queue semantics are honored across leaf connections by serving local queue consumer first.
 
-* Clients to leaf nodes authenticate locally (or just connect if authentication is not required)
-* Traffic between the leaf node and the cluster assumes the restrictions of the user configuration used to create the leaf connection.
-  * Subjects that the user is allowed to publish are exported to the cluster.
-  * Subjects the user is allowed to subscribe to, are imported into the leaf node.
+- Clients to leaf nodes authenticate locally (or just connect if authentication is not required)
+- Traffic between the leaf node and the cluster assumes the restrictions of the user configuration used to create the leaf connection.
+  - Subjects that the user is allowed to publish are exported to the cluster.
+  - Subjects the user is allowed to subscribe to, are imported into the leaf node.
 
 Unlike [cluster](../clustering/) or [gateway](../gateways/) nodes, leaf nodes do not need to be reachable themselves and can be used to explicitly configure any acyclic graph topologies.
 
@@ -35,7 +35,9 @@ Start the server:
 ```bash
 nats-server -c /tmp/server.conf
 ```
+
 Output extract
+
 ```text
 ...
 [5774] 2019/12/09 11:11:23.064276 [INF] Listening for leafnode connections on 0.0.0.0:7422
@@ -53,8 +55,8 @@ The leaf node, allows local clients to connect to through port 4111, and doesn't
 ```
 listen: "127.0.0.1:4111"
 leafnodes {
-    remotes = [ 
-        { 
+    remotes = [
+        {
           url: "nats://s3cr3t@localhost"
         },
     ]
@@ -66,8 +68,8 @@ In the case where the remote leaf connection is connecting with `tls`:
 ```
 listen: "127.0.0.1:4111"
 leafnodes {
-    remotes = [ 
-        { 
+    remotes = [
+        {
           url: "tls://s3cr3t@localhost"
         },
     ]
@@ -79,9 +81,11 @@ Note the leaf node configuration lists a number of `remotes`. The `url` specifie
 Start the leaf node server:
 
 ```bash
-nats-server -c /tmp/leaf.conf 
+nats-server -c /tmp/leaf.conf
 ```
+
 Output extract
+
 ```text
 ....
 [3704] 2019/12/09 09:55:31.548308 [INF] Listening for client connections on 127.0.0.1:4111
@@ -94,6 +98,7 @@ Connect a client to the leaf server and make a request to 'q':
 ```bash
 nats req -s nats://127.0.0.1:4111 q ""
 ```
+
 ```text
 Published [q] : ''
 Received  [_INBOX.Ua82OJamRdWof5FBoiKaRm.gZhJP6RU] : '42'
@@ -139,6 +144,7 @@ The `nsc` tool is aware of the account, so let's proceed to create a user for ou
 ```bash
 nsc add user leaftestuser
 ```
+
 ```text
 [ OK ] generated and stored user key "UB5QBEU4LU7OR26JEYSG27HH265QVUFGXYVBRD7SVKQJMEFSZTGFU62F"
 [ OK ] generated user creds file "~/.nkeys/creds/synadia/leaftest/leaftestuser.creds"
@@ -149,8 +155,8 @@ Let's craft a leaf node connection much like we did earlier:
 
 ```
 leafnodes {
-    remotes = [ 
-        { 
+    remotes = [
+        {
           url: "tls://connect.ngs.global"
           credentials: "/Users/alberto/.nkeys/creds/synadia/leaftest/leaftestuser.creds"
         },
@@ -163,8 +169,9 @@ The default port for leaf nodes is 7422, so we don't have to specify it.
 Let's start the leaf server:
 
 ```bash
-nats-server -c /tmp/ngs_leaf.conf 
+nats-server -c /tmp/ngs_leaf.conf
 ```
+
 ```text
 ...
 [4985] 2023/03/03 10:55:51.577569 [INF] Listening for client connections on 0.0.0.0:4222
@@ -183,6 +190,7 @@ And now let's make the request from the local host:
 ```bash
 nats-req q ""
 ```
+
 ```text
 Published [q] : ''
 Received  [_INBOX.hgG0zVcVcyr4G5KBwOuyJw.uUYkEyKr] : '42'
@@ -191,3 +199,11 @@ Received  [_INBOX.hgG0zVcVcyr4G5KBwOuyJw.uUYkEyKr] : '42'
 ## Leaf Authorization
 
 In some cases you may want to restrict what messages can be exported from the leaf node or imported from the leaf connection. You can specify restrictions by limiting what the leaf connection client can publish and subscribe to. See [NATS Authorization](../securing_nats/authorization.md) for how you can do this.
+
+## TlS-first Handshake
+
+_As of NATS v2.10.0_
+
+Leafnode connections follow the model where when a TCP connection is created to the server, the server will immediately send an [INFO protocol message](../../../reference/nats-protocol/nats-protocol/README.md#info) in clear text. This INFO protocol provides metadata, including whether the server requires a secure connection.
+
+Some environments prefer to not want a server that is configured to accept TLS connections for leafnodes having any traffic sent in clear text. It was possible to by-pass this using a websocket connection. However, if websocket is not desired, the accepting and remote servers can be [configured](./leafnode_conf.md#tls-block) to perform a TLS handshake before sending the INFO protocol message.
