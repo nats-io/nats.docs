@@ -197,4 +197,4 @@ For each message that is republished, a set of [headers](./headers.md) are autom
 
 ### SubjectTransform
 
-If configured, the `SubjectTransform` will perform a subject transform to matching subjects of messages received by the stream and transform it, before storing it in the stream. The transform configuration specifies a `Source` and `Destination` field, following the rules of [subject transform](../../running-a-nats-service/configuration/configuring_subject_mapping.md).
+If configured, the `SubjectTransform` will perform a subject transform to matching subjects of messages received by the stream and transform the subject, before storing it in the stream. The transform configuration specifies a `Source` and `Destination` field, following the rules of [subject transform](../../running-a-nats-service/configuration/configuring_subject_mapping.md).
