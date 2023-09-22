@@ -24,28 +24,28 @@ MQTT topic uses "`/`" as a level separator. For instance `foo/bar` would transla
 
 NATS Server will convert an MQTT topic following those rules:
 
-| MQTT character | NATS character\(s\) | Topic \(MQTT\) | Subject \(NATS\) |
-| :---: | :---: | :---: | :---: |
-| `/` between two levels | `.` | `foo/bar` | `foo.bar` |
-| `/` as first level | `/.` | `/foo/bar` | `/.foo.bar` |
-| `/` as last level | `./` | `foo/bar/` | `foo.bar./` |
-| `/` next to another | `./` | `foo//bar` | `foo./.bar` |
-| `/` next to another | `/.` | `//foo/bar` | `/./.foo.bar` |
-| `.` | `//` (see note below) | `foo.bar` | `foo//bar`  |
-| ` ` | Not Supported | `foo bar` | Not Supported |
+|     MQTT character     |  NATS character\(s\)  | Topic \(MQTT\) | Subject \(NATS\) |
+| :--------------------: | :-------------------: | :------------: | :--------------: |
+| `/` between two levels |          `.`          |   `foo/bar`    |    `foo.bar`     |
+|   `/` as first level   |         `/.`          |   `/foo/bar`   |   `/.foo.bar`    |
+|   `/` as last level    |         `./`          |   `foo/bar/`   |   `foo.bar./`    |
+|  `/` next to another   |         `./`          |   `foo//bar`   |   `foo./.bar`    |
+|  `/` next to another   |         `/.`          |  `//foo/bar`   |  `/./.foo.bar`   |
+|          `.`           | `//` (see note below) |   `foo.bar`    |    `foo//bar`    |
+|          ` `           |     Not Supported     |   `foo bar`    |  Not Supported   |
 
-*Prior to NATS Server v2.9.10, the character `.` was not supported. At version v2.9.10 and above, the character `.` will be translated to `//`.*
+_Note: Prior to NATS Server v2.10.0, the character `.` was not supported. At version v2.10.0 and above, the character `.` will be translated to `//`._
 
-As indicated above, if an MQTT topic contains the character ` ` (or `.` prior to v2.9.10), NATS will reject it, causing the connection to be closed for published messages, and returning a failure code in the SUBACK packet for a subscriptions.
+As indicated above, if an MQTT topic contains the character ` ` (or `.` prior to v2.10.0), NATS will reject it, causing the connection to be closed for published messages, and returning a failure code in the SUBACK packet for a subscriptions.
 
 ### MQTT Wildcards
 
 As in NATS, MQTT wildcards represent either multi or single levels. As in NATS, they are allowed only for subscriptions, not for published messages.
 
 | MQTT Wildcard | NATS Wildcard |
-| :---: | :---: |
-| `#` | `>` |
-| `+` | `*` |
+| :-----------: | :-----------: |
+|      `#`      |      `>`      |
+|      `+`      |      `*`      |
 
 The wildcard `#` matches any number of levels within a topic, which means that a subscription on `foo/#` would receive messages on `foo/bar`, or `foo/bar/baz`, but also on `foo`. This is not the case in NATS where a subscription on `foo.>` can receive messages on `foo/bar` or `foo/bar/baz`, but not on `foo`. To solve this, NATS Server will create two subscriptions, one on `foo.>` and one on `foo`. If the MQTT subscription is simply on `#`, then a single NATS subscription on `>` is enough.
 
@@ -113,21 +113,12 @@ In other words, retained messages in clustering mode is best-effort, and applica
 
 ## Limitations
 
-* NATS does not support QoS 2 messages. If it receives a published message with QoS greater than 1,
-
-  it will close the connection.
-
-* NATS messages published to MQTT subscriptions are always delivered as QoS 0 messages.
-* MQTT published messages on topic names containing "```" or "``.\`" characters will cause the
-
-  connection to be closed. Presence of those characters in MQTT subscriptions will result in error
-
-  code in the SUBACK packet.
-
-* MQTT wildcard `#` may cause the NATS server to create two subscriptions.
-* MQTT concurrent sessions may result in the new connection to be evicted instead of the existing one.
-* MQTT retained messages in clustering mode is best effort.
+- NATS messages published to MQTT subscriptions are always delivered as QoS 0 messages.
+- MQTT published messages on topic names containing "````" or "`.\`" characters will cause the connection to be closed. Presence of those characters in MQTT subscriptions will result in error code in the SUBACK packet.
+- MQTT wildcard `#` may cause the NATS server to create two subscriptions.
+- MQTT concurrent sessions may result in the new connection to be evicted instead of the existing one.
+- MQTT retained messages in clustering mode is best effort.
 
 ## See Also
-[Replace your MQTT Broker with NATS Server](https://nats.io/blog/replace-your-mqtt-broker-with-nats/)
 
+[Replace your MQTT Broker with NATS Server](https://nats.io/blog/replace-your-mqtt-broker-with-nats/)
