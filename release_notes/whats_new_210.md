@@ -131,8 +131,8 @@ There are new stream and consumer configuration options that could be problemati
 
 ### Consumers
 
-- A new header has been added on a fetch response that indicate to clients the fetch has been fulfilled without requiring clients to rely on hearbeats. TODO: which client versions?
-  NOTE: This is handled internally and is not required. It sole purpose is to avoid some conditions in which client would issue fetch requests that could go over the limit defined in `consume`, or have 3 fetch requests pending instead of 2.
+- A new header has been added on a fetch response that indicates to clients the fetch has been fulfilled without requiring clients to rely on hearbeats. TODO: which client versions?
+  NOTE: This is handled internally and is not required. Its sole purpose is to avoid some conditions in which the client would issue fetch requests that could go over the limit defined in `consume`, or have 3 fetch requests pending instead of 2.
 
 ### Leafnodes
 
