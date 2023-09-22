@@ -128,6 +128,7 @@
       - [Kubernetes Controller](running-a-nats-service/configuration/jetstream-config/configuration_mgmt/kubernetes_controller.md)
   - [Clustering](running-a-nats-service/configuration/clustering/README.md)
     - [Clustering Configuration](running-a-nats-service/configuration/clustering/cluster_config.md)
+    - [v2 Routes](running-a-nats-service/configuration/clustering/v2_routes.md)
     - [JetStream Clustering](running-a-nats-service/configuration/clustering/jetstream_clustering/README.md)
       - [Administration](running-a-nats-service/configuration/clustering/jetstream_clustering/administration.md)
       - [Troubleshooting](running-a-nats-service/configuration/clustering/jetstream_clustering/troubleshooting.md)
