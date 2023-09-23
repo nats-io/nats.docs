@@ -28,7 +28,6 @@ JetStream was developed with the following goals in mind:
 * The system must scale horizontally and be applicable to a high ingestion rate.
 * The system must support multiple use cases.
 * The system must self-heal and always be available.
-* The system must have an API that is closer to core NATS.
 * The system must allow NATS messages to be part of a stream as desired.
 * The system must display payload agnostic behavior.
 * The system must not have third party dependencies.
@@ -42,7 +41,9 @@ One of the tenets of basic publish/subscribe messaging is that there is a requir
 * durable subscribers need to be created _before_ the messages get published
 * queues are meant for workload distribution and consumption, not to be used as a mechanism for message replay.
 
-However, nowadays a new way to provide this temporal de-coupling has been devised and has become 'mainstream': streaming. Streams capture and store messages published on one (or more) subject and allow client applications to create 'subscribers' (i.e. JetStream consumers) at any time to 'replay' (or consume) all or some of the messages stored in the stream.
+However in many use cases you do not need this 'consume exactly once' functionality but rather the ability to replay messages on demand and as many times as you want and this need has lead to the popularity of some 'streaming' messaging platforms.
+
+JetStream provides *both* the ability to *consume* messages as they are published (i.e. 'queueing') as well as the ability to *replay* messages on demand (i.e. 'streaming'). See [retention policies](streams.md#retention-policies-and-limits) below.
 
 #### Replay policies
 
@@ -57,7 +58,7 @@ JetStream consumers support multiple replay policies, depending on whether the c
 
 #### Retention policies and limits
 
-It enables new functionalities and higher qualities of service on top of the base 'Core NATS' functionality. Practically speaking, streams can't always just keep growing 'forever' and therefore JetStream support multiple retention policies as well as the ability to impose size limits on streams.
+JetSteam enables new functionalities and higher qualities of service on top of the base 'Core NATS' functionality. However, practically speaking, streams can't always just keep growing 'forever' and therefore JetStream support multiple retention policies as well as the ability to impose size limits on streams.
 
 **Limits**
 
@@ -77,11 +78,15 @@ You must also select a **discard policy** which specifies what should happen onc
 
 You can choose what kind of retention you want for each stream:
 
-* _limits_ (the default).
-* _interest_ (messages are kept in the stream for as long as there are consumers that haven't delivered the message yet).
-* _work queue_ (the stream is used as a shared queue and messages are removed from it as they are consumed).
+* _limits_ (the default) is to provide replay of messages in the stream.
+* _work queue_ (the stream is used as a shared queue and messages are removed from it as they are consumed) is to provide the exactly-once consumption of messages in the stream.
+* _interest_ (messages are kept in the stream for as long as there are consumers that haven't delivered the message yet) is a variation of work queue that only retains messages if there is interest (consumers currently defined on the stream) for the message's subject.
 
 Note that regardless of the retention policy selected, the limits (and the discard policy) _always_ apply.
+
+#### Subject mapping transformations
+
+JetStream also enables the ability to apply subject mapping transformations to messages as they are ingested into a stream.
 
 ### Persistent distributed storage
 
@@ -111,9 +116,9 @@ Rather than defaulting to the maximum, we suggest selecting the best option base
 * Replicas=4 - No significant benefit over Replicas=3 except marginally in a 5 node cluster.
 * Replicas=5 - Can tolerate simultaneous loss of two servers servicing the stream. Mitigates risk at the expense of performance.
 
-#### Mirroring between streams
+#### Mirroring and Sourcing between streams
 
-JetStream also allows server administrators to easily mirror streams, for example between different JetStream domains in order to offer disaster recovery. You can also define a stream as one of the sources for another stream.
+JetStream also allows server administrators to easily mirror streams, for example between different JetStream domains in order to offer disaster recovery. You can also define a stream that 'sources' from one or more other streams.
 
 ### De-coupled flow control
 

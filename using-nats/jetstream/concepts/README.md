@@ -10,6 +10,16 @@ In modern systems applications can expose services or produce and consume data s
 
 A basic aspect of basic publish-subscribe messaging is temporal coupling: the subscribers need to be up and running to receive the message when it is published. At a high level, if observability is required, applications need to consume messages in the future, need to come consume at their own pace, or need all messages, then JetStream's streaming functionalities provide the temporal de-coupling between publishers and consumers.
 
+### Queueing and replay
+
+JetStream enables the ability to queue messages for future consumption and replay of messages. Streams can be configured to either queue messages for future consumption by consumers using the `WorkingQueue` retention policy, meaning that the messages are deleted from the stream as they are consumed, or consumers can be configured using the `Limits` retention policy to provide on demand individual or distributed replay messages from the beginning of the stream or from a specific point in time.
+
+### Mirroring and Sourcing
+
+JetStream enables the ability to mirror messages from one stream to another, and to source messages from one stream to another. This enables the ability to build complex topologies of streams and consumers.
+
+For example you can have an initial stream that captures messages only for a limited amount of time and is used for replay of messages that can also feed any number of other streams configured for message consumption in a queue that mirror or source from this initial stream. This enables the ability to have consumers consuming from the mirrored/sourced stream without impacting that original stream and at their own pace.
+
 ### Higher qualities of services
 
 Besides temporal de-coupling of the publishers and subscribers (i.e. 'streaming'), there are other functionalities and qualities of service that JetStream enables
