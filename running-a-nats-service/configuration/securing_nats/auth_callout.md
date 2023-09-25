@@ -6,7 +6,7 @@ Auth Callout is an opt-in extension for delegating client authentication and aut
 
 The motivation for this extension is to support applications using an alternate identity and access management (IAM) backend as the source of truth for managing users/applications/machines credentials and permissions. This could be services that implement standard protocols such as LDAP, SAML, and OAuth, an ad-hoc database, or even a file on disk.
 
-![Auth Callout Flow](../../../.gitbook/assets/images/auth-callout-light.svg)
+![Auth Callout Flow](../../../assets/images/auth-callout-light.svg)
 
 Both centralized and decentralized authentication models are supported with slightly different considerations and semantics.
 
