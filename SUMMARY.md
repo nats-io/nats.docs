@@ -154,6 +154,7 @@
     - [Authorization](running-a-nats-service/configuration/securing_nats/authorization.md)
     - [Multi Tenancy using Accounts](running-a-nats-service/configuration/securing_nats/accounts.md)
     - [OCSP Stapling](running-a-nats-service/configuration/ocsp.md)
+    - [Auth Callout](running-a-nats-service/configuration/securing_nats/auth_callout.md)
   - [Logging](running-a-nats-service/configuration/logging.md)
   - [Enabling Monitoring](running-a-nats-service/configuration/monitoring.md)
   - [MQTT](running-a-nats-service/configuration/mqtt/README.md)
