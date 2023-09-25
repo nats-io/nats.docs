@@ -4,31 +4,57 @@ _As of NATS v2.10.0_
 
 Auth Callout is an opt-in extension for delegating client authentication and authorization to an application-defined NATS service.
 
-The motivation for this extension is to support applications using an alternate identity and access management (IAM) backend as the source of truth for managing users/applications/machines credentials and permissions, such as LDAP, SAML, and OAuth.
+The motivation for this extension is to support applications using an alternate identity and access management (IAM) backend as the source of truth for managing users/applications/machines credentials and permissions. This could be services that implement standard protocols such as LDAP, SAML, and OAuth, an ad-hoc database, or even a file on disk.
 
-## Mental Model
+![Auth Callout Flow](../../../.gitbook/assets/images/auth-callout-light.svg)
 
-[TODO image]
+Both centralized and decentralized authentication models are supported with slightly different considerations and semantics.
 
-## Configuration
+There are three phases to leveraging auth callout:
 
-Centralized and decentralized authentication models are supported.
+- service implementation
+- migration considerations
+- setup and configuration
 
-### Centralized Auth
-
-{% hint style="warning" %}
-Note, in this centralized model, existing users defined in the config file will be ignored. The auth service will need to handle authenticating all users as well as assigning the target account and permissions. This includes the system account user(s) and an implicit "no auth" user. See the [migrating](#migrating) section below for considerations when migrating to auth callout.
+{% hint type="warning" %}
+Note, the setup and configuration is deliberately _last_ since enabling the configuration before deploying a service could cause issues for existing systems.
 {% endhint %}
 
-In the centralized config-based model, configuration is declared in the `auth_callout` block under thte top-level `authorization` block.
+## Centralized Auth
+
+Centralized auth refers to all authentication and authorization mechanisms that are server config file-based.
+
+### Service implementation
+
+Refer to the [end-to-end example](https://natsbyexample.com/examples/auth/callout/cli) to get oriented with a basic service implementation.
+
+There are three key data structures:
+
+- [authorization request claims](#authorization-request-claims)
+- [authorization response claims](#authorization-response-claims)
+- [user claims](#user-claims)
+
+{% hint type="info" %}
+Language support for these structures currently exists for Go in the [nats-io/jwt](https://pkg.go.dev/github.com/nats-io/jwt/v2) package.
+{% endhint %}
+
+### Migration considerations
+
+In this context, migration refers to the considerations and steps required to enable auth callout for an existing system without causing interruption.
+
+In the centralized model, existing users defined in the config file will be ignored. The auth service will need to handle authenticating all users as well as assigning the target account and permissions. This includes the system account user(s) and an implicit "no auth" user.
+
+As a result, prior to enabling auth callout, existing users and permissions must be ported to the target backend. Once the service is deployed, the `auth_callout` configuration can be enabled at which point client authentication will be delegated to the auth service. Assuming the credentials are the same, clients should not experience interruption on reconnect.
+
+### Setup and configuration
+
+For centralized auth callout, configuration is declared in the `auth_callout` block under the top-level `authorization` block.
 
 ```
 authorization {
+  auth_callout {
     ...
-
-    auth_callout {
-        ...
-    }
+  }
 }
 ```
 
@@ -53,8 +79,6 @@ ABJHLOVMPA4CI6R5KLNGOB4GSLNIY7IOUPAJC4YFNDLQVIOBYQGUWVLA
 ☝️ Be sure to generate your own keypair! Don't use this in production.
 {% endhint %}
 
-The minimum configuration would use the implicit default account `$G`.
-
 ```
 authorization {
   users: [ { user: auth, password: auth } ]
@@ -65,9 +89,13 @@ authorization {
 }
 ```
 
-#### Multi-account
+This minimum configuration would use the implicit default account `$G`.
 
-In practice, it is recommended to use multiple accounts in order to leverage the system account. Note, that the `account` property is now set to `AUTH` indicating where the `auth` user is defined.
+#### Multiple accounts
+
+If an existing system using multiple accounts is being migrated to auth callout, then the existing `accounts` configuration should remain with the `users` property removed (since it will no longer be used after being ported).
+
+For new setups, it is recommended to use explicit accounts, such as the following configuration having the `AUTH` account for auth callout, `APP` (could be more) for application account (instead of relying on the `$G` account), and `SYS` for the system account.
 
 ```
 accounts {
@@ -90,7 +118,9 @@ authorization {
 
 #### Encryption
 
-The final optional property is `xkey` which is enables encrypting the request payloads. To generate an XKey, `nsc` can be used again.
+The `xkey` property enables encrypting the request payloads. This is recommended as a security best practice, but not required.
+
+To generate an XKey, `nsc` can be used again.
 
 ```
 $ nsc generate nkey --curve
@@ -124,45 +154,39 @@ authorization {
 }
 ```
 
-The next step is [implementing a service](#service-implementation).
-
-### Decentralized Auth
+## Decentralized Auth
 
 TODO
 
-## Service implementation
+### Service implementation
 
-The second requirement to leveraging auth callout is implementing the NATS service that authorization requests will be delegated to. The service subscribes to a fixed subject `$SYS.REQ.USER.AUTH` and must use one of designated _auth_ credentials.
+Refer to the [example](https://natsbyexample.com/examples/auth/callout-decentralized/cli) showcasing configuration and a basic service implementation.
 
-The basic structure of a service looks as follows in Go:
+### Migration consideration
 
-```go
-nc.QueueSubscribe("$SYS.REQ.USER.AUTH", "auth-callout", func(msg *nats.Msg) {
-  // Decode the authorization request claims sent by the NATS server.
-  reqClaims, _ := jwt.DecodeAuthorizationRequestClaims(string(msg.Data))
+TODO
 
-  // Application-defined function performing authentication and generate user claims.
-  userClaims, err := authenticateAndGenerateClaims(reqClaims)
+### Setup and configuration
 
-  // Prepare the authorization response payload.
-  repData := encodeAuthResponse(reqClaims, userClaims, err)
+TODO
 
-  // Respond with the authorization response payload.
-  msg.Respond(repData)
-})
-```
+## Reference
 
-There are three key data structures:
+### Encryption
 
-- [authorization request claims](#authorization-request-claims)
-- [authorization response claims](#authorization-response-claims)
-- [user claims](#user-claims)
+When encryption is enabled, the server will generate a one-time use XKey keypair per client connection/reconnect. The public key is included in the authorization request claims which enables the auth callout service to encrypt the authorization response payload when sending it back to the NATS server.
 
 {% hint type="info" %}
-Language support for these structures currently exists for Go in the [nats-io/jwt](https://pkg.go.dev/github.com/nats-io/jwt/v2) package.
+The one-time use keypair prevents replay attacks since the public key will be thrown away after the first response was received by the server or the timeout was reached.
 {% endhint %}
 
-### Authorization request claims
+Once the authorization request is prepared, it is encoded and encrypted using the configured `xkey` public key. Once encrypted, the message is published for the auth service to receive.
+
+The auth service is expected to have the private key to decrypt the authorization request before using the claims data. When preparing the response, the server-provided one-time public xkey will be used to encrypt the response before sending back to the server.
+
+### Schema
+
+#### Authorization request claims
 
 The claims is a standard JWT structure with a nested object named `nats` containing the following top-level fields:
 
@@ -174,7 +198,7 @@ The claims is a standard JWT structure with a nested object named `nats` contain
 
 <details>
 <summary>Full JSON schema</summary>
-```json
+<pre>
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "authorization-request-claims",
@@ -380,10 +404,10 @@ The claims is a standard JWT structure with a nested object named `nats` contain
     "nats"
   ]
 }
-```
+</pre>
 </details>
 
-### Authorization response claims
+#### Authorization response claims
 
 The claims is a standard JWT structure with a nested object named `nats` containing the following top-level fields:
 
@@ -393,7 +417,7 @@ The claims is a standard JWT structure with a nested object named `nats` contain
 
 <details>
 <summary>Full JSON schema</summary>
-```json
+<pre>
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/nats-io/jwt/v2/authorization-response-claims",
@@ -456,10 +480,10 @@ The claims is a standard JWT structure with a nested object named `nats` contain
     "nats"
   ]
 }
-```
+</pre>
 </details>
 
-### User claims
+#### User claims
 
 The claims is a standard JWT structure with a nested object named `nats` containing the following, notable, top-level fields:
 
@@ -467,7 +491,7 @@ The claims is a standard JWT structure with a nested object named `nats` contain
 
 <details>
 <summary>Full JSON schema</summary>
-```json
+<pre>
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/nats-io/jwt/v2/user-claims",
@@ -615,26 +639,5 @@ The claims is a standard JWT structure with a nested object named `nats` contain
   "additionalProperties": false,
   "type": "object"
 }
-```
+</pre>
 </details>
-
-Note, when a user is authorized by the service, the `$SYS.REQ.USER.AUTH` subject will be automatically added to the deny-list for subscription permissions.
-
-### Examples
-
-Two reference examples are available on NATS by Example:
-
-- [Centralized Auth](https://natsbyexample.com/examples/auth/callout/cli)
-- [Decentralized Auth](https://natsbyexample.com/examples/auth/callout-decentralized/cli)
-
-## Migrating
-
-In this context, migration refers to the considerations and ordered steps to enable auth callout for an existing system without interruption.
-
-### Centralized Auth
-
-As noted in the [configuration section](#centralized-auth), enabling `auth_callout` will result in the existing users and permissions defined in the configuration to be inactive. As a result, prior to changing the configuration, the service must be implemented and users and permissions ported to the desired backend. Once the service is deployed, the `auth_callout` configuration can be enabled at which point client authentication will be delegated to the auth service. Assuming the credentials are the same, clients should not experience interruption on reconnect.
-
-### Decentralized Auth
-
-TODO
