@@ -41,7 +41,7 @@ One of the tenets of basic publish/subscribe messaging is that there is a requir
 * durable subscribers need to be created _before_ the messages get published
 * queues are meant for workload distribution and consumption, not to be used as a mechanism for message replay.
 
-However in many use cases you do not need this 'consume exactly once' functionality but rather the ability to replay messages on demand and as many times as you want and this need has lead to the popularity of some 'streaming' messaging platforms.
+However, in many use cases, you do not need 'consume exactly once' functionality but rather the ability to replay messages on demand, as many times as you want. This need has led to the popularity of some 'streaming' messaging platforms.
 
 JetStream provides *both* the ability to *consume* messages as they are published (i.e. 'queueing') as well as the ability to *replay* messages on demand (i.e. 'streaming'). See [retention policies](streams.md#retention-policies-and-limits) below.
 
@@ -58,7 +58,7 @@ JetStream consumers support multiple replay policies, depending on whether the c
 
 #### Retention policies and limits
 
-JetSteam enables new functionalities and higher qualities of service on top of the base 'Core NATS' functionality. However, practically speaking, streams can't always just keep growing 'forever' and therefore JetStream support multiple retention policies as well as the ability to impose size limits on streams.
+JetStream enables new functionalities and higher qualities of service on top of the base 'Core NATS' functionality. However, practically speaking, streams can't always just keep growing 'forever' and therefore JetStream supports multiple retention policies as well as the ability to impose size limits on streams.
 
 **Limits**
 
@@ -78,7 +78,7 @@ You must also select a **discard policy** which specifies what should happen onc
 
 You can choose what kind of retention you want for each stream:
 
-* _limits_ (the default) is to provide replay of messages in the stream.
+* _limits_ (the default) is to provide a replay of messages in the stream.
 * _work queue_ (the stream is used as a shared queue and messages are removed from it as they are consumed) is to provide the exactly-once consumption of messages in the stream.
 * _interest_ (messages are kept in the stream for as long as there are consumers that haven't delivered the message yet) is a variation of work queue that only retains messages if there is interest (consumers currently defined on the stream) for the message's subject.
 
@@ -90,13 +90,13 @@ JetStream also enables the ability to apply subject mapping transformations to m
 
 ### Persistent distributed storage
 
-You can choose the durability as well as the resilience of the message storage according to your needs
+You can choose the durability as well as the resilience of the message storage according to your needs.
 
 * Memory storage.
 * File storage.
 * Replication (1 (none), 2, 3) between nats servers for Fault Tolerance.
 
-JetStream uses a NATS optimized RAFT distributed quorum algorithm to distribute the persistence service between nats servers in a cluster while maintaining immediate consistency even in the face of Byzantine failures.
+JetStream uses a NATS optimized RAFT distributed quorum algorithm to distribute the persistence service between NATS servers in a cluster while maintaining immediate consistency even in the face of Byzantine failures.
 
 JetStream can also provide encryption at rest of the messages being stored.
 
@@ -104,15 +104,15 @@ In JetStream the configuration for storing messages is defined separately from h
 
 #### Stream replication factor
 
-A stream's replication factor (R, often referred to as the number 'Replicas') determines how many places it is stored allowing you to tune to balance risk with resource usage and performance. A stream that is easily rebuilt or temporary might be memory based with a R=1 and a stream that can tolerate some downtime might be file based R-1.
+A stream's replication factor (R, often referred to as the number 'Replicas') determines how many places it is stored allowing you to tune to balance risk with resource usage and performance. A stream that is easily rebuilt or temporary might be memory-based with a R=1 and a stream that can tolerate some downtime might be file-based R-1.
 
-Typical usage to operate in typical outages and balance performance would be a filed based stream with R=3. A highly resilient, but less performant and more expensive configuration is R=5, the replication factor limit.
+Typical usage to operate in typical outages and balance performance would be a field-based stream with R=3. A highly resilient, but less performant and more expensive configuration is R=5, the replication factor limit.
 
-Rather than defaulting to the maximum, we suggest selecting the best option based on use case behind the stream. This optimizes resource usage to create a more resilient system at scale.
+Rather than defaulting to the maximum, we suggest selecting the best option based on the use case behind the stream. This optimizes resource usage to create a more resilient system at scale.
 
 * Replicas=1 - Cannot operate during an outage of the server servicing the stream. Highly performant.
 * Replicas=2 - No significant benefit at this time. We recommend using Replicas=3 instead.
-* Replicas=3 - Can tolerate loss of one server servicing the stream. An ideal balance between risk and performance.
+* Replicas=3 - Can tolerate the loss of one server servicing the stream. An ideal balance between risk and performance.
 * Replicas=4 - No significant benefit over Replicas=3 except marginally in a 5 node cluster.
 * Replicas=5 - Can tolerate simultaneous loss of two servers servicing the stream. Mitigates risk at the expense of performance.
 
@@ -122,17 +122,17 @@ JetStream also allows server administrators to easily mirror streams, for exampl
 
 ### De-coupled flow control
 
-JetStream provides de-coupled flow control over streams, the flow control is not 'end to end' where the publisher(s) are limited to publish no faster than the slowest of all the consumers (i.e. the lowest common denominator) can receive, but is instead happening individually between each client application (publishers or consumers) and the nats server.
+JetStream provides de-coupled flow control over streams, the flow control is not 'end to end' where the publisher(s) are limited to publish no faster than the slowest of all the consumers (i.e. the lowest common denominator) can receive but is instead happening individually between each client application (publishers or consumers) and the nats server.
 
-When using the JetStream publish calls to publish to streams there is an acknowledgement mechanism between the publisher and the nats server, and you have the choice of making synchronous or asynchronous (i.e. 'batched') JetStream publish calls.
+When using the JetStream publish calls to publish to streams there is an acknowledgment mechanism between the publisher and the NATS server, and you have the choice of making synchronous or asynchronous (i.e. 'batched') JetStream publish calls.
 
-On the subscriber side the sending of messages from the nats server to the client applications receiving or consuming messages from streams is also flow controlled.
+On the subscriber side, the sending of messages from the NATS server to the client applications receiving or consuming messages from streams is also flow controlled.
 
 ### Exactly once semantics
 
-Because publications to streams using the JetStream publish calls are acknowledged by the server the base quality of service offered by streams is '_at least once_', meaning that while reliable and normally duplicate free there are some specific failure scenarios that could result in a publishing application believing (wrongly) that a message was not published successfully and therefore publishing it again, and there are failure scenarios that could result in a client application's consumption acknowledgement getting lost and therefore in the message being re-sent to the consumer by the server. Those failure scenarios while being rare and even difficult to reproduce do exist and can result in perceived 'message duplication' at the application level.
+Because publications to streams using the JetStream publish calls are acknowledged by the server the base quality of service offered by streams is '_at least once_', meaning that while reliable and normally duplicate free there are some specific failure scenarios that could result in a publishing application believing (wrongly) that a message was not published successfully and therefore publishing it again, and there are failure scenarios that could result in a client application's consumption acknowledgment getting lost and therefore in the message being re-sent to the consumer by the server. Those failure scenarios while being rare and even difficult to reproduce do exist and can result in perceived 'message duplication' at the application level.
 
-Therefore, JetStream also offers an '_exactly once_' quality of service. For the publishing side it relies on the publishing application attaching a unique message or publication id in a message header and on the server keeping track of those ids for a configurable rolling period of time in order to detect the publisher publishing the same message twice. For the subscribers a _double_ acknowledgement mechanism is used to avoid a message being erroneously re-sent to a subscriber by the server after some kinds of failures.
+Therefore, JetStream also offers an '_exactly once_' quality of service. For the publishing side, it relies on the publishing application attaching a unique message or publication ID in a message header and on the server keeping track of those IDs for a configurable rolling period of time in order to detect the publisher publishing the same message twice. For the subscribers a _double_ acknowledgment mechanism is used to avoid a message being erroneously re-sent to a subscriber by the server after some kinds of failures.
 
 ### Consumers
 
@@ -148,15 +148,15 @@ Client applications can also use and share `pull` consumers that are demand-driv
 
 Pull consumers can and are meant to be shared between applications (just like queue groups) in order to provide easy and transparent horizontal scalability of the processing or consumption of messages in a stream without having (for example) to worry about having to define partitions or worry about fault-tolerance.
 
-Note: using pull consumers doesn't mean that you can't get updates (new messages published into the stream) 'pushed' in real time to your application, as you can pass a (reasonable) timeout to the consumer's Fetch call and call it in a loop.
+Note: using pull consumers doesn't mean that you can't get updates (new messages published into the stream) 'pushed' in real-time to your application, as you can pass a (reasonable) timeout to the consumer's Fetch call and call it in a loop.
 
-#### Consumer acknowledgements
+#### Consumer acknowledgments
 
-While you can decide to use un-acknowledged consumers trading quality of service for the fastest possible delivery of messages, most processing is not idem-potent and requires higher qualities of service (such as the ability to automatically recover from various failure scenarios that could result in some messages not being processed or being processed more than once) and you will want to use acknowledged consumers. JetStream supports more than one kind of acknowledgement:
+While you can decide to use un-acknowledged consumers trading quality of service for the fastest possible delivery of messages, most processing is not idem-potent and requires higher qualities of service (such as the ability to automatically recover from various failure scenarios that could result in some messages not being processed or being processed more than once) and you will want to use acknowledged consumers. JetStream supports more than one kind of acknowledgment:
 
-* Some consumers support acknowledging _all_ the messages up to the sequence number of the message being acknowledged, some consumers provide the highest quality of service but require acknowledging the reception and processing of each message explicitly as well as the maximum amount of time the server will wait for an acknowledgement for a specific message before re-delivering it (to another process attached to the consumer).
+* Some consumers support acknowledging _all_ the messages up to the sequence number of the message being acknowledged, some consumers provide the highest quality of service but require acknowledging the reception and processing of each message explicitly as well as the maximum amount of time the server will wait for an acknowledgment for a specific message before re-delivering it (to another process attached to the consumer).
 * You can also send back _negative_ acknowledgements.
-* You can even send _in progress_ acknowledgements (to indicate that you are still processing the message in question and need more time before acking or nacking it).
+* You can even send _in progress_ acknowledgments (to indicate that you are still processing the message in question and need more time before acking or nacking it).
 
 ### Key Value Store
 
