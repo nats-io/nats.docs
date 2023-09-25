@@ -16,7 +16,7 @@ cluster {
 
 ### Pool size requirements
 
-Each of those connections will handle a specific subset of the accounts, and the assignment of an account to a specific connection index in the pool is the same in any server in the cluster. It is required that each server in the cluster have the same pool size value, otherwise clustering will fail to be established with an error similar to:
+Each of those connections will handle a specific subset of the accounts, and the assignment of an account to a specific connection index in the pool is the same in any server in the cluster. It is required that each server in the cluster have the same pool size value, otherwise, clustering will fail to be established with an error similar to:
 
 ```
 [ERR] 127.0.0.1:6222 - rid:6 - Mismatch route pool size: 3 vs 4
@@ -24,7 +24,7 @@ Each of those connections will handle a specific subset of the accounts, and the
 
 ### Handling loss of connection
 
-In the event where a given connection of the pool breaks, automatic reconnection occurs as usual. However, while the disconnection is happening, traffic for accounts handled by that connection is stopped (that is, traffic is not routed through other connections), the same way that it was when there was a single route connection.
+In the event that a given connection of the pool breaks, automatic reconnection occurs as usual. However, while the disconnection is happening, traffic for accounts handled by that connection is stopped (that is, traffic is not routed through other connections), the same way that it was when there was a single route connection.
 
 ### Configuration reload
 
@@ -42,7 +42,7 @@ Note that in that mode, no `accounts` list can be defined (see "Accounts Pinning
 
 ## Account pinning
 
-In addition to connection pooling, the release v2.10.0 has introduced the ability to configure a list of accounts which will have a dedicated route connection.
+In addition to connection pooling, the release v2.10.0 has introduced the ability to configure a list of accounts that will have a dedicated route connection.
 
 ```
 cluster {
@@ -56,7 +56,7 @@ Having a dedicated route improves performance and reduces latency, but another b
 
 ### Handling loss of connection
 
-In the event where an account route connection breaks, automatic reconnection occurs as usual. However, while the disconnection is happening, traffic for this account is stopped.
+In the event that an account route connection breaks, automatic reconnection occurs as usual. However, while the disconnection is happening, traffic for this account is stopped.
 
 ### Configuration reload
 
@@ -64,7 +64,7 @@ The `accounts` list can be modified and a configuration signal be sent to the se
 
 For instance, adding an account to the list of server `A` and issuing a configuration reload will not produce an error, even though the other server in the cluster does not have that account in the list yet. A dedicated connection will not yet be established, but traffic for this account in the pooled connection currently handling it will stop. When the configuration reload happens on the other server, a dedicated connection will then be established and this account’s traffic will resume.
 
-When removing an account from the list and issuing a configuration reload, the connection for this account will be closed, traffic for this account will stop. Other server(s) that still have this account configured with a dedicated connection will fail to reconnect. When they are also sent the configuration reload (with updated `accounts` configuration), the account traffic will now be handled by a connection in the pool.
+When removing an account from the list and issuing a configuration reload, the connection for this account will be closed, and traffic for this account will stop. Other server(s) that still have this account configured with a dedicated connection will fail to reconnect. When they are also sent the configuration reload (with updated `accounts` configuration), the account traffic will now be handled by a connection in the pool.
 
 Note that configuration reload of changes in the `accounts` list do not affect existing pool connections, and therefore should not affect traffic for other accounts.
 
@@ -96,7 +96,7 @@ cluster {
 
 There are several modes of compression and there is no requirement to have the same mode between routed servers.
 
-- `off` - Explicitly disables compression for any route between the server an a peer.
+- `off` - Explicitly disables compression for any route between the server and a peer.
 - `accept` (default) - Does not initiate compression, but will accept the compression mode of the peer it connects to.
 - `s2_fast` - Applies compression, but optimizes for speed over compression ratio.
 - `s2_better` - Applies compression, providing a balance of speed and compression ratio.
