@@ -14,15 +14,15 @@ Although all existing client versions will work, new client versions will expose
 - nats.deno - [v1.17.0](https://github.com/nats-io/nats.deno/releases/tag/v1.17.0)
 - nats.js - [v2.17.0](https://github.com/nats-io/nats.js/releases/tag/v2.17.0)
 - nats.ws - [v1.18.0](https://github.com/nats-io/nats.ws/releases/tag/v1.18.0)
-- nats.java - Comming soon!
-- nats.net - Comming soon!
-- nats.net.v2 - Comming soon!
-- nats.py - Comming soon!
-- nats.c - Comming soon!
+- nats.java - Coming soon!
+- nats.net - Coming soon!
+- nats.net.v2 - Coming soon!
+- nats.py - Coming soon!
+- nats.c - Coming soon!
 
 ### Helm charts
 
-- k8s/nats - Coming soon!
+- k8s/nats - [v1.1.0](https://github.com/nats-io/k8s/releases/tag/nats-1.1.0)
 - k8s/nack - Coming soon!
 
 ### Downgrade warnings
@@ -57,7 +57,7 @@ There are new stream and consumer configuration options that could be problemati
 
 - A new [`sync_interval` server config option][server-config-sync-interval] has been added to change the default sync interval of stream data when written to disk, including allowing all writes to be flushed immediately. This option is only relevant if you need to modify durability guarantees.
 
-### Core NATS Subject transforms
+### Subject mapping
 
 - Subject mappings can now be [cluster-scoped][server-config-cluster-scoped] and weighted, enabling the ability to have different mappings or weights on a per cluster basis.
 - The requirement to use all wildcard tokens in subject mapping or transforms has been relaxed. This can be applied to config or account-based subject mapping, stream subject transforms, and stream republishing, but not on subject mappings that are associated with stream and service import/export between accounts.
