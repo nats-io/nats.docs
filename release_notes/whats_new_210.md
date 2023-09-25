@@ -8,22 +8,22 @@ This guide is tailored for existing NATS users upgrading from NATS version 2.9.x
 
 Although all existing client versions will work, new client versions will expose additional options used to leverage new features. The minimum client versions that have full 2.10.0 support include:
 
-- CLI - v0.1.0
-- nats.go - v1.30.0
-- nats.rs - v0.32.0
-- nats.deno - v1.17.0
-- nats.js - v2.17.0
-- nats.ws - v1.18.0
-- nats.java
-- nats.net
-- nats.net.v2
-- nats.py
-- nats.c
+- CLI - [v0.1.0](https://github.com/nats-io/natscli/releases/tag/v0.1.0)
+- nats.go - [v1.30.0](https://github.com/nats-io/nats.go/releases/tag/v1.30.0)
+- nats.rs - [v0.32.0](https://github.com/nats-io/nats.rs/releases/tag/async-nats%2Fv0.32.0)
+- nats.deno - [v1.17.0](https://github.com/nats-io/nats.deno/releases/tag/v1.17.0)
+- nats.js - [v2.17.0](https://github.com/nats-io/nats.js/releases/tag/v2.17.0)
+- nats.ws - [v1.18.0](https://github.com/nats-io/nats.ws/releases/tag/v1.18.0)
+- nats.java - Comming soon!
+- nats.net - Comming soon!
+- nats.net.v2 - Comming soon!
+- nats.py - Comming soon!
+- nats.c - Comming soon!
 
 ### Helm charts
 
-- k8s/nats -
-- k8s/nack -
+- k8s/nats - Coming soon!
+- k8s/nack - Coming soon!
 
 ### Downgrade warnings
 
@@ -55,11 +55,11 @@ There are new stream and consumer configuration options that could be problemati
 
 ### JetStream
 
-- A new [`sync_interval` server config option][server-config-sync_interval] has been added to change the default sync interval of stream data when written to disk, including allowing all writes to be flushed immediately. This option is only relevant if you need to modify durability guarantees.
+- A new [`sync_interval` server config option][server-config-sync-interval] has been added to change the default sync interval of stream data when written to disk, including allowing all writes to be flushed immediately. This option is only relevant if you need to modify durability guarantees.
 
 ### Core NATS Subject transforms
 
-- Subject mappings can now be [cluster-scoped][server-config-subject-mappings] and weighted, enabling the ability to have different mappings or weights on a per cluster basis.
+- Subject mappings can now be [cluster-scoped][server-config-cluster-scoped] and weighted, enabling the ability to have different mappings or weights on a per cluster basis.
 - The requirement to use all wildcard tokens in subject mapping or transforms has been relaxed. This can be applied to config or account-based subject mapping, stream subject transforms, and stream republishing, but not on subject mappings that are associated with stream and service import/export between accounts.
 
 ### Streams
@@ -70,7 +70,7 @@ There are new stream and consumer configuration options that could be problemati
 - A [`compression` field][stream-config-compression] has been added to stream configuration enabling on-disk compression for file-based streams.
 - The ability to edit the [`republish` config option][stream-config-republish] on a stream after stream creation was added.
 - A [`Nats-Time-Stamp` header][stream-republish-headers] is now included in republished messages containing the original message's timestamp.
-- A `ts` field has been added to [stream info responses][stream-info-response] indicating the server time of the snapshot. This was added to allow for local time calculations with relying on the local clock.
+- A `ts` field has been added to stream info responses indicating the server time of the snapshot. This was added to allow for local time calculations with relying on the local clock.
 - An array of subject-transforms (subject filter + subject transform destination) can be added to a mirror or source configuration (can not use the single subject filter/subject transform destination fields at the same time as the array).
 - A stream configured with `sources` can source from the same stream multiple times when distinct filter+transform options are used, allowing for some messages of a stream to be sourced more than once.
 
@@ -78,7 +78,7 @@ There are new stream and consumer configuration options that could be problemati
 
 - A [`filter_subjects` field][consumer-config-filter-subjects] has been added which enables applying server-side filtering against multiple disjoint subjects, rather than only one.
 - A [`metadata` field][consumer-config-metadata] has been added to consumer configuration enabling arbitrary user-defined key-value data. This is to supplant or augment the `description` field.
-- A `ts` field has been added to [consumer info responses][consumer-info-response] indicating the server time of the snapshot. This was added to allow for local time calculations without relying on the local clock.
+- A `ts` field has been added to consumer info responses indicating the server time of the snapshot. This was added to allow for local time calculations without relying on the local clock.
 
 ### Key-value
 
@@ -95,17 +95,17 @@ There are new stream and consumer configuration options that could be problemati
 
 ### Monitoring
 
-- A `unique_tag` field has been added to the [`/varz` and `/jsz`][monitoring-http] HTTP endpoint responses, corresponding to the value of `unique_tag` defined in the server config.
-- A `num_subscriptions` field has been added to the [`$SYS.REQ.SERVER.PING.STATZ`][monitoring-sys] NATS endpoint responses.
+- A `unique_tag` field has been added to the [`/varz`][monitoring-http-varz] and [`/jsz`][monitoring-http-jsz] HTTP endpoint responses, corresponding to the value of `unique_tag` defined in the server config.
 - A `slow_consumer_stats` field has been added to the [`/varz`][monitoring-http] HTTP endpoint providing a count of slow consumers for clients, routes, gateways, and leafnodes.
-- A `raft=1` query parameter has been added to the [`/jsz`][monitoring-http] HTTP endpoint which adds `stream_raft_group` and `consumer_raft_groups` fields to the response.
-- A system account responder for [`$SYS.REQ.SERVER.PING.IDZ`][monitoring-sys] has been added which returns info for the server that the client is connected to.
-- A system account responder for [`$SYS.REQ.SERVER.PING.PROFILEZ`][monitoring-sys] has been added and works even if a profiling port is not enabled in the server configuration.
-- A user account responder for [`$SYS.REQ.USER.INFO`][monitoring-sys] has been added which allows a connected user to query for the account they are in and permissions they have.
+- A `raft=1` query parameter has been added to the [`/jsz`][monitoring-http-jsz] HTTP endpoint which adds `stream_raft_group` and `consumer_raft_groups` fields to the response.
+- A `num_subscriptions` field has been added to the [`$SYS.REQ.SERVER.PING.STATZ`][monitoring-sys-ping-statz] NATS endpoint responses.
+- A system account responder for [`$SYS.REQ.SERVER.PING.IDZ`][monitoring-sys-ping-idz] has been added which returns info for the server that the client is connected to.
+- A system account responder for [`$SYS.REQ.SERVER.PING.PROFILEZ`][monitoring-sys-ping-profilez] has been added and works even if a profiling port is not enabled in the server configuration.
+- A user account responder for [`$SYS.REQ.USER.INFO`][monitoring-sys-user-info] has been added which allows a connected user to query for the account they are in and permissions they have.
 
 ### MQTT
 
-- Support for [QoS2][mqtt-qos2] has been added.
+- Support for [QoS2][mqtt-qos2] has been added. Check out the new [MQTT implementation details](https://github.com/nats-io/nats-server/blob/main/server/README-MQTT.md) overview.
 
 ### Clustering
 
@@ -113,7 +113,7 @@ There are new stream and consumer configuration options that could be problemati
 
 ### Leafnodes
 
-- A [`handshake_first` config option][server-config-handshake_first] has been added enabling TLS-first handshakes for leafnode connections.
+- A [`handshake_first` config option][server-config-handshake-first] has been added enabling TLS-first handshakes for leafnode connections.
 
 ### Windows
 
@@ -131,8 +131,7 @@ There are new stream and consumer configuration options that could be problemati
 
 ### Consumers
 
-- A new header has been added on a fetch response that indicates to clients the fetch has been fulfilled without requiring clients to rely on hearbeats. TODO: which client versions?
-  NOTE: This is handled internally and is not required. Its sole purpose is to avoid some conditions in which the client would issue fetch requests that could go over the limit defined in `consume`, or have 3 fetch requests pending instead of 2.
+- A new header has been added on a fetch response that indicates to clients the fetch has been fulfilled without requiring clients to rely on hearbeats. It avoids some conditions in which the client would issue fetch requests that could go over limits or have more fetch requests pending than required.
 
 ### Leafnodes
 
@@ -142,26 +141,29 @@ There are new stream and consumer configuration options that could be problemati
 
 - Previously a dot `.` in an MQTT topic was not supported, however now it is! Check out the [topic-subject conversion table][mqtt-topic-dot] for details.
 
-[auth-callout]: todo
-[monitoring-http]: ../running-a-nats-service/nats_admin/monitoring/readme.md
-[monitoring-sys]: ../running-a-nats-service/configuration/sys_accounts/README.md
+[auth-callout]: ../running-a-nats-service/configuration/securing_nats/auth_callout.md
+[monitoring-http-varz]: ../running-a-nats-service/nats_admin/monitoring/readme.md#general-information
+[monitoring-http-jsz]: ../running-a-nats-service/nats_admin/monitoring/readme.md#jetstream-information
+[monitoring-sys-ping-idz]: ../running-a-nats-service/configuration/sys_accounts/sys_accounts.md#usdsys.req.server.ping.idz-discovering-servers
+[monitoring-sys-ping-statz]: ../running-a-nats-service/configuration/sys_accounts/sys_accounts.md#usdsys.req.server.less-than-id-greater-than.statsz-requesting-server-stats-summary
+[monitoring-sys-ping-profilez]: ../running-a-nats-service/configuration/sys_accounts/sys_accounts.md#usdsys.req.server.less-than-id-greater-than.profilez-request-profiling-information
+[monitoring-sys-user-info]: ../running-a-nats-service/configuration/sys_accounts/sys_accounts.md#usdsys.req.user.info-request-connected-user-information
 [stream-config-republish]: ../nats-concepts/jetstream/streams.md#republish
-[stream-config-subject-transform]: ../nats-concepts/jetstream/streams.md#subject-transforms
+[stream-config-subject-transforms]: ../nats-concepts/jetstream/streams.md#subjecttransforms
 [stream-config-metadata]: ../nats-concepts/jetstream/streams.md#configuration
 [stream-config-compression]: ../nats-concepts/jetstream/streams.md#configuration
 [stream-config-first-seq]: ../nats-concepts/jetstream/streams.md#configuration
 [stream-republish-headers]: ../nats-concepts/jetstream/headers.md#republish
-[consumer-config-filter-subjects]: ../nats-concepts/jetstream/consumers.md#configuration
+[consumer-config-filter-subjects]: ../nats-concepts/jetstream/consumers.md#filtersubjects
 [consumer-config-metadata]: ../nats-concepts/jetstream/consumers.md#configuration
 [kv-config-metadata]: ../nats-concepts/jetstream/key-value-store.md#configuration
 [obj-config-metadata]: ../nats-concepts/jetstream/object-store.md#configuration
-[windows-startup]: ../running-a-nats-service/introduction/windows_srv.md#nats_startup_delay-environment-variable
-[v2-networking]: ../running-a-nats-service/configuration/clustering/v2_routes.md
-[server-config-sync_interval]: ../running-a-nats-service/configuration.md#jetstream
-[server-config-subject-mappings]: ../nats-concepts/subject_mapping.md
+[windows-startup]: ../running-a-nats-service/running/windows_srv.md#nats_startup_delay-environment-variable
+[v2-routes]: ../running-a-nats-service/configuration/clustering/v2_routes.md
+[server-config-sync-interval]: ../running-a-nats-service/configuration.md#jetstream
+[server-config-cluster-scoped]: ../nats-concepts/subject_mapping.md#cluster-scoped-mappings
+[server-config-handshake-first]: ../running-a-nats-service/configuration/leafnodes/README.md#tls-first-handshake
 [signal-command]: ../running-a-nats-service/nats_admin/signals.md
-[sys-config-reload]: ../running-a-nats-service/nats_admin/signals.md
-[stream-info-response]: todo
-[consumer-info-response]: todo
+[sys-config-reload]: ../running-a-nats-service/configuration/README.md#configuration-reloading
 [mqtt-topic-dot]: ../running-a-nats-service/configuration/mqtt/README.md
 [mqtt-qos2]: ../running-a-nats-service/configuration/mqtt/README.md
