@@ -41,7 +41,7 @@ The takeaway is that if a downgrade is the only resort, it must be to 2.9.22 or 
 
 #### Stream and consumer config options
 
-There are new stream and consumer configuration options that could be problematic if a downgrade occurs since previous versions of the server have no awareness of them. Examples includes:
+There are new stream and consumer configuration options that could be problematic if a downgrade occurs since previous versions of the server have no awareness of them. Examples include:
 
 - Multi-filter consumers - Downgrading would result in no filter being applied since the new field is configured as a list rather than a single string.
 - Subject-transform on streams - Downgrading would result in the subject transform not being applied since the server has no awareness of it.
