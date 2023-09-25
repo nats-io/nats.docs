@@ -200,7 +200,7 @@ Received  [_INBOX.hgG0zVcVcyr4G5KBwOuyJw.uUYkEyKr] : '42'
 
 In some cases you may want to restrict what messages can be exported from the leaf node or imported from the leaf connection. You can specify restrictions by limiting what the leaf connection client can publish and subscribe to. See [NATS Authorization](../securing_nats/authorization.md) for how you can do this.
 
-## TlS-first Handshake
+## TLS-first Handshake
 
 _As of NATS v2.10.0_
 
