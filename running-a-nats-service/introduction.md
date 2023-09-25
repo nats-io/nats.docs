@@ -1,4 +1,4 @@
-The NATS Server is highly optimized and its binary is very compact (less than 20 MB), it can run on any machine from a lowly Raspberry Pi to the largest of servers, in the cloud, on premise or at the edge, on bare metal on VMs or in containers.
+The NATS Server is highly optimized and its binary is very compact (less than 20 MB), it can run on any machine from a lowly Raspberry Pi to the largest of servers, in the cloud, on premise or at the edge, on bare metal, on VMs or in containers.
 
 NATS Servers can cluster together to provide fault-tolerance and scalability. NATS servers can run as Leaf Nodes connecting to a cluster transparently proxying and expanding NATS and JetStream service to any location, be it a VPC, a VLAN, a remote office, a single machine at home or even an edge location with partial connectivity.
 
