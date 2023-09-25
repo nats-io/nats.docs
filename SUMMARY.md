@@ -5,6 +5,7 @@
 ## Release Notes
 
 - [What's New!](release_notes/whats_new.md)
+  - [NATS 2.10](release_notes/whats_new_210.md)
   - [NATS 2.2](release_notes/whats_new_22.md)
   - [NATS 2.0](release_notes/whats_new_20.md)
 
@@ -128,6 +129,7 @@
       - [Kubernetes Controller](running-a-nats-service/configuration/jetstream-config/configuration_mgmt/kubernetes_controller.md)
   - [Clustering](running-a-nats-service/configuration/clustering/README.md)
     - [Clustering Configuration](running-a-nats-service/configuration/clustering/cluster_config.md)
+    - [v2 Routes](running-a-nats-service/configuration/clustering/v2_routes.md)
     - [JetStream Clustering](running-a-nats-service/configuration/clustering/jetstream_clustering/README.md)
       - [Administration](running-a-nats-service/configuration/clustering/jetstream_clustering/administration.md)
       - [Troubleshooting](running-a-nats-service/configuration/clustering/jetstream_clustering/troubleshooting.md)
@@ -152,6 +154,7 @@
     - [Authorization](running-a-nats-service/configuration/securing_nats/authorization.md)
     - [Multi Tenancy using Accounts](running-a-nats-service/configuration/securing_nats/accounts.md)
     - [OCSP Stapling](running-a-nats-service/configuration/ocsp.md)
+    - [Auth Callout](running-a-nats-service/configuration/securing_nats/auth_callout.md)
   - [Logging](running-a-nats-service/configuration/logging.md)
   - [Enabling Monitoring](running-a-nats-service/configuration/monitoring.md)
   - [MQTT](running-a-nats-service/configuration/mqtt/README.md)

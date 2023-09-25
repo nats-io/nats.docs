@@ -19,17 +19,21 @@ In addition to a port to listen for clients, `nats-server` listens on a "cluster
 Here is a simple cluster running on the same machine:
 
 Server A - the 'seed server'
+
 ```bash
 nats-server -p 4222 -cluster nats://localhost:4248 --cluster_name test-cluster
-````
+```
 
 Server B
+
 ```shell
 nats-server -p 5222 -cluster nats://localhost:5248 -routes nats://localhost:4248 --cluster_name test-cluster
 ```
+
 Check the output of the server for the selected client and route ports.
 
 Server C
+
 ```shell
 nats-server -p 6222 -cluster nats://localhost:6248 -routes nats://localhost:4248 --cluster_name test-cluster
 ```
@@ -190,10 +194,12 @@ At this point, there is a full mesh cluster of NATS servers.
 Now, the following should work: make a subscription to the first server \(port 4222\). Then publish to each server \(ports 4222, 5222, 6222\). You should be able to receive messages without problems.
 
 Testing server A
+
 ```bash
 nats sub -s "nats://127.0.0.1:4222" hello &
 nats pub -s "nats://127.0.0.1:4222" hello world_4222
 ```
+
 ```text
 23:34:45 Subscribing on hello
 23:34:45 Published 10 bytes to "hello"
@@ -203,9 +209,11 @@ world_4222
 ```
 
 Testing server B
+
 ```shell
 nats pub -s "nats://127.0.0.1:5222" hello world_5222
 ```
+
 ```text
 [#2] Received on "hello"
 23:36:09 Published 10 bytes to "hello"
@@ -213,9 +221,11 @@ world_5222
 ```
 
 Testing server C
+
 ```shell
 nats pub -s "nats://127.0.0.1:6222" hello world_6222
 ```
+
 ```text
 23:38:40 Published 10 bytes to "hello"
 [#3] Received on "hello"
@@ -223,9 +233,11 @@ world_6222
 ```
 
 Testing using seed (i.e. A, B and C) server URLs
+
 ```shell
 nats pub -s "nats://127.0.0.1:4222,nats://127.0.0.1:5222,nats://127.0.0.1:6222" hello whole_world
 ```
+
 ```text
 [#4] Received on "hello"
 23:39:16 Published 11 bytes to "hello"

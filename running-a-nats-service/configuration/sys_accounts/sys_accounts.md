@@ -4,8 +4,8 @@
 
 To enable and access system events, you'll have to:
 
-* Create an Operator, Account and User
-* Run a NATS Account Server \(or Memory Resolver\)
+- Create an Operator, Account and User
+- Run a NATS Account Server \(or Memory Resolver\)
 
 ### Create an Operator, Account, User
 
@@ -14,24 +14,29 @@ Let's create an operator, system account and system account user:
 ```shell
 nsc add operator -n SAOP
 ```
+
 ```text
 Generated operator key - private key stored "~/.nkeys/SAOP/SAOP.nk"
 Success! - added operator "SAOP"
 ```
 
 Add the system account
+
 ```shell
 nsc add account -n SYS
 ```
+
 ```text
 Generated account key - private key stored "~/.nkeys/SAOP/accounts/SYS/SYS.nk"
 Success! - added account "SYS"
 ```
 
 Add a system account user
+
 ```shell
 nsc add user -n SYSU
 ```
+
 ```text
 Generated user key - private key stored "~/.nkeys/SAOP/accounts/SYS/users/SYSU.nk"
 Generated user creds file "~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds"
@@ -54,15 +59,16 @@ The server will by default vend JWT configurations on the an endpoint at: `http(
 
 The server configuration will need:
 
-* The operator JWT - \(`~/.nsc/nats/<operator_name>/<operator.name>.jwt`\)
-* The URL where the server can resolve accounts \(`http://localhost:9090/jwt/v1/accounts/`\)
-* The public key of the `system_account`
+- The operator JWT - \(`~/.nsc/nats/<operator_name>/<operator.name>.jwt`\)
+- The URL where the server can resolve accounts \(`http://localhost:9090/jwt/v1/accounts/`\)
+- The public key of the `system_account`
 
 The only thing we don't have handy is the public key for the system account. We can get it easy enough:
 
 ```shell
-nsc list accounts 
+nsc list accounts
 ```
+
 ```text
 ╭─────────────────────────────────────────────────────────────────╮
 │                            Accounts                             │
@@ -108,6 +114,7 @@ nats pub --creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds foo bar
 The subscriber will print the connect and disconnect:
 
 ```json
+{
   "server": {
     "host": "0.0.0.0",
     "id": "NBTGVY3OKDKEAJPUXRHZLKBCRH3LWCKZ6ZXTAJRS2RMYN3PMDRMUZWPR",
@@ -118,7 +125,8 @@ The subscriber will print the connect and disconnect:
   "acc": "ADWJVSUSEVC2GHL5GRATN2LOEOQOY2E6Z2VXNU3JEIK6BDGPWNIW3AXF",
   "conns": 1,
   "total_conns": 1
-}'
+}
+{
   "server": {
     "host": "0.0.0.0",
     "id": "NBTGVY3OKDKEAJPUXRHZLKBCRH3LWCKZ6ZXTAJRS2RMYN3PMDRMUZWPR",
@@ -146,18 +154,54 @@ The subscriber will print the connect and disconnect:
     "bytes": 0
   },
   "reason": "Client Closed"
+}
+```
+
+## User Services
+
+### `$SYS.REQ.USER.INFO` - Request Connected User Information
+
+For the active connection, get basic user information including the account name, permissions, and expiry, if applicable. Note, this works with any connected user, not just a system account user.
+
+```shell
+nats request --creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds \$SYS.REQ.USER.INFO ""
+```
+
+```text
+Published [$SYS.REQ.USER.INFO] : ''
+Received  [_INBOX.DQD44ugVt0O4Ur3pWIOOD1.WQOBevoq] : '{
+  "user": "UACPEXCAZEYWZK4O52MEGWGK4BH3OSGYM3P3C3F3LF2NGNZUS24IVG36",
+  "account": "ADWJVSUSEVC2GHL5GRATN2LOEOQOY2E6Z2VXNU3JEIK6BDGPWNIW3AXF"
 }'
 ```
 
 ## System Services
 
-### `$SYS.REQ.SERVER.PING` - Discovering Servers
+### `$SYS.REQ.SERVER.PING.IDZ` - Discovering Servers
+
+To discover servers in the cluster to get their ID and name, publish a request to `$SYS.REQ.SERVER.PING.IDZ`.
+
+```shell
+nats request --creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds \$SYS.REQ.SERVER.PING.IDZ ""
+```
+
+```text
+Published [$SYS.REQ.SERVER.PING.IDZ] : ''
+Received  [_INBOX.DQD44ugVt0O4Ur3pWIOOD1.WQOBevoq] : '{
+  "host": "0.0.0.0",
+  "id": "NC7AKPQRC6CIZGWRJOTVFIGVSL7VW7WXTQCTUJFNG7HTCMCKQTGE5PUL",
+  "name": "n1"
+}'
+```
+
+### `$SYS.REQ.SERVER.PING` - Discovering Servers + Stats
 
 To discover servers in the cluster, and get a small health summary, publish a request to `$SYS.REQ.SERVER.PING`. Note that while the example below uses `nats-req`, only the first answer for the request will be printed. You can easily modify the example to wait until no additional responses are received for a specific amount of time, thus allowing for all responses to be collected.
 
 ```shell
 nats request --creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds \$SYS.REQ.SERVER.PING ""
 ```
+
 ```text
 Published [$SYS.REQ.SERVER.PING] : ''
 Received  [_INBOX.G5mbsf0k7l7nb4eWHa7GTT.omklmvnm] : '{
@@ -190,13 +234,14 @@ Received  [_INBOX.G5mbsf0k7l7nb4eWHa7GTT.omklmvnm] : '{
 }'
 ```
 
-### `$SYS.SERVER.<id>.STATSZ` - Requesting Server Stats Summary
+### `$SYS.REQ.SERVER.<id>.STATSZ` - Requesting Server Stats Summary
 
 If you know the server id for a particular server \(such as from a response to `$SYS.REQ.SERVER.PING`\), you can query the specific server for its health information:
 
 ```shell
 nats request --creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds \$SYS.REQ.SERVER.NC7AKPQRC6CIZGWRJOTVFIGVSL7VW7WXTQCTUJFNG7HTCMCKQTGE5PUL.STATSZ ""
 ```
+
 ```text
 Published [$SYS.REQ.SERVER.NC7AKPQRC6CIZGWRJOTVFIGVSL7VW7WXTQCTUJFNG7HTCMCKQTGE5PUL.STATSZ] : ''
 Received  [_INBOX.DQD44ugVt0O4Ur3pWIOOD1.WQOBevoq] : '{
@@ -229,3 +274,48 @@ Received  [_INBOX.DQD44ugVt0O4Ur3pWIOOD1.WQOBevoq] : '{
 }'
 ```
 
+### `$SYS.REQ.SERVER.<id>.PROFILEZ` - Request Profiling Information
+
+If profiling is enabled for a server, this service enables requesting it from the server. The request payload must specify the name of the profile being requested with an optional debug level, including:
+
+- `allocs` - 0, 1
+- `block` - 0
+- `goroutine` - 0, 1, 2
+- `heap` - 0, 1
+- `mutex` - 0
+- `threadcount` - 0
+
+```shell
+nats request --creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds \$SYS.REQ.SERVER.NC7AKPQRC6CIZGWRJOTVFIGVSL7VW7WXTQCTUJFNG7HTCMCKQTGE5PUL.PROFILEZ '{"name": "heap", "debug": 1}'
+```
+
+```text
+Published [$SYS.REQ.SERVER.NC7AKPQRC6CIZGWRJOTVFIGVSL7VW7WXTQCTUJFNG7HTCMCKQTGE5PUL.PROFILEZ] : '{
+  "name": "heap",
+  "debug": 1
+}'
+Received  [_INBOX.DQD44ugVt0O4Ur3pWIOOD1.WQOBevoq] : '{
+  "profile": "<base64-encoded profile output>"
+}'
+```
+
+### `$SYS.REQ.SERVER.<id>.RELOAD` - Hot Reload Configuration
+
+Sending a request to this service will attempt to hot reload the server configuration, akin to `nats-server --signal reload`. If there are errors with the new configuration, they will be returned in an `error` field in the response.
+
+```shell
+nats request --creds ~/.nkeys/SAOP/accounts/SYS/users/SYSU.creds \$SYS.REQ.SERVER.NC7AKPQRC6CIZGWRJOTVFIGVSL7VW7WXTQCTUJFNG7HTCMCKQTGE5PUL.RELOAD ''
+```
+
+```text
+Published [$SYS.REQ.SERVER.NC7AKPQRC6CIZGWRJOTVFIGVSL7VW7WXTQCTUJFNG7HTCMCKQTGE5PUL.RELOAD] : ''
+Received  [_INBOX.DQD44ugVt0O4Ur3pWIOOD1.WQOBevoq] : '{
+  "server": {
+    "host": "0.0.0.0",
+    "id": "NC7AKPQRC6CIZGWRJOTVFIGVSL7VW7WXTQCTUJFNG7HTCMCKQTGE5PUL",
+    "ver": "2.10.0-RC5",
+    "seq": 25,
+    "time": "2023-09-19T14:34:02.066077-04:00"
+  }
+}'
+```
