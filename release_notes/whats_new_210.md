@@ -96,7 +96,7 @@ There are new stream and consumer configuration options that could be problemati
 ### Monitoring
 
 - A `unique_tag` field has been added to the [`/varz`][monitoring-http-varz] and [`/jsz`][monitoring-http-jsz] HTTP endpoint responses, corresponding to the value of `unique_tag` defined in the server config.
-- A `slow_consumer_stats` field has been added to the [`/varz`][monitoring-http] HTTP endpoint providing a count of slow consumers for clients, routes, gateways, and leafnodes.
+- A `slow_consumer_stats` field has been added to the [`/varz`][monitoring-http-varz] HTTP endpoint providing a count of slow consumers for clients, routes, gateways, and leafnodes.
 - A `raft=1` query parameter has been added to the [`/jsz`][monitoring-http-jsz] HTTP endpoint which adds `stream_raft_group` and `consumer_raft_groups` fields to the response.
 - A `num_subscriptions` field has been added to the [`$SYS.REQ.SERVER.PING.STATZ`][monitoring-sys-ping-statz] NATS endpoint responses.
 - A system account responder for [`$SYS.REQ.SERVER.PING.IDZ`][monitoring-sys-ping-idz] has been added which returns info for the server that the client is connected to.
@@ -160,10 +160,10 @@ There are new stream and consumer configuration options that could be problemati
 [obj-config-metadata]: ../nats-concepts/jetstream/object-store.md#configuration
 [windows-startup]: ../running-a-nats-service/running/windows_srv.md#nats_startup_delay-environment-variable
 [v2-routes]: ../running-a-nats-service/configuration/clustering/v2_routes.md
-[server-config-sync-interval]: ../running-a-nats-service/configuration.md#jetstream
+[server-config-sync-interval]: ../running-a-nats-service/configuration/README.md#jetstream
 [server-config-cluster-scoped]: ../nats-concepts/subject_mapping.md#cluster-scoped-mappings
 [server-config-handshake-first]: ../running-a-nats-service/configuration/leafnodes/README.md#tls-first-handshake
-[signal-command]: ../running-a-nats-service/nats_admin/signals.md
+[signal-command]: ../running-a-nats-service/nats_admin/signals.md#multiple-processes
 [sys-config-reload]: ../running-a-nats-service/configuration/README.md#configuration-reloading
 [mqtt-topic-dot]: ../running-a-nats-service/configuration/mqtt/README.md
 [mqtt-qos2]: ../running-a-nats-service/configuration/mqtt/README.md
