@@ -70,7 +70,7 @@ There are new stream and consumer configuration options that could be problemati
 - A [`compression` field][stream-config-compression] has been added to stream configuration enabling on-disk compression for file-based streams.
 - The ability to edit the [`republish` config option][stream-config-republish] on a stream after stream creation was added.
 - A [`Nats-Time-Stamp` header][stream-republish-headers] is now included in republished messages containing the original message's timestamp.
-- A `ts` field has been added to stream info responses indicating the server time of the snapshot. This was added to allow for local time calculations with relying on the local clock.
+- A `ts` field has been added to stream info responses indicating the server time of the snapshot. This was added to allow for local time calculations relying on the local clock.
 - An array of subject-transforms (subject filter + subject transform destination) can be added to a mirror or source configuration (can not use the single subject filter/subject transform destination fields at the same time as the array).
 - A stream configured with `sources` can source from the same stream multiple times when distinct filter+transform options are used, allowing for some messages of a stream to be sourced more than once.
 
@@ -127,11 +127,11 @@ There are new stream and consumer configuration options that could be problemati
 
 ### Streams
 
-- Prior to 2.10, setting [`republish` configuration][stream-config-republish] on mirrors would result in an error. On sourcing streams, only messages that were actively between stored matching configured `subjects` would be republished. The behavior has been relaxed to allow republish on mirrors and include all messages on sourcing streams.
+- Prior to 2.10, setting [`republish` configuration][stream-config-republish] on mirrors would result in an error. On sourcing streams, only messages that were actively between stored matching configured `subjects` would be republished. The behavior has been relaxed to allow republishing on mirrors and includes all messages on sourcing streams.
 
 ### Consumers
 
-- A new header has been added on a fetch response that indicates to clients the fetch has been fulfilled without requiring clients to rely on hearbeats. It avoids some conditions in which the client would issue fetch requests that could go over limits or have more fetch requests pending than required.
+- A new header has been added on a fetch response that indicates to clients the fetch has been fulfilled without requiring clients to rely on heartbeats. It avoids some conditions in which the client would issue fetch requests that could go over limits or have more fetch requests pending than required.
 
 ### Leafnodes
 
