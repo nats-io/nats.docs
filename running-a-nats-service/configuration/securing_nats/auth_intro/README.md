@@ -1,8 +1,8 @@
 # Authentication
 
-NATS authentication is multi-level. All of the security mode have an [_accounts_](../../../../running-a-nats-service/configuration/securing_nats/auth_intro) level with [_users_](./#user-configuration-map) belonging to those accounts. The decentralized JWT Authentication also has an _operator_ to which the accounts belong.
+NATS authentication is multi-level. All of the security modes have an [_accounts_](../../../../running-a-nats-service/configuration/securing_nats/auth_intro) level with [_users_](./#user-configuration-map) belonging to those accounts. The decentralized JWT Authentication also has an _operator_ to which the accounts belong.
 
-Each account has its own independent subject name space: a message published on subject 'foo' in one account will not be seen by subscribers to 'foo' in other accounts. Accounts can however define exports and imports of subject(s) streams as well as expose request-reply services between accounts. Users within an account will share the same subject name space but can be restricted to only be able to publish-subscribe to specific subjects.
+Each account has its own independent subject namespace: a message published on subject 'foo' in one account will not be seen by subscribers to 'foo' in other accounts. Accounts can however define exports and imports of subject(s) streams as well as expose request-reply services between accounts. Users within an account will share the same subject namespace but can be restricted to only be able to publish-subscribe to specific subjects.
 
 ## Authentication Methods
 
