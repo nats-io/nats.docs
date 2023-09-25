@@ -2,7 +2,7 @@
 
 _Supported since NATS Server version 2.2_
 
-NATS follows as closely as possible to the MQTT v3.1.1 [specification](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html).
+NATS follows as closely as possible to the MQTT v3.1.1 [specification](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html). Refer to the [MQTT implementation overview](https://github.com/nats-io/nats-server/blob/main/server/README-MQTT.md) in the nats-server repo.
 
 ## When to Use MQTT
 
