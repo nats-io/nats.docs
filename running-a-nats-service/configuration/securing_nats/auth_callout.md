@@ -156,19 +156,7 @@ authorization {
 
 ## Decentralized Auth
 
-TODO
-
-### Service implementation
-
-Refer to the [example](https://natsbyexample.com/examples/auth/callout-decentralized/cli) showcasing configuration and a basic service implementation.
-
-### Migration consideration
-
-TODO
-
-### Setup and configuration
-
-TODO
+Coming soon!
 
 ## Reference
 
