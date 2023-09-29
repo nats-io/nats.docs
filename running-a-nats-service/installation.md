@@ -151,19 +151,21 @@ sudo cp nats-server/nats-server-vX.Y.Z-linux-amd64/nats-server /usr/bin
 If you have Go installed, installing the binary is easy:
 
 ```shell
-GO111MODULE=on go get github.com/nats-io/nats-server/v2
+go install github.com/nats-io/nats-server/v2@latest
 ```
 
-This mechanism will install a build of [master](https://github.com/nats-io/nats-server), which almost certainly will not be a released version. If you are a developer and want to play with the latest, this is the easiest way.
+This mechanism will install a build of the [main](https://github.com/nats-io/nats-server) branch, which almost certainly will not be a released version. If you are a developer and want to play with the latest, this is the easiest way.
 
-To test your installation (provided the $GOPATH/bin is set) by typing `nats-server` which should output something like
+To test your installation (provided $GOPATH/bin is in your path) by typing `nats-server` which should output something like
 
 ```
-[41634] 2019/05/13 09:42:11.745919 [INF] Starting nats-server version 2.6.2
-[41634] 2019/05/13 09:42:11.746240 [INF] Listening for client connections on 0.0.0.0:4222
-...
-[41634] 2019/05/13 09:42:11.746249 [INF] Server id is NBNYNR4ZNTH4N2UQKSAAKBAFLDV3PZO4OUYONSUIQASTQT7BT4ZF6WX7
-[41634] 2019/05/13 09:42:11.746252 [INF] Server is ready
+[2397474] 2023/09/27 10:32:02.709019 [INF] Starting nats-server
+[2397474] 2023/09/27 10:32:02.709165 [INF]   Version:  2.10.1
+[2397474] 2023/09/27 10:32:02.709182 [INF]   Git:      [not set]
+[2397474] 2023/09/27 10:32:02.709185 [INF]   Name:     NDQU7SGA4ECW4PHL4KNBY42AFQEZDAPMMQZVSQDKGTARZI5JHJV6KO2N
+[2397474] 2023/09/27 10:32:02.709187 [INF]   ID:       NDQU7SGA4ECW4PHL4KNBY42AFQEZDAPMMQZVSQDKGTARZI5JHJV6KO2N
+[2397474] 2023/09/27 10:32:02.709795 [INF] Listening for client connections on 0.0.0.0:4222
+[2397474] 2023/09/27 10:32:02.710173 [INF] Server is ready
 ```
 
 ## NATS v2 and Go Modules
