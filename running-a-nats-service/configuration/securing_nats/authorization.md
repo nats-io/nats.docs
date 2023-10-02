@@ -31,7 +31,7 @@ The `permission` map provides additional properties for configuring a `permissio
 
 The `allow_responses` option dynamically allows publishing to reply subjects and is designed for [service](../../../nats-concepts/core-nats/request-reply/reqreply.md) responders. When set to `true`, an implicit _publish allow_ permission is enforced which enables the service to have temporary permission to publish to the `reply` subject during a request-reply exchange. If `true`, the client supports a one-time `publish`. If `allow_responses` is a map, it allows you to configure a maximum number of responses and how long the permission is valid.
 
-{% hint type="warning" %}
+{% hint type="danger" %}
 Note, when `allow_responses` is enabled, the reply subject is not constrained to the `publish` allow or deny list. The implication of this is that a reply subject can be provided by a client to a service (responder) that does not have permission to explicitly publish on that subject, but is temporarily allowed given this option. If explicit control over which subjects a client is allowed to reply to, do not use `allow_responses` and instead define allow/deny lists under the `publish` permission map.
 {% endhint %}
 
