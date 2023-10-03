@@ -191,7 +191,9 @@ You can define subject mapping transforms as part of the stream configuration.
 Transforms can be applied in multiple places in the stream configuration:
 * You can apply a subject mapping transformation as part of a Stream mirror.
 * You can apply a subject mapping transformation as part of a Stream source.
-* You can apply a subject mapping that applies to all matching messages regardless of how they are ingested into the stream.
+* You can apply an overall stream ingress subject mapping transformation that applies to all matching messages regardless of how they are ingested into the stream.
 * You can also apply a subject mapping transformation as part of the re-publishing of messages.
+
+Note that when used in Mirror, Sources or Republish, the subject transforms are filters with optional transformation, while when used in the Stream configuration it only transforms the subjects of the matching messages and does not act as a filter.
 
 ![](../assets/images/stream-transform.png)
