@@ -6,6 +6,8 @@ The normal way to use JetStream is through the NATS client libraries which expos
 
 All of these subjects are found as constants in the NATS Server source, so for example the subject `$JS.API.STREAM.LIST` is represented by `api.JSApiStreamList` constant in the nats-server source. Tables below will reference these constants and payload related data structures.
 
+Note that if the resources you're trying to access have a JetStream [domain](https://docs.nats.io/running-a-nats-service/configuration/leafnodes/jetstream_leafnodes#leaf-nodes) associated with them, then the subject prefix will be `$JS.{domain}.API` rather than `$JS.API`.
+
 ## Error Handling
 
 The APIs used for administrative tools all respond with standardised JSON and these include errors.
