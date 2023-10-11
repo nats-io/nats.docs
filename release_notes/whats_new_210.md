@@ -14,8 +14,8 @@ Although all existing client versions will work, new client versions will expose
 - nats.deno - [v1.17.0](https://github.com/nats-io/nats.deno/releases/tag/v1.17.0)
 - nats.js - [v2.17.0](https://github.com/nats-io/nats.js/releases/tag/v2.17.0)
 - nats.ws - [v1.18.0](https://github.com/nats-io/nats.ws/releases/tag/v1.18.0)
-- nats.java - Coming soon!
-- nats.net - Coming soon!
+- nats.java - [v2.17.0](https://github.com/nats-io/nats.java/releases/tag/2.17.0)
+- nats.net - [v1.1.0](https://github.com/nats-io/nats.net/releases/tag/1.1.0)
 - nats.net.v2 - Coming soon!
 - nats.py - Coming soon!
 - nats.c - Coming soon!
@@ -23,7 +23,7 @@ Although all existing client versions will work, new client versions will expose
 ### Helm charts
 
 - k8s/nats - [v1.1.0](https://github.com/nats-io/k8s/releases/tag/nats-1.1.0)
-- k8s/nack - Coming soon!
+- k8s/nack - [v0.24.0](https://github.com/nats-io/k8s/releases/tag/nack-0.24.0)
 
 ### Downgrade warnings
 
@@ -48,6 +48,11 @@ There are new stream and consumer configuration options that could be problemati
 - Compression on streams - Downgrading when compression is enabled on streams will cause those streams to become unloadable since the older server versions will not understand the compression being used.
 
 ## Features
+
+### Platforms
+
+- Experimental support for [IBM z/OS][os-arch]
+- Experimental support for [NetBSD][os-arch]
 
 ### Reload
 
@@ -167,3 +172,4 @@ There are new stream and consumer configuration options that could be problemati
 [sys-config-reload]: ../running-a-nats-service/configuration/README.md#configuration-reloading
 [mqtt-topic-dot]: ../running-a-nats-service/configuration/mqtt/README.md
 [mqtt-qos2]: ../running-a-nats-service/configuration/mqtt/README.md
+[os-arch]: ../running-a-nats-service/installation.md#supported-operating-systems-and-architectures
