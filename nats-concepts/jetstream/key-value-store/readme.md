@@ -2,7 +2,7 @@
 
 JetSteam, the persistence layer of NATS, doesn't just allow for higher qualities of service and features associated with 'streaming', but it also enables some functionalities not found in messaging systems.
 
-One such feature is the Key/Value store functionality, which allows client applications to create 'buckets' and use them as immediately consistent, persistent [associative arrays](https://en.wikipedia.org/wiki/Associative_array).
+One such feature is the Key/Value store functionality, which allows client applications to create 'buckets' and use them as immediately (as opposed to eventually) consistent, persistent [associative arrays](https://en.wikipedia.org/wiki/Associative_array).
 
 You can use KV buckets to perform the typical operations you would expect from an immediately consistent key/value store:
 
