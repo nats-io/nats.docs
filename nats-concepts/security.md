@@ -9,6 +9,7 @@ NATS has a lot of security features:
   * [TLS Certificate](../running-a-nats-service/configuration/securing_nats/auth_intro/tls_mutual_auth.md)
   * [NKEY with Challenge](../running-a-nats-service/configuration/securing_nats/auth_intro/nkey_auth.md)
   * [Decentralized JWT Authentication/Authorization](../running-a-nats-service/configuration/securing_nats/jwt/)
+  * You can also integrate NATS with your existing authentication/authorization system or create your own custom authentication using the [Auth callout](../running-a-nats-service/configuration/securing_nats/auth_callout)
 * Authenticated clients are identified as users and have a set of [_authorizations_](../running-a-nats-service/configuration/securing_nats/authorization.md)
 
 You can use [accounts](../running-a-nats-service/configuration/securing_nats/accounts.md) for multi-tenancy: each account has its own independent 'subject namespace' and you control the import/export of both streams of messages and services between accounts, and any number of users that client applications can be authenticated as. The subjects or subject wildcards that a user is allowed to publish and/or subscribe to can be controlled either through server configuration or as part of signed JWTs.
