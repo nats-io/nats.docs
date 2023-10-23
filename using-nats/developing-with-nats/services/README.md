@@ -3,6 +3,8 @@ Recently we have agreed upon an [initial specification](https://github.com/nats-
 
 To check if the NATS client in your favorite language supports the new services API, make sure you check the docs and GitHub repository for that client. The services API is relatively new and not all clients may support it yet.
 
+To see the services API in action in different languages, take a look at the [NATS By Example](https://natsbyexample.com/examples/micro/intro/go) samples.
+
 ## Concepts
 There are a few high level concepts in the services API worth understanding before you start developing your own services.
 
