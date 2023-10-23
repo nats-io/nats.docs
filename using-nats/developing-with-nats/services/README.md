@@ -18,6 +18,6 @@ A group is a collection of endpoints. These are optional and can provide a logic
 ## Service Operations
 The services API supports 3 operations for discoverability and observability. It is still the developer's responsibility to respond to requests made on service endpoints.
 
-* PING - Requests made on the `$SRV.PING.>` subject gather replies from running services. This facilitates service listing by tooling.
-* STATS - Requests made on the `$SRV.STATS.>` subject query statistics from services. Available stats include total requests, total errors, and total processing time.
-* INFO - Requests made on the `$SRV.INFO.>` subject obtain the service definition and metadata, including groups, endpoints, etc.
+* `PING` - Requests made on the `$SRV.PING.>` subject gather replies from running services. This facilitates service listing by tooling.
+* `STATS` - Requests made on the `$SRV.STATS.>` subject query statistics from services. Available stats include total requests, total errors, and total processing time.
+* `INFO` - Requests made on the `$SRV.INFO.>` subject obtain the service definition and metadata, including groups, endpoints, etc.
