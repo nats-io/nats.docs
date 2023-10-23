@@ -16,7 +16,7 @@ A service endpoint is the entity with which clients interact. You can think of a
 A group is a collection of endpoints. These are optional and can provide a logical association between endpoints as well as an optional common subject prefix for all endpoints.
 
 ## Service Operations
-The services API supports 3 operations for discoverability and observability. It is still the developer's responsibility to respond to requests made on service endpoints.
+The services API supports 3 operations for discoverability and observability. While the NATS client will take care of responding on these subjects, it is still the developer's responsibility to respond to requests made the service's actual endpoints.
 
 * `PING` - Requests made on the `$SRV.PING.>` subject gather replies from running services. This facilitates service listing by tooling.
 * `STATS` - Requests made on the `$SRV.STATS.>` subject query statistics from services. Available stats include total requests, total errors, and total processing time.
