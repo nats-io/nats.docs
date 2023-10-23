@@ -95,6 +95,7 @@
     - [Request-Reply Semantics](using-nats/developing-with-nats/sending/request_reply.md)
     - [Caches, Flush and Ping](using-nats/developing-with-nats/sending/caches.md)
     - [Sending Structured Data](using-nats/developing-with-nats/sending/structure.md)
+  - [Building Services](using-nats/developing-with-nats/services/README.md)
   - [JetStream](using-nats/jetstream/develop_jetstream.md)
     - [JetStream Model Deep Dive](using-nats/jetstream/model_deep_dive.md)
     - [Managing Streams and consumers](using-nats/developing-with-nats/js/streams.md)
