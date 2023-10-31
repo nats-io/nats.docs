@@ -54,7 +54,7 @@ const nc = await connect({
   (async () => {
     for await (const s of nc.status()) {
       switch (s.type) {
-        case Status.Reconnect:
+        case Events.Reconnect:
           t.log(`client reconnected - ${s.data}`);
           break;
         default:
