@@ -73,19 +73,19 @@ nc.closed().then(() => {
 (async () => {
     for await (const s of nc.status()) {
       switch (s.type) {
-        case Status.Disconnect:
+        case Events.Disconnect:
           t.log(`client disconnected - ${s.data}`);
           break;
-        case Status.LDM:
+        case Events.LDM:
           t.log("client has been requested to reconnect");
           break;
-        case Status.Update:
+        case Events.Update:
           t.log(`client received a cluster update - ${s.data}`);
           break;
-        case Status.Reconnect:
+        case Events.Reconnect:
           t.log(`client reconnected - ${s.data}`);
           break;
-        case Status.Error:
+        case Events.Error:
           t.log("client got a permissions error");
           break;
         case DebugEvents.Reconnecting:
