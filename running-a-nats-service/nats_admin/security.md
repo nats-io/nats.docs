@@ -1,6 +1,6 @@
 # Managing NATS Security
 
-If you are using the [JWT](../configuration/securing\_nats/jwt/) model of authentication to secure your NATS infrastructure or implementing an [Auth callout](../../running-a-nats-service/configuration/securing_nats/auth_callout) service, you can administer authentication and authorization without having to change the servers' configuration files.
+If you are using the [JWT](../configuration/securing\_nats/jwt/) model of authentication to secure your NATS infrastructure or implementing an [Auth callout](../../running-a-nats-service/configuration/securing_nats/auth_callout.md) service, you can administer authentication and authorization without having to change the servers' configuration files.
 
 You can use the [`nsc`](../../using-nats/nats-tools/nsc/) CLI tool to manage identities. Identities take the form of nkeys. Nkeys are a public-key signature system based on Ed25519 for the NATS ecosystem. The nkey identities are associated with NATS configuration in the form of a JSON Web Token (JWT). The JWT is digitally signed by the private key of an issuer forming a chain of trust. The nsc tool creates and manages these identities and allows you to deploy them to a JWT account server, which in turn makes the configurations available to nats-servers.
 
@@ -15,7 +15,7 @@ You can create, update and delete accounts and users programmatically using the 
 
 ## Integrating with your existing authentication/authorization system
 
-You can integrate NATS with your existing authentication/authorization system or create your own custom authentication using the [Auth callout](../../running-a-nats-service/configuration/securing_nats/auth_callout).
+You can integrate NATS with your existing authentication/authorization system or create your own custom authentication using the [Auth callout](../../running-a-nats-service/configuration/securing_nats/auth_callout.md).
 
 ### Examples
 
