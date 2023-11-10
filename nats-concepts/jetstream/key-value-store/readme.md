@@ -25,4 +25,4 @@ Finally, you can even do things that typically can not be done with a Key/Value 
 * watch all: watch for all the changes happening on all the keys in the bucket 
 * history: retrieve a history of the values (and delete operations) associated with each key over time (by default the history of buckets is set to 1, meaning that only the latest value/operation is stored)
 
-The key must be in the same format as a NATS subject, i.e. it can be dot separated list of tokens (which means that you can then use wildcards to match hierarchies of keys when watching a bucket), and can only contain [valid characters](../../../nats-concepts/subjects#characters-allowed-for-subject-names). The value can be any byte array
+The key must be in the same format as a NATS subject, i.e. it can be a dot separated list of tokens (which means that you can then use wildcards to match hierarchies of keys when watching a bucket), and can only contain [valid characters](../../../nats-concepts/subjects#characters-allowed-for-subject-names). The value can be any byte array
