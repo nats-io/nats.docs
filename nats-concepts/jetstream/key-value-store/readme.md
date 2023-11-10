@@ -24,3 +24,5 @@ Finally, you can even do things that typically can not be done with a Key/Value 
 * watch: watch for changes happening for a key, which is similar to subscribing (in the publish/subscribe sense) to the key: the watcher receives updates due to put or delete operations on the key pushed to it in real-time as they happen
 * watch all: watch for all the changes happening on all the keys in the bucket 
 * history: retrieve a history of the values (and delete operations) associated with each key over time (by default the history of buckets is set to 1, meaning that only the latest value/operation is stored)
+
+The key must be in the same format as a NATS subject, i.e. it can be dot separated list of tokens (which means that you can then use wildcards to match hierarchies of keys when watching a bucket), and can only contain [valid characters](../../../nats-concepts/subjects#characters-allowed-for-subject-names). The value can be any byte array

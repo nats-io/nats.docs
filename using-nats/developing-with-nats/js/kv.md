@@ -2,6 +2,8 @@
 
 As the Key Value Store is built on top of the JetStream persistence layer you obtain a KeyValueManager object from your JetStream [context](context.md).
 
+The key must be in the same format as a NATS subject, i.e. it can be dot separated list of tokens (which means that you can then use wildcards to match hierarchies of keys when watching a bucket), and can only contain [valid characters](../../../nats-concepts/subjects#characters-allowed-for-subject-names). The value can be any byte array.
+
 ### Creating, and deleting KV buckets
 
 You can create as many independent key/value store instance, called 'buckets', as you need. Buckets are typically created, purged or deleted administratively (e.g. using the `nats` CLI tool), but this can also be done using one of the following KeyValueManager calls:
