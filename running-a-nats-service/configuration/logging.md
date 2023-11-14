@@ -40,22 +40,23 @@ If `-T false` then log entries are not timestamped. Default is true.
 
 #### Syslog
 
+NATS Server follows the RFC5424 protocol standard and uses non transparent framing.
 You can configure syslog with `UDP`:
 
 ```bash
 nats-server -r udp://localhost:514
 ```
 
-or `syslog:`
+or `tcp:`
 
 ```bash
-nats-server -r syslog://<hostname>:<port>
+nats-server -r tcp://<hostname>:<port>
 ```
 
 For example:
 
 ```bash
-syslog://logs.papertrailapp.com:26900
+tcp://logs.papertrailapp.com:26900
 ```
 
 ### Using the Configuration File
