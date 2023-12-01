@@ -21,7 +21,7 @@ Using NATS means that, as an application developer you never have to worry about
 * Flow control (using JetStream)
 * Higher qualities of services such as **exactly-once** (using JetStream)
 * Fault-tolerance, and which servers are up or down at any given time.
-* The topology of the NATS server infrastructure or it is architected.
+* The topology of the NATS server infrastructure or how it is architected.
 
 # Anatomy of a NATS Client Application
 
