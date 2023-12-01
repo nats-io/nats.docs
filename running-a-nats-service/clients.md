@@ -52,7 +52,7 @@ nats-server
 On another terminal session first check the connection to the server
 
 ```shell
-nats server check
+nats server check connection -s 0.0.0.0:4222
 ```
 
 ```
@@ -62,7 +62,7 @@ OK Connection OK:connected to nats://127.0.0.1:4222 in 790.28µs OK:rtt time 69.
 Next, start a subscriber using the `nats` CLI tool:
 
 ```shell
-nats sub ">"
+nats subscribe ">" -s 0.0.0.0:4222
 ```
 
 Note that when the client connected, the server didn't log anything interesting because server output is relatively quiet unless something interesting happens.
@@ -96,7 +96,7 @@ If you had created a subscriber, you should notice output on the subscriber tell
 On a third terminal, publish your first message:
 
 ```shell
-nats pub hello world
+nats pub hello world -s 0.0.0.0:4222
 ```
 
 On the subscriber window you should see:
