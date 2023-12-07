@@ -1,8 +1,9 @@
-# Subject Mapping and Transforms
+# Subject Mapping and Partitioning
 
 Subject mapping and transforms is a very powerful feature of the NATS server, useful for scaling some forms of distributed message processing through partitioning, for canary deployments, A/B testing, chaos testing, and migrating to a new subject namespace.
 
-There are multiple places where you can apply subject transforms: 
+There are multiple places where you can apply subject transforms:
+
 * At the Core NATS level each account has its own set of subject transforms, which will apply to any message published by client applications for that account, and you can also use subject transforms as part of the imports and exports between accounts.
 * At the JetStream level you can define subject transforms as part of the stream configuration, which will apply to any message published to that stream, and you can also use subject transforms as part of the mirror and source configurations and for message republishing.
 
@@ -11,7 +12,7 @@ When not using operator JWT security, you can define the Core NATS account level
 When using operator JWT security with the built-in resolver you define the transforms and the import/exports in the account JWT so after modifying them they will take effect as soon as you push the updated account JWT to the servers.
 
 {% hint style="info" %}
-You can easily test subject transforms using the [`nats`](../using-nats/nats-tools/nats_cli/readme.md) CLI tool command `nats server mapping`.
+You can easily test subject transforms using the [`nats`](../using-nats/nats-tools/nats\_cli/) CLI tool command `nats server mapping`.
 {% endhint %}
 
 ## Simple Mapping
@@ -46,8 +47,8 @@ You can split a token on each occurrence of a separator string using the `split(
 
 Examples:
 
-- Split on '-': `nats server mapping "*" "{{split(1,-)}}" foo-bar` returns `foo.bar`.
-- Split on '--': `nats server mapping "*" "{{split(1,--)}}" foo--bar` returns `foo.bar`.
+* Split on '-': `nats server mapping "*" "{{split(1,-)}}" foo-bar` returns `foo.bar`.
+* Split on '--': `nats server mapping "*" "{{split(1,--)}}" foo--bar` returns `foo.bar`.
 
 ### Splitting at an offset
 
@@ -55,8 +56,8 @@ You can split a token in two at a specific location from the start or the end of
 
 Examples:
 
-- Split the token at 4 from the left: `nats server mapping "*" "{{splitfromleft(1,4)}}" 1234567` returns `1234.567`.
-- Split the token at 4 from the right: `nats server mapping "*" "{{splitfromright(1,4)}}" 1234567` returns `123.4567`.
+* Split the token at 4 from the left: `nats server mapping "*" "{{splitfromleft(1,4)}}" 1234567` returns `1234.567`.
+* Split the token at 4 from the right: `nats server mapping "*" "{{splitfromright(1,4)}}" 1234567` returns `123.4567`.
 
 ## Slicing Tokens
 
@@ -64,8 +65,8 @@ You can slice tokens into multiple parts at a specific interval from the start o
 
 Examples:
 
-- Split every 2 characters from the left: `nats server mapping "*" "{{slicefromleft(1,2)}}" 1234567` returns `12.34.56.7`.
-- Split every 2 characters from the right: `nats server mapping "*" "{{slicefromright(1,2)}}" 1234567` returns `1.23.45.67`.
+* Split every 2 characters from the left: `nats server mapping "*" "{{slicefromleft(1,2)}}" 1234567` returns `12.34.56.7`.
+* Split every 2 characters from the right: `nats server mapping "*" "{{slicefromright(1,2)}}" 1234567` returns `1.23.45.67`.
 
 ## Deterministic Subject token Partitioning
 
@@ -186,9 +187,10 @@ This means that the application can be portable in terms of deployment and does 
 
 ## Subject Mapping and Transforms in Streams
 
-You can define subject mapping transforms as part of the stream configuration. 
+You can define subject mapping transforms as part of the stream configuration.
 
 Transforms can be applied in multiple places in the stream configuration:
+
 * You can apply a subject mapping transformation as part of a Stream mirror.
 * You can apply a subject mapping transformation as part of a Stream source.
 * You can apply an overall stream ingress subject mapping transformation that applies to all matching messages regardless of how they are ingested into the stream.

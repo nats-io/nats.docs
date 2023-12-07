@@ -1,4 +1,4 @@
-# NATS Key/Value Store Walkthrough
+# Key/Value Store Walkthrough
 
 ## Prerequisite: enabling JetStream
 
@@ -8,7 +8,8 @@ You can then check that JetStream is enabled by using
 
 ```shell
 nats account info
-``` 
+```
+
 ```
 Connection Information:
 
@@ -31,7 +32,7 @@ JetStream Account Information:
 
 If you see the below instead then JetStream is _not_ enabled
 
-```text
+```
 JetStream Account Information:
 
    JetStream is not supported in this account
@@ -44,7 +45,8 @@ Just like you have to create streams before you can use them, you need to first 
 ```shell
 nats kv add my_kv
 ```
-```text
+
+```
 my_kv Key-Value Store Status
 
          Bucket Name: my_kv
@@ -65,6 +67,7 @@ nats kv put my_kv Key1 Value1
 ```
 
 which should return `Value1`
+
 ## Getting a value
 
 Now that we have value stored at key "Key1" we can retrieve that value with a 'get':
@@ -72,11 +75,11 @@ Now that we have value stored at key "Key1" we can retrieve that value with a 'g
 ```shell
 nats kv get my_kv Key1
 ```
+
 ```
 my_kv > Key1 created @ 12 Oct 21 20:08 UTC
 
 Value1
-
 ```
 
 ## Deleting a value
@@ -92,6 +95,7 @@ For example run `nats kv watch my_kv`: this will start a watcher on the bucket w
 ```shell
 nats kv watch my_kv
 ```
+
 ```
 [2021-10-12 13:15:03] DEL my_kv > Key1
 ```

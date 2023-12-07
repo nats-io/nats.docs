@@ -1,12 +1,12 @@
-# Walkthrough prerequisites
+# Walkthrough Setup
 
-We have provided Walkthroughs for you to try NATS (and JetStream) on your own. In order to follow along with the walkthroughs, you could choose one of these options:  
+We have provided Walkthroughs for you to try NATS (and JetStream) on your own. In order to follow along with the walkthroughs, you could choose one of these options:
 
-- The `nats` CLI tool must be installed, and a local NATS server must be installed (or you can use a remote server you have access to).   
-- You can use Synadia's NGS.   
-- You could even use the demo server from where you installed NATS. This is accessible via `nats://demo.nats.io` (this is a NATS connection URL; not a browser URL. You pass it to a NATS client application).  
-  
-## Installing the [`nats`](/using-nats/nats-tools/nats_cli/readme.md) CLI Tool
+* The `nats` CLI tool must be installed, and a local NATS server must be installed (or you can use a remote server you have access to).
+* You can use Synadia's NGS.
+* You could even use the demo server from where you installed NATS. This is accessible via `nats://demo.nats.io` (this is a NATS connection URL; not a browser URL. You pass it to a NATS client application).
+
+## Installing the [`nats`](../../using-nats/nats-tools/nats\_cli/) CLI Tool
 
 For MacOS:
 
@@ -20,8 +20,8 @@ For Arch Linux:
 ```shell
 yay natscli
 ```
-    
-For other versions of Linux and for Windows:  
+
+For other versions of Linux and for Windows:\
 The `.deb` or `.rpm` files and Windows binaries (even for ARM) are available here [GitHub Releases](https://github.com/nats-io/natscli/releases).
 
 ## Installing the NATS server locally (if needed)
@@ -47,14 +47,14 @@ On Arch Linux:
 ```shell
 yay nats-server
 ```
-  
+
 For other versions of Linux or other architectures, you can install a [release build](https://github.com/nats-io/nats-server/releases) as shown below.
-  
+
 ### Downloading a Release Build
 
 You can find the latest release of `nats-server` [here](https://github.com/nats-io/nats-server/releases).
 
-You could manually download the zip file matching your systems architecture, and unzip it. You could also use `curl` to download a specific version. The example below shows for example, how to download version 2.6.2 of the `nats-server` for Linux AMD64:  
+You could manually download the zip file matching your systems architecture, and unzip it. You could also use `curl` to download a specific version. The example below shows for example, how to download version 2.6.2 of the `nats-server` for Linux AMD64:
 
 ```shell
 curl -L https://github.com/nats-io/nats-server/releases/download/v2.6.5/nats-server-v2.6.5-linux-amd64.zip -o nats-server.zip
@@ -63,14 +63,17 @@ curl -L https://github.com/nats-io/nats-server/releases/download/v2.6.5/nats-ser
 ```shell
 unzip nats-server.zip -d nats-server
 ```
-```text
+
+```
 Archive:  nats-server.zip
    creating: nats-server-v2.6.2-linux-amd64/
   inflating: nats-server-v2.6.2-linux-amd64/README.md
   inflating: nats-server-v2.6.2-linux-amd64/LICENSE
   inflating: nats-server-v2.6.2-linux-amd64/nats-server
 ```
+
 and finally, copy it to the `bin` folder (this allows you to run the executable from anywhere in the system):
+
 ```shell
 sudo cp nats-server/nats-server-v2.6.2-linux-amd64/nats-server /usr/bin
 ```
@@ -87,7 +90,7 @@ nats-server
 
 When the server starts successfully, you will see the following messages:
 
-```text
+```
 [14524] 2021/10/25 22:53:53.525530 [INF] Starting nats-server
 [14524] 2021/10/25 22:53:53.525640 [INF]   Version:  2.6.1
 [14524] 2021/10/25 22:53:53.525643 [INF]   Git:      [not set]

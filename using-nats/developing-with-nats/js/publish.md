@@ -1,4 +1,4 @@
-# Publishing to streams
+# Publishing to Streams
 
 {% tabs %}
 {% tab title="Go" %}
@@ -33,9 +33,9 @@ func ExampleJetStream() {
 		fmt.Println("Did not resolve in time")
 	}
 }
-
 ```
 {% endtab %}
+
 {% tab title="Java" %}
 ```java
 package io.nats.examples.jetstream;
@@ -120,6 +120,7 @@ public class NatsJsPub {
 }
 ```
 {% endtab %}
+
 {% tab title="JavaScript" %}
 ```javascript
 import { connect, Empty } from "../../src/mod.ts";
@@ -151,6 +152,7 @@ await jsm.streams.delete("B");
 await nc.drain();
 ```
 {% endtab %}
+
 {% tab title="Python" %}
 ```python
 import asyncio
@@ -178,8 +180,9 @@ if __name__ == '__main__':
     asyncio.run(main())
 ```
 {% endtab %}
+
 {% tab title="C" %}
-```C
+```
 #include "examples.h"
 
 static const char *usage = ""\

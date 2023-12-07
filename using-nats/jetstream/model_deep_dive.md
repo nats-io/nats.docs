@@ -1,4 +1,4 @@
-# Model Deep Dive
+# JetStream Model Deep Dive
 
 ## Stream Limits, Retention, and Policy
 
@@ -8,19 +8,19 @@ There are 3 features that come into play when Streams decide how long they store
 
 The `Retention Policy` describes based on what criteria a set will evict messages from its storage:
 
-| Retention Policy | Description |
-| :--- | :--- |
-| `LimitsPolicy` | Limits are set for how many messages, how big the storage and how old messages may be.|
-| `WorkQueuePolicy` | Messages are kept until they are consumed: meaning delivered ( by *the* consumer filtering on the message's subject (in this mode of operation you can not have any overlapping consumers defined on the Stream - each subject captured by the stream can only have one consumer at a time)) to a subscribing application and explicitly acknowledged by that application.|
-| `InterestPolicy` | Messages are kept as long as there are Consumers on the stream (matching the message's subject if they are filtered consumers) for which the message has not yet been ACKed. Once all currently defined consumers have received explicit acknowledgement from a subscribing application for the message it is then removed from the stream.|
+| Retention Policy  | Description                                                                                                                                                                                                                                                                                                                                                                |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `LimitsPolicy`    | Limits are set for how many messages, how big the storage and how old messages may be.                                                                                                                                                                                                                                                                                     |
+| `WorkQueuePolicy` | Messages are kept until they are consumed: meaning delivered ( by _the_ consumer filtering on the message's subject (in this mode of operation you can not have any overlapping consumers defined on the Stream - each subject captured by the stream can only have one consumer at a time)) to a subscribing application and explicitly acknowledged by that application. |
+| `InterestPolicy`  | Messages are kept as long as there are Consumers on the stream (matching the message's subject if they are filtered consumers) for which the message has not yet been ACKed. Once all currently defined consumers have received explicit acknowledgement from a subscribing application for the message it is then removed from the stream.                                |
 
 In all Retention Policies the basic limits apply as upper bounds, these are `MaxMsgs` for how many messages are kept in total, `MaxBytes` for how big the set can be in total and `MaxAge` for what is the oldest message that will be kept. These are the only limits in play with `LimitsPolicy` retention.
 
-One can then define additional ways a message may be removed from the Stream earlier than these limits. In `WorkQueuePolicy` the messages will be removed as soon as *the* Consumer received an Acknowledgement. In `InterestPolicy` messages will be removed as soon as *all* Consumers of the stream for that subject have received an Acknowledgement for the message.
+One can then define additional ways a message may be removed from the Stream earlier than these limits. In `WorkQueuePolicy` the messages will be removed as soon as _the_ Consumer received an Acknowledgement. In `InterestPolicy` messages will be removed as soon as _all_ Consumers of the stream for that subject have received an Acknowledgement for the message.
 
 In both `WorkQueuePolicy` and `InterestPolicy` the age, size and count limits will still apply as upper bounds.
 
-A final control is the Maximum Size any single message may have. NATS have it's own limit for maximum size \(1 MiB by default\), but you can say a Stream will only accept messages up to 1024 bytes using `MaxMsgSize`.
+A final control is the Maximum Size any single message may have. NATS have it's own limit for maximum size (1 MiB by default), but you can say a Stream will only accept messages up to 1024 bytes using `MaxMsgSize`.
 
 The `Discard Policy` sets how messages are discarded when limits set by `LimitsPolicy` are reached. The `DiscardOld` option removes old messages making space for new, while `DiscardNew` refuses any new messages.
 
@@ -42,8 +42,10 @@ Here we set a `Nats-Msg-Id:1` header which tells JetStream to ensure we do not h
 ```shell
 nats stream info ORDERS
 ```
-and in the output you can see that the duplicate publications were detected and only one message (the first one) is actually stored in the stream 
-```text
+
+and in the output you can see that the duplicate publications were detected and only one message (the first one) is actually stored in the stream
+
+```
 ....
 State:
 
@@ -59,18 +61,19 @@ Streams support acknowledging receiving a message, if you send a `Request()` to 
 
 Consumers have 3 acknowledgement modes:
 
-| Mode | Description |
-| :--- | :--- |
-| `AckExplicit` | This requires every message to be specifically acknowledged, it's the only supported option for pull-based Consumers |
-| `AckAll` | In this mode if you acknowledge message `100` it will also acknowledge message `1`-`99`, this is good for processing batches and to reduce ack overhead |
-| `AckNone` | No acknowledgements are supported |
+| Mode          | Description                                                                                                                                             |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `AckExplicit` | This requires every message to be specifically acknowledged, it's the only supported option for pull-based Consumers                                    |
+| `AckAll`      | In this mode if you acknowledge message `100` it will also acknowledge message `1`-`99`, this is good for processing batches and to reduce ack overhead |
+| `AckNone`     | No acknowledgements are supported                                                                                                                       |
 
 To understand how Consumers track messages we will start with a clean `ORDERS` Stream and `DISPATCH` Consumer.
 
 ```shell
 nats str info ORDERS
 ```
-```text
+
+```
 ...
 Statistics:
 
@@ -86,7 +89,8 @@ The Set is entirely empty
 ```shell
 nats con info ORDERS DISPATCH
 ```
-```text
+
+```
 ...
 State:
 
@@ -96,14 +100,15 @@ State:
     Redelivered Messages: 0
 ```
 
-The Consumer has no messages outstanding and has never had any \(Consumer sequence is 1\).
+The Consumer has no messages outstanding and has never had any (Consumer sequence is 1).
 
 We publish one message to the Stream and see that the Stream received it:
 
 ```shell
 nats pub ORDERS.processed "order 4"
 ```
-```text
+
+```
 Published 7 bytes to ORDERS.processed
 $ nats str info ORDERS
 ...
@@ -121,7 +126,8 @@ As the Consumer is pull-based, we can fetch the message, ack it, and check the C
 ```shell
 nats con next ORDERS DISPATCH
 ```
-```text
+
+```
 --- received on ORDERS.processed
 order 4
 
@@ -144,24 +150,29 @@ We'll publish another message, fetch it but not Ack it this time and see the sta
 ```shell
 nats pub ORDERS.processed "order 5"
 ```
-```text
-Published 7 bytes to ORDERS.processed
 
 ```
+Published 7 bytes to ORDERS.processed
+```
+
 Get the next message from the consumer (but do not acknowledge it)
+
 ```shell
 nats consumer next ORDERS DISPATCH --no-ack
 ```
-```text
+
+```
 --- received on ORDERS.processed
 order 5
 ```
 
 Show the consumer info
+
 ```shell
 nats consumer info ORDERS DISPATCH
 ```
-```text
+
+```
 State:
 
   Last Delivered Message: Consumer sequence: 3 Stream sequence: 3
@@ -170,22 +181,26 @@ State:
     Redelivered Messages: 0
 ```
 
-Now we can see the Consumer has processed 2 messages \(obs sequence is 3, next message will be 3\) but the Ack floor is still 1 - thus 1 message is pending acknowledgement. Indeed this is confirmed in the `Pending messages`.
+Now we can see the Consumer has processed 2 messages (obs sequence is 3, next message will be 3) but the Ack floor is still 1 - thus 1 message is pending acknowledgement. Indeed this is confirmed in the `Pending messages`.
 
 If I fetch it again and again do not ack it:
 
 ```shell
 nats consumer next ORDERS DISPATCH --no-ack
 ```
-```text
+
+```
 --- received on ORDERS.processed
 order 5
 ```
+
 Show the consumer info again
+
 ```shell
 nats consumer info ORDERS DISPATCH
 ```
-```text
+
+```
 State:
 
   Last Delivered Message: Consumer sequence: 4 Stream sequence: 3
@@ -201,17 +216,21 @@ Finally, if I then fetch it again and ack it this time:
 ```shell
 nats consumer next ORDERS DISPATCH 
 ```
-```text
+
+```
 --- received on ORDERS.processed
 order 5
 
 Acknowledged message
 ```
+
 Show the consumer info
+
 ```shell
 nats consumer info ORDERS DISPATCH
 ```
-```text
+
+```
 State:
 
   Last Delivered Message: Consumer sequence: 5 Stream sequence: 3
@@ -224,13 +243,13 @@ Having now Acked the message there are no more pending.
 
 Additionally, there are a few types of acknowledgements:
 
-| Type | Bytes | Description |
-| :--- | :--- | :--- |
-| `AckAck` | nil, `+ACK` | Acknowledges a message was completely handled |
-| `AckNak` | `-NAK` | Signals that the message will not be processed now and processing can move onto the next message, NAK'd message will be retried |
-| `AckProgress` | `+WPI` | When sent before the AckWait period indicates that work is ongoing and the period should be extended by another equal to `AckWait` |
-| `AckNext` | `+NXT` | Acknowledges the message was handled and requests delivery of the next message to the reply subject. Only applies to Pull-mode. |
-| `AckTerm` | `+TERM` | Instructs the server to stop redelivery of a message without acknowledging it as successfully processed |
+| Type          | Bytes       | Description                                                                                                                        |
+| ------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `AckAck`      | nil, `+ACK` | Acknowledges a message was completely handled                                                                                      |
+| `AckNak`      | `-NAK`      | Signals that the message will not be processed now and processing can move onto the next message, NAK'd message will be retried    |
+| `AckProgress` | `+WPI`      | When sent before the AckWait period indicates that work is ongoing and the period should be extended by another equal to `AckWait` |
+| `AckNext`     | `+NXT`      | Acknowledges the message was handled and requests delivery of the next message to the reply subject. Only applies to Pull-mode.    |
+| `AckTerm`     | `+TERM`     | Instructs the server to stop redelivery of a message without acknowledging it as successfully processed                            |
 
 So far all of the examples were the `AckAck` type of acknowledgement, by replying to the Ack with the body as indicated in `Bytes` you can pick what mode of acknowledgement you want.
 
@@ -242,7 +261,7 @@ The `+NXT` acknowledgement can have a few formats: `+NXT 10` requests 10 message
 
 JetStream supports Exactly Once publication and consumption by combining Message Deduplication and double acks.
 
-On the publishing side you can avoid duplicate message ingestion using the [Message Deduplication](model_deep_dive.md#message-deduplication) feature.
+On the publishing side you can avoid duplicate message ingestion using the [Message Deduplication](model\_deep\_dive.md#message-deduplication) feature.
 
 Consumers can be 100% sure a message was correctly processed by requesting the server Acknowledge having received your acknowledgement (sometimes referred to as double-acking) by calling the message's `AckSync()` (rather than `Ack()`) function which sets a reply subject on the Ack and waits for a response from the server on the reception and processing of the acknowledgement. If the response received from the server indicates success you can be sure that the message will never be re-delivered by the consumer (due to a loss of your acknowledgement).
 
@@ -250,12 +269,12 @@ Consumers can be 100% sure a message was correctly processed by requesting the s
 
 When setting up a Consumer you can decide where to start, the system supports the following for the `DeliverPolicy`:
 
-| Policy | Description |
-| :--- | :--- |
-| `all` | Delivers all messages that are available |
-| `last` | Delivers the latest message, like a `tail -n 1 -f` |
-| `new` | Delivers only new messages that arrive after subscribe time |
-| `by_start_time` | Delivers from a specific time onward.  Requires `OptStartTime` to be set |
+| Policy              | Description                                                                |
+| ------------------- | -------------------------------------------------------------------------- |
+| `all`               | Delivers all messages that are available                                   |
+| `last`              | Delivers the latest message, like a `tail -n 1 -f`                         |
+| `new`               | Delivers only new messages that arrive after subscribe time                |
+| `by_start_time`     | Delivers from a specific time onward. Requires `OptStartTime` to be set    |
 | `by_start_sequence` | Delivers from a specific stream sequence. Requires `OptStartSeq` to be set |
 
 Regardless of what mode you set, this is only the starting point. Once started it will always give you what you have not seen or acknowledged. So this is merely how it picks the very first message.
@@ -268,7 +287,8 @@ Now create a `DeliverAll` pull-based Consumer:
 nats consumer add ORDERS ALL --pull --filter ORDERS.processed --ack none --replay instant --deliver all 
 nats consumer next ORDERS ALL
 ```
-```text
+
+```
 --- received on ORDERS.processed
 order 1
 
@@ -281,7 +301,8 @@ Now create a `DeliverLast` pull-based Consumer:
 nats consumer add ORDERS LAST --pull --filter ORDERS.processed --ack none --replay instant --deliver last
 nats consumer next ORDERS LAST
 ```
-```text
+
+```
 --- received on ORDERS.processed
 order 100
 
@@ -294,7 +315,8 @@ Now create a `MsgSetSeq` pull-based Consumer:
 nats consumer add ORDERS TEN --pull --filter ORDERS.processed --ack none --replay instant --deliver 10
 nats consumer next ORDERS TEN
 ```
-```text
+
+```
 --- received on ORDERS.processed
 order 10
 
@@ -318,7 +340,8 @@ Then create a Consumer that starts 2 minutes ago:
 nats consumer add ORDERS 2MIN --pull --filter ORDERS.processed --ack none --replay instant --deliver 2m
 nats consumer next ORDERS 2MIN
 ```
-```text
+
+```
 --- received on ORDERS.processed
 order 2
 
@@ -356,7 +379,8 @@ You can only set `ReplayPolicy` on push-based Consumers.
 ```shell
 nats consumer add ORDERS REPLAY --target out.original --filter ORDERS.processed --ack none --deliver all --sample 100 --replay original
 ```
-```text
+
+```
 ...
      Replay Policy: original
 ...
@@ -371,7 +395,8 @@ do
   sleep 10
 done
 ```
-```text
+
+```
 Published [ORDERS.processed] : 'order 1'
 Published [ORDERS.processed] : 'order 2'
 Published [ORDERS.processed] : 'order 3'
@@ -382,7 +407,8 @@ And when we consume them they will come to us 10 seconds apart:
 ```shell
 nats sub -t out.original
 ```
-```text
+
+```
 Listening on [out.original]
 2020/01/03 15:17:26 [#1] Received on [ORDERS.processed]: 'order 1'
 2020/01/03 15:17:36 [#2] Received on [ORDERS.processed]: 'order 2'
@@ -407,8 +433,10 @@ When viewing info of a Consumer you can tell if it's sampled or not:
 ```shell
 nats consumer info ORDERS NEW
 ```
+
 Output contains
-```text
+
+```
 ...
      Sampling Rate: 100
 ...
@@ -430,7 +458,7 @@ We do store some message data with each message, namely:
 
 Without any headers the size is:
 
-```text
+```
 length of the message record (4bytes) + seq(8) + ts(8) + subj_len(2) + subj + msg + hash(8)
 ```
 
@@ -438,9 +466,8 @@ A 5 byte `hello` message without headers will take 39 bytes.
 
 With headers:
 
-```text
+```
 length of the message record (4bytes) + seq(8) + ts(8) + subj_len(2) + subj + hdr_len(4) + hdr + msg + hash(8)
 ```
 
 So if you are publishing many small messages the overhead will be, relatively speaking, quite large, but for larger messages the overhead is very small. If you publish many small messages it's worth trying to optimize the subject length.
-

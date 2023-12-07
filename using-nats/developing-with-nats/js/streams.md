@@ -1,15 +1,15 @@
-# Streams management
+# Managing Streams and consumers
 
 Streams and durable consumers can be defined administratively outside the application (typically using the NATS CLI Tool) in which case the application only needs to know about the well-known names of the durable consumers it wants to use. But you can also manage streams and consumers programmatically.
 
 Common stream management operations are:
 
-- Add a stream. Adding a stream is an idempotent function, which means that if a stream does not exist, it will be created, and if a stream already exists, then the add operation will succeed only if the existing stream matches exactly the attributes specified in the 'add' call.
-- Delete a stream.
-- Purge a stream (delete all the messages stored in the stream)
-- Get or remove a specific message from a stream by sequence number
-- Add or update (or delete) a consumer
-- Get info and statistics on streams/consumers/account. Get/remove/get information on individual messages stored in a stream.
+* Add a stream. Adding a stream is an idempotent function, which means that if a stream does not exist, it will be created, and if a stream already exists, then the add operation will succeed only if the existing stream matches exactly the attributes specified in the 'add' call.
+* Delete a stream.
+* Purge a stream (delete all the messages stored in the stream)
+* Get or remove a specific message from a stream by sequence number
+* Add or update (or delete) a consumer
+* Get info and statistics on streams/consumers/account. Get/remove/get information on individual messages stored in a stream.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -57,6 +57,7 @@ func ExampleJetStreamManager() {
 }
 ```
 {% endtab %}
+
 {% tab title="Java" %}
 ```java
 package io.nats.examples.jetstream;
@@ -203,6 +204,7 @@ public class NatsJsManageStreams {
 }
 ```
 {% endtab %}
+
 {% tab title="JavaScript" %}
 ```javascript
 import { AckPolicy, connect, Empty } from "../../src/mod.ts";
@@ -281,6 +283,7 @@ console.log(ci);
 await jsm.consumers.delete(stream, "me");
 ```
 {% endtab %}
+
 {% tab title="Python" %}
 ```python
 import asyncio
@@ -303,8 +306,9 @@ if __name__ == '__main__':
     asyncio.run(main())    
 ```
 {% endtab %}
+
 {% tab title="C" %}
-````C
+````
 #include "examples.h"
 
 static const char *usage = ""\
@@ -494,7 +498,14 @@ int main(int argc, char **argv)
     return 0;
 }
 ```
-{% endtab %}
-{% endtabs %}
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+````
 {% endtab %}
 {% endtabs %}

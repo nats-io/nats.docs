@@ -6,12 +6,13 @@ For this example, start the server using:
 nats-server --user myname --pass password
 ```
 
-You can encrypt passwords to pass to `nats-server` using a simple [tool](../../../nats-tools/nats_cli/readme.md):
+You can encrypt passwords to pass to `nats-server` using a simple [tool](../../../nats-tools/nats\_cli/):
 
 ```bash
 nats server passwd
 ```
-```text
+
+```
 ? Enter password [? for help] **********************
 ? Reenter password [? for help] **********************
 
@@ -207,4 +208,3 @@ natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
-

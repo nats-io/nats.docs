@@ -1,10 +1,10 @@
-# nats-bench
+# nats bench
 
 NATS is fast and lightweight and places a priority on performance. the `nats` CLI tool can, amongst many other things, be used for running benchmarks and measuring performance of your target NATS service infrastructure. In this tutorial you learn how to benchmark and tune NATS on your systems and environment.
 
 ## Prerequisites
 
-* [Install the NATS CLI Tool](./readme.md)
+* [Install the NATS CLI Tool](./)
 * [Install the NATS server](../../../running-a-nats-service/installation.md)
 
 ## Start the NATS server with monitoring enabled
@@ -15,7 +15,7 @@ nats-server -m 8222 -js
 
 Verify that the NATS server starts successfully, as well as the HTTP monitor:
 
-```text
+```
 [89075] 2021/10/05 23:26:35.342816 [INF] Starting nats-server
 [89075] 2021/10/05 23:26:35.342971 [INF]   Version:  2.6.1
 [89075] 2021/10/05 23:26:35.342974 [INF]   Git:      [not set]
@@ -47,7 +47,7 @@ nats bench foo --pub 1 --size 16
 
 The output tells you the number of messages and the number of payload bytes that the client was able to publish per second:
 
-```text
+```
 23:33:51 Starting pub/sub benchmark [msgs=100,000, msgsize=16 B, pubs=1, subs=0, js=false]
 23:33:51 Starting publisher, publishing 100,000 messages
 Finished      0s [======================================================================================================================================================] 100%
@@ -60,7 +60,8 @@ Now increase the number of messages published:
 ```bash
 nats bench foo --pub 1 --size 16 --msgs 10000000
 ```
-```text
+
+```
 23:34:29 Starting pub/sub benchmark [msgs=10,000,000, msgsize=16 B, pubs=1, subs=0, js=false]
 23:34:29 Starting publisher, publishing 10,000,000 messages
 Finished      2s [======================================================================================================================================================] 100%
@@ -80,7 +81,7 @@ nats bench foo --pub 1 --sub 1 --size 16
 
 Note that the output shows the aggregate throughput as well as the individual publisher and subscriber performance:
 
-```text
+```
 23:36:00 Starting pub/sub benchmark [msgs=100,000, msgsize=16 B, pubs=1, subs=1, js=false]
 23:36:00 Starting subscriber, expecting 100,000 messages
 23:36:00 Starting publisher, publishing 100,000 messages
@@ -101,7 +102,8 @@ Let's increase both the number of messages, and the number of subscribers.:
 ```bash
 nats bench foo --pub 1 --sub 5 --size 16 --msgs 1000000
 ```
-```text
+
+```
 23:38:08 Starting pub/sub benchmark [msgs=1,000,000, msgsize=16 B, pubs=1, subs=5, js=false]
 23:38:08 Starting subscriber, expecting 1,000,000 messages
 23:38:08 Starting subscriber, expecting 1,000,000 messages
@@ -129,14 +131,15 @@ NATS Pub/Sub stats: 7,123,965 msgs/sec ~ 108.70 MB/sec
 
 ## Run a N:M throughput test
 
-When more than 1 publisher is specified, `nats bench` evenly distributes the total number of messages \(`-msgs`\) across the number of publishers \(`-pub`\).
+When more than 1 publisher is specified, `nats bench` evenly distributes the total number of messages (`-msgs`) across the number of publishers (`-pub`).
 
 Now let's increase the number of publishers and examine the output:
 
 ```bash
 nats bench foo --pub 5 --sub 5 --size 16 --msgs 1000000
 ```
-```text
+
+```
 23:39:28 Starting pub/sub benchmark [msgs=1,000,000, msgsize=16 B, pubs=5, subs=5, js=false]
 23:39:28 Starting subscriber, expecting 1,000,000 messages
 23:39:28 Starting subscriber, expecting 1,000,000 messages
@@ -189,7 +192,8 @@ And in another shell send some requests
 ```bash
 nats bench foo --pub 1 --request --msgs 10000
 ```
-```text
+
+```
 23:47:35 Benchmark in request-reply mode
 23:47:35 Starting request-reply benchmark [msgs=10,000, msgsize=128 B, pubs=1, subs=0, js=false, request=true, reply=false]
 23:47:35 Starting publisher, publishing 10,000 messages
@@ -207,12 +211,14 @@ Note: by default `nats bench` subscribers in 'reply mode' join a queue group, so
 ## Run JetStream benchmarks
 
 ### Measure JetStream publication performance
+
 First let's publish some messages into a stream, `nats bench` will automatically create a stream called `benchstream` using default attributes.
 
 ```bash
 nats bench bar --js --pub 1 --size 16 --msgs 1000000
 ```
-```text
+
+```
 00:00:10 Starting JetStream benchmark [msgs=1,000,000, msgsize=16 B, pubs=1, subs=0, js=true, stream=benchstream  storage=memory, syncpub=false, pubbatch=100, jstimeout=30s, pull=false, pullbatch=100, maxackpending=-1, replicas=1, purge=false]
 00:00:10 Starting publisher, publishing 1,000,000 messages
 Finished      3s [======================================================================================================================================================] 100%
@@ -221,12 +227,14 @@ Pub stats: 272,497 msgs/sec ~ 4.16 MB/sec
 ```
 
 ### Measure JetStream consumption (replay) performance
+
 We can now measure the speed of replay of messages stored in the stream to a consumer
 
 ```bash
 nats bench bar --js --sub 1 --msgs 1000000
 ```
-```text
+
+```
 00:05:04 JetStream ordered push consumer mode: subscribers will not acknowledge the consumption of messages
 00:05:04 Starting JetStream benchmark [msgs=1,000,000, msgsize=128 B, pubs=0, subs=1, js=true, stream=benchstream  storage=memory, syncpub=false, pubbatch=100, jstimeout=30s, pull=false, pullbatch=100, maxackpending=-1, replicas=1, purge=false]
 00:05:04 Starting subscriber, expecting 1,000,000 messages
@@ -236,8 +244,8 @@ Sub stats: 777,480 msgs/sec ~ 94.91 MB/sec
 ```
 
 #### Push and pull consumers
-By default `nats bench --js` subscribers use 'ordered push' consumers, which are ordered, reliable and flow controlled but not 'acknowledged' meaning that the subscribers _do not_ send an acknowledgement back to the server upon receiving each message from the stream. Ordered push consumers are the preferred way for a single application instance to get it's own copy of all (or some) of the data stored in a stream.
-However, you can also benchmark 'pull consumers', which are instead the preferred way to horizontally scale the processing (or consumption) of the messages in the stream where the subscribers _do_ acknowledge the processing of every single message, but can leverage batching to increase the processing throughput.
+
+By default `nats bench --js` subscribers use 'ordered push' consumers, which are ordered, reliable and flow controlled but not 'acknowledged' meaning that the subscribers _do not_ send an acknowledgement back to the server upon receiving each message from the stream. Ordered push consumers are the preferred way for a single application instance to get it's own copy of all (or some) of the data stored in a stream. However, you can also benchmark 'pull consumers', which are instead the preferred way to horizontally scale the processing (or consumption) of the messages in the stream where the subscribers _do_ acknowledge the processing of every single message, but can leverage batching to increase the processing throughput.
 
 ### Play around with the knobs
 
@@ -246,8 +254,7 @@ Don't be afraid to test different JetStream storage and replication options (ass
 Note: If you change the attributes of a stream between runs you will have to delete the stream (e.g. run `nats stream rm benchstream`)
 
 ### Leave no trace: clean up the resources when you are finished
+
 Once you have finished benchmarking streams, remember that if you have stored many messages in the stream (which is very easy and fast to do) your stream may end up using a certain amount of resources on the nats-server(s) infrastructure (i.e. memory and files) that you may want to reclaim.
 
 You can instruct use the `--purge` bench command flag to tell `nats` to purge the stream of messages before starting its benchmark, or purge the stream manually using `nats stream purge benchstream` or just delete it altogether using `nats stream rm benchstream`.
-
-

@@ -32,7 +32,7 @@ authorization: {
 
 ## Bcrypted Passwords
 
-Username/password also supports bcrypted passwords using the [`nats`](/using-nats/nats-tools/nats_cli/readme.md) tool. Simply replace the clear text password with the bcrypted entries:
+Username/password also supports bcrypted passwords using the [`nats`](../../../../using-nats/nats-tools/nats\_cli/) tool. Simply replace the clear text password with the bcrypted entries:
 
 ```
 > nats server passwd

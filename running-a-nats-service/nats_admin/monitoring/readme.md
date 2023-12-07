@@ -4,19 +4,19 @@
 
 To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP server on a dedicated monitoring port. The monitoring server provides several endpoints, providing statistics and other information about the following:
 
-- [General Server Information](#general-information)
-- [Connections](#connection-information)
-- [Routing](#route-information)
-- [Leaf Nodes](#leaf-nodes-information)
-- [Subscription Routing](#subscription-routing-information)
-- [Account Information](#account-information)
-- [Account Stats](#account-stats)
-- [JetStream Information](#jetstream-information)
-- [Health](#health)
+* [General Server Information](./#general-information)
+* [Connections](./#connection-information)
+* [Routing](./#route-information)
+* [Leaf Nodes](./#leaf-nodes-information)
+* [Subscription Routing](./#subscription-routing-information)
+* [Account Information](./#account-information)
+* [Account Stats](./#account-stats)
+* [JetStream Information](./#jetstream-information)
+* [Health](./#health)
 
 All endpoints return a JSON object.
 
-The NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSONP) and [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing#How_CORS_works), making it easy to create single page monitoring web applications. Part of the NATS ecosystem is a tool called [nats-top](/using-nats/nats-tools/nats_top) that visualizes data from these endpoints on the command line.
+The NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSONP) and [CORS](https://en.wikipedia.org/wiki/Cross-origin\_resource\_sharing#How\_CORS\_works), making it easy to create single page monitoring web applications. Part of the NATS ecosystem is a tool called [nats-top](../../../using-nats/nats-tools/nats\_top/) that visualizes data from these endpoints on the command line.
 
 {% hint style="warning" %}
 `nats-server` does not have authentication/authorization for the monitoring endpoint. When you plan to open your `nats-server` to the internet make sure to not expose the monitoring port as well. By default, monitoring binds to every interface `0.0.0.0` so consider setting monitoring to `localhost` or have appropriate firewall rules.
@@ -24,7 +24,7 @@ The NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSON
 
 ### Enabling monitoring
 
-Monitoring can be enabled in [server configuration](/running-a-nats-service/configuration#monitoring-and-tracing) or as a server [command-line option](/running-a-nats-service/running/flags.md#server-options). The conventional port is `8222`.
+Monitoring can be enabled in [server configuration](../../configuration/#monitoring-and-tracing) or as a server [command-line option](../../running/flags.md#server-options). The conventional port is `8222`.
 
 As server configuration:
 
@@ -46,10 +46,10 @@ Once the server is running using one of the two methods, go to http://localhost:
 
 The `/varz` endpoint returns general information about the server state and configuration.
 
-| Result  | Return Code         |
-| :------ | :------------------ |
-| Success | 200 \(OK\)          |
-| Error   | 400 \(Bad Request\) |
+| Result  | Return Code       |
+| ------- | ----------------- |
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
 
 #### Arguments
 
@@ -124,54 +124,54 @@ N/A
 
 The `/connz` endpoint reports more detailed information on current and recently closed connections. It uses a paging mechanism which defaults to 1024 connections.
 
-| Result  | Return Code         |
-| :------ | :------------------ |
-| Success | 200 \(OK\)          |
-| Error   | 400 \(Bad Request\) |
+| Result  | Return Code       |
+| ------- | ----------------- |
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
 
 #### Arguments
 
-| Argument    | Values                        | Description                                                                                                                        |
-| :---------- | :---------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- |
-| sort        | \(_see sort options_\)        | Sorts the results. Default is connection ID.                                                                                       |
-| auth        | true, 1, false, 0             | Include username. Default is false.                                                                                                |
-| subs        | true, 1, false, 0 or `detail` | Include subscriptions. Default is false. When set to `detail` a list with more detailed subscription information will be returned. |
-| offset      | number &gt; 0                 | Pagination offset. Default is 0.                                                                                                   |
-| limit       | number &gt; 0                 | Number of results to return. Default is 1024.                                                                                      |
-| cid         | number, valid id              | Return a connection by it's id                                                                                                     |
-| state       | open, \*closed, any           | Return connections of particular state. Default is open.                                                                           |
-| mqtt_client | string                        | Filter the connection with this MQTT client ID.                                                                                    |
+| Argument     | Values                        | Description                                                                                                                        |
+| ------------ | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| sort         | (_see sort options_)          | Sorts the results. Default is connection ID.                                                                                       |
+| auth         | true, 1, false, 0             | Include username. Default is false.                                                                                                |
+| subs         | true, 1, false, 0 or `detail` | Include subscriptions. Default is false. When set to `detail` a list with more detailed subscription information will be returned. |
+| offset       | number > 0                    | Pagination offset. Default is 0.                                                                                                   |
+| limit        | number > 0                    | Number of results to return. Default is 1024.                                                                                      |
+| cid          | number, valid id              | Return a connection by it's id                                                                                                     |
+| state        | open, \*closed, any           | Return connections of particular state. Default is open.                                                                           |
+| mqtt\_client | string                        | Filter the connection with this MQTT client ID.                                                                                    |
 
 _The server will default to holding the last 10,000 closed connections._
 
 **Sort Options**
 
-| Option     | Sort by                                              |
-| :--------- | :--------------------------------------------------- |
-| cid        | Connection ID                                        |
-| start      | Connection start time, same as CID                   |
-| subs       | Number of subscriptions                              |
-| pending    | Amount of data in bytes waiting to be sent to client |
-| msgs_to    | Number of messages sent                              |
-| msgs_from  | Number of messages received                          |
-| bytes_to   | Number of bytes sent                                 |
-| bytes_from | Number of bytes received                             |
-| last       | Last activity                                        |
-| idle       | Amount of inactivity                                 |
-| uptime     | Lifetime of the connection                           |
-| stop       | Stop time for a closed connection                    |
-| reason     | Reason for a closed connection                       |
-| rtt        | Round trip time                                      |
+| Option      | Sort by                                              |
+| ----------- | ---------------------------------------------------- |
+| cid         | Connection ID                                        |
+| start       | Connection start time, same as CID                   |
+| subs        | Number of subscriptions                              |
+| pending     | Amount of data in bytes waiting to be sent to client |
+| msgs\_to    | Number of messages sent                              |
+| msgs\_from  | Number of messages received                          |
+| bytes\_to   | Number of bytes sent                                 |
+| bytes\_from | Number of bytes received                             |
+| last        | Last activity                                        |
+| idle        | Amount of inactivity                                 |
+| uptime      | Lifetime of the connection                           |
+| stop        | Stop time for a closed connection                    |
+| reason      | Reason for a closed connection                       |
+| rtt         | Round trip time                                      |
 
 #### Examples
 
 Get up to 1024 connections: [https://demo.nats.io:8222/connz](https://demo.nats.io:8222/connz)
 
-Control limit and offset: [https://demo.nats.io:8222/connz?limit=16&offset=128](https://demo.nats.io:8222/connz?limit=16&offset=128).
+Control limit and offset: [https://demo.nats.io:8222/connz?limit=16\&offset=128](https://demo.nats.io:8222/connz?limit=16\&offset=128).
 
 Get closed connection information: [https://demo.nats.io:8222/connz?state=closed](https://demo.nats.io:8222/connz?state=closed).
 
-You can also report detailed subscription information on a per connection basis using subs=1. For example: [https://demo.nats.io:8222/connz?limit=1&offset=1&subs=1](https://demo.nats.io:8222/connz?limit=1&offset=1&subs=1).
+You can also report detailed subscription information on a per connection basis using subs=1. For example: [https://demo.nats.io:8222/connz?limit=1\&offset=1\&subs=1](https://demo.nats.io:8222/connz?limit=1\&offset=1\&subs=1).
 
 #### Response
 
@@ -253,22 +253,22 @@ You can also report detailed subscription information on a per connection basis 
 
 The `/routez` endpoint reports information on active routes for a cluster. Routes are expected to be low, so there is no paging mechanism with this endpoint.
 
-| Result  | Return Code         |
-| :------ | :------------------ |
-| Success | 200 \(OK\)          |
-| Error   | 400 \(Bad Request\) |
+| Result  | Return Code       |
+| ------- | ----------------- |
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
 
 #### Arguments
 
 | Argument | Values                        | Description                                                                                                                        |
-| :------- | :---------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- |
+| -------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | subs     | true, 1, false, 0 or `detail` | Include subscriptions. Default is false. When set to `detail` a list with more detailed subscription information will be returned. |
 
 As noted above, the `routez` endpoint does support the `subs` argument from the `/connz` endpoint. For example: [https://demo.nats.io:8222/routez?subs=1](https://demo.nats.io:8222/routez?subs=1)
 
 #### Example
 
-- Get route information: [https://demo.nats.io:8222/routez?subs=1](https://demo.nats.io:8222/routez?subs=1)
+* Get route information: [https://demo.nats.io:8222/routez?subs=1](https://demo.nats.io:8222/routez?subs=1)
 
 #### Response
 
@@ -299,22 +299,22 @@ As noted above, the `routez` endpoint does support the `subs` argument from the 
 
 The `/gatewayz` endpoint reports information about gateways used to create a NATS supercluster. Like routes, the number of gateways are expected to be low, so there is no paging mechanism with this endpoint.
 
-| Result  | Return Code         |
-| :------ | :------------------ |
-| Success | 200 \(OK\)          |
-| Error   | 400 \(Bad Request\) |
+| Result  | Return Code       |
+| ------- | ----------------- |
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
 
 #### Arguments
 
-| Argument | Values            | Description                                      |
-| :------- | :---------------- | :----------------------------------------------- |
-| accs     | true, 1, false, 0 | Include account information. Default is false.   |
-| gw_name  | string            | Return only remote gateways with this name.      |
-| acc_name | string            | Limit the list of accounts to this account name. |
+| Argument  | Values            | Description                                      |
+| --------- | ----------------- | ------------------------------------------------ |
+| accs      | true, 1, false, 0 | Include account information. Default is false.   |
+| gw\_name  | string            | Return only remote gateways with this name.      |
+| acc\_name | string            | Limit the list of accounts to this account name. |
 
 #### Examples
 
-- Retrieve Gateway Information: [https://demo.nats.io:8222/gatewayz](https://demo.nats.io:8222/gatewayz)
+* Retrieve Gateway Information: [https://demo.nats.io:8222/gatewayz](https://demo.nats.io:8222/gatewayz)
 
 #### Response
 
@@ -435,22 +435,22 @@ The `/gatewayz` endpoint reports information about gateways used to create a NAT
 
 The `/leafz` endpoint reports detailed information about the leaf node connections.
 
-| Result  | Return Code         |
-| :------ | :------------------ |
-| Success | 200 \(OK\)          |
-| Error   | 400 \(Bad Request\) |
+| Result  | Return Code       |
+| ------- | ----------------- |
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
 
 #### Arguments
 
 | Argument | Values            | Description                                       |
-| :------- | :---------------- | :------------------------------------------------ |
+| -------- | ----------------- | ------------------------------------------------- |
 | subs     | true, 1, false, 0 | Include internal subscriptions. Default is false. |
 
 As noted above, the `leafz` endpoint does support the `subs` argument from the `/connz` endpoint. For example: [https://demo.nats.io:8222/leafz?subs=1](https://demo.nats.io:8222/leafz?subs=1)
 
 #### Example
 
-- Get leaf nodes information: [https://demo.nats.io:8222/leafz?subs=1](https://demo.nats.io:8222/leafz?subs=1)
+* Get leaf nodes information: [https://demo.nats.io:8222/leafz?subs=1](https://demo.nats.io:8222/leafz?subs=1)
 
 #### Response
 
@@ -480,23 +480,23 @@ As noted above, the `leafz` endpoint does support the `subs` argument from the `
 
 The `/subsz` endpoint reports detailed information about the current subscriptions and the routing data structure. It is not normally used.
 
-| Result  | Return Code         |
-| :------ | :------------------ |
-| Success | 200 \(OK\)          |
-| Error   | 400 \(Bad Request\) |
+| Result  | Return Code       |
+| ------- | ----------------- |
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
 
 #### Arguments
 
 | Argument | Values            | Description                                   |
-| :------- | :---------------- | :-------------------------------------------- |
+| -------- | ----------------- | --------------------------------------------- |
 | subs     | true, 1, false, 0 | Include subscriptions. Default is false.      |
-| offset   | integer &gt; 0    | Pagination offset. Default is 0.              |
-| limit    | integer &gt; 0    | Number of results to return. Default is 1024. |
+| offset   | integer > 0       | Pagination offset. Default is 0.              |
+| limit    | integer > 0       | Number of results to return. Default is 1024. |
 | test     | subject           | Test whether a subsciption exists.            |
 
 #### Example
 
-- Get subscription routing information: [https://demo.nats.io:8222/subsz](https://demo.nats.io:8222/subsz)
+* Get subscription routing information: [https://demo.nats.io:8222/subsz](https://demo.nats.io:8222/subsz)
 
 #### Response
 
@@ -517,19 +517,19 @@ The `/subsz` endpoint reports detailed information about the current subscriptio
 
 The `/accountz` endpoint reports information on a server's active accounts. The default behavior is to return a list of all accounts known to the server.
 
-| Result  | Return Code         |
-| :------ | :------------------ |
-| Success | 200 \(OK\)          |
-| Error   | 400 \(Bad Request\) |
+| Result  | Return Code       |
+| ------- | ----------------- |
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
 
 | Argument | Value        | Description                                                                                                    |
-| :------- | :----------- | :------------------------------------------------------------------------------------------------------------- |
+| -------- | ------------ | -------------------------------------------------------------------------------------------------------------- |
 | acc      | account name | Include metrics for the specified account. Default is empty. When not set, a list of all accounts is included. |
 
 #### Example
 
-- Get list of all accounts: [https://demo.nats.io:8222/accountz](https://demo.nats.io:8222/accountz)
-- Get details for specific account `$G`: [https://demo.nats.io:8222/accountz?acc=$G](https://demo.nats.io:8222/accountz?acc=$G)
+* Get list of all accounts: [https://demo.nats.io:8222/accountz](https://demo.nats.io:8222/accountz)
+* Get details for specific account `$G`: [https://demo.nats.io:8222/accountz?acc=$G](https://demo.nats.io:8222/accountz?acc=$G)
 
 #### Response
 
@@ -614,21 +614,21 @@ Retrieve specific account:
 
 The `/accstatz` endpoint reports per-account statistics such as the number of connections, messages/bytes in/out, etc.
 
-| Result  | Return Code         |
-| :------ | :------------------ |
-| Success | 200 \(OK\)          |
-| Error   | 400 \(Bad Request\) |
+| Result  | Return Code       |
+| ------- | ----------------- |
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
 
 #### Arguments
 
 | Argument | Values            | Description                                                                           |
-| :------- | :---------------- | :------------------------------------------------------------------------------------ |
+| -------- | ----------------- | ------------------------------------------------------------------------------------- |
 | unused   | true, 1, false, 0 | If true, include accounts that do not have any current connections. Default is false. |
 
 #### Examples
 
-- Accounts with active connections - https://demo.nats.io:8222/accstatz
-- Include ones without any connections (in this case `$SYS`)- https://demo.nats.io:8222/accstatz?unused=1
+* Accounts with active connections - https://demo.nats.io:8222/accstatz
+* Include ones without any connections (in this case `$SYS`)- https://demo.nats.io:8222/accstatz?unused=1
 
 #### Response
 
@@ -679,30 +679,30 @@ The `/jsz` endpoint reports more detailed information on JetStream. For accounts
 
 > **Note:** If you're in a clustered environment, it is recommended to retrieve the information from the stream's leader in order to get the most accurate and up-to-date data.
 
-| Result  | Return Code         |
-| :------ | :------------------ |
-| Success | 200 \(OK\)          |
-| Error   | 400 \(Bad Request\) |
+| Result  | Return Code       |
+| ------- | ----------------- |
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
 
 #### Arguments
 
 | Argument    | Values            | Description                                                                                      |
-| :---------- | :---------------- | :----------------------------------------------------------------------------------------------- |
+| ----------- | ----------------- | ------------------------------------------------------------------------------------------------ |
 | acc         | account name      | Include metrics for the specified account. Default is unset.                                     |
 | accounts    | true, 1, false, 0 | Include account specific JetStream information. Default is false.                                |
 | streams     | true, 1, false, 0 | Include streams. When set, implies `accounts=true`. Default is false.                            |
 | consumers   | true, 1, false, 0 | Include consumer. When set, implies `streams=true`. Default is false.                            |
 | config      | true, 1, false, 0 | When stream or consumer are requested, include their respective configuration. Default is false. |
 | leader-only | true, 1, false, 0 | Only the leader responds. Default is false.                                                      |
-| offset      | number &gt; 0     | Pagination offset. Default is 0.                                                                 |
-| limit       | number &gt; 0     | Number of results to return. Default is 1024.                                                    |
+| offset      | number > 0        | Pagination offset. Default is 0.                                                                 |
+| limit       | number > 0        | Number of results to return. Default is 1024.                                                    |
 | raft        | true, 1, false, 0 | Include information details about the Raft group. Default is false.                              |
 
 #### Examples
 
 Get basic JetStream information: [https://demo.nats.io:8222/jsz](https://demo.nats.io:8222/jsz)
 
-Request accounts and control limit and offset: [https://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128](https://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128).
+Request accounts and control limit and offset: [https://demo.nats.io:8222/jsz?accounts=true\&limit=16\&offset=128](https://demo.nats.io:8222/jsz?accounts=true\&limit=16\&offset=128).
 
 You can also report detailed consumer information on a per connection basis using consumer=true. For example: [https://demo.nats.io:8222/jsz?consumers=true](https://demo.nats.io:8222/jsz?consumers=true).
 
@@ -820,23 +820,23 @@ You can also report detailed consumer information on a per connection basis usin
 
 The `/healthz` endpoint returns OK if the server is able to accept connections.
 
-| Result  | Return Code         |
-| :------ | :------------------ |
-| Success | 200 \(OK\)          |
-| Error   | 400 \(Bad Request\) |
+| Result  | Return Code       |
+| ------- | ----------------- |
+| Success | 200 (OK)          |
+| Error   | 400 (Bad Request) |
 
 #### Arguments
 
 | Argument        | Values  | Description                                                                                 |
-| :-------------- | :------ | :------------------------------------------------------------------------------------------ |
+| --------------- | ------- | ------------------------------------------------------------------------------------------- |
 | js-enabled-only | true, 1 | Returns an error if JetStream is disabled.                                                  |
 | js-server-only  | true, 1 | Skip health check of accounts, streams, and consumers.                                      |
 | js-enabled      | true, 1 | Returns an error if JetStream is disabled. (**Deprecated**: use `js-enabled-only` instead). |
 
 #### Example
 
-- Default - https://demo.nats.io:8222/healthz
-- Expect JetStream - https://demo.nats.io:8222/healthz?js-enabled-only=true
+* Default - https://demo.nats.io:8222/healthz
+* Expect JetStream - https://demo.nats.io:8222/healthz?js-enabled-only=true
 
 #### Response
 
@@ -846,11 +846,11 @@ The `/healthz` endpoint returns OK if the server is able to accept connections.
 
 ## Creating Monitoring Applications
 
-NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSONP) and [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing#How_CORS_works). You can easily create single page web applications for monitoring. To do this you simply pass the `callback` query parameter to any endpoint.
+NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSONP) and [CORS](https://en.wikipedia.org/wiki/Cross-origin\_resource\_sharing#How\_CORS\_works). You can easily create single page web applications for monitoring. To do this you simply pass the `callback` query parameter to any endpoint.
 
 For example:
 
-```text
+```
 https://demo.nats.io:8222/connz?callback=cb
 ```
 

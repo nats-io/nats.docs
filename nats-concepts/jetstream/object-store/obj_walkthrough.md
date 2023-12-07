@@ -1,4 +1,5 @@
-# NATS Object Store Walkthrough
+# Object Store Walkthrough
+
 **NOTICE: Experimental Preview**
 
 ## Prerequisite: enabling JetStream
@@ -9,8 +10,10 @@ You can then check that JetStream is enabled by using
 
 ```shell
 nats account info
-``` 
+```
+
 Which should output something like:
+
 ```
 Connection Information:
 
@@ -33,7 +36,7 @@ JetStream Account Information:
 
 If you see the below instead then JetStream is _not_ enabled
 
-```text
+```
 JetStream Account Information:
 
    JetStream is not supported in this account
@@ -46,7 +49,9 @@ Just like you need to create streams before you can use them you need to first c
 ```shell
 nats object add myobjbucket
 ```
+
 which outputs
+
 ```
 myobjbucket Object Store Status
 
@@ -64,8 +69,8 @@ myobjbucket Object Store Status
 ```shell
 nats object put myobjbucket ~/Movies/NATS-logo.mov
 ```
-```
 
+```
 1.5 GiB / 1.5 GiB [====================================================================================]
 
 Object information for myobjbucket > /Users/jnmoyne/Movies/NATS-logo.mov
@@ -81,6 +86,7 @@ Object information for myobjbucket > /Users/jnmoyne/Movies/NATS-logo.mov
 ```shell
 nats object ls myobjbucket
 ```
+
 ```
 ╭───────────────────────────────────────────────────────────────────────────╮
 │                              Bucket Contents                              │
@@ -96,8 +102,8 @@ nats object ls myobjbucket
 ```shell
 nats object get myobjbucket ~/Movies/NATS-logo.mov
 ```
-```
 
+```
 1.5 GiB / 1.5 GiB [====================================================================================]
 
 Wrote: 1.5 GiB to /Users/jnmoyne/NATS-logo.mov in 5.68s average 279 MiB/s
@@ -108,6 +114,7 @@ Wrote: 1.5 GiB to /Users/jnmoyne/NATS-logo.mov in 5.68s average 279 MiB/s
 ```shell
 nats object rm myobjbucket ~/Movies/NATS-logo.mov
 ```
+
 ```
 ? Delete 1.5 GiB byte file myobjbucket > /Users/jnmoyne/Movies/NATS-logo.mov? Yes
 Removed myobjbucket > /Users/jnmoyne/Movies/NATS-logo.mov
@@ -127,6 +134,7 @@ myobjbucket Object Store Status
 ```shell
 nats object info myobjbucket
 ```
+
 ```
 myobjbucket Object Store Status
 
@@ -144,6 +152,7 @@ myobjbucket Object Store Status
 ```shell
 nats object watch myobjbucket
 ```
+
 ```
 [2022-04-13 17:51:28] PUT myobjbucket > /Users/jnmoyne/Movies/NATS-logo.mov: 1.5 GiB bytes in 12,656 chunks
 [2022-04-13 17:53:27] DEL myobjbucket > /Users/jnmoyne/Movies/NATS-logo.mov
@@ -156,6 +165,7 @@ You can seal a bucket, meaning that no further changes are allowed on that bucke
 ```shell
 nats object seal myobjbucket
 ```
+
 ```
 ? Really seal Bucket myobjbucket, sealed buckets can not be unsealed or modified Yes
 myobjbucket has been sealed

@@ -1,6 +1,6 @@
 # Slow Consumers
 
-To support resiliency and high availability, NATS provides built-in mechanisms to automatically prune the registered listener interest graph that is used to keep track of subscribers, including slow consumers and lazy listeners. NATS automatically handles a slow consumer. If a client is not processing messages quick enough, the NATS server cuts it off. To support scaling, NATS provides for auto-pruning of client connections. If a subscriber does not respond to ping requests from the server within the [ping-pong interval](../../reference/nats-protocol/nats-protocol/#PINGPONG), the client is cut off \(disconnected\). The client will need to have reconnect logic to reconnect with the server.
+To support resiliency and high availability, NATS provides built-in mechanisms to automatically prune the registered listener interest graph that is used to keep track of subscribers, including slow consumers and lazy listeners. NATS automatically handles a slow consumer. If a client is not processing messages quick enough, the NATS server cuts it off. To support scaling, NATS provides for auto-pruning of client connections. If a subscriber does not respond to ping requests from the server within the [ping-pong interval](../../reference/nats-protocol/nats-protocol/#PINGPONG), the client is cut off (disconnected). The client will need to have reconnect logic to reconnect with the server.
 
 In core NATS, consumers that cannot keep up are handled differently from many other messaging systems: NATS favors the approach of protecting the system as a whole over accommodating a particular consumer to ensure message delivery.
 
@@ -41,7 +41,7 @@ nc, err := nats.Connect("nats://localhost:4222",
 
 With this example code and default settings, a slow consumer error would generate output something like this:
 
-```text
+```
 error: nats: slow consumer, messages dropped
 Falling behind with 65536 pending messages on subject "foo".
 ```
@@ -54,7 +54,7 @@ When a client does not process messages fast enough, the server will buffer mess
 
 When the server initiates a slow consumer error, you'll see the following in the server output:
 
-```text
+```
 [54083] 2017/09/28 14:45:18.001357 [INF] ::1:63283 - cid:7 - Slow Consumer Detected
 ```
 
@@ -62,7 +62,7 @@ The server will also keep count of the number of slow consumer errors encountere
 
 ## Handling slow consumers
 
-Apart from using [NATS streaming](../../legacy/stan/nats-streaming-concepts/intro.md) or optimizing your consuming application, there are a few options available: scale, meter, or tune NATS to your environment.
+Apart from using [NATS streaming](broken-reference) or optimizing your consuming application, there are a few options available: scale, meter, or tune NATS to your environment.
 
 **Scaling with queue subscribers**
 
@@ -88,7 +88,7 @@ The NATS server has a write deadline it uses to write to a connection. When this
 
 The `write_deadline` configuration option in the NATS server configuration file will tune this:
 
-```text
+```
 write_deadline: 2s
 ```
 
@@ -109,4 +109,3 @@ if err := sub.SetPendingLimits(1024*500, 1024*5000); err != nil {
 The default subscriber pending message limit is `65536`, and the default subscriber pending byte limit is `65536*1024`
 
 If the client reaches this internal limit, it will drop messages and continue to process new messages. This is aligned with NATS at most once delivery. It is up to your application to detect the missing messages and recover from this condition.
-

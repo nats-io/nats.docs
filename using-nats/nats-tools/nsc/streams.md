@@ -9,7 +9,8 @@ To add a stream to your account:
 ```shell
 nsc add export --name abc --subject "a.b.c.>"
 ```
-```text
+
+```
   [ OK ] added public stream export "abc"
 ```
 
@@ -20,7 +21,8 @@ To review the stream export:
 ```shell
 nsc describe account
 ```
-```text
+
+```
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
 ├───────────────────────────┬──────────────────────────────────────────────────────────┤
@@ -62,14 +64,15 @@ Importing a stream enables you to receive messages that are published by a diffe
 * You can map the stream’s subject to a different subject
 * Self-imports are not valid; you can only import streams from other accounts.
 
-To learn how to inspect a JWT from an account server, [check this article](../../../legacy/nas/inspecting_jwts.md).
+To learn how to inspect a JWT from an account server, [check this article](broken-reference).
 
 With the required information, we can add an import to the public stream.
 
 ```bash
 nsc add account B
 ```
-```text
+
+```
 [ OK ] generated and stored account key "AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
 [ OK ] added account "B"
 ```
@@ -77,7 +80,8 @@ nsc add account B
 ```shell
 nsc add import --src-account ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFTV5NGE --remote-subject "a.b.c.>"
 ```
-```text
+
+```
 [ OK ] added stream import "a.b.c.>"
 ```
 
@@ -88,7 +92,8 @@ And verifying it:
 ```shell
 nsc describe account
 ```
-```text
+
+```
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
 ├───────────────────────────┬──────────────────────────────────────────────────────────┤
@@ -124,11 +129,13 @@ Let's also add a user to make requests from the service:
 ```bash
 nsc add user b
 ```
-```text
+
+```
 [ OK ] generated and stored user key "UDKNTNEL5YD66U2FZZ2B3WX2PLJFKEFHAPJ3NWJBFF44PT76Y2RAVFVE"
 [ OK ] generated user creds file "~/.nkeys/creds/O/B/b.creds"
 [ OK ] added user "b" to account "B"
 ```
+
 ### Pushing the changes to the nats servers
 
 If your nats servers are configured to use the built-in NATS resolver, remember that you need to 'push' any account changes you may have done (locally) using `nsc add` to the servers for those changes to take effect.
@@ -140,7 +147,9 @@ e.g. `ncs push -i` or `nsc push -a B -u nats://localhost`
 ```bash
 nsc sub --account B --user b "a.b.c.>"
 ```
+
 then
+
 ```shell
 nsc pub --account A --user U a.b.c.hello world
 ```
@@ -162,7 +171,8 @@ Similarly when we defined an export, but this time we added the `--private` flag
 ```shell
 nsc describe account A
 ```
-```text
+
+```
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
 ├───────────────────────────┬──────────────────────────────────────────────────────────┤
@@ -203,7 +213,8 @@ To generate a token, you’ll need to know the public key of the account importi
 ```bash
 nsc list keys --account B
 ```
-```text
+
+```
 ╭──────────────────────────────────────────────────────────────────────────────────────────╮
 │                                           Keys                                           │
 ├────────┬──────────────────────────────────────────────────────────┬─────────────┬────────┤
@@ -218,19 +229,21 @@ nsc list keys --account B
 ```bash
 nsc generate activation --account A --target-account AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H --subject private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H -o /tmp/activation.jwt
 ```
-```text
+
+```
 [ OK ] generated "private.abc.*" activation for account "AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
 [ OK ] wrote account description to "/tmp/activation.jwt"
 ```
 
-The command took the account that has the export \('A'\), the public key of account B, the subject where the stream will publish to account B.
+The command took the account that has the export ('A'), the public key of account B, the subject where the stream will publish to account B.
 
 For completeness, the contents of the JWT file look like this:
 
 ```shell
 cat /tmp/activation.jwt
 ```
-```text
+
+```
 -----BEGIN NATS ACTIVATION JWT-----
 eyJ0eXAiOiJqd3QiLCJhbGciOiJlZDI1NTE5In0.eyJqdGkiOiJIS1FPQU9aQkVKS1JYNFJRUVhXS0xYSVBVTlNOSkRRTkxXUFBTSTQ3NkhCVVNYT0paVFFRIiwiaWF0IjoxNTc1NTU1OTczLCJpc3MiOiJBREVUUFQzNldCSUJVS00zSUJDVk00QTVZVVNEWEZFSlBXNE02R0dWQllDQlc3UlJORlRWNU5HRSIsIm5hbWUiOiJwcml2YXRlLmFiYy5BQU00NkUzWUY1V09aU0U1V05ZV0hOM1lZSVNWWk9TSTZYSFRGMlE2NEVDUFhTRlFaUk9KTVAySCIsInN1YiI6IkFBTTQ2RTNZRjVXT1pTRTVXTllXSE4zWVlJU1ZaT1NJNlhIVEYyUTY0RUNQWFNGUVpST0pNUDJIIiwidHlwZSI6ImFjdGl2YXRpb24iLCJuYXRzIjp7InN1YmplY3QiOiJwcml2YXRlLmFiYy5BQU00NkUzWUY1V09aU0U1V05ZV0hOM1lZSVNWWk9TSTZYSFRGMlE2NEVDUFhTRlFaUk9KTVAySCIsInR5cGUiOiJzdHJlYW0ifX0.yD2HWhRQYUFy5aQ7zNV0YjXzLIMoTKnnsBB_NsZNXP-Qr5fz7nowyz9IhoP7UszkN58m__ovjIaDKI9ml0l9DA
 ------END NATS ACTIVATION JWT------
@@ -241,7 +254,8 @@ When decoded it looks like this:
 ```shell
 nsc describe jwt -f /tmp/activation.jwt 
 ```
-```text
+
+```
 ╭────────────────────────────────────────────────────────────────────────────────────────╮
 │                                       Activation                                       │
 ├─────────────────┬──────────────────────────────────────────────────────────────────────┤
@@ -274,7 +288,8 @@ Importing a private stream is more natural than a public one as the activation t
 ```shell
 nsc add import --account B --token /tmp/activation.jwt 
 ```
-```text
+
+```
 [ OK ] added stream import "private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
 ```
 
@@ -283,7 +298,8 @@ Describe account B
 ```shell
 nsc describe account B
 ```
-```text
+
+```
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
 ├───────────────────────────┬──────────────────────────────────────────────────────────┤
@@ -322,8 +338,9 @@ Testing a private stream is no different than a public one:
 ```bash
 nsc tools sub --account B --user b private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H
 ```
+
 then
+
 ```shell
 nsc tools pub --account A --user U private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H hello
 ```
-

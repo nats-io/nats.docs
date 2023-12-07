@@ -2,7 +2,7 @@
 
 ## NATS Cluster Protocol
 
-The NATS server clustering protocol describes the protocols passed between NATS servers within a [cluster](/running-a-nats-service/configuration/clustering/) to share accounts, subscriptions, forward messages, and share cluster topology regarding new servers. It is a simple text-based protocol. Servers communicate with each other through a regular TCP/IP or TLS socket using a small set of protocol operations that are terminated by newline.
+The NATS server clustering protocol describes the protocols passed between NATS servers within a [cluster](../../running-a-nats-service/configuration/clustering/) to share accounts, subscriptions, forward messages, and share cluster topology regarding new servers. It is a simple text-based protocol. Servers communicate with each other through a regular TCP/IP or TLS socket using a small set of protocol operations that are terminated by newline.
 
 The NATS server implements a [zero allocation byte parser](https://youtu.be/ylRKac5kSOk?t=10m46s) that is fast and efficient.
 
@@ -14,11 +14,11 @@ The NATS cluster protocol is very similar to that of the NATS client protocol. I
 
 **Field Delimiters**: The fields of NATS protocol messages are delimited by whitespace characters '`` `'\(space\) or ``\t\` (tab). Multiple whitespace characters will be treated as a single field delimiter.
 
-**Newlines**: Like other text-based protocols, NATS uses `CR` followed by `LF` (`CR+LF`, `\r\n`, `0x0D0A`) to terminate protocol messages. This newline sequence is also used to mark the beginning of the actual message payload in a `RMSG` protocol message.
+**Newlines**: Like other text-based protocols, NATS uses `CR` followed by `LF` (`CR+LF`, `\r`, `0x0D0A`) to terminate protocol messages. This newline sequence is also used to mark the beginning of the actual message payload in a `RMSG` protocol message.
 
 ## NATS Cluster protocol messages
 
-The following table briefly describes the NATS cluster protocol messages. As in the client protocol, the NATS protocol operation names are case insensitive, thus `SUB foo 1\r\n` and `sub foo 1\r\n` are equivalent.
+The following table briefly describes the NATS cluster protocol messages. As in the client protocol, the NATS protocol operation names are case insensitive, thus `SUB foo 1\r` and `sub foo 1\r` are equivalent.
 
 Click the name to see more detailed information, including syntax:
 
@@ -60,7 +60,7 @@ The valid options are as follows:
 * `tls_required`: If this is set, then the server must authenticate using TLS.
 * `max_payload`: Maximum payload size that the server will accept.
 * `connect_urls` : A list of server urls that a client can connect to.
-* `ip`:  Optional route connection address of a server, `nats-route://<hostname>:<port>`
+* `ip`: Optional route connection address of a server, `nats-route://<hostname>:<port>`
 
 ### Example
 
@@ -83,7 +83,7 @@ The `CONNECT` message is analogous to the [`INFO`](nats-server-protocol.md#info)
 The valid options are as follows:
 
 * `tls_required`: Indicates whether the server requires an SSL connection.
-* `auth_token`:  Authorization token
+* `auth_token`: Authorization token
 * `user`: Connection username (if `auth_required` is set)
 * `pass`: Connection password (if `auth_required` is set)
 * `name`: Generated Server Name
@@ -94,7 +94,7 @@ The valid options are as follows:
 
 Here is an example from the default string from a server.
 
-`CONNECT {"tls_required":false,"name":"wt0vffeQyoDGMVBC2aKX0b"}\r\n`
+`CONNECT {"tls_required":false,"name":"wt0vffeQyoDGMVBC2aKX0b"}\r`
 
 ## RS+
 
@@ -104,9 +104,9 @@ Here is an example from the default string from a server.
 
 ### Syntax
 
-**Subscription**: `RS+ <account> <subject>\r\n`
+**Subscription**: `RS+ <account> <subject>\r`
 
-**Queue Subscription**: `RS+ <account> <subject> <queue> <weight>\r\n`
+**Queue Subscription**: `RS+ <account> <subject> <queue> <weight>\r`
 
 where:
 
@@ -123,7 +123,7 @@ where:
 
 ### Syntax
 
-**Subscription**: `RS- <account> <subject>\r\n`
+**Subscription**: `RS- <account> <subject>\r`
 
 where:
 
@@ -138,7 +138,7 @@ The `RMSG` protocol message delivers a message to another server.
 
 ### Syntax
 
-`RMSG <account> <subject> [reply-to] <#bytes>\r\n[payload]\r\n`
+`RMSG <account> <subject> [reply-to] <#bytes>\r\n[payload]\r`
 
 where:
 
@@ -158,7 +158,7 @@ If the another server sends a ping request, a server will reply with a pong mess
 
 ### Syntax
 
-`PING\r\n` `PONG\r\n`
+`PING\r` `PONG\r`
 
 ## -ERR
 
