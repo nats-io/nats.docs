@@ -200,3 +200,7 @@ See: <https://github.com/nats-io/nats.js/issues/369>
 ### nats.rs
 
 See: <https://github.com/nats-io/nats.rs/blob/main/async-nats/src/connector.rs>
+
+### nats.net
+
+See: <https://github.com/nats-io/nats.net/tree/main/src/Samples/TLSReverseProxyExample>
