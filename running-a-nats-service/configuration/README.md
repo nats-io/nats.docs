@@ -248,5 +248,5 @@ nats-server --signal reload
 As of NATS v2.10.0, a reload signal can be sent on a NATS service using a system account user, where `<server-id>` is the unique ID of the server be targeted.
 
 ```shell
-nats --user sys --password sys pub '$SYS.REQ.SERVER.<server-id>.RELOAD'
+nats --user sys --password sys request '$SYS.REQ.SERVER.<server-id>.RELOAD' ""
 ```
