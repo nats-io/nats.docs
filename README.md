@@ -14,13 +14,6 @@ layout:
 
 # Welcome
 
-## Upcoming Event | RethinkConn 2024
-
-> Don't miss RethinkConn 2024 | A free virtual event for NATS developers and end-users\
-> January 11, 2024 Register today! [https://www.crowdcast.io/c/rethinkconn-2024](https://www.crowdcast.io/c/rethinkconn-2024)\
-> \
-> ![](<.gitbook/assets/image (2).png>)
-
 ## Welcome to the Official NATS Documentation
 
 Here you will find everything you need to know about the Connective Technology for Adaptive Edge & Distributed Systems - NATS!
