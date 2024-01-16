@@ -94,7 +94,7 @@ $ nats micro ls
 Perfect! Our service is doing everything it's supposed to, and we don't need `nex` to test it. This might seem like a subtle point, but it's incredibly powerful that nex services are **_not tightly coupled_** to their means of deployment.
 
 ## Static Compilation
-While it's easy enough to test our service locally via `go run ...`, in order for our service to be deployable via `nex`, it needs to be a statically linked executable. Thankfully, go makes this easy. Other languages are just as capable of producing statically linked binaries. For example, if you're using Rust you can just set your target to `x86_64-unknown-linux-musl` or `aarch64-unknown-linux-musl`.
+While it's easy enough to test our service locally via `go run ...`, in order for our service to be deployable via `nex`, it needs to be a statically linked executable. Thankfully, Go makes this easy.
 
 In the same directory as your `main.go`, run the following Go command:
 
@@ -109,4 +109,6 @@ $ file echoservice
 echoservice: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, Go BuildID=XXFUNOXfjIEOepi2cW-o/gnDMAXpM9aha9OAEsvLi/XPLmCOsZsF3NATJ_-Zkt/71yl5VaZNDY-jsIhJkcc, with debug_info, not stripped
 ```
 
-With our statically compiled service in hand, let's get to deploying!
+In addition to Go, many other languages are just as capable of producing statically linked binaries. For example, if you're using Rust you can just set your target to `x86_64-unknown-linux-musl` or `aarch64-unknown-linux-musl` for the same effect.
+
+With our statically compiled service in hand, we have one more thing to do before we can start deploying, and that's starting a `nex` node process.

@@ -109,6 +109,7 @@
   - [Getting Started](nex/getting-started/readme.md)
     - [Installing Nex](nex/getting-started/installing.md)
     - [Building a Service](nex/getting-started/building-service.md)
+    - [Starting a Node](nex/getting-started/starting-node.md)
     - [Deploying Services](nex/getting-started/deploying-services.md)
     - [Building a Function](nex/getting-started/building-function.md)
     - [Deploying Functions](nex/getting-started/deploying-functions.md)
