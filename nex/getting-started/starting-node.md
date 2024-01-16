@@ -2,7 +2,7 @@
 If we've performed our preflight checks and they've passed, then starting a nex node is as easy as pointing the nex node command at the checked configuration file.
 
 ## Superuser Permissions
-The `nex` node process makes a number of secure kernel calls in order to set up [CNI]() networks and start the `firecracker` binary. While it might be possible to manually craft a user with just the right set of permissions such that `sudo` is unnecessary, when you're iterating over deployment testing, `sudo` is probably the easiest way to go.
+The `nex` node process makes a number of secure kernel calls in order to set up [CNI](https://www.cni.dev/) networks and start the `firecracker` binary. While it might be possible to manually craft a user with just the right set of permissions such that `sudo` is unnecessary, when you're iterating over deployment testing, `sudo` is probably the easiest way to go.
 
 
 ## Node Up
@@ -71,6 +71,6 @@ $ nex node ls
 │ NCOBPU3MCEA7LF6XADFD4P74CHW2OL6GQZYPPRRNPDSBNQ5BJPFHHQB5 │ 0.0.1   │ 10m15s │         0 │
 ╰──────────────────────────────────────────────────────────┴─────────┴────────┴───────────╯
 ```
-This will show you the summary information of all discovered nodes. Any given NATS infrasatructure can run as many nex nodes in as many locations and clusters as desired.
+This will show you the summary information of all discovered nodes. Any given NATS infrastructure can run as many nex nodes in as many locations and clusters as desired.
 
 Now let's move on to deploying our echo service.
