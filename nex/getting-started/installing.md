@@ -19,8 +19,7 @@ The easiest way to create a node configuration file is to copy one from the nex 
 
 ```json
 {
-    "kernel_path": "/tmp/wd/vmlinux-5.10",
-    "rootfs_path": "/tmp/wd/rootfs.ext4",
+    "default_resource_dir":"/tmp/wd",
     "machine_pool_size": 1,
     "cni": {
         "network_name": "fcnet",
@@ -36,6 +35,28 @@ The easiest way to create a node configuration file is to copy one from the nex 
 }
 ```
 
-Put this file anywhere you like. Now you can run `nex node preflight` and it will check all of the prerequisites you'll need. For each one it doesn't find, it can create missing configuration files and download missing dependencies such as the `firecracker` binary, a Linux kernel, and our vetted root file system.
+This configuration file will look for a linux kernel file (`vmlinux`) and a root file system (`rootfs.ext4`) in the default resource directory. You can override either of these filenames by supplying the `kernel_file` or `rootfs_file` fields.
 
-After you've run preflight and it downloaded all of the missing components, run it one more time as shown below - you should have a green checkmark for each of the items. Don't continue with the next step in this guide until your preflight check is all green.
+Put this configuration file anywhere you like, but `preflight` will check `./config.json` by default. For each dependency preflight doesn't find, it can create missing configuration files and download missing dependencies such as the `firecracker` binary, a Linux kernel, and our vetted root file system.
+
+After you've run preflight and it downloaded all of the missing components, run it one more time to make sure your output looks similar to what is shown below. There should be a green checkmark for each of the items. Make sure everything is green and checked before continuing.
+
+```
+$ nex node preflight --config=../examples/nodeconfigs/simple.json
+Validating - Required CNI Plugins [/opt/cni/bin]
+	✅ Dependency Satisfied - /opt/cni/bin/host-local [host-local CNI plugin]
+	✅ Dependency Satisfied - /opt/cni/bin/ptp [ptp CNI plugin]
+	✅ Dependency Satisfied - /opt/cni/bin/tc-redirect-tap [tc-redirect-tap CNI plugin]
+
+Validating - Required binaries [/usr/local/bin]
+	✅ Dependency Satisfied - /usr/local/bin/firecracker [Firecracker VM binary]
+
+Validating - CNI configuration requirements [/etc/cni/conf.d]
+	✅ Dependency Satisfied - /etc/cni/conf.d/fcnet.conflist [CNI Configuration]
+
+Validating - User provided files []
+	✅ Dependency Satisfied - /tmp/wd/vmlinux [VMLinux Kernel]
+	✅ Dependency Satisfied - /tmp/wd/rootfs.ext4 [Root Filesystem Template]
+```
+
+With a running NATS server and a passing preflight check, you're ready to start running workloads on NATS!
