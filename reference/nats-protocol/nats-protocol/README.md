@@ -93,7 +93,6 @@ The valid options are as follows, encoded as JSON:
 | `git_commit`      | The git hash at which the NATS server was built.                                                                                                                       | string   | optional |
 | `jetstream`       | Whether the server supports JetStream.                                                                                                                                 | bool     | optional |
 | `ip`              | The IP of the server.                                                                                                                                                  | string   | optional |
-| `client_id`       | The ID of the client.                                                                                                                                                  | string   | optional |
 | `client_ip`       | The IP of the client.                                                                                                                                                  | string   | optional |
 | `nonce`           | The nonce for use in CONNECT.                                                                                                                                          | string   | optional |
 | `cluster`         | The name of the cluster.                                                                                                                                               | string   | optional |
