@@ -8,7 +8,7 @@ Nex functions are undergoing rapid change as we bring the entire project closer 
 {% endhint %}
 
 ## Writing a JavaScript Function
-Writing a JavaScript function is as easy as it sounds. Write the function that does what you need it to do and you're ready to go. For example, here's an example JavaScript function:
+Writing a JavaScript function is as easy as it sounds. Write the function that does what you need it to do and you're ready to go. For example, here's a JavaScript function that works in Nex:
 
 ```javascript
 (subject, payload) => {
@@ -24,7 +24,7 @@ Here the function is passed two parameters:
 
 The function returns a binary payload to be used as the response (or an empty payload for no response). Note that as it stands, the function can produce very few side effects. As we grow the "host services" (discussed shortly) functionality, JavaScript functions will be able to leverage more of NATS's core functionality and JetStream.
 
-While you'll only be deploying the single `.js` file, you're free to use whatever other testing and running tools you like.
+While you'll only be deploying the single `.js` file, you're free to use whatever other testing and build tools you like.
  
 ## Writing a WebAssembly Function
 In order to support the largest possible number of languages and runtimes, Nex's [WebAssembly](https://webassembly.org/) functions follow the [command pattern](https://wasmcloud.com/blog/webassembly-patterns-command-reactor-library#the-command-pattern) using [WASI](https://wasi.dev/). This means that the module's `main` (or `start` or `_start` depending on your perspective) function is executed every time a trigger occurs and input is supplied via `stdin` and the function's response is provided via `stdout`.
@@ -80,7 +80,7 @@ Build this function into a module using the following command:
 $ cargo build --target wasm32-wasi --release
 ```
 
-This will put `echofunction.wasm` in the `./target/wasm32-wasi/release` directory. This function takes up about **2MB** but can be shrunk down below **700KB** using public wasm tools. That's right, your deployable WebAssembly functions use less disk space than even the smallest of memes.
+This will put `echofunction.wasm` in the `./target/wasm32-wasi/release` directory. This function takes up about **2MB** but can be shrunk down below **700KB** using public wasm tools. Your deployable WebAssembly functions use less disk space than even the smallest of memes.
 
 ## Host Services
 These functions are perfect for doing things like transforming data or performing complex calculations. In other words, _[pure functions](https://en.wikipedia.org/wiki/Pure_function)_.
