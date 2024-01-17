@@ -105,6 +105,14 @@
     - [Using the Object Store](using-nats/developing-with-nats/js/object.md)
   - [Tutorials](using-nats/developing-with-nats/tutorials/README.md)
     - [Advanced Connect and Custom Dialer in Go](using-nats/developing-with-nats/tutorials/custom_dialer.md)
+- [Running Workloads on NATS](nex/readme.md)
+  - [Getting Started](nex/getting-started/readme.md)
+    - [Installing Nex](nex/getting-started/installing.md)
+    - [Building a Service](nex/getting-started/building-service.md)
+    - [Starting a Node](nex/getting-started/starting-node.md)
+    - [Deploying Services](nex/getting-started/deploying-services.md)
+    - [Building a Function](nex/getting-started/building-function.md)
+    - [Deploying Functions](nex/getting-started/deploying-functions.md)    
 
 ## Running a NATS service
 
