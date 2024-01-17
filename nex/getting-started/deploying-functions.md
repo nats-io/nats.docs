@@ -25,7 +25,7 @@ Reusing existing publisher xkey: /home/kevin/.nex/publisher.xk
 🚀 Workload 'echofunctionjs' accepted. You can now refer to this workload with ID: cmjud7n52omhlsa377cg on node NC7PXV2DLGXC4LTVM7W7MXYL3WVQFA345IFKJOMYA5ZDZMACLZ53NIIL
 ```
 
-Let's make sure the function is alive and cna be triggered on the right subject:
+Let's make sure the function is alive and can be triggered on the right subject:
 
 ```
 $ nats req js.echo 'heya'
@@ -117,5 +117,5 @@ Workloads:
            Name: echofunctionwasm
     Description: Workload published in devmode
 ```
-Congratulations, you've now used `nex` to deploy full services compiled as static binaries, JavaScript functions, and WebAssembly functions. Deploying your applications as 
-a combination of services and functions with `nex` is fast, easy, and sets you up for being able to joyfully deploy distributed applications in production.
+Congratulations, you've now used Nex to deploy full services compiled as static binaries, JavaScript functions, and WebAssembly functions. Deploying your applications as 
+a combination of services and functions with Nex is fast, easy, and sets you up to joyfully deploy distributed applications.

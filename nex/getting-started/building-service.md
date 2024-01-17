@@ -1,7 +1,7 @@
 # Building a Nex Service
-Building a service destined for deployment via `nex` is just like building any other service. We don't make any demands of your application or its dependencies, only that it must be statically linked as a 64-bit Linux elf binary. There's no proprietary SDK, no custom build tools.
+Building a service destined for deployment via Nex is just like building any other service. We don't make any demands of your application or its dependencies, only that it must be statically linked as a 64-bit Linux elf binary. There's no proprietary SDK, no custom build tools, no complicated dependency tree.
 
-A _service_, as understood by `nex` is nothing more than a long-running process. A service needs to start (e.g. it has a `main` function/entrypoint) and it needs to continue running until the environment tells it to shut down.
+A _service_, as understood by Nex, is nothing more than a long-running process. A service needs to start (e.g. it has a `main` function/entrypoint) and it needs to continue running until the host environment tells it to shut down.
 
 ## Creating a NATS Service
 For this example, we're going to use Go to create a simple executable. We'll use the [NATS services framework](https://natsbyexample.com/examples/services/intro/go) to expose the subject endpoint for service discovery.
@@ -70,7 +70,7 @@ The code is pretty straightforward if you're already used to building applicatio
 Next, we create a _service_ for discovery called `EchoService` with an endpoint on the `svc.echo` subject. This means that the handler we've defined (`echoHandler`) will respond to requests on that subject.
 
 ## Running our Service
-To make sure that there are no cards up our proverbial sleeves, let's run this service without using `nex` at all. In one terminal, issue a `go run main.go` command, while in another terminal, make a request on the `svc.echo` subject:
+To make sure that there are no cards up our proverbial sleeves, let's run this service without using Nex at all. In one terminal, issue a `go run main.go` command, while in another terminal, make a request on the `svc.echo` subject:
 
 ```
 $ nats req svc.echo 'this is a test'
@@ -91,10 +91,11 @@ $ nats micro ls
 │ EchoService │ 1.0.0   │ FKIuiivKgSB8VWyjDYBpEc │             │
 ╰─────────────┴─────────┴────────────────────────┴─────────────╯
 ```
-Perfect! Our service is doing everything it's supposed to, and we don't need `nex` to test it. This might seem like a subtle point, but it's incredibly powerful that nex services are **_not tightly coupled_** to their means of deployment.
+
+Perfect! Our service is doing everything it's supposed to, and we don't need Nex to test it. This might seem like a subtle point, but it's incredibly powerful that Nex services are **_not tightly coupled_** to their means of deployment.
 
 ## Static Compilation
-While it's easy enough to test our service locally via `go run ...`, in order for our service to be deployable via `nex`, it needs to be a statically linked executable. Thankfully, Go makes this easy.
+While it's easy enough to test our service locally via `go run ...`, in order for our service to be deployable via Nex, it needs to be a statically linked executable. Thankfully, Go makes this easy.
 
 In the same directory as your `main.go`, run the following Go command:
 
@@ -111,4 +112,4 @@ echoservice: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically lin
 
 In addition to Go, many other languages are just as capable of producing statically linked binaries. For example, if you're using Rust you can just set your target to `x86_64-unknown-linux-musl` or `aarch64-unknown-linux-musl` for the same effect.
 
-With our statically compiled service in hand, we have one more thing to do before we can start deploying, and that's starting a `nex` node process.
+With our statically compiled service in hand, we have one more thing to do before we can start deploying, and that's starting a Nex node process.

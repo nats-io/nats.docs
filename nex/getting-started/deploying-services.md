@@ -1,5 +1,5 @@
 # Deploying Nex Services
-There are a number of ways to deploy a service with `nex`. For this guide we'll cover the easiest option, `devrun`, which makes a number of assumptions about the fact that you're running in a development environment. For all of the full production options, take a look at the reference section.
+There are a number of ways to deploy a service with Nex. For this guide we'll cover the easiest option, `devrun`, which makes a number of assumptions about the fact that you're running in a development environment. For all of the full production options, take a look at the reference section.
 
 Make sure that your node is still up and running by making sure that it's still discoverable via `nex`:
 
@@ -19,7 +19,7 @@ We start services by issuing a deployment (which ends up being equivalent to "ru
 
 The next thing we need on hand when calling `devrun` is the statically linked binary. Deploying workloads also requires a publisher key and an encryption **xkey**, but `devrun` will create both of those if you haven't done so already.
 
-As you saw, the echo service we built requires the `NATS_URL` environment variable. To start the echo service on the first available `nex` node and supply an environment variable, issue the following command (your path to the `echoservice` file may differ):
+As you saw, the echo service we built requires the `NATS_URL` environment variable. To start the echo service on the first available Nex node and supply an environment variable, issue the following command (your path to the `echoservice` file may differ):
 
 ```
 $ nex devrun ../examples/echoservice/echoservice nats_url=nats://192.168.127.1:4222
@@ -30,7 +30,7 @@ Reusing existing publisher xkey: /home/kevin/.nex/publisher.xk
 
 There's a couple of important pieces of information here. The first is that we've reused some existing keys. If this is your first time running a workload, you'll see those two keys get created. Next, we see that we got an acknowledgement from the target node that included the machine/workload ID.
 
-The address `192.168.127.1` is the IP address of the _host_ (the network on which `nex` is running), as seen by any code running _inside_ the firecracker VM (guest). We use this as a default because it makes things easy, but keep in mind that if you supply your own custom CNI configurations, this IP address might not be the one that works for your services.
+The address `192.168.127.1` is the IP address of the _host_ (the network on which `nex` is running), as seen by any code running _inside_ the firecracker VM (guest). We use this as a default because it makes things easy during development, but keep in mind that if you supply your own custom CNI configurations, the IP address that works in your environment may be different.
 
 Let's run the same commands we ran before to test out our service.
 
@@ -106,4 +106,4 @@ Statistics for 1 Endpoint(s):
             Started: 2024-01-16 19:40:09 (7m46s ago)
              Errors: 0
 ```
-That's it! Congratulations, you've got a running `nex` node that is ready and willing to accept and run any kind of workload you can throw at it! In the next section of this guide, we'll create, deploy, and manage functions. To keep things easy, you should keep your `nex` node running throughout the rest of this guide.
+That's it! Congratulations, you've got a running Nex node that is ready and willing to accept and run any kind of workload you can throw at it! In the next section of this guide, we'll create, deploy, and manage functions. To keep things easy, you should keep your Nex node running throughout the rest of this guide.

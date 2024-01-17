@@ -96,8 +96,8 @@ During the first experimental pre-release phase, we don't yet have any host serv
 * Object Store
 * ... others to be considered in the future
 
-For JavaScript, these host services will be available through an object passed into the function that exposes functions to access messaging, key/value, and object stores. For WebAssembly, it might take a bit longer to settle.
+For JavaScript, these host services will probably be available through a global object to access messaging, key/value, and object stores. For WebAssembly, it might take a bit longer to settle on an appropriate pattern.
 
-If the component model matures enough to the point where we think it will give our developers a worthy experience, then we can provide host services through the "WASI cloud" set of contracts. If the component model doesn't support a good enough developer experience within our timeframe, then we may end up providing our own contracts for host services. 
+If the WASI component model matures enough to the point where we think it will give our developers a worthy experience, then we can provide host services through the "WASI cloud" set of contracts. If the component model doesn't support a good enough developer experience within our timeframe, then we may end up providing our own contracts for host services. 
 
 Stay tuned to our blog and social media outlets for news as we get closer to providing early alpha versions of host services.
