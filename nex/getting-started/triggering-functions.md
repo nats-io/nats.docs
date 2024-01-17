@@ -1,2 +1,0 @@
-# Triggering Nex Functions
-TBD
