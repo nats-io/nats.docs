@@ -94,7 +94,7 @@ In environments where the `nats` CLI is used interactively to configure the serv
 Here you can back up the configuration into a directory from where you can recover the configuration later. The data for File backed stores can also be backed up.
 
 ```shell
-nats backup /data/js-backup
+nats account backup /data/js-backup
 ```
 ```text
 15:56:11 Creating JetStream backup into /data/js-backup
@@ -110,7 +110,7 @@ During the same process the data can also be backed up by passing `--data`, this
 Later the data can be restored, for Streams we support editing the Stream configuration in place to match what was in the backup.
 
 ```shell
-nats restore /tmp/backup --update-streams
+nats account restore /tmp/backup --update-streams
 ```
 ```text
 15:57:42 Reading file /tmp/backup/stream_ORDERS.json
@@ -119,7 +119,7 @@ nats restore /tmp/backup --update-streams
 15:57:42 Restoring Consumer ORDERS > NEW
 ```
 
-The `nats restore` tool does not support restoring data, the same process using `nats stream restore`, as outlined earlier, can be used which will also restore Stream and Consumer configurations and state.
+The `nats account restore` tool does not support restoring data, the same process using `nats stream restore`, as outlined earlier, can be used which will also restore Stream and Consumer configurations and state.
 
 
 {% hint style="warning" %}
