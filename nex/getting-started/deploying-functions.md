@@ -64,7 +64,7 @@ Everything's working as intended. Great!
 
 ## Deploying WebAssembly Functions
 Now let's deploy our WebAssembly function. If you didn't build yours locally, there's a downloadable `echofunction.wasm` in the `examples` folder 
-in the [Github repository](https://github.com/ConnectEverything/nex/tree/main/examples/wasm/echofunction).
+in the [Github repository](https://github.com/synadia-io/nex/tree/main/examples/wasm/echofunction).
 
 Deploying this file works the same way as deploying the JavaScript function:
 

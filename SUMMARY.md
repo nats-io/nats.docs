@@ -112,7 +112,8 @@
     - [Starting a Node](nex/getting-started/starting-node.md)
     - [Deploying Services](nex/getting-started/deploying-services.md)
     - [Building a Function](nex/getting-started/building-function.md)
-    - [Deploying Functions](nex/getting-started/deploying-functions.md)    
+    - [Deploying Functions](nex/getting-started/deploying-functions.md)
+  - [FAQ](nex/faq.md)
 
 ## Running a NATS service
 
