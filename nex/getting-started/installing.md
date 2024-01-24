@@ -2,7 +2,7 @@
 All of the functionality you need for Nex is conveniently wrapped up in a single command line tool. To install it, all you need to do is use the following `go` command (A more formal release image will be added soon).
 
 ```
-go install github.com/ConnectEverything/nex/nex@latest
+go install github.com/synadia-io/nex/nex@latest
 ```
 
 {% hint style="info" %}
