@@ -22,7 +22,7 @@ Frequently Asked Questions about the NATS Execution Engine
 ## General
 
 ### What is Nex?
-Nex is an open source, lightweight execution engine that can be run in addition to and alongside NATS. Nex nodes form a universal pool into which you can deploy services and functions in JavaScript, WebAssembly, and any language that compiles to native 64-bit Linux binaries.
+Nex is an open source, lightweight execution engine that can runs alongside NATS. Nex *nodes* are run to form a universal pool in which you can deploy services and functions in JavaScript, WebAssembly, and any language that compiles to native 64-bit Linux binaries.
 
 ### Where Can I Find Nex?
 The code for Nex can be found in the appropriate [Synadia](https://github.com/synadia-io/nex) repository. It is an open source project that is supported by Synadia, the creators of NATS.
@@ -41,16 +41,14 @@ Nex supports two categories of workloads: **services** and **functions**. Servic
 Services can be any statically compiled 64-bit Linux binary and functions can be either a **WebAssembly** module or a **JavaScript** exported function. We are exploring possible support for running OCI images as services.
 
 ### What is a root file system?
-Nex uses [firecracker](https://firecracker-microvm.github.io/) to launch small, very fast and very light weight virtual machines. These machines each run an agent that manages the workload in that machine as well as communications with the Nex node.
+Nex uses [Firecracker](https://firecracker-microvm.github.io/) to launch small, very fast and very light weight virtual machines. These machines each run an agent that manages the workload in that machine as well as communications with the Nex node.
 
-The root file system is essentially a snapshot of the operating system disk image that will be used when bringing up the virtual machine. It's like a docker layer, but much more efficient.
+The root file system is essentially a snapshot of the operating system disk image that will be used when bringing up the virtual machine. It's like a Docker layer, but much more efficient.
 
 ## Technical Details
 
 ### What are namespaces?
-A namespace is a unit of multi-tenancy. All workloads are scoped to a namespace. If you deploy the `echoservice` workload within the `default` namespace and also deploy it within the `sample` namespace, they will not be treated the same by Nex. 
-
-**Note** - there's nothing Nex can do from preventing your code in both of those services from potentially overlapping, clustering, etc.
+A namespace is a unit of multi-tenancy. All workloads are scoped to a namespace. If you deploy the `echoservice` workload within the `default` namespace and also deploy it within the `sample` namespace, they will not be treated the same by Nex. Namespaces are _logical_ groupings and Nex doesn't enforce a hard network boundary between them.
 
 ### Are my workload configurations secure?
 Absolutely! Every request to run a workload is sent to a specific Nex node. This Nex node has a public **Xkey** that is used to encrypt data, such as environment variables and other sensitive data, sent to that node. _Only_ that node can decrypt data meant for it.
@@ -67,4 +65,4 @@ In short, `nex run` is meant for production and real deployments while `nex devr
 * A fixed and properly formatted workload _name_
 * A namespace (logical grouping) in which the workload is to be run.
 
-Manually supplying all this information when you're just trying to develop and test on your local machine is cumbersome, so using `devrun` all you need do is supply a path to the workload binary file (`.wasm`, `.js`, _elf_) and the environment variables, and the `nex` CLI will take care of managing the rest for you, including uploading your file to an object store automatically.
+Manually supplying all this information when you're just trying to develop and test on your local machine is cumbersome, so using `devrun` all you need do is supply a path to the workload binary file (`.wasm`, `.js`, ELF binary) and the environment variables, and the `nex` CLI will take care of managing the rest for you, including uploading your file to an object store automatically.
