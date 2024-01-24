@@ -22,7 +22,7 @@ Frequently Asked Questions about the NATS Execution Engine
 ## General
 
 ### What is Nex?
-Nex is an open source, lightweight execution engine that can runs alongside NATS. Nex *nodes* are run to form a universal pool in which you can deploy services and functions in JavaScript, WebAssembly, and any language that compiles to native 64-bit Linux binaries.
+Nex is an open source, lightweight execution engine that runs alongside NATS. Nex *nodes* are run to form a universal pool in which you can deploy services and functions in JavaScript, WebAssembly, and any language that compiles to native 64-bit Linux binaries.
 
 ### Where Can I Find Nex?
 The code for Nex can be found in the appropriate [Synadia](https://github.com/synadia-io/nex) repository. It is an open source project that is supported by Synadia, the creators of NATS.
