@@ -18,6 +18,8 @@ Frequently Asked Questions about the NATS Execution Engine
 * [What are namespaces?](faq.md#what-are-namespaces)
 * [Are my workload configurations secure?](faq.md#are-my-workload-configurations-secure)
 * [What is the difference between run and devrun?](faq.md#what-is-the-difference-between-run-and-devrun)
+* [How does Nex compare to Kubernetes?](faq.md#how-does-nex-compare-to-kubernetes)
+* [Do I run Nex inside Firecracker?](faq.md#do-i-run-nex-inside-firecracker)
 
 ## General
 
@@ -66,3 +68,9 @@ In short, `nex run` is meant for production and real deployments while `nex devr
 * A namespace (logical grouping) in which the workload is to be run.
 
 Manually supplying all this information when you're just trying to develop and test on your local machine is cumbersome, so using `devrun` all you need do is supply a path to the workload binary file (`.wasm`, `.js`, ELF binary) and the environment variables, and the `nex` CLI will take care of managing the rest for you, including uploading your file to an object store automatically.
+
+### How does Nex Compare to Kubernetes?
+At the most abstract level, both Kubernetes and Nex are workload schedulers. In Kubernetes, there is a `kubelet` process that runs on each node in your cluster. It handles requests to start and stop _pods_, which are groups of Docker images. In Nex, there is a `nex` node process that runs on each node in your cluster. It handles requests to start and stop workloads, which can be native binaries, JavaScript functions, or WebAssembly modules. While most users interact with a _declarative_ layer in Kubernetes that is managed via autonomous control loops, Nex is a purely _imperative_ system.
+
+### Do I run Nex inside Firecracker?
+In a word, _no_. The Nex node process is responsible for spawning Firecracker VMs that contain the Nex agent. As a supervisor of Firecracker processes, the Nex node itself can't be run inside a Firecracker VM. Most of that complexity should be hidden from end users.
