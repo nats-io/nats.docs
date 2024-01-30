@@ -1,5 +1,5 @@
 # Nex Node Process
-The Nex node process is the corre of the Nex ecosystem. It exposes a control interface API over NATS, through which client applications can deploy and undeploy workloads as well as interrogate the state of nodes and the workloads currently deployed.
+The Nex node process is the core of the Nex ecosystem. It exposes a control interface API over NATS, through which client applications can deploy and undeploy workloads as well as interrogate the state of nodes and the workloads currently deployed.
 
 The Nex node maintains a pool of Firecracker virtual machines. It is into this pool that workloads are deployed. The reason we have a pool is that this allows us to have a configurable number of "warm", ready-to-go virtual machines that are eagerly awaiting a workload. This lets us deploy workloads incredibly fast.
 
