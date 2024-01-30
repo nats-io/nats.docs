@@ -8,5 +8,3 @@ In order to maintain this pool of Firecracker VMs, the Nex node needs to interac
 Because the Nex node process spawns the `firecracker` process, which will in turn attempt to use CNI plugins, this process almost always requires root privilege. When developing locally it's easy to simply use `sudo`. However, in production, you may want to create a special user context in which the Nex node can run.
 
 In isolation, a single Nex node is capable of running hundreds of functions and services. When you strategically place Nex nodes throughout your NATS infrastructure, you create a unified execution cluster capable of scaling to meet virtually any demand.
-
-Informally, we often refer to a cluster of Nex nodes as a _Nexus_.
