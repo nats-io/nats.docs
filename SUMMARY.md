@@ -113,6 +113,13 @@
     - [Deploying Services](nex/getting-started/deploying-services.md)
     - [Building a Function](nex/getting-started/building-function.md)
     - [Deploying Functions](nex/getting-started/deploying-functions.md)
+  - [Host Services](nex/host_services/readme.md)
+  - [Nex Internals](nex/internals/readme.md)
+    - [Architecture Overview](nex/internals/arch.md)
+    - [Node Process](nex/internals/node_process.md)
+    - [Nex Agent](nex/internals/agent.md)    
+    - [Root File System](nex/internals/rootfs.md)
+    - [Control Interface](nex/internals/control_interface.md)
   - [FAQ](nex/faq.md)
 
 ## Running a NATS service
