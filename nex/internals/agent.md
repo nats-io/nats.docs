@@ -41,4 +41,4 @@ depend() {
 
 This script defines the basic properties of our OpenRC _service_. The service, "Nex Agent", runs as the user `nex` within the group `nex` and the executable file is `/usr/local/bin/agent`. It's also important to note that this service cannot be started until after the `net.eth0` device has been initialized.
 
-For more information on _how_ the agent is physically placed into the root file system, continue on to the next section.
+For more information on _how_ the agent is physically placed into the root file system, continue on to the next section where we cover the root file system.
