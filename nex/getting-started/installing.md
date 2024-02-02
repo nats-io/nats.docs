@@ -1,15 +1,19 @@
 # Installing Nex
-All of the functionality you need for Nex is conveniently wrapped up in a single command line tool. To install it, all you need to do is use the following `go` command (A more formal release image will be added soon).
+All of the functionality you need for Nex is conveniently wrapped up in a single command line tool. To install it, enter the following command in a terminal:
 
 ```
-go install github.com/synadia-io/nex/nex@latest
+curl -sSf https://nex.synadia.com/install.sh | sh
 ```
+
+Depending on your operating system and user privileges, you may need to change `sh` to `sudo sh` so the script can place the `nex` binary in your path.
+
+If you're not comfortable running this command, you can manually install Nex by downloading the latest version from the [releases](https://github.com/synadia-io/nex/releases) page and simply place the `nex` binary somewhere in your path.
 
 {% hint style="info" %}
 **Note** that while the `nex` binary can be run on any operating system, all of the node functionality is only available on 64-bit Linux because of the requirements dictated by [Firecracker](https://firecracker-microvm.github.io). Also note that running Linux inside docker won't satisfy those requirements.
 {% endhint %}
 
-Once you've installed it, you should be able to check the CLI version with `nex version`. Once you have the `nex` binary installed and you have an instance of a NATS server available, you can move on to the next step in this guide.
+Once you've installed it, you should be able to check the CLI version with `nex version`. After you're able to get the help banner and version from `nex`, you can move on to the next step in this guide.
 
 ## Performing the Preflight Check
 Starting a Nex node involves the use of the Linux kernel, the `firecracker` binary, a few CNI configuration files, an `ext4` root file system, and machine configuration. That's a lot to keep track of, so Nex has conveniently provided a _preflight check_. Before you can run a preflight check, however, you need to create a node configuration file.
