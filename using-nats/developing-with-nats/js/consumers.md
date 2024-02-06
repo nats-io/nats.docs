@@ -5,6 +5,7 @@ Consumers are how client applications get the messages stored in the streams. Yo
 Consumers can be 'durable' or 'ephemeral'.
 
 ## Ephemeral consumers
+
 Ephemeral consumers are meant to be used by a single instance of an application (e.g. to get its own replay of the messages in the stream).
 
 Ephemeral consumers are not meant to last 'forever', they are defined automatically at subscription time by the client library and disappear after the application disconnect.
@@ -14,6 +15,7 @@ You can also explicitly create an ephemeral consumer by not passing a durable na
 
 {% tabs %}
 {% tab title="Go" %}
+
 ```go
 func ExampleJetStream() {
 	nc, err := nats.Connect("localhost")
@@ -43,8 +45,10 @@ func ExampleJetStream() {
 	}, nats.OrderedConsumer())
 }
 ```
+
 {% endtab %}
 {% tab title="Java" %}
+
 ```java
 package io.nats.examples.jetstream;
 
@@ -107,8 +111,10 @@ public class myExample {
  }
 }
 ```
+
 {% endtab %}
 {% tab title="JavaScript" %}
+
 ```js
 import { connect, consumerOpts } from "../../src/mod.ts";
 
@@ -132,8 +138,10 @@ await (async () => {
 
 await nc.close();
 ```
+
 {% endtab %}
 {% tab title= "Python" %}
+
 ```python
 import asyncio
 
@@ -165,10 +173,12 @@ async def main():
 if __name__ == '__main__':
     asyncio.run(main())
 ```
+
 {% endtab %}
 {% endtabs %}
 
 ## Durable consumers
+
 Durable consumers are meant to be used by multiple instances of an application, either to distribute and scale out the
 processing, or to persist the position of the consumer over the stream between runs of an application.
 
@@ -183,8 +193,10 @@ Technically, there are two implementations of consumers identified as 'push' or 
 A pull consumer is functionally equivalent to a push consumer using a queue group and explicit acknowledgement: the messages from the stream are distributed automatically between the subscribers to the push consumer or the 'fetchers' to the pull consumer. However, the recommendation is to use the pull consumer as they create less CPU load on the nats-servers and therefore scale further (note that the push consumers are still quite fast and scalable, you may only notice the difference between the two if you have sustained high message rates).
 
 #### Pull
+
 {% tabs %}
 {% tab title="Go" %}
+
 ```go
 func ExampleJetStream() {
     nc, err := nats.Connect("localhost")
@@ -237,8 +249,10 @@ func ExampleJetStream() {
 	}
 }
 ```
+
 {% endtab %}
 {% tab title="Java" %}
+
 ```java
 package io.nats.examples.jetstream;
 
@@ -321,8 +335,10 @@ public class NatsJsPullSubBatchSize {
     }
 }
 ```
+
 {% endtab %}
 {% tab title="JavaScript" %}
+
 ```javascript
 import { AckPolicy, connect, nanos } from "../../src/mod.ts";
 import { nuid } from "../../nats-base-client/nuid.ts";
@@ -334,9 +350,7 @@ const subj = nuid.next();
 const durable = nuid.next();
 
 const jsm = await nc.jetstreamManager();
-await jsm.streams.add(
-  { name: stream, subjects: [subj] },
-);
+await jsm.streams.add({ name: stream, subjects: [subj] });
 
 const js = nc.jetstream();
 await js.publish(subj);
@@ -360,7 +374,7 @@ const psub = await js.pullSubscribe(subj, {
     console.log(
       `[${m.seq}] ${
         m.redelivered ? `- redelivery ${m.info.redeliveryCount}` : ""
-      }`,
+      }`
     );
     if (m.seq % 2 === 0) {
       m.ack();
@@ -383,8 +397,10 @@ setTimeout(() => {
   nc.drain();
 }, 20000);
 ```
+
 {% endtab %}
 {% tab title= "Python" %}
+
 ```python
 import asyncio
 
@@ -418,8 +434,10 @@ async def main():
 if __name__ == '__main__':
     asyncio.run(main())
 ```
+
 {% endtab %}
 {% tab title="C" %}
+
 ```c
 #include "examples.h"
 
@@ -645,15 +663,17 @@ int main(int argc, char **argv)
     return 0;
 }
 ```
+
 {% endtab %}
 {% endtabs %}
-
 
 A push consumer can also be used in some other use cases such as without a queue group, or with no acknowledgement or cumulative acknowledgements.
 
 #### Push
+
 {% tabs %}
 {% tab title="Go" %}
+
 ```go
 func ExampleJetStream() {
 	nc, err := nats.Connect("localhost")
@@ -736,8 +756,10 @@ func ExampleJetStream() {
 	}
 }
 ```
+
 {% endtab %}
 {% tab title="Java" %}
+
 ```java
 package io.nats.examples.jetstream;
 
@@ -913,8 +935,10 @@ public class NatsJsPushSubQueueDurable {
     }
 }
 ```
+
 {% endtab %}
 {% tab title="JavaScript" %}
+
 ```javascript
 import { AckPolicy, connect } from "../../src/mod.ts";
 import { nuid } from "../../nats-base-client/nuid.ts";
@@ -951,8 +975,10 @@ nc.publish(`${subj}.F.A.B`);
 await done;
 await nc.close();
 ```
+
 {% endtab %}
 {% tab title="Python" %}
+
 ```python
 import asyncio
 
@@ -1007,8 +1033,10 @@ async def main():
 if __name__ == '__main__':
     asyncio.run(main())
 ```
+
 {% endtab %}
 {% tab title="C" %}
+
 ```c
 #include "examples.h"
 
@@ -1234,6 +1262,7 @@ int main(int argc, char **argv)
     return 0;
 }
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -1246,11 +1275,12 @@ Consumers have an [Acknowledgement Policy](/nats-concepts/jetstream/consumers.md
 When the consumer is set to require explicit acknowledgements the client applications are able to use more than one kind of [acknowledgement](/using-nats/developing-with-nats/anatomy.md#consumer-acknowledgements) to indicate successful (or not) reception and processing of the messages being received from the consumer.
 
 Applications can:
-* Acknowledge the successfull processing of a message (`Ack()`).
-* Acknowledge the successfull processing of a message and request an acknowledgement of the reception of the acknowledgement by the consumer (`AckSync()`).
-* Indicate that the processing is still in progress and more time is needed (`inProgress()`).
-* Negatively acknowledge a message, indicating that the client application is currently (temporarily) unable to process the message and that the consumer should attempt to re-deliver it (`Nak()`).
-* Terminate a message (typically, because there is a problem with the data inside the message such that the client application is never going to be able to process it), indicating that the consumer should not attempt to re-deliver the message (`Term()`).
+
+- Acknowledge the successfull processing of a message (`Ack()`).
+- Acknowledge the successfull processing of a message and request an acknowledgement of the reception of the acknowledgement by the consumer (`AckSync()`).
+- Indicate that the processing is still in progress and more time is needed (`inProgress()`).
+- Negatively acknowledge a message, indicating that the client application is currently (temporarily) unable to process the message and that the consumer should attempt to re-deliver it (`Nak()`).
+- Terminate a message (typically, because there is a problem with the data inside the message such that the client application is never going to be able to process it), indicating that the consumer should not attempt to re-deliver the message (`Term()`).
 
 After a message is sent from the consumer to a subscribing client application by the server an 'AckWait' timer is started. This timer is deleted when either a positive (`Ack()`) or a termination (`Term()`) acknowledgement is received from the client application. The timer gets reset upon reception of an in-progress (`inProgress()`) acknowledgement.
 
@@ -1269,6 +1299,6 @@ Whenever a message reaches its maximum number of delivery attempts an advisory m
 Similarly, whenever a client application terminates delivery attempts for the message using `AckTerm` an advisory message is published on the `$JS.EVENT.ADVISORY.CONSUMER.MSG_TERMINATED.<STREAM>.<CONSUMER>` subject, and its payload (see `nats schema info io.nats.jetstream.advisory.v1.terminated`) contains a `stream_seq` field.
 
 You can leverage those advisory messages to implement "Dead Letter Queue" (DLQ) types of functionalities. For example:
-* If you only need to know about each time a message is 'dead' (considered un-re-deliverable by the consumer), then listening to the advisories is enough.
-* If you also need to have access to the message in question then you can use the message's sequence number included in the advisory to retrieve that specific message by sequence number from the stream.
-* However, if the stream uses 'WorkingQueue' or 'Interest' for its retention policy then you have to assume that the message can be already deleted from the stream by the time the advisory message is received by any listening application. In that case, you can create a second stream that is a _mirror_ of the stream that the client applications are using, such that when the advisory is received by a subscribing application monitoring for 'dead messages', it will still be able to find a copy of the message in that mirror stream. For efficiency's sake, since the messages in that mirror stream only need to be retained for as long as the monitoring application reacting to the advisory messages requires, you would configure this mirror stream to only keep messages for a short amount of time.
+
+- If you only need to know about each time a message is 'dead' (considered un-re-deliverable by the consumer), then listening to the advisories is enough.
+- If you also need to have access to the message in question then you can use the message's sequence number included in the advisory to retrieve that specific message by sequence number from the stream. If a message reaches its maximum level of delivery attempts, it will still stay in the stream until it is manually deleted or manually acknowledged.

@@ -76,6 +76,10 @@ The retention options include:
 If the `InterestPolicy` or `WorkQueuePolicy` is chosen for a stream, note that any limits, if defined, will still be enforced. For example, given a work-queue stream, if `MaxMsgs` are set and the default discard policy of _old_, messages will be automatically deleted even if the consumer did not receive them.
 {% endhint %}
 
+{% hint style="info" %}
+`WorkQueuePolicy` streams will only delete messages enforced by limits or when a message has been successfully `Ack'd` by it's consumer. Messages that have attempted redelivery and have reached `MaxDelivery` attempts for the consumer will remain in the stream and must be manually deleted via the JetStream API.
+{% endhint %}
+
 [limits-example]: https://natsbyexample.com/examples/jetstream/limits-stream/go
 [interest-example]: https://natsbyexample.com/examples/jetstream/interest-stream/go
 [workqueue-example]: https://natsbyexample.com/examples/jetstream/workqueue-stream/go
