@@ -108,7 +108,7 @@ In JetStream the configuration for storing messages is defined separately from h
 
 A stream's replication factor (R, often referred to as the number 'Replicas') determines how many places it is stored allowing you to tune to balance risk with resource usage and performance. A stream that is easily rebuilt or temporary might be memory-based with a R=1 and a stream that can tolerate some downtime might be file-based R-1.
 
-Typical usage to operate in typical outages and balance performance would be a field-based stream with R=3. A highly resilient, but less performant and more expensive configuration is R=5, the replication factor limit.
+Typical usage to operate in typical outages and balance performance would be a file-based stream with R=3. A highly resilient, but less performant and more expensive configuration is R=5, the replication factor limit.
 
 Rather than defaulting to the maximum, we suggest selecting the best option based on the use case behind the stream. This optimizes resource usage to create a more resilient system at scale.
 
