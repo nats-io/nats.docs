@@ -52,6 +52,10 @@ Messaging exchange between different accounts is enabled by _exporting_ streams 
 * **Streams** are messages your application publishes. Importing applications won't be able to make requests from your applications but will be able to consume messages you generate.
 * **Services** are messages your application can consume and act on, enabling other accounts to make requests that are fulfilled by your account.
 
+{% hint style="info" %}
+The term `stream` in the context of import and export account configuration does *not* refer to and should not be confused with a JetStream stream (unfortunate collision of terms as the import/export between accounts predates JetStream), it is just a 'stream of (Core NATS) messages'
+{% endhint %}
+
 The `exports` configuration list enable you to define the services and streams that others can import. Exported services and streams are expressed as an [Export configuration map](accounts.md#export-configuration-map). The `imports` configuration lists the services and streams that an Account imports. Imported services and streams are expressed as an [Import configuration map](accounts.md#import-configuration-map).
 
 ### Export Configuration Map
@@ -193,7 +197,14 @@ The above example shows how clients without authentication can be associated wit
 >
 > Despite `no_auth_user` being set, clients still need to communicate that they will not be using credentials. The [authentication timeout](auth_intro/auth_timeout.md) applies to this process as well. When your connection is slow, you may run into this timeout and the resulting `Authentication Timeout` error, despite not providing credentials.
 
+### Exporting and importing JetStream streams between accounts
+
+It is possible to import/export messages stored in JetStream streams between accounts. While it is possible to allow a client application in one account to access a stream located in another account, in most use cases people want a setup where a stream in one account is mirrored or sourced in another account (and the applications in that other account simply use that mirrored/sourced stream in their account), as this is a more 'locked-down' way to share messages in streams between accounts, compared to letting the client applications directly use a stream in another account.
+
+There are two resources documenting and giving examples of how to do this:
+* [Cross account JetStream sourcing](https://github.com/synadia-labs/cross-account-jetstream-sourcing) explains and has a walkthrough example of how to do this using simple static security (as is probably the best one to start with) and
+* [Connect Streams Cross Accounts](https://github.com/nats-io/jetstream-leaf-nodes-demo#connect-streams-cross-accounts) explains how to do the same thing but when using the 'operator' JWT-based security mode of operation.
+
 # See Also
 
  * [Multi-tenancy and resource management](https://docs.nats.io/running-a-nats-service/configuration/resource_management#multi-tenancy-and-resource-mgmt)
- * [Connect Streams Cross Accounts](https://github.com/nats-io/jetstream-leaf-nodes-demo#connect-streams-cross-accounts)
