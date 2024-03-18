@@ -115,7 +115,7 @@ Typing `nats-server` should output something like
 On Linux:
 
 ```shell
-yay nats-server
+yay -S nats-server
 ```
 
 ## Downloading a Release Build
