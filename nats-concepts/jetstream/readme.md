@@ -96,7 +96,7 @@ You can choose the durability as well as the resilience of the message storage a
 * File storage.
 * Replication (1 (none), 2, 3) between nats servers for Fault Tolerance.
 
-JetStream uses a NATS optimized RAFT distributed quorum algorithm to distribute the persistence service between NATS servers in a cluster while maintaining immediate consistency (as opposed to [eventual consistency](https://en.wikipedia.org/wiki/Eventual_consistency) even in the face of Byzantine failures.
+JetStream uses a NATS optimized RAFT distributed quorum algorithm to distribute the persistence service between NATS servers in a cluster while maintaining immediate consistency (as opposed to [eventual consistency](https://en.wikipedia.org/wiki/Eventual_consistency)) even in the face of Byzantine failures.
 
 For writes (publications to a stream), the formal consistency model of NATS JetStream is [Linearizable](https://jepsen.io/consistency/models/linearizable). On the read side (listening to or replaying messages from streams) the formal models don't really apply because JetStream does not support atomic batching of multiple operations together (so the only kind of 'transaction' is the persisting, replicating and voting of a single operation on the stream) but in essence JetStream is [serializable](https://jepsen.io/consistency/models/serializable) because messages are added to a stream in one global order (which you can control using compare and publish).
 
