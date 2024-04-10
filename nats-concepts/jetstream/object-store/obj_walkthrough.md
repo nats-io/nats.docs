@@ -1,9 +1,5 @@
 # Object Store Walkthrough
 
-**NOTICE: Experimental Preview**
-
-## Prerequisite: enabling JetStream
-
 If you are running a local `nats-server` stop it and restart it with JetStream enabled using `nats-server -js` (if that's not already done)
 
 You can then check that JetStream is enabled by using
@@ -31,7 +27,7 @@ JetStream Account Information:
            Memory: 0 B of Unlimited
           Storage: 0 B of Unlimited
           Streams: 0 of Unlimited
-        Consumers: 0 of Unlimited 
+        Consumers: 0 of Unlimited
 ```
 
 If you see the below instead then JetStream is _not_ enabled
