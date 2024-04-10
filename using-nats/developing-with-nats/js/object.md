@@ -1,15 +1,13 @@
 # Object Store
-**NOTICE: Experimental Preview**
 
 The Object Store allows you to store data of any (i.e. large) size by implementing a chunking mechanism, allowing you to for example store and retrieve files (i.e. the object) of any size by associating them with a path and a file name (i.e. the key).
 You obtain a ObjectStoreManager object from your JetStream [context](context.md).
 
 {% tabs %}
 {% tab title="Go" %}
+
 ```go
 // ObjectStoreManager creates, loads and deletes Object Stores
-//
-// Notice: Experimental Preview
 //
 // This functionality is EXPERIMENTAL and may be changed in later releases.
 type ObjectStoreManager interface {
@@ -23,8 +21,6 @@ type ObjectStoreManager interface {
 
 // ObjectStore is a blob store capable of storing large objects efficiently in
 // JetStream streams
-//
-// Notice: Experimental Preview
 //
 // This functionality is EXPERIMENTAL and may be changed in later releases.
 type ObjectStore interface {
@@ -75,5 +71,6 @@ type ObjectStore interface {
 	Status() (ObjectStoreStatus, error)
 }
 ```
+
 {% endtab %}
 {% endtabs %}
