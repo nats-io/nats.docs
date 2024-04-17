@@ -2,6 +2,27 @@
 The root file system used by Nex in its spawned Firecracker virtual machines is an ext4 (64-bit file system) [block device](https://linux-kernel-labs.github.io/refs/heads/master/labs/block_device_drivers.html). In oversimplified terms, it's basically a single file that represents an entire file system.
 
 ## Building a Root File System
+#### Using `nex` CLI
+As of April 2024, the Nex CLI has the ability to build a root filesystem (a `.ext4` file).  To build a root filesystem, run the following command:
+
+```bash
+└─❯ nex rootfs --help
+usage: nex rootfs [<flags>]
+
+Build custom rootfs
+
+Flags:
+  --script=script.sh                   Additional boot script ran during initialization
+  --image="synadia/nex-rootfs:alpine"  Base image for rootfs build
+  --agent=../path/to/nex-agent         Path to agent binary
+  --size=157286400                     Size of rootfs filesystem
+```
+
+You will need to include the `--agent` flag at a minimum.  
+Keep in mind that you will need to make the rootfs large enough to hold any binary you'll later run via `nex run`.  The default size is 150MB and this tends to support a ~20MB binary.
+
+
+#### Manual Approach
 There are countless ways to populate an ext4 file, from programmatic to scripted. While our current CI pipelines are more programmatic than scripted, the same underlying principles still apply.
 
 To build a root file system:
@@ -14,7 +35,7 @@ An unexpected but incredibly useful trick is that we can use Docker for step 3. 
 
 Here's a sample script that does just that:
 
-```
+```bash
 #!/bin/bash
 
 set -xe
@@ -37,7 +58,7 @@ Here we're using the public `alpline` Docker image to run a script, `setup-alpin
 
 Let's see what `setup-alpine.sh` might look like:
 
-```
+```bash
 #!/bin/sh
 
 set -xe
