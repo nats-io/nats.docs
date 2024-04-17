@@ -3,7 +3,7 @@ The root file system used by Nex in its spawned Firecracker virtual machines is 
 
 ## Building a Root File System
 #### Using `nex` CLI
-We have added the ability to build a root filesystem to the Nex CLI.  To build a root filesystem, run the following command:
+As of April 2024, the Nex CLI has the ability to build a root filesystem (a `.ext4` file).  To build a root filesystem, run the following command:
 
 ```bash
 └─❯ nex rootfs --help
