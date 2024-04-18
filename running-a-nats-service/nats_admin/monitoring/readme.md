@@ -716,7 +716,7 @@ You can also report detailed consumer information on a per connection basis usin
     "max_memory": 10485760,
     "max_storage": 10485760,
     "store_dir": "/var/folders/9h/6g_c9l6n6bb8gp331d_9y0_w0000gn/T/srv_7500251552558",
-    "unique_tag": "az:"
+    "unique_tag": "az"
   },
   "memory": 0,
   "storage": 66,
