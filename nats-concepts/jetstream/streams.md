@@ -125,21 +125,21 @@ For example, a server A, B, and C in the above cluster might all the same config
 server_tags: ["cloud:aws", "region:us-east1", "az:a"]
 
 jetstream: {
-  unique_tag: "az:"
+  unique_tag: "az"
 }
 
 // Server B
 server_tags: ["cloud:aws", "region:us-east1", "az:b"]
 
 jetstream: {
-  unique_tag: "az:"
+  unique_tag: "az"
 }
 
 // Server C
 server_tags: ["cloud:aws", "region:us-east1", "az:c"]
 
 jetstream: {
-  unique_tag: "az:"
+  unique_tag: "az"
 }
 ```
 
