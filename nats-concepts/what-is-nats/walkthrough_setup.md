@@ -15,6 +15,45 @@ brew tap nats-io/nats-tools
 brew install nats-io/nats-tools/nats
 ```
 
+Note :
+This example adds ants server  to your path for both the current and future terminals:
+echo "export PATH=\$PATH:~/usr/local/Cellar/nats/0.1.4/bin" >> ~/.zshrc
+vi changes source ~/.zshrc
+Then going fwd run nats command like this and will get below response 
+```
+% nats
+usage: nats [<flags>] <command> [<args> ...]
+
+NATS Utility
+
+NATS Server and JetStream administration.
+
+See 'nats cheat' for a quick cheatsheet of commands
+
+Commands:
+  account    Account information and status
+  bench      Benchmark utility
+  consumer   JetStream Consumer management
+  context    Manage nats configuration contexts
+  errors     Error code documentation
+  events     Show Advisories and Events
+  kv         Interacts with a JetStream based Key-Value store
+  latency    Perform latency tests between two NATS servers
+  micro      Micro Services discovery and management
+  object     Interacts with a JetStream based Object store
+  publish    Generic data publish utility
+  request    Generic request-reply request utility
+  reply      Generic service reply utility
+  rtt        Compute round-trip time to NATS server
+  schema     Schema tools
+  server     Server information
+  stream     JetStream Stream management
+  subscribe  Generic subscription client
+
+Pass --help to see global flags applicable to this command.
+```
+
+
 For Arch Linux:
 
 ```shell
