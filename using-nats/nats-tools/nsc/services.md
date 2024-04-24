@@ -130,7 +130,7 @@ nsc add user b
 
 If your nats servers are configured to use the built-in NATS resolver, remember that you need to 'push' any account changes you may have done (locally) using `nsc add` to the servers for those changes to take effect.
 
-e.g. `ncs push -i` or `nsc push -a B -u nats://localhost`
+e.g. `nsc push -i` or `nsc push -a B -u nats://localhost`
 
 ### Testing the Service
 
