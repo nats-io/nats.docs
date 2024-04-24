@@ -45,6 +45,6 @@ Deleting a revocation is permanent and can allow an old activation or user JWT t
 
 If your nats servers are configured to use the built-in NATS resolver, remember that you need to 'push' any account changes you may have done (locally) using `nsc revocations` to the servers for those changes to take effect.
 
-i.e. `ncs push -i` or `nsc push -a B -u nats://localhost`
+i.e. `nsc push -i` or `nsc push -a B -u nats://localhost`
 
 If there are any clients currently connected with as a user that gets added to the revocations, their connections will be immediately terminated as soon as you 'push' your revocations to a nats server.
