@@ -16,6 +16,13 @@ If your application is in Go, and if it fits your use case and deployment scenar
 
 ## Installing the `nats` CLI Tool
 
+From the shell (all platforms), to get the binary for the latest (top of the `main` branch) version of `nats` you can simply do:
+```shell
+curl -sf https://binaries.nats.dev/nats-io/natscli/nats | sh
+```
+
+You can also get a specific version by adding `@` followed by the version's tag, e.g. `curl -sf https://binaries.nats.dev/nats-io/natscli/nats@v0.1.4 | sh`
+
 For macOS:
 
 ```shell
