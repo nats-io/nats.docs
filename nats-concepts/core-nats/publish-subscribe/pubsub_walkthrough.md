@@ -85,9 +85,15 @@ In a new shell or command prompt session, create a new subscriber that listens o
 nats sub msg.test.new
 ```
 
+### 8. Publish another message
+
+```bash
+nats pub msg.test "NATS MESSAGE 4"
+```
+
 Subscriber 1 and Subscriber 2 receive the message, but Subscriber 3 does not. Why? Because Subscriber 3 is not listening on the message subject used by the publisher.
 
-### 8. Alter Subscriber 3 to use a wildcard
+### 9. Alter Subscriber 3 to use a wildcard
 
 Change the last subscriber to listen on msg.\* and run it:  
 
@@ -97,7 +103,11 @@ nats sub msg.*
   
 Note: NATS supports the use of wildcard characters for message subscribers only. You cannot publish a message using a wildcard subject.
 
-### 9. Publish another message
+### 10. Publish another message
+
+```bash
+nats pub msg.test "NATS MESSAGE 5"
+```
   
 This time, all three subscribing clients should receive the message.  
   
@@ -111,3 +121,4 @@ Publish-subscribe pattern with the NATS CLI&#x20;
 {% embed url="https://www.youtube.com/watch?v=jLTVhP08Tq0" %}
 Publish-subscribe pattern - NATS CLI
 {% endembed %}
+
