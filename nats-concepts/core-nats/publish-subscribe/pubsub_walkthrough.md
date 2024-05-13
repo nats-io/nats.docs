@@ -41,7 +41,7 @@ Where `<subject>` is the subject name and `<message>` is the text to publish.
 For example:
 
 ```bash
-nats pub msg.test nats-message-1
+nats pub msg.test "NATS MESSAGE"
 ```
 
 ### 3. Verify message publication and receipt
