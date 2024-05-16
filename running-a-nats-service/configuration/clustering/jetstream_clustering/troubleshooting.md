@@ -48,12 +48,12 @@ The following tips and commands (while not an exhaustive list) can be useful whe
 | `nats server request leafnodes`                                                | Show leafnode details         |
 | `nats server request accounts`                                                 | Show account details          |
 
-### `nats server raft` commands
+### `nats server cluster` commands
 
 | Command                                                                                       | Description                                                          |
 | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| [`nats server raft step-down`](administration.md#forcing-stream-and-consumer-leader-election) | Force a new leader election by standing down the current meta leader |
-| [`nats server raft peer-remove`](administration.md#evicting-a-peer)                           | Removes a server from a JetStream cluster                            |
+| [`nats server cluster step-down`](administration.md#forcing-stream-and-consumer-leader-election) | Force a new leader election by standing down the current meta leader |
+| [`nats server cluster peer-remove`](administration.md#evicting-a-peer)                           | Removes a server from a JetStream cluster                            |
 
 ### Experimental commands
 
