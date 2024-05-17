@@ -7,13 +7,41 @@ At its simplest, a subject is just a string of characters that form a name which
 
 ![](../.gitbook/assets/subjects1.svg)
   
-### Characters allowed for subject names
+### Characters allowed and recommended for subject names
 
-For compatibility across clients, we recommend using ASCII characters (this may change in future).  
-  
-**Recommended characters:** `a` to `z`, `A` to `Z` and `0` to `9` (names are case sensitive, and cannot contain whitespace).  
-**Special characters:** The period `.` (which is used to separate the tokens in the subject) and `*` and also `>` (the `*` and `>` are used as wildcards).  
-**Reserved subject names:** By convention subject names starting with a `$` are reserved for system use (e.g. subject names starting with `$SYS` or `$JS` or `$KV`, etc...)
+For compatibility across client and ease of maintaining configuration files, we recommend using Alphanumeric characters and `-` (dash) ASCII characters for all names created by user. 
+
+Non ASCII UNICODE characters are deprectaed. UTF-8 was supported tentatively but has been deprecated. Multilingual technical names creates many issues for editing, configurations files, display and cross border collaboration. 
+
+The rules and recommendation here apply to ALL system names, subjects, streams, durables, buckets, keys (in key value stores), as NATS will create API subjects which contain those names. NATS will enforce these constraints in most cases, but we recommend not relying on this.
+
+**Allowed characters** Any ASCII character except `null` and  `.`,`*` and `>`
+**Recommended characters:** `a` to `z`, `A` to `Z` and `0` to `9` and `-` (names are case sensitive, and cannot contain whitespace). 
+**Naming Conventions** If you want to delimit words, use either CamelCase as in `MyServiceOrderCreate` or `-` as in `my-service-order-create`
+**Special characters:** The period `.` (which is used to separate the tokens in the subject) and `*` and also `>` (the `*` and `>` are used as wildcards) are strictly reserved and cannot be used.
+**Reserved names:** By convention subject names starting with a `$` are reserved for system use (e.g. subject names starting with `$SYS` or `$JS` or `$KV`, etc...). Many system subjects also use `_` (underscore) (e.g. _INBOX , KV_ABC, OBJ_XYZ etc.)
+
+Good names
+```markup
+time.us
+time.us2.east1
+time.new-york
+time.SanFrancisco
+```
+
+Deprecated subject names
+```markup
+location.Malmö
+$location.Stockholm
+_Subjects_.mysubject
+```
+ 
+Forbidden stream names
+```markup
+all*data
+<my_stream>
+service.stream.1
+``` 
   
 ## Subject Hierarchies
 
@@ -33,7 +61,8 @@ NATS provides two _wildcards_ that can take the place of one or more elements in
 
 ### Matching A Single Token
 
-The first wildcard is `*` which will match a single token. For example, if an application wanted to listen for eastern time zones, they could subscribe to `time.*.east`, which would match `time.us.east` and `time.eu.east`.
+The first wildcard is `*` which will match a single token. For example, if an application wanted to listen for eastern time zones, they could subscribe to `time.*.east`, which would match `time.us.east` and `time.eu.east`. 
+Note that `*` can not match a substring within a token `time.New*.east` will 
 
 ![](../.gitbook/assets/subjects2.svg)
 
@@ -54,4 +83,10 @@ The wildcard `*` can appear multiple times in the same subject. Both types can b
 ## Subject Tokens
 
 It is recommended to keep the maximum number of tokens in your subjects to a reasonable value of 16 tokens max.
+
+## Pedantic mode
+
+
+
+
 
