@@ -1,3 +1,23 @@
 # Object Store
 
-The Object Store is very similar to the Key Value Store in that you put and get data using a key. The difference being that in the Key Value store the Value is a message and therefore limited in size (to 1Mb by default), while the Object store allows for the storage of objects that can be of any size. The Object Store implements a chunking mechanism, allowing you to for example store and retrieve files (i.e. the object) of any size by associating them with a path and a file name (i.e. the key).
+JetSteam, the persistence layer of NATS, not only allows for the higher qualities of service and features associated with 'streaming', but it also enables some functionalities not found in messaging systems.
+
+One such feature is the Object store functionality, which allows client applications to create `buckets` (corresponding to streams) which can store a set of files. Files are stored and transmitted in chunks, allowing files of arbitrary size to be transferred safely over the NATS infrastructure.
+
+**Note:**  Object store is not a distributed storage system. All files in a buckets will need to fit on the target file system.
+
+* [Walkthrough](obj_walkthrough.md)
+* [Details](../../../using-nats/developing-with-nats/js/object.md)
+
+## Basic Capabilities
+
+The Object Store implements a chunking mechanism, allowing you to for example store and retrieve files (i.e. the object) of any size by associating them with a path or file name as the key.
+ 
+* `add` a `bucket` to hold the files.
+* `put` Add a file to the bucket
+* `get` Retrive the file and store it to a designated location
+* `del` Delete a file
+
+## Advanced Capabilities 
+
+* `watch` Subscribe to changes in the bucket. Will receive notifications on successful `put` and `del` operations.

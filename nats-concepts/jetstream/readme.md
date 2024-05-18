@@ -8,6 +8,15 @@ JetStream is built-in to `nats-server` and you only need 1 (or 3 or 5 if you wan
 
 JetStream was created to solve the problems identified with streaming in technology today - complexity, fragility, and a lack of scalability. Some technologies address these better than others, but no current streaming technology is truly multi-tenant, horizontally scalable, and supports multiple deployment models. No other technology that we are aware of can scale from edge to cloud under the same security context while having complete deployment observability for operations.
 
+### Additional capabilities enabled by Jetstream
+The JetStream persistency layer enables additional use cases typically not found in messaging systems. Being build on top of JetStream they inherit the core capabilities of JetStream, replication, security, routing limits and mirroring.  
+
+* [Key Value Store](#key-value-store) A map (associative array) with atomic operations
+* [Object Store](#object-store) A chunked file store
+
+
+Such capabilities are commonly the domain of in memory databases. It is the goal of NATS and JetStream to provide the developer 
+
 ### Configuration
 
 To configure a `nats-server` with JetStream refer to:
@@ -32,7 +41,7 @@ JetStream was developed with the following goals in mind:
 * The system must display payload agnostic behavior.
 * The system must not have third party dependencies.
 
-## Functionalities enabled by JetStream
+## JetStream capabilities 
 
 ### Streaming: temporal decoupling between the publishers and subscribers
 
@@ -160,17 +169,28 @@ While you can decide to use un-acknowledged consumers trading quality of service
 * You can also send back _negative_ acknowledgements.
 * You can even send _in progress_ acknowledgments (to indicate that you are still processing the message in question and need more time before acking or nacking it).
 
-### Key Value Store
+## Key Value Store
 
-JetStream is a persistence layer, and streaming is only one of the functionalities built on top of that layer.
+The JetStream persistence layer enables the the Key Value store: the ability to store, retrieve and delete `value` messages associated with a `key` into a `bucket`.
 
-Another functionality (typically not available in or even associated with messaging systems) is the JetStream Key Value store: the ability to store, retrieve and delete _value_ messages associated with a _key_, to watch (listen) for changes happening to that key and even to retrieve a history of the values (and deletions) that have happened on a particular key.
+* [Concepts](key-value-store/readme.md)
+* [Walkthrough](key-value-store/kv_walkthrough.md)
+* [API and details](../../using-nats/developing-with-nats/js/kv.md)
 
-### Object Store
+### Watch and History
+You can subscribe to changes in a Key Value on the bucket or individual key level with `watch` and optionally retrieve a `history` of the values (and deletions) that have happened on a particular key.
 
-**NOTICE: Technology Preview**
+### Atomic updates and locking
 
-The Object Store functionality is similar to the Key Value Store but designed to store arbitrarily large 'objects' (e.g. files, even if they are very large) rather than 'values' that are message-sized (i.e. limited to 1Mb by default).
+The Key Value store support atomic `create` and `update` operations. This enables pessimistic locks (by creating a key and holding on to it) and optimistic locks (using CAS - compare and set). 
+ 
+## Object Store
+
+The Object Store is similar to the Key Value Store. The key being replaced by a file name and value being designed to store arbitrarily large `objects` (e.g. files, even if they are very large) rather than 'values' that are message-sized (i.e. limited to 1Mb by default). This is achieved by chunking messages.  
+
+* [Concepts](object-store/obj_store.md)
+* [Walkthrough](object-store/obj_walkthrough.md)
+* [API and details](../../using-nats/developing-with-nats/js/object.md)
 
 # Legacy
 
