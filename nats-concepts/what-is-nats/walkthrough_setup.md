@@ -16,9 +16,14 @@ brew install nats-io/nats-tools/nats
 ```
 
 Note :
-This example adds ants server  to your path for both the current and future terminals:
+This example adds nats server to your path for both the current and future terminals:
+
+1 Open it using classpath ediator add it below line class path part 
+
 echo "export PATH=\$PATH:~/usr/local/Cellar/nats/0.1.4/bin" >> ~/.zshrc
-vi changes source ~/.zshrc
+
+2 verify changes showing or using vi changes source ~/.zshrc
+
 Then going fwd run nats command like this and will get below response 
 ```
 % nats
