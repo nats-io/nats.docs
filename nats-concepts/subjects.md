@@ -3,17 +3,17 @@
 Fundamentally, NATS is about publishing and listening for messages. Both of these depend heavily on _Subjects_.
   
 **What is a Subject?**  
-At its simplest, a subject is just a string of characters that form a name which the publisher and subscriber can use to find each other. It helps scope messages into streams or topics.   
+At its simplest, a subject is just a string of characters that form a name that the publisher and subscriber can use to find each other. It helps scope messages into streams or topics.   
 
 ![](../.gitbook/assets/subjects1.svg)
   
 ### Characters allowed and recommended for subject names
 
-For compatibility across client and ease of maintaining configuration files, we recommend using Alphanumeric characters and `-` (dash) ASCII characters for all names created by user. 
+For compatibility across clients and ease of maintaining configuration files, we recommend using Alphanumeric characters and `-` (dash) ASCII characters for all names created by the user. 
 
-Non ASCII UNICODE characters are deprectaed. UTF-8 was supported tentatively but has been deprecated. Multilingual technical names creates many issues for editing, configurations files, display and cross border collaboration. 
+Non-ASCII UNICODE characters are deprecated. UTF-8 was supported tentatively but has been deprecated. Multilingual technical names create many issues for editing, configuration files, display, and cross-border collaboration. 
 
-The rules and recommendation here apply to ALL system names, subjects, streams, durables, buckets, keys (in key value stores), as NATS will create API subjects which contain those names. NATS will enforce these constraints in most cases, but we recommend not relying on this.
+The rules and recommendations here apply to ALL system names, subjects, streams, durables, buckets, keys (in key value stores), as NATS will create API subjects that contain those names. NATS will enforce these constraints in most cases, but we recommend not relying on this.
 
 **Allowed characters** Any ASCII character except `null` and  `.`,`*` and `>`
 **Recommended characters:** `a` to `z`, `A` to `Z` and `0` to `9` and `-` (names are case sensitive, and cannot contain whitespace). 
