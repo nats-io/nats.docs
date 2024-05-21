@@ -8,14 +8,14 @@ JetStream is built-in to `nats-server` and you only need 1 (or 3 or 5 if you wan
 
 JetStream was created to solve the problems identified with streaming in technology today - complexity, fragility, and a lack of scalability. Some technologies address these better than others, but no current streaming technology is truly multi-tenant, horizontally scalable, and supports multiple deployment models. No other technology that we are aware of can scale from edge to cloud under the same security context while having complete deployment observability for operations.
 
-### Additional capabilities enabled by Jetstream
-The JetStream persistency layer enables additional use cases typically not found in messaging systems. Being build on top of JetStream they inherit the core capabilities of JetStream, replication, security, routing limits and mirroring.  
+### Additional capabilities enabled by JetStream
+The JetStream persistence layer enables additional use cases typically not found in messaging systems. Being built on top of JetStream they inherit the core capabilities of JetStream, replication, security, routing limits, and mirroring.  
 
 * [Key Value Store](#key-value-store) A map (associative array) with atomic operations
 * [Object Store](#object-store) A chunked file store
 
 
-Such capabilities are commonly the domain of in memory databases. It is the goal of NATS and JetStream to provide the developer 
+Such capabilities are commonly the domain of in-memory databases. It is the goal of NATS and JetStream to provide the developer 
 
 ### Configuration
 
@@ -50,7 +50,7 @@ One of the tenets of basic publish/subscribe messaging is that there is a requir
 * durable subscribers need to be created _before_ the messages get published
 * queues are meant for workload distribution and consumption, not to be used as a mechanism for message replay.
 
-However, in many use cases, you do not need 'consume exactly once' functionality but rather the ability to replay messages on demand, as many times as you want. This need has led to the popularity of some 'streaming' messaging platforms.
+However, in many use cases, you do not need to 'consume exactly once' functionality but rather the ability to replay messages on demand, as many times as you want. This need has led to the popularity of some 'streaming' messaging platforms.
 
 JetStream provides *both* the ability to *consume* messages as they are published (i.e. 'queueing') as well as the ability to *replay* messages on demand (i.e. 'streaming'). See [retention policies](streams.md#retention-policies-and-limits) below.
 
@@ -107,7 +107,7 @@ You can choose the durability as well as the resilience of the message storage a
 
 JetStream uses a NATS optimized RAFT distributed quorum algorithm to distribute the persistence service between NATS servers in a cluster while maintaining immediate consistency (as opposed to [eventual consistency](https://en.wikipedia.org/wiki/Eventual_consistency)) even in the face of Byzantine failures.
 
-For writes (publications to a stream), the formal consistency model of NATS JetStream is [Linearizable](https://jepsen.io/consistency/models/linearizable). On the read side (listening to or replaying messages from streams) the formal models don't really apply because JetStream does not support atomic batching of multiple operations together (so the only kind of 'transaction' is the persisting, replicating and voting of a single operation on the stream) but in essence JetStream is [serializable](https://jepsen.io/consistency/models/serializable) because messages are added to a stream in one global order (which you can control using compare and publish).
+For writes (publications to a stream), the formal consistency model of NATS JetStream is [Linearizable](https://jepsen.io/consistency/models/linearizable). On the read side (listening to or replaying messages from streams) the formal models don't really apply because JetStream does not support atomic batching of multiple operations together (so the only kind of 'transaction' is the persisting, replicating and voting of a single operation on the stream) but in essence, JetStream is [serializable](https://jepsen.io/consistency/models/serializable) because messages are added to a stream in one global order (which you can control using compare and publish).
 
 JetStream can also provide encryption at rest of the messages being stored.
 
