@@ -1,6 +1,6 @@
 # Key/Value store
 
-JetSteam, the persistence layer of NATS, not only allows for the higher qualities of service and features associated with 'streaming', but it also enables some functionalities not found in messaging systems.
+JetStream, the persistence layer of NATS, not only allows for the higher qualities of service and features associated with 'streaming', but it also enables some functionalities not found in messaging systems.
 
 One such feature is the Key/Value store functionality, which allows client applications to create `buckets` and use them as immediately (as opposed to eventually) consistent, persistent [associative arrays](https://en.wikipedia.org/wiki/Associative_array) (or maps).
 
@@ -18,7 +18,7 @@ You can use KV buckets to perform the typical operations you would expect from a
 * get: retrieve the value associated with a key
 * delete: clear any value associated with a key
 * purge: clear all the values associated with all keys
-* keys: get a copy of all the keys (with a value or operation associated to it)
+* keys: get a copy of all of the keys (with a value or operation associated with it)
 
 ## Atomic operations used for locking can concurrency control
 * create: associate the value with a key only if there is currently no value associated with that key (i.e. compare to null and set)
@@ -41,4 +41,4 @@ Finally, you can even do things that typically can not be done with a Key/Value 
 
 ## Notes
 
-The key conforms to the same [naming restriction as a NATS subject](../../subjects.md), i.e. it can be a dot separated list of tokens (which means that you can then use wildcards to match hierarchies of keys when watching a bucket), and can only contain [valid characters](../../../nats-concepts/subjects.md#characters-allowed-for-subject-names). The value can be any byte array
+The key conforms to the same [naming restriction as a NATS subject](../../subjects.md), i.e. it can be a dot-separated list of tokens (which means that you can then use wildcards to match hierarchies of keys when watching a bucket), and can only contain [valid characters](../../../nats-concepts/subjects.md#characters-allowed-for-subject-names). The value can be any byte array
