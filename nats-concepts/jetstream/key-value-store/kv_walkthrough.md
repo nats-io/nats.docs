@@ -97,14 +97,14 @@ nats kv del my-kv Key1
 
 Atomic `create` and `update` can be used for a range of design patterns. Including their use as semaphore for basic locking operations. 
 
-E.g. a client operating on a file/document can lock it by creating a KV entry with `create` and deleting it after completing. Setting a timeout for the `bucket` will allow for auto clearing of locks. To keep the timeout alive the client could use `update` with revision number. Updates can also be used for concurrency control, where multiple client can try a task, but only one should complete the results.
+E.g. a client operating on a file/document can lock it by creating a KV entry with `create` and deleting it after completing it. Setting a timeout for the `bucket` will allow for auto clearing of locks. To keep the timeout alive the client could use `update` with a revision number. Updates can also be used for concurrency control, where multiple clients can try a task, but only one should complete the results.
 
 ### Create (aka exclusive locking)
 Create a lock/semaphore with the `create` operation.
 ```shell 
 nats kv create my-kv Semaphore1 Value1
 ```
-Only one `create` can succeed. First come first server. ALl concurrent attempts will result in an error till the key is deleted
+Only one `create` can succeed. First come first serve. All concurrent attempts will result in an error until the key is deleted
 ```shell 
 nats kv create my-kv Semaphore1 Value1
 nats: error: nats: wrong last sequence: 1: key exists
@@ -129,7 +129,7 @@ nats: error: nats: wrong last sequence: 2
 
 A functionality (normally not provided by Key/Value stores) is available with the NATS KV Store is the ability to 'watch' a bucket (or a particular key in that bucket) and receive real-time updates to changes in the store.
 
-For example run `nats kv watch my-kv`: this will start a watcher on the bucket we have just created earlier. If you followed this walkthrough the last operation that happened on the key is that it was deleted. Because by default the KV bucket is set with a history size of one (i.e. it keeps only the last change) and the last operation on the bucket was a delete of the value associated with the key "Key1" that is the only thing that get received by the watcher:
+For example, run `nats kv watch my-kv`: this will start a watcher on the bucket we have just created earlier. If you followed this walkthrough the last operation that happened on the key is that it was deleted. Because by default the KV bucket is set with a history size of one (i.e. it keeps only the last change) and the last operation on the bucket was a delete of the value associated with the key "Key1" that is the only thing that gets received by the watcher:
 
 ```shell
 nats kv watch my-kv
