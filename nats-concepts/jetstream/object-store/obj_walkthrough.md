@@ -126,8 +126,8 @@ nats object get myobjbucket ~/Movies/NATS-logo.mov
 Wrote: 1.5 GiB to /Users/jnmoyne/NATS-logo.mov in 5.68s average 279 MiB/s
 ```
 
-## Getting an object from the bucket with specific output path
-By default the file will be stored relative to the local path under its name (not the full path). To specify and output path use `--output`
+## Getting an object from the bucket with a specific output path
+By default, the file will be stored relative to the local path under its name (not the full path). To specify an output path use `--output`
 
 ```shell
 nats object get myobjbucket --output /temp/Movies/NATS-logo.mov /Movies/NATS-logo.mov
