@@ -61,7 +61,7 @@ Below are the set of consumer configuration options that can be defined. The `Ve
 
 #### AckPolicy
 
-The policies choices include:
+The policy choices include:
 
 * `AckExplicit` - The default policy. It means that each individual message must be acknowledged. It is recommended to use this mode, as it provides the most reliability and functionality.
 * `AckNone` - You do not have to ack any messages, the server will assume ack on delivery.
@@ -75,7 +75,7 @@ The server may consider an ack arriving out of the window. If a first process fa
 
 #### DeliverPolicy
 
-The policies choices include:
+The policy choices include:
 
 * `DeliverAll` - The default policy. The consumer will start receiving from the earliest available message.
 * `DeliverLast` - When first consuming messages, the consumer will start receiving messages with the last message added to the stream, or the last message in the stream that matches the consumer's filter subject if defined.
