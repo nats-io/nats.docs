@@ -30,7 +30,7 @@ Below are the set of consumer configuration options that can be defined. The `Ve
 | Description                                   | A description of the consumer. This can be particularly useful for ephemeral consumers to indicate their purpose since the durable name cannot be provided.                                                                                                                                                                                                                                                     | 2.3.3   | Yes      |
 | InactiveThreshold                             | Duration that instructs the server to cleanup consumers that are inactive for that long. Prior to 2.9, this only applied to ephemeral consumers.                                                                                                                                                                                                                                                                | 2.2.0   | Yes      |
 | [MaxAckPending](consumers.md#maxackpending)   | Defines the maximum number of messages, without an acknowledgement, that can be outstanding. Once this limit is reached message delivery will be suspended. This limit applies across _all_ of the consumer's bound subscriptions. A value of -1 means there can be any number of pending acks (i.e. no flow control). This does not apply when the `AckNone` policy is used. The default is `1000`.                                  | 2.2.0   | Yes      |
-| MaxDeliver                                    | The maximum number of times a specific message delivery will be attempted. Applies to any message that is re-sent due to ack policy (i.e. due to a negative ack, or no ack sent by the client). The default is `-1`, redeliver until acknowledged. Messages, which have reached the maximum delivery count will stay in the stream.                                                                                                                                                                                                                | 2.2.0   | Yes      |
+| MaxDeliver                                    | The maximum number of times a specific message delivery will be attempted. Applies to any message that is re-sent due to ack policy (i.e. due to a negative ack, or no ack sent by the client). The default is `-1`, redeliver until acknowledged. Messages that have reached the maximum delivery count will stay in the stream.                                                                                                                                                                                                                | 2.2.0   | Yes      |
 | ReplayPolicy                                  | If the policy is `ReplayOriginal`, the messages in the stream will be pushed to the client at the same rate that they were originally received, simulating the original timing of messages. If the policy is `ReplayInstant` (the default), the messages will be pushed to the client as fast as possible while adhering to the Ack Policy, Max Ack Pending and the client's ability to consume those messages. | 2.2.0   | No       |
 | Replicas                                      | Sets the number of replicas for the consumer's state. By default, when the value is set to zero, consumers inherit the number of replicas from the stream.                                                                                                                                                                                                                                                      | 2.8.3   | Yes      |
 | MemoryStorage                                 | If set, forces the consumer state to be kept in memory rather than inherit the storage type of the stream (where file storage is the default). This reduces I/O from acks, useful for ephemeral consumers.                                                                                                                                                                                                                                                                                 | 2.8.3   | No       |
@@ -40,7 +40,7 @@ Below are the set of consumer configuration options that can be defined. The `Ve
 
 #### AckPolicy
 
-The policies choices include:
+The policy choices include:
 
 * `AckExplicit` - The default policy. It means that each individual message must be acknowledged. It is recommended to use this mode, as it provides the most reliability and functionality.
 * `AckNone` - You do not have to ack any messages, the server will assume ack on delivery.
@@ -54,7 +54,7 @@ The server may consider an ack arriving out of the window. If a first process fa
 
 #### DeliverPolicy
 
-The policies choices include:
+The policy choices include:
 
 * `DeliverAll` - The default policy. The consumer will start receiving from the earliest available message.
 * `DeliverLast` - When first consuming messages, the consumer will start receiving messages with the last message added to the stream, or the last message in the stream that matches the consumer's filter subject if defined.
