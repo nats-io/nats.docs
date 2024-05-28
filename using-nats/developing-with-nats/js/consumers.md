@@ -13,6 +13,15 @@ Ephemeral consumers are not meant to last 'forever', they are defined automatica
 You (automatically) create an ephemeral consumer when you call the js.Subscribe function without specifying the Durable or Bind subscription options. Calling Drain on that subscription automatically deletes the underlying ephemeral consumer.
 You can also explicitly create an ephemeral consumer by not passing a durable name option to the jsm.AddConsumer call.
 
+Ephemeral consumers otherwise have the same control over message acknowledged and re-delivery as durable consumers.
+
+### Ordered Consumers
+The example below uses an ordered consumer, a convenient default type of push consumers designed for applications that want to efficiently consume a stream for data inspection or analysis.
+* Always ephemeral
+* Auto acknowledgment (no re-delivery)
+* Single threaded dispatching 
+
+
 {% tabs %}
 {% tab title="Go" %}
 
@@ -188,9 +197,14 @@ You create a durable consumer using the `nats consumer add` CLI tool command, or
 
 ### Push and Pull consumers
 
-Technically, there are two implementations of consumers identified as 'push' or 'pull' (which refer to the way subscription interest is being done) depending on whether they have a delivery subject set or not.
+Clients implement two implementations of consumers identified as 'push' or 'pull'. Push consumers receive messages on a specific subject where message flow is controlled by the server. Load balancing is supported through NATS core queue groups. The messages from the stream are distributed automatically between the subscribing clients to the push consumers.
 
-A pull consumer is functionally equivalent to a push consumer using a queue group and explicit acknowledgement: the messages from the stream are distributed automatically between the subscribers to the push consumer or the 'fetchers' to the pull consumer. However, the recommendation is to use the pull consumer as they create less CPU load on the nats-servers and therefore scale further (note that the push consumers are still quite fast and scalable, you may only notice the difference between the two if you have sustained high message rates).
+Pull consumers request messages explicitly from the server in batches, giving the client full control over dispatching, flow control, pending (unacknowledged) messages and load balancing. Pull consuming client make `fetch()` calls in a dispatch loop.
+
+{% hint style="info" %}We recommend pull consumers for new projects. In particular when scalability, detailed flow control or error handling are a concern. 
+{% endhint %}
+
+Pull consumer create less CPU load on the nats-servers and therefore scale better (note that the push consumers are still quite fast and scalable, you may only notice the difference between the two if you have sustained high message rates).
 
 #### Pull
 
