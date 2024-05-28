@@ -88,7 +88,7 @@ You can always delete a Key/Value entry by using `nats kv del my_kv Key1`
 
 ## Watching a K/V Store
 
-A functionality (normally not provided by Key/Value stores) is available with the NATS KV Store is the ability to 'watch' a bucket (or a particular key in that bucket) and receive real-time updates to changes in the store.
+A functionality (normally not provided by Key/Value stores) available with the NATS KV Store is the ability to 'watch' a bucket (or a particular key in that bucket) and receive real-time updates to changes in the store.
 
 For example run `nats kv watch my_kv`: this will start a watcher on the bucket we have just created earlier. If you followed this walkthrough the last operation that happened on the key is that it was deleted. Because by default the KV bucket is set with a history size of one (i.e. it keeps only the last change) and the last operation on the bucket was a delete of the value associated with the key "Key1" that is the only thing that get received by the watcher:
 
