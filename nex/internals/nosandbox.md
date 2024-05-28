@@ -6,8 +6,7 @@ Linux machines that have certain virtualization options enabled in the kernel.
 Not only does this limit the developer workstations capable of using the sandbox, but there are a number of cloud virtual machine types that do not support
 this kind of virtualization.
 
-To make this easier during development, and to allow Nex to manage workloads at the edge, on small devices, or even on Windows, you can run Nex in "unsafe" mode 
-by disabling the sandbox.
+To make this easier during development, and to allow Nex to manage workloads at the edge, on small devices, or even on Windows, you can run Nex in "no sandbox" mode.
 
 The following is a configuration file that shows the use of the `no_sandbox` field. It might look a bit awkward to set `no_sandbox` to `true`, but this naming
 convention was chosen specifically to make it nearly impossible to accidentally launch a Nex node without a sandbox.
@@ -32,6 +31,9 @@ convention was chosen specifically to make it nearly impossible to accidentally 
     "no_sandbox": true
 }
 ```
+#### NEX Agent
+When running in `no_sandbox` mode, the nex node will run workloads directly on your machine.  To do this, it spawns the `nex-agent` as a child process.  To 
+make sure the nex node can find the agent, you will need to ensure it is placed somewhere in your PATH.
 
 # Production Use
 We strongly recommend the use of the Firecracker sandbox when running in production and suggest that unsafe mode should only be reserved
