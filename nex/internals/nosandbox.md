@@ -32,8 +32,8 @@ convention was chosen specifically to make it nearly impossible to accidentally 
 }
 ```
 #### NEX Agent
-When running in `no_sandbox` mode, the nex node will run workloads directly on your machine.  To do this, it spawns the `nex-agent` as a child process.  In order to 
-make sure the nex node can find the agent, you will need to ensure it is placed it somewhere in your PATH.
+When running in `no_sandbox` mode, the nex node will run workloads directly on your machine.  To do this, it spawns the `nex-agent` as a child process.  To 
+make sure the nex node can find the agent, you will need to ensure it is placed somewhere in your PATH.
 
 # Production Use
 We strongly recommend the use of the Firecracker sandbox when running in production and suggest that unsafe mode should only be reserved
