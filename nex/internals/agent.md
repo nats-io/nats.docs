@@ -1,7 +1,8 @@
 # Nex Agent
+
 The **Nex Agent** is responsible for managing _only one_ workload. Through the agent's API, the node can request that a workload be deployed, undeployed, or (for functions) triggered.
 
-Internal to the agent is the logic that determines how the workload is managed. We have a provider system in the Go code that makes it easy for us to expand and enhance the types of workloads we support. 
+Internal to the agent is the logic that determines how the workload is managed. We have a provider system in the Go code that makes it easy for us to expand and enhance the types of workloads we support.
 
 Workloads are currently handled as follows:
 
@@ -9,16 +10,17 @@ Workloads are currently handled as follows:
 * **JavaScript** _function_ - This function is deployed idle and then triggered in response to a configured set of stimuli defined in the deployment request. For example, you can define a set of subjects and wildcards that will be used to trigger the JavaScript function.
 * **WebAssembly** _function_ - This function is deployed idle and then trigered in response to configured stimuli (declared the same way as with all function types).
 
-All function-type workloads must rely on [host services](../host_services/readme.md) in order to interact with managed resources like key-value buckets, publication/request, object stores, and more.
+All function-type workloads must rely on [host services](../host\_services/) in order to interact with managed resources like key-value buckets, publication/request, object stores, and more.
 
 ## Agent Startup
+
 The agent process is the `nex-agent` binary produced by [this Go code](https://github.com/synadia-io/nex/tree/main/agent). This binary is _not_ executed directly by the Node process, nor is it ever launched by developers or users.
 
-The agent resides within the [root file system](./rootfs.md). When you launch a Firecracker virtual machine, it isn't quite like issuing a Docker `run` command. Launching a Firecracker VM is like booting an operating system. In order to tell a Linux operating system what processes to start when launched (e.g. when the Firecracker VM boots), we need an [init](https://en.wikipedia.org/wiki/Init) system. 
+The agent resides within the [root file system](rootfs.md). When you launch a Firecracker virtual machine, it isn't quite like issuing a Docker `run` command. Launching a Firecracker VM is like booting an operating system. In order to tell a Linux operating system what processes to start when launched (e.g. when the Firecracker VM boots), we need an [init](https://en.wikipedia.org/wiki/Init) system.
 
 Init systems can be confusing and intimidating. When you distill it down to the core, the `init` process in Linux is just the first process started during boot. Depending on which application you use for `init`, you configure your startup services and other boot-time launch activity differently.
 
-For reasons that we won't get into here, it's not a good idea to make a process like `nex-agent` be the init process. Rather, we want the init process to spawn and manage the `nex-agent`. 
+For reasons that we won't get into here, it's not a good idea to make a process like `nex-agent` be the init process. Rather, we want the init process to spawn and manage the `nex-agent`.
 
 To do this, we're using [OpenRC](https://github.com/OpenRC/openrc/blob/master/user-guide.md). The default OpenRC configuration used for the agent is as follows:
 
