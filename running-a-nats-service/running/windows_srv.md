@@ -40,7 +40,7 @@ sc config "nats-server" obj= "NT AUTHORITY\NetworkService" password= ""
 Nats-server will write log entries to the default console when not log file is configured. Console logging which is not permitted for all users (e.g. not for NetworkService).
 
 {% hint style="info" %}
-It is recommended to run nats service with an explicit log file and carefully check write permissions for the configured user.
+To ease debugging, it is recommended to run nats service with an explicit log file and carefully check write permissions for the configured user.
 {% endhint %}
 
 ```shell
