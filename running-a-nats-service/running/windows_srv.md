@@ -28,6 +28,25 @@ nats-server.exe --signal stop=<service name>
 
 For a complete list of signals, see [process signaling](../nats_admin/signals.md).
 
+## Permissions
+The default user in above example will by `System` , which has local administrator permissions and write access to almost all files on disk. 
+
+If you change the service user, e.g. to the more restricted `NetworkService`, make sure permissions have been set. The server at minimum will need read access to the config file and when using Jetstream, write access to the jetstream store directory. 
+
+```shell
+sc config "nats-server" obj= "NT AUTHORITY\NetworkService" password= ""
+```
+
+Nats-server will write log entries to the default console when not log file is configured. Console logging which is not permitted for all users (e.g. not for NetworkService).
+
+{% hint style="info" %}
+It is recommended to run nats service with an explicit log file and carefully check write permissions for the configured user.
+{% endhint %}
+
+```shell
+sc.exe create nats-server binPath= "%NATS_PATH%\nats-server.exe --log C:\temp\nats-server.log [other flags]"
+```
+
 ## Windows Service Specific Settings
 
 ### `NATS_STARTUP_DELAY` environment variable
