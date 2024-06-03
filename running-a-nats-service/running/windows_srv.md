@@ -7,7 +7,7 @@ sc.exe create nats-server binPath= "%NATS_PATH%\nats-server.exe [nats-server fla
 sc.exe start nats-server
 ```
 
-The above will create and start a `nats-server` service. Note that the nats-server flags should be provided when creating the service. This allows for running multiple NATS server configurations on a single Windows server by using a 1:1 service instance per installed NATS server service. Once the service is running, it can be controlled using `sc.exe` or `nats-server.exe --signal`:
+The above will create and start a `nats-server` service. Note the nats-server flags should be provided when creating the service. This allows for the running multiple NATS server configurations on a single Windows server by using a 1:1 service instance per installed NATS server service. Once the service is running, it can be controlled using `sc.exe` or `nats-server.exe --signal`:
 
 ```shell
 REM Reload server configuration
@@ -29,18 +29,18 @@ nats-server.exe --signal stop=<service name>
 For a complete list of signals, see [process signaling](../nats_admin/signals.md).
 
 ## Permissions
-The default user in above example will by `System` , which has local administrator permissions and write access to almost all files on disk. 
+The default user in the above example will be `System`, which has local administrator permissions and write access to almost all files on disk. 
 
-If you change the service user, e.g. to the more restricted `NetworkService`, make sure permissions have been set. The server at minimum will need read access to the config file and when using Jetstream, write access to the jetstream store directory. 
+If you change the service user, e.g. to the more restricted `NetworkService`, make sure permissions have been set. The server at a minimum will need read access to the config file and when using Jetstream, write access to the JetStream store directory. 
 
 ```shell
 sc config "nats-server" obj= "NT AUTHORITY\NetworkService" password= ""
 ```
 
-Nats-server will write log entries to the default console when not log file is configured. Console logging which is not permitted for all users (e.g. not for NetworkService).
+Nats-server will write log entries to the default console when no log file is configured. Console logging is not permitted for all users (e.g. not for NetworkService).
 
 {% hint style="info" %}
-To ease debugging, it is recommended to run nats service with an explicit log file and carefully check write permissions for the configured user.
+To ease debugging, it is recommended to run a NATS service with an explicit log file and carefully check write permissions for the configured user.
 {% endhint %}
 
 ```shell
@@ -56,4 +56,4 @@ The Windows service system requires communication with programs that run as Wind
 By default `nats-server` allows itself 10 seconds to send this signal.
 If the server is not ready after this time, the server will signal a failure to start.
 This delay can be adjusted by setting the `NATS_STARTUP_DELAY` environment variable to a suitable duration (e.g. "20s" for 20 seconds, "1m" for one minute).
-This adjustment can be necessary in cases where NATS is correctly running from command-line, but the service fails to start in this timeframe.
+This adjustment can be necessary in cases where NATS is correctly running from command line, but the service fails to start in this timeframe.
