@@ -204,7 +204,7 @@ Pull consumers request messages explicitly from the server in batches, giving th
 {% hint style="info" %}We recommend pull consumers for new projects. In particular when scalability, detailed flow control or error handling are a concern. 
 {% endhint %}
 
-Pull consumer create less CPU load on the nats-servers and therefore scale better (note that the push consumers are still quite fast and scalable, you may only notice the difference between the two if you have sustained high message rates).
+Pull consumers create less CPU load on the NATS servers and therefore scale better (note that the push consumers are still quite fast and scalable, you may only notice the difference between the two if you have sustained high message rates).
 
 #### Pull
 
