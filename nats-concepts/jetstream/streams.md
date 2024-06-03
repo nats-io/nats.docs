@@ -156,9 +156,9 @@ Although less common, note that both the cluster _and_ tags can be used for plac
 [cluster-config]: https://docs.nats.io/running-a-nats-service/configuration/clustering/cluster_config
 [tag-config]: https://docs.nats.io/running-a-nats-service/configuration#monitoring-and-tracing
 
-### Mirror
+### Sources and Mirrors
 
-When a stream is configured as a mirror, it will automatically and asynchronously replicate messages from the origin stream. There are several options when declaring the mirror configuration.
+When a stream is configured as a `source` or `mirror`, it will automatically and asynchronously replicate messages from the origin stream. There are several options when declaring the configuration.
 
 - `Name` - Name of the origin stream to source messages from.
 - `StartSeq` - An optional start sequence of the origin stream to start mirroring from.
@@ -167,17 +167,21 @@ When a stream is configured as a mirror, it will automatically and asynchronousl
 - `SubjectTransforms` - An optional set of [subject transforms](../../running-a-nats-service/configuration/configuring_subject_mapping.md) to apply when sourcing messages from the origin stream. Note, in this context, the `Source` will act as a filter on the origin stream and the `Destination` can optionally be provided to apply a transform. Since multiple subject transforms can be used, disjoint subjects can be sourced from the origin stream while maintaining the order of the messages. Note, this cannot be used with `FilterSubject`.
 - `Domain` - An optional JetStream domain of where the origin stream exists. This is commonly used in a hub cluster and leafnode topology.
 
-A mirror stream can have its own retention policy, replication, and storage type. Although messages cannot be published to a mirror directly by clients, messages can be deleted on-demand (beyond the retention policy), and consumers can similarly bind to the mirror.
+A source or mirror stream can have its own retention policy, replication, and storage type. Changes to to the source or mirror,e.g. deleting messages or publishing, do not reflect on the origin stream.
 
-### Sources
+{% hint style="info" %}
+`Sources` is a generalization of the `Mirror` and allows for sourcing data from one or more streams concurrently. We suggest to use `Sources` in new configurations. 
+If you require the target stream to act as a read-only replica:
+* Configure the stream without listen subjects **or**
+* Temporarily disable the listen subjects through client authorizations. 
+{% endhint %}
 
-A stream defining `Sources` is a generalization of the `Mirror` and allows for sourcing data from one or more streams concurrently. Essentially these streams are aggregated into a single interleaved stream.
+#### Source specifics
+A stream defining `Sources` is a generalized replication mechanism and allows for sourcing data from one or more streams concurrently as well as allowing direct write/publish by clients. Essentially the source streams and client writes are aggregated into a single interleaved stream.
+Subject transformation and filtering allow for powerful data distribution architectures.
 
-It is possible to source from the same stream more than once even with overlapping subject filters thereby allowing you to duplicate messages being sourced, but remember that the order of messages between sources is not guaranteed to be preserved.
-
-One functional difference from a mirror is that a stream with sources defined can _also_ be published to. That is, it can define a set of subjects for which clients can publish messages to directly.
-
-The fields per source stream are the same as defined in mirror above.
+#### Mirror specifics
+A mirror can source its messages from exactly one stream and a clients can not directly write to the  mirror. Although messages cannot be published to a mirror directly by clients, messages can be deleted on-demand (beyond the retention policy), and consumers have all capabilities available on regular streams.
 
 ### AllowRollup
 

@@ -72,7 +72,7 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 
 | Project | Message Retention and Persistence Support |
 | :--- | :--- |
-| **NATS** | Supports memory, file, and database persistence. Messages can be replayed by time, count, or sequence number, and durable subscriptions are supported. With NATS streaming, scripts can archive old log segments to cold storage. |
+| **NATS** | Supports memory and file persistence. Messages can be replayed by time, count, or sequence number, and durable subscriptions are supported. With NATS streaming, scripts can archive old log segments to cold storage. |
 | **gRPC** | N/A |
 | **Kafka** | Supports file-based persistence. Messages can be replayed by specifying an offset, and durable subscriptions are supported. Log compaction is supported as well as KSQL. |
 | **Pulsar** | Supports tiered storage including file, Amazon S3 or Google Cloud Storage \(GCS\). Pulsar can replay messages from a specific position and supports durable subscriptions. Pulsar SQL and topic compaction is supported, as well as Pulsar functions. |

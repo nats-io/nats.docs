@@ -77,6 +77,25 @@ Object information for myobjbucket > /Users/jnmoyne/Movies/NATS-logo.mov
              Digest: sha-256 8ee0679dd1462de393d81a3032d71f43d2bc89c0c8a557687cfe2787e926
 ```
 
+## Putting a file in the bucket by providing a name
+By default the full file path is used as a key. Provide the key explicitly (e.g. a relative path ) with `--name`
+
+
+```shell
+nats object put --name /Movies/NATS-logo.mov myobjbucket ~/Movies/NATS-logo.mov
+```
+
+```
+1.5 GiB / 1.5 GiB [====================================================================================]
+
+Object information for myobjbucket > /Movies/NATS-logo.mov
+
+               Size: 1.5 GiB
+  Modification Time: 14 Apr 22 00:34 +0000
+             Chunks: 12,656
+             Digest: sha-256 8ee0679dd1462de393d81a3032d71f43d2bc89c0c8a557687cfe2787e926
+```
+
 ## Listing the objects in a bucket
 
 ```shell
@@ -90,8 +109,10 @@ nats object ls myobjbucket
 │ Name                                │ Size    │ Time                      │
 ├─────────────────────────────────────┼─────────┼───────────────────────────┤
 │ /Users/jnmoyne/Movies/NATS-logo.mov │ 1.5 GiB │ 2022-04-13T17:34:55-07:00 │
+│ /Movies/NATS-logo.mov               │ 1.5 GiB │ 2022-04-13T17:35:41-07:00 │
 ╰─────────────────────────────────────┴─────────┴───────────────────────────╯
 ```
+
 
 ## Getting an object from the bucket
 
@@ -103,6 +124,19 @@ nats object get myobjbucket ~/Movies/NATS-logo.mov
 1.5 GiB / 1.5 GiB [====================================================================================]
 
 Wrote: 1.5 GiB to /Users/jnmoyne/NATS-logo.mov in 5.68s average 279 MiB/s
+```
+
+## Getting an object from the bucket with a specific output path
+By default, the file will be stored relative to the local path under its name (not the full path). To specify an output path use `--output`
+
+```shell
+nats object get myobjbucket --output /temp/Movies/NATS-logo.mov /Movies/NATS-logo.mov
+```
+
+```
+1.5 GiB / 1.5 GiB [====================================================================================]
+
+Wrote: 1.5 GiB to /temp/Movies/NATS-logo.mov in 5.68s average 279 MiB/s
 ```
 
 ## Removing an object from the bucket
