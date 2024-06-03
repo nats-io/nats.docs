@@ -7,7 +7,7 @@ Unlike with [core NATS](https://docs.nats.io/nats-concepts/core-nats) which prov
 ## Dispatch type - Pull / Push
 Consumers can be **push**-based where messages will be delivered to a specified subject or **pull**-based which allows clients to request batches of messages on demand. The choice of what kind of consumer to use depends on the use-case. 
 
-If there is a need to process messages in application controlled manner and easily scale horizontally, you would use a 'pull consumer'. A simple client application that wants to replay of messages from a stream sequentially you would use an 'ordered push consumer'. An application which wants to benefit from load balancing or acknowledge messages individually will use a regular push consumer.
+If there is a need to process messages in an application controlled manner and easily scale horizontally, you would use a 'pull consumer'. A simple client application that wants a replay of messages from a stream sequentially you would use an 'ordered push consumer'. An application that wants to benefit from load balancing or acknowledge messages individually will use a regular push consumer.
 
 {% hint style="info" %}We recommend pull consumers for new projects. In particular when scalability, detailed flow control or error handling are a concern. 
 {% endhint %}
@@ -17,14 +17,14 @@ Ordered consumers are the convenient default type of push consumers designed for
 * Always ephemeral
 * Auto acknowledgment (no re-delivery)
 * Automatic flow control
-* Single threaded dispatching 
+* Single-threaded dispatching 
 * No load balancing
 
 
 ## Persistence - Durable / Ephemeral
 In addition to the choice of being push or pull, a consumer can also be **ephemeral** or **durable**. A consumer is considered _durable_ when an explicit name is set on the `Durable` field when creating the consumer, otherwise it is considered ephemeral. 
 
-Durables and ephemeral have the same message delivery semantics but an ephemeral consumers will not have persisted state or fault tolerance (server memory only) and will be automatically _cleaned up_ (deleted) after a period of inactivity, when no subscriptions are bound to the consumer. 
+Durables and ephemeral have the same message delivery semantics but an ephemeral consumer will not have persisted state or fault tolerance (server memory only) and will be automatically _cleaned up_ (deleted) after a period of inactivity, when no subscriptions are bound to the consumer. 
 
 By default, durables will have replicated persisted state saved in the cluster and will remain even when there are periods of inactivity (unless `InactiveThreshold` is set explicitly). Durable consumers can recover from server and client failure.
 
@@ -34,13 +34,13 @@ NATS JS Consumers - The ONE feature that makes NATS more powerful than Kafka, Pu
 
 ## Configuration
 
-Below are the set of consumer configuration options that can be defined. The `Version` column indicates the version of the server the option was introduced. The `Editable` column indicates the option can be edited after the consumer is created.
+Below are the set of consumer configuration options that can be defined. The `Version` column indicates the version of nats-server in which the option was introduced. The `Editable` column indicates the option can be edited after the consumer is created.
 
 ### General
 
 | Field                                         | Description                                                                                                                                                                                                                                                                                                                                                                                                     | Version | Editable |
 | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | -------- |
-| Durable                                       | If set, clients can have subscriptions bind to the consumer and _resume_ until the consumer is explicitly deleted. A durable name cannot contain whitespace, `.`, `*`, `>`, path separators (forward or backwards slash), and non-printable characters.                                                                                                                                                         | 2.2.0   | No       |
+| Durable                                       | If set, clients can have subscriptions bind to the consumer and _resume_ until the consumer is explicitly deleted. A durable name cannot contain whitespace, `.`, `*`, `>`, path separators (forward or backward slash), and non-printable characters.                                                                                                                                                         | 2.2.0   | No       |
 | [FilterSubject](#filtersubjects)  | A subject that overlaps with the subjects bound to the stream to filter delivery to subscribers. Note this cannot be used with the `FilterSubjects` (multiple) field.                                                                                                                                                                                                                                           | 2.2.0   | Yes      |
 | [AckPolicy](#ackpolicy)           | The requirement of client acknowledgements, either `AckExplicit`, `AckNone`, or `AckAll`.                                                                                                                                                                                                                                                                                                                       | 2.2.0   | No       |
 | AckWait                                       | The duration that the server will wait for an ack for any individual message _once it has been delivered to a consumer_. If an ack is not received in time, the message will be redelivered.                                                                                                                                                                                                                    | 2.2.0   | Yes      |
