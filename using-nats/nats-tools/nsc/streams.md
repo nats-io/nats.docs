@@ -138,7 +138,7 @@ nsc add user b
 
 ### Pushing the changes to the nats servers
 
-If your nats servers are configured to use the built-in NATS resolver, remember that you need to 'push' any account changes you may have done (locally) using `nsc add` to the servers for those changes to take effect.
+If your nats servers are configured to use the built-in NATS resolver, remember that you need to 'push' any account changes you may have done locally using `nsc add` to the servers for those changes to take effect.
 
 e.g. `nsc push -i` or `nsc push -a B -u nats://localhost`
 
@@ -156,7 +156,7 @@ nsc pub --account A --user U a.b.c.hello world
 
 ## Securing Streams
 
-If you want to create a stream that is only accessible to accounts you designate you can create a _private_ stream. The export will be visible in your account, but _subscribing_ accounts will require an authorization token that must be created by you and generated specifically for the subscribing account.
+If you want to create a stream that is only accessible to accounts you designate, you can create a _private_ stream. The export will be visible in your account, but _subscribing_ accounts will require an authorization token that must be created by you and generated specifically for the subscribing account.
 
 The authorization token is simply a JWT signed by your account where you authorize the client account to import your export.
 
@@ -166,7 +166,7 @@ The authorization token is simply a JWT signed by your account where you authori
 nsc add export --subject "private.abc.*" --private --account A
 ```
 
-Similarly when we defined an export, but this time we added the `--private` flag. The other thing to note is that the subject for the request has a wildcard. This enables the account to map specific subjects to specifically authorized accounts.
+This is sSimilar to when we defined an export, but this time we added the `--private` flag. The other thing to note is that the subject for the request has a wildcard. This enables the account to map specific subjects to specifically authorized accounts.
 
 ```shell
 nsc describe account A
@@ -206,9 +206,9 @@ nsc describe account A
 
 ### Generating an Activation Token
 
-For a foreign account to _import_ a private stream, you have to generate an activation token. In addition to granting permissions to the account, the activation token also allows you to subset the exported stream’s subject.
+For a foreign account to _import_ a private stream, you have to generate an activation token. In addition to granting permissions to the account, the activation token also allows you to subset the exported stream's subject.
 
-To generate a token, you’ll need to know the public key of the account importing the service. We can easily find the public key for account B by running:
+To generate a token, you'll need to know the public key of the account importing the service. We can easily find the public key for account B by running:
 
 ```bash
 nsc list keys --account B
@@ -286,7 +286,7 @@ The token can be shared directly with the client account.
 Importing a private stream is more natural than a public one as the activation token given to you already has all of the necessary details. Note that the token can be an actual file path or a remote URL.
 
 ```shell
-nsc add import --account B --token /tmp/activation.jwt 
+nsc add import --account B --token /tmp/activation.jwt
 ```
 
 ```
@@ -333,7 +333,7 @@ nsc describe account B
 
 ### Testing the Private Stream
 
-Testing a private stream is no different than a public one:
+Testing a private stream is no different than testing a public one:
 
 ```bash
 nsc tools sub --account B --user b private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H
