@@ -43,18 +43,10 @@ try (Connection nc = Nats.connect(options)) {
 
 {% tab title="JavaScript" %}
 ```javascript
-const nc = await connect({
-    pingInterval: 20 * 1000,
-    servers: ["demo.nats.io:4222"],
-});
-```
-{% endtab %}
-
-{% tab title="JavaScript" %}
-```javascript
 // Set Ping Interval to 20 seconds and Max Pings Outstanding to 5
 const nc = await connect({
     pingInterval: 20 * 1000,
+    maxPingOut: 5,
     servers: ["demo.nats.io:4222"],
 });
 ```
