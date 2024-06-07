@@ -53,7 +53,7 @@ await nc.close()
 {% endtab %}
 
 {% tab title="C# v1" %}
-```text
+```csharp
 // IConnection is IDisposable
 using (IConnection c = new ConnectionFactory().CreateConnection("nats://demo.nats.io:4222"))
 {
