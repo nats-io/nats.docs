@@ -25,11 +25,10 @@ defer nc.Close()
 
 {% tab title="Java" %}
 ```text
-Connection nc = Nats.connect("nats://demo.nats.io:4222");
-
-// Do something with the connection
-
-nc.close();
+// Connection is AutoCloseable
+try (Connection nc = Nats.connect("nats://demo.nats.io:4222")) {
+    // Do something with the connection
+}
 ```
 {% endtab %}
 
@@ -83,5 +82,16 @@ if (s != NATS_OK)
 natsConnection_Destroy(conn);
 ```
 {% endtab %}
+
+{% tab title="C# v1" %}
+```text
+// IConnection is IDisposable
+using (IConnection c = new ConnectionFactory().CreateConnection("nats://demo.nats.io:4222"))
+{
+    // Do something with the connection
+}
+```
+{% endtab %}
+
 {% endtabs %}
 
