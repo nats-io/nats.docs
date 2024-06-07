@@ -28,17 +28,25 @@ defer nc.Close()
 
 {% tab title="Java" %}
 ```java
-// Set Ping Interval to 20 seconds and Max Pings Outstanding to 5
-Options options = new Options.Builder().
-                            server("nats://demo.nats.io:4222").
-                            pingInterval(Duration.ofSeconds(20)). // Set Ping Interval
-                            maxPingsOut(5). // Set max pings in flight
-                            build();
-Connection nc = Nats.connect(options);
+Options options = new Options.Builder()
+    .server("nats://demo.nats.io")
+    .pingInterval(Duration.ofSeconds(20)) // Set Ping Interval
+    .maxPingsOut(5) // Set max pings in flight
+    .build();
 
-// Do something with the connection
+// Connection is AutoCloseable
+try (Connection nc = Nats.connect(options)) {
+    // Do something with the connection
+}
+```
+{% endtab %}
 
-nc.close();
+{% tab title="JavaScript" %}
+```javascript
+const nc = await connect({
+    pingInterval: 20 * 1000,
+    servers: ["demo.nats.io:4222"],
+});
 ```
 {% endtab %}
 
@@ -66,6 +74,21 @@ await nc.connect(
 # Do something with the connection.
 ```
 {% endtab %}
+
+{% tab title="C# V1" %}
+```csharp
+Options opts = ConnectionFactory.GetDefaultOptions();
+opts.Url = "nats://demo.nats.io";
+opts.PingInterval = 20000; // Set Ping Interval in milliseconds
+opts.MaxPingsOut = 5; // Set max pings in flight
+
+// IConnection is IDisposable
+using (IConnection nc = new ConnectionFactory().CreateConnection(opts))
+{
+    Console.WriteLine(nc.ServerInfo);
+    // Do something with the connection
+}
+```
 
 {% tab title="Ruby" %}
 ```ruby
