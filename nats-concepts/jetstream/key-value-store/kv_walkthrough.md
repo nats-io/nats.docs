@@ -1,5 +1,20 @@
 # Key/Value Store Walkthrough
 
+The Key/Value Store is a JetStream feature, so we need to verify it is enabled by
+
+```shell
+nats account info
+```
+which may return
+
+```
+JetStream Account Information:
+
+   JetStream is not supported in this account
+```
+
+In this case, you should enable JetStream.
+
 ## Prerequisite: enabling JetStream
 
 If you are running a local `nats-server` stop it and restart it with JetStream enabled using `nats-server -js` (if that's not already done)
@@ -30,17 +45,9 @@ JetStream Account Information:
         Consumers: 0 of Unlimited 
 ```
 
-If you see the below instead then JetStream is _not_ enabled
-
-```
-JetStream Account Information:
-
-   JetStream is not supported in this account
-```
-
 ## Creating a KV bucket
 
-Just like you have to create streams before you can use them, you need to first create a 'KV bucket' using `nats kv add <KV Bucket Name>`:
+A 'KV bucket' is like a stream; you need to create it before using it, as in `nats kv add <KV Bucket Name>`:
 
 ```shell
 nats kv add my-kv
@@ -64,17 +71,17 @@ my_kv Key-Value Store Status
 
 ## Storing a value
 
-Now that we have a bucket, we can use it to 'put' (store) values at keys:
+Now that we have a bucket, we can assign, or 'put', a value to a specific key:
 
 ```shell
 nats kv put my-kv Key1 Value1
 ```
 
-which should return `Value1`
+which should return the key's value `Value1`
 
 ## Getting a value
 
-Now that we have value stored at key "Key1" we can retrieve that value with a 'get':
+We can fetch, or 'get', the value for a key "Key1":
 
 ```shell
 nats kv get my-kv Key1
@@ -88,48 +95,51 @@ Value1
 
 ## Deleting a value
 
-You can always delete a Key/Value entry by using 
+You can always delete a key and its value by using 
 ```shell
 nats kv del my-kv Key1
 ```
 
+It is harmless to delete a non-existent key (check this!!).
+
 ## Atomic operations
 
-Atomic `create` and `update` can be used for a range of design patterns. Including their use as semaphore for basic locking operations. 
+K/V Stores can also be used in concurrent design patterns, such as semaphores, by using atomic 'create' and 'update' operations.
 
-E.g. a client operating on a file/document can lock it by creating a KV entry with `create` and deleting it after completing it. Setting a timeout for the `bucket` will allow for auto clearing of locks. To keep the timeout alive the client could use `update` with a revision number. Updates can also be used for concurrency control, where multiple clients can try a task, but only one should complete the results.
+E.g. a client wanting exclusive use of a file can lock it by creating a key, whose value is the file name, with `create` and deleting this key after completing use of that file. A client can increase the resiliancy against failure by using a timeout for the `bucket` containing this key. The client can use `update` with a revision number to keep the `bucket` alive.
+
+Updates can also be used for more fine-grained concurrency control, sometimes known as `optimistic locking`, where multiple clients can try a task, but only one can successfully complete it.
 
 ### Create (aka exclusive locking)
 Create a lock/semaphore with the `create` operation.
 ```shell 
-nats kv create my-kv Semaphore1 Value1
+nats kv create my-sem Semaphore1 Value1
 ```
-Only one `create` can succeed. First come first serve. All concurrent attempts will result in an error until the key is deleted
+Only one `create` can succeed. First come, first serve. All concurrent attempts will result in an error until the key is deleted
 ```shell 
-nats kv create my-kv Semaphore1 Value1
+nats kv create my-sem Semaphore1 Value1
 nats: error: nats: wrong last sequence: 1: key exists
 ```
 
 ### Update with CAS (aka optimistic locking)
-A key can be `updated` atomically through a CAS (compare and swap) operation
-A CAS update takes the revision number as an additional parameter
+We can also atomically `update`, sometimes known as a CAS (compare and swap) operation, a key with an additional parameter `revision`
 
 ```shell 
-nats kv update my-kv Semaphore1 Value2 1
+nats kv update my-sem Semaphore1 Value2 13
 ```
 
-A second attempt with the same revision number will fail
+A second attempt with the same revision 13, will fail
 
 ```shell 
-nats kv update my-kv Semaphore1 Value2 1
-nats: error: nats: wrong last sequence: 2
+nats kv update my-sem Semaphore1 Value2 13
+nats: error: nats: wrong last sequence: 14
 ```
 
 ## Watching a K/V Store
 
-A functionality (normally not provided by Key/Value stores) available with the NATS KV Store is the ability to 'watch' a bucket (or a particular key in that bucket) and receive real-time updates to changes in the store.
+An unusual functionality of a K/V Store is being able to 'watch' a bucket, or a specific key in that bucket, and receive real-time updates to changes in the store.
 
-For example, run `nats kv watch my-kv`: this will start a watcher on the bucket we have just created earlier. If you followed this walkthrough the last operation that happened on the key is that it was deleted. Because by default the KV bucket is set with a history size of one (i.e. it keeps only the last change) and the last operation on the bucket was a delete of the value associated with the key "Key1" that is the only thing that gets received by the watcher:
+For example, for the example above, run `nats kv watch my-kv`. This will start a watcher on the bucket we have just created earlier. By default, the KV bucket has a history size of one, and so it only remembers the last change. In our case, the watcher should see a delete of the value associated with the key "Key1":
 
 ```shell
 nats kv watch my-kv
@@ -139,13 +149,13 @@ nats kv watch my-kv
 [2021-10-12 13:15:03] DEL my-kv > Key1
 ```
 
-Keep that `nats kv watch` running and in another window do another 'put'
+If we now concurrently change the value of 'my-kv' by
 
 ```shell
 nats kv put my-kv Key1 Value2
 ```
 
-As soon as that command is run you will see that put event received by the watcher:
+The watcher will see that change:
 
 ```shell
 [2021-10-12 13:25:14] PUT my-kv > Key1: Value2
@@ -153,7 +163,7 @@ As soon as that command is run you will see that put event received by the watch
 
 ## Cleaning up
 
-Once you are finished playing, you can easily delete the KV bucket and release the resource associated with it by using:
+When you are finished using a buckey, you can delete the bucket, and its resources, by using the `rm` operator:
 
 ```shell
 nats kv rm my-kv
