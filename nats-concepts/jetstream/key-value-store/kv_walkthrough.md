@@ -139,7 +139,7 @@ nats: error: nats: wrong last sequence: 14
 
 An unusual functionality of a K/V Store is being able to 'watch' a bucket, or a specific key in that bucket, and receive real-time updates to changes in the store.
 
-For example, for the example above, run `nats kv watch my-kv`. This will start a watcher on the bucket we have just created earlier. By default, the KV bucket has a history size of one, and so it only remembers the last change. In our case, the watcher should see a delete of the value associated with the key "Key1":
+For the example above, run `nats kv watch my-kv`. This will start a watcher on the bucket we have just created earlier. By default, the KV bucket has a history size of one, and so it only remembers the last change. In our case, the watcher should see a delete of the value associated with the key "Key1":
 
 ```shell
 nats kv watch my-kv
@@ -163,7 +163,7 @@ The watcher will see that change:
 
 ## Cleaning up
 
-When you are finished using a buckey, you can delete the bucket, and its resources, by using the `rm` operator:
+When you are finished using a bucket, you can delete the bucket, and its resources, by using the `rm` operator:
 
 ```shell
 nats kv rm my-kv
