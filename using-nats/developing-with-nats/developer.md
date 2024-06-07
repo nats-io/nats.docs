@@ -1,12 +1,12 @@
-# Developing with NATS
+# How to Develop with NATS
 
-Developing with NATS is a combination of distributed application techniques, common NATS features and library specific syntax. As well as using this book for guidance, some of the libraries contain language-familiar formats of their API. For example, the Go library has godoc, and the Java library has javadoc.
+Developing with NATS involves a blend of distributed application techniques, common NATS features, and library-specific syntax. Besides this guide, most libraries provide auto-generated API documentation, along with language and platform-specific examples, guides, and other resources.
 
 | Language | Links                                                                                                                                                                          |
 | :--- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Golang | [nats.go](https://github.com/nats-io/nats.go), [godoc](http://godoc.org/github.com/nats-io/nats.go)                                                                            |
 | Java | [nats.java](https://github.com/nats-io/nats.java), [javadoc](https://javadoc.io/doc/io.nats/jnats), [examples](https://github.com/nats-io/java-nats-examples)                                                               |
-| C# | [nats.net](https://github.com/nats-io/nats.net), [doxygen](http://nats-io.github.io/nats.net/), [package](https://www.nuget.org/packages/NATS.Client/0.14.1)                   |
+| C# | [nats.net](https://github.com/nats-io/nats.net), [doxygen](http://nats-io.github.io/nats.net/), [package](https://www.nuget.org/packages/NATS.Client)                   |
 | C# (v2) | [nats.net.v2](https://github.com/nats-io/nats.net.v2), [docs](http://nats-io.github.io/nats.net.v2/), [package](https://www.nuget.org/packages/NATS.Net)                   |
 | JavaScript | [Node.js](https://github.com/nats-io/nats.js#readme), [deno](https://github.com/nats-io/nats.deno/blob/main/README.md), [WebSocket](https://github.com/nats-io/nats.ws#readme) |
 | Python | [nats.py](https://github.com/nats-io/nats.py), [doc](https://nats-io.github.io/nats.py/)                                                                                       |
@@ -15,12 +15,12 @@ Developing with NATS is a combination of distributed application techniques, com
 | Rust | [nats.rs](https://github.com/nats-io/nats.rs), [rust doc](https://docs.rs/nats)                                                                                                |
 | Elixir | [nats.ex](https://github.com/nats-io/nats.ex), [hex doc](https://hex.pm/packages/gnat)                                                                                         |
 | Zig | [nats.zig](https://github.com/nats-io/nats.zig)                                                                                                                                |
+| Swift | [nats.swift](https://github.com/nats-io/nats.swift) |
 
-Not all libraries contain this separate doc, depending on the language community, but be sure to check out the client libraries README for more information.
+Not all libraries have their own documentation, depending on the language community, but be sure to check out the client libraries' README for more information.
 
 There are many other NATS client libraries and examples contributed and maintained by the community and available on GitHub, such as:
 
-* [SwiftyNats](https://github.com/aus-der-Technik/SwiftyNats)
 * [Kotlin](https://github.com/nats-io/kotlin-nats-examples)
 * [Dart](https://github.com/dgofman/nats_client), [Dart](https://github.com/chartchuo/dart-nats) and [Dart](https://github.com/c16a/nats-dart)
 * [Tcl](https://github.com/Kazmirchuk/nats-tcl)
