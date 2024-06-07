@@ -5,7 +5,7 @@ Developing with NATS is a combination of distributed application techniques, com
 | Language | Links                                                                                                                                                                          |
 | :--- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Golang | [nats.go](https://github.com/nats-io/nats.go), [godoc](http://godoc.org/github.com/nats-io/nats.go)                                                                            |
-| Java | [nats.java](https://github.com/nats-io/nats.java), [javadoc](https://javadoc.io/doc/io.nats/jnats), [examples](https://github.com/nats-io/java-nats-examples)                                                               |
+| Java | [nats.java](https://github.com/nats-io/nats.java), [javadoc](https://javadoc.io/doc/io.nats/jnats), [nats.java examples](https://github.com/nats-io/nats.java/tree/main/src/examples/java/io/nats/examples), [java-nats-examples repo](https://github.com/nats-io/java-nats-examples) |
 | C# | [nats.net](https://github.com/nats-io/nats.net), [doxygen](http://nats-io.github.io/nats.net/), [package](https://www.nuget.org/packages/NATS.Client/0.14.1)                   |
 | C# (v2) | [nats.net.v2](https://github.com/nats-io/nats.net.v2), [docs](http://nats-io.github.io/nats.net.v2/), [package](https://www.nuget.org/packages/NATS.Net)                   |
 | JavaScript | [Node.js](https://github.com/nats-io/nats.js#readme), [deno](https://github.com/nats-io/nats.deno/blob/main/README.md), [WebSocket](https://github.com/nats-io/nats.ws#readme) |
