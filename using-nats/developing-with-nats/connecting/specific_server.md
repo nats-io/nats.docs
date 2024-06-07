@@ -52,6 +52,16 @@ await nc.close()
 ```
 {% endtab %}
 
+{% tab title="C# v1" %}
+```text
+// IConnection is IDisposable
+using (IConnection c = new ConnectionFactory().CreateConnection("nats://demo.nats.io:4222"))
+{
+    // Do something with the connection
+}
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'
@@ -80,16 +90,6 @@ if (s != NATS_OK)
 
 // Destroy connection, no-op if conn is NULL.
 natsConnection_Destroy(conn);
-```
-{% endtab %}
-
-{% tab title="C# v1" %}
-```text
-// IConnection is IDisposable
-using (IConnection c = new ConnectionFactory().CreateConnection("nats://demo.nats.io:4222"))
-{
-    // Do something with the connection
-}
 ```
 {% endtab %}
 
