@@ -137,7 +137,7 @@ if __name__ == '__main__':
 {% endtab %}
 
 {% tab title="C# v1" %}
-```text
+```csharp
 using (IConnection nc = new ConnectionFactory().CreateConnection("nats://localhost:4222"))
 {
     IJetStreamManagement jsm = nc.CreateJetStreamManagementContext();
