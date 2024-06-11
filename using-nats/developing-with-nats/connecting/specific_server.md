@@ -62,6 +62,14 @@ using (IConnection c = new ConnectionFactory().CreateConnection("nats://demo.nat
 ```
 {% endtab %}
 
+{% tab title="C# v2" %}
+```csharp
+// NatsConnection is IAsyncDisposable
+await using var nats = new NatsConnection(new NatsOpts { Url = "nats://demo.nats.io:4222" });
+// Do something with the connection
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'
