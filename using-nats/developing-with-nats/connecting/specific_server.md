@@ -64,8 +64,12 @@ using (IConnection c = new ConnectionFactory().CreateConnection("nats://demo.nat
 
 {% tab title="C# v2" %}
 ```csharp
+// NATS server URL is part of the connection options
+var opts = new NatsOpts { Url = "nats://demo.nats.io:4222" };
+
 // NatsConnection is IAsyncDisposable
-await using var nats = new NatsConnection(new NatsOpts { Url = "nats://demo.nats.io:4222" });
+await using var nats = new NatsConnection(opts);
+
 // Do something with the connection
 ```
 {% endtab %}
