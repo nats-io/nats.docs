@@ -86,11 +86,12 @@ The API uses JSON for inputs and outputs, all the responses are typed using a `t
 | `$JS.API.CONSUMER.NAMES.<stream>`            | `api.JSApiConsumerNamesT` | Paged list of known consumer names for a given stream | `api.JSApiConsumerNamesRequest` | `api.JSApiConsumerNamesResponse` |
 | `$JS.API.CONSUMER.INFO.<stream>.<consumer>`           | `api.JSApiConsumerInfoT` | Information about a specific consumer by name | empty payload | `api.JSApiConsumerInfoResponse` |
 | `$JS.API.CONSUMER.DELETE.<stream>.<consumer>` | `api.JSApiConsumerDeleteT` | Deletes a Consumer                                                             | empty payload | `api.JSApiConsumerDeleteResponse` |
-| `$JS.FC.>` | N/A | Consumer to subscriber flow control messages (also needed for stream mirroring) | | |
+| `$JS.FC.<stream>.>` | N/A | Consumer to subscriber flow control replies for `PUSH` consumer. Also used for sourcing and mirroring, which are implemented as `PUSH` consumers . If this subject is not forwarded, the consumer my stall under high load.| empty payload |  reply subject |
+| `$JS.ACK.<stream>.>` | N/A | Acknowledgments for `PULL` consumers. When this subject is not forwarded, `PULL` consumers in acknowledgment modes `all` or `explicit` will fail. | empty payload |  reply subject |
 
 ### ACLs
 
-It's hard to notice here but there is a clear pattern in these subjects, lets look at the various JetStream related subjects:
+When using the subjects based ACL please note the patterns in the subjects grouped by purpose below.
 
 General information
 
@@ -98,8 +99,7 @@ General information
 $JS.API.INFO
 ```
 
-Stream and Consumer Admin
-
+Stream Admin
 ```text
 $JS.API.STREAM.CREATE.<stream>
 $JS.API.STREAM.UPDATE.<stream>
@@ -112,26 +112,28 @@ $JS.API.STREAM.MSG.DELETE.<stream>
 $JS.API.STREAM.MSG.GET.<stream>
 $JS.API.STREAM.SNAPSHOT.<stream>
 $JS.API.STREAM.RESTORE.<stream>
+```
+Consumer Admin
+```text
 $JS.API.CONSUMER.CREATE.<stream>
 $JS.API.CONSUMER.DURABLE.CREATE.<stream>.<consumer>
 $JS.API.CONSUMER.DELETE.<stream>.<consumer>
 $JS.API.CONSUMER.INFO.<stream>.<consumer>
 $JS.API.CONSUMER.LIST.<stream>
-$JS.API.CONSUMER.MSG.NEXT.<stream>.<consumer>
 $JS.API.CONSUMER.NAMES.<stream>
 ```
 
-Stream and Consumer Use
+Consumer message flow
 
 ```text
 $JS.API.CONSUMER.MSG.NEXT.<stream>.<consumer>
+$JS.SNAPSHOT.RESTORE.<stream>.<msg id>
 $JS.ACK.<stream>.<consumer>.x.x.x
 $JS.SNAPSHOT.ACK.<stream>.<msg id>
-$JS.SNAPSHOT.RESTORE.<stream>.<msg id>
-$JS.FC.>
+$JS.FC.<stream>.>
 ```
 
-Events and Advisories:
+Optional Events and Advisories :
 
 ```text
 $JS.EVENT.METRIC.CONSUMER_ACK.<stream>.<consumer>
@@ -158,6 +160,8 @@ This design allows you to easily create ACL rules that limit users to a specific
 ## Acknowledging Messages
 
 Messages that need acknowledgement will have a Reply subject set, something like `$JS.ACK.ORDERS.test.1.2.2`, this is the prefix defined in `api.JetStreamAckPre` followed by `<stream>.<consumer>.<delivered count>.<stream sequence>.<consumer sequence>.<timestamp>.<pending messages>`.
+
+Jetstream and the consumer (including sourced and mirrored streams) may exchange flow control messages. A message with the header: `NATS/1.0 100 FlowControl Request` most be replied to, otherwise the consumer may stall. The reply subjects looks like: `$JS.FC.orders.6i5h0GiQ.ep3Y`
 
 In all of the Synadia maintained API's you can simply do `msg.Respond(nil)` \(or language equivalent\) which will send nil to the reply subject.
 
