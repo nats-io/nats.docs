@@ -14,7 +14,7 @@ layout:
 
 # Welcome
 
-## Welcome to the Official NATS Documentation
+## Welcome to the Official NATS Documentation!
 
 Here you will find everything you need to know about the Connective Technology for Adaptive Edge & Distributed Systems - NATS!
 
