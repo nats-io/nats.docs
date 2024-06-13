@@ -181,7 +181,7 @@ You can subscribe to changes in a Key Value on the bucket or individual key leve
 
 ### Atomic updates and locking
 
-The Key Value store support atomic `create` and `update` operations. This enables pessimistic locks (by creating a key and holding on to it) and optimistic locks (using CAS - compare and set).
+The Key Value store supports atomic `create` and `update` operations. This enables pessimistic locks (by creating a key and holding on to it) and optimistic locks (using CAS - compare and set).
 
 ## Object Store
 
