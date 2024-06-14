@@ -179,7 +179,7 @@ Once this is configured, your client can connect to the proxy with normal (langu
 
 | Client | Version |
 | --- | --- |
-| nats.go | ??? |
+| nats.go | v1.31.0 |
 | nats.js | 2024.1.2 |
 | nats.java | 2.18.0  |
 | nats.rs | ??? |
