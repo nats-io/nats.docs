@@ -180,7 +180,7 @@ Once this is configured, your client can connect to the proxy with normal (langu
 | Client | Version |
 | --- | --- |
 | nats.go | ??? |
-| nats.js | ??? |
+| nats.js | 2024.1.2 |
 | nats.java | 2.18.0  |
 | nats.rs | ??? |
 | nats.net.v2 | 2.0.0 |
