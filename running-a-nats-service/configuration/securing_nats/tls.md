@@ -175,7 +175,7 @@ tls {}
 allow_non_tls: true
 ```
 
-Once this is configured, your client can connect to the proxy with normal (language specific) tls configuration. Please make sure you are using the appropriate version of your langauge specific client.
+Once this is configured, your client can connect to the proxy with normal (language specific) tls configuration. Please make sure you are using the appropriate version of your language specific client.
 
 | Client | Version |
 | --- | --- |
