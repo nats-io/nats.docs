@@ -182,6 +182,6 @@ Once this is configured, your client can connect to the proxy with normal (langu
 | nats.go | ??? |
 | nats.js | ??? |
 | nats.java | 2.18.0  |
-| nats.rso | ??? |
-| nats.net.v2 | ??? |
+| nats.rs | ??? |
+| nats.net.v2 | 2.0.0 |
 | nats.net (v1) | 1.1.5 |
