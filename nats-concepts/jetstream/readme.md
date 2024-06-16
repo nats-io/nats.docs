@@ -2,17 +2,17 @@
 
 ## JetStream
 
-NATS has a built-in distributed persistence system called [JetStream](../../using-nats/jetstream/develop_jetstream.md) which enables new functionalities and higher qualities of service on top of the base 'Core NATS' functionalities and qualities of service.
+NATS has a built-in persistence engine called [JetStream](../../using-nats/jetstream/develop_jetstream.md) which enables messages to be stored and replayed at a later time. Unlike _NATS Core_ which requires you to have an active subscription to process messages as they happen, JetStream allows the NATS server to capture messages and replay them to consumers as needed. This functionality enables a different quality of service for your NATS messages, and enables fault-tolerant and high-availability configurations.
 
-JetStream is built-in to `nats-server` and you only need 1 (or 3 or 5 if you want fault-tolerance against 1 or 2 simultaneous NATS server failures) of your NATS server(s) to be JetStream enabled for it to be available to all the client applications.
+JetStream is built into `nats-server`. If you have a cluster of JetStream-enabled servers you can enable data replication and thus guard against failures and service disruptions.
 
-JetStream was created to solve the problems identified with streaming in technology today - complexity, fragility, and a lack of scalability. Some technologies address these better than others, but no current streaming technology is truly multi-tenant, horizontally scalable, and supports multiple deployment models. No other technology that we are aware of can scale from edge to cloud under the same security context while having complete deployment observability for operations.
+JetStream was created to address the problems identified with streaming technology today - complexity, fragility, and a lack of scalability. Some technologies address these better than others, but no current streaming technology is truly multi-tenant, horizontally scalable, or supports multiple deployment models. No other technology that we are aware of can scale from edge to cloud using the same security context while having complete deployment observability for operations.
 
 ### Additional capabilities enabled by JetStream
-The JetStream persistence layer enables additional use cases typically not found in messaging systems. Being built on top of JetStream they inherit the core capabilities of JetStream, replication, security, routing limits, and mirroring.  
+The JetStream persistence layer enables additional use cases typically not found in messaging systems. Being built on top of JetStream they inherit the core capabilities of JetStream, replication, security, routing limits, and mirroring.
 
 * [Key Value Store](#key-value-store) A map (associative array) with atomic operations
-* [Object Store](#object-store) File transfer, replications and storage API. Uses chunked transfers for scalability. 
+* [Object Store](#object-store) File transfer, replications and storage API. Uses chunked transfers for scalability.
 
 Key/Value and File transfer are capabilities are commonly found in in-memory databases or deployment tools. While NATS does not intend to compete with the feature set of such tools, it is our goal to provide the developer with reasonable complete set of data storage and replications features for use cases like micro service, edge deployments and server management.
 
@@ -40,7 +40,7 @@ JetStream was developed with the following goals in mind:
 * The system must display payload agnostic behavior.
 * The system must not have third party dependencies.
 
-## JetStream capabilities 
+## JetStream capabilities
 
 ### Streaming: temporal decoupling between the publishers and subscribers
 
@@ -51,7 +51,7 @@ One of the tenets of basic publish/subscribe messaging is that there is a requir
 
 However, in many use cases, you do not need to 'consume exactly once' functionality but rather the ability to replay messages on demand, as many times as you want. This need has led to the popularity of some 'streaming' messaging platforms.
 
-JetStream provides *both* the ability to *consume* messages as they are published (i.e. 'queueing') as well as the ability to *replay* messages on demand (i.e. 'streaming'). See [retention policies](streams.md#retention-policies-and-limits) below.
+JetStream provides *both* the ability to *consume* messages as they are published (i.e. 'queueing') as well as the ability to *replay* messages on demand (i.e. 'streaming'). See [retention policies](#Retention-policies-and-limits) below.
 
 #### Replay policies
 
@@ -104,7 +104,7 @@ You can choose the durability as well as the resilience of the message storage a
 * File storage.
 * Replication (1 (none), 2, 3) between nats servers for Fault Tolerance.
 
-JetStream uses a NATS optimized RAFT distributed quorum algorithm to distribute the persistence service between NATS servers in a cluster while maintaining immediate consistency (as opposed to [eventual consistency](https://en.wikipedia.org/wiki/Eventual_consistency)) even in the face of Byzantine failures.
+JetStream uses a NATS optimized RAFT distributed quorum algorithm to distribute the persistence service between NATS servers in a cluster while maintaining immediate consistency (as opposed to [eventual consistency](https://en.wikipedia.org/wiki/Eventual_consistency)) even in the face of failures.
 
 For writes (publications to a stream), the formal consistency model of NATS JetStream is [Linearizable](https://jepsen.io/consistency/models/linearizable). On the read side (listening to or replaying messages from streams) the formal models don't really apply because JetStream does not support atomic batching of multiple operations together (so the only kind of 'transaction' is the persisting, replicating and voting of a single operation on the stream) but in essence, JetStream is [serializable](https://jepsen.io/consistency/models/serializable) because messages are added to a stream in one global order (which you can control using compare and publish).
 
@@ -132,7 +132,7 @@ JetStream also allows server administrators to easily mirror streams, for exampl
 
 ### De-coupled flow control
 
-JetStream provides de-coupled flow control over streams, the flow control is not 'end to end' where the publisher(s) are limited to publish no faster than the slowest of all the consumers (i.e. the lowest common denominator) can receive but is instead happening individually between each client application (publishers or consumers) and the nats server.
+JetStream provides decoupled flow control over streams, the flow control is not 'end to end' where the publisher(s) are limited to publish no faster than the slowest of all the consumers (i.e. the lowest common denominator) can receive but is instead happening individually between each client application (publishers or consumers) and the nats server.
 
 When using the JetStream publish calls to publish to streams there is an acknowledgment mechanism between the publisher and the NATS server, and you have the choice of making synchronous or asynchronous (i.e. 'batched') JetStream publish calls.
 
@@ -170,7 +170,7 @@ While you can decide to use un-acknowledged consumers trading quality of service
 
 ## Key Value Store
 
-The JetStream persistence layer enables the the Key Value store: the ability to store, retrieve and delete `value` messages associated with a `key` into a `bucket`.
+The JetStream persistence layer enables the Key Value store: the ability to store, retrieve and delete `value` messages associated with a `key` into a `bucket`.
 
 * [Concepts](key-value-store/readme.md)
 * [Walkthrough](key-value-store/kv_walkthrough.md)
@@ -181,11 +181,11 @@ You can subscribe to changes in a Key Value on the bucket or individual key leve
 
 ### Atomic updates and locking
 
-The Key Value store support atomic `create` and `update` operations. This enables pessimistic locks (by creating a key and holding on to it) and optimistic locks (using CAS - compare and set). 
- 
+The Key Value store supports atomic `create` and `update` operations. This enables pessimistic locks (by creating a key and holding on to it) and optimistic locks (using CAS - compare and set).
+
 ## Object Store
 
-The Object Store is similar to the Key Value Store. The key being replaced by a file name and value being designed to store arbitrarily large `objects` (e.g. files, even if they are very large) rather than 'values' that are message-sized (i.e. limited to 1Mb by default). This is achieved by chunking messages.  
+The Object Store is similar to the Key Value Store. The key being replaced by a file name and value being designed to store arbitrarily large `objects` (e.g. files, even if they are very large) rather than 'values' that are message-sized (i.e. limited to 1Mb by default). This is achieved by chunking messages.
 
 * [Concepts](object-store/obj_store.md)
 * [Walkthrough](object-store/obj_walkthrough.md)
@@ -193,4 +193,4 @@ The Object Store is similar to the Key Value Store. The key being replaced by a 
 
 # Legacy
 
-Note that JetStream completely replaces the [STAN](/legacy/stan/README.md) legacy NATS streaming layer.
+Note that JetStream completely replaces the [STAN](../../legacy/stan/README.md) legacy NATS streaming layer.
