@@ -64,8 +64,6 @@ Importing a stream enables you to receive messages that are published by a diffe
 * You can map the stream’s subject to a different subject
 * Self-imports are not valid; you can only import streams from other accounts.
 
-To learn how to inspect a JWT from an account server, [check this article](broken-reference).
-
 With the required information, we can add an import to the public stream.
 
 ```bash
