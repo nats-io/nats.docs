@@ -4,7 +4,7 @@ In order for a NATS client application to connect to the NATS service, and then 
 
 ## NATS URL
 
-1. A 'NATS URL' which is a string (in a URL format) that specifies the IP address and port where the NATS server(s) can be reached, and what kind of connection to establish:
+1. A 'NATS URL' is a string (in a URL format) that specifies the IP address and port where the NATS server(s) can be reached, and what kind of connection to establish:
    * TLS encrypted _only_ TCP connection (i.e. NATS URLs starting with `tls://...`)
    * TLS encrypted if the server is configured for it or plain un-encrypted TCP connection otherwise (i.e. NATS URLs starting with `nats://...`)
    * Websocket connection (i.e. NATS URLs starting with `ws://...`)
@@ -26,7 +26,7 @@ When connecting to a cluster it is best to provide the complete set of 'seed' UR
 
 ### Runtime configuration
 
-Your application should expose a way to be configured at run time with a NATS URL(s) to use, and if you want to use a secure infrastructure, which credentials (.creds) file to use (or if needed with a way to set the token or Nkey, usernames and passwords can be encoded in the NATS URL).
+Your application should expose a way to be configured at run time with the NATS URL(s) to use. If you want to use a secure infrastructure, the application must provide for the definition of either the credentials file (.creds) to use, or the means to encode the token, or Nkey, in the URL(s).
 
 ## Connection Options
 
