@@ -17,15 +17,15 @@ func ExampleJetStream() {
 	}
 
 	js.AddStream(&nats.StreamConfig{
-		Name:     "FOO",
-		Subjects: []string{"foo"},
+		Name:     "example-stream",
+		Subjects: []string{"example-subject"},
 	})
 
-	js.Publish("foo", []byte("Hello JS!"))
+	js.Publish("example-subject", []byte("Hello JS!"))
 
 	// Publish messages asynchronously.
 	for i := 0; i < 500; i++ {
-		js.PublishAsync("foo", []byte("Hello JS Async!"))
+		js.PublishAsync("example-subject", []byte("Hello JS Async!"))
 	}
 	select {
 	case <-js.PublishAsyncComplete():
@@ -38,84 +38,39 @@ func ExampleJetStream() {
 
 {% tab title="Java" %}
 ```java
-package io.nats.examples.jetstream;
+try (Connection nc = Nats.connect("localhost")) {
+    JetStreamManagement jsm = nc.jetStreamManagement();
+    jsm.addStream(StreamConfiguration.builder()
+        .name("example-stream")
+        .subjects("example-subject")
+        .build());
 
-import io.nats.client.Connection;
-import io.nats.client.JetStream;
-import io.nats.client.Message;
-import io.nats.client.Nats;
-import io.nats.client.api.PublishAck;
-import io.nats.client.impl.NatsMessage;
-import io.nats.examples.ExampleArgs;
-import io.nats.examples.ExampleUtils;
+    JetStream js = jsm.jetStream();
 
-import java.nio.charset.StandardCharsets;
+    // Publish Synchronously
+    PublishAck pa = js.publish("example-subject", "Hello JS Sync!".getBytes());
+    System.out.println("Publish Sequence: " + pa.getSeqno());
 
-/**
- * This example will demonstrate JetStream publishing.
- */
-public class NatsJsPub {
-    static final String usageString =
-            "\nUsage: java -cp <classpath> NatsJsPub [-s server] [-strm stream] [-sub subject] [-mcnt msgCount] [-m messageWords+] [-r headerKey:headerValue]*"
-                    + "\n\nDefault Values:"
-                    + "\n   [-strm] example-stream"
-                    + "\n   [-sub]  example-subject"
-                    + "\n   [-mcnt] 10"
-                    + "\n   [-m]    hello"
-                    + "\n\nRun Notes:"
-                    + "\n   - msg_count < 1 is the same as 1"
-                    + "\n   - headers are optional"
-                    + "\n\nUse tls:// or opentls:// to require tls, via the Default SSLContext\n"
-                    + "\nSet the environment variable NATS_NKEY to use challenge response authentication by setting a file containing your private key.\n"
-                    + "\nSet the environment variable NATS_CREDS to use JWT/NKey authentication by setting a file containing your user creds.\n"
-                    + "\nUse the URL in the -s server parameter for user/pass/token authentication.\n";
+    // Publish Asynchronously
+    CompletableFuture<PublishAck> future =
+        js.publishAsync("example-subject", "Hello JS Async!".getBytes());
 
-    public static void main(String[] args) {
-        ExampleArgs exArgs = ExampleArgs.builder("Publish", args, usageString)
-                .defaultStream("example-stream")
-                .defaultSubject("example-subject")
-                .defaultMessage("hello")
-                .defaultMsgCount(10)
-                .build();
-
-        String hdrNote = exArgs.hasHeaders() ? ", with " + exArgs.headers.size() + " header(s)" : "";
-        System.out.printf("\nPublishing to %s%s. Server is %s\n\n", exArgs.subject, hdrNote, exArgs.server);
-
-        try (Connection nc = Nats.connect(ExampleUtils.createExampleOptions(exArgs.server))) {
-
-            // Create a JetStream context.  This hangs off the original connection
-            // allowing us to produce data to streams and consume data from
-            // JetStream consumers.
-            JetStream js = nc.jetStream();
-
-            // Create the stream
-            NatsJsUtils.createStreamOrUpdateSubjects(nc, exArgs.stream, exArgs.subject);
-
-            int stop = exArgs.msgCount < 2 ? 2 : exArgs.msgCount + 1;
-            for (int x = 1; x < stop; x++) {
-                // make unique message data if you want more than 1 message
-                String data = exArgs.msgCount < 2 ? exArgs.message : exArgs.message + "-" + x;
-
-                // create a typical NATS message
-                Message msg = NatsMessage.builder()
-                        .subject(exArgs.subject)
-                        .headers(exArgs.headers)
-                        .data(data, StandardCharsets.UTF_8)
-                        .build();
-
-                // Publish a message and print the results of the publish acknowledgement.
-                // We'll use the defaults for this simple example, but there are options
-                // to constrain publishing to certain streams, expect sequence numbers and
-                // more. See the NatsJsPubWithOptionsUseCases.java example for details.
-                // An exception will be thrown if there is a failure.
-                PublishAck pa = js.publish(msg);
-                System.out.printf("Published message %s on subject %s, stream %s, seqno %d.\n",
-                        data, exArgs.subject, pa.getStream(), pa.getSeqno());
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+    try {
+        pa = future.get(1, TimeUnit.SECONDS);
+        System.out.println("Publish Sequence: " + pa.getSeqno());
+    }
+    catch (ExecutionException e) {
+        // Might have been a problem with the publish,
+        // such as a failed expectation (advanced feature)
+        // Also could be that the publish ack did not return in time
+        // from the internal request timeout
+    }
+    catch (TimeoutException e) {
+        // The future timed out meaning it's timeout was shorter than
+        // the publish async's request timeout
+    }
+    catch (InterruptedException e) {
+        // The future.get() thread was interrupted.
     }
 }
 ```
@@ -128,7 +83,7 @@ import { connect, Empty } from "../../src/mod.ts";
 const nc = await connect();
 
 const jsm = await nc.jetstreamManager();
-await jsm.streams.add({ name: "B", subjects: ["b.a"] });
+await jsm.streams.add({ name: "example-stream", subjects: ["example-subject"] });
 
 const js = await nc.jetstream();
 // the jetstream client provides a publish that returns
@@ -136,19 +91,19 @@ const js = await nc.jetstream();
 // by the server. You can associate various expectations
 // when publishing a message to prevent duplicates.
 // If the expectations are not met, the message is rejected.
-let pa = await js.publish("b.a", Empty, {
+let pa = await js.publish("example-subject", Empty, {
   msgID: "a",
-  expect: { streamName: "B" },
+  expect: { streamName: "example-stream" },
 });
 console.log(`${pa.stream}[${pa.seq}]: duplicate? ${pa.duplicate}`);
 
-pa = await js.publish("b.a", Empty, {
+pa = await js.publish("example-subject", Empty, {
   msgID: "a",
   expect: { lastSequence: 1 },
 });
 console.log(`${pa.stream}[${pa.seq}]: duplicate? ${pa.duplicate}`);
 
-await jsm.streams.delete("B");
+await jsm.streams.delete("example-stream");
 await nc.drain();
 ```
 {% endtab %}
@@ -167,17 +122,42 @@ async def main():
     # Create JetStream context.
     js = nc.jetstream()
 
-    # Persist messages on 'foo's subject.
-    await js.add_stream(name="sample-stream", subjects=["foo"])
+    # Persist messages on 'example-subject'.
+    await js.add_stream(name="example-stream", subjects=["example-subject"])
 
     for i in range(0, 10):
-        ack = await js.publish("foo", f"hello world: {i}".encode())
+        ack = await js.publish("example-subject", f"hello world: {i}".encode())
         print(ack)
 
     await nc.close()
 
 if __name__ == '__main__':
     asyncio.run(main())
+```
+{% endtab %}
+
+{% tab title="C# v1" %}
+```csharp
+using (IConnection nc = new ConnectionFactory().CreateConnection("nats://localhost:4222"))
+{
+    IJetStreamManagement jsm = nc.CreateJetStreamManagementContext();
+    jsm.AddStream(StreamConfiguration.Builder()
+        .WithName("example-stream")
+        .WithSubjects("example-subject")
+        .Build());
+
+    IJetStream js = jsm.GetJetStreamContext();
+
+    // Publish Synchronously
+    PublishAck pa = js.Publish("example-subject", Encoding.UTF8.GetBytes("Hello JS Sync!"));
+    Console.WriteLine($"Publish Sequence: {pa.Seq}");
+
+    // Publish Asynchronously
+    Task<PublishAck> task =
+        js.PublishAsync("example-subject", Encoding.UTF8.GetBytes("Hello JS Async!"));
+    task.Wait();
+    Console.WriteLine($"Publish Sequence: {task.Result.Seq}");
+}
 ```
 {% endtab %}
 
