@@ -15,8 +15,9 @@ The configuration flags revolve around:
 
 | Flag                  | Description                                                                            |
 | --------------------- | -------------------------------------------------------------------------------------- |
-| `-a`, `--addr`        | Host address to bind to (default: `0.0.0.0` - all interfaces).                         |
+| `-a`, `--addr`, `--net` | Host address to bind to (default: `0.0.0.0` - all interfaces).                       |
 | `-p`, `--port`        | NATS client port (default: 4222).                                                      |
+| `-n`, `--name`, `--server_name` | Server name (default auto).                                                   |
 | `-P`, `--pid`         | File to store the process ID (PID).                                                    |
 | `-m`, `--http_port`   | HTTP port for monitoring dashboard (exclusive of `--https_port`).                      |
 | `-ms`, `--https_port` | HTTPS port monitoring for monitoring dashboard (exclusive of `--http_port`).           |
@@ -24,6 +25,7 @@ The configuration flags revolve around:
 | `-sl`, `--signal`     | Send a signal to nats-server process. See [process signaling](../nats_admin/signals.md). |
 | `--client_advertise`  | Client HostPort to advertise to other servers.                                         |
 | `-t`                  | Test configuration and exit                                                            |
+| `--ports_file_dir     | Creates a ports file in the specified directory (<executable_name>_<pid>.ports).       |
 
 ## JetStream Options
 
@@ -60,6 +62,7 @@ The following flags are available on the server to configure logging:
 | `-DV`                   | Enable both debug and protocol trace messages                 |
 | `-DVV`                  | Debug and verbose trace (traces system account as well)       |
 | `--max_traced_msg_len`  | Maximum printable length for traced messages. 0 for unlimited |
+| `--max_traced_msg_len   | Maximum printable length for traced messages (default: unlimited) |
 
 You can read more about [logging configuration here](../configuration/logging.md).
 
@@ -86,6 +89,8 @@ The following flags are available on the server to configure clustering:
 | `--no_advertise`      | Do not advertise known cluster information to clients       |
 | `--cluster_advertise` | Cluster URL to advertise to other servers                   |
 | `--connect_retries`   | For implicit routes, number of connect retries              |
+| `--cluster_listen`    | Cluster url from which members can solicit routes           |
+
 
 You can read more about [clustering configuration here](/running-a-nats-service/configuration/clustering/README.md).
 
