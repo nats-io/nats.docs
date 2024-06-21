@@ -1,26 +1,169 @@
 # Subject Mapping and Partitioning
 
-Subject mapping and transforms is a very powerful feature of the NATS server, useful for scaling some forms of distributed message processing through partitioning, for canary deployments, A/B testing, chaos testing, and migrating to a new subject namespace.
+Subject mapping and transforms is a very powerful feature of the NATS server. Transformations (we will use it mapping and transform interchangeably) apply to a range of situations when messages are generated and ingested, acting as translations and in some scenarios as filters. 
 
-There are multiple places where you can apply subject transforms:
+{% hint style="warning" %}
+Mapping and translation is and advanced topic. Please make sure you understand NATS concepts like clusters, accounts and streams before proceeding.
+{% endhint %}
 
-* At the Core NATS level each account has its own set of subject transforms, which will apply to any message published by client applications for that account, and you can also use subject transforms as part of the imports and exports between accounts.
-* At the JetStream level you can define subject transforms as part of the stream configuration, which will apply to any message published to that stream, and you can also use subject transforms as part of the mirror and source configurations and for message republishing.
+**Transforms can be applied (for details see below):**
+* [On the server level](#simple-mapping) (default $G account). Applying to all matching messages entering the cluster or leaf node. Non matching subjects will be unchanged.
+* On the individual account level following the same rules as above.
+* On subjects, which are imported into an account.
+* In [Jetstream](#subject-mapping-and-transforms-in-streams) context:
+    * On messages imported by  streams
+    * On messages republished by Jetstream
+    * On messages copied to a stream via a source or mirror. For this purpose the transform acts as a filter.
 
-When not using operator JWT security, you can define the Core NATS account level subject transforms in server configuration files, and you simply need to send a signal for the nats-server process to reload the configuration whenever you change a transform for the change to take effect.
+**Transforms may be be used for:**
+* Translating between name spaces. E.g. between accounts, but also when clusters and leaf-nodes implement different semantics for the same subject. 
+* Suppressing subjects. E.g. Temporarily for testing.
+* For backwards compatibility after changing the subject naming hierarchy.
+* Merging subject together.
+* [Disambiguation and isolation on super-clusters or leaf-nodes](#cluster-scoped-mappings), by using different transforms in different clusters and leaf nodes
+* Testing. E.g. merging a test subject temporarily into a production subject or rerouting a production subject away from a production consumer.
+* [Partitioning subjects](#deterministic-subject-token-partitioning) and Jetstream streams
+* [Filtering](#subject-mapping-and-transforms-in-streams) messages copied (sourced/mirrored) into a Jetstream stream
+* [Chaos testing and sampling. Mappings can be weighted](#weighted-mappings). Allowing for a certain percentage of messages to be rerouted, simulating loss, failure etc.
+* ...
 
-When using operator JWT security with the built-in resolver you define the transforms and the import/exports in the account JWT so after modifying them they will take effect as soon as you push the updated account JWT to the servers.
+**Priority and sequence of operations** 
+
+* Transforms are applied as soon as a message enters the scope in which the transform was defined (cluster, account, leaf-node, stream) and independent on how they arrived (publish by client, passing through gateway, stream import, stream source/mirror). And before any routing or subscription interest is applied. The message message will appear ass if published from the transformed subject under all circumstances.
+
+
+* Transforms are **not applied recursively** in the same scope. This is necessary to prevent trivial loops. In the example below only the first matching rule is applied.
+
+
+```shell
+mappings: {
+	transform.order target.order
+	target.order transform.order
+}
+```
+
+* Transforms are **applied in sequence** as they pass through different scopes. For example:
+    1. A subject is transformed while being published.
+    2. Routed to leaf-node and transformed when received on the leaf-node
+    3. Imported into a stream and stored under a transformed name
+    4. Republished from the stream to NATS Core under a final target subject.
+    
+On a the central cluster  
+```
+server_name: "hub"
+cluster: { name: "hub" }
+mappings: {
+	orders.* orders.central.{{wildcard(1)}}
+}
+```
+
+On a leaf  cluster    
+```
+server_name: "store1"
+cluster: { name: "store1" }
+mappings: {
+	orders.central.* orders.local.{{wildcard(1)}}
+}
+```
+
+A stream config on the leaf cluster   
+```
+{
+  "name": "orders",
+  "subjects": [ "orders.local.*"],
+  "subject_transform":{"src":"orders.local.*","dest":"orders.{{wildcard(1)}}"},
+  "retention": "limits",
+  ...
+  "republish": [
+    {
+      "src": "orders.*",
+      "dest": "orders.trace.{{wildcard(1)}}""
+    }
+  ],
+```
+
+**Security**
+
+When using **config file based account management** (not using  JWT security), you can define the Core NATS account level subject transforms in server configuration files, and  simply need reload the configuration whenever you change a transform for the change to take effect.
+
+When using **operator JWT security** (distributed security) with the built-in resolver you define the transforms and the import/exports in the account JWT so after modifying them they will take effect as soon as you push the updated account JWT to the servers.
+
+**Testing and debugging** 
 
 {% hint style="info" %}
-You can easily test subject transforms using the [`nats`](../using-nats/nats-tools/nats\_cli/) CLI tool command `nats server mapping`.
+You can easily test individual subject transforms rules using the [`nats`](../using-nats/nats-tools/nats\_cli/) CLI tool command `nats server mapping`. See examples below.
 {% endhint %}
+
+{% hint style="info" %}
+From NATS server 2.11 (and NATS versions published thereafter) the handling of a subjects, including mappings can be observed with `nats trace`
+
+In the example below a message is first disambiguated from `orders.device1.order1` -> `orders.hub.device1.order1`. Then imported into a stream and stored under its original name.
+
+```shell
+nats trace orders.device1.order1
+
+Tracing message route to subject orders.device1.order1
+
+Client "NATS CLI Version development" cid:16 cluster:"hub" server:"hub" version:"2.11.0-dev"
+    Mapping subject:"orders.hub.device1.order1"
+--J JetStream action:"stored" stream:"orders" subject:"orders.device1.order1"
+--X No active interest
+
+Legend: Client: --C Router: --> Gateway: ==> Leafnode: ~~> JetStream: --J Error: --X
+
+Egress Count:
+
+  JetStream: 1
+````
+{% endhint %}
+
+
 
 ## Simple Mapping
 
 The example of `foo:bar` is straightforward. All messages the server receives on subject `foo` are remapped and can be received by clients subscribed to `bar`.
 
 ```
+nats server mapping foo bar foo
+> bar
+```
+When no subject is provided the command will operate in interactive mode:
+
+```
 nats server mapping foo bar
+> Enter subjects to test, empty subject terminates.
+>
+> ? Subject foo
+> bar
+
+> ? Subject test
+> Error: no matching transforms available
+```
+
+Example server config: 
+```
+server_name: "hub"
+cluster: { name: "hub" }
+mappings: {
+    orders.flush  orders.central.flush 
+	orders.* orders.central.{{wildcard(1)}}
+}
+```
+
+With accounts 
+
+```
+server_name: "hub"
+cluster: { name: "hub" }
+
+accounts {
+    accountA: { 
+        mappings: {
+            orders.flush  orders.central.flush 
+        	orders.* orders.central.{{wildcard(1)}}
+        }
+    }
+}
 ```
 
 ## Subject Token Reordering
@@ -30,12 +173,28 @@ Wildcard tokens may be referenced by position number in the destination mapping 
 Example: with this transform `"bar.*.*" : "baz.{{wildcard(2)}}.{{wildcard(1)}}"`, messages that were originally published to `bar.a.b` are remapped in the server to `baz.b.a`. Messages arriving at the server on `bar.one.two` would be mapped to `baz.two.one`, and so forth. Try it for yourself using `nats server mapping`.
 
 ```
-nats server mapping "bar.*.*"  "baz.{{wildcard(2)}}.{{wildcard(1)}}"
+nats server mapping "bar.*.*"  "baz.{{wildcard(2)}}.{{wildcard(1)}}" bar.a.b
+> baz.b.a
 ```
+
+{% hint style="info" %}
+An older style deprecated mapping syntax using `$1`.`$2` en lieu of  `{{wildcard(1)}}.{{wildcard(2)}}` may be seen in other examples.
+{% endhint %}
+
+
 
 ## Dropping Subject Tokens
 
-You can drop tokens from the subject by not using all the wildcard tokens in the destination transform, with the exception of mappings defined as part of import/export between accounts in which case _all_ the wildcard tokens must be used in the transform destination.
+You can drop tokens from the subject by not using all the wildcard tokens in the destination transform, with the exception of mappings defined as part of import/export between accounts in which case _all_ the wildcard tokens must be used in the transform destination. 
+
+```
+nats server mapping "orders.*.*" "foo.{{wildcard(2)}}" orders.local.order1
+> orders.order1
+```
+
+{% hint style="info" %}
+Import/export mapping must be mapped bidirectionally unambiguous.
+{% endhint %}
 
 ## Splitting Tokens
 
@@ -70,12 +229,22 @@ Examples:
 
 ## Deterministic Subject token Partitioning
 
-Deterministic token partitioning allows you to use subject-based addressing to deterministically divide (partition) a flow of messages where one or more of the subject tokens make up the key upon which the partitioning will be based, into a number of smaller message flows.
+Deterministic token partitioning allows you to use subject-based addressing to deterministically divide (partition) a flow of messages where one or more of the subject tokens is mapped into a partition key. Deterministically means, the same token are always mapped into the same key. The mapping will appear random and may not be `fair` for a small number of subjects.
 
 For example: new customer orders are published on `neworders.<customer id>`, you can partition those messages over 3 partition numbers (buckets), using the `partition(number of partitions, wildcard token positions...)` function which returns a partition number (between 0 and number of partitions-1) by using the following mapping `"neworders.*" : "neworders.{{wildcard(1)}}.{{partition(3,1)}}"`.
 
+```
+nats server mapping "neworders.*" "neworders.{{wildcard(1)}}.{{partition(3,1)}}" neworders.customerid1
+> neworders.customerid1.0
+```
+
 {% hint style="info" %}
 Note that multiple token positions can be specified to form a kind of _composite partition key_. For example, a subject with the form `foo.*.*` can have a partition transform of `foo.{{wildcard(1)}}.{{wildcard(2)}}.{{partition(5,1,2)}}` which will result in five partitions in the form `foo.*.*.<n>`, but using the hash of the two wildcard tokens when computing the partition number.
+
+```
+nats server mapping "foo.*.*" "foo.{{wildcard(1)}}.{{wildcard(2)}}.{{partition(5,1,2)}}" foo.us.customerid 
+> foo.us.customerid.0
+```
 {% endhint %}
 
 This particular transform means that any message published on `neworders.<customer id>` will be mapped to `neworders.<customer id>.<a partition number 0, 1, or 2>`. i.e.:
@@ -106,7 +275,7 @@ What this deterministic partition transform enables is the distribution of the m
 nats server mapping "foo.*.*" "foo.{{wildcard(1)}}.{{wildcard(2)}}.{{partition(3,1,2)}}"
 ```
 
-### When is deterministic partitioning needed
+### When is deterministic partitioning uselful
 
 The core NATS queue-groups and JetStream durable consumer mechanisms to distribute messages amongst a number of subscribers are partition-less and non-deterministic, meaning that there is no guarantee that two sequential messages published on the same subject are going to be distributed to the same subscriber. While in most use cases a completely dynamic, demand-driven distribution is what you need, it does come at the cost of guaranteed ordering because if two subsequent messages can be sent to two different subscribers which would then both process those messages at the same time at different speeds (or the message has to be re-transmitted, or the network is slow, etc...) and that could result in potential 'out of order' message delivery.
 
@@ -197,5 +366,38 @@ Transforms can be applied in multiple places in the stream configuration:
 * You can also apply a subject mapping transformation as part of the re-publishing of messages.
 
 Note that when used in Mirror, Sources or Republish, the subject transforms are filters with optional transformation, while when used in the Stream configuration it only transforms the subjects of the matching messages and does not act as a filter.
+
+```
+{
+  "name": "orders",
+  "subjects": [ "orders.local.*"],
+  "subject_transform":{"src":"orders.local.*","dest":"orders.{{wildcard(1)}}"},
+  "retention": "limits",
+  ...
+  "sources": [
+    {
+      "name": "other_orders",
+      "subject_transforms": [
+        {
+          "src": "orders.online.*",
+          "dest": "orders.{{wildcard(1)}}"
+        }
+      ]
+    }
+  ],
+  "republish": [
+    {
+      "src": "orders.*",
+      "dest": "orders.trace.{{wildcard(1)}}""
+    }
+  ]
+    
+}
+```
+{% hint style="info" %}
+For `sources` and `republish` transforms the `src` expression will act as a filter. Non-matching subjects will be ignored.
+
+For the stream level `subject_transform` non-matching subjects will stay untouched.
+{% endhint %}
 
 ![](../assets/images/stream-transform.png)
