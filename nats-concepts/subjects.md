@@ -115,17 +115,21 @@ The wildcard `*` can appear multiple times in the same subject. Both types can b
 
 ## Characters allowed and recommended for subject names
 
-For compatibility across clients and ease of maintaining configuration files, we recommend using Alphanumeric characters and `-` (dash) ASCII characters for all names created by the user. 
+For compatibility across clients and ease of maintaining configuration files, we recommend using Alphanumeric characters, `-` (dash) and `_` (underscore) ASCII characters for subject and other entity names created by the user. 
 
-Non-ASCII UNICODE characters are deprecated. UTF-8 was supported tentatively but has been deprecated. Multilingual technical names create many issues for editing, configuration files, display, and cross-border collaboration. 
+UTF-8 (UTF8) characters are supported in subjects. Please use at your own risk. Using multilingual names for technical entities creates many issues for editing, configuration files, display, and cross-border collaboration. 
 
 The rules and recommendations here apply to ALL system names, subjects, streams, durables, buckets, keys (in key value stores), as NATS will create API subjects that contain those names. NATS will enforce these constraints in most cases, but we recommend not relying on this.
 
-**Allowed characters** Any ASCII character except `null` and  `.`,`*` and `>`
-**Recommended characters:** `a` to `z`, `A` to `Z` and `0` to `9` and `-` (names are case sensitive, and cannot contain whitespace). 
-**Naming Conventions** If you want to delimit words, use either CamelCase as in `MyServiceOrderCreate` or `-` as in `my-service-order-create`
-**Special characters:** The period `.` (which is used to separate the tokens in the subject) and `*` and also `>` (the `*` and `>` are used as wildcards) are strictly reserved and cannot be used.
-**Reserved names:** By convention subject names starting with a `$` are reserved for system use (e.g. subject names starting with `$SYS` or `$JS` or `$KV`, etc...). Many system subjects also use `_` (underscore) (e.g. _INBOX , KV_ABC, OBJ_XYZ etc.)
+* **Allowed characters**: Any Unicode character except `null`, space,  `.`, `*` and `>`
+
+* **Recommended characters:** (`a` - `z`), (`A` - `Z`), (`0` - `9`), `-` amd `_` (names are case sensitive, and cannot contain whitespace).
+
+* **Naming Conventions** If you want to delimit words, use either CamelCase as in `MyServiceOrderCreate` or `-` and `_` as in `my-service-order-create`
+
+* **Special characters:** The period `.` (which is used to separate the tokens in the subject) and `*` and also `>` (the `*` and `>` are used as wildcards) are reserved and cannot be used.
+
+* **Reserved names:** By convention subject names starting with a `$` are reserved for system use (e.g. subject names starting with `$SYS` or `$JS` or `$KV`, etc...). Many system subjects also use `_` (underscore) (e.g. _INBOX , KV_ABC, OBJ_XYZ etc.)
 
 Good names
 ```markup
