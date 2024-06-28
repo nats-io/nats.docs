@@ -170,7 +170,7 @@ When a stream is configured as a `source` or `mirror`, it will automatically and
 A source or mirror stream can have its own retention policy, replication, and storage type. Changes to to the source or mirror,e.g. deleting messages or publishing, do not reflect on the origin stream.
 
 {% hint style="info" %}
-`Sources` is a generalization of the `Mirror` and allows for sourcing data from one or more streams concurrently. We suggest to use `Sources` in new configurations. 
+`Sources` is a generalization of the `Mirror` and allows for sourcing data from one or more streams concurrently. 
 If you require the target stream to act as a read-only replica:
 * Configure the stream without listen subjects **or**
 * Temporarily disable the listen subjects through client authorizations. 
