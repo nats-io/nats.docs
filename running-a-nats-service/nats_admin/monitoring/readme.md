@@ -138,7 +138,7 @@ The `/connz` endpoint reports more detailed information on current and recently 
 | subs         | true, 1, false, 0 or `detail` | Include subscriptions. Default is false. When set to `detail` a list with more detailed subscription information will be returned. |
 | offset       | number > 0                    | Pagination offset. Default is 0.                                                                                                   |
 | limit        | number > 0                    | Number of results to return. Default is 1024.                                                                                      |
-| cid          | number, valid id              | Return a connection by it's id                                                                                                     |
+| cid          | number, valid id              | Return a connection by its id                                                                                                     |
 | state        | open, \*closed, any           | Return connections of particular state. Default is open.                                                                           |
 | mqtt\_client | string                        | Filter the connection with this MQTT client ID.                                                                                    |
 
