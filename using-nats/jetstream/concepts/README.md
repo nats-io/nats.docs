@@ -22,7 +22,7 @@ For example, you can have an initial stream that captures messages only for a li
 
 ### Higher qualities of services
 
-Besides temporal decoupling of the publishers and subscribers (i.e. 'streaming'), there are other functionalities and qualities of service that JetStream enables
+Besides temporal decoupling of the publishers and subscribers (i.e. 'streaming'), there are other functionalities and qualities of service that JetStream enables.
 
 #### Guaranteed messaging
 
