@@ -137,6 +137,7 @@
   * [Docker Swarm](running-a-nats-service/running/nats\_docker/docker\_swarm.md)
   * [Python and NGS Running in Docker](running-a-nats-service/running/nats\_docker/ngs-docker-python.md)
   * [JetStream](running-a-nats-service/running/nats\_docker/jetstream\_docker.md)
+  * [NGS Leaf Nodes](running-a-nats-service/running/nats\_docker/ngs-leafnodes-docker.md)
 * [NATS and Kubernetes](running-a-nats-service/nats-on-kubernetes/nats-kubernetes.md)
 * [NATS Server Clients](running-a-nats-service/clients.md)
 * [Configuring NATS Server](running-a-nats-service/configuration/README.md)
