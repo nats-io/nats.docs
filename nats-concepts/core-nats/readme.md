@@ -1,5 +1,5 @@
 # Core NATS
 
-What is referred to as 'Core NATS' is the base set of functionalities and qualities of service offered by a NATS service infrastructure where none of the `nats-server` instances are configured to enable JetStream.
+Core NATS is the foundational functionality in a NATS system. It operates on a publish-subscribe model using subject/topic-based addressing. This model offers two significant advantages: location independence and a default many-to-many (M:N) communication pattern. These fundamental concepts enable powerful and innovative solutions for common development patterns, such as microservices, without requiring additional technologies like load balancers, API gateways, or DNS configuration.
 
-The 'Core NATS' functionalities are publish/subscribe with subject-based-addressing and queuing, with 'at most once' quality of service.
+NATS systems can be enhanced with [JetStream](https://docs.nats.io/nats-concepts/jetstream), which adds persistence capabilities. While Core NATS provides best-effort, at-most-once message delivery, JetStream introduces at-least-once and exactly-once semantics.
