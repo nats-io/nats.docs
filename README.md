@@ -28,17 +28,17 @@ We feel that it should be the backbone of your communication between services. I
 - Every major language is supported
 - Persistence via JetStream
   - at most once delivery or **exactly once** delivery
-  - work quees
+  - work queues
   - stream processing
   - data replication
   - data retention
   - data deduplication
-  - Higher order datastructures
+  - Higher order data structures
     - Key/Value with watchers, versioning, and TTL
     - Object storage with versioning
 - Security
   - TLS
-  - JWT based zero trust security
+  - JWT-based zero trust security
 - Clustering
   - High availability
   - Fault tolerance
@@ -46,13 +46,13 @@ We feel that it should be the backbone of your communication between services. I
 - Protocols supported
   - TCP
   - MQTT
-  - Websockets
+  - WebSockets
 
-All this in a single binary that is easy to deploy and manage. No external dependencies, just drop it in and add a configuration file to point and other NATS servers and you are ready to go. If fact, you can even embed NATS in your application (for Go users)!
+All of this in a single binary that is easy to deploy and manage. No external dependencies, just drop it in and add a configuration file to point to other NATS servers and you are ready to go. In fact, you can even embed NATS in your application (for Go users)!
 
-## Guided Tour
+## Guided tour
 
-1. In general we reccomend try to solve your problems first using [Core NATS](./nats-concepts/core-nats/readme.md).
+1. In general we reccomend trying to solve your problems first using [Core NATS](./nats-concepts/core-nats/readme.md).
 2. If you need to share state between services, take a look at the [KV](./nats-concepts/jetstream/key-value-store/readme.md) or [Object Store](./nats-concepts/jetstream/object-store/obj_store.md) in JetStream.
 3. When you need lower level access to persistence streams, move on to using [JetStream](./nats-concepts/jetstream/readme.md) directly for more advanced messaging patterns.
 4. Learn about [deployment strategies](./nats-concepts/adaptive_edge_deployment.md)
