@@ -8,28 +8,7 @@ Check out the repo for all the details: [github.com/nats-io/natscli](https://git
 
 ## Installing `nats`
 
-For macOS:
-
-```shell
-brew tap nats-io/nats-tools
-brew install nats-io/nats-tools/nats
-```
-
-For Arch Linux:
-
-Download the correct .deb file for your computer from [here](https://github.com/nats-io/natscli/releases).
-
-If you have an Intel CPU, then it'll probably be this one (for version X.Y.Z): `nats-X.Y.Z-amd64.deb` Then run this command to install the file.
-
-```shell
-sudo dpkg -i nats-X.Y.Z-amd64.deb
-```
-
-Or with the `yay` package manager
-
-```shell
-yay natscli
-```
+Please refer to the [installation section in the readme](https://github.com/nats-io/natscli?tab=readme-ov-file#installation).
 
 Binaries are also available as [GitHub Releases](https://github.com/nats-io/natscli/releases).
 
@@ -99,6 +78,9 @@ Output extract
       --tlscert=FILE            TLS public certificate ($NATS_CERT)
       --tlskey=FILE             TLS private key ($NATS_KEY)
       --tlsca=FILE              TLS certificate authority chain ($NATS_CA)
+      --socks-proxy=PROXY       SOCKS5 proxy for connecting to NATS server
+                                ($NATS_SOCKS_PROXY)
+      --colors=SCHEME           Sets a color scheme to use ($NATS_COLOR)
       --timeout=DURATION        Time to wait on responses from NATS
                                 ($NATS_TIMEOUT)
       --context=NAME            Configuration context ($NATS_CONTEXT)
