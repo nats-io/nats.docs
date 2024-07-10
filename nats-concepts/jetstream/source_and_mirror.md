@@ -23,7 +23,7 @@ If you require the target stream to act as a read-only replica:
 * Temporarily disable the listen subjects through client authorizations. 
 {% endhint %}
 
-## Source specifics
+## Source specific
 A stream defining `Sources` is a generalized replication mechanism and allows for sourcing data from **one or more streams** concurrently as well as allowing direct write/publish by clients. Essentially the source streams and client writes are aggregated into a single interleaved stream.
 Subject transformation and filtering allow for powerful data distribution architectures.
 
@@ -31,11 +31,11 @@ Subject transformation and filtering allow for powerful data distribution archit
 Sourcing messages does not retain sequence numbers. But it retain the in stream sequence of messages . Between streams sourced to the same target, the sequence of messages is undefined.
 {% endhint %}
 
-## Mirror specifics
+## Mirror specific
 A mirror can source its messages from **exactly one stream** and a clients can not directly write to the  mirror. Although messages cannot be published to a mirror directly by clients, messages can be deleted on-demand (beyond the retention policy), and consumers have all capabilities available on regular streams.
 
 {% hint style="info" %}
-* Mirroring messages always retains the sequence numbers of the origin stream. 
+* Mirrored messages retains the sequence numbers and timestamps of the origin stream. 
 * Mirrors can be used for for (geographic) load distribution with the `MirrorDirect` stream attribute. See: [https://docs.nats.io/nats-concepts/jetstream/streams#configuration](https://docs.nats.io/nats-concepts/jetstream/streams#configuration)
 
 {% endhint %}
