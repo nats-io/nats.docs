@@ -25,6 +25,7 @@
     * [Queueing Walkthrough](nats-concepts/core-nats/queue-groups/queues\_walkthrough.md)
 * [JetStream](nats-concepts/jetstream/readme.md)
   * [Streams](nats-concepts/jetstream/streams.md)
+  * [Source and Mirror](nats-concepts/jetstream/source_and_mirror.md)
   * [Consumers](nats-concepts/jetstream/consumers.md)
     * [Example](nats-concepts/jetstream/example\_configuration.md)
   * [JetStream Walkthrough](nats-concepts/jetstream/js\_walkthrough.md)
