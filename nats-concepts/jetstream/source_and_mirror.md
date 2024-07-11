@@ -1,6 +1,11 @@
 # Source and Mirror
 
-When a stream is configured with a `source` or `mirror`, it will automatically and asynchronously replicate messages from the origin stream. There are several options when declaring the configuration.
+When a stream is configured with a `source` or `mirror`, it will automatically and asynchronously replicate messages from the origin stream. 
+
+`source` or `mirror` are designed to be robust and will recover from a loss of connection. They are suitable for geographic distribution over high latency and unreliable connections. E.g. even a leaf node starting and connecting intermittently every few days will still receive or send messages over the source/mirror link.
+
+
+There are several options available when declaring the configuration.
 
 - `Name` - Name of the origin stream to source messages from.
 - `StartSeq` - An optional start sequence of the origin stream to start mirroring from.
@@ -23,9 +28,14 @@ If you require the target stream to act as a read-only replica:
 * Temporarily disable the listen subjects through client authorizations. 
 {% endhint %}
 
+## General behavior
+* All configurations are made on the receiving side. The stream from which data is sourced and mirrored does not need to be configured. No cleanup is required on the origin side if the receiver disappears.
+* A stream can be the origin (source) for multiple streams. This is useful for geographic distribution or for designing "fan out" topologies where data needs to be distributed reliable to a large number (up to millions) of client connections. 
+* Leaf nodes and leaf node domains are explicitly supported through the `API prefix` 
+
 ## Source specific
-A stream defining `Sources` is a generalized replication mechanism and allows for sourcing data from **one or more streams** concurrently as well as allowing direct write/publish by clients. Essentially the source streams and client writes are aggregated into a single interleaved stream.
-Subject transformation and filtering allow for powerful data distribution architectures.
+A stream defining `Sources` is a generalized replication mechanism and allows for sourcing data from **one or more streams** concurrently. A stream with sources can still act as a regular stream allowing direct write/publish by local clients to the stream. Essentially the source streams and local client writes are aggregated into a single interleaved stream.
+Combined with subject transformation and filtering sourcing allows to design sophisticated data distribution architectures.
 
 {% hint style="info" %}
 Sourcing messages does not retain sequence numbers. But it retain the in stream sequence of messages . Between streams sourced to the same target, the sequence of messages is undefined.
@@ -42,11 +52,11 @@ A mirror can source its messages from **exactly one stream** and a clients can n
 
 ## Expected behavior in edge conditions
 
-* Source and mirror contracts are designed with one-way (geographic) data replication in mind. Neither configuration provides full synchronization between streams, which would include deletes or replication of other stream attributes.
+* Source and mirror contracts are designed with one-way (geographic) data replication in mind. Neither configuration provides a full synchronization between streams, which would include deletes or replication of other stream attributes.
 
 * The content of the stream from which a source or mirror is drawn needs to be reasonable stable. Quickly deleting messages after publishing them may result in inconsistent replication due to the asynchronous nature of the replication process.
 
-* Sources and Mirror try to be be efficient in replicating messages and are lenient towards the source/mirror origin temporarily not being reachable, e.g. when using leaf nodes, which are connected intermittently. For sake of efficiency the recovery interval in case of a disconnect is 10-20s.
+* Sources and Mirror try to be be efficient in replicating messages and are lenient towards the source/mirror origin being unreachable (event for extended periods of time), e.g. when using leaf nodes, which are connected intermittently. For sake of efficiency the recovery interval in case of a disconnect is 10-20s.
 
 * Mirror and source agreements do not create a visible consumer in the origin stream.
 
@@ -54,10 +64,10 @@ A mirror can source its messages from **exactly one stream** and a clients can n
 
 Source and mirror work with origin stream with workqueue retention. The source/mirror will act as a consumer removing messages from the origin stream. 
 
-The intended usage is for moving messages conveniently from one location to another (e.g. from a leaf node). It does not trivially implement a distributed workqueue. But a with the help of subject filtering can approximate a distributed workqueue.
+The intended usage is for moving messages conveniently from one location to another (e.g. from a leaf node). It does not trivially implement a distributed workqueue (where messages are distributed to multiple streams sourcing from the same origin), although with the help of subject filtering a distributed workqueue can be approximated.
 
 {% hint style="warning" %}
-If you try to create additional consumers on the origin stream the behavior is undefined.  
+If you try to create additional (conflicting) consumers on the origin workqueue stream the behavior becomes undefined. A workqueue allows only one consumer per subject. If the source/mirror connection is active local clients trying to create additional consumers will fail. In reverse a source/mirror cannot be created when there is already a local consumer for the same subjects.
 {% endhint %}
 
 ### Interest base retention
