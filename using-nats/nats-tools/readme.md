@@ -1,7 +1,7 @@
 # NATS Command Line Tooling
 
 ## Using NATS from client application
-The most common form of connecting to the NATS messaging system will be through application build with any of the [40+ client libraries](../developing-with-nats/developer.md) available for NATS. 
+The most common form of connecting to the NATS messaging system will be through an application built with any of the [40+ client libraries](../developing-with-nats/developer.md) available for NATS. 
 
 The client application will connect to an instance of the NATS server, be it a single server, a cluster of servers or even a global super-cluster such as [Synadia Cloud](https://www.synadia.com/cloud), sending and receiving messages via a range of subscribers contracts. If the application is written in GoLang the NATS server can even be [embedded into a Go](https://dev.to/karanpratapsingh/embedding-nats-in-go-19o) application.
 
