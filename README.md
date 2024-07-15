@@ -52,7 +52,7 @@ All of this in a single binary that is easy to deploy and manage. No external de
 
 ## Guided tour
 
-1. In general we reccomend trying to solve your problems first using [Core NATS](./nats-concepts/core-nats/readme.md).
+1. In general we recommend trying to solve your problems first using [Core NATS](./nats-concepts/core-nats/readme.md).
 2. If you need to share state between services, take a look at the [KV](./nats-concepts/jetstream/key-value-store/readme.md) or [Object Store](./nats-concepts/jetstream/object-store/obj_store.md) in JetStream.
 3. When you need lower level access to persistence streams, move on to using [JetStream](./nats-concepts/jetstream/readme.md) directly for more advanced messaging patterns.
 4. Learn about [deployment strategies](./nats-concepts/adaptive_edge_deployment.md)
