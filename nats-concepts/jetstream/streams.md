@@ -12,7 +12,7 @@ Streams can consume many subjects. Here we have `ORDERS.*` but we could also con
 
 Streams support various retention policies which define when messages in the stream can be automatically deleted, such as when stream limits are hit (like max count, size or age of messages), or also more novel options that apply on top of the limits such as interest-based retention or work-queue semantics (see [Retention Policy](#retentionpolicy)).
 
-Upon reaching messages limit, the server will automatically discard messages either by removing the oldest messages to make room for new ones (`DiscardOld`) or by refusing to store new messages (`DiscardNew`). For more details, see [Discard Policy](#discardpolicy).
+Upon reaching message limits, the server will automatically discard messages either by removing the oldest messages to make room for new ones (`DiscardOld`) or by refusing to store new messages (`DiscardNew`). For more details, see [Discard Policy](#discardpolicy).
 
 Streams support deduplication using a `Nats-Msg-Id` header and a sliding window within which to track duplicate messages. See the [Message Deduplication](../../using-nats/jetstream/model_deep_dive.md#message-deduplication) section.
 
@@ -31,7 +31,7 @@ Below are the set of stream configuration options that can be defined. The `Vers
 | MaxAge                                | Maximum age of any message in the Stream, expressed in nanoseconds.                                                                                                                               | 2.2.0   | Yes             |
 | MaxBytes                              | Maximum number of bytes stored in the stream. Adheres to Discard Policy, removing oldest or refusing new messages if the Stream exceeds this size.                                                | 2.2.0   | Yes             |
 | MaxMsgs                               | Maximum number of messages stored in the stream. Adheres to Discard Policy, removing oldest or refusing new messages if the Stream exceeds this number of messages.                               | 2.2.0   | Yes             |
-| MaxMsgSize                            | The largest message that will be accepted by the Stream. A size of a message is a sum of payload and headers.                                                                                     | 2.2.0   | Yes             |
+| MaxMsgSize                            | The largest message that will be accepted by the Stream. The size of a message is a sum of payload and headers.                                                                                     | 2.2.0   | Yes             |
 | MaxConsumers                          | Maximum number of Consumers that can be defined for a given Stream, `-1` for unlimited.                                                                                                           | 2.2.0   | No              |
 | NoAck                                 | Disables acknowledging messages that are received by the Stream.                                                                                                                                  | 2.2.0   | Yes             |
 | [Retention](#retentionpolicy)         | Declares the retention policy for the stream.                                                                                                                                                     | 2.2.0   | No              |
@@ -52,9 +52,9 @@ Below are the set of stream configuration options that can be defined. The `Vers
 | DiscardNewPerSubject                  | If true, applies discard new semantics on a per subject basis. Requires `DiscardPolicy` to be `DiscardNew` and the `MaxMsgsPerSubject` to be set.                                                 | 2.9.0   | Yes             |
 | Metadata                              | A set of application-defined key-value pairs for associating metadata on the stream.                                                                                                              | 2.10.0  | Yes             |
 | Compression                           | If file-based and a compression algorithm is specified, the stream data will be compressed on disk. Valid options are nothing (empty string) or `s2` for Snappy compression.                      | 2.10.0  | Yes             |
-| FirstSeq                              | If specified, a new stream will be created with it’s initial sequence set to this value.                                                                                                          | 2.10.0  | No              |
+| FirstSeq                              | If specified, a new stream will be created with its initial sequence set to this value.                                                                                                          | 2.10.0  | No              |
 | [SubjectTransform](#subjecttransform) | Applies a subject transform (to matching messages) before storing the message.                                                                                                                    | 2.10.0  | Yes             |
-| ConsumerLimits                        | Sets default limits for consumers created for a stream. Those can be overridden per-consumer.                                                                                                     | 2.10.0  | Yes             |
+| ConsumerLimits                        | Sets default limits for consumers created for a stream. Those can be overridden per consumer.                                                                                                     | 2.10.0  | Yes             |
 
 ### StorageType
 
@@ -82,7 +82,7 @@ If the `InterestPolicy` or `WorkQueuePolicy` is chosen for a stream, note that a
 {% endhint %}
 
 {% hint style="info" %}
-`WorkQueuePolicy` streams will only delete messages enforced by limits or when a message has been successfully `Ack’d` by it’s consumer. Messages that have attempted redelivery and have reached `MaxDelivery` attempts for the consumer will remain in the stream and must be manually deleted via the JetStream API.
+`WorkQueuePolicy` streams will only delete messages enforced by limits or when a message has been successfully `Ack’d` by its consumer. Messages that have attempted redelivery and have reached `MaxDelivery` attempts for the consumer will remain in the stream and must be manually deleted via the JetStream API.
 {% endhint %}
 
 [limits-example]: https://natsbyexample.com/examples/jetstream/limits-stream/go
