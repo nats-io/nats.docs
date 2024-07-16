@@ -29,17 +29,18 @@ By default the NATS server exposes multiple ports:
 * 4222 is for clients.
 * 8222 is an HTTP management port for information reporting.
 * 6222 is a routing port for clustering.
-* Use -p or -P to customize.
 
-To run a server with the ports exposed on a `docker network`:
+The default ports may be customized by providing either a -p or -P option on the `docker run` command line.
 
-First create the 'docker network' nats
+The following steps illustrate how to run a server with the ports exposed on a `docker network.`
+
+First, create the `docker network` 'nats:'
 
 ```bash
 docker network create nats
 ```
 
-And start the server
+Then start the server:
 
 ```bash
 docker run --name nats --network nats --rm -p 4222:4222 -p 8222:8222 nats --http_port 8222
@@ -47,7 +48,7 @@ docker run --name nats --network nats --rm -p 4222:4222 -p 8222:8222 nats --http
 
 ### Creating a NATS Cluster
 
-First run a server with the ports exposed on the 'nats' `docker network`:
+First, run a server with the ports exposed on the 'nats' `docker network`:
 
 ```bash
 docker run --name nats --network nats --rm -p 4222:4222 -p 8222:8222 nats --http_port 8222 --cluster_name NATS --cluster nats://0.0.0.0:6222
@@ -66,7 +67,7 @@ docker run --name nats --network nats --rm -p 4222:4222 -p 8222:8222 nats --http
 [1] 2021/09/28 09:21:56.559433 [INF] Listening for route connections on 0.0.0.0:6222
 ```
 
-Next, start another couple of servers and point them to the seed server to make them form a cluster:
+Next, start additional servers pointing them to the seed server to cause them to form a cluster:
 
 ```bash
 docker run --name nats-1 --network nats --rm nats --cluster_name NATS --cluster nats://0.0.0.0:6222 --routes=nats://ruser:T0pS3cr3t@nats:6222
@@ -75,7 +76,7 @@ docker run --name nats-2 --network nats --rm nats --cluster_name NATS --cluster 
 
 **NOTE** Since the Docker image protects routes using credentials we need to provide them above. Extracted [from Docker image configuration](https://github.com/nats-io/nats-docker/blob/6fb8c05311bb4d1554390f66abb0a5ebef1e1c9d/2.1.0/scratch/amd64/nats-server.conf#L13-L19)
 
-To verify the routes are connected, you can make a request to the monitoring endpoint on `/routez` as follows and confirm that there are now 2 routes:
+To verify the routes are connected, you can make a request to the monitoring endpoint on `/routez` and confirm that there are now 2 routes:
 
 ```bash
 curl http://127.0.0.1:8222/routez
@@ -123,7 +124,7 @@ curl http://127.0.0.1:8222/routez
 
 ### Creating a NATS Cluster with Docker Compose
 
-It is also straightforward to create a cluster using Docker Compose. Below is a simple example that uses a network named `nats` to create a full mesh cluster.
+It is also straightforward to create a cluster using Docker Compose. Below is a simple example that uses a network named 'nats' to create a full mesh cluster.
 
 ```yaml
 version: "3.5"
@@ -150,7 +151,7 @@ networks:
     name: nats
 ```
 
-Now we use Docker Compose to create the cluster that will be using the `nats` network:
+Now we use Docker Compose to create the cluster that will be using the 'nats' network:
 
 ```bash
 docker-compose -f nats-cluster.yaml up
@@ -206,7 +207,7 @@ Now, the following should work: make a subscription on one of the nodes and publ
 docker run --network nats --rm -it natsio/nats-box
 ```
 
-Inside the container
+Inside the container:
 
 ```shell
 nats sub -s nats://nats:4222 hello &
@@ -214,13 +215,13 @@ nats pub -s "nats://nats-1:4222" hello first
 nats pub -s "nats://nats-2:4222" hello second
 ```
 
-Also stopping the seed node to which the subscription was done, should trigger an automatic failover to the other nodes:
+Stopping the seed node, which received the subscription, should trigger an automatic failover to the other nodes:
 
 ```bash
 docker-compose -f nats-cluster.yaml stop nats
 ```
 
-Output extract
+Output extract:
 
 ```
 ... 

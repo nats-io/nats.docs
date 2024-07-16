@@ -1,19 +1,21 @@
 # Ping/Pong Protocol
 
-The client and server use a simple PING/PONG protocol to check that either of them are still connected to the other. On a regular interval the client will ping the server, which responds with a pong.
+NATS client applications use a PING/PONG protocol to check that there is a working connection to the NATS service. Periodically the client will send PING messages to the server, which responds with a PONG. This period is configured by specifying a ping interval on the client connection settings.
 
 ![](../../../.gitbook/assets/pingpong.svg)
 
-Once a configurable maximum of outstanding pings without a single pong reply is hit, the connection is closed as stale. Together these two values define a timeout for the connection which specifies how quickly the client will be notified of a problem. This will also help when there is a remote network partition where the operating system does not detect a socket error. Upon connection close, the client will attempt to reconnect. When it knows about other servers, these will be tried next.
+The connection will be closed as stale when the client reaches a number of pings which recieved no pong in response, which is configured by specifying the maximum pings outstanding on the client connection settings.
+
+The ping interval and the maximum pings outstanding work together to specify how quickly the client connection will be notified of a problem. This will also help when there is a remote network partition where the operating system does not detect a socket error. Upon connection close, the client will attempt to reconnect. When it knows about other servers, these will be tried next.
 
 In the presence of traffic, such as messages or client side pings, the server will not initiate the PING/PONG interaction.
 
-On connections with a lot of traffic, the client will often figure out there is a problem between PINGS, and as a result the default PING interval is often on the order of minutes. To set the interval to 20s and limit outstanding pings to 5, thus forcing a closed connection after 100s of inactivity:
+On connections with significant traffic, the client will often figure out there is a problem between PINGS, and as a result the default ping interval is typically on the order of minutes. To close an unresponsive connection after 100s, set the ping interval to 20s and the maximum pings outstanding to 5:
 
 {% tabs %}
 {% tab title="Go" %}
 ```go
-// Set Ping Interval to 20 seconds
+// Set Ping Interval to 20 seconds and Max Pings Outstanding to 5
 nc, err := nats.Connect("demo.nats.io", nats.Name("API Ping Example"), nats.PingInterval(20*time.Second), nats.MaxPingsOutstanding(5))
 if err != nil {
     log.Fatal(err)
@@ -26,23 +28,25 @@ defer nc.Close()
 
 {% tab title="Java" %}
 ```java
-Options options = new Options.Builder().
-                            server("nats://demo.nats.io:4222").
-                            pingInterval(Duration.ofSeconds(20)). // Set Ping Interval
-                            maxPingsOut(5). // Set max pings in flight
-                            build();
-Connection nc = Nats.connect(options);
+Options options = new Options.Builder()
+    .server("nats://demo.nats.io")
+    .pingInterval(Duration.ofSeconds(20)) // Set Ping Interval
+    .maxPingsOut(5) // Set max pings in flight
+    .build();
 
-// Do something with the connection
-
-nc.close();
+// Connection is AutoCloseable
+try (Connection nc = Nats.connect(options)) {
+    // Do something with the connection
+}
 ```
 {% endtab %}
 
 {% tab title="JavaScript" %}
 ```javascript
+// Set Ping Interval to 20 seconds and Max Pings Outstanding to 5
 const nc = await connect({
     pingInterval: 20 * 1000,
+    maxPingOut: 5,
     servers: ["demo.nats.io:4222"],
 });
 ```
@@ -54,7 +58,7 @@ nc = NATS()
 
 await nc.connect(
    servers=["nats://demo.nats.io:4222"],
-   # Set Ping Interval to 20 seconds
+   # Set Ping Interval to 20 seconds and Max Pings Outstanding to 5
    ping_interval=20,
    max_outstanding_pings=5,
    )
@@ -63,10 +67,25 @@ await nc.connect(
 ```
 {% endtab %}
 
+{% tab title="C# V1" %}
+```csharp
+Options opts = ConnectionFactory.GetDefaultOptions();
+opts.Url = "nats://demo.nats.io";
+opts.PingInterval = 20000; // Set Ping Interval in milliseconds
+opts.MaxPingsOut = 5; // Set max pings in flight
+
+// IConnection is IDisposable
+using (IConnection nc = new ConnectionFactory().CreateConnection(opts))
+{
+    Console.WriteLine(nc.ServerInfo);
+    // Do something with the connection
+}
+```
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'
-
+# Set Ping Interval to 20 seconds and Max Pings Outstanding to 5
 NATS.start(ping_interval: 20, max_outstanding_pings: 5) do |nc|
    nc.on_reconnect do
     puts "Got reconnected to #{nc.connected_server}"

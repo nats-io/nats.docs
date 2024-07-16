@@ -356,7 +356,7 @@ jetstream {
 | `cipher`                  | Set to enable storage-level [encryption at rest](/running-a-nats-service/nats_admin/jetstream_admin/encryption_at_rest.md). Choose either `chachapoly` or `aes`.                          | (not set)               | 2.3.0   |
 | `key`                     | The encryption key to use when encryption is enabled. A key length of at least 32 bytes is recommended. Note, this key is HMAC-256 hashed on startup which reduces the byte length to 64. | (not set)               | 2.3.0   |
 | `max_outstanding_catchup` | Max in-flight bytes for stream catch-up                                                                                                                                                   | 32MB                    | 2.9.0   |
-| `sync_interval`           | Change the default fsync interval for page cache in the filestore.                                                                                                                        | 2m                      | 2.10.0  |
+| `sync_interval`           | Examples: `10s` `1m` `always`  -   Change the default fsync/sync interval for page cache in the filestore. By default JetStream relies on stream replication in the cluster to guarantee data is available after an OS crash. If you run JetStream without replication or with a replication of just 2 you may want to shorten the fsync/sync interval. - You can force an fsync after each messsage with `always`, this will slow down the throughput to a few hundred msg/s.                                                                                                           | 2m                      | 2.10.0  |
 
 
 

@@ -2,7 +2,7 @@
 
 ## Stream Limits, Retention, and Policy
 
-Streams store data on disk, but we cannot store all data forever so we need ways to control their size automatically.
+Streams store data on disk, but we cannot store all data forever, so we need ways to control their size automatically.
 
 There are 3 features that come into play when Streams decide how long they store data.
 
@@ -251,7 +251,7 @@ Additionally, there are a few types of acknowledgements:
 | `AckNext`     | `+NXT`      | Acknowledges the message was handled and requests delivery of the next message to the reply subject. Only applies to Pull-mode.    |
 | `AckTerm`     | `+TERM`     | Instructs the server to stop redelivery of a message without acknowledging it as successfully processed                            |
 
-So far all of the examples were the `AckAck` type of acknowledgement, by replying to the Ack with the body as indicated in `Bytes` you can pick what mode of acknowledgement you want.
+So far all of the examples were the `AckAck` type of acknowledgement, by replying to the Ack with the body as indicated in `Bytes` you can pick what mode of acknowledgement you want. Note that this description is documenting the internal JetStream protocol. Client libraries offer APIs for performing all the above acknowledgments using specific APIs where you don't worry about the internal protocol payloads.
 
 All of these acknowledgement modes, except `AckNext`, support double acknowledgement - if you set a reply subject when acknowledging the server will in turn acknowledge having received your ACK.
 
@@ -370,7 +370,7 @@ The `--ephemeral` switch tells the system to make an Ephemeral Consumer.
 
 ## Consumer Message Rates
 
-Typically what you want is if a new Consumer is made the selected messages are delivered to you as quickly as possible. You might want to replay messages at the rate they arrived though, meaning if messages first arrived 1 minute apart and you make a new Consumer it will get the messages a minute apart.
+Typically, what you want is if a new Consumer is made the selected messages are delivered to you as quickly as possible. You might want to replay messages at the rate they arrived though, meaning if messages first arrived 1 minute apart, and you make a new Consumer it will get the messages a minute apart.
 
 This is useful in load testing scenarios etc. This is called the `ReplayPolicy` and have values of `ReplayInstant` and `ReplayOriginal`.
 
