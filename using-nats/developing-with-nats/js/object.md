@@ -92,6 +92,5 @@ type ObjectStore interface {
         delete_object_store will delete the underlying stream for the named object.
         """
 ```
-{%%}
 {% endtab %}
 {% endtabs %}
