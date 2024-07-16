@@ -31,6 +31,20 @@ Or with the `yay` package manager
 yay natscli
 ```
 
+For Windows:
+
+```shell
+Invoke-WebRequest -Uri "https://get-nats.io/install.ps1" -OutFile "install.ps1"; .\install.ps1
+```
+
+Depending on your PowerShell settings, you may be prevented from running the install script because it is currently not digitally signed. To work around this, you can change the settings for the current shell session with this command:
+
+```shell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
+You can read about execution policies [here](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies).
+
 Binaries are also available as [GitHub Releases](https://github.com/nats-io/natscli/releases).
 
 ## Using `nats`
