@@ -37,7 +37,7 @@ For Windows:
 Invoke-WebRequest -Uri "https://get-nats.io/install.ps1" -OutFile "install.ps1"; .\install.ps1
 ```
 
-Depending on your PowerShell settings, you may prevented from running the install script because it is currently not digitally signed. To work around this, you can change the settings for the current shell session with this command:
+Depending on your PowerShell settings, you may be prevented from running the install script because it is currently not digitally signed. To work around this, you can change the settings for the current shell session with this command:
 
 ```shell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
