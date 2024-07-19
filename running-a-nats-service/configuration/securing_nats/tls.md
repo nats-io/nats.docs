@@ -203,4 +203,4 @@ See: <https://github.com/nats-io/nats.rs/blob/main/async-nats/src/connector.rs>
 
 ### nats.net (v1)
 
-See: <https://github.com/nats-io/nats.net.v1/tree/main/src/Samples/TLSReverseProxyExample>
+See: <https://github.com/nats-io/nats.net.v1/tree/main/src/Samples/TlsVariationsExample>
