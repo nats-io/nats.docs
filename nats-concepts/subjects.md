@@ -73,7 +73,7 @@ factory1.tools.group42.unit17
 service.deploy.server-acme.app123
 ````
 * A subject *should* be used for more than one message.
-* Subscriptions *should* be stable (exist for receiving more than one message.
+* Subscriptions *should* be stable (exist for receiving more than one message).
 * Use wildcard subscriptions over subscribing to individual subjects whenever feasible.
 * Name business or physical entities. Refrain from encoding too much data into the subject.
 * Encode (business) intent into the subject, not technical details.
@@ -121,7 +121,7 @@ The rules and recommendations here apply to ALL system names, subjects, streams,
 
 * **Allowed characters**: Any Unicode character except `null`, space,  `.`, `*` and `>`
 
-* **Recommended characters:** (`a` - `z`), (`A` - `Z`), (`0` - `9`), `-` amd `_` (names are case sensitive, and cannot contain whitespace).
+* **Recommended characters:** (`a` - `z`), (`A` - `Z`), (`0` - `9`), `-` and `_` (names are case sensitive, and cannot contain whitespace).
 
 * **Naming Conventions** If you want to delimit words, use either CamelCase as in `MyServiceOrderCreate` or `-` and `_` as in `my-service-order-create`
 
