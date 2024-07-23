@@ -1,11 +1,11 @@
 # Subject-Based Messaging
 
-NATS is a system for publishing and listening for messages on named communication channels we call `Subjects`. Fundamentally, NATS is an `interest-based` messaging system, where the listener has to `subscribe` to a subset of `subjects`. 
+NATS is a system for publishing and listening for messages on named communication channels we call `Subjects`. Fundamentally, NATS is an `interest-based` messaging system, where the listener has to `subscribe` to a subset of `subjects`.
 
-In other middleware systems subjects may be called `topics`, `channels`, `streams` (Note that in NATS the term `stream` is used for a [Jetstream](jetstream/readme.md) message storage). 
-  
-**What is a subject?**  
-At its simplest, a subject is just a string of characters that form a name the publisher and subscriber can use to find each other. More commonly [subject hierarchies](#subject-hierarchies) are used to scope messages into semantic namespaces.  
+In other middleware systems subjects may be called `topics`, `channels`, `streams` (Note that in NATS the term `stream` is used for a [Jetstream](jetstream/readme.md) message storage).
+
+**What is a subject?**
+At its simplest, a subject is just a string of characters that form a name the publisher and subscriber can use to find each other. More commonly [subject hierarchies](#subject-hierarchies) are used to scope messages into semantic namespaces.
 
 {% hint style="info" %}
 Please check the [constraint and conventions](#characters-allowed-and-recommended-for-subject-names) on naming for subjects here.
@@ -15,14 +15,14 @@ Please check the [constraint and conventions](#characters-allowed-and-recommende
 Through subject-based addressing, NATS provides location transparency across a (large) cloud of routed NATS servers.
 * Subject subscriptions are automatically propagated within the server cloud.
 * Messages will be automatically routed to all interested subscribers, independent of location.
-* Messages with no subscribers to their subject are automatically discarded (Please see the [JetStream](jetstream/readme.md) feature for message persistency). 
+* Messages with no subscribers to their subject are automatically discarded (Please see the [JetStream](jetstream/readme.md) feature for message persistency).
 
 ![](../.gitbook/assets/subjects1.svg)
-  
+
 ## Wildcards
 
 NATS provides two _wildcards_ that can take the place of one or more elements in a dot-separated subject.  Publishers will always send a message to a fully specified subject, without the wildcard. While subscribers can use these wildcards to listen to multiple subjects with a single subscription.
-  
+
 ## Subject hierarchies
 
 The `.` character is used to create a subject hierarchy. For example, a world clock application might define the following to logically group related subjects:
@@ -32,7 +32,7 @@ time.us
 time.us.east
 time.us.east.atlanta
 time.eu.east
-time.eu.warsaw
+time.eu.east.warsaw
 ```
 
 ## Subject usage best practices
@@ -47,14 +47,14 @@ Still, subject subscriptions need to be cached by the server in memory. Consider
 ### Subject-based filtering and security
 The message subject can be filtered with various means and through various configuration elements in your NATS server cluster. For example, but not limited to:
 * Security - allow/deny per user
-* Import/export between accounts 
+* Import/export between accounts
 * Automatic transformations
 * When inserting messages into JetStream streams
 * When sourcing/mirroring JetStream streams
 * When connecting leaf nodes (NATS edge servers)
 * ...
 
-A well-designed subject hierarchy will make the job a lot easier for those tasks. 
+A well-designed subject hierarchy will make the job a lot easier for those tasks.
 
 ### Naming things
 {% hint style="info" %}
@@ -64,7 +64,7 @@ There are only two hard problems in computer science: cache invalidation, naming
 A subject hierarchy is a powerful tool for addressing your application resources. Most NATS users therefore encode business semantics into the subject name. You are free to choose a structure fit for your purpose, but you should refrain from over-complicating your subject design at the start of the project.
 
 **Some guidelines:**
-* Use the first token(s) to establish a general namespace. 
+* Use the first token(s) to establish a general namespace.
 ````shell
 factory1.tools.group42.unit17
 ````
@@ -91,8 +91,8 @@ orders.online.us.server42.ccpayment.premium.store123.electronics.deliver-dhl.ord
 
 ### Matching a single token
 
-The first wildcard is `*` which will match a single token. For example, if an application wanted to listen for eastern time zones, they could subscribe to `time.*.east`, which would match `time.us.east` and `time.eu.east`. 
-Note that `*` can not match a substring within a token `time.New*.east` will 
+The first wildcard is `*` which will match a single token. For example, if an application wanted to listen for eastern time zones, they could subscribe to `time.*.east`, which would match `time.us.east` and `time.eu.east`.
+Note that `*` can not match a substring within a token `time.New*.east` will
 
 ![](../.gitbook/assets/subjects2.svg)
 
@@ -113,9 +113,9 @@ The wildcard `*` can appear multiple times in the same subject. Both types can b
 
 ## Characters allowed and recommended for subject names
 
-For compatibility across clients and ease of maintaining configuration files, we recommend using alphanumeric characters, `-` (dash) and `_` (underscore) ASCII characters for subject and other entity names created by the user. 
+For compatibility across clients and ease of maintaining configuration files, we recommend using alphanumeric characters, `-` (dash) and `_` (underscore) ASCII characters for subject and other entity names created by the user.
 
-UTF-8 (UTF8) characters are supported in subjects. Please use UTF-8 characters at your own risk. Using multilingual names for technical entities can create many issues for editing, configuration files, display, and cross-border collaboration. 
+UTF-8 (UTF8) characters are supported in subjects. Please use UTF-8 characters at your own risk. Using multilingual names for technical entities can create many issues for editing, configuration files, display, and cross-border collaboration.
 
 The rules and recommendations here apply to ALL system names, subjects, streams, durables, buckets, keys (in key-value stores), as NATS will create API subjects that contain those names. NATS will enforce these constraints in most cases, but we recommend not relying on this.
 
@@ -143,13 +143,13 @@ location.Malmö
 $location.Stockholm
 _Subjects_.mysubject
 ```
- 
+
 Forbidden stream names
 ```markup
 all*data
 <my_stream>
 service.stream.1
-``` 
+```
 
 ### Pedantic mode
 By default, for the sake of efficiency, subject names are not verified during message publishing. In particular when generating subjects programmatically, this will result in illegal subjects which cannot be subscribed to. E.g. subjects containing wildcards may be ignored.
@@ -163,11 +163,5 @@ Options options = Options.builder()
     .server("nats://127.0.0.1:4222")
     .pedantic()
     .build();
-Connection nc = Nats.connect(options)    
+Connection nc = Nats.connect(options)
 ```
-
-
-
-
-
-
