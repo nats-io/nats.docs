@@ -1,20 +1,20 @@
 # Subject-Based Messaging
 
 Fundamentally, NATS is about publishing and listening for messages. Both of these depend heavily on _Subjects_.
-  
-**What is a Subject?**  
-At its simplest, a subject is just a string of characters that form a name which the publisher and subscriber can use to find each other. It helps scope messages into streams or topics.   
+
+**What is a Subject?**
+At its simplest, a subject is just a string of characters that form a name which the publisher and subscriber can use to find each other. It helps scope messages into streams or topics.
 
 ![](../.gitbook/assets/subjects1.svg)
-  
+
 ### Characters allowed for subject names
 
-For compatibility across clients, we recommend using ASCII characters (this may change in future).  
-  
-**Recommended characters:** `a` to `z`, `A` to `Z` and `0` to `9` (names are case sensitive, and cannot contain whitespace).  
-**Special characters:** The period `.` (which is used to separate the tokens in the subject) and `*` and also `>` (the `*` and `>` are used as wildcards).  
+For compatibility across clients, we recommend using ASCII characters (this may change in future).
+
+**Recommended characters:** `a` to `z`, `A` to `Z` and `0` to `9` (names are case sensitive, and cannot contain whitespace).
+**Special characters:** The period `.` (which is used to separate the tokens in the subject) and `*` and also `>` (the `*` and `>` are used as wildcards).
 **Reserved subject names:** By convention subject names starting with a `$` are reserved for system use (e.g. subject names starting with `$SYS` or `$JS` or `$KV`, etc...)
-  
+
 ## Subject Hierarchies
 
 The `.` character is used to create a subject hierarchy. For example, a world clock application might define the following to logically group related subjects:
@@ -24,7 +24,7 @@ time.us
 time.us.east
 time.us.east.atlanta
 time.eu.east
-time.eu.warsaw
+time.eu.east.warsaw
 ```
 
 ## Wildcards
@@ -54,4 +54,3 @@ The wildcard `*` can appear multiple times in the same subject. Both types can b
 ## Subject Tokens
 
 It is recommended to keep the maximum number of tokens in your subjects to a reasonable value of 16 tokens max.
-
