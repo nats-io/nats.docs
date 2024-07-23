@@ -10,6 +10,7 @@ As an example, consider message delivery occurring in the 1:N pattern to all sub
 
 * Ensures application fault tolerance
 * Workload processing can be scaled up or down
+* Scale your consumers up or down without duplicate messages
 * No extra configuration required
 * Queue groups are defined by the application and their queue subscribers, rather than the server configuration
 
