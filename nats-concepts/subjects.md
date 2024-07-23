@@ -121,7 +121,7 @@ The rules and recommendations here apply to ALL system names, subjects, streams,
 
 * **Allowed characters**: Any Unicode character except `null`, space,  `.`, `*` and `>`
 
-* **Recommended characters:** (`a` - `z`), (`A` - `Z`), (`0` - `9`), `-` amd `_` (names are case sensitive, and cannot contain whitespace).
+* **Recommended characters:** (`a` - `z`), (`A` - `Z`), (`0` - `9`), `-` and `_` (names are case sensitive, and cannot contain whitespace).
 
 * **Naming Conventions** If you want to delimit words, use either CamelCase as in `MyServiceOrderCreate` or `-` and `_` as in `my-service-order-create`
 
