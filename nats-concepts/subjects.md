@@ -2,7 +2,7 @@
 
 NATS is a system for publishing and listening for messages on named communication channels we call `Subjects`. Fundamentally, NATS is an `interest-based` messaging system, where the listener has to `subscribe` to a subset of `subjects`.
 
-In other middleware systems subjects may be called `topics`, `channels`, `streams` (Note that in NATS the term `stream` is used for a [Jetstream](jetstream/readme.md) message storage).
+In other middleware systems subjects may be called `topics`, `channels`, `streams` (Note that in NATS the term `stream` is used for a [JetStream](jetstream/readme.md) message storage).
 
 **What is a subject?**
 At its simplest, a subject is just a string of characters that form a name the publisher and subscriber can use to find each other. More commonly [subject hierarchies](#subject-hierarchies) are used to scope messages into semantic namespaces.
@@ -15,7 +15,7 @@ Please check the [constraint and conventions](#characters-allowed-and-recommende
 Through subject-based addressing, NATS provides location transparency across a (large) cloud of routed NATS servers.
 * Subject subscriptions are automatically propagated within the server cloud.
 * Messages will be automatically routed to all interested subscribers, independent of location.
-* Messages with no subscribers to their subject are automatically discarded (Please see the [JetStream](jetstream/readme.md) feature for message persistency).
+* Messages with no subscribers to their subject are automatically discarded (Please see the [JetStream](jetstream/readme.md) feature for message persistence).
 
 ![](../.gitbook/assets/subjects1.svg)
 
@@ -92,7 +92,7 @@ orders.online.us.server42.ccpayment.premium.store123.electronics.deliver-dhl.ord
 ### Matching a single token
 
 The first wildcard is `*` which will match a single token. For example, if an application wanted to listen for eastern time zones, they could subscribe to `time.*.east`, which would match `time.us.east` and `time.eu.east`.
-Note that `*` can not match a substring within a token `time.New*.east` will
+Note that `*` can not match a substring within a token `time.New*.east`.
 
 ![](../.gitbook/assets/subjects2.svg)
 
@@ -152,7 +152,7 @@ service.stream.1
 ```
 
 ### Pedantic mode
-By default, for the sake of efficiency, subject names are not verified during message publishing. In particular when generating subjects programmatically, this will result in illegal subjects which cannot be subscribed to. E.g. subjects containing wildcards may be ignored.
+By default, for the sake of efficiency, subject names are not verified during message publishing. In particular, when generating subjects programmatically, this will result in illegal subjects which cannot be subscribed to. E.g. subjects containing wildcards may be ignored.
 
 To enable subject name verification, activate `pedantic` mode in the client connection options.
 
