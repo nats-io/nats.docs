@@ -8,6 +8,11 @@ Check out the repo for all the details: [github.com/nats-io/natscli](https://git
 
 ## Installing `nats`
 
+From the shell with curl (macOS and Linux):
+```shell
+curl -sf https://binaries.nats.dev/nats-io/natscli/nats@latest | sh
+```
+
 For macOS:
 
 ```shell
