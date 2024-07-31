@@ -1,7 +1,7 @@
 # Consumers
 
 A consumer is a stateful **view** of a stream. It acts as an interface for clients to _consume_ a subset of messages stored in a stream and will keep
-track of which messages were delivered and acknowledged by clients.
+track of which messages were delivered and acknowledged by clients. 
 
 Unlike [Core NATS](https://docs.nats.io/nats-concepts/core-nats), which provides an at most once delivery guarantee, a consumer in JetStream can provide an at least **once delivery** guarantee.
 
