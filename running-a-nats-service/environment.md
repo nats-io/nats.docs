@@ -33,7 +33,7 @@ What you need to remember is that when selecting the instance types and storage 
 
 For example non network optimized instances may give you 10 Gb/s of network bandwidth... but only for some period of time (like 30 minutes), after which the available bandwidth may drop down dramatically (like to 5 Gb/s) for another period of time. So select network optimized instances types instead if you always need the advertised bandwidth.
 
-It's the same when it comes to storage options: local SSDs instance types can provide the best latency, while using a network attached block storage, e.g. Elastic Block Storage from AWS), can provide the highest overall throughput. When using EBS again you get what you pay for: general purpose storage type may give you a certain number of IOPS, but you can sustain those rates only for some period of time after which the number can drop down dramatically. So select IO optimized storage types if you want to continuously sustain the same max number of IOPS (e.g. [AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html).
+It's the same when it comes to storage options: local SSDs instance types can provide the best latency, while using a network attached block storage, e.g. Elastic Block Storage from AWS), can provide the highest overall throughput. When using EBS again you get what you pay for: general purpose storage type may give you a certain number of IOPS, but you can sustain those rates only for some period of time after which the number can drop down dramatically. So select IO optimized storage types if you want to continuously sustain the same max number of IOPS (e.g. [AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html)).
 
 ### Resource Limits
 
