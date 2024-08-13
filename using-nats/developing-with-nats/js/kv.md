@@ -122,34 +122,42 @@ NATS_EXTERN void 	kvStore_Destroy (kvStore *kv)
 {% tab title="C#" %}
 ```Csharp
 /// <summary>
-/// Create a key value store.
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// Create a new Key Value Store or get an existing one
 /// </summary>
-/// <param name="config">the key value configuration</param>
-/// <returns></returns>
-KeyValueStatus Create(KeyValueConfiguration config);
+/// <param name="bucket">Name of the bucket</param>
+/// <param name="cancellationToken">A <see cref="CancellationToken"/> used to cancel the API call.</param>
+/// <returns>Key Value Store</returns>
+/// <exception cref="NatsJSException">There was an issue retrieving the response.</exception>
+/// <exception cref="NatsJSApiException">Server responded with an error.</exception>
+ValueTask<INatsKVStore> CreateStoreAsync(string bucket, CancellationToken cancellationToken = default);
 
 /// <summary>
-/// Get the list of bucket names.
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// Get a list of bucket names
 /// </summary>
-/// <returns>list of bucket names</returns>
-IList<string> GetBucketNames();
+/// <param name="cancellationToken"> used to cancel the API call.</param>
+/// <returns>Async enumerable of bucket names. Can be used in a <c>await foreach</c> loop.</returns>
+/// <exception cref="NatsJSException">There was an issue retrieving the response.</exception>
+/// <exception cref="NatsJSApiException">Server responded with an error.</exception>
+IAsyncEnumerable<string> GetBucketNamesAsync(CancellationToken cancellationToken = default);
 
 /// <summary>
-/// Gets the info for an existing bucket.
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// Gets the status for all buckets
 /// </summary>
-/// <param name="bucketName">the bucket name to use</param>
-/// <returns>the bucket status object</returns>
-KeyValueStatus GetBucketInfo(string bucketName);
+/// <param name="cancellationToken"> used to cancel the API call.</param>
+/// <returns>Async enumerable of Key/Value statuses. Can be used in a <c>await foreach</c> loop.</returns>
+/// <exception cref="NatsJSException">There was an issue retrieving the response.</exception>
+/// <exception cref="NatsJSApiException">Server responded with an error.</exception>
+IAsyncEnumerable<NatsKVStatus> GetStatusesAsync(CancellationToken cancellationToken = default);
 
 /// <summary>
-/// Deletes an existing bucket. Will throw a NATSJetStreamException if the delete fails.
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
+/// Delete a Key Value Store
 /// </summary>
-/// <param name="bucketName"></param>
-void Delete(string bucketName);
+/// <param name="bucket">Name of the bucket</param>
+/// <param name="cancellationToken">A <see cref="CancellationToken"/> used to cancel the API call.</param>
+/// <returns>True for success</returns>
+/// <exception cref="NatsJSException">There was an issue retrieving the response.</exception>
+/// <exception cref="NatsJSApiException">Server responded with an error.</exception>
+ValueTask<bool> DeleteStoreAsync(string bucket, CancellationToken cancellationToken = default);
 ```
 {% endtab %}
 {% endtabs %}

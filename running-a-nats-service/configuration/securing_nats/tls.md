@@ -166,33 +166,27 @@ openssl x509 -noout -text -in client-cert.pem
 
 ## TLS-Terminating Reverse Proxies
 
-Due to the nature of the TLS upgrade mechanism NATS uses, using a [TLS-terminating reverse proxy](https://en.wikipedia.org/wiki/TLS_termination_proxy) with NATS is not supported. However, there are workarounds that can be used in the client libraries to make it work.
+Using a [TLS-terminating reverse proxy](https://en.wikipedia.org/wiki/TLS_termination_proxy) with NATS requires some specific configuration on the server.
+In a typical proxy scenario, the client to proxy communication is secured and the proxy to server is insecure. This causes a "mismatch" because the server appears to be insecure
+but the client is told to connect securely. To fix this, the server must be configured as "tls available". This is done via an empty `tls` block and the `allow_non_tls` flag.
 
-### nats.go
-
-Provide a [CustomDialer](https://github.com/nats-io/nats.go/blob/cd74bc037e7c4ec3e5dc4cbcd93b669c1f4e3778/nats.go#L217).
-
-### nats.java
-
-```java
-package io.nats.client.impl;
-
-public class TlsSocketDataPort extends SocketDataPort {
-  @Override
-  public void connect(String serverURI, NatsConnection conn, long timeoutNanos) throws IOException {
-    super.connect(serverURI, conn, timeoutNanos);
-    this.upgradeToSecure();
-  }
-}
+```
+tls {}
+allow_non_tls: true
 ```
 
-```java
-Nats.connect(new Options.Builder()
-  .server(server)
-  .dataPortType("io.nats.client.impl.TlsSocketDataPort")
-  .build())
-```
 
+Once this is configured, your client can connect to the proxy with normal (language specific) tls configuration. Please make sure you are using the appropriate version of your language specific client.
+
+| Client | Version |
+| --- | --- |
+| nats.go | v1.31.0 |
+| nats.js | 2024.1.2 |
+| nats.java | 2.18.0  |
+| nats.rs | 0.33 |
+| nats.net.v2 | 2.0.0 |
+| nats.net (v1) | 1.1.5 |
+=======
 ### nats.js
 
 See: <https://github.com/nats-io/nats.js/issues/369>
@@ -201,6 +195,7 @@ See: <https://github.com/nats-io/nats.js/issues/369>
 
 See: <https://github.com/nats-io/nats.rs/blob/main/async-nats/src/connector.rs>
 
-### nats.net
+### nats.net (v1)
 
-See: <https://github.com/nats-io/nats.net/tree/main/src/Samples/TLSReverseProxyExample>
+See: <https://github.com/nats-io/nats.net.v1/tree/main/src/Samples/TlsVariationsExample>
+

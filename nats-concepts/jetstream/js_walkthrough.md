@@ -1,32 +1,62 @@
 # NATS JetStream Walkthrough
 
+The following is a small walkthrough on creating a stream and a consumer and interacting with the stream using the [nats cli](https://github.com/nats-io/natscli).
+
+
 ## Prerequisite: enabling JetStream
 
 If you are running a local `nats-server` stop it and restart it with JetStream enabled using `nats-server -js` (if that's not already done)
 
-You can then check that JetStream is enabled by using 
+You can then check that JetStream is enabled by using
 
 ```shell
 nats account info
 ```
-```
-Connection Information:
+```text
+Account Information
 
-               Client ID: 6
-               Client IP: 127.0.0.1
-                     RTT: 64.996µs
-       Headers Supported: true
-         Maximum Payload: 1.0 MiB
-           Connected URL: nats://127.0.0.1:4222
-       Connected Address: 127.0.0.1:4222
-     Connected Server ID: ND2XVDA4Q363JOIFKJTPZW3ZKZCANH7NJI4EJMFSSPTRXDBFG4M4C34K
+                           User: 
+                        Account: $G
+                        Expires: never
+                      Client ID: 5
+                      Client IP: 127.0.0.1
+                            RTT: 128µs
+              Headers Supported: true
+                Maximum Payload: 1.0 MiB
+                  Connected URL: nats://127.0.0.1:4222
+              Connected Address: 127.0.0.1:4222
+            Connected Server ID: NAMR7YBNZA3U2MXG2JH3FNGKBDVBG2QTMWVO6OT7XUSKRINKTRFBRZEC
+       Connected Server Version: 2.11.0-dev
+                 TLS Connection: no
 
 JetStream Account Information:
 
-           Memory: 0 B of Unlimited
-          Storage: 0 B of Unlimited
-          Streams: 0 of Unlimited
-        Consumers: 0 of Unlimited 
+Account Usage:
+
+                        Storage: 0 B
+                         Memory: 0 B
+                        Streams: 0
+                      Consumers: 0
+
+Account Limits:
+
+            Max Message Payload: 1.0 MiB
+
+  Tier: Default:
+
+      Configuration Requirements:
+
+        Stream Requires Max Bytes Set: false
+         Consumer Maximum Ack Pending: Unlimited
+
+      Stream Resource Usage Limits:
+
+                               Memory: 0 B of Unlimited
+                    Memory Per Stream: Unlimited
+                              Storage: 0 B of Unlimited
+                   Storage Per Stream: Unlimited
+                              Streams: 0 of Unlimited
+                            Consumers: 0 of Unlimited
 ```
 
 If you see the below then JetStream is _not_ enabled
@@ -47,43 +77,55 @@ Enter `nats stream add <Stream name>` (in the examples below we will name the st
 nats stream add my_stream
 ```
 ```text
-? Subjects to consume foo
-? Storage backend file
+? Subjects foo
+? Storage file
+? Replication 1
 ? Retention Policy Limits
 ? Discard Policy Old
 ? Stream Messages Limit -1
 ? Per Subject Messages Limit -1
-? Message size limit -1
-? Maximum message age limit -1
-? Maximum individual message size -1
-? Duplicate tracking time window 2m
-? Replicas 1
+? Total Stream Size -1
+? Message TTL -1
+? Max Message Size -1
+? Duplicate tracking time window 2m0s
+? Allow message Roll-ups No
+? Allow message deletion Yes
+? Allow purging subjects or the entire stream Yes
 Stream my_stream was created
 
-Information for Stream my_stream created 2021-10-12T08:42:10-07:00
+Information for Stream my_stream created 2024-06-07 12:29:36
 
-Configuration:
+              Subjects: foo
+              Replicas: 1
+               Storage: File
 
-             Subjects: foo
-     Acknowledgements: true
-            Retention: File - Limits
-             Replicas: 1
-       Discard Policy: Old
-     Duplicate Window: 2m0s
-     Maximum Messages: unlimited
-        Maximum Bytes: unlimited
-          Maximum Age: 0.00s
- Maximum Message Size: unlimited
-    Maximum Consumers: unlimited
+Options:
 
+             Retention: Limits
+       Acknowledgments: true
+        Discard Policy: Old
+      Duplicate Window: 2m0s
+            Direct Get: true
+     Allows Msg Delete: true
+          Allows Purge: true
+        Allows Rollups: false
+
+Limits:
+
+      Maximum Messages: unlimited
+   Maximum Per Subject: unlimited
+         Maximum Bytes: unlimited
+           Maximum Age: unlimited
+  Maximum Message Size: unlimited
+     Maximum Consumers: unlimited
 
 State:
 
-             Messages: 0
-                Bytes: 0 B
-             FirstSeq: 0
-              LastSeq: 0
-     Active Consumers: 0
+              Messages: 0
+                 Bytes: 0 B
+        First Sequence: 0
+         Last Sequence: 0
+      Active Consumers: 0
 ```
 
 You can then check the information about the stream you just created:
@@ -92,30 +134,39 @@ You can then check the information about the stream you just created:
 nats stream info my_stream
 ```
 ```text
-Information for Stream my_stream created 2021-10-12T08:42:10-07:00
+Information for Stream my_stream created 2024-06-07 12:29:36
 
-Configuration:
+              Subjects: foo
+              Replicas: 1
+               Storage: File
 
-             Subjects: foo
-     Acknowledgements: true
-            Retention: File - Limits
-             Replicas: 1
-       Discard Policy: Old
-     Duplicate Window: 2m0s
-     Maximum Messages: unlimited
-        Maximum Bytes: unlimited
-          Maximum Age: 0.00s
- Maximum Message Size: unlimited
-    Maximum Consumers: unlimited
+Options:
 
+             Retention: Limits
+       Acknowledgments: true
+        Discard Policy: Old
+      Duplicate Window: 2m0s
+            Direct Get: true
+     Allows Msg Delete: true
+          Allows Purge: true
+        Allows Rollups: false
+
+Limits:
+
+      Maximum Messages: unlimited
+   Maximum Per Subject: unlimited
+         Maximum Bytes: unlimited
+           Maximum Age: unlimited
+  Maximum Message Size: unlimited
+     Maximum Consumers: unlimited
 
 State:
 
-             Messages: 0
-                Bytes: 0 B
-             FirstSeq: 0
-              LastSeq: 0
-     Active Consumers: 0
+              Messages: 0
+                 Bytes: 0 B
+        First Sequence: 0
+         Last Sequence: 0
+      Active Consumers: 0
 ```
 
 ## 2. Publish some messages into the stream
@@ -139,35 +190,37 @@ nats consumer add
 ```
 ```text
 ? Consumer name pull_consumer
-? Delivery target (empty for Pull Consumers)
+? Delivery target (empty for Pull Consumers) 
 ? Start policy (all, new, last, subject, 1h, msg sequence) all
+? Acknowledgment policy explicit
 ? Replay policy instant
-? Filter Stream by subject (blank for all)
+? Filter Stream by subjects (blank for all) 
 ? Maximum Allowed Deliveries -1
-? Maximum Acknowledgements Pending 0
+? Maximum Acknowledgments Pending 0
+? Deliver headers only without bodies No
+? Add a Retry Backoff Policy No
 ? Select a Stream my_stream
-Information for Consumer my_stream > pull_consumer created 2021-10-12T09:03:26-07:00
+Information for Consumer my_stream > pull_consumer created 2024-06-07T12:32:09-05:00
 
 Configuration:
 
-        Durable Name: pull_consumer
-           Pull Mode: true
-      Deliver Policy: All
- Deliver Queue Group: _unset_
-          Ack Policy: Explicit
-            Ack Wait: 30s
-       Replay Policy: Instant
-     Max Ack Pending: 20,000
-   Max Waiting Pulls: 512
+                    Name: pull_consumer
+               Pull Mode: true
+          Deliver Policy: All
+              Ack Policy: Explicit
+                Ack Wait: 30.00s
+           Replay Policy: Instant
+         Max Ack Pending: 1,000
+       Max Waiting Pulls: 512
 
 State:
 
-   Last Delivered Message: Consumer sequence: 0 Stream sequence: 0
-     Acknowledgment floor: Consumer sequence: 0 Stream sequence: 0
-         Outstanding Acks: 0 out of maximum 20000
-     Redelivered Messages: 0
-     Unprocessed Messages: 674
-            Waiting Pulls: 0 of maximum 512
+  Last Delivered Message: Consumer sequence: 0 Stream sequence: 0
+    Acknowledgment Floor: Consumer sequence: 0 Stream sequence: 0
+        Outstanding Acks: 0 out of maximum 1,000
+    Redelivered Messages: 0
+    Unprocessed Messages: 74
+           Waiting Pulls: 0 of maximum 512
 ```
 
 You can check on the status of any consumer at any time using `nats consumer info` or view the messages in the stream using `nats stream view my_stream` or even remove individual messages from the stream using `nats stream rmm`

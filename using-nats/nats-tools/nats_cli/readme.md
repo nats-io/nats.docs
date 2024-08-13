@@ -10,6 +10,8 @@ Check out the repo for all the details: [github.com/nats-io/natscli](https://git
 
 Please refer to the [installation section in the readme](https://github.com/nats-io/natscli?tab=readme-ov-file#installation).
 
+You can read about execution policies [here](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies).
+
 Binaries are also available as [GitHub Releases](https://github.com/nats-io/natscli/releases).
 
 ## Using `nats`

@@ -71,6 +71,26 @@ type ObjectStore interface {
 	Status() (ObjectStoreStatus, error)
 }
 ```
+{% endtab %}
 
+{% tab title="Python" %}
+
+```python
+    async def object_store(self, bucket: str) -> ObjectStore:
+
+    async def create_object_store(
+        self,
+        bucket: str = None,
+        config: Optional[api.ObjectStoreConfig] = None,
+        **params,
+    ) -> ObjectStore:
+        """
+        create_object_store takes an api.ObjectStoreConfig and creates a OBJ in JetStream.
+        """
+    async def delete_object_store(self, bucket: str) -> bool:
+        """
+        delete_object_store will delete the underlying stream for the named object.
+        """
+```
 {% endtab %}
 {% endtabs %}
