@@ -18,11 +18,11 @@ JetStream enables the ability to queue messages for future consumption and repla
 
 JetStream enables the ability to mirror messages from one stream to another, and to source messages from one stream to another. This enables the ability to build complex topologies of streams and consumers.
 
-For example you can have an initial stream that captures messages only for a limited amount of time and is used for replay of messages that can also feed any number of other streams configured for message consumption in a queue that mirror or source from this initial stream. This enables the ability to have consumers consuming from the mirrored/sourced stream without impacting that original stream and at their own pace.
+For example, you can have an initial stream that captures messages only for a limited amount of time and is used for replay of messages that can also feed any number of other streams configured for message consumption in a queue that mirror or source from this initial stream. This enables the ability to have consumers consuming from the mirrored/sourced stream without impacting that original stream and at their own pace.
 
 ### Higher qualities of services
 
-Besides temporal de-coupling of the publishers and subscribers (i.e. 'streaming'), there are other functionalities and qualities of service that JetStream enables
+Besides temporal decoupling of the publishers and subscribers (i.e. 'streaming'), there are other functionalities and qualities of service that JetStream enables.
 
 #### Guaranteed messaging
 

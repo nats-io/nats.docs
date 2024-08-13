@@ -175,6 +175,7 @@ tls {}
 allow_non_tls: true
 ```
 
+
 Once this is configured, your client can connect to the proxy with normal (language specific) tls configuration. Please make sure you are using the appropriate version of your language specific client.
 
 | Client | Version |
@@ -185,3 +186,16 @@ Once this is configured, your client can connect to the proxy with normal (langu
 | nats.rs | 0.33 |
 | nats.net.v2 | 2.0.0 |
 | nats.net (v1) | 1.1.5 |
+=======
+### nats.js
+
+See: <https://github.com/nats-io/nats.js/issues/369>
+
+### nats.rs
+
+See: <https://github.com/nats-io/nats.rs/blob/main/async-nats/src/connector.rs>
+
+### nats.net (v1)
+
+See: <https://github.com/nats-io/nats.net.v1/tree/main/src/Samples/TlsVariationsExample>
+

@@ -3,8 +3,7 @@ Deploying functions to Nex is just as easy as deploying services. The pattern is
 WebAssembly and JavaScript type functions.
 
 ## Function Triggers
-In the current version of Nex, you can specify a list of trigger subjects (which can include wildcards) used to activate 
-your functions. So let's say you've deployed a calculator service, you may have chosen `calc.*` as the trigger subject. This
+With Nex functions you can specify a list of trigger subjects (which can include wildcards) used to activate them. So let's say you've deployed a calculator service, you may have chosen `calc.*` as the trigger subject. This
 means that when a message comes in on a subject like `calc.add`, your function will be called. It will be passed the subject `calc.add` and 
 the payload supplied on the core NATS message.
 

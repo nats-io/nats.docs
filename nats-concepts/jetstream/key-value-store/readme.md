@@ -20,7 +20,7 @@ You can use KV buckets to perform the typical operations you would expect from a
 * purge: clear all the values associated with all keys
 * keys: get a copy of all of the keys (with a value or operation associated with it)
 
-## Atomic operations used for locking can concurrency control
+## Atomic operations used for locking and concurrency control
 * create: associate the value with a key only if there is currently no value associated with that key (i.e. compare to null and set)
 * update: compare and set (aka compare and swap) the value for a key
 
