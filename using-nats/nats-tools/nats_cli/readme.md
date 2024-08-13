@@ -8,45 +8,7 @@ Check out the repo for all the details: [github.com/nats-io/natscli](https://git
 
 ## Installing `nats`
 
-From the shell with curl (macOS and Linux):
-```shell
-curl -sf https://binaries.nats.dev/nats-io/natscli/nats@latest | sh
-```
-
-For macOS:
-
-```shell
-brew tap nats-io/nats-tools
-brew install nats-io/nats-tools/nats
-```
-
-For Arch Linux:
-
-Download the correct .deb file for your computer from [here](https://github.com/nats-io/natscli/releases).
-
-If you have an Intel CPU, then it'll probably be this one (for version X.Y.Z): `nats-X.Y.Z-amd64.deb` Then run this command to install the file.
-
-```shell
-sudo dpkg -i nats-X.Y.Z-amd64.deb
-```
-
-Or with the `yay` package manager
-
-```shell
-yay natscli
-```
-
-For Windows:
-
-```shell
-Invoke-WebRequest -Uri "https://get-nats.io/install.ps1" -OutFile "install.ps1"; .\install.ps1
-```
-
-Depending on your PowerShell settings, you may be prevented from running the install script because it is currently not digitally signed. To work around this, you can change the settings for the current shell session with this command:
-
-```shell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-```
+Please refer to the [installation section in the readme](https://github.com/nats-io/natscli?tab=readme-ov-file#installation).
 
 You can read about execution policies [here](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies).
 
@@ -118,6 +80,9 @@ Output extract
       --tlscert=FILE            TLS public certificate ($NATS_CERT)
       --tlskey=FILE             TLS private key ($NATS_KEY)
       --tlsca=FILE              TLS certificate authority chain ($NATS_CA)
+      --socks-proxy=PROXY       SOCKS5 proxy for connecting to NATS server
+                                ($NATS_SOCKS_PROXY)
+      --colors=SCHEME           Sets a color scheme to use ($NATS_COLOR)
       --timeout=DURATION        Time to wait on responses from NATS
                                 ($NATS_TIMEOUT)
       --context=NAME            Configuration context ($NATS_CONTEXT)
