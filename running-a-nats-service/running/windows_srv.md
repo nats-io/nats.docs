@@ -49,11 +49,18 @@ sc.exe create nats-server binPath= "%NATS_PATH%\nats-server.exe --log C:\temp\na
 
 ## Windows Service Specific Settings
 
+## Windows Service Specific Settings
+
 ### `NATS_STARTUP_DELAY` environment variable
 
 The Windows service system requires communication with programs that run as Windows services. One important signal from the program is the initial "ready" signal, where the program informs Windows that it is running as expected.
 
-By default `nats-server` allows itself 10 seconds to send this signal.
+By default `nats-server` allows itself up to 10 seconds to send this signal.
 If the server is not ready after this time, the server will signal a failure to start.
 This delay can be adjusted by setting the `NATS_STARTUP_DELAY` environment variable to a suitable duration (e.g. "20s" for 20 seconds, "1m" for one minute).
-This adjustment can be necessary in cases where NATS is correctly running from command line, but the service fails to start in this timeframe.
+
+**Please Note** 
+* For the environment variable `NATS_STARTUP_DELAY` to be accessible from the NATS service, it is recommended to set it as a SYSTEM variable. 
+* `NATS_STARTUP_DELAY=30s` will make the NATS server wait **up to 30s**, but will report the service as RUNNING as soon as recovery is complete. To test the extended time startup timeout 
+
+This adjustment can be necessary in cases where NATS is correctly running from command line, but takes longer than 10s to recover Jetstream stream state and connect to its peers.
