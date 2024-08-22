@@ -16,6 +16,8 @@ These events are enabled by configuring `system_account` and [subscribing/reques
 * [Configuring authentication locally](./#local-configuration) and listing one of the accounts in `system_account`
 * Or by using decentralized authentication and authorization via [jwt](../securing_nats/jwt/) as shown in this [Tutorial](sys_accounts.md). In this case `system_account` contains the account public key.
 
+N.B. The default global account `$G` does not publish advisories.
+
 ## Available Events and Services
 
 ### System Account
