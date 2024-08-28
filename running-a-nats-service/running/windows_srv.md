@@ -61,6 +61,6 @@ This delay can be adjusted by setting the `NATS_STARTUP_DELAY` environment varia
 
 **Please Note** 
 * For the environment variable `NATS_STARTUP_DELAY` to be accessible from the NATS service, it is recommended to set it as a SYSTEM variable. 
-* `NATS_STARTUP_DELAY=30s` will make the NATS server wait **up to 30s**, but will report the service as RUNNING as soon as recovery is complete. To test the extended time startup timeout 
+* `NATS_STARTUP_DELAY=30s` will make the NATS server wait **up to 30s**, but will report the service as RUNNING as soon as the server is ready to accept connections. To **test** the extended time startup timeout you may need to slow down server startup, e.g. by using a very large stream (10s of GB) or placing Jetstream storage on a slow network device. 
 
 This adjustment can be necessary in cases where NATS is correctly running from command line, but takes longer than 10s to recover Jetstream stream state and connect to its peers.
