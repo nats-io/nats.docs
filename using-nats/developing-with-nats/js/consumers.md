@@ -4,7 +4,20 @@ Consumers are how client applications get the messages stored in the streams. Yo
 
 Consumers can be 'durable' or 'ephemeral'.
 
-## Ephemeral consumers
+## Durable versus ephemeral consumers
+Durable consumer persist message delivery progress on the server side. A durable consumer can be retrieved by name and shared between client instance for load balancing. It can me made high available through replicas
+
+An ephemeral consumer does not persist delivery progress and will automatically be deleted when there are no more client instances connected.
+
+### Durable consumers
+
+Durable consumers are meant to be used by multiple instances of an application, either to distribute and scale out the processing, or to persist the position of the consumer over the stream between runs of an application.
+
+Durable consumers as the name implies are meant to last 'forever' and are typically created and deleted administratively rather than by the application code which only needs to specify the durable's well known name to use it.
+
+You create a durable consumer using the `nats consumer add` CLI tool command, or programmatically by passing a durable name option to the subscription creation call.
+
+### Ephemeral consumers
 
 Ephemeral consumers are meant to be used by a single instance of an application (e.g. to get its own replay of the messages in the stream).
 
@@ -15,194 +28,21 @@ You can also explicitly create an ephemeral consumer by not passing a durable na
 
 Ephemeral consumers otherwise have the same control over message acknowledged and re-delivery as durable consumers.
 
-### Ordered Consumers
-The example below uses an ordered consumer, a convenient default type of push consumers designed for applications that want to efficiently consume a stream for data inspection or analysis.
-* Always ephemeral
-* Auto acknowledgment (no re-delivery)
-* Single threaded dispatching 
+## Push and Pull consumers
 
+Clients implement two implementations of consumers identified as 'push' or 'pull'. 
 
-{% tabs %}
-{% tab title="Go" %}
+### Push consumers
+Push consumers receive messages on a specific subject where message flow is controlled by the server. Load balancing is supported through NATS core queue groups. The messages from the stream are distributed automatically between the subscribing clients to the push consumers.
 
-```go
-func ExampleJetStream() {
-	nc, err := nats.Connect("localhost")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Use the JetStream context to produce and consumer messages
-	// that have been persisted.
-	js, err := nc.JetStream(nats.PublishAsyncMaxPending(256))
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	js.AddStream(&nats.StreamConfig{
-		Name:     "FOO",
-		Subjects: []string{"foo"},
-	})
-
-	js.Publish("foo", []byte("Hello JS!"))
-
-	// ordered push consumer
-	js.Subscribe("foo", func(msg *nats.Msg) {
-		meta, _ := msg.Metadata()
-		fmt.Printf("Stream Sequence  : %v\n", meta.Sequence.Stream)
-		fmt.Printf("Consumer Sequence: %v\n", meta.Sequence.Consumer)
-	}, nats.OrderedConsumer())
-}
-```
-
-{% endtab %}
-{% tab title="Java" %}
-
-```java
-package io.nats.examples.jetstream;
-
-import io.nats.client.*;
-import io.nats.client.api.PublishAck;
-import io.nats.client.impl.NatsMessage;
-import io.nats.examples.ExampleArgs;
-import io.nats.examples.ExampleUtils;
-
-import java.nio.charset.StandardCharsets;
-import java.time.Duration;
-import java.time.temporal.TemporalUnit;
-
-public class myExample {
- public static void main(String[] args) {
-  final String subject = "foo";
-
-  try (Connection nc = Nats.connect(ExampleUtils.createExampleOptions("localhost"))) {
-
-   // Create a JetStream context.  This hangs off the original connection
-   // allowing us to produce data to streams and consume data from
-   // JetStream consumers.
-   JetStream js = nc.jetStream();
-
-   // This example assumes there is a stream already created on subject "foo" and some messages already stored in that stream
-
-   // create our message handler.
-   MessageHandler handler = msg -> {
-
-    System.out.println("\nMessage Received:");
-
-    if (msg.hasHeaders()) {
-     System.out.println("  Headers:");
-     for (String key : msg.getHeaders().keySet()) {
-      for (String value : msg.getHeaders().get(key)) {
-       System.out.printf("    %s: %s\n", key, value);
-      }
-     }
-    }
-
-    System.out.printf("  Subject: %s\n  Data: %s\n",
-            msg.getSubject(), new String(msg.getData(), StandardCharsets.UTF_8));
-    System.out.println("  " + msg.metaData());
-   };
-
-   Dispatcher dispatcher = nc.createDispatcher();
-   PushSubscribeOptions pso = PushSubscribeOptions.builder().ordered(true).build();
-   JetStreamSubscription sub = js.subscribe(subject, dispatcher, handler, false, pso);
-
-   Thread.sleep(100);
-
-   sub.drain(Duration.ofMillis(100));
-
-   nc.drain(Duration.ofMillis(100));
-  }
-  catch(Exception e)
-  {
-   e.printStackTrace();
-  }
- }
-}
-```
-
-{% endtab %}
-{% tab title="JavaScript" %}
-
-```js
-import { connect, consumerOpts } from "../../src/mod.ts";
-
-const nc = await connect();
-const js = nc.jetstream();
-
-// note the consumer is not a durable - so when after the
-// subscription ends, the server will auto destroy the
-// consumer
-const opts = consumerOpts();
-opts.manualAck();
-opts.maxMessages(2);
-opts.deliverTo("xxx");
-const sub = await js.subscribe("a.>", opts);
-await (async () => {
-  for await (const m of sub) {
-    console.log(m.seq, m.subject);
-    m.ack();
-  }
-})();
-
-await nc.close();
-```
-
-{% endtab %}
-{% tab title= "Python" %}
-
-```python
-import asyncio
-
-import nats
-from nats.errors import TimeoutError
-
-
-async def main():
-    nc = await nats.connect("localhost")
-
-    # Create JetStream context.
-    js = nc.jetstream()
-
-    # Create ordered consumer with flow control and heartbeats
-    # that auto resumes on failures.
-    osub = await js.subscribe("foo", ordered_consumer=True)
-    data = bytearray()
-
-    while True:
-        try:
-            msg = await osub.next_msg()
-            data.extend(msg.data)
-        except TimeoutError:
-            break
-    print("All data in stream:", len(data))
-
-    await nc.close()
-
-if __name__ == '__main__':
-    asyncio.run(main())
-```
-
-{% endtab %}
-{% endtabs %}
-
-## Durable consumers
-
-Durable consumers are meant to be used by multiple instances of an application, either to distribute and scale out the
-processing, or to persist the position of the consumer over the stream between runs of an application.
-
-Durable consumers as the name implies are meant to last 'forever' and are typically created and deleted administratively rather than by the application code which only needs to specify the durable's well known name to use it.
-
-You create a durable consumer using the `nats consumer add` CLI tool command, or programmatically by passing a durable name option to the subscription creation call.
-
-### Push and Pull consumers
-
-Clients implement two implementations of consumers identified as 'push' or 'pull'. Push consumers receive messages on a specific subject where message flow is controlled by the server. Load balancing is supported through NATS core queue groups. The messages from the stream are distributed automatically between the subscribing clients to the push consumers.
-
+### Pull consumers
 Pull consumers request messages explicitly from the server in batches, giving the client full control over dispatching, flow control, pending (unacknowledged) messages and load balancing. Pull consuming client make `fetch()` calls in a dispatch loop.
 
-{% hint style="info" %}We recommend pull consumers for new projects. In particular when scalability, detailed flow control or error handling are a concern. 
+{% hint style="info" %}We recommend using pull consumers for new projects. In particular when scalability, detailed flow control or error handling are a design focus.
+Most client API have been updated to provide convenient interfaces for consuming messages through callback handler or iterators without the need to manage message retrieval.
 {% endhint %}
+
+`fetch()` calls can be immediate or have a defined timeout, allowing for either controlled (1 by 1) consumption or `realtime` delivery with minimal polling overhead.  
 
 Pull consumers create less CPU load on the NATS servers and therefore scale better (note that the push consumers are still quite fast and scalable, you may only notice the difference between the two if you have sustained high message rates).
 
@@ -268,85 +108,93 @@ func ExampleJetStream() {
 {% tab title="Java" %}
 
 ```java
-package io.nats.examples.jetstream;
+package io.nats.examples.jetstream.simple;
 
 import io.nats.client.*;
-import io.nats.examples.ExampleArgs;
-import io.nats.examples.ExampleUtils;
-
-import java.time.Duration;
-
-import static io.nats.examples.jetstream.NatsJsUtils.createStreamExitWhenExists;
-import static io.nats.examples.jetstream.NatsJsUtils.publishInBackground;
+import io.nats.client.api.ConsumerConfiguration;
+import io.nats.examples.jetstream.ResilientPublisher;
+import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
+import static io.nats.examples.jetstream.NatsJsUtils.createOrReplaceStream;
 
 /**
- * This example will demonstrate basic use of a pull subscription of:
- * batch size only pull: <code>pull(int batchSize)</code>
- */
-public class NatsJsPullSubBatchSize {
-    static final String usageString =
-        "\nUsage: java -cp <classpath> NatsJsPullSubBatchSize [-s server] [-strm stream] [-sub subject] [-dur durable] [-mcnt msgCount]"
-            + "\n\nDefault Values:"
-            + "\n   [-strm] pull-stream"
-            + "\n   [-sub]  pull-subject"
-            + "\n   [-dur]  pull-durable"
-            + "\n   [-mcnt] 20"
-            + "\n\nUse tls:// or opentls:// to require tls, via the Default SSLContext\n"
-            + "\nSet the environment variable NATS_NKEY to use challenge response authentication by setting a file containing your private key.\n"
-            + "\nSet the environment variable NATS_CREDS to use JWT/NKey authentication by setting a file containing your user creds.\n"
-            + "\nUse the URL in the -s server parameter for user/pass/token authentication.\n";
+* This example will demonstrate simplified consume with a handler
+*/
+public class MessageConsumerExample {
+ private static final String STREAM = "consume-stream";
+ private static final String SUBJECT = "consume-subject";
+ private static final String CONSUMER_NAME = "consume-consumer";
+ private static final String MESSAGE_PREFIX = "consume";
+ private static final int STOP_COUNT = 500;
+ private static final int REPORT_EVERY = 100;
+ private static final String SERVER = "nats://localhost:4222";
 
-    public static void main(String[] args) {
-        ExampleArgs exArgs = ExampleArgs.builder("Pull Subscription using primitive Batch Size", args, usageString)
-                .defaultStream("pull-stream")
-                .defaultSubject("pull-subject")
-                .defaultDurable("pull-durable")
-                .defaultMsgCount(15)
-                .build();
+ public static void main(String[] args) {
+     Options options = Options.builder().server(SERVER).build();
+     try (Connection nc = Nats.connect(options)) {
+         JetStreamManagement jsm = nc.jetStreamManagement();
+         createOrReplaceStream(jsm, STREAM, SUBJECT);
 
-        try (Connection nc = Nats.connect(ExampleUtils.createExampleOptions(exArgs.server))) {
-            // Create a JetStreamManagement context.
-            JetStreamManagement jsm = nc.jetStreamManagement();
+         //Utility for filling the stream with some messages
+         System.out.println("Starting publish...");
+         ResilientPublisher publisher = new ResilientPublisher(nc, jsm, STREAM, SUBJECT).basicDataPrefix(MESSAGE_PREFIX).jitter(10);
+         Thread pubThread = new Thread(publisher);
+         pubThread.start();
 
-            // Use the utility to create a stream stored in memory.
-            createStreamExitWhenExists(jsm, exArgs.stream, exArgs.subject);
+         // get stream context, create consumer and get the consumer context
+         StreamContext streamContext;
+         ConsumerContext consumerContext;
+         CountDownLatch latch = new CountDownLatch(1);
+         AtomicInteger atomicCount = new AtomicInteger();
+         long start = System.nanoTime();
 
-            // Create our JetStream context.
-            JetStream js = nc.jetStream();
+         streamContext = nc.getStreamContext(STREAM);
+         streamContext.createOrUpdateConsumer(ConsumerConfiguration.builder().durable(CONSUMER_NAME).build());
+         consumerContext = streamContext.getConsumerContext(CONSUMER_NAME);
 
-            // start publishing the messages, don't wait for them to finish, simulating an outside producer
-            publishInBackground(js, exArgs.subject, "pull-message", exArgs.msgCount);
+         MessageHandler handler = msg -> {
+             msg.ack();
+             int count = atomicCount.incrementAndGet();
+             if (count % REPORT_EVERY == 0) {
+            	 System.out.println("Handler" + ": Received " + count + " messages in " + (System.nanoTime() - start) / 1_000_000 + "ms.");
+             }
+             if (count == STOP_COUNT) {
+                 latch.countDown();
+             }
+         };
 
-            // Build our subscription options. Durable is REQUIRED for pull based subscriptions
-            PullSubscribeOptions pullOptions = PullSubscribeOptions.builder()
-                .durable(exArgs.durable) // required
-                .build();
+     	 // create the consumer and install handler
+     	 MessageConsumer consumer = consumerContext.consume(handler);
+     	 //Waiting for the handler signalling us to stop
+         latch.await();
+         // When stop is called, no more pull requests will be made, but messages already requested
+         // will still come across the wire to the client.
+         System.out.println("Stopping the consumer...");
+         consumer.stop();
+         // wait until the consumer is finished processing backlog
+         while (!consumer.isFinished()) {
+             Thread.sleep(10);
+         }
+         System.out.println("Final" + ": Received " + atomicCount.get() + " messages in " + (System.nanoTime() - start) / 1_000_000 + "ms.");
 
-            // subscribe
-            JetStreamSubscription sub = js.subscribe(exArgs.subject, pullOptions);
-            nc.flush(Duration.ofSeconds(1));
-
-            int red = 0;
-            while (red < exArgs.msgCount) {
-                sub.pull(10);
-                Message m = sub.nextMessage(Duration.ofSeconds(1)); // first message
-                while (m != null) {
-                    if (m.isJetStream()) {
-                        red++; // process message
-                        System.out.println("" + red + ". " + m);
-                        m.ack();
-                    }
-                    m = sub.nextMessage(Duration.ofMillis(100)); // other messages should already be on the client
-                }
-            }
-
-            // delete the stream since we are done with it.
-            jsm.deleteStream(exArgs.stream);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+         publisher.stop(); // otherwise the ConsumerContext background thread will complain when the connection goes away
+         pubThread.join();
+     }
+     catch (JetStreamApiException | IOException e) {
+         // JetStreamApiException:
+         //      1. the stream or consumer did not exist
+         //      2. api calls under the covers theoretically this could fail, but practically it won't.
+         // IOException:
+         //      likely a connection problem
+         System.err.println("Exception should not handled, exiting.");
+         System.exit(-1);
+     }
+     catch (Exception e) {
+         System.err.println("Exception should not handled, exiting.");
+         System.exit(-1);
+     }
+ }
 }
 ```
 
@@ -1279,6 +1127,185 @@ int main(int argc, char **argv)
 
 {% endtab %}
 {% endtabs %}
+
+
+
+## Ordered Consumers
+Ordered consumers are a convenient form of ephemeral push consumer for for applications, which want to efficiently consume a stream for data inspection or analysis.
+
+The API consumer is guaranteed delivery of messages in sequence and without gaps. 
+* Always ephemeral - minimal overhead for the server
+* Single threaded in sequence dispatching 
+* Client checks message sequence and will prevent gaps in the delivery
+* Can recover from server node failure and reconnect
+* Does not recover from client failure as it is ephemeral
+
+{% tabs %}
+{% tab title="Go" %}
+
+```go
+func ExampleJetStream() {
+	nc, err := nats.Connect("localhost")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Use the JetStream context to produce and consumer messages
+	// that have been persisted.
+	js, err := nc.JetStream(nats.PublishAsyncMaxPending(256))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	js.AddStream(&nats.StreamConfig{
+		Name:     "FOO",
+		Subjects: []string{"foo"},
+	})
+
+	js.Publish("foo", []byte("Hello JS!"))
+
+	// ordered push consumer
+	js.Subscribe("foo", func(msg *nats.Msg) {
+		meta, _ := msg.Metadata()
+		fmt.Printf("Stream Sequence  : %v\n", meta.Sequence.Stream)
+		fmt.Printf("Consumer Sequence: %v\n", meta.Sequence.Consumer)
+	}, nats.OrderedConsumer())
+}
+```
+
+{% endtab %}
+{% tab title="Java" %}
+
+```java
+package io.nats.examples.jetstream;
+
+import io.nats.client.*;
+import io.nats.client.api.PublishAck;
+import io.nats.client.impl.NatsMessage;
+import io.nats.examples.ExampleArgs;
+import io.nats.examples.ExampleUtils;
+
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.temporal.TemporalUnit;
+
+public class myExample {
+ public static void main(String[] args) {
+  final String subject = "foo";
+
+  try (Connection nc = Nats.connect(ExampleUtils.createExampleOptions("localhost"))) {
+
+   // Create a JetStream context.  This hangs off the original connection
+   // allowing us to produce data to streams and consume data from
+   // JetStream consumers.
+   JetStream js = nc.jetStream();
+
+   // This example assumes there is a stream already created on subject "foo" and some messages already stored in that stream
+
+   // create our message handler.
+   MessageHandler handler = msg -> {
+
+    System.out.println("\nMessage Received:");
+
+    if (msg.hasHeaders()) {
+     System.out.println("  Headers:");
+     for (String key : msg.getHeaders().keySet()) {
+      for (String value : msg.getHeaders().get(key)) {
+       System.out.printf("    %s: %s\n", key, value);
+      }
+     }
+    }
+
+    System.out.printf("  Subject: %s\n  Data: %s\n",
+            msg.getSubject(), new String(msg.getData(), StandardCharsets.UTF_8));
+    System.out.println("  " + msg.metaData());
+   };
+
+   Dispatcher dispatcher = nc.createDispatcher();
+   PushSubscribeOptions pso = PushSubscribeOptions.builder().ordered(true).build();
+   JetStreamSubscription sub = js.subscribe(subject, dispatcher, handler, false, pso);
+
+   Thread.sleep(100);
+
+   sub.drain(Duration.ofMillis(100));
+
+   nc.drain(Duration.ofMillis(100));
+  }
+  catch(Exception e)
+  {
+   e.printStackTrace();
+  }
+ }
+}
+```
+
+{% endtab %}
+{% tab title="JavaScript" %}
+
+```js
+import { connect, consumerOpts } from "../../src/mod.ts";
+
+const nc = await connect();
+const js = nc.jetstream();
+
+// note the consumer is not a durable - so when after the
+// subscription ends, the server will auto destroy the
+// consumer
+const opts = consumerOpts();
+opts.manualAck();
+opts.maxMessages(2);
+opts.deliverTo("xxx");
+const sub = await js.subscribe("a.>", opts);
+await (async () => {
+  for await (const m of sub) {
+    console.log(m.seq, m.subject);
+    m.ack();
+  }
+})();
+
+await nc.close();
+```
+
+{% endtab %}
+{% tab title= "Python" %}
+
+```python
+import asyncio
+
+import nats
+from nats.errors import TimeoutError
+
+
+async def main():
+    nc = await nats.connect("localhost")
+
+    # Create JetStream context.
+    js = nc.jetstream()
+
+    # Create ordered consumer with flow control and heartbeats
+    # that auto resumes on failures.
+    osub = await js.subscribe("foo", ordered_consumer=True)
+    data = bytearray()
+
+    while True:
+        try:
+            msg = await osub.next_msg()
+            data.extend(msg.data)
+        except TimeoutError:
+            break
+    print("All data in stream:", len(data))
+
+    await nc.close()
+
+if __name__ == '__main__':
+    asyncio.run(main())
+```
+
+{% endtab %}
+{% endtabs %}
+
+
+
 
 ## Delivery reliability
 
