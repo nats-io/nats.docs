@@ -1131,7 +1131,7 @@ int main(int argc, char **argv)
 
 
 ## Ordered Consumers
-Ordered consumers are a convenient form of ephemeral push consumer for for applications, which want to efficiently consume a stream for data inspection or analysis.
+Ordered consumers are a convenient form of ephemeral push consumer for applications, that want to efficiently consume a stream for data inspection or analysis.
 
 The API consumer is guaranteed delivery of messages in sequence and without gaps. 
 * Always ephemeral - minimal overhead for the server
