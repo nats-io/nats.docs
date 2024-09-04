@@ -156,7 +156,7 @@ nsc add user U -K ~/.nkeys/keys/A/DU/ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO
 [ OK ] generated user creds file "~/.nkeys/creds/O2/A/U.creds"
 [ OK ] added user "U" to account "A"
 ```
-Check the account
+Check the user
 ```shell
 nsc describe user
 ```
