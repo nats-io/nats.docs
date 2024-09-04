@@ -65,6 +65,12 @@ If the remote is configured as such but the server it is connecting to does not 
 
 ## Authorization Block
 
+{% hint style="info" %}
+A leaf node can authenticate against any user account on the hub (the incoming side of the connection), including those defined in the accounts themselves. This authorization block is therefore optional if appropriate account users already exist.
+
+Whether configuring users in the account or in this dedicated authorization block is more convenient will depend on your deployment style. 
+{% endhint %}
+
 | Property   | Description                                                                                                                         |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | `user`     | Username for the leaf node connection.                                                                                              |
@@ -137,11 +143,19 @@ If other form of credentials are used (jwt, nkey or other), then the server will
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `url`            | Leafnode URL (URL protocol should be `nats-leaf`).                                                                                                                                                                                                                        |
 | `urls`           | Leafnode URL array. Supports multiple URLs for discovery, e.g., urls: \[ "nats-leaf://host1:7422", "nats-leaf://host2:7422" ]                                                                                                                                             |
+| `no_randomize`   |  IF true, always try connecting in sequence on the URLs in the list. Default behavior if to shuffle the URLs and start connection attempts with a random URL|
 | `account`        | [Account](../securing_nats/accounts.md) name or JWT public key identifying the local account to bind to this remote server. Any traffic locally on this account will be forwarded to the remote server.                                                                   |
-| `credentials`    | Credential file for connecting to the leafnode server.                                                                                                                                                                                                                    |
+| `deny_imports`    | List of subjects which will not be imported over this leaf node connection. Subscriptions to those subjects will not be propagated to the hub.                                                                                                                           |
+| `deny_exports`    | List of subjects which will not be exported over this leaf node connection. Subscriptions to those subjects will not be propagated into the leaf node.                                                                                      |
+| `credentials`    | Credential file for connecting to the leafnode server.                                                                                                                |
+| `nkey`    | Nkey used for connecting to the leafnode server.                                                                                                                            |
 | `tls`            | A [TLS configuration](leafnode_conf.md#tls-configuration-block) block. Leafnode client will use specified TLS certificates when connecting/authenticating.                                                                                                                |
 | `ws_compression` | If connecting with [Websocket](leafnode_conf.md#connecting-using-websocket-protocol) protocol, this boolean (`true` or `false`) indicates to the remote server that it wishes to use compression. The default is `false`.                                                 |
 | `ws_no_masking`  | If connecting with [Websocket](leafnode_conf.md#connecting-using-websocket-protocol) protocol, this boolean indicates to the remote server that it wishes not to mask outbound WebSocket frames. The default is `false`, which means that outbound frames will be masked. |
+| `compression`   | Configures compression of leafnode connections similar to [cluster routes](../clustering/v2_routes.md). Defaults to `s2_auto`. See details [here](../clustering/v2_routes.md#compression). |
+| `hub`   | Default is false. If set to true the roles of leaf node and hub will be reversed. This allows the hub to initiate a leaf node connection to the leaf. |
+| `first_info_timeout`   | Default `1s`. The first information sent back by the hub (incoming side) will be the server metadata. The client will only wait `first_info_timeout` before giving up. This is useful if there is the change that the port on the other side is not a NATS server or not a port accepting leaf node connection. In this case the client would wait forever for the metadata.  |
+
 
 ### Signature Handler
 
