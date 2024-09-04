@@ -67,6 +67,7 @@ debug:   false
 trace:   true
 logtime: false
 logfile_size_limit: 1GB
+logfile_max_num: 100
 log_file: "/tmp/nats-server.log"
 ```
 
