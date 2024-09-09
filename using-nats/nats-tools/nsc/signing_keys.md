@@ -2,7 +2,7 @@
 
 As previously discussed, NKEYs are identities, and if someone gets a hold of an account or operator nkey they can do everything you can do as you.
 
-NATS has a strategies to let you deal with scenarios where your private keys escape out in the wild.
+NATS has strategies to let you deal with scenarios where your private keys escape out in the wild.
 
 The first and most important line of defense is _Signing Keys_. _Signing Keys_ allow you have multiple NKEY identities of the same kind \(Operator or Account\) that have the same degree of trust as the standard _Issuer_ nkey.
 
@@ -247,7 +247,7 @@ nsc add user U -K service
 [ OK ] added user "U" to account "A"
 ```
 
-To see the permissions for the user enter `nsc describe user` - you will see in the report  that the user is scoped, and has the permissions listed. You can inspect and modify the scoped permissions with `nsc edit signing-key` - pushing updates to the account will reassign user permissions.
+To see the permissions for the user enter `nsc describe user` - you will see in the report that the user is scoped, and has the permissions listed. You can inspect and modify the scoped permissions with `nsc edit signing-key` - pushing updates to the account will reassign user permissions.
 
 ### Template functions
 
