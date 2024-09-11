@@ -1,4 +1,4 @@
-# How to Develop with NATS
+# How to Develop with the NATS Client API
 
 Developing with NATS involves a blend of distributed application techniques, common NATS features, and library-specific syntax. Besides this guide, most libraries provide auto-generated API documentation, along with language and platform-specific examples, guides, and other resources.
 
