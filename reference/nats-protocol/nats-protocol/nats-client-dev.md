@@ -18,15 +18,15 @@ This guide provides you with considerations for developing NATS clients, includi
 
 Probably the best way to learn about implementing a client is to look at one of the client's maintained by the Synadia team. These clients are generally full featured, so if you can use them, that is even better, but if you have to write a client these may go beyond your needs while still capturing many of the design considerations discussed here.
 
-* [go](https://github.com/nats-io/nats.go)
-* [node](https://github.com/nats-io/nats.js)
-* [typescript](https://github.com/nats-io/nats.ts)
-* [python2](https://github.com/nats-io/nats.py2)
-* [python asyncio](https://github.com/nats-io/nats.py)
-* [java](https://github.com/nats-io/nats.java)
-* [c\#](https://github.com/nats-io/nats.net)
-* [ruby](https://github.com/nats-io/nats.rb)
-* [c](https://github.com/nats-io/nats.c)
+* [GoLang](https://github.com/nats-io/nats.go)
+* [Java](https://github.com/nats-io/nats.java)
+* [c\# / .NET](https://github.com/nats-io/nats.net)
+* [Rust](https://github.com/nats-io/nats.rs)
+* [Javascript](https://github.com/nats-io/nats.js)
+* [Python](https://github.com/nats-io/nats.py)
+* [C](https://github.com/nats-io/nats.c)
+
+See [Developing with NATS](../../../using-nats/developing-with-nats/developer.md) for more links and community supported languages.
 
 ## Client connection options
 
