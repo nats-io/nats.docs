@@ -3,7 +3,7 @@
 Developing with NATS involves a blend of distributed application techniques, common NATS features, and library-specific syntax. Besides this guide, most libraries provide auto-generated API documentation, along with language and platform-specific examples, guides, and other resources.
 
 | Language | Links                                                                                                               | Supported by Synadia                                                           |
-| :--- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| :--- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| :------|
 | Golang | [nats.go](https://github.com/nats-io/nats.go), [godoc](http://godoc.org/github.com/nats-io/nats.go)                                                       |  Yes                     |
 | Java | [nats.java](https://github.com/nats-io/nats.java), [javadoc](https://javadoc.io/doc/io.nats/jnats), [nats.java examples](https://github.com/nats-io/nats.java/tree/main/src/examples/java/io/nats/examples), [java-nats-examples repo](https://github.com/nats-io/java-nats-examples) |  Yes   | 
 | .NET (v2) | [nats.net](https://github.com/nats-io/nats.net), [docs](http://nats-io.github.io/nats.net/), [package](https://www.nuget.org/packages/NATS.Net)       |  Yes              |
