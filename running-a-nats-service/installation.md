@@ -68,10 +68,10 @@ This table follows the same pattern as above, however the published messages are
 
 The simplest way to just get the binary of a release of `nats-server` for your machine is to use the following shell command.
 
-For example to get the binary for version 2.10.14 you would use:
+For example to get the binary for version 2.10.20 you would use:
 
 ```shell
-curl -sf https://binaries.nats.dev/nats-io/nats-server/v2@v2.10.14 | sh
+curl -sf https://binaries.nats.dev/nats-io/nats-server/v2@v2.10.20 | sh
 ```
 
 To get the current very latest version (which may be ahead of the current last officially released version!) use `@latest`, you can also use a tag or a specific branch after the `@`.
