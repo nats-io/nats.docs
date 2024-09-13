@@ -59,7 +59,7 @@ nats-server
 On another terminal session first check the connection to the server
 
 ```shell
-nats server check connection -s 0.0.0.0:4222
+nats server check connection -s nats://0.0.0.0:4222
 ```
 
 ```
