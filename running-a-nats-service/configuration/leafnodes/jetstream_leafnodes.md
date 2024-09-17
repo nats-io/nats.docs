@@ -429,7 +429,7 @@ system_account: SYS
 
 #### Copying via `source` and `mirror`
 
-Once the servers have been restarted or reloaded, a `mirror` can be created as follows \(same applies to `source`\): On import from a different account the renamed prefix `JS.acc@hub.API` is provided. In addition, the delivery subject name is extended to also include the importing domain and stream. This makes it unique to that particular import. If every delivery prefix follows the pattern `<static type>.<exporting account>.<exporting domain>.<importing account>.<importing domain>.<importing domain>.<importing stream name>` overlaps caused by multiple imports are avoided.
+Once the servers have been restarted or reloaded, a `mirror` can be created as follows \(same applies to `source`\): On import from a different account the renamed prefix `JS.acc@hub.API` is provided. In addition, the delivery subject name is extended to also include the importing domain and stream. This makes it unique to that particular import. If every delivery prefix follows the pattern `<static type>.<exporting account>.<exporting domain>.<importing account>.<importing domain>.<importing stream name>` overlaps caused by multiple imports are avoided.
 
 ```bash
 nats  --server nats://import_mirror:import_mirror@localhost:4222 stream add --js-domain hub --mirror aggregate-test-leaf
