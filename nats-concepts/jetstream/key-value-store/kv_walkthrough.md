@@ -131,7 +131,7 @@ nats kv update my-kv Semaphore1 Value2 0
 A second attempt with the same revision 13, will fail
 
 ```shell 
-nats kv update my-sem Semaphore1 Value2 0
+nats kv update my-kv Semaphore1 Value2 0
 nats: error: nats: wrong last sequence: 1
 ```
 
