@@ -113,7 +113,7 @@ Updates can also be used for more fine-grained concurrency control, sometimes kn
 ### Create (aka exclusive locking)
 Create a lock/semaphore with the `create` operation.
 ```shell 
-nats kv create my-kv emaphore1 Value1
+nats kv create my-kv Semaphore1 Value1
 ```
 Only one `create` can succeed. First come, first serve. All concurrent attempts will result in an error until the key is deleted
 ```shell 
