@@ -113,11 +113,11 @@ Updates can also be used for more fine-grained concurrency control, sometimes kn
 ### Create (aka exclusive locking)
 Create a lock/semaphore with the `create` operation.
 ```shell 
-nats kv create my-sem Semaphore1 Value1
+nats kv create my-kv emaphore1 Value1
 ```
 Only one `create` can succeed. First come, first serve. All concurrent attempts will result in an error until the key is deleted
 ```shell 
-nats kv create my-sem Semaphore1 Value1
+nats kv create my-kv Semaphore1 Value1
 nats: error: nats: wrong last sequence: 1: key exists
 ```
 
@@ -125,14 +125,20 @@ nats: error: nats: wrong last sequence: 1: key exists
 We can also atomically `update`, sometimes known as a CAS (compare and swap) operation, a key with an additional parameter `revision`
 
 ```shell 
-nats kv update my-sem Semaphore1 Value2 13
+nats kv update my-kv Semaphore1 Value2 0
 ```
 
 A second attempt with the same revision 13, will fail
 
 ```shell 
-nats kv update my-sem Semaphore1 Value2 13
-nats: error: nats: wrong last sequence: 14
+nats kv update my-sem Semaphore1 Value2 0
+nats: error: nats: wrong last sequence: 1
+```
+
+You can view the history and revision value of a key using the `history` command
+
+```shell
+nats kv history my-kv Semaphore1
 ```
 
 ## Watching a K/V Store
