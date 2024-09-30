@@ -102,7 +102,7 @@ leafnodes {
 }
 ```
 
-With above configuration, if a soliciting server creates a Leafnode connection with url: `nats://leaf:secret@host:port`, then the accepting server will bind the leafnode connection to the account "TheAccount". This account need to exist otherwise the connection will be rejected.
+With above configuration, if a soliciting server creates a Leafnode connection with url: `nats://leaf:secret@host:port`, then the accepting server will bind the leafnode connection to the account "TheAccount". This account needs to exist otherwise the connection will be rejected.
 
 Multi-users mode:
 
