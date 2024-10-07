@@ -54,6 +54,7 @@ In addition other tools with system account privileges, can initiate requests \(
 | [Subscription Routing](../monitoring.md#subscription-routing-information) | `SUBSZ` |
 | [JetStream](../monitoring.md#jetstream-information) | `JSZ` |
 | [Accounts](../monitoring.md#account-information) | `ACCOUNTZ` |
+| [Health](../monitoring.md#health) | `HEALTHZ` |
 
 * `"$SYS.REQ.ACCOUNT.<account-id>.<endpoint-name>`\(from all server, request account specific monitoring endpoint corresponding to account id and endpoint name - will return multiple messages\)
 
