@@ -30,8 +30,6 @@ Server initiated events:
 * `$SYS.ACCOUNT.<id>.DISCONNECT` (client disconnects)
 * `$SYS.ACCOUNT.<id>.SERVER.CONNS` (connections for an account changed)
 * `$SYS.SERVER.<id>.CLIENT.AUTH.ERR` (authentication error)
-* `$SYS.ACCOUNT.<id>.LEAFNODE.CONNECT` (leaf node connects)
-* `$SYS.ACCOUNT.<id>.LEAFNODE.DISCONNECT` (leaf node disconnects)
 * `$SYS.SERVER.<id>.STATSZ` (stats summary)
 
 In addition other tools with system account privileges, can initiate requests (Examples can be found [here](sys\_accounts.md#system-services)):
