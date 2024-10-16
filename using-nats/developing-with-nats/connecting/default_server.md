@@ -72,4 +72,17 @@ if (s != NATS_OK)
 natsConnection_Destroy(conn);
 ```
 {% endtab %}
+
+{% tab title="C#" %}
+```csharp
+using NATS.Net;
+
+await using var nc = new NatsClient();
+
+// It's optional to call ConnectAsync()
+// as it will be called when needed automatically
+await nc.ConnectAsync();
+```
+{% endtab %}
+
 {% endtabs %}
