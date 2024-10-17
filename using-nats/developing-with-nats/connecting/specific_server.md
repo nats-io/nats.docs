@@ -52,25 +52,15 @@ await nc.close()
 ```
 {% endtab %}
 
-{% tab title="C# v1" %}
+{% tab title="C#" %}
 ```csharp
-// IConnection is IDisposable
-using (IConnection c = new ConnectionFactory().CreateConnection("nats://demo.nats.io:4222"))
-{
-    // Do something with the connection
-}
-```
-{% endtab %}
+using NATS.Net;
 
-{% tab title="C# v2" %}
-```csharp
-// NATS server URL is part of the connection options
-var opts = new NatsOpts { Url = "nats://demo.nats.io:4222" };
+await using var nc = new NatsClient("nats://demo.nats.io:4222");
 
-// NatsConnection is IAsyncDisposable
-await using var nats = new NatsConnection(opts);
-
-// Do something with the connection
+// It's optional to call ConnectAsync()
+// as it will be called when needed automatically
+await nc.ConnectAsync();
 ```
 {% endtab %}
 
