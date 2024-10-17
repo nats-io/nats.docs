@@ -51,6 +51,23 @@ await nc.close()
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+using NATS.Client.Core;
+using NATS.Net;
+
+await using var nc = new NatsClient(new NatsOpts
+{
+    Url = "nats://demo.nats.io:4222",
+    ConnectTimeout = TimeSpan.FromSeconds(10)
+});
+
+// You don't have to call ConnectAsync() explicitly,
+// first operation will make the connection otherwise.
+await nc.ConnectAsync();
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 # There is currently no connect timeout as part of the Ruby NATS client API, but you can use a timer to mimic it.
