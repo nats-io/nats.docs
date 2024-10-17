@@ -14,6 +14,72 @@ For MacOS:
 brew tap nats-io/nats-tools
 brew install nats-io/nats-tools/nats
 ```
+# Setting Up NATS Server in Your PATH
+
+This guide will help you add the NATS server to your PATH for both current and future terminal sessions.
+
+## Step 1: Add NATS Server to PATH
+
+First, you need to append the NATS server directory to your PATH variable. This can be done by adding the following line to your `.zshrc` file. You can use a text editor like `vi` for this purpose:
+
+```sh
+vi ~/.zshrc
+```
+In the editor, add the following line at the end of the file:
+```
+export PATH=\$PATH:~/usr/local/Cellar/nats/0.1.4/bin
+
+```
+Save and exit the editor.
+## Step 2: Source the .zshrc File
+Next, apply the changes to your current session:
+
+```sh
+source ~/.zshrc
+```
+
+## Step 3: Verify the Setup
+Now you can run the nats command. If the setup is correct, you should get a response similar to the one below:
+Then going fwd run nats command like this and will get below response 
+
+```sh
+nats
+```
+You should see output indicating that the NATS server is running correctly.
+
+```
+% nats
+usage: nats [<flags>] <command> [<args> ...]
+
+NATS Utility
+
+NATS Server and JetStream administration.
+
+See 'nats cheat' for a quick cheatsheet of commands
+
+Commands:
+  account    Account information and status
+  bench      Benchmark utility
+  consumer   JetStream Consumer management
+  context    Manage nats configuration contexts
+  errors     Error code documentation
+  events     Show Advisories and Events
+  kv         Interacts with a JetStream based Key-Value store
+  latency    Perform latency tests between two NATS servers
+  micro      Micro Services discovery and management
+  object     Interacts with a JetStream based Object store
+  publish    Generic data publish utility
+  request    Generic request-reply request utility
+  reply      Generic service reply utility
+  rtt        Compute round-trip time to NATS server
+  schema     Schema tools
+  server     Server information
+  stream     JetStream Stream management
+  subscribe  Generic subscription client
+
+Pass --help to see global flags applicable to this command.
+```
+
 
 For Arch Linux:
 
