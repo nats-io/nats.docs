@@ -87,6 +87,31 @@ await nc.connect(
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+using NATS.Net;
+
+await using var nc = new NatsClient();
+
+nc.Connection.ConnectionDisconnected += async (sender, args) =>
+{
+    Console.WriteLine($"Disconnected: {args.Message}");
+};
+
+nc.Connection.ConnectionOpened += async (sender, args) =>
+{
+    Console.WriteLine($"Connected: {args.Message}");
+};
+
+nc.Connection.ReconnectFailed += async (sender, args) =>
+{
+    Console.WriteLine($"Reconnect Failed: {args.Message}");
+};
+
+await nc.ConnectAsync();
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'
