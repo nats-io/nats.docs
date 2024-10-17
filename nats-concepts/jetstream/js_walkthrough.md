@@ -177,7 +177,7 @@ Let's now start a publisher
 nats pub foo --count=1000 --sleep 1s "publication #{{Count}} @ {{TimeStamp}}"
 ```
 
-As messages are being published on the subject "foo" they are also captured and stored in the stream, you can check that by using `nats stream info my_stream` and even look at the messages themselves using `nats stream view my_stream`
+As messages are being published on the subject "foo" they are also captured and stored in the stream, you can check that by using `nats stream info my_stream` and even look at the messages themselves using `nats stream view my_stream` or `nats stream get my_stream`
 
 ## 3. Creating a consumer
 
@@ -223,7 +223,7 @@ State:
            Waiting Pulls: 0 of maximum 512
 ```
 
-You can check on the status of any consumer at any time using `nats consumer info` or view the messages in the stream using `nats stream view my_stream` or even remove individual messages from the stream using `nats stream rmm`
+You can check on the status of any consumer at any time using `nats consumer info` or view the messages in the stream using `nats stream view my_stream` or `nats stream get my_stream`, or even remove individual messages from the stream using `nats stream rmm`
 
 ## 3. Subscribing from the consumer
 
