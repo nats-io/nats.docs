@@ -99,6 +99,33 @@ await nc.subscribe("updates", cb=cb, pending_bytes_limit=5*1024*1024, pending_ms
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+using System.Threading.Channels;
+using NATS.Client.Core;
+using NATS.Net;
+
+await using var nc = new NatsClient();
+
+// Set limits of 1000 messages.
+// Note: setting the channel capacity over 1024 is not recommended
+// as the channel's backing array will be allocated on the LOH (large object heap).
+// NATS .NET client does not support setting a limit on the number of bytes
+var subOpts = new NatsSubOpts
+{
+    ChannelOpts = new NatsSubChannelOpts
+    {
+        Capacity = 1000,
+        FullMode = BoundedChannelFullMode.DropOldest
+    }
+};
+await foreach (var msg in nc.SubscribeAsync<string>(subject: "updates", opts: subOpts))
+{
+    Console.WriteLine($"Received: {msg.Subject}: {msg.Data}");    
+}
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 # The Ruby NATS client currently does not have option to specify a subscribers pending limits.
@@ -246,6 +273,54 @@ public class SlowConsumerListener {
      print("[Received]", msg)
 
    await nc.close()
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+using System.Threading.Channels;
+using NATS.Client.Core;
+using NATS.Net;
+
+await using var nc = new NatsClient();
+
+// Set the event handler for slow consumers
+nc.Connection.MessageDropped += async (sender, eventArgs) =>
+{
+    Console.WriteLine($"Dropped message: {eventArgs.Subject}: {eventArgs.Data}");
+    Console.WriteLine($"Current channel size: {eventArgs.Pending}");
+};
+
+var subOpts = new NatsSubOpts
+{
+    ChannelOpts = new NatsSubChannelOpts
+    {
+        Capacity = 10,
+        FullMode = BoundedChannelFullMode.DropOldest
+
+        // If set to wait (default), you won't be able to detect slow consumers
+        // FullMode = BoundedChannelFullMode.Wait,
+    }
+};
+
+using var cts = new CancellationTokenSource();
+
+var subscription = Task.Run(async () =>
+{
+    await foreach (var msg in nc.SubscribeAsync<string>(subject: "updates", opts: subOpts, cancellationToken: cts.Token))
+    {
+        Console.WriteLine($"Received: {msg.Subject}: {msg.Data}");    
+    }
+});
+
+for (int i = 0; i < 1_000; i++)
+{
+    await nc.PublishAsync(subject: "updates", data: $"message payload {i}");
+}
+
+await cts.CancelAsync();
+
+await subscription;
 ```
 {% endtab %}
 
