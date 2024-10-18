@@ -76,6 +76,21 @@ await ncB.drain()
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+using NATS.Client.Core;
+using NATS.Net;
+
+await using var nc = new NatsClient(new NatsOpts
+{
+    Url = "nats://demo.nats.io:4222",
+    
+    // Turn off echo
+    Echo = false
+});
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 NATS.start("nats://demo.nats.io:4222", no_echo: true) do |nc|

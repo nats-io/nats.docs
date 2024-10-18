@@ -63,6 +63,19 @@ await nc.close()
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+using NATS.Client.Core;
+using NATS.Net;
+
+await using var nc = new NatsClient(new NatsOpts
+{
+    Url = "nats://127.0.0.1:1222,nats://127.0.0.1:1223,nats://127.0.0.1:1224",
+    NoRandomize = true,
+});
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'

@@ -67,20 +67,21 @@ await nc.connect(
 ```
 {% endtab %}
 
-{% tab title="C# V1" %}
+{% tab title="C#" %}
 ```csharp
-Options opts = ConnectionFactory.GetDefaultOptions();
-opts.Url = "nats://demo.nats.io";
-opts.PingInterval = 20000; // Set Ping Interval in milliseconds
-opts.MaxPingsOut = 5; // Set max pings in flight
+using NATS.Client.Core;
+using NATS.Net;
 
-// IConnection is IDisposable
-using (IConnection nc = new ConnectionFactory().CreateConnection(opts))
+await using var nc = new NatsClient(new NatsOpts
 {
-    Console.WriteLine(nc.ServerInfo);
-    // Do something with the connection
-}
+    Url = "nats://demo.nats.io:4222",
+    
+    // Set Ping Interval to 20 seconds and Max Pings Outstanding to 5
+    PingInterval = TimeSpan.FromSeconds(20),
+    MaxPingOut = 5,
+});
 ```
+{% endtab %}
 
 {% tab title="Ruby" %}
 ```ruby

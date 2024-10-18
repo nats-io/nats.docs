@@ -55,6 +55,22 @@ await nc.close()
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+using NATS.Client.Core;
+using NATS.Net;
+
+await using var nc = new NatsClient(new NatsOpts
+{
+    Url = "nats://127.0.0.1:1222,nats://127.0.0.1:1223,nats://127.0.0.1:1224",
+    
+    // Set reconnect interval to between 5-10 seconds
+    ReconnectWaitMin = TimeSpan.FromSeconds(5),
+    ReconnectWaitMax = TimeSpan.FromSeconds(10),
+});
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'
