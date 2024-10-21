@@ -1463,6 +1463,7 @@ Connections to the `signup` accounts use two kinds of credentials. 1. Sign up se
 The NKEY library does exist or is incorporated in all languages where NATS supports NKEY. The NATS JWT library on the other hand is written in Go. This may not be your language of choice. Other than encoding JWTs, most of what the that library does is maintain the NATS JWT schema. If you use `nsc` to generate a user as a template for the sign up service and work off of that template you don't need the JWT library. The sample shows how a program that takes an account identity NKEY and account signing NKEY as arguments and outputs a valid creds file.
 
 ```csharp
+// dotnet add package NATS.Net
 using System;
 using System.Security.Cryptography;
 using System.Text;

@@ -53,6 +53,7 @@ print("Maximum payload is %d bytes" % nc.max_payload)
 
 {% tab title="C#" %}
 ```csharp
+// dotnet add package NATS.Net
 using NATS.Net;
 
 await using var nc = new NatsClient("nats://demo.nats.io:4222");
@@ -169,7 +170,7 @@ await nc.connect(servers=["nats://demo.nats.io:4222"], pedantic=True)
 
 {% tab title="C#" %}
 ```csharp
-// Not available in the .NET client
+// Not available in the NATS .NET client
 ```
 {% endtab %}
 
@@ -255,7 +256,7 @@ nc.close();
 
 {% tab title="C#" %}
 ```csharp
-// control line is not configurable on .NET client.
+// control line is not configurable on NATS .NET client.
 // required memory is allocated dynamically from the array pool.
 ```
 {% endtab %}

@@ -79,6 +79,7 @@ await nc.close()
 
 {% tab title="C#" %}
 ```csharp
+// dotnet add package NATS.Net
 using NATS.Net;
 
 await using var nc = new NatsClient("nats://127.0.0.1:1222,nats://127.0.0.1:1223,nats://127.0.0.1:1224");

@@ -53,6 +53,7 @@ await nc.close()
 
 {% tab title="C#" %}
 ```csharp
+// dotnet add package NATS.Net
 using NATS.Net;
 
 await using var nc = new NatsClient(name: "API Name Option Example", url: "nats://demo.nats.io:4222");

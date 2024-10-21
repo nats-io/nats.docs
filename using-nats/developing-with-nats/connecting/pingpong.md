@@ -69,6 +69,7 @@ await nc.connect(
 
 {% tab title="C#" %}
 ```csharp
+// dotnet add package NATS.Net
 using NATS.Client.Core;
 using NATS.Net;
 

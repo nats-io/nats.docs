@@ -77,6 +77,7 @@ await nc.connect(servers=["nats://myname:password@demo.nats.io:4222"])
 
 {% tab title="C#" %}
 ```csharp
+// dotnet add package NATS.Net
 using NATS.Client.Core;
 using NATS.Net;
 
@@ -185,6 +186,7 @@ await nc.connect(servers=["nats://myname:password@demo.nats.io:4222"])
 
 {% tab title="C#" %}
 ```csharp
+// dotnet add package NATS.Net
 using NATS.Client.Core;
 using NATS.Net;
 

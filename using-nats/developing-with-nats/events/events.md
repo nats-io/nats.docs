@@ -133,6 +133,7 @@ await nc.connect(**options)
 
 {% tab title="C#" %}
 ```csharp
+// dotnet add package NATS.Net
 using NATS.Net;
 
 await using var nc = new NatsClient();
@@ -469,6 +470,7 @@ await nc.connect(
 
 {% tab title="C#" %}
 ```csharp
+// dotnet add package NATS.Net
 using Microsoft.Extensions.Logging;
 using NATS.Client.Core;
 using NATS.Net;
