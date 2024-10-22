@@ -94,6 +94,21 @@ await nc.publish(msg.reply, time_as_bytes)
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var nc = new NatsClient();
+
+// Subscribe to the "time" subject and reply with the current time
+await foreach (var msg in nc.SubscribeAsync<string>("time"))
+{
+    await msg.ReplyAsync(DateTime.Now);
+}
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'

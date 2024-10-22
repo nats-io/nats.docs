@@ -101,6 +101,29 @@ await nc.publish("updates", b'...')
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.Core;
+
+await using var nc = new NatsClient();
+
+// Unsubscribe after 10 messages
+var opts = new NatsSubOpts { MaxMsgs = 10 };
+
+var count = 0;
+
+// Subscribe to updates with options
+await foreach (var msg in nc.SubscribeAsync<string>("updates", opts: opts))
+{
+    Console.WriteLine($"Received[{++count}]: {msg.Data}");
+}
+
+Console.WriteLine("Unsubscribed from updates");
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'
