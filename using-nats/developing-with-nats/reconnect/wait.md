@@ -58,8 +58,8 @@ await nc.close()
 {% tab title="C#" %}
 ```csharp
 // dotnet add package NATS.Net
-using NATS.Client.Core;
 using NATS.Net;
+using NATS.Client.Core;
 
 await using var nc = new NatsClient(new NatsOpts
 {

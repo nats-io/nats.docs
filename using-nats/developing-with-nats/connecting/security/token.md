@@ -62,8 +62,8 @@ await nc.connect(servers=["nats://demo.nats.io:4222"], token="mytoken")
 {% tab title="C#" %}
 ```csharp
 // dotnet add package NATS.Net
-using NATS.Client.Core;
 using NATS.Net;
+using NATS.Client.Core;
 
 await using var nc = new NatsClient(new NatsOpts
 {
@@ -157,8 +157,8 @@ await nc.connect(servers=["nats://mytoken@demo.nats.io:4222"])
 {% tab title="C#" %}
 ```csharp
 // dotnet add package NATS.Net
-using NATS.Client.Core;
 using NATS.Net;
+using NATS.Client.Core;
 
 await using var nc = new NatsClient(new NatsOpts
 {

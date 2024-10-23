@@ -140,8 +140,8 @@ await nc.connect(servers=["nats://demo.nats.io:4222"], tls=ssl_ctx)
 {% tab title="C#" %}
 ```csharp
 // dotnet add package NATS.Net
-using NATS.Client.Core;
 using NATS.Net;
+using NATS.Client.Core;
 
 await using var nc = new NatsClient(new NatsOpts
 {

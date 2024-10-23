@@ -199,10 +199,10 @@ List<Task> tasks =
 // Give the subscriber tasks some time to subscribe
 await Task.Delay(1000);
 
-await nc.PublishAsync("x.int", 100);
-await nc.PublishAsync("x.string", "Hello, World!");
-await nc.PublishAsync("x.bytes", new byte[] { 0x41, 0x42, 0x43 });
-await nc.PublishAsync("x.json", new MyData(30, "bar"));
+await nc.PublishAsync<int>("x.int", 100);
+await nc.PublishAsync<string>("x.string", "Hello, World!");
+await nc.PublishAsync<byte[]>("x.bytes", new byte[] { 0x41, 0x42, 0x43 });
+await nc.PublishAsync<MyData>("x.json", new MyData(30, "bar"));
 
 await cts.CancelAsync();
 

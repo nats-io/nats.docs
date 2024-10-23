@@ -102,9 +102,9 @@ await nc.subscribe("updates", cb=cb, pending_bytes_limit=5*1024*1024, pending_ms
 {% tab title="C#" %}
 ```csharp
 // dotnet add package NATS.Net
+using NATS.Net;
 using System.Threading.Channels;
 using NATS.Client.Core;
-using NATS.Net;
 
 await using var nc = new NatsClient();
 
@@ -280,9 +280,9 @@ public class SlowConsumerListener {
 {% tab title="C#" %}
 ```csharp
 // dotnet add package NATS.Net
+using NATS.Net;
 using System.Threading.Channels;
 using NATS.Client.Core;
-using NATS.Net;
 
 await using var nc = new NatsClient();
 
