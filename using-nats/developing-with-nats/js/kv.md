@@ -117,6 +117,8 @@ IAsyncEnumerable<NatsKVStatus> GetStatusesAsync(CancellationToken cancellationTo
 
 // Delete a Key Value Store
 ValueTask<bool> DeleteStoreAsync(string bucket, CancellationToken cancellationToken = default);
+
+//
 ```
 {% endtab %}
 
@@ -200,6 +202,8 @@ async def get(self, key: str) -> Entry:
 
 // Get an entry from the bucket using the key
 ValueTask<NatsKVEntry<T>> GetEntryAsync<T>(string key, ulong revision = default, INatsDeserialize<T>? serializer = default, CancellationToken cancellationToken = default);
+
+//
 ```
 {% endtab %}
 
@@ -331,6 +335,8 @@ async def update(self, key: str, value: bytes, last: int) -> int:
 // Put a value into the bucket using the key
 // returns revision number
 ValueTask<ulong> PutAsync<T>(string key, T value, INatsSerialize<T>? serializer = default, CancellationToken cancellationToken = default);
+
+//
 ```
 {% endtab %}
 
@@ -422,6 +428,8 @@ ValueTask DeleteAsync(string key, NatsKVDeleteOpts? opts = default, Cancellation
 
 // Purge an entry from the bucket
 ValueTask PurgeAsync(string key, NatsKVDeleteOpts? opts = default, CancellationToken cancellationToken = default);
+
+//
 ```
 {% endtab %}
 
@@ -479,6 +487,8 @@ IAsyncEnumerable<string> GetKeysAsync(NatsKVWatchOpts? opts = default, Cancellat
 
 // Get a filtered set of keys in the bucket
 IAsyncEnumerable<string> GetKeysAsync(IEnumerable<string> filters, NatsKVWatchOpts? opts = default, CancellationToken cancellationToken = default);
+
+//
 ```
 {% endtab %}
 
@@ -533,6 +543,8 @@ async history(
 
 // Get the history of an entry by key
 IAsyncEnumerable<NatsKVEntry<T>> HistoryAsync<T>(string key, INatsDeserialize<T>? serializer = default, NatsKVWatchOpts? opts = default, CancellationToken cancellationToken = default);
+
+//
 ```
 {% endtab %}
 
@@ -616,6 +628,8 @@ IAsyncEnumerable<NatsKVEntry<T>> WatchAsync<T>(IEnumerable<string> keys, INatsDe
 
 // Start a watcher for all the keys in the bucket
 IAsyncEnumerable<NatsKVEntry<T>> WatchAsync<T>(INatsDeserialize<T>? serializer = default, NatsKVWatchOpts? opts = default, CancellationToken cancellationToken = default);
+
+//
 ```
 {% endtab %}
 
