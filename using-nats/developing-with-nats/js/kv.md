@@ -199,7 +199,6 @@ async def get(self, key: str) -> Entry:
 {% tab title="C#" %}
 ```csharp
 // dotnet add package NATS.Net
-using NATS.Net;
 
 // Get an entry from the bucket using the key
 ValueTask<NatsKVEntry<T>> GetEntryAsync<T>(string key, ulong revision = default, INatsDeserialize<T>? serializer = default, CancellationToken cancellationToken = default);
