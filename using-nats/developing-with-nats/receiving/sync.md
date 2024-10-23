@@ -60,6 +60,12 @@ nc.close();
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// NATS .NET subscriptions are always async.
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 # The Ruby NATS client subscriptions are all async.

@@ -208,50 +208,52 @@ if __name__ == '__main__':
 ```
 {% endtab %}
 
-{% tab title="C# V1" %}
+{% tab title="C#" %}
 ```csharp 
-using (IConnection nc = new ConnectionFactory().CreateConnection("nats://localhost:4222"))
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.JetStream;
+using NATS.Client.JetStream.Models;
+
+await using var nc = new NatsClient();
+
+INatsJSContext js = nc.CreateJetStreamContext();
+
+// Create a stream
+var streamConfig = new StreamConfig(name: "example-stream", subjects: ["example-subject"])
 {
-    IJetStreamManagement jsm = nc.CreateJetStreamManagementContext();
+    MaxBytes = 1024,
+};
+await js.CreateStreamAsync(streamConfig);
 
-    // Create a stream
-    StreamInfo si = jsm.AddStream(StreamConfiguration.Builder()
-        .WithName("example-stream")
-        .WithSubjects("example-subject")
-        .WithMaxBytes(1024)
-        .Build());
-    Console.WriteLine($"stream name: {si.Config.Name}, max_bytes: {si.Config.MaxBytes}");
-    
-    // Update a stream
-    si = jsm.UpdateStream(StreamConfiguration.Builder()
-        .WithName("example-stream")
-        .WithMaxBytes(2048)
-        .Build());
-    Console.WriteLine($"stream name: {si.Config.Name}, max_bytes: {si.Config.MaxBytes}");
+// Update the stream
+var streamConfigUpdated = streamConfig with { MaxBytes = 2048 };
+await js.UpdateStreamAsync(streamConfigUpdated);
 
-    // Create a durable consumer
-    jsm.CreateConsumer("example-stream", ConsumerConfiguration.Builder()
-        .WithDurable("example-consumer-name")
-        .Build());
+// Create a durable consumer
+await js.CreateConsumerAsync("example-stream", new ConsumerConfig("example-consumer-name"));
 
-    // Get information about all streams
-    IList<StreamInfo> streams = jsm.GetStreams();
-    foreach (StreamInfo info in streams) {
-        Console.WriteLine($"stream name: {info.Config.Name}");
-    }
-
-    // Get information about all consumers
-    IList<ConsumerInfo> consumers = jsm.GetConsumers("example-stream");
-    foreach (ConsumerInfo ci in consumers) {
-        Console.WriteLine($"consumer name: {ci.Name}");
-    }
-
-    // Delete a consumer
-    jsm.DeleteConsumer("example-stream", "example-consumer-name");
-
-    // Delete a stream
-    jsm.DeleteStream("example-stream");
+// Get information about all streams
+await foreach (var stream in js.ListStreamsAsync())
+{
+    Console.WriteLine($"stream name: {stream.Info.Config.Name}");
 }
+
+// Get information about all consumers in a stream
+await foreach (var consumer in js.ListConsumersAsync("example-stream"))
+{
+    Console.WriteLine($"consumer name: {consumer.Info.Config.Name}");
+}
+
+// Delete a consumer
+await js.DeleteConsumerAsync("example-stream", "example-consumer-name");
+
+// Delete a stream
+await js.DeleteStreamAsync("example-stream");
+
+// Output:
+// stream name: example-stream
+// consumer name: example-consumer-name
 ```
 {% endtab %}
 

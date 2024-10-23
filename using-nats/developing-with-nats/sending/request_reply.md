@@ -81,6 +81,39 @@ except asyncio.TimeoutError:
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var nc = new NatsClient();
+
+using CancellationTokenSource cts = new();
+
+// Process the time messages in a separate task
+Task subscription = Task.Run(async () =>
+{
+    await foreach (var msg in nc.SubscribeAsync<string>("time", cancellationToken: cts.Token))
+    {
+        await msg.ReplyAsync(DateTimeOffset.Now);
+    }
+});
+
+// Wait for the subscription task to be ready
+await Task.Delay(1000);
+
+var reply = await nc.RequestAsync<DateTimeOffset>("time");
+
+Console.WriteLine($"Reply: {reply.Data:O}");
+
+await cts.CancelAsync();
+await subscription;
+
+// Output:
+// Reply: 2024-10-23T05:20:55.0000000+01:00
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'

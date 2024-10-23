@@ -90,6 +90,34 @@ await nc.publish("updates", b'...')
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var nc = new NatsClient();
+
+// Cancel the subscription after 10 seconds
+using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+
+// Subscribe to the "updates" subject
+// We unsubscribe when we receive the message "exit"
+// or when the cancellation token is triggered.
+await foreach (var msg in nc.SubscribeAsync<string>("updates").WithCancellation(cts.Token))
+{
+    Console.WriteLine($"Received: {msg.Data}");
+    
+    if (msg.Data == "exit")
+    {
+        // When we exit the loop, we unsubscribe from the subject
+        break;
+    }
+}
+
+Console.WriteLine("Unsubscribed from updates");
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'

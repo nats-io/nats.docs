@@ -116,6 +116,33 @@ print("Msg B:", msg_B)
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var nc = new NatsClient();
+
+var count = 0;
+await foreach (var msg in nc.SubscribeAsync<string>("time.*.east"))
+{
+    Console.WriteLine($"Received {++count}: {msg.Subject}: {msg.Data}");
+    
+    if (count == 2)
+    {
+        break;
+    }
+}
+
+Console.WriteLine("Done");
+
+// Output:
+// Received 1: time.us.east: 2024-10-21T22:11:24 America/New_York (-04)
+// Received 2: time.eu.east: 2024-10-22T04:11:24 Europe/Warsaw (+02)
+// Done
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'
@@ -294,6 +321,35 @@ await nc.close()
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var nc = new NatsClient();
+
+var count = 0;
+await foreach (var msg in nc.SubscribeAsync<string>("time.>"))
+{
+    Console.WriteLine($"Received {++count}: {msg.Subject}: {msg.Data}");
+    
+    if (count == 4)
+    {
+        break;
+    }
+}
+
+Console.WriteLine("Done");
+
+// Output:
+// Received 1: time.us.east: 2024-10-21T22:11:24 America/New_York (-04)
+// Received 2: time.us.east.atlanta: 2024-10-21T22:11:24 America/New_York (-04)
+// Received 3: time.eu.east: 2024-10-22T04:11:24 Europe/Warsaw (+02)
+// Received 4: time.eu.east.warsaw: 2024-10-22T04:11:24 Europe/Warsaw (+02)
+// Done
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'
@@ -461,6 +517,33 @@ await nc.publish("time.eu.east", b'...')
 await nc.publish("time.eu.east.warsaw", b'...')
 
 await nc.close()
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+// dotnet add package NodaTime
+using NATS.Net;
+using NodaTime;
+
+await using var nc = new NatsClient();
+
+Instant now = SystemClock.Instance.GetCurrentInstant();
+
+{
+    DateTimeZone zone = DateTimeZoneProviders.Tzdb["America/New_York"];
+    string formatted = now.InZone(zone).ToString();
+    await nc.PublishAsync("time.us.east", formatted);
+    await nc.PublishAsync("time.us.east.atlanta", formatted);
+}
+
+{
+    DateTimeZone zone = DateTimeZoneProviders.Tzdb["Europe/Warsaw"];
+    string formatted = now.InZone(zone).ToString();
+    await nc.PublishAsync("time.eu.east", formatted);
+    await nc.PublishAsync("time.eu.east.warsaw", formatted);
+}
 ```
 {% endtab %}
 

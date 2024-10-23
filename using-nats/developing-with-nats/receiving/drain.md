@@ -147,6 +147,69 @@ async def example(loop):
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+var nc = new NatsClient();
+
+var subject = nc.Connection.NewInbox();
+
+// Make sure to use a cancellation token to end all subscriptions
+using var cts = new CancellationTokenSource();
+
+var sync = false;
+var process = Task.Run(async () =>
+{
+    await foreach (var msg in nc.SubscribeAsync<int>(subject, cancellationToken: cts.Token))
+    {
+        if (msg.Data == -1)
+        {
+            sync = true;
+            continue;
+        }
+        Console.WriteLine($"Received: {msg.Data}");
+        await Task.Delay(TimeSpan.FromMilliseconds(300));
+    }
+
+    Console.WriteLine("Subscription completed");
+});
+
+// Make sure the subscription is ready
+while (sync == false)
+{
+    await Task.Delay(TimeSpan.FromMilliseconds(100));
+    await nc.PublishAsync(subject, -1);
+}
+
+for (var i = 0; i < 5; i++)
+{
+    await nc.PublishAsync(subject, i);
+}
+Console.WriteLine("Published 5 messages");
+
+// Cancelling the subscription will unsubscribe from the subject
+// and messages that are already in the buffer will be processed
+await cts.CancelAsync();
+Console.WriteLine("Cancelled subscription");
+
+// Ping the server to make sure all in-flight messages are processed
+// as a side effect of the ping, the server will respond with a pong
+// making sure the connection all previous messages are sent on the wire.
+await nc.PingAsync();
+
+// Disposing the NATS client will close the connection
+await nc.DisposeAsync();
+Console.WriteLine("Disposed NATS client");
+
+Console.WriteLine("Waiting for all messages to be processed");
+await process;
+
+Console.WriteLine("Done");
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 NATS.start(drain_timeout: 1) do |nc|
@@ -373,6 +436,60 @@ async def example(loop):
 
     # Gracefully unsubscribe the subscription
     await nc.drain(sid)
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var nc = new NatsClient();
+
+var subject = nc.Connection.NewInbox();
+
+// Make sure to use a cancellation token to end the subscription
+using var cts = new CancellationTokenSource();
+
+var sync = false;
+var process = Task.Run(async () =>
+{
+    await foreach (var msg in nc.SubscribeAsync<int>(subject, cancellationToken: cts.Token))
+    {
+        if (msg.Data == -1)
+        {
+            sync = true;
+            continue;
+        }
+        Console.WriteLine($"Received: {msg.Data}");
+        await Task.Delay(TimeSpan.FromMilliseconds(300));
+    }
+
+    Console.WriteLine("Subscription completed");
+});
+
+// Make sure the subscription is ready
+while (sync == false)
+{
+    await Task.Delay(TimeSpan.FromMilliseconds(100));
+    await nc.PublishAsync(subject, -1);
+}
+
+for (var i = 0; i < 5; i++)
+{
+    await nc.PublishAsync(subject, i);
+}
+Console.WriteLine("Published 5 messages");
+
+// Cancelling the subscription will unsubscribe from the subject
+// and messages that are already in the buffer will be processed
+await cts.CancelAsync();
+Console.WriteLine("Cancelled subscription");
+
+Console.WriteLine("Waiting for subscription to complete");
+await process;
+
+Console.WriteLine("Done");
 ```
 {% endtab %}
 

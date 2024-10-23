@@ -48,6 +48,12 @@ nc.close();
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// Reconnect buffer size is not configurable on NATS .NET client
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 # There is currently no reconnect pending buffer as part of the Ruby NATS client
