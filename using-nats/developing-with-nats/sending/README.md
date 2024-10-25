@@ -24,10 +24,6 @@ if err := nc.Publish("updates", []byte("All is Well")); err != nil {
 Connection nc = Nats.connect("nats://demo.nats.io:4222");
 
 nc.publish("updates", "All is Well".getBytes(StandardCharsets.UTF_8));
-
-// Make sure the message goes through before we close
-nc.flush(Duration.ZERO);
-nc.close();
 ```
 {% endtab %}
 

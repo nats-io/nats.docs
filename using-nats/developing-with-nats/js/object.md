@@ -73,6 +73,97 @@ type ObjectStore interface {
 ```
 {% endtab %}
 
+{% tab title="Java" %}
+```java
+/**
+ * Object Store Management context for creation and access to key value buckets.
+ */
+public interface ObjectStore {
+
+    /**
+     * Get the name of the object store's bucket.
+     * @return the name
+     */
+    String getBucketName();
+
+    /**
+     * Place the contents of the input stream into a new object.
+     */
+    ObjectInfo put(ObjectMeta meta, InputStream inputStream) throws IOException, JetStreamApiException, NoSuchAlgorithmException;
+
+    /**
+     * Place the contents of the input stream into a new object.
+     */
+    ObjectInfo put(String objectName, InputStream inputStream) throws IOException, JetStreamApiException, NoSuchAlgorithmException;
+
+    /**
+     * Place the bytes into a new object.
+     */
+    ObjectInfo put(String objectName, byte[] input) throws IOException, JetStreamApiException, NoSuchAlgorithmException;
+
+    /**
+     * Place the contents of the file into a new object using the file name as the object name.
+     */
+    ObjectInfo put(File file) throws IOException, JetStreamApiException, NoSuchAlgorithmException;
+
+    /**
+     * Get an object by name from the store, reading it into the output stream, if the object exists.
+     */
+    ObjectInfo get(String objectName, OutputStream outputStream) throws IOException, JetStreamApiException, InterruptedException, NoSuchAlgorithmException;
+
+    /**
+     * Get the info for an object if the object exists / is not deleted.
+     */
+    ObjectInfo getInfo(String objectName) throws IOException, JetStreamApiException;
+
+    /**
+     * Get the info for an object if the object exists, optionally including deleted.
+     */
+    ObjectInfo getInfo(String objectName, boolean includingDeleted) throws IOException, JetStreamApiException;
+
+    /**
+     * Update the metadata of name, description or headers. All other changes are ignored.
+     */
+    ObjectInfo updateMeta(String objectName, ObjectMeta meta) throws IOException, JetStreamApiException;
+
+    /**
+     * Delete the object by name. A No-op if the object is already deleted.
+     */
+    ObjectInfo delete(String objectName) throws IOException, JetStreamApiException;
+
+    /**
+     * Add a link to another object. A link cannot be for another link.
+     */
+    ObjectInfo addLink(String objectName, ObjectInfo toInfo) throws IOException, JetStreamApiException;
+
+    /**
+     * Add a link to another object store (bucket).
+     */
+    ObjectInfo addBucketLink(String objectName, ObjectStore toStore) throws IOException, JetStreamApiException;
+
+    /**
+     * Close (seal) the bucket to changes. The store (bucket) will be read only.
+     */
+    ObjectStoreStatus seal() throws IOException, JetStreamApiException;
+
+    /**
+     * Get a list of all object [infos] in the store.
+     */
+    List<ObjectInfo> getList() throws IOException, JetStreamApiException, InterruptedException;
+
+    /**
+     * Create a watch on the store (bucket).
+     */
+    NatsObjectStoreWatchSubscription watch(ObjectStoreWatcher watcher, ObjectStoreWatchOption... watchOptions) throws IOException, JetStreamApiException, InterruptedException;
+
+    /**
+     * Get the ObjectStoreStatus object.
+     */
+    ObjectStoreStatus getStatus() throws IOException, JetStreamApiException;
+
+```
+{% endtab %}
+
 {% tab title="Python" %}
 
 ```python

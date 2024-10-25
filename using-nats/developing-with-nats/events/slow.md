@@ -54,10 +54,13 @@ nc.Close()
 
 {% tab title="Java" %}
 ```java
+// Consumer (Dispatcher, Subscription) API
+// void setPendingLimits(long maxMessages, long maxBytes)
+
 Connection nc = Nats.connect("nats://demo.nats.io:4222");
 
 Dispatcher d = nc.createDispatcher((msg) -> {
-    // do something
+    // handle message
 });
 
 d.subscribe("updates");

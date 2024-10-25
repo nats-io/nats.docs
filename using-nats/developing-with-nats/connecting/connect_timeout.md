@@ -17,10 +17,10 @@ defer nc.Close()
 
 {% tab title="Java" %}
 ```java
-Options options = new Options.Builder().
-                            server("nats://demo.nats.io:4222").
-                            connectionTimeout(Duration.ofSeconds(10)). // Set timeout
-                            build();
+Options options = new Options.Builder()
+    .server("nats://demo.nats.io:4222")
+    .connectionTimeout(Duration.ofSeconds(10)) // Set timeout
+    .build();
 Connection nc = Nats.connect(options);
 
 // Do something with the connection

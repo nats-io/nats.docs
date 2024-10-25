@@ -41,23 +41,27 @@ log.Printf("Reply: %s", msg.Data)
 ```java
 Connection nc = Nats.connect("nats://demo.nats.io:4222");
 
-// Create a unique subject name
-String uniqueReplyTo = NUID.nextGlobal();
+// set up a listener for "time" requests
+Dispatcher d = nc.createDispatcher(msg -> {
+    System.out.println("Received time request");
+    nc.publish(msg.getReplyTo(), ("" + System.currentTimeMillis()).getBytes());
+});
+d.subscribe("time");
 
-// Listen for a single response
-Subscription sub = nc.subscribe(uniqueReplyTo);
-sub.unsubscribe(1);
+// make a subject for replies and subscribe to that
+String replyToThis = NUID.nextGlobal();
+Subscription sub = nc.subscribe(replyToThis);
 
-// Send the request
-nc.publish("time", uniqueReplyTo, null);
+// publish to the "time" subject with reply-to subject that was set up
+nc.publish("time", replyToThis, null);
 
-// Read the reply
-Message msg = sub.nextMessage(Duration.ofSeconds(1));
+// wait for a response
+Message msg = sub.nextMessage(1000);
 
-// Use the response
-System.out.println(new String(msg.getData(), StandardCharsets.UTF_8));
+// look at the response
+long time = Long.parseLong(new String(msg.getData()));
+System.out.println(new Date(time));
 
-// Close the connection
 nc.close();
 ```
 {% endtab %}

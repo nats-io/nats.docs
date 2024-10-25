@@ -26,10 +26,8 @@ log.Printf("Maximum payload is %v bytes", mp)
 ```java
 Connection nc = Nats.connect("nats://demo.nats.io:4222");
 
-long max = nc.getMaxPayload();
-// Do something with the max payload
-
-nc.close();
+long mp = nc.getMaxPayload();
+System.out.println("max payload for the server is " + mp + " bytes");
 ```
 {% endtab %}
 

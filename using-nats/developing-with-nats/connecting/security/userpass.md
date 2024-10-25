@@ -43,10 +43,10 @@ defer nc.Close()
 
 {% tab title="Java" %}
 ```java
-Options options = new Options.Builder().
-                            server("nats://localhost:4222").
-                            userInfo("myname","password"). // Set a user and plain text password
-                            build();
+Options options = new Options.Builder()
+    .server("nats://localhost:4222")
+    .userInfo("myname","password") // Set a user and plain text password
+    .build();
 Connection nc = Nats.connect(options);
 
 // Do something with the connection

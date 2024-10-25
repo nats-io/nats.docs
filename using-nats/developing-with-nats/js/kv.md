@@ -578,26 +578,11 @@ WatchAll(opts ...WatchOpt) (KeyWatcher, error)
 ```java
 /**
  * Watch updates for a specific key
- * @param key the key
- * @param watcher the watcher
- * @param watchOptions the watch options to apply. If multiple conflicting options are supplied, the last options wins.
- * @return The KeyValueWatchSubscription
- * @throws IOException covers various communication issues with the NATS
- *         server such as timeout or interruption
- * @throws JetStreamApiException the request had an error related to the data
- * @throws InterruptedException if the thread is interrupted
  */
 NatsKeyValueWatchSubscription watch(String key, KeyValueWatcher watcher, KeyValueWatchOption... watchOptions) throws IOException, JetStreamApiException, InterruptedException;
 
 /**
  * Watch updates for all keys
- * @param watcher the watcher
- * @param watchOptions the watch options to apply. If multiple conflicting options are supplied, the last options wins.
- * @return The KeyValueWatchSubscription
- * @throws IOException covers various communication issues with the NATS
- *         server such as timeout or interruption
- * @throws JetStreamApiException the request had an error related to the data
- * @throws InterruptedException if the thread is interrupted
  */
 NatsKeyValueWatchSubscription watchAll(KeyValueWatcher watcher, KeyValueWatchOption... watchOptions) throws IOException, JetStreamApiException, InterruptedException;
 ```
