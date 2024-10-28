@@ -78,6 +78,21 @@ print("The connection is closed?", nc.is_closed)
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient();
+
+Console.WriteLine($"{client.Connection.ConnectionState}"); // Closed
+
+await client.ConnectAsync();
+
+Console.WriteLine($"{client.Connection.ConnectionState}"); // Open
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 NATS.start(max_reconnect_attempts: 2) do |nc|

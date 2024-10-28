@@ -75,6 +75,24 @@ await nc.connect(servers=["nats://myname:password@demo.nats.io:4222"])
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.Core;
+
+await using var client = new NatsClient(new NatsOpts
+{
+    Url = "nats://localhost:4222",
+    AuthOpts = new NatsAuthOpts
+    {
+        Username = "myname",
+        Password = "password",
+    }
+});
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'
@@ -163,6 +181,26 @@ nc = NATS()
 await nc.connect(servers=["nats://myname:password@demo.nats.io:4222"])
 
 # Do something with the connection.
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.Core;
+
+await using var nc = new NatsClient(new NatsOpts
+{
+    // .NET client doesn't support username/password in URLs
+    // use `Username` and `Password` options.
+    Url = "nats://demo.nats.io:4222",
+    AuthOpts = new NatsAuthOpts
+    {
+        Username = "myname",
+        Password = "password",
+    }
+});
 ```
 {% endtab %}
 

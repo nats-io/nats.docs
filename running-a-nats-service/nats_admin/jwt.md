@@ -1463,32 +1463,31 @@ Connections to the `signup` accounts use two kinds of credentials. 1. Sign up se
 The NKEY library does exist or is incorporated in all languages where NATS supports NKEY. The NATS JWT library on the other hand is written in Go. This may not be your language of choice. Other than encoding JWTs, most of what the that library does is maintain the NATS JWT schema. If you use `nsc` to generate a user as a template for the sign up service and work off of that template you don't need the JWT library. The sample shows how a program that takes an account identity NKEY and account signing NKEY as arguments and outputs a valid creds file.
 
 ```csharp
-using System;
+// dotnet add package NATS.NKeys --prerelease
+// dotnet add package SimpleBase
+using NATS.NKeys;
 using System.Security.Cryptography;
 using System.Text;
-using NATS.Client;
-using SimpleBase;
 
-namespace nnsc
+string creds = IssueUserCreds();
+Console.WriteLine(creds);
+
+static string IssueUserJwt(string userKeyPub)
 {
-  internal class Signer
-  {
-    private static string issueUserJWT(string userKeyPub)
-    {
-      // Load account signing key and account identity for
-      // the account you wish to issue users for
-      const string accSeed = "SAANWFZ3JINNPERWT3ALE45U7GYT2ZDW6GJUIVPDKUF6GKAX6AISZJMAS4";
-      const string accId   = "ACV63DGCZGOIT3P5ZA7PQT3KYJ6UDFFHZ7KETHYMDMZ4N44KYAQ2ZZ5F";
-      NkeyPair accountSigningKey = Nkeys.FromSeed(accSeed);
-      string accSigningKeyPub = Nkeys.PublicKeyFromSeed(accSeed);
+    // Load account signing key and account identity for
+    // the account you wish to issue users for
+    const string accSeed = "SAANWFZ3JINNPERWT3ALE45U7GYT2ZDW6GJUIVPDKUF6GKAX6AISZJMAS4";
+    const string accId = "ACV63DGCZGOIT3P5ZA7PQT3KYJ6UDFFHZ7KETHYMDMZ4N44KYAQ2ZZ5F";
+    KeyPair accountSigningKey = KeyPair.FromSeed(accSeed);
+    string accSigningKeyPub = accountSigningKey.GetPublicKey();
 
-      // Use nsc to create a user any way you like.
-      // Export the user as json using:
-      // nsc describe user --name <user name> --account <account name> --json
-      // Turn the output into a format string and replace values you want replaced.
-      // Fields that need to be replaced are:
-      // iat (issued at), iss (issuer), sub (subject) and jti (claim hash)
-      const string claimFmt = @"{{
+    // Use nsc to create a user any way you like.
+    // Export the user as json using:
+    // nsc describe user --name <user name> --account <account name> --json
+    // Turn the output into a format string and replace values you want replaced.
+    // Fields that need to be replaced are:
+    // iat (issued at), iss (issuer), sub (subject) and jti (claim hash)
+    const string claimFmt = @"{{
   ""iat"": {0},
   ""iss"": ""{1}"",
   ""jti"": ""{2}"",
@@ -1505,55 +1504,64 @@ namespace nnsc
   }},
   ""sub"": ""{3}""
 }}";
-      const string header = @"{
+    const string header = @"{
   ""typ"":""JWT"",
   ""alg"":""ed25519-nkey""
 }";
 
-      // Issue At time is stored in unix seconds
-      long issuedAt = ((DateTimeOffset) DateTime.Now).ToUnixTimeSeconds();
-      // Generate a claim without jti so we can compute jti off of it
-      string claim = string.Format(
+    // Issue At time is stored in unix seconds
+    long issuedAt = DateTimeOffset.Now.ToUnixTimeSeconds();
+    
+    // Generate a claim without jti so we can compute jti off of it
+    string claim = string.Format(
         claimFmt,
         issuedAt,
         accSigningKeyPub,
         "", /* blank jti */
         userKeyPub,
         accId);
-      // Compute jti, a base32 encoded sha256 hash
-      string jti = Base32.Rfc4648.Encode(
+    
+    // Compute jti, a base32 encoded sha256 hash
+    string jti = SimpleBase.Base32.Rfc4648.Encode(
         SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(claim)),
         false);
-      // recreate full claim with jti set
-      claim = string.Format(
+    
+    // recreate full claim with jti set
+    claim = string.Format(
         claimFmt,
         issuedAt,
         accSigningKeyPub,
         jti,
         userKeyPub,
         accId
-      );
-      // all three components (header/body/signature) are base64url encoded
-      string encHeader = ToBase64Url(Encoding.UTF8.GetBytes(header));
-      string encBody = ToBase64Url(Encoding.UTF8.GetBytes(claim));
-      // compute the signature off of header + body (. included on purpose)
-      byte[] sig = Encoding.UTF8.GetBytes($"{encHeader}.{encBody}");
-      string encSig = ToBase64Url(accountSigningKey.Sign(sig));
-      // append signature to header and body and return it
-      return $"{encHeader}.{encBody}.{encSig}";
-    }
+    );
+    
+    // all three components (header/body/signature) are base64url encoded
+    string encHeader = ToBase64Url(Encoding.UTF8.GetBytes(header));
+    string encBody = ToBase64Url(Encoding.UTF8.GetBytes(claim));
+    
+    // compute the signature off of header + body (. included on purpose)
+    byte[] sig = Encoding.UTF8.GetBytes($"{encHeader}.{encBody}");
+    var signature = new byte[64];
+    accountSigningKey.Sign(sig, signature);
+    string encSig = ToBase64Url(signature);
+    
+    // append signature to header and body and return it
+    return $"{encHeader}.{encBody}.{encSig}";
+}
 
-    private static string issueUserCreds()
-    {
-      // Generate a user NKEY for the new user.
-      // The private portion of the NKEY is not needed when issuing the jwt.
-      // Therefore generating the key can also be done separately from the JWT.
-      // Say by the requester.
-      const string userSeed = Nkeys.CreateUserSeed();
-      const string userKeyPub = Nkeys.PublicKeyFromSeed(userSeed);
-      string jwt = issueUserJWT(userKeyPub);
-      // return jwt and corresponding user seed as creds
-      return $@"-----BEGIN NATS USER JWT-----
+static string IssueUserCreds()
+{
+    // Generate a user NKEY for the new user.
+    // The private portion of the NKEY is not needed when issuing the jwt.
+    // Therefore generating the key can also be done separately from the JWT.
+    // Say by the requester.
+    KeyPair userSeed = KeyPair.CreatePair(PrefixByte.User);
+    string userKeyPub = userSeed.GetPublicKey();
+    string jwt = IssueUserJwt(userKeyPub);
+    
+    // return jwt and corresponding user seed as creds
+    return $@"-----BEGIN NATS USER JWT-----
 {jwt}
 ------END NATS USER JWT------
 
@@ -1562,27 +1570,55 @@ namespace nnsc
     NKEYs are sensitive and should be treated as secrets.
 
 -----BEGIN USER NKEY SEED-----
-{userSeed}
+{userSeed.GetSeed()}
 ------END USER NKEY SEED------
 
 *************************************************************";
-    }
-
-    private static string ToBase64Url(byte[] input)
-    {
-      var stringBuilder = new StringBuilder(Convert.ToBase64String(input).TrimEnd('='));
-      stringBuilder.Replace('+', '-');
-      stringBuilder.Replace('/', '_');
-      return stringBuilder.ToString();
-    }
-
-    private static void Main(string[] args)
-    {
-      string creds = issueUserCreds();
-      Console.WriteLine(creds);
-    }
-  }
 }
+
+static string ToBase64Url(byte[] input)
+{
+    var stringBuilder = new StringBuilder(Convert.ToBase64String(input).TrimEnd('='));
+    stringBuilder.Replace('+', '-');
+    stringBuilder.Replace('/', '_');
+    return stringBuilder.ToString();
+}
+```
+
+If .NET is your language of choice, you can also use the [NATS.Jwt](https://www.nuget.org/packages/NATS.Jwt) package.
+
+```csharp
+// dotnet add package NATS.Jwt --prerelease
+using NATS.Jwt;
+using NATS.Jwt.Models;
+using NATS.NKeys;
+
+const string accSeed = "SAANWFZ3JINNPERWT3ALE45U7GYT2ZDW6GJUIVPDKUF6GKAX6AISZJMAS4";
+const string accId = "ACV63DGCZGOIT3P5ZA7PQT3KYJ6UDFFHZ7KETHYMDMZ4N44KYAQ2ZZ5F";
+
+var jwt = new NatsJwt();
+
+// Load account signing key
+KeyPair accountSigningKey = KeyPair.FromSeed(accSeed);
+
+// Create a user keypair
+KeyPair ukp = KeyPair.CreatePair(PrefixByte.User);
+string upk = ukp.GetPublicKey();
+NatsUserClaims uc = jwt.NewUserClaims(upk);
+
+// Set to the public ID of the account
+uc.User.IssuerAccount = accId;
+
+// Sign the user claims with the account signing key
+string userJwt = jwt.EncodeUserClaims(uc, accountSigningKey);
+
+// The seed is a version of the keypair that is stored as text
+// and it is considered sensitive information.
+string userSeed = ukp.GetSeed();
+
+// Generate a creds formatted file that can be used by a NATS client
+string creds = jwt.FormatUserConfig(userJwt, userSeed);
+Console.WriteLine(creds);
 ```
 
 ### System Account

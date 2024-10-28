@@ -87,6 +87,32 @@ await nc.connect(
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient();
+
+client.Connection.ConnectionDisconnected += async (sender, args) =>
+{
+    Console.WriteLine($"Disconnected: {args.Message}");
+};
+
+client.Connection.ConnectionOpened += async (sender, args) =>
+{
+    Console.WriteLine($"Connected: {args.Message}");
+};
+
+client.Connection.ReconnectFailed += async (sender, args) =>
+{
+    Console.WriteLine($"Reconnect Failed: {args.Message}");
+};
+
+await client.ConnectAsync();
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'

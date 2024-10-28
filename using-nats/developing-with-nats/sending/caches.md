@@ -63,6 +63,22 @@ await nc.flush(timeout=1)
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient();
+
+await client.PublishAsync("updates", "All is well");
+
+// Sends a PING and wait for a PONG from the server.
+// This gives a guarantee that the server has processed the above message
+// since the underlining TCP connection sends and receives messages in order.
+await client.PingAsync();
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'

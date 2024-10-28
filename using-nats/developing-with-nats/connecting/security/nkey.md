@@ -87,6 +87,24 @@ await nc.close()
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.Core;
+
+await using var client = new NatsClient(new NatsOpts
+{
+    Url = "127.0.0.1",
+    Name = "API NKey Example",
+    AuthOpts = new NatsAuthOpts
+    {
+        NKeyFile = "/path/to/nkeys/user.nk"
+    }
+});
+```
+{% endtab %}
+
 {% tab title="C" %}
 ```c
 static natsStatus

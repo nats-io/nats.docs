@@ -59,6 +59,24 @@ await nc.connect(servers=["nats://demo.nats.io:4222"], token="mytoken")
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.Core;
+
+await using var client = new NatsClient(new NatsOpts
+{
+    Url = "127.0.0.1",
+    Name = "API Token Example",
+    AuthOpts = new NatsAuthOpts
+    {
+        Token = "mytoken"
+    }
+});
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 NATS.start(token: "mytoken") do |nc|
@@ -133,6 +151,24 @@ nc = NATS()
 await nc.connect(servers=["nats://mytoken@demo.nats.io:4222"])
 
 # Do something with the connection.
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.Core;
+
+await using var client = new NatsClient(new NatsOpts
+{
+    // .NET client doesn't support tokens in URLs
+    // use Token option instead.
+    AuthOpts = new NatsAuthOpts
+    {
+        Token = "mytoken"
+    }
+});
 ```
 {% endtab %}
 

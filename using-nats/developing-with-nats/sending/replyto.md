@@ -107,6 +107,60 @@ print("Reply:", msg)
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.Core;
+
+await using var client = new NatsClient();
+
+await client.ConnectAsync();
+
+// Create a new inbox for the subscription subject
+string inbox = client.Connection.NewInbox();
+
+// Use core API to subscribe to have a more fine-grained control over
+// the subscriptions. We use <string> as the type, but we are not
+// really interested in the message payload.
+await using INatsSub<string> timeSub
+    = await client.Connection.SubscribeCoreAsync<string>("time");
+
+Task responderTask = Task.Run(async () =>
+{
+    await foreach (var msg in timeSub.Msgs.ReadAllAsync())
+    {
+        // The default serializer uses StandardFormat with Utf8Formatter
+        // when formatting DateTimeOffset types.
+        await msg.ReplyAsync<DateTimeOffset>(DateTimeOffset.UtcNow);
+    }
+});
+
+// Subscribe to the inbox with the expected type of the response
+await using INatsSub<DateTimeOffset> inboxSub
+    = await client.Connection.SubscribeCoreAsync<DateTimeOffset>(inbox);
+
+// The default serializer uses UTF-8 encoding for strings
+await client.PublishAsync(subject: "time", replyTo: inbox);
+
+// Read the response from subscription message channel reader
+NatsMsg<DateTimeOffset> reply = await inboxSub.Msgs.ReadAsync();
+
+// Print the current time in RFC1123 format taking advantage of the
+// DateTimeOffset's formatting capabilities.
+Console.WriteLine($"The current date and time is: {reply.Data:R}");
+
+await inboxSub.UnsubscribeAsync();
+await timeSub.UnsubscribeAsync();
+
+// make sure the responder task is completed cleanly
+await responderTask;
+
+// Output:
+// The current date and time is: Tue, 22 Oct 2024 12:21:09 GMT
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'

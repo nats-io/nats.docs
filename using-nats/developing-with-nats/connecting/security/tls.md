@@ -137,6 +137,24 @@ await nc.connect(servers=["nats://demo.nats.io:4222"], tls=ssl_ctx)
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.Core;
+
+await using var client = new NatsClient(new NatsOpts
+{
+    TlsOpts = new NatsTlsOpts
+    {
+        CaFile = "rootCA.pem",
+        KeyFile = "client-key.pem",
+        CertFile = "client-cert.pem",
+    }
+});
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 EM.run do

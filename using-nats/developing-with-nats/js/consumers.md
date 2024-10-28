@@ -298,6 +298,67 @@ if __name__ == '__main__':
 ```
 
 {% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.JetStream;
+using NATS.Client.JetStream.Models;
+
+await using var client = new NatsClient();
+
+INatsJSContext js = client.CreateJetStreamContext();
+
+// Create a stream
+var streamConfig = new StreamConfig(name: "FOO", subjects: ["foo"]);
+await js.CreateStreamAsync(streamConfig);
+
+// Publish a message
+{
+    PubAckResponse ack = await js.PublishAsync("foo", "Hello, JetStream!");
+    ack.EnsureSuccess();
+}
+
+// Publish messages concurrently
+List<NatsJSPublishConcurrentFuture> futures = new();
+for (var i = 0; i < 500; i++)
+{
+    NatsJSPublishConcurrentFuture future
+        = await js.PublishConcurrentAsync("foo", "Hello, JetStream 1!");
+    futures.Add(future);
+}
+
+foreach (var future in futures)
+{
+    await using (future)
+    {
+        PubAckResponse ack = await future.GetResponseAsync();
+        ack.EnsureSuccess();
+    }
+}
+
+
+// Create a consumer with a maximum 128 inflight messages
+INatsJSConsumer consumer = await js.CreateConsumerAsync("FOO", new ConsumerConfig(name: "foo")
+{
+    MaxWaiting = 128,
+});
+
+using CancellationTokenSource cts = new(TimeSpan.FromSeconds(10));
+
+while (cts.IsCancellationRequested == false)
+{
+    var opts = new NatsJSFetchOpts { MaxMsgs = 10 };
+    await foreach (NatsJSMsg<string> msg in consumer.FetchAsync<string>(opts, cancellationToken: cts.Token))
+    {
+        await msg.AckAsync(cancellationToken: cts.Token);
+    }
+}
+```
+{% endtab %}
+
+
 {% tab title="C" %}
 
 ```c
@@ -897,6 +958,15 @@ if __name__ == '__main__':
 ```
 
 {% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// NATS .NET doesn't publicly support push consumers and treats all consumers
+// as just consumers. The mecahnics of the consuming messages are abstracted
+// away from the applications and are handled by the library.
+```
+{% endtab %}
+
 {% tab title="C" %}
 
 ```c
@@ -1302,6 +1372,37 @@ if __name__ == '__main__':
 ```
 
 {% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.JetStream;
+using NATS.Client.JetStream.Models;
+
+await using var client = new NatsClient();
+
+INatsJSContext js = client.CreateJetStreamContext();
+
+var streamConfig = new StreamConfig(name: "FOO", subjects: ["foo"]);
+await js.CreateStreamAsync(streamConfig);
+
+PubAckResponse ack = await js.PublishAsync("foo", "Hello, JetStream!");
+ack.EnsureSuccess();
+
+INatsJSConsumer orderedConsumer = await js.CreateOrderedConsumerAsync("FOO");
+
+using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+
+await foreach (NatsJSMsg<string> msg in orderedConsumer.ConsumeAsync<string>(cancellationToken: cts.Token))
+{
+    NatsJSMsgMetadata? meta = msg.Metadata;
+    Console.WriteLine($"Stream Sequence  : {meta?.Sequence.Stream}");
+    Console.WriteLine($"Consumer Sequence: {meta?.Sequence.Consumer}");
+}
+```
+{% endtab %}
+
 {% endtabs %}
 
 

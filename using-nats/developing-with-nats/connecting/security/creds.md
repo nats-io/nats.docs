@@ -76,6 +76,15 @@ await nc.close()
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient("127.0.0.1", credsFile: "/path/to/file.creds");
+```
+{% endtab %}
+
 {% tab title="C" %}
 ```c
 natsConnection      *conn      = NULL;

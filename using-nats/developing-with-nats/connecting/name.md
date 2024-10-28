@@ -51,6 +51,19 @@ await nc.close()
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient(name: "API Name Option Example", url: "nats://demo.nats.io:4222");
+
+// It's optional to call ConnectAsync()
+// as it will be called when needed automatically
+await client.ConnectAsync();
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'
