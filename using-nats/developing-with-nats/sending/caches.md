@@ -68,14 +68,14 @@ await nc.flush(timeout=1)
 // dotnet add package NATS.Net
 using NATS.Net;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
-await nc.PublishAsync("updates", "All is well");
+await client.PublishAsync("updates", "All is well");
 
 // Sends a PING and wait for a PONG from the server.
 // This gives a guarantee that the server has processed the above message
 // since the underlining TCP connection sends and receives messages in order.
-await nc.PingAsync();
+await client.PingAsync();
 ```
 {% endtab %}
 

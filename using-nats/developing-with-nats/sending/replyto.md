@@ -113,18 +113,18 @@ print("Reply:", msg)
 using NATS.Net;
 using NATS.Client.Core;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
-await nc.ConnectAsync();
+await client.ConnectAsync();
 
 // Create a new inbox for the subscription subject
-string inbox = nc.Connection.NewInbox();
+string inbox = client.Connection.NewInbox();
 
 // Use core API to subscribe to have a more fine-grained control over
 // the subscriptions. We use <string> as the type, but we are not
 // really interested in the message payload.
 await using INatsSub<string> timeSub
-    = await nc.Connection.SubscribeCoreAsync<string>("time");
+    = await client.Connection.SubscribeCoreAsync<string>("time");
 
 Task responderTask = Task.Run(async () =>
 {
@@ -138,10 +138,10 @@ Task responderTask = Task.Run(async () =>
 
 // Subscribe to the inbox with the expected type of the response
 await using INatsSub<DateTimeOffset> inboxSub
-    = await nc.Connection.SubscribeCoreAsync<DateTimeOffset>(inbox);
+    = await client.Connection.SubscribeCoreAsync<DateTimeOffset>(inbox);
 
 // The default serializer uses UTF-8 encoding for strings
-await nc.PublishAsync(subject: "time", replyTo: inbox);
+await client.PublishAsync(subject: "time", replyTo: inbox);
 
 // Read the response from subscription message channel reader
 NatsMsg<DateTimeOffset> reply = await inboxSub.Msgs.ReadAsync();

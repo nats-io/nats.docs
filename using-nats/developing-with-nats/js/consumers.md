@@ -306,9 +306,9 @@ using NATS.Net;
 using NATS.Client.JetStream;
 using NATS.Client.JetStream.Models;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
-INatsJSContext js = nc.CreateJetStreamContext();
+INatsJSContext js = client.CreateJetStreamContext();
 
 // Create a stream
 var streamConfig = new StreamConfig(name: "FOO", subjects: ["foo"]);
@@ -1380,9 +1380,9 @@ using NATS.Net;
 using NATS.Client.JetStream;
 using NATS.Client.JetStream.Models;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
-INatsJSContext js = nc.CreateJetStreamContext();
+INatsJSContext js = client.CreateJetStreamContext();
 
 var streamConfig = new StreamConfig(name: "FOO", subjects: ["foo"]);
 await js.CreateStreamAsync(streamConfig);

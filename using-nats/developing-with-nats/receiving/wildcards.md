@@ -121,10 +121,10 @@ print("Msg B:", msg_B)
 // dotnet add package NATS.Net
 using NATS.Net;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
 var count = 0;
-await foreach (var msg in nc.SubscribeAsync<string>("time.*.east"))
+await foreach (var msg in client.SubscribeAsync<string>("time.*.east"))
 {
     Console.WriteLine($"Received {++count}: {msg.Subject}: {msg.Data}");
     
@@ -326,10 +326,10 @@ await nc.close()
 // dotnet add package NATS.Net
 using NATS.Net;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
 var count = 0;
-await foreach (var msg in nc.SubscribeAsync<string>("time.>"))
+await foreach (var msg in client.SubscribeAsync<string>("time.>"))
 {
     Console.WriteLine($"Received {++count}: {msg.Subject}: {msg.Data}");
     
@@ -527,22 +527,22 @@ await nc.close()
 using NATS.Net;
 using NodaTime;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
 Instant now = SystemClock.Instance.GetCurrentInstant();
 
 {
     DateTimeZone zone = DateTimeZoneProviders.Tzdb["America/New_York"];
     string formatted = now.InZone(zone).ToString();
-    await nc.PublishAsync("time.us.east", formatted);
-    await nc.PublishAsync("time.us.east.atlanta", formatted);
+    await client.PublishAsync("time.us.east", formatted);
+    await client.PublishAsync("time.us.east.atlanta", formatted);
 }
 
 {
     DateTimeZone zone = DateTimeZoneProviders.Tzdb["Europe/Warsaw"];
     string formatted = now.InZone(zone).ToString();
-    await nc.PublishAsync("time.eu.east", formatted);
-    await nc.PublishAsync("time.eu.east.warsaw", formatted);
+    await client.PublishAsync("time.eu.east", formatted);
+    await client.PublishAsync("time.eu.east.warsaw", formatted);
 }
 ```
 {% endtab %}

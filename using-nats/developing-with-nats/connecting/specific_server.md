@@ -57,11 +57,11 @@ await nc.close()
 // dotnet add package NATS.Net
 using NATS.Net;
 
-await using var nc = new NatsClient("nats://demo.nats.io:4222");
+await using var client = new NatsClient("nats://demo.nats.io:4222");
 
 // It's optional to call ConnectAsync()
 // as it will be called when needed automatically
-await nc.ConnectAsync();
+await client.ConnectAsync();
 ```
 {% endtab %}
 

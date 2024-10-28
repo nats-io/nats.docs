@@ -143,7 +143,7 @@ await nc.connect(servers=["nats://demo.nats.io:4222"], tls=ssl_ctx)
 using NATS.Net;
 using NATS.Client.Core;
 
-await using var nc = new NatsClient(new NatsOpts
+await using var client = new NatsClient(new NatsOpts
 {
     TlsOpts = new NatsTlsOpts
     {

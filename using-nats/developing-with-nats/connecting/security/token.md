@@ -65,7 +65,7 @@ await nc.connect(servers=["nats://demo.nats.io:4222"], token="mytoken")
 using NATS.Net;
 using NATS.Client.Core;
 
-await using var nc = new NatsClient(new NatsOpts
+await using var client = new NatsClient(new NatsOpts
 {
     Url = "127.0.0.1",
     Name = "API Token Example",
@@ -160,7 +160,7 @@ await nc.connect(servers=["nats://mytoken@demo.nats.io:4222"])
 using NATS.Net;
 using NATS.Client.Core;
 
-await using var nc = new NatsClient(new NatsOpts
+await using var client = new NatsClient(new NatsOpts
 {
     // .NET client doesn't support tokens in URLs
     // use Token option instead.

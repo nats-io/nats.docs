@@ -57,7 +57,7 @@ await nc.close()
 using NATS.Net;
 using NATS.Client.Core;
 
-await using var nc = new NatsClient(new NatsOpts
+await using var client = new NatsClient(new NatsOpts
 {
     Url = "nats://demo.nats.io:4222",
     ConnectTimeout = TimeSpan.FromSeconds(10)
@@ -65,7 +65,7 @@ await using var nc = new NatsClient(new NatsOpts
 
 // You don't have to call ConnectAsync() explicitly,
 // first operation will make the connection otherwise.
-await nc.ConnectAsync();
+await client.ConnectAsync();
 ```
 {% endtab %}
 

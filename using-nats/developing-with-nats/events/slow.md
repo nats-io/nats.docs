@@ -106,7 +106,7 @@ using NATS.Net;
 using System.Threading.Channels;
 using NATS.Client.Core;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
 // Set limits of 1000 messages.
 // Note: setting the channel capacity over 1024 is not recommended
@@ -120,7 +120,7 @@ var subOpts = new NatsSubOpts
         FullMode = BoundedChannelFullMode.DropOldest
     }
 };
-await foreach (var msg in nc.SubscribeAsync<string>(subject: "updates", opts: subOpts))
+await foreach (var msg in client.SubscribeAsync<string>(subject: "updates", opts: subOpts))
 {
     Console.WriteLine($"Received: {msg.Subject}: {msg.Data}");    
 }
@@ -284,10 +284,10 @@ using NATS.Net;
 using System.Threading.Channels;
 using NATS.Client.Core;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
 // Set the event handler for slow consumers
-nc.Connection.MessageDropped += async (sender, eventArgs) =>
+client.Connection.MessageDropped += async (sender, eventArgs) =>
 {
     Console.WriteLine($"Dropped message: {eventArgs.Subject}: {eventArgs.Data}");
     Console.WriteLine($"Current channel size: {eventArgs.Pending}");
@@ -309,7 +309,7 @@ using var cts = new CancellationTokenSource();
 
 var subscription = Task.Run(async () =>
 {
-    await foreach (var msg in nc.SubscribeAsync<string>(subject: "updates", opts: subOpts, cancellationToken: cts.Token))
+    await foreach (var msg in client.SubscribeAsync<string>(subject: "updates", opts: subOpts, cancellationToken: cts.Token))
     {
         Console.WriteLine($"Received: {msg.Subject}: {msg.Data}");    
     }
@@ -317,7 +317,7 @@ var subscription = Task.Run(async () =>
 
 for (int i = 0; i < 1_000; i++)
 {
-    await nc.PublishAsync(subject: "updates", data: $"message payload {i}");
+    await client.PublishAsync(subject: "updates", data: $"message payload {i}");
 }
 
 await cts.CancelAsync();

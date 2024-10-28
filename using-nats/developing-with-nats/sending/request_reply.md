@@ -86,14 +86,14 @@ except asyncio.TimeoutError:
 // dotnet add package NATS.Net
 using NATS.Net;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
 using CancellationTokenSource cts = new();
 
 // Process the time messages in a separate task
 Task subscription = Task.Run(async () =>
 {
-    await foreach (var msg in nc.SubscribeAsync<string>("time", cancellationToken: cts.Token))
+    await foreach (var msg in client.SubscribeAsync<string>("time", cancellationToken: cts.Token))
     {
         await msg.ReplyAsync(DateTimeOffset.Now);
     }
@@ -102,7 +102,7 @@ Task subscription = Task.Run(async () =>
 // Wait for the subscription task to be ready
 await Task.Delay(1000);
 
-var reply = await nc.RequestAsync<DateTimeOffset>("time");
+var reply = await client.RequestAsync<DateTimeOffset>("time");
 
 Console.WriteLine($"Reply: {reply.Data:O}");
 

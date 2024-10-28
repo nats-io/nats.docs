@@ -107,7 +107,7 @@ await nc.publish("updates", b'...')
 using NATS.Net;
 using NATS.Client.Core;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
 // Unsubscribe after 10 messages
 var opts = new NatsSubOpts { MaxMsgs = 10 };
@@ -115,7 +115,7 @@ var opts = new NatsSubOpts { MaxMsgs = 10 };
 var count = 0;
 
 // Subscribe to updates with options
-await foreach (var msg in nc.SubscribeAsync<string>("updates", opts: opts))
+await foreach (var msg in client.SubscribeAsync<string>("updates", opts: opts))
 {
     Console.WriteLine($"Received[{++count}]: {msg.Data}");
 }
