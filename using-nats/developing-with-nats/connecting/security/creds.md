@@ -81,7 +81,7 @@ await nc.close()
 // dotnet add package NATS.Net
 using NATS.Net;
 
-await using var nc = new NatsClient("127.0.0.1", credsFile: "/path/to/file.creds");
+await using var client = new NatsClient("127.0.0.1", credsFile: "/path/to/file.creds");
 ```
 {% endtab %}
 

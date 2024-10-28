@@ -120,12 +120,12 @@ msg = await asyncio.wait_for(future, 1)
 // dotnet add package NATS.Net
 using NATS.Net;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
 // Subscribe to the "updates" subject and receive messages as <string> type.
 // The default serializer understands all primitive types, strings,
 // byte arrays, and uses JSON for complex types.
-await foreach (var msg in nc.SubscribeAsync<string>("updates"))
+await foreach (var msg in client.SubscribeAsync<string>("updates"))
 {
     Console.WriteLine($"Received: {msg.Data}");
     

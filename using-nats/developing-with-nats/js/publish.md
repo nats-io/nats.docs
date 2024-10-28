@@ -143,9 +143,9 @@ using NATS.Net;
 using NATS.Client.JetStream;
 using NATS.Client.JetStream.Models;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
-INatsJSContext js = nc.CreateJetStreamContext();
+INatsJSContext js = client.CreateJetStreamContext();
 
 // Create a stream
 var streamConfig = new StreamConfig(name: "example-stream", subjects: ["example-subject"]);

@@ -61,7 +61,7 @@ await nc.close()
 using NATS.Net;
 using NATS.Client.Core;
 
-await using var nc = new NatsClient(new NatsOpts
+await using var client = new NatsClient(new NatsOpts
 {
     Url = "nats://127.0.0.1:1222,nats://127.0.0.1:1223,nats://127.0.0.1:1224",
     

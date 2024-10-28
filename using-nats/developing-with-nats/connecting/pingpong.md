@@ -73,7 +73,7 @@ await nc.connect(
 using NATS.Net;
 using NATS.Client.Core;
 
-await using var nc = new NatsClient(new NatsOpts
+await using var client = new NatsClient(new NatsOpts
 {
     Url = "nats://demo.nats.io:4222",
     

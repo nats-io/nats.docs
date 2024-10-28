@@ -96,7 +96,7 @@ await nc.publish("updates", b'...')
 // dotnet add package NATS.Net
 using NATS.Net;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
 // Cancel the subscription after 10 seconds
 using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
@@ -104,7 +104,7 @@ using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
 // Subscribe to the "updates" subject
 // We unsubscribe when we receive the message "exit"
 // or when the cancellation token is triggered.
-await foreach (var msg in nc.SubscribeAsync<string>("updates").WithCancellation(cts.Token))
+await foreach (var msg in client.SubscribeAsync<string>("updates").WithCancellation(cts.Token))
 {
     Console.WriteLine($"Received: {msg.Data}");
     

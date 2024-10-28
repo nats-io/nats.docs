@@ -49,10 +49,10 @@ await nc.publish("updates", b'All is Well')
 // dotnet add package NATS.Net
 using NATS.Net;
 
-await using var nc = new NatsClient(url: "demo.nats.io", name: "API Publish String Example");
+await using var client = new NatsClient(url: "demo.nats.io", name: "API Publish String Example");
 
 // The default serializer uses UTF-8 encoding for strings
-await nc.PublishAsync<string>(subject: "updates", data: "All is Well");
+await client.PublishAsync<string>(subject: "updates", data: "All is Well");
 ```
 {% endtab %}
 

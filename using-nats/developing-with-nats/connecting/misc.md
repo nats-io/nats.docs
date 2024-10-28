@@ -54,13 +54,13 @@ print("Maximum payload is %d bytes" % nc.max_payload)
 // dotnet add package NATS.Net
 using NATS.Net;
 
-await using var nc = new NatsClient("nats://demo.nats.io:4222");
+await using var client = new NatsClient("nats://demo.nats.io:4222");
 
 // Make sure we connect to a server to receive the server info,
 // since connecting to servers is lazy in .NET client.
-await nc.ConnectAsync();
+await client.ConnectAsync();
 
-Console.WriteLine($"MaxPayload = {nc.Connection.ServerInfo.MaxPayload}");
+Console.WriteLine($"MaxPayload = {client.Connection.ServerInfo.MaxPayload}");
 ```
 {% endtab %}
 

@@ -135,24 +135,24 @@ await nc.connect(**options)
 // dotnet add package NATS.Net
 using NATS.Net;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
-nc.Connection.ConnectionDisconnected += async (sender, args) =>
+client.Connection.ConnectionDisconnected += async (sender, args) =>
 {
     Console.WriteLine($"Disconnected: {args.Message}");
 };
 
-nc.Connection.ConnectionOpened += async (sender, args) =>
+client.Connection.ConnectionOpened += async (sender, args) =>
 {
     Console.WriteLine($"Connected: {args.Message}");
 };
 
-nc.Connection.ReconnectFailed += async (sender, args) =>
+client.Connection.ReconnectFailed += async (sender, args) =>
 {
     Console.WriteLine($"Reconnect Failed: {args.Message}");
 };
 
-await nc.ConnectAsync();
+await client.ConnectAsync();
 ```
 {% endtab %}
 
@@ -477,7 +477,7 @@ using NATS.Net;
 // NATS .NET client does not support error handler right now
 // instead, you can use the logger since server errors are logged
 // with the error level and eventId 1005 (Protocol Log Event).
-await using var nc = new NatsClient(new NatsOpts
+await using var client = new NatsClient(new NatsOpts
 {
     LoggerFactory = LoggerFactory.Create(builder => builder.AddConsole()),
 });

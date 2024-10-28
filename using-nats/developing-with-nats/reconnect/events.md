@@ -116,24 +116,24 @@ await nc.connect(
 // dotnet add package NATS.Net
 using NATS.Net;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
-nc.Connection.ConnectionDisconnected += async (sender, args) =>
+client.Connection.ConnectionDisconnected += async (sender, args) =>
 {
     Console.WriteLine($"Disconnected: {args.Message}");
 };
 
-nc.Connection.ConnectionOpened += async (sender, args) =>
+client.Connection.ConnectionOpened += async (sender, args) =>
 {
     Console.WriteLine($"Connected: {args.Message}");
 };
 
-nc.Connection.ReconnectFailed += async (sender, args) =>
+client.Connection.ReconnectFailed += async (sender, args) =>
 {
     Console.WriteLine($"Reconnect Failed: {args.Message}");
 };
 
-await nc.ConnectAsync();
+await client.ConnectAsync();
 ```
 {% endtab %}
 

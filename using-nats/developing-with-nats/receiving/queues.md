@@ -101,12 +101,12 @@ print("Msg", msg)
 // dotnet add package NATS.Net
 using NATS.Net;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
 var count = 0;
 
 // Subscribe to the "updates" subject with a queue group named "workers"
-await foreach (var msg in nc.SubscribeAsync<string>(subject: "updates", queueGroup: "workers"))
+await foreach (var msg in client.SubscribeAsync<string>(subject: "updates", queueGroup: "workers"))
 {
     Console.WriteLine($"Received {++count}: {msg.Subject}: {msg.Data}");
     

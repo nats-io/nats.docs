@@ -99,10 +99,10 @@ await nc.publish(msg.reply, time_as_bytes)
 // dotnet add package NATS.Net
 using NATS.Net;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
 // Subscribe to the "time" subject and reply with the current time
-await foreach (var msg in nc.SubscribeAsync<string>("time"))
+await foreach (var msg in client.SubscribeAsync<string>("time"))
 {
     await msg.ReplyAsync(DateTime.Now);
 }

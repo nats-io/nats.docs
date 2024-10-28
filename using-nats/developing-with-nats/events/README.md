@@ -83,13 +83,13 @@ print("The connection is closed?", nc.is_closed)
 // dotnet add package NATS.Net
 using NATS.Net;
 
-await using var nc = new NatsClient();
+await using var client = new NatsClient();
 
-Console.WriteLine($"{nc.Connection.ConnectionState}"); // Closed
+Console.WriteLine($"{client.Connection.ConnectionState}"); // Closed
 
-await nc.ConnectAsync();
+await client.ConnectAsync();
 
-Console.WriteLine($"{nc.Connection.ConnectionState}"); // Open
+Console.WriteLine($"{client.Connection.ConnectionState}"); // Open
 ```
 {% endtab %}
 

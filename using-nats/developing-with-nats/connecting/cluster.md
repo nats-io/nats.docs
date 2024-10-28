@@ -80,11 +80,11 @@ await nc.close()
 // dotnet add package NATS.Net
 using NATS.Net;
 
-await using var nc = new NatsClient("nats://127.0.0.1:1222,nats://127.0.0.1:1223,nats://127.0.0.1:1224");
+await using var client = new NatsClient("nats://127.0.0.1:1222,nats://127.0.0.1:1223,nats://127.0.0.1:1224");
 
 // It's optional to call ConnectAsync()
 // as it will be called when needed automatically
-await nc.ConnectAsync();
+await client.ConnectAsync();
 ```
 {% endtab %}
 
