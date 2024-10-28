@@ -35,13 +35,20 @@ nc.Close()
 ```java
 Connection nc = Nats.connect("nats://demo.nats.io:4222");
 
-// Send the request
+// set up a listener for "time" requests
+Dispatcher d = nc.createDispatcher(msg -> {
+    System.out.println("Received time request");
+    nc.publish(msg.getReplyTo(), ("" + System.currentTimeMillis()).getBytes());
+});
+d.subscribe("time");
+
+// make a request to the "time" subject and wait 1 second for a response
 Message msg = nc.request("time", null, Duration.ofSeconds(1));
 
-// Use the response
-System.out.println(new String(msg.getData(), StandardCharsets.UTF_8));
+// look at the response
+long time = Long.parseLong(new String(msg.getData()));
+System.out.println(new Date(time));
 
-// Close the connection
 nc.close();
 ```
 {% endtab %}

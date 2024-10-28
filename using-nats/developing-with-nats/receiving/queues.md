@@ -47,7 +47,7 @@ Dispatcher d = nc.createDispatcher((msg) -> {
     latch.countDown();
 });
 
-// Subscribe
+// Subscribe to the "updates" subject with a queue group named "workers"
 d.subscribe("updates", "workers");
 
 // Wait for a message to come in

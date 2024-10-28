@@ -24,30 +24,30 @@ defer nc.Close()
 {% tab title="Java" %}
 ```java
 NKey theNKey = NKey.createUser(null); // really should load from somewhere
-Options options = new Options.Builder().
-            server("nats://localhost:4222").
-            authHandler(new AuthHandler(){
-                public char[] getID() {
-                    try {
-                        return theNKey.getPublicKey();
-                    } catch (GeneralSecurityException|IOException|NullPointerException ex) {
-                        return null;
-                    }
-                }
+Options options = new Options.Builder()
+    .server("nats://localhost:4222")
+    .authHandler(new AuthHandler(){
+        public char[] getID() {
+            try {
+                return theNKey.getPublicKey();
+            } catch (GeneralSecurityException|IOException|NullPointerException ex) {
+                return null;
+            }
+        }
 
-                public byte[] sign(byte[] nonce) {
-                    try {
-                        return theNKey.sign(nonce);
-                    } catch (GeneralSecurityException|IOException|NullPointerException ex) {
-                        return null;
-                    }
-                }
+        public byte[] sign(byte[] nonce) {
+            try {
+                return theNKey.sign(nonce);
+            } catch (GeneralSecurityException|IOException|NullPointerException ex) {
+                return null;
+            }
+        }
 
-                public char[] getJWT() {
-                    return null;
-                }
-            }).
-            build();
+        public char[] getJWT() {
+            return null;
+        }
+    })
+    .build();
 Connection nc = Nats.connect(options);
 
 // Do something with the connection

@@ -48,13 +48,10 @@ class SSLUtils {
     public static KeyStore loadKeystore(String path) throws Exception {
         KeyStore store = KeyStore.getInstance("JKS");
         BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));
-
         try {
             store.load(in, STORE_PASSWORD.toCharArray());
         } finally {
-            if (in != null) {
-                in.close();
-            }
+            in.close();
         }
 
         return store;
@@ -86,10 +83,10 @@ public class ConnectTLS {
 
         try {
             SSLContext ctx = SSLUtils.createSSLContext();
-            Options options = new Options.Builder().
-                                server("nats://localhost:4222").
-                                sslContext(ctx). // Set the SSL context
-                                build();
+            Options options = new Options.Builder()
+                .server("nats://localhost:4222")
+                .sslContext(ctx) // Set the SSL context
+                .build();
             Connection nc = Nats.connect(options);
 
             // Do something with the connection

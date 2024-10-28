@@ -45,13 +45,17 @@ Dispatcher d = nc.createDispatcher((msg) -> {
     System.out.println(str);
 });
 
-// Sync Subscription
-Subscription sub = nc.subscribe("updates");
-sub.unsubscribe(1);
+/ subscribe then unsubscribe after 10 "more" messages
+// It's technically possible to get more than 10 total if messages are already in
+// flight by the time the server receives the unsubscribe message
 
-// Async Subscription
+// Sync Subscription, 
+Subscription sub = nc.subscribe("updates");
+sub.unsubscribe(10);
+
+// Async Subscription directly in the dispatcher
 d.subscribe("updates");
-d.unsubscribe("updates", 1);
+d.unsubscribe("updates", 10);
 
 // Close the connection
 nc.close();

@@ -37,7 +37,7 @@ msg.Respond(timeAsBytes)
 ```java
 Connection nc = Nats.connect("nats://demo.nats.io:4222");
 
-// Subscribe
+// Subscribe to the "time" subject and reply with the current time
 Subscription sub = nc.subscribe("time");
 
 // Read a message
@@ -48,7 +48,7 @@ Calendar cal = Calendar.getInstance();
 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 byte[] timeAsBytes = sdf.format(cal.getTime()).getBytes(StandardCharsets.UTF_8);
 
-// Send the time
+// Send the time to the reply to subject
 nc.publish(msg.getReplyTo(), timeAsBytes);
 
 // Flush and close the connection

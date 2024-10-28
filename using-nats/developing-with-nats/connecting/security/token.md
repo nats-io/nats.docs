@@ -28,10 +28,10 @@ defer nc.Close()
 
 {% tab title="Java" %}
 ```java
-Options options = new Options.Builder().
-                            server("nats://localhost:4222").
-                            token("mytoken"). // Set a token
-                            build();
+Options options = new Options.Builder()
+    .server("nats://demo.nats.io:4222")
+    .token("mytoken") // Set a token
+    .build();
 Connection nc = Nats.connect(options);
 
 // Do something with the connection

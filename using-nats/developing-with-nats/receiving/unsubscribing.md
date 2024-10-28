@@ -41,11 +41,12 @@ Dispatcher d = nc.createDispatcher((msg) -> {
     System.out.println(str);
 });
 
-// Sync Subscription
+// Sync Subscription have an unsubscribe API
 Subscription sub = nc.subscribe("updates");
 sub.unsubscribe();
 
-// Async Subscription
+// Async Subscriptions on the dispatcher must unsubscribe via the dispatcher,
+// not the subscription
 d.subscribe("updates");
 d.unsubscribe("updates");
 
