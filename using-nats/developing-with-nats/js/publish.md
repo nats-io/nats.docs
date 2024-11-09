@@ -153,7 +153,7 @@ await js.CreateStreamAsync(streamConfig);
 
 // Publish a message
 {
-    PubAckResponse ack = await js.PublishAsync("foo", "Hello, JetStream!");
+    PubAckResponse ack = await js.PublishAsync("example-subject", "Hello, JetStream!");
     ack.EnsureSuccess();
 }
 
@@ -162,7 +162,7 @@ List<NatsJSPublishConcurrentFuture> futures = new();
 for (var i = 0; i < 500; i++)
 {
     NatsJSPublishConcurrentFuture future
-        = await js.PublishConcurrentAsync("foo", "Hello, JetStream 1!");
+        = await js.PublishConcurrentAsync("example-subject", "Hello, JetStream 1!");
     futures.Add(future);
 }
 
