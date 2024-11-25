@@ -137,6 +137,90 @@ async def run(loop):
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+// NATS .NET has a built-in serializer that does the 'unsurprising' thing
+// for most types. Most primitive types are serialized as expected.
+// For any other type, JSON serialization is used. You can also provide
+// your own serializers by implementing the INatsSerializer and
+// INasSerializerRegistry interfaces. See also for more information:
+// https://nats-io.github.io/nats.net/documentation/advanced/serialization.html
+await using var nc = new NatsClient();
+
+CancellationTokenSource cts = new();
+
+// Subscribe for int, string, bytes, json
+List<Task> tasks =
+[
+    Task.Run(async () =>
+    {
+        await foreach (var msg in nc.SubscribeAsync<int>("x.int", cancellationToken: cts.Token))
+        {
+            Console.WriteLine($"Received int: {msg.Data}");
+        }
+    }),
+
+    Task.Run(async () =>
+    {
+        await foreach (var msg in nc.SubscribeAsync<string>("x.string", cancellationToken: cts.Token))
+        {
+            Console.WriteLine($"Received string: {msg.Data}");
+        }
+    }),
+
+    Task.Run(async () =>
+    {
+        await foreach (var msg in nc.SubscribeAsync<byte[]>("x.bytes", cancellationToken: cts.Token))
+        {
+            if (msg.Data != null)
+            {
+                Console.Write($"Received bytes: ");
+                foreach (var b in msg.Data)
+                {
+                    Console.Write("0x{0:X2} ", b);
+                }
+                Console.WriteLine();
+            }
+        }
+    }),
+
+    Task.Run(async () =>
+    {
+        await foreach (var msg in nc.SubscribeAsync<MyData>("x.json", cancellationToken: cts.Token))
+        {
+            Console.WriteLine($"Received data: {msg.Data}");
+        }
+    }),
+];
+
+// Give the subscriber tasks some time to subscribe
+await Task.Delay(1000);
+
+await nc.PublishAsync<int>("x.int", 100);
+await nc.PublishAsync<string>("x.string", "Hello, World!");
+await nc.PublishAsync<byte[]>("x.bytes", new byte[] { 0x41, 0x42, 0x43 });
+await nc.PublishAsync<MyData>("x.json", new MyData(30, "bar"));
+
+await cts.CancelAsync();
+
+await Task.WhenAll(tasks);
+
+public record MyData(int Id, string Name);
+
+// Output:
+// Received int: 100
+// Received bytes: 0x41 0x42 0x43
+// Received string: Hello, World!
+// Received data: MyData { Id = 30, Name = bar }
+
+// See also for more information:
+// https://nats-io.github.io/nats.net/documentation/advanced/serialization.html
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'

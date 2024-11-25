@@ -24,10 +24,6 @@ if err := nc.Publish("updates", []byte("All is Well")); err != nil {
 Connection nc = Nats.connect("nats://demo.nats.io:4222");
 
 nc.publish("updates", "All is Well".getBytes(StandardCharsets.UTF_8));
-
-// Make sure the message goes through before we close
-nc.flush(Duration.ZERO);
-nc.close();
 ```
 {% endtab %}
 
@@ -45,6 +41,18 @@ nc = NATS()
 await nc.connect(servers=["nats://demo.nats.io:4222"])
 
 await nc.publish("updates", b'All is Well')
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient(url: "demo.nats.io", name: "API Publish String Example");
+
+// The default serializer uses UTF-8 encoding for strings
+await client.PublishAsync<string>(subject: "updates", data: "All is Well");
 ```
 {% endtab %}
 

@@ -17,10 +17,10 @@ defer nc.Close()
 
 {% tab title="Java" %}
 ```java
-Options options = new Options.Builder().
-                            server("nats://demo.nats.io:4222").
-                            connectionName("API Name Option Example"). // Set Name
-                            build();
+Options options = new Options.Builder()
+    .server("nats://demo.nats.io:4222")
+    .connectionName("API Name Option Example") // Set Name
+    .build();
 Connection nc = Nats.connect(options);
 
 // Do something with the connection
@@ -48,6 +48,19 @@ await nc.connect(
 # Do something with the connection
 
 await nc.close()
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient(name: "API Name Option Example", url: "nats://demo.nats.io:4222");
+
+// It's optional to call ConnectAsync()
+// as it will be called when needed automatically
+await client.ConnectAsync();
 ```
 {% endtab %}
 

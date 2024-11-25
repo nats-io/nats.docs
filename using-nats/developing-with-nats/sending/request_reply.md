@@ -35,13 +35,20 @@ nc.Close()
 ```java
 Connection nc = Nats.connect("nats://demo.nats.io:4222");
 
-// Send the request
+// set up a listener for "time" requests
+Dispatcher d = nc.createDispatcher(msg -> {
+    System.out.println("Received time request");
+    nc.publish(msg.getReplyTo(), ("" + System.currentTimeMillis()).getBytes());
+});
+d.subscribe("time");
+
+// make a request to the "time" subject and wait 1 second for a response
 Message msg = nc.request("time", null, Duration.ofSeconds(1));
 
-// Use the response
-System.out.println(new String(msg.getData(), StandardCharsets.UTF_8));
+// look at the response
+long time = Long.parseLong(new String(msg.getData()));
+System.out.println(new Date(time));
 
-// Close the connection
 nc.close();
 ```
 {% endtab %}
@@ -78,6 +85,39 @@ try:
   print("Reply:", msg)
 except asyncio.TimeoutError:
   print("Timed out waiting for response")
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient();
+
+using CancellationTokenSource cts = new();
+
+// Process the time messages in a separate task
+Task subscription = Task.Run(async () =>
+{
+    await foreach (var msg in client.SubscribeAsync<string>("time", cancellationToken: cts.Token))
+    {
+        await msg.ReplyAsync(DateTimeOffset.Now);
+    }
+});
+
+// Wait for the subscription task to be ready
+await Task.Delay(1000);
+
+var reply = await client.RequestAsync<DateTimeOffset>("time");
+
+Console.WriteLine($"Reply: {reply.Data:O}");
+
+await cts.CancelAsync();
+await subscription;
+
+// Output:
+// Reply: 2024-10-23T05:20:55.0000000+01:00
 ```
 {% endtab %}
 

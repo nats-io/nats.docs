@@ -101,6 +101,27 @@ async def delete_key_value(self, bucket: str) -> bool:
     """  
 ```
 {% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+
+// Create a new Key Value Store or get an existing one
+ValueTask<INatsKVStore> CreateStoreAsync(string bucket, CancellationToken cancellationToken = default);
+
+// Get a list of bucket names
+IAsyncEnumerable<string> GetBucketNamesAsync(CancellationToken cancellationToken = default);
+
+// Gets the status for all buckets
+IAsyncEnumerable<NatsKVStatus> GetStatusesAsync(CancellationToken cancellationToken = default);
+
+// Delete a Key Value Store
+ValueTask<bool> DeleteStoreAsync(string bucket, CancellationToken cancellationToken = default);
+
+//
+```
+{% endtab %}
+
 {% tab title="C" %}
 ```C
 NATS_EXTERN natsStatus 	kvConfig_Init (kvConfig *cfg)
@@ -119,47 +140,7 @@ NATS_EXTERN void 	kvStore_Destroy (kvStore *kv)
  	Destroys a KeyValue store object.
 ```
 {% endtab %}
-{% tab title="C#" %}
-```Csharp
-/// <summary>
-/// Create a new Key Value Store or get an existing one
-/// </summary>
-/// <param name="bucket">Name of the bucket</param>
-/// <param name="cancellationToken">A <see cref="CancellationToken"/> used to cancel the API call.</param>
-/// <returns>Key Value Store</returns>
-/// <exception cref="NatsJSException">There was an issue retrieving the response.</exception>
-/// <exception cref="NatsJSApiException">Server responded with an error.</exception>
-ValueTask<INatsKVStore> CreateStoreAsync(string bucket, CancellationToken cancellationToken = default);
 
-/// <summary>
-/// Get a list of bucket names
-/// </summary>
-/// <param name="cancellationToken"> used to cancel the API call.</param>
-/// <returns>Async enumerable of bucket names. Can be used in a <c>await foreach</c> loop.</returns>
-/// <exception cref="NatsJSException">There was an issue retrieving the response.</exception>
-/// <exception cref="NatsJSApiException">Server responded with an error.</exception>
-IAsyncEnumerable<string> GetBucketNamesAsync(CancellationToken cancellationToken = default);
-
-/// <summary>
-/// Gets the status for all buckets
-/// </summary>
-/// <param name="cancellationToken"> used to cancel the API call.</param>
-/// <returns>Async enumerable of Key/Value statuses. Can be used in a <c>await foreach</c> loop.</returns>
-/// <exception cref="NatsJSException">There was an issue retrieving the response.</exception>
-/// <exception cref="NatsJSApiException">Server responded with an error.</exception>
-IAsyncEnumerable<NatsKVStatus> GetStatusesAsync(CancellationToken cancellationToken = default);
-
-/// <summary>
-/// Delete a Key Value Store
-/// </summary>
-/// <param name="bucket">Name of the bucket</param>
-/// <param name="cancellationToken">A <see cref="CancellationToken"/> used to cancel the API call.</param>
-/// <returns>True for success</returns>
-/// <exception cref="NatsJSException">There was an issue retrieving the response.</exception>
-/// <exception cref="NatsJSApiException">Server responded with an error.</exception>
-ValueTask<bool> DeleteStoreAsync(string bucket, CancellationToken cancellationToken = default);
-```
-{% endtab %}
 {% endtabs %}
 
 ### Getting
@@ -214,6 +195,18 @@ async def get(self, key: str) -> Entry:
    """
 ```
 {% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+
+// Get an entry from the bucket using the key
+ValueTask<NatsKVEntry<T>> GetEntryAsync<T>(string key, ulong revision = default, INatsDeserialize<T>? serializer = default, CancellationToken cancellationToken = default);
+
+//
+```
+{% endtab %}
+
 {% tab title="C" %}
 ```C
 NATS_EXTERN natsStatus 	kvStore_Get (kvEntry **new_entry, kvStore *kv, const char *key)
@@ -223,26 +216,7 @@ NATS_EXTERN natsStatus 	kvStore_GetRevision (kvEntry **new_entry, kvStore *kv, c
  	Returns the entry at the specific revision for the key.
 ```
 {% endtab %}
-{% tab title="C#" %}
-```Csharp
-/// <summary>
-/// Get the entry for a key
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
-/// </summary>
-/// <param name="key">the key</param>
-/// <returns>The entry</returns>
-KeyValueEntry Get(string key);
 
-/// <summary>
-/// Get the specific revision of an entry for a key
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
-/// </summary>
-/// <param name="key">the key</param>
-/// <param name="revision">the specific revision</param>
-/// <returns>The entry</returns>
-KeyValueEntry Get(string key, ulong revision);
-```
-{% endtab %}
 {% endtabs %}
 
 ### Putting
@@ -353,6 +327,19 @@ async def update(self, key: str, value: bytes, last: int) -> int:
     """    
 ```
 {% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+
+// Put a value into the bucket using the key
+// returns revision number
+ValueTask<ulong> PutAsync<T>(string key, T value, INatsSerialize<T>? serializer = default, CancellationToken cancellationToken = default);
+
+//
+```
+{% endtab %}
+
 {% tab title="C" %}
 ```C
 NATS_EXTERN natsStatus 	kvStore_Put (uint64_t *rev, kvStore *kv, const char *key, const void *data, int len)
@@ -374,56 +361,7 @@ NATS_EXTERN natsStatus 	kvStore_UpdateString (uint64_t *rev, kvStore *kv, const 
  	Updates the value (as a string) for the key into the store if and only if the latest revision matches.
 ```
 {% endtab %}
-{% tab title="C#" %}
-```Csharp
-/// <summary>
-/// Put a byte[] as the value for a key
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
-/// </summary>
-/// <param name="key">the key</param>
-/// <param name="value">the bytes of the value</param>
-/// <returns>the revision number for the key</returns>
-ulong Put(string key, byte[] value);
 
-/// <summary>
-/// Put a string as the value for a key
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
-/// </summary>
-/// <param name="key">the key</param>
-/// <param name="value">the UTF-8 string</param>
-/// <returns>the revision number for the key</returns>
-ulong Put(string key, string value);
-
-/// <summary>
-///Put a long as the value for a key
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
-/// </summary>
-/// <param name="key">the key</param>
-/// <param name="value">the number</param>
-/// <returns>the revision number for the key</returns>
-ulong Put(string key, long value);
-
-/// <summary>
-/// Put as the value for a key iff the key does not exist (there is no history)
-/// or is deleted (history shows the key is deleted)
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
-/// </summary>
-/// <param name="key">the key</param>
-/// <param name="value">the bytes of the value</param>
-/// <returns>the revision number for the key</returns>
-ulong Create(string key, byte[] value);
-
-/// <summary>
-/// Put as the value for a key iff the key exists and its last revision matches the expected
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
-/// </summary>
-/// <param name="key">the key</param>
-/// <param name="value">the bytes of the value</param>
-/// <param name="expectedRevision"></param>
-/// <returns>the revision number for the key</returns>
-ulong Update(string key, byte[] value, ulong expectedRevision);
-```
-{% endtab %}
 {% endtabs %}
 
 ### Deleting
@@ -480,6 +418,21 @@ async def purge(self, key: str) -> bool:
     """    
 ```
 {% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+
+// Delete an entry from the bucket
+ValueTask DeleteAsync(string key, NatsKVDeleteOpts? opts = default, CancellationToken cancellationToken = default);
+
+// Purge an entry from the bucket
+ValueTask PurgeAsync(string key, NatsKVDeleteOpts? opts = default, CancellationToken cancellationToken = default);
+
+//
+```
+{% endtab %}
+
 {% tab title="C" %}
 ```C
 NATS_EXTERN natsStatus 	kvStore_Delete (kvStore *kv, const char *key)
@@ -492,36 +445,7 @@ NATS_EXTERN natsStatus 	kvStore_PurgeDeletes (kvStore *kv, kvPurgeOptions *opts)
  	Purge and removes delete markers.
 ```
 {% endtab %}
-{% tab title="C#" %}
-```Csharp
-/// <summary>
-/// Soft deletes the key by placing a delete marker. 
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
-/// </summary>
-/// <param name="key">the key</param>
-void Delete(string key);
 
-/// <summary>
-/// Purge all values/history from the specific key. 
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
-/// </summary>
-/// <param name="key">the key</param>
-void Purge(string key);
-
-/// <summary>
-/// Remove history from all keys that currently are deleted or purged,
-/// using a default KeyValuePurgeOptions
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
-/// </summary>
-void PurgeDeletes();
-
-/// <summary>
-/// Remove history from all keys that currently are deleted or purged
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
-/// </summary>
-void PurgeDeletes(KeyValuePurgeOptions options);
-```
-{% endtab %}
 {% endtabs %}
 
 ### Getting all the keys
@@ -553,6 +477,21 @@ List<String> keys() throws IOException, JetStreamApiException, InterruptedExcept
 async keys(k = ">"): Promise<QueuedIterator<string>>
 ```
 {% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+
+// Get all the keys in the bucket
+IAsyncEnumerable<string> GetKeysAsync(NatsKVWatchOpts? opts = default, CancellationToken cancellationToken = default);
+
+// Get a filtered set of keys in the bucket
+IAsyncEnumerable<string> GetKeysAsync(IEnumerable<string> filters, NatsKVWatchOpts? opts = default, CancellationToken cancellationToken = default);
+
+//
+```
+{% endtab %}
+
 {% tab title="C" %}
 ```C
 NATS_EXTERN natsStatus 	kvStore_Keys (kvKeysList *list, kvStore *kv, kvWatchOptions *opts)
@@ -562,16 +501,7 @@ NATS_EXTERN void 	kvKeysList_Destroy (kvKeysList *list)
  	Destroys this list of KeyValue store key strings.
 ```
 {% endtab %}
-{% tab title="C#" %}
-```Csharp
-/// <summary>
-/// Get a list of the keys in a bucket.
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
-/// </summary>
-/// <returns>The list of keys</returns>
-IList<string> Keys();
-```
-{% endtab %}
+
 {% endtabs %}
 
 ### Getting the history for a key
@@ -606,6 +536,18 @@ async history(
   ): Promise<QueuedIterator<KvEntry>>
 ```
 {% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+
+// Get the history of an entry by key
+IAsyncEnumerable<NatsKVEntry<T>> HistoryAsync<T>(string key, INatsDeserialize<T>? serializer = default, NatsKVWatchOpts? opts = default, CancellationToken cancellationToken = default);
+
+//
+```
+{% endtab %}
+
 {% tab title="C" %}
 ```C
 NATS_EXTERN natsStatus 	kvStore_History (kvEntryList *list, kvStore *kv, const char *key, kvWatchOptions *opts)
@@ -615,17 +557,7 @@ NATS_EXTERN void 	kvEntryList_Destroy (kvEntryList *list)
  	Destroys this list of KeyValue store entries.
 ```
 {% endtab %}
-{% tab title="C#" %}
-```Csharp
-/// <summary>
-/// Get the history (list of KeyValueEntry) for a key
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
-/// </summary>
-/// <param name="key">the key</param>
-/// <returns>The list of KeyValueEntry</returns>
-IList<KeyValueEntry> History(string key);
-```
-{% endtab %}
+
 {% endtabs %}
 
 ### Watching for changes
@@ -646,26 +578,11 @@ WatchAll(opts ...WatchOpt) (KeyWatcher, error)
 ```java
 /**
  * Watch updates for a specific key
- * @param key the key
- * @param watcher the watcher
- * @param watchOptions the watch options to apply. If multiple conflicting options are supplied, the last options wins.
- * @return The KeyValueWatchSubscription
- * @throws IOException covers various communication issues with the NATS
- *         server such as timeout or interruption
- * @throws JetStreamApiException the request had an error related to the data
- * @throws InterruptedException if the thread is interrupted
  */
 NatsKeyValueWatchSubscription watch(String key, KeyValueWatcher watcher, KeyValueWatchOption... watchOptions) throws IOException, JetStreamApiException, InterruptedException;
 
 /**
  * Watch updates for all keys
- * @param watcher the watcher
- * @param watchOptions the watch options to apply. If multiple conflicting options are supplied, the last options wins.
- * @return The KeyValueWatchSubscription
- * @throws IOException covers various communication issues with the NATS
- *         server such as timeout or interruption
- * @throws JetStreamApiException the request had an error related to the data
- * @throws InterruptedException if the thread is interrupted
  */
 NatsKeyValueWatchSubscription watchAll(KeyValueWatcher watcher, KeyValueWatchOption... watchOptions) throws IOException, JetStreamApiException, InterruptedException;
 ```
@@ -681,6 +598,26 @@ NatsKeyValueWatchSubscription watchAll(KeyValueWatcher watcher, KeyValueWatchOpt
   ): Promise<QueuedIterator<KvEntry>>
 ```
 {% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+
+// Start a watcher for specific keys
+// Key to watch is subject-based and wildcards may be used
+IAsyncEnumerable<NatsKVEntry<T>> WatchAsync<T>(string key, INatsDeserialize<T>? serializer = default, NatsKVWatchOpts? opts = default, CancellationToken cancellationToken = default);
+
+// Start a watcher for specific keys
+// Key to watch are subject-based and wildcards may be used
+IAsyncEnumerable<NatsKVEntry<T>> WatchAsync<T>(IEnumerable<string> keys, INatsDeserialize<T>? serializer = default, NatsKVWatchOpts? opts = default, CancellationToken cancellationToken = default);
+
+// Start a watcher for all the keys in the bucket
+IAsyncEnumerable<NatsKVEntry<T>> WatchAsync<T>(INatsDeserialize<T>? serializer = default, NatsKVWatchOpts? opts = default, CancellationToken cancellationToken = default);
+
+//
+```
+{% endtab %}
+
 {% tab title="C" %}
 ```C
 NATS_EXTERN natsStatus 	kvStore_Watch (kvWatcher **new_watcher, kvStore *kv, const char *keys, kvWatchOptions *opts)
@@ -690,34 +627,5 @@ NATS_EXTERN natsStatus 	kvStore_WatchAll (kvWatcher **new_watcher, kvStore *kv, 
  	Returns a watcher for any updates to any keys of the KeyValue store bucket.
 ```
 {% endtab %}
-{% tab title="C#" %}
-```Csharp
-/// <summary>
-/// Watch updates for a specific key
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
-/// WARNING: This api requires an internal consumer the enforces ordering of messages.
-/// This portion of the implementation is not complete yet. If there was some sort of
-/// error from the server and messages were skipped or came out of order the data received
-/// would be incomplete. While this is an edge case, it can still technically happen. 
-/// </summary>
-/// <param name="key">the key</param>
-/// <param name="watcher">the watcher</param>
-/// <param name="watchOptions">the watch options to apply. If multiple conflicting options are supplied, the last options wins.</param>
-/// <returns></returns>
-KeyValueWatchSubscription Watch(string key, IKeyValueWatcher watcher, params KeyValueWatchOption[] watchOptions);
 
-/// <summary>
-/// Watch updates for all keys
-/// THIS IS A BETA FEATURE AND SUBJECT TO CHANGE
-/// WARNING: This api requires an internal consumer the enforces ordering of messages.
-/// This portion of the implementation is not complete yet. If there was some sort of
-/// error from the server and messages were skipped or came out of order the data received
-/// would be incomplete. While this is an edge case, it can still technically happen. 
-/// </summary>
-/// <param name="watcher">the watcher</param>
-/// <param name="watchOptions">the watch options to apply. If multiple conflicting options are supplied, the last options wins.</param>
-/// <returns>The KeyValueWatchSubscription</returns>
-KeyValueWatchSubscription WatchAll(IKeyValueWatcher watcher, params KeyValueWatchOption[] watchOptions);
-```
-{% endtab %}
 {% endtabs %}

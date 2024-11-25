@@ -26,16 +26,40 @@ defer nc.Close()
 
 {% tab title="Java" %}
 ```java
-Options options = new Options.Builder().
-                            server("nats://demo.nats.io:4222").
-                            connectionListener((conn, type) -> {
-                                if (type == Events.RECONNECTED) {
-                                    // handle reconnected
-                                } else if (type == Events.DISCONNECTED) {
-                                    // handle disconnected, wait for reconnect
-                                }
-                            }).
-                            build();
+class MyConnectionListener implements ConnectionListener {
+    public void connectionEvent(Connection conn, Events event) {
+        switch (event) {
+            case CONNECTED:
+                // The connection has successfully completed the handshake with the nats-server.
+                break;
+            case CLOSED:
+                // The connection is permanently closed, either by manual action or failed reconnects
+                break;
+            case DISCONNECTED:
+                // The connection lost its connection, but may try to reconnect if configured to
+                break;
+            case RECONNECTED:
+                // The connection was connected, lost its connection and successfully reconnected.
+                break;
+            case RESUBSCRIBED:
+                // The connection was reconnected and the server has been notified of all subscriptions.
+                break;
+            case DISCOVERED_SERVERS:
+                // The connection was made aware of new servers from the current server connection.
+                break;
+            case LAME_DUCK:
+                // connected server is coming down soon, might want to prepare for it
+                break;
+        }
+    }
+}
+
+MyConnectionListener listener = new MyConnectionListener();
+
+Options options = new Options.Builder()
+    .server("nats://demo.nats.io:4222")
+    .connectionListener(listener)
+    .build();
 Connection nc = Nats.connect(options);
 
 // Do something with the connection
@@ -84,6 +108,32 @@ await nc.connect(
    )
 
 # Do something with the connection.
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient();
+
+client.Connection.ConnectionDisconnected += async (sender, args) =>
+{
+    Console.WriteLine($"Disconnected: {args.Message}");
+};
+
+client.Connection.ConnectionOpened += async (sender, args) =>
+{
+    Console.WriteLine($"Connected: {args.Message}");
+};
+
+client.Connection.ReconnectFailed += async (sender, args) =>
+{
+    Console.WriteLine($"Reconnect Failed: {args.Message}");
+};
+
+await client.ConnectAsync();
 ```
 {% endtab %}
 

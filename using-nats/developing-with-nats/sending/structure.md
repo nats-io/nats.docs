@@ -85,6 +85,44 @@ await nc.publish("updates", json.dumps({"symbol": "GOOG", "price": 1200 }).encod
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient();
+
+using var cts = new CancellationTokenSource();
+
+Task process = Task.Run(async () =>
+{
+    // Let's deserialize the message as a UTF-8 string to see
+    // the published serialized output in the console
+    await foreach (var msg in client.SubscribeAsync<string>("updates", cancellationToken: cts.Token))
+    {
+        Console.WriteLine($"Received: {msg.Data}");
+    }
+});
+
+// Wait for the subscription task to be ready
+await Task.Delay(1000);
+
+var stock = new Stock { Symbol = "MSFT", Price = 123.45 };
+
+// The default serializer uses System.Text.Json to serialize the object
+await client.PublishAsync<Stock>("updates", stock);
+
+// Define the object
+public record Stock {
+    public string Symbol { get; set; }
+    public double Price { get; set; }
+}
+
+// Output:
+// Received: {"Symbol":"MSFT","Price":123.45}
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'

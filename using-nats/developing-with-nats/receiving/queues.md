@@ -47,7 +47,7 @@ Dispatcher d = nc.createDispatcher((msg) -> {
     latch.countDown();
 });
 
-// Subscribe
+// Subscribe to the "updates" subject with a queue group named "workers"
 d.subscribe("updates", "workers");
 
 // Wait for a message to come in
@@ -93,6 +93,31 @@ await nc.publish("updates", b'All is Well')
 
 msg = await asyncio.wait_for(future, 1)
 print("Msg", msg)
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient();
+
+var count = 0;
+
+// Subscribe to the "updates" subject with a queue group named "workers"
+await foreach (var msg in client.SubscribeAsync<string>(subject: "updates", queueGroup: "workers"))
+{
+    Console.WriteLine($"Received {++count}: {msg.Subject}: {msg.Data}");
+    
+    // Break after 10 messages
+    if (count == 10)
+    {
+        break;
+    }
+}
+
+Console.WriteLine("Done");
 ```
 {% endtab %}
 

@@ -35,11 +35,11 @@ log.Printf("The connection is %v\n", getStatusTxt(nc))
 ```java
 Connection nc = Nats.connect("nats://demo.nats.io:4222");
 
-System.out.println("The Connection is: " + nc.getStatus());
+System.out.println("The Connection is: " + nc.getStatus()); // CONNECTED
 
 nc.close();
 
-System.out.println("The Connection is: " + nc.getStatus());
+System.out.println("The Connection is: " + nc.getStatus()); // CLOSED
 ```
 {% endtab %}
 
@@ -75,6 +75,21 @@ while True:
 await nc.close()
 
 print("The connection is closed?", nc.is_closed)
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient();
+
+Console.WriteLine($"{client.Connection.ConnectionState}"); // Closed
+
+await client.ConnectAsync();
+
+Console.WriteLine($"{client.Connection.ConnectionState}"); // Open
 ```
 {% endtab %}
 

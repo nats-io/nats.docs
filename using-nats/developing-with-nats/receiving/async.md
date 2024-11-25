@@ -115,6 +115,30 @@ msg = await asyncio.wait_for(future, 1)
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient();
+
+// Subscribe to the "updates" subject and receive messages as <string> type.
+// The default serializer understands all primitive types, strings,
+// byte arrays, and uses JSON for complex types.
+await foreach (var msg in client.SubscribeAsync<string>("updates"))
+{
+    Console.WriteLine($"Received: {msg.Data}");
+    
+    if (msg.Data == "exit")
+    {
+        // When we exit the loop, we unsubscribe from the subject
+        // as a result of enumeration completion.
+        break;
+    }
+}
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'

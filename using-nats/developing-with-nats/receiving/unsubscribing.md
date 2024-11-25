@@ -41,11 +41,12 @@ Dispatcher d = nc.createDispatcher((msg) -> {
     System.out.println(str);
 });
 
-// Sync Subscription
+// Sync Subscription have an unsubscribe API
 Subscription sub = nc.subscribe("updates");
 sub.unsubscribe();
 
-// Async Subscription
+// Async Subscriptions on the dispatcher must unsubscribe via the dispatcher,
+// not the subscription
 d.subscribe("updates");
 d.unsubscribe("updates");
 
@@ -87,6 +88,34 @@ await sub.unsubscribe()
 
 # Won't be received...
 await nc.publish("updates", b'...')
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient();
+
+// Cancel the subscription after 10 seconds
+using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+
+// Subscribe to the "updates" subject
+// We unsubscribe when we receive the message "exit"
+// or when the cancellation token is triggered.
+await foreach (var msg in client.SubscribeAsync<string>("updates").WithCancellation(cts.Token))
+{
+    Console.WriteLine($"Received: {msg.Data}");
+    
+    if (msg.Data == "exit")
+    {
+        // When we exit the loop, we unsubscribe from the subject
+        break;
+    }
+}
+
+Console.WriteLine("Unsubscribed from updates");
 ```
 {% endtab %}
 
