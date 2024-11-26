@@ -5,7 +5,7 @@ Consumers are how client applications get the messages stored in the streams. Yo
 Consumers can be 'durable' or 'ephemeral'.
 
 ## Durable versus ephemeral consumers
-Durable consumer persist message delivery progress on the server side. A durable consumer can be retrieved by name and shared between client instance for load balancing. It can me made high available through replicas
+Durable consumer persist message delivery progress on the server side. A durable consumer can be retrieved by name and shared between client instance for load balancing. It can be made highly available through replicas.
 
 An ephemeral consumer does not persist delivery progress and will automatically be deleted when there are no more client instances connected.
 
