@@ -163,10 +163,10 @@ sudo cp nats-server/nats-server-vX.Y.Z-linux-amd64/nats-server /usr/bin
 
 ## Installing From the Source
 
-If you have Go installed, installing the binary is easy:
+If you have [Go installed](https://go.dev/doc/install), installing the binary is easy:
 
 ```shell
-go install github.com/nats-io/nats-server/v2@latest
+go install github.com/nats-io/nats-server/v2@main
 ```
 
 This mechanism will install a build of the [main](https://github.com/nats-io/nats-server) branch, which almost certainly will not be a released version. If you are a developer and want to play with the latest, this is the easiest way.
@@ -175,7 +175,7 @@ To test your installation (provided $GOPATH/bin is in your path) by typing `nats
 
 ```
 [2397474] 2023/09/27 10:32:02.709019 [INF] Starting nats-server
-[2397474] 2023/09/27 10:32:02.709165 [INF]   Version:  2.10.1
+[2397474] 2023/09/27 10:32:02.709165 [INF]   Version:  2.11.0-dev
 [2397474] 2023/09/27 10:32:02.709182 [INF]   Git:      [not set]
 [2397474] 2023/09/27 10:32:02.709185 [INF]   Name:     NDQU7SGA4ECW4PHL4KNBY42AFQEZDAPMMQZVSQDKGTARZI5JHJV6KO2N
 [2397474] 2023/09/27 10:32:02.709187 [INF]   ID:       NDQU7SGA4ECW4PHL4KNBY42AFQEZDAPMMQZVSQDKGTARZI5JHJV6KO2N
