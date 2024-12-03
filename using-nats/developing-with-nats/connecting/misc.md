@@ -26,10 +26,8 @@ log.Printf("Maximum payload is %v bytes", mp)
 ```java
 Connection nc = Nats.connect("nats://demo.nats.io:4222");
 
-long max = nc.getMaxPayload();
-// Do something with the max payload
-
-nc.close();
+long mp = nc.getMaxPayload();
+System.out.println("max payload for the server is " + mp + " bytes");
 ```
 {% endtab %}
 
@@ -48,6 +46,21 @@ await nc.connect(servers=["nats://demo.nats.io:4222"])
 print("Maximum payload is %d bytes" % nc.max_payload)
 
 # Do something with the max payload.
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient("nats://demo.nats.io:4222");
+
+// Make sure we connect to a server to receive the server info,
+// since connecting to servers is lazy in .NET client.
+await client.ConnectAsync();
+
+Console.WriteLine($"MaxPayload = {client.Connection.ServerInfo.MaxPayload}");
 ```
 {% endtab %}
 
@@ -153,6 +166,12 @@ await nc.connect(servers=["nats://demo.nats.io:4222"], pedantic=True)
 ```
 {% endtab %}
 
+{% tab title="C#" %}
+```csharp
+// Not available in the NATS .NET client
+```
+{% endtab %}
+
 {% tab title="Ruby" %}
 ```ruby
 require 'nats/client'
@@ -230,6 +249,13 @@ nc.close();
 {% tab title="Python" %}
 ```python
 # Asyncio NATS client does not allow custom control lines.
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// control line is not configurable on NATS .NET client.
+// required memory is allocated dynamically from the array pool.
 ```
 {% endtab %}
 

@@ -37,7 +37,7 @@ msg.Respond(timeAsBytes)
 ```java
 Connection nc = Nats.connect("nats://demo.nats.io:4222");
 
-// Subscribe
+// Subscribe to the "time" subject and reply with the current time
 Subscription sub = nc.subscribe("time");
 
 // Read a message
@@ -48,7 +48,7 @@ Calendar cal = Calendar.getInstance();
 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 byte[] timeAsBytes = sdf.format(cal.getTime()).getBytes(StandardCharsets.UTF_8);
 
-// Send the time
+// Send the time to the reply to subject
 nc.publish(msg.getReplyTo(), timeAsBytes);
 
 // Flush and close the connection
@@ -91,6 +91,21 @@ msg = await asyncio.wait_for(future, 1)
 # Send the time
 time_as_bytes = "{}".format(datetime.now()).encode()
 await nc.publish(msg.reply, time_as_bytes)
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient();
+
+// Subscribe to the "time" subject and reply with the current time
+await foreach (var msg in client.SubscribeAsync<string>("time"))
+{
+    await msg.ReplyAsync(DateTime.Now);
+}
 ```
 {% endtab %}
 

@@ -41,23 +41,27 @@ log.Printf("Reply: %s", msg.Data)
 ```java
 Connection nc = Nats.connect("nats://demo.nats.io:4222");
 
-// Create a unique subject name
-String uniqueReplyTo = NUID.nextGlobal();
+// set up a listener for "time" requests
+Dispatcher d = nc.createDispatcher(msg -> {
+    System.out.println("Received time request");
+    nc.publish(msg.getReplyTo(), ("" + System.currentTimeMillis()).getBytes());
+});
+d.subscribe("time");
 
-// Listen for a single response
-Subscription sub = nc.subscribe(uniqueReplyTo);
-sub.unsubscribe(1);
+// make a subject for replies and subscribe to that
+String replyToThis = NUID.nextGlobal();
+Subscription sub = nc.subscribe(replyToThis);
 
-// Send the request
-nc.publish("time", uniqueReplyTo, null);
+// publish to the "time" subject with reply-to subject that was set up
+nc.publish("time", replyToThis, null);
 
-// Read the reply
-Message msg = sub.nextMessage(Duration.ofSeconds(1));
+// wait for a response
+Message msg = sub.nextMessage(1000);
 
-// Use the response
-System.out.println(new String(msg.getData(), StandardCharsets.UTF_8));
+// look at the response
+long time = Long.parseLong(new String(msg.getData()));
+System.out.println(new Date(time));
 
-// Close the connection
 nc.close();
 ```
 {% endtab %}
@@ -104,6 +108,60 @@ await nc.publish("time", b'', unique_reply_to)
 # Use the response
 msg = await asyncio.wait_for(future, 1)
 print("Reply:", msg)
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.Core;
+
+await using var client = new NatsClient();
+
+await client.ConnectAsync();
+
+// Create a new inbox for the subscription subject
+string inbox = client.Connection.NewInbox();
+
+// Use core API to subscribe to have a more fine-grained control over
+// the subscriptions. We use <string> as the type, but we are not
+// really interested in the message payload.
+await using INatsSub<string> timeSub
+    = await client.Connection.SubscribeCoreAsync<string>("time");
+
+Task responderTask = Task.Run(async () =>
+{
+    await foreach (var msg in timeSub.Msgs.ReadAllAsync())
+    {
+        // The default serializer uses StandardFormat with Utf8Formatter
+        // when formatting DateTimeOffset types.
+        await msg.ReplyAsync<DateTimeOffset>(DateTimeOffset.UtcNow);
+    }
+});
+
+// Subscribe to the inbox with the expected type of the response
+await using INatsSub<DateTimeOffset> inboxSub
+    = await client.Connection.SubscribeCoreAsync<DateTimeOffset>(inbox);
+
+// The default serializer uses UTF-8 encoding for strings
+await client.PublishAsync(subject: "time", replyTo: inbox);
+
+// Read the response from subscription message channel reader
+NatsMsg<DateTimeOffset> reply = await inboxSub.Msgs.ReadAsync();
+
+// Print the current time in RFC1123 format taking advantage of the
+// DateTimeOffset's formatting capabilities.
+Console.WriteLine($"The current date and time is: {reply.Data:R}");
+
+await inboxSub.UnsubscribeAsync();
+await timeSub.UnsubscribeAsync();
+
+// make sure the responder task is completed cleanly
+await responderTask;
+
+// Output:
+// The current date and time is: Tue, 22 Oct 2024 12:21:09 GMT
 ```
 {% endtab %}
 

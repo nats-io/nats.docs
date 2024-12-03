@@ -48,13 +48,10 @@ class SSLUtils {
     public static KeyStore loadKeystore(String path) throws Exception {
         KeyStore store = KeyStore.getInstance("JKS");
         BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));
-
         try {
             store.load(in, STORE_PASSWORD.toCharArray());
         } finally {
-            if (in != null) {
-                in.close();
-            }
+            in.close();
         }
 
         return store;
@@ -86,10 +83,10 @@ public class ConnectTLS {
 
         try {
             SSLContext ctx = SSLUtils.createSSLContext();
-            Options options = new Options.Builder().
-                                server("nats://localhost:4222").
-                                sslContext(ctx). // Set the SSL context
-                                build();
+            Options options = new Options.Builder()
+                .server("nats://localhost:4222")
+                .sslContext(ctx) // Set the SSL context
+                .build();
             Connection nc = Nats.connect(options);
 
             // Do something with the connection
@@ -134,6 +131,24 @@ await nc.connect(io_loop=loop, tls=ssl_ctx)
 await nc.connect(servers=["nats://demo.nats.io:4222"], tls=ssl_ctx)
 
 # Do something with the connection.
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.Core;
+
+await using var client = new NatsClient(new NatsOpts
+{
+    TlsOpts = new NatsTlsOpts
+    {
+        CaFile = "rootCA.pem",
+        KeyFile = "client-key.pem",
+        CertFile = "client-cert.pem",
+    }
+});
 ```
 {% endtab %}
 

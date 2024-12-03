@@ -38,18 +38,17 @@ ErrorHandler(cb ErrHandler)
 ```java
 class MyConnectionListener implements ConnectionListener {
     public void connectionEvent(Connection natsConnection, Events event) {
-        System.out.println("Connection event - "+event);
+        System.out.println("Connection event - " + event);
     }
 }
 
 public class SetConnectionListener {
     public static void main(String[] args) {
-
         try {
-            Options options = new Options.Builder().
-                                        server("nats://demo.nats.io:4222").
-                                        connectionListener(new MyConnectionListener()). // Set the listener
-                                        build();
+            Options options = new Options.Builder()
+                .server("nats://demo.nats.io:4222")
+                .connectionListener(new MyConnectionListener()) // Set the listener
+                .build();
             Connection nc = Nats.connect(options);
 
             // Do something with the connection
@@ -128,6 +127,32 @@ options["error_cb"] = error_cb
 options["closed_cb"] = closed_cb
 
 await nc.connect(**options)
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient();
+
+client.Connection.ConnectionDisconnected += async (sender, args) =>
+{
+    Console.WriteLine($"Disconnected: {args.Message}");
+};
+
+client.Connection.ConnectionOpened += async (sender, args) =>
+{
+    Console.WriteLine($"Connected: {args.Message}");
+};
+
+client.Connection.ReconnectFailed += async (sender, args) =>
+{
+    Console.WriteLine($"Reconnect Failed: {args.Message}");
+};
+
+await client.ConnectAsync();
 ```
 {% endtab %}
 
@@ -274,6 +299,12 @@ const nc = await connect({ servers: ["demo.nats.io:4222"] });
 {% tab title="Python" %}
 ```python
 # Asyncio NATS client does not support discovered servers handler right now
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// NATS .NET client does not support discovered servers handler right now
 ```
 {% endtab %}
 
@@ -433,6 +464,23 @@ await nc.connect(
    )
 
 # Do something with the connection.
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using Microsoft.Extensions.Logging;
+using NATS.Client.Core;
+using NATS.Net;
+
+// NATS .NET client does not support error handler right now
+// instead, you can use the logger since server errors are logged
+// with the error level and eventId 1005 (Protocol Log Event).
+await using var client = new NatsClient(new NatsOpts
+{
+    LoggerFactory = LoggerFactory.Create(builder => builder.AddConsole()),
+});
 ```
 {% endtab %}
 

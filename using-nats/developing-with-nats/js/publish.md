@@ -136,27 +136,43 @@ if __name__ == '__main__':
 ```
 {% endtab %}
 
-{% tab title="C# v1" %}
+{% tab title="C#" %}
 ```csharp
-using (IConnection nc = new ConnectionFactory().CreateConnection("nats://localhost:4222"))
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.JetStream;
+using NATS.Client.JetStream.Models;
+
+await using var client = new NatsClient();
+
+INatsJSContext js = client.CreateJetStreamContext();
+
+// Create a stream
+var streamConfig = new StreamConfig(name: "example-stream", subjects: ["example-subject"]);
+await js.CreateStreamAsync(streamConfig);
+
+// Publish a message
 {
-    IJetStreamManagement jsm = nc.CreateJetStreamManagementContext();
-    jsm.AddStream(StreamConfiguration.Builder()
-        .WithName("example-stream")
-        .WithSubjects("example-subject")
-        .Build());
+    PubAckResponse ack = await js.PublishAsync("example-subject", "Hello, JetStream!");
+    ack.EnsureSuccess();
+}
 
-    IJetStream js = jsm.GetJetStreamContext();
+// Publish messages concurrently
+List<NatsJSPublishConcurrentFuture> futures = new();
+for (var i = 0; i < 500; i++)
+{
+    NatsJSPublishConcurrentFuture future
+        = await js.PublishConcurrentAsync("example-subject", "Hello, JetStream 1!");
+    futures.Add(future);
+}
 
-    // Publish Synchronously
-    PublishAck pa = js.Publish("example-subject", Encoding.UTF8.GetBytes("Hello JS Sync!"));
-    Console.WriteLine($"Publish Sequence: {pa.Seq}");
-
-    // Publish Asynchronously
-    Task<PublishAck> task =
-        js.PublishAsync("example-subject", Encoding.UTF8.GetBytes("Hello JS Async!"));
-    task.Wait();
-    Console.WriteLine($"Publish Sequence: {task.Result.Seq}");
+foreach (var future in futures)
+{
+    await using (future)
+    {
+        PubAckResponse ack = await future.GetResponseAsync();
+        ack.EnsureSuccess();
+    }
 }
 ```
 {% endtab %}

@@ -24,10 +24,10 @@ defer nc.Close()
 
 {% tab title="Java" %}
 ```java
-Options options = new Options.Builder().
-                            server("nats://demo.nats.io:4222").
-                            reconnectBufferSize(5 * 1024 * 1024).  // Set buffer in bytes
-                            build();
+Options options = new Options.Builder()
+    .server("nats://demo.nats.io:4222")
+    .reconnectBufferSize(5 * 1024 * 1024)  // Set buffer in bytes
+    .build();
 Connection nc = Nats.connect(options);
 
 // Do something with the connection
@@ -45,6 +45,12 @@ nc.close();
 {% tab title="Python" %}
 ```python
 # Asyncio NATS client currently does not implement a reconnect buffer
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// Reconnect buffer size is not configurable on NATS .NET client
 ```
 {% endtab %}
 

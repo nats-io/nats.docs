@@ -24,30 +24,30 @@ defer nc.Close()
 {% tab title="Java" %}
 ```java
 NKey theNKey = NKey.createUser(null); // really should load from somewhere
-Options options = new Options.Builder().
-            server("nats://localhost:4222").
-            authHandler(new AuthHandler(){
-                public char[] getID() {
-                    try {
-                        return theNKey.getPublicKey();
-                    } catch (GeneralSecurityException|IOException|NullPointerException ex) {
-                        return null;
-                    }
-                }
+Options options = new Options.Builder()
+    .server("nats://localhost:4222")
+    .authHandler(new AuthHandler(){
+        public char[] getID() {
+            try {
+                return theNKey.getPublicKey();
+            } catch (GeneralSecurityException|IOException|NullPointerException ex) {
+                return null;
+            }
+        }
 
-                public byte[] sign(byte[] nonce) {
-                    try {
-                        return theNKey.sign(nonce);
-                    } catch (GeneralSecurityException|IOException|NullPointerException ex) {
-                        return null;
-                    }
-                }
+        public byte[] sign(byte[] nonce) {
+            try {
+                return theNKey.sign(nonce);
+            } catch (GeneralSecurityException|IOException|NullPointerException ex) {
+                return null;
+            }
+        }
 
-                public char[] getJWT() {
-                    return null;
-                }
-            }).
-            build();
+        public char[] getJWT() {
+            return null;
+        }
+    })
+    .build();
 Connection nc = Nats.connect(options);
 
 // Do something with the connection
@@ -84,6 +84,24 @@ await nc.connect("nats://localhost:4222",
 # Do something with the connection
 
 await nc.close()
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.Core;
+
+await using var client = new NatsClient(new NatsOpts
+{
+    Url = "127.0.0.1",
+    Name = "API NKey Example",
+    AuthOpts = new NatsAuthOpts
+    {
+        NKeyFile = "/path/to/nkeys/user.nk"
+    }
+});
 ```
 {% endtab %}
 

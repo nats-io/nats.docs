@@ -35,10 +35,10 @@ defer nc.Close()
 
 {% tab title="Java" %}
 ```java
-Options options = new Options.Builder().
-            server("nats://localhost:4222").
-            authHandler(Nats.credentials("path_to_creds_file")).
-            build();
+Options options = new Options.Builder()
+    .server("nats://localhost:4222")
+    .authHandler(Nats.credentials("path_to_creds_file"))
+    .build();
 Connection nc = Nats.connect(options);
 
 // Do something with the connection
@@ -73,6 +73,15 @@ await nc.connect("nats://localhost:4222",
 # Do something with the connection
 
 await nc.close()
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+
+await using var client = new NatsClient("127.0.0.1", credsFile: "/path/to/file.creds");
 ```
 {% endtab %}
 

@@ -28,10 +28,10 @@ defer nc.Close()
 
 {% tab title="Java" %}
 ```java
-Options options = new Options.Builder().
-                            server("nats://localhost:4222").
-                            token("mytoken"). // Set a token
-                            build();
+Options options = new Options.Builder()
+    .server("nats://demo.nats.io:4222")
+    .token("mytoken") // Set a token
+    .build();
 Connection nc = Nats.connect(options);
 
 // Do something with the connection
@@ -56,6 +56,24 @@ nc = NATS()
 await nc.connect(servers=["nats://demo.nats.io:4222"], token="mytoken")
 
 # Do something with the connection.
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.Core;
+
+await using var client = new NatsClient(new NatsOpts
+{
+    Url = "127.0.0.1",
+    Name = "API Token Example",
+    AuthOpts = new NatsAuthOpts
+    {
+        Token = "mytoken"
+    }
+});
 ```
 {% endtab %}
 
@@ -133,6 +151,24 @@ nc = NATS()
 await nc.connect(servers=["nats://mytoken@demo.nats.io:4222"])
 
 # Do something with the connection.
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.Core;
+
+await using var client = new NatsClient(new NatsOpts
+{
+    // .NET client doesn't support tokens in URLs
+    // use Token option instead.
+    AuthOpts = new NatsAuthOpts
+    {
+        Token = "mytoken"
+    }
+});
 ```
 {% endtab %}
 

@@ -24,10 +24,10 @@ defer nc.Close()
 
 {% tab title="Java" %}
 ```java
-Options options = new Options.Builder().
-                            server("nats://demo.nats.io:4222").
-                            noRandomize(). // Disable reconnect shuffle
-                            build();
+Options options = new Options.Builder()
+    .server("nats://127.0.0.1:1222,nats://127.0.0.1:1223,nats://127.0.0.1:1224")
+    .noRandomize() // Disable randomizing servers in the bootstrap and later discovered 
+    .build();
 Connection nc = Nats.connect(options);
 
 // Do something with the connection
@@ -60,6 +60,20 @@ await nc.connect(
 # Do something with the connection
 
 await nc.close()
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.Core;
+
+await using var client = new NatsClient(new NatsOpts
+{
+    Url = "nats://127.0.0.1:1222,nats://127.0.0.1:1223,nats://127.0.0.1:1224",
+    NoRandomize = true,
+});
 ```
 {% endtab %}
 

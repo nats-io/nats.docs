@@ -18,10 +18,10 @@ defer nc.Close()
 
 {% tab title="Java" %}
 ```java
-Options options = new Options.Builder().
-                            server("nats://demo.nats.io:4222").
-                            maxReconnects(10). // Set max reconnect attempts
-                            build();
+Options options = new Options.Builder()
+    .server("nats://demo.nats.io:4222")
+    .maxReconnects(10) // Set max reconnect attempts
+    .build();
 Connection nc = Nats.connect(options);
 
 // Do something with the connection
@@ -50,6 +50,22 @@ await nc.connect(
 # Do something with the connection
 
 await nc.close()
+```
+{% endtab %}
+
+{% tab title="C#" %}
+```csharp
+// dotnet add package NATS.Net
+using NATS.Net;
+using NATS.Client.Core;
+
+await using var client = new NatsClient(new NatsOpts
+{
+    Url = "nats://demo.nats.io:4222",
+    
+    // Set the maximum number of reconnect attempts
+    MaxReconnectRetry = 10,
+});
 ```
 {% endtab %}
 
