@@ -14,7 +14,7 @@ As an example, consider message delivery occurring in the 1:N pattern to all sub
 * No extra configuration required
 * Queue groups are defined by the application and their queue subscribers, rather than the server configuration
 
-Queue group names follow the same naming rules as [subjects](../../subjects.md). Foremost, they are case sensitive and cannot contain whitespace. Consider structuring queue groups hierarchically using a period `.`. Some server functionalities can use [wildcard matching](../../subjects.md#wildcards) on them.
+Queue group names follow the same naming rules as [subjects](../../subjects.md). Foremost, they are case sensitive and cannot contain whitespace. Consider structuring queue groups hierarchically using a period `.`. Some server functionalities like [queue permissions](../../../running-a-nats-service/configuration/securing_nats/authorization.md#queue-permissions) can use [wildcard matching](../../subjects.md#wildcards) on them.
 
 Queue subscribers are ideal for scaling services. Scale up is as simple as running another application, scale down is terminating the application with a signal that drains the in flight requests. This flexibility and lack of any configuration changes makes NATS an excellent service communication technology that can work with all platform technologies.
 
