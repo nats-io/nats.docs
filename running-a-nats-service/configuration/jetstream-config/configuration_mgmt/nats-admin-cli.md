@@ -2,7 +2,7 @@
 
 ## nats Admin CLI
 
-The `nats` CLI can be used to manage Streams and Consumers easily using it's `--config` flag, for example:
+The [`nats` CLI](https://github.com/nats-io/natscli?tab=readme-ov-file#installation) can be used to manage Streams and Consumers easily using it's `--config` flag, for example:
 
 ## Add a new Stream
 
