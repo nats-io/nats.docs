@@ -14,7 +14,7 @@ You can also use the `-js, --jetstream` and `-sd, --store_dir <dir>` flags from 
 
 JetStream is compatible with NATS 2.0 Multi-Tenancy using Accounts. A JetStream enabled server supports creating fully isolated JetStream environments for different accounts.
 
-Jetstream environments in leaf nodes should be isolated in their own jetstream domain - [Leaf nodes](../leafnodes/README.md)
+JetStream environments in leaf nodes should be isolated in their own JetStream domain - [Leaf nodes](../leafnodes/README.md)
 
 This will dynamically determine the available resources. It's recommended that you set specific limits though:
 
