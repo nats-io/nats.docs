@@ -1,10 +1,9 @@
 # Administration & Usage from CLI
 
-Once the server is running it's time to use the management tool. This can be downloaded from the [GitHub Release Page](https://github.com/nats-io/natscli/releases/). On OS X homebrew can be used to install the latest version:
+Once the server is running it's time to use the management tool.  
+Please refer to the [installation section in the readme](https://github.com/nats-io/natscli?tab=readme-ov-file#installation).
 
-```shell
-brew tap nats-io/nats-tools
-brew install nats-io/nats-tools/nats
+```
 nats --help
 nats cheat
 ```
