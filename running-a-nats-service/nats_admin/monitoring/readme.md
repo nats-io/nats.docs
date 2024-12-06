@@ -7,10 +7,10 @@ To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP 
 * [General Server Information](#general-information)
 * [Connections](#connection-information)
 * [Routing](#route-information)
-* [Leaf Nodes](#leaf-nodes-information)
+* [Leaf Nodes](#leaf-node-information)
 * [Subscription Routing](#subscription-routing-information)
 * [Account Information](#account-information)
-* [Account Stats](#account-stats)
+* [Account Stats](#account-statistics)
 * [JetStream Information](#jetstream-information)
 * [Health](#health)
 
