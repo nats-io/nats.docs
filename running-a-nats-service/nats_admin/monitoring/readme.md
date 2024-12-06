@@ -4,8 +4,8 @@
 
 To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP server on a dedicated monitoring port. The monitoring server provides several endpoints, providing statistics and other information about the following:
 
-* [General Server Information](./#general-information)
-* [Connections](./#connection-information)
+* [General Server Information](#general-information)
+* [Connections](#connection-information)
 * [Routing](./#route-information)
 * [Leaf Nodes](./#leaf-nodes-information)
 * [Subscription Routing](./#subscription-routing-information)
