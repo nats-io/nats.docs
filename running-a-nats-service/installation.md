@@ -2,12 +2,12 @@
 
 NATS philosophy is simplicity. Installation is just decompressing a zip file and copying the binary to an appropriate directory; you can also use your favorite package manager. Here's a list of different ways you can install or run NATS:
 
-- [Command Line](installation.md#getting-the-binary-from-the-command-line)
-- [Docker](installation.md#installing-via-docker)
-- [Kubernetes](nats-on-kubernetes/nats-kubernetes.md)
-- [Package Manager](installation.md#installing-via-a-package-manager)
-- [Release Zip](installation.md#downloading-a-release-build)
-- [Development Build](installation.md#installing-from-the-source)
+* [Command Line](installation.md#getting-the-binary-from-the-command-line)
+* [Docker](installation.md#installing-via-docker)
+* [Kubernetes](nats-on-kubernetes/nats-kubernetes.md)
+* [Package Manager](installation.md#installing-via-a-package-manager)
+* [Release Zip](installation.md#downloading-a-release-build)
+* [Development Build](installation.md#installing-from-the-source)
 
 See also [installing the NATS client](clients.md#installing-the-nats-cli-tool)
 
@@ -16,7 +16,7 @@ See also [installing the NATS client](clients.md#installing-the-nats-cli-tool)
 The following table indicates the current supported NATS server build combinations for operating systems and architectures.
 
 | Operating System | Architectures                                  | Status       |
-| :--------------- | :--------------------------------------------- | :----------- |
+| ---------------- | ---------------------------------------------- | ------------ |
 | Darwin (macOS)   | amd64, arm64                                   | Stable       |
 | Linux            | amd64, 386, arm6, arm7, arm64, mips64le, s390x | Stable       |
 | Windows          | amd64, 386, arm6, arm7, arm64                  | Stable       |
@@ -68,7 +68,7 @@ This table follows the same pattern as above, however the published messages are
 
 The simplest way to just get the binary of a release of `nats-server` for your machine is to use the following shell command.
 
-For example to get the binary for version 2.10.20 you would use:
+For example, to get the binary for version 2.10.20 you would use:
 
 ```shell
 curl -sf https://binaries.nats.dev/nats-io/nats-server/v2@v2.10.20 | sh
@@ -78,7 +78,7 @@ To get the current very latest version (which may be ahead of the current last o
 
 ## Installing via Docker
 
-With Docker you can install the server easily without scattering binaries and other artifacts on your system. The only pre-requisite is to [install docker](https://docs.docker.com/install).
+With Docker, you can install the server easily without scattering binaries and other artifacts on your system. The only pre-requisite is to [install docker](https://docs.docker.com/install).
 
 ```shell
 docker pull nats:latest
@@ -115,6 +115,14 @@ On Mac OS:
 brew install nats-server
 ```
 
+Arch Linux:
+
+For Arch users, there is an [AUR package](https://aur.archlinux.org/packages/nats-server) that you can install with:
+
+```shell
+yay nats-server
+```
+
 To test your installation (provided the executable is visible to your shell):
 
 Typing `nats-server` should output something like
@@ -127,11 +135,7 @@ Typing `nats-server` should output something like
 [41634] 2019/05/13 09:42:11.746252 [INF] Server is ready
 ```
 
-On Linux:
 
-```shell
-yay nats-server
-```
 
 ## Downloading a Release Build
 
