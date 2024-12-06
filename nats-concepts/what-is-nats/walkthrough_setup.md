@@ -12,57 +12,10 @@ Please refer to the [installation section in the readme](https://github.com/nats
 
 ## Installing the NATS server locally (if needed)
 
-If you are going to run a server locally you need to first install it and start it. Alternatively if you already know how to use NATS on a remote server, you only need to pass the server URL to `nats` using the `-s` option or preferably create a context using `nats context add`, to specify the server URL(s) and credentials file containing your user JWT.
+If you are going to run a server locally you need to first install it and start it.  
+Please refer to the [nats server installation doc](../../running-a-nats-service/installation.md)
 
-### Installing the NATS server via a Package Manager
-
-On Mac OS:
-
-```shell
-brew install nats-server
-```
-
-On Windows:
-
-```shell
-choco install nats-server
-```
-
-On Arch Linux:
-
-```shell
-yay nats-server
-```
-
-For other versions of Linux or other architectures, you can install a [release build](https://github.com/nats-io/nats-server/releases) as shown below.
-
-### Downloading a Release Build
-
-You can find the latest release of `nats-server` [here](https://github.com/nats-io/nats-server/releases).
-
-You could manually download the zip file matching your systems architecture, and unzip it. You could also use `curl` to download a specific version. The example below shows for example, how to download version 2.6.2 of the `nats-server` for Linux AMD64:
-
-```shell
-curl -L https://github.com/nats-io/nats-server/releases/download/v2.6.5/nats-server-v2.6.5-linux-amd64.zip -o nats-server.zip
-```
-
-```shell
-unzip nats-server.zip -d nats-server
-```
-
-```
-Archive:  nats-server.zip
-   creating: nats-server-v2.6.2-linux-amd64/
-  inflating: nats-server-v2.6.2-linux-amd64/README.md
-  inflating: nats-server-v2.6.2-linux-amd64/LICENSE
-  inflating: nats-server-v2.6.2-linux-amd64/nats-server
-```
-
-and finally, copy it to the `bin` folder (this allows you to run the executable from anywhere in the system):
-
-```shell
-sudo cp nats-server/nats-server-v2.6.2-linux-amd64/nats-server /usr/bin
-```
+Alternatively if you already know how to use NATS on a remote server, you only need to pass the server URL to `nats` using the `-s` option or preferably create a context using `nats context add`, to specify the server URL(s) and credentials file containing your user JWT.
 
 ### Start the NATS server (if needed)
 
