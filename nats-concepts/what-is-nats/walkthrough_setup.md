@@ -8,21 +8,7 @@ We have provided Walkthroughs for you to try NATS (and JetStream) on your own. I
 
 ## Installing the [`nats`](../../using-nats/nats-tools/nats\_cli/) CLI Tool
 
-For MacOS:
-
-```shell
-brew tap nats-io/nats-tools
-brew install nats-io/nats-tools/nats
-```
-
-For Arch Linux:
-
-```shell
-yay natscli
-```
-
-For other versions of Linux and for Windows:\
-The `.deb` or `.rpm` files and Windows binaries (even for ARM) are available here [GitHub Releases](https://github.com/nats-io/natscli/releases).
+Please refer to the [installation section in the readme](https://github.com/nats-io/natscli?tab=readme-ov-file#installation).
 
 ## Installing the NATS server locally (if needed)
 
