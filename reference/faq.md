@@ -37,7 +37,7 @@ NATS is an open source, lightweight, high-performance cloud native infrastructur
 NATS is offered in two interoperable modules in a single "NATS Server" binary (often referred to as `nats-server` throughout this site):
 
 * 'Core NATS' is the set of core NATS functionalities and qualities of service.
-* ['JetStream'](../using-nats/jetstream/develop\_jetstream.md) is the (optionally enabled) built-in persistence layer that adds streaming, at-least-once and exactly-once guarantees, historical data replay, decoupled flow-control and key/value store functionalities to Core NATS.
+* ['JetStream'](../using-nats/jetstream/develop_jetstream.md) is the (optionally enabled) built-in persistence layer that adds streaming, at-least-once and exactly-once guarantees, historical data replay, decoupled flow-control and key/value store functionalities to Core NATS.
 
 NATS was created by Derek Collison, who has over 25 years of experience designing, building, and using publish-subscribe messaging systems. NATS is maintained by an amazing Open Source Ecosystem, find more at [GitHub](https://www.github.com/nats-io).
 
@@ -47,7 +47,7 @@ NATS stands for Neural Autonomic Transport System. Derek Collison conceived NATS
 
 ### JetStream and NATS Streaming?
 
-As of NATS Server 2.2, NATS [JetStream](../using-nats/jetstream/develop\_jetstream.md) is the recommended option for persistence, streaming and higher message guarantees. [NATS Streaming](https://github.com/nats-io/nats-streaming-server) a.k.a. 'STAN' is now considered legacy: click [here](broken-reference) the deprecation notice.
+As of NATS Server 2.2, NATS [JetStream](../using-nats/jetstream/develop_jetstream.md) is the recommended option for persistence, streaming and higher message guarantees. [NATS Streaming](https://github.com/nats-io/nats-streaming-server) a.k.a. 'STAN' is now deprecated.
 
 ### What language is NATS written in?
 
@@ -138,11 +138,11 @@ No. As of `nats-server` v0.8.0, there is no hard limit on the maximum number of 
 
 Core NATS, offers "at-most-once" delivery. This means messages are guaranteed to arrive intact, in order from a given publisher, but not across different publishers. NATS does everything required to remain available and provide a dial-tone. However, if a subscriber is problematic or goes offline it will not receive messages, as the basic NATS platform is a simple pub-sub transport system that offers only TCP reliability.
 
-As of NATS Server 2.2, NATS JetStream offers persistence with "at-least-once" and "exactly-once" (within a time window) delivery. See the [JetStream](../using-nats/jetstream/develop\_jetstream.md) documentation for detailed information.
+As of NATS Server 2.2, NATS JetStream offers persistence with "at-least-once" and "exactly-once" (within a time window) delivery. See the [JetStream](../using-nats/jetstream/develop_jetstream.md) documentation for detailed information.
 
 ### Does NATS support replay/redelivery of historical data?
 
-NATS [JetStream](../using-nats/jetstream/develop\_jetstream.md) offers message store and replay by time or sequence.
+NATS [JetStream](../using-nats/jetstream/develop_jetstream.md) offers message store and replay by time or sequence.
 
 ### How do I gracefully shut down an asynchronous subscriber?
 
