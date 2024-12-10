@@ -62,7 +62,7 @@ The server will also keep count of the number of slow consumer errors encountere
 
 ## Handling slow consumers
 
-Apart from using [NATS streaming](broken-reference) or optimizing your consuming application, there are a few options available: scale, meter, or tune NATS to your environment.
+Apart from using [JetStream](../../nats-concepts/jetstream/) or optimizing your consuming application, there are a few options available: scale, meter, or tune NATS to your environment.
 
 **Scaling with queue subscribers**
 
