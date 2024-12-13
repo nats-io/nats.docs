@@ -54,11 +54,11 @@ When a `tls` section is specified at the root of the configuration, it also affe
 
 _As of NATS v2.10.4_
 
-Client connections follow the model where when a TCP connection is created to the server, the server will immediately send an [INFO protocol message](../../../reference/nats-protocol/nats-protocol/README.md#info) in clear text. This INFO protocol provides metadata, including whether the server requires a secure connection.
+Client connections follow the model where, when a TCP connection is created to the server, the server will immediately send an [INFO protocol message](../../../reference/nats-protocol/nats-protocol/README.md#info) in clear text. This INFO protocol provides metadata, including whether the server requires a secure connection.
 
-Some environments prefer having clients TLS connections to be initiated right away, that is, not having any traffic sent in clear text. It was possible to by-pass this using a websocket connection. However, if websocket is not desired, the server can be configured to perform a TLS handshake before sending the INFO protocol message.
+Some environments prefer having clients' TLS connections be initiated right away, that is, not having any traffic sent in clear text. It was possible to by-pass this using a websocket connection. However, if a websocket connection is not desired, the server can be configured to perform a TLS handshake before sending the INFO protocol message.
 
-Only clients that implement equivalent option would be able to connect if the server runs with this option enabled.
+Only clients that implement an equivalent option would be able to connect if the server runs with this option enabled.
 
 The configuration would look something like this:
 
@@ -86,7 +86,7 @@ tls: {
 
 With the above value, the fallback delay used by the server is 50 milliseconds.
 
-The duration can be explcitly set, say 300 milliseconds:
+The duration can be explicitly set, say 300 milliseconds:
 
 ```text
 tls {
@@ -97,7 +97,7 @@ tls {
 }
 ```
 
-It is understood that any configuration other that "true" will result in the server sending the INFO protocol after the elapsed amount of time without the client initiating the TLS handshake. Therefore, for administrators that do not want any data transmitted in plain text, the value must be set to "true" only. It will require applications to be updated to a library that provides the option, which may or may not be readily available.
+It is understood that any configuration other than "true" will result in the server sending the INFO protocol after the elapsed amount of time without the client initiating the TLS handshake. Therefore, for administrators who do not want any data transmitted in plain text, the value must be set to "true" only. It will require applications to be updated to a library that provides the option, which may or may not be readily available.
 
 ## TLS Timeout
 
