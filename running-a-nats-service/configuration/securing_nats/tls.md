@@ -50,6 +50,55 @@ Notice that the log indicates that the client connections will be required to us
 
 When a `tls` section is specified at the root of the configuration, it also affects the monitoring port if `https_port` option is specified. Other sections such as `cluster` can specify a `tls` block.
 
+## TLS-first Handshake
+
+_As of NATS v2.10.4_
+
+Client connections follow the model where, when a TCP connection is created to the server, the server will immediately send an [INFO protocol message](../../../reference/nats-protocol/nats-protocol/README.md#info) in clear text. This INFO protocol provides metadata, including whether the server requires a secure connection.
+
+Some environments prefer having clients' TLS connections be initiated right away, that is, not having any traffic sent in clear text. It was possible to by-pass this using a websocket connection. However, if a websocket connection is not desired, the server can be configured to perform a TLS handshake before sending the INFO protocol message.
+
+Only clients that implement an equivalent option would be able to connect if the server runs with this option enabled.
+
+The configuration would look something like this:
+
+```text
+tls: {
+  cert_file: "./server-cert.pem"
+  key_file: "./server-key.pem"
+  handshake_first: true
+}
+```
+
+However, the parameter can be set to `auto` or a Golang time duration (e.g. `250ms`) to fallback to the original behavior. This is intended for deployments where it is known that not all clients have been upgraded to a client library providing the TLS-first handshake option.
+
+After the delay has elapsed without receiving the TLS handshake from the client, the server reverts to sending the INFO protocol so that older clients can connect. Clients that do connect with the "TLS first" option will be marked as such in the monitoring's `Connz` page/result. It will allow the administrator to keep track of applications still needing to upgrade.
+
+The configuration would be similar to:
+
+```text
+tls: {
+  cert_file: "./server-cert.pem"
+  key_file: "./server-key.pem"
+  handshake_first: auto
+}
+```
+
+With the above value, the fallback delay used by the server is 50 milliseconds.
+
+The duration can be explicitly set, say 300 milliseconds:
+
+```text
+tls {
+    cert_file: ...
+    key_file: ...
+
+    handshake_first: "300ms"
+}
+```
+
+It is understood that any configuration other than "true" will result in the server sending the INFO protocol after the elapsed amount of time without the client initiating the TLS handshake. Therefore, for administrators who do not want any data transmitted in plain text, the value must be set to "true" only. It will require applications to be updated to a library that provides the option, which may or may not be readily available.
+
 ## TLS Timeout
 
 The `timeout` setting enables you to control the amount of time that a client is allowed to upgrade its connection to tls. If your clients are experiencing disconnects during TLS handshake, you'll want to increase the value, however, if you do be aware that an extended `timeout` exposes your server to attacks where a client doesn't upgrade to TLS and thus consumes resources. Conversely, if you reduce the TLS `timeout` too much, you are likely to experience handshake errors.
@@ -110,10 +159,10 @@ When generating your certificate you need to make sure to include the right purp
 With respect to NATS the relevant values for extended key usage are:
 
 * `TLS WWW server authentication` - To authenticate as server for incoming connections. A NATS server will need a certificate containing this.
-* `TLS WWW client authentication` - To authenticate as client for outgoing connections. Only needed when connecting to a server where `verify`, `verify_and_map` or `verify_cert_and_check_known_urls` are specified. In these cases, a NATS client will need a certificate with this value. 
-  * [Leaf node](../leafnodes/) connections can be configured with `verify` as well. Then the connecting NATS server will have to present a certificate with this value too. Certificates containing both values are an option. 
+* `TLS WWW client authentication` - To authenticate as client for outgoing connections. Only needed when connecting to a server where `verify`, `verify_and_map` or `verify_cert_and_check_known_urls` are specified. In these cases, a NATS client will need a certificate with this value.
+  * [Leaf node](../leafnodes/) connections can be configured with `verify` as well. Then the connecting NATS server will have to present a certificate with this value too. Certificates containing both values are an option.
   * [Cluster](../clustering/) connections always have `verify` enabled. Which server acts as client and server comes down to timing and therefore can't be individually configured. Certificates containing both values are a must.
-  * [Gateway](../gateways/) connections always have `verify` enabled. Unlike cluster outgoing connections can specify a separate cert. Certificates containing both values are an option that reduce configuration. 
+  * [Gateway](../gateways/) connections always have `verify` enabled. Unlike cluster outgoing connections can specify a separate cert. Certificates containing both values are an option that reduce configuration.
 
 Note that it's common practice for non-web protocols to use the `TLS WWW` authentication fields, as a matter of history those have become embedded as generic options.
 
@@ -129,7 +178,7 @@ mkcert -cert-file server-cert.pem -key-file server-key.pem localhost ::1
 nats-server --tls --tlscert=server-cert.pem --tlskey=server-key.pem -ms 8222
 ```
 
-Now you should be able to access the monitoring endpoint `https://localhost:8222` with your browser.  
+Now you should be able to access the monitoring endpoint `https://localhost:8222` with your browser.
 `https://127.0.0.1:8222` however should result in an error as `127.0.0.1` is not listed as SAN. You will not be able to establish a connection from another computer either. For that to work you have to provide appropriate DNS and/or IP [SAN\(s\)](tls.md#missing-subject-alternative-name)
 
 To generate certificates that work with `verify` and [`cluster`](../clustering/)/[`gateway`](../gateways/)/[`leaf_nodes`](../leafnodes/) provide the `-client` option. It will cause the appropriate key usage for client authentication to be added. This example also adds a SAN email for usage as user name in `verify_and_map`.
@@ -186,7 +235,8 @@ Once this is configured, your client can connect to the proxy with normal (langu
 | nats.rs | 0.33 |
 | nats.net.v2 | 2.0.0 |
 | nats.net (v1) | 1.1.5 |
-=======
+|||
+
 ### nats.js
 
 See: <https://github.com/nats-io/nats.js/issues/369>
