@@ -55,7 +55,7 @@ For example:
 ```
 nats server request profile cpu 
 ```
-This will save profile files in the current directory.
+This will gather profiling from all servers, and save one profile file per server in the current directory.
 See `nats server request profile --help` for usage info.
 
 The collected profile can be inspected on cli or in the browser, e.g.:
