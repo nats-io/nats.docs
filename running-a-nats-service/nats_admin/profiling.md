@@ -47,3 +47,19 @@ curl -o cpu.prof http://localhost:65432/debug/pprof/profile?seconds=30
 ```
 
 The profile will be saved into `cpu.prof`.
+
+### Collecting profiles using `nats` cli
+`nats` can collect both CPU and memory profiles and save them to a local folder. This command works under system account and does not require `prof_port` to be set:
+
+For example:
+```
+nats server request profile cpu 
+```
+This will save profile files in the current directory.
+See `nats server request profile --help` for usage info.
+
+The collected profile can be inspected on cli or in the browser, e.g.:
+```
+go tool pprof -http localhost:8080 cpu-20241213-163057-na_3
+```
+
