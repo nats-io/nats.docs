@@ -70,7 +70,7 @@ tls: {
 }
 ```
 
-However, the parameter can be set to `auto` or a Golang time duration (e.g. `250ms`) to fallback to the original behavior. This is intended for deployments where it is known that not all clients have been upgraded to a client library providing the TLS-first handshake option.
+However, the parameter can be set to `auto` or a [Golang time duration](https://pkg.go.dev/time#ParseDuration) (e.g. `250ms`) to fallback to the original behavior. This is intended for deployments where it is known that not all clients have been upgraded to a client library providing the TLS-first handshake option.
 
 After the delay has elapsed without receiving the TLS handshake from the client, the server reverts to sending the INFO protocol so that older clients can connect. Clients that do connect with the "TLS first" option will be marked as such in the monitoring's `Connz` page/result. It will allow the administrator to keep track of applications still needing to upgrade.
 
