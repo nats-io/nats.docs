@@ -4,10 +4,6 @@ When investigating and debugging a performance issue with the NATS Server (i.e. 
 
 Note that profiling is an advanced operation for development purposes only. Server operators should use the [monitoring port](/running-a-nats-service/nats_admin/monitoring) instead for monitoring day-to-day runtime statistics.
 
-{% hint style="warning" %}
-`nats-server` does not have authentication/authorization for the profiling endpoint. When you plan to open your `nats-server` to the internet make sure to not expose the profiling port as well. By default, profiling binds to every interface `0.0.0.0` so consider setting profiling to `localhost` or have appropriate firewall rules.
-{% endhint %}
-
 ### Via the NATS CLI
 
 The NATS CLI can request profiles from the NATS Server **when connected to the system account only**. Profiles will be written out to the current working directory by default as files, which can then either be sent onwards or inspected using [`go tool pprof`](https://pkg.go.dev/net/http/pprof).
@@ -38,6 +34,10 @@ The `--name`, `--tags` and `--cluster` selectors can be used either individually
 | `nats server request profile cpu --cluster=aws-useast2`    | Request a CPU profile from all servers in the cluster named `aws-useast2` only             |
 
 ### Via the Profiling Port
+
+{% hint style="warning" %}
+`nats-server` does not have authentication/authorization for the profiling endpoint. When you plan to open your `nats-server` to the internet make sure to not expose the profiling port as well. By default, profiling binds to every interface `0.0.0.0` so consider setting profiling to `localhost` or have appropriate firewall rules.
+{% endhint %}
 
 The NATS Server can expose a HTTP `pprof` profiling port, although it must be enabled by setting the `prof_port` in your NATS Server configuration file. Note that the profiling port is not authenticated and should not be exposed to clients, to the internet etc. For example, to enable the profiling port on TCP/65432:
 
