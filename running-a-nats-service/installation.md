@@ -103,10 +103,10 @@ More information on [containerized NATS is available here](running/nats_docker/)
 
 ## Installing via a Package Manager
 
-On Windows:
+On Windows, using [scoop.sh](https://scoop.sh):
 
 ```shell
-choco install nats-server
+scoop install main/nats-server
 ```
 
 On Mac OS:
