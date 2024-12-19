@@ -71,7 +71,7 @@ If you try to configure JetStream for an account without enabling it globally yo
 
 ### Setting JetStream API and Max HA assets limits
 
-Since version v2.10.21, the nats JetStream API has a limit of 10K inflight requests after which it will start to drop requests in order to protect from memory buildup and to avoid overwhelming the JetStream service. Sometimes it might be necessary to reduce the limit further in order to reduce the possibility of an increase in JetStream traffic impacting the service.
+Since version v2.10.21, the NATS JetStream API has a limit of 10K inflight requests after which it will start to drop requests in order to protect from memory buildup and to avoid overwhelming the JetStream service. Sometimes it might be necessary to reduce the limit further in order to reduce the possibility of an increase in JetStream traffic impacting the service.
 Another important limit is `max_ha_assets` which would constrain the maximum number of supported R3 or R5 streams and consumers per server:
 
 Example:
