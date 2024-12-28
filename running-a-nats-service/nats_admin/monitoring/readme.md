@@ -62,9 +62,6 @@ N/A
 
 #### Response
 
-<details>
-<summary>Full JSON schema</summary>
-
 ```json
 {
   "server_id": "NACDVKFBUW4C4XA24OOT6L4MDP56MW76J5RJDFXG7HLABSB46DCMWCOW",
@@ -124,8 +121,6 @@ N/A
 }
 ```
 
-</details>
-
 ### Connection Information (`/connz`)
 
 The `/connz` endpoint reports more detailed information on current and recently closed connections. It uses a paging mechanism which defaults to 1024 connections.
@@ -180,8 +175,6 @@ Get closed connection information: [https://demo.nats.io:8222/connz?state=closed
 You can also report detailed subscription information on a per connection basis using subs=1. For example: [https://demo.nats.io:8222/connz?limit=1\&offset=1\&subs=1](https://demo.nats.io:8222/connz?limit=1\&offset=1\&subs=1).
 
 #### Response
-
-<details>
 
 ```json
 {
@@ -257,8 +250,6 @@ You can also report detailed subscription information on a per connection basis 
 }
 ```
 
-</details>
-
 ### Route Information  (`/routez`)
 
 The `/routez` endpoint reports information on active routes for a cluster. Routes are expected to be low, so there is no paging mechanism with this endpoint.
@@ -281,8 +272,6 @@ As noted above, the `routez` endpoint does support the `subs` argument from the 
 * Get route information: [https://demo.nats.io:8222/routez?subs=1](https://demo.nats.io:8222/routez?subs=1)
 
 #### Response
-
-<details>
 
 ```json
 {
@@ -307,8 +296,6 @@ As noted above, the `routez` endpoint does support the `subs` argument from the 
 }
 ```
 
-</details>
-
 ### Gateway Information (`/gatewayz`)
 
 The `/gatewayz` endpoint reports information about gateways used to create a NATS supercluster. Like routes, the number of gateways are expected to be low, so there is no paging mechanism with this endpoint.
@@ -331,8 +318,6 @@ The `/gatewayz` endpoint reports information about gateways used to create a NAT
 * Retrieve Gateway Information: [https://demo.nats.io:8222/gatewayz](https://demo.nats.io:8222/gatewayz)
 
 #### Response
-
-<details>
 
 ```json
 {
@@ -447,8 +432,6 @@ The `/gatewayz` endpoint reports information about gateways used to create a NAT
 }
 ```
 
-</details>
-
 ### Leaf Node Information (`/leafz`)
 
 The `/leafz` endpoint reports detailed information about the leaf node connections.
@@ -472,8 +455,6 @@ As noted above, the `leafz` endpoint does support the `subs` argument from the `
 
 #### Response
 
-<details>
-
 ```json
 {
   "server_id": "NC2FJCRMPBE5RI5OSRN7TKUCWQONCKNXHKJXCJIDVSAZ6727M7MQFVT3",
@@ -495,8 +476,6 @@ As noted above, the `leafz` endpoint does support the `subs` argument from the `
   ]
 }
 ```
-
-</details>
 
 ### Subscription Routing Information (`/subsz`)
 
@@ -522,8 +501,6 @@ The `/subsz` endpoint reports detailed information about the current subscriptio
 
 #### Response
 
-<details>
-
 ```json
 {
   "num_subscriptions": 2,
@@ -536,8 +513,6 @@ The `/subsz` endpoint reports detailed information about the current subscriptio
   "avg_fanout": 0
 }
 ```
-
-</details>
 
 ### Account Information (`/accountz`)
 
@@ -571,8 +546,6 @@ Default behavior:
 ```
 
 Retrieve specific account:
-
-<details>
 
 ```json
 {
@@ -638,8 +611,6 @@ Retrieve specific account:
 }
 ```
 
-</details>
-
 ### Account Statistics (`/accstatz`)
 
 The `/accstatz` endpoint reports per-account statistics such as the number of connections, messages/bytes in/out, etc.
@@ -661,8 +632,6 @@ The `/accstatz` endpoint reports per-account statistics such as the number of co
 * Include ones without any connections (in this case `$SYS`)- <https://demo.nats.io:8222/accstatz?unused=1>
 
 #### Response
-
-<details>
 
 ```json
 {
@@ -705,8 +674,6 @@ The `/accstatz` endpoint reports per-account statistics such as the number of co
 }
 ```
 
-</details>
-
 ### JetStream Information (`/jsz`)
 
 The `/jsz` endpoint reports more detailed information on JetStream. For accounts, it uses a paging mechanism that defaults to 1024 connections.
@@ -741,8 +708,6 @@ Request accounts and control limit and offset: [https://demo.nats.io:8222/jsz?ac
 You can also report detailed consumer information on a per connection basis using consumer=true. For example: [https://demo.nats.io:8222/jsz?consumers=true](https://demo.nats.io:8222/jsz?consumers=true).
 
 #### Response
-
-<details>
 
 ```json
 {
@@ -851,8 +816,6 @@ You can also report detailed consumer information on a per connection basis usin
   ]
 }
 ```
-
-</details>
 
 ### Health (`/healthz`)
 
