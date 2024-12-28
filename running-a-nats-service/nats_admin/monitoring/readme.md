@@ -63,6 +63,7 @@ N/A
 #### Response
 
 <details>
+<summary>Full JSON schema</summary>
 
 ```json
 {
