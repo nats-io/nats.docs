@@ -5,15 +5,15 @@
 To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP server on a dedicated monitoring port. The monitoring server provides several endpoints, providing statistics and other information about the following:
 
 * [General Server Information `(/varz)`](#general-information-varz)
-* [Connections](#connection-information-connz)
-* [Routing](#route-information-routez)
-* [Gateway](#gateway-information-gatewayz)
-* [Leaf Nodes](#leaf-node-information-leafz)
-* [Subscription Routing](#subscription-routing-information-subsz)
-* [Account Information](#account-information-accountz)
-* [Account Stats](#account-statistics-accstatz)
-* [JetStream Information](#jetstream-information-jsz)
-* [Health](#health-healthz)
+* [Connections (`/connz`)](#connection-information-connz)
+* [Routing (`/routez`)](#route-information-routez)
+* [Gateway (`/gatewayz`)](#gateway-information-gatewayz)
+* [Leaf Nodes (`/leafz`)](#leaf-node-information-leafz)
+* [Subscription Routing (`/subsz`)](#subscription-routing-information-subsz)
+* [Account Information (`/accountz`)](#account-information-accountz)
+* [Account Stats (`/accstatz`)](#account-statistics-accstatz)
+* [JetStream Information (`/jsz`)](#jetstream-information-jsz)
+* [Health (`/healthz`)](#health-healthz)
 
 All endpoints return a JSON object.
 
