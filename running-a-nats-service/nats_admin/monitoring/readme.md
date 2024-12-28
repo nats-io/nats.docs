@@ -4,7 +4,7 @@
 
 To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP server on a dedicated monitoring port. The monitoring server provides several endpoints, providing statistics and other information about the following:
 
-* [General Server Information](#general-information-varz)
+* [General Server Information `(/varz)`](#general-information-varz)
 * [Connections](#connection-information-connz)
 * [Routing](#route-information-routez)
 * [Gateway](#gateway-information-gatewayz)
