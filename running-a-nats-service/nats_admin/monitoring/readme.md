@@ -4,15 +4,16 @@
 
 To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP server on a dedicated monitoring port. The monitoring server provides several endpoints, providing statistics and other information about the following:
 
-* [General Server Information](#general-information)
-* [Connections](#connection-information)
-* [Routing](#route-information)
-* [Leaf Nodes](#leaf-node-information)
-* [Subscription Routing](#subscription-routing-information)
-* [Account Information](#account-information)
-* [Account Stats](#account-statistics)
-* [JetStream Information](#jetstream-information)
-* [Health](#health)
+* [General Server Information (`/varz`)](#general-information-varz)
+* [Connections (`/connz`)](#connection-information-connz)
+* [Routing (`/routez`)](#route-information-routez)
+* [Gateway (`/gatewayz`)](#gateway-information-gatewayz)
+* [Leaf Nodes (`/leafz`)](#leaf-node-information-leafz)
+* [Subscription Routing (`/subsz`)](#subscription-routing-information-subsz)
+* [Account Information (`/accountz`)](#account-information-accountz)
+* [Account Stats (`/accstatz`)](#account-statistics-accstatz)
+* [JetStream Information (`/jsz`)](#jetstream-information-jsz)
+* [Health (`/healthz`)](#health-healthz)
 
 All endpoints return a JSON object.
 
@@ -38,11 +39,11 @@ As a command-line option:
 nats-server -m 8222
 ```
 
-Once the server is running using one of the two methods, go to http://localhost:8222 to browse the available endpoints detailed below.
+Once the server is running using one of the two methods, go to <http://localhost:8222> to browse the available endpoints detailed below.
 
 ## Monitoring Endpoints
 
-### General Information
+### General Information `(/varz)`
 
 The `/varz` endpoint returns general information about the server state and configuration.
 
@@ -120,7 +121,7 @@ N/A
 }
 ```
 
-### Connection Information
+### Connection Information (`/connz`)
 
 The `/connz` endpoint reports more detailed information on current and recently closed connections. It uses a paging mechanism which defaults to 1024 connections.
 
@@ -249,7 +250,7 @@ You can also report detailed subscription information on a per connection basis 
 }
 ```
 
-### Route Information
+### Route Information  (`/routez`)
 
 The `/routez` endpoint reports information on active routes for a cluster. Routes are expected to be low, so there is no paging mechanism with this endpoint.
 
@@ -295,7 +296,7 @@ As noted above, the `routez` endpoint does support the `subs` argument from the 
 }
 ```
 
-### Gateway Information
+### Gateway Information (`/gatewayz`)
 
 The `/gatewayz` endpoint reports information about gateways used to create a NATS supercluster. Like routes, the number of gateways are expected to be low, so there is no paging mechanism with this endpoint.
 
@@ -431,7 +432,7 @@ The `/gatewayz` endpoint reports information about gateways used to create a NAT
 }
 ```
 
-### Leaf Node Information
+### Leaf Node Information (`/leafz`)
 
 The `/leafz` endpoint reports detailed information about the leaf node connections.
 
@@ -476,7 +477,7 @@ As noted above, the `leafz` endpoint does support the `subs` argument from the `
 }
 ```
 
-### Subscription Routing Information
+### Subscription Routing Information (`/subsz`)
 
 The `/subsz` endpoint reports detailed information about the current subscriptions and the routing data structure. It is not normally used.
 
@@ -513,7 +514,7 @@ The `/subsz` endpoint reports detailed information about the current subscriptio
 }
 ```
 
-### Account Information
+### Account Information (`/accountz`)
 
 The `/accountz` endpoint reports information on a server's active accounts. The default behavior is to return a list of all accounts known to the server.
 
@@ -610,7 +611,7 @@ Retrieve specific account:
 }
 ```
 
-### Account Statistics
+### Account Statistics (`/accstatz`)
 
 The `/accstatz` endpoint reports per-account statistics such as the number of connections, messages/bytes in/out, etc.
 
@@ -627,8 +628,8 @@ The `/accstatz` endpoint reports per-account statistics such as the number of co
 
 #### Examples
 
-* Accounts with active connections - https://demo.nats.io:8222/accstatz
-* Include ones without any connections (in this case `$SYS`)- https://demo.nats.io:8222/accstatz?unused=1
+* Accounts with active connections - <https://demo.nats.io:8222/accstatz>
+* Include ones without any connections (in this case `$SYS`)- <https://demo.nats.io:8222/accstatz?unused=1>
 
 #### Response
 
@@ -673,7 +674,7 @@ The `/accstatz` endpoint reports per-account statistics such as the number of co
 }
 ```
 
-### JetStream Information
+### JetStream Information (`/jsz`)
 
 The `/jsz` endpoint reports more detailed information on JetStream. For accounts, it uses a paging mechanism that defaults to 1024 connections.
 
@@ -816,7 +817,7 @@ You can also report detailed consumer information on a per connection basis usin
 }
 ```
 
-### Health
+### Health (`/healthz`)
 
 The `/healthz` endpoint returns OK if the server is able to accept connections.
 
@@ -835,8 +836,8 @@ The `/healthz` endpoint returns OK if the server is able to accept connections.
 
 #### Example
 
-* Default - https://demo.nats.io:8222/healthz
-* Expect JetStream - https://demo.nats.io:8222/healthz?js-enabled-only=true
+* Default - <https://demo.nats.io:8222/healthz>
+* Expect JetStream - <https://demo.nats.io:8222/healthz?js-enabled-only=true>
 
 #### Response
 
