@@ -7,70 +7,215 @@ You obtain a ObjectStoreManager object from your JetStream [context](context.md)
 {% tab title="Go" %}
 
 ```go
-// ObjectStoreManager creates, loads and deletes Object Stores
-//
-// This functionality is EXPERIMENTAL and may be changed in later releases.
+// ObjectStoreManager is used to manage object stores. It provides methods
+// for CRUD operations on object stores.
 type ObjectStoreManager interface {
-	// ObjectStore will lookup and bind to an existing object store instance.
-	ObjectStore(bucket string) (ObjectStore, error)
-	// CreateObjectStore will create an object store.
-	CreateObjectStore(cfg *ObjectStoreConfig) (ObjectStore, error)
-	// DeleteObjectStore will delete the underlying stream for the named object.
-	DeleteObjectStore(bucket string) error
+	// ObjectStore will look up and bind to an existing object store
+	// instance.
+	//
+	// If the object store with given name does not exist, ErrBucketNotFound
+	// will be returned.
+	ObjectStore(ctx context.Context, bucket string) (ObjectStore, error)
+
+	// CreateObjectStore will create a new object store with the given
+	// configuration.
+	//
+	// If the object store with given name already exists, ErrBucketExists
+	// will be returned.
+	CreateObjectStore(ctx context.Context, cfg ObjectStoreConfig) (ObjectStore, error)
+
+	// UpdateObjectStore will update an existing object store with the given
+	// configuration.
+	//
+	// If the object store with given name does not exist, ErrBucketNotFound
+	// will be returned.
+	UpdateObjectStore(ctx context.Context, cfg ObjectStoreConfig) (ObjectStore, error)
+
+	// CreateOrUpdateObjectStore will create a new object store with the given
+	// configuration if it does not exist, or update an existing object store
+	// with the given configuration.
+	CreateOrUpdateObjectStore(ctx context.Context, cfg ObjectStoreConfig) (ObjectStore, error)
+
+	// DeleteObjectStore will delete the provided object store.
+	//
+	// If the object store with given name does not exist, ErrBucketNotFound
+	// will be returned.
+	DeleteObjectStore(ctx context.Context, bucket string) error
+
+	// ObjectStoreNames is used to retrieve a list of bucket names.
+	// It returns an ObjectStoreNamesLister exposing a channel to receive
+	// the names of the object stores.
+	//
+	// The lister will always close the channel when done (either all names
+	// have been read or an error occurred) and therefore can be used in a
+	// for-range loop.
+	ObjectStoreNames(ctx context.Context) ObjectStoreNamesLister
+
+	// ObjectStores is used to retrieve a list of bucket statuses.
+	// It returns an ObjectStoresLister exposing a channel to receive
+	// the statuses of the object stores.
+	//
+	// The lister will always close the channel when done (either all statuses
+	// have been read or an error occurred) and therefore can be used in a
+	// for-range loop.
+	ObjectStores(ctx context.Context) ObjectStoresLister
 }
 
-// ObjectStore is a blob store capable of storing large objects efficiently in
-// JetStream streams
+// ObjectStore contains methods to operate on an object store.
+// Using the ObjectStore interface, it is possible to:
 //
-// This functionality is EXPERIMENTAL and may be changed in later releases.
+// - Perform CRUD operations on objects (Get, Put, Delete).
+//   Get and put expose convenience methods to work with
+//   byte slices, strings and files, in addition to streaming [io.Reader]
+// - Get information about an object without retrieving it.
+// - Update the metadata of an object.
+// - Add links to other objects or object stores.
+// - Watch for updates to a store
+// - List information about objects in a store
+// - Retrieve status and configuration of an object store.
 type ObjectStore interface {
-	// Put will place the contents from the reader into a new object.
-	Put(obj *ObjectMeta, reader io.Reader, opts ...ObjectOpt) (*ObjectInfo, error)
-	// Get will pull the named object from the object store.
-	Get(name string, opts ...ObjectOpt) (ObjectResult, error)
+	// Put will place the contents from the reader into a new object. If the
+	// object already exists, it will be overwritten. The object name is
+	// required and is taken from the ObjectMeta.Name field.
+	//
+	// The reader will be read until EOF. ObjectInfo will be returned, containing
+	// the object's metadata, digest and instance information.
+	Put(ctx context.Context, obj ObjectMeta, reader io.Reader) (*ObjectInfo, error)
 
-	// PutBytes is convenience function to put a byte slice into this object store.
-	PutBytes(name string, data []byte, opts ...ObjectOpt) (*ObjectInfo, error)
-	// GetBytes is a convenience function to pull an object from this object store and return it as a byte slice.
-	GetBytes(name string, opts ...ObjectOpt) ([]byte, error)
+	// PutBytes is convenience function to put a byte slice into this object
+	// store under the given name.
+	//
+	// ObjectInfo will be returned, containing the object's metadata, digest
+	// and instance information.
+	PutBytes(ctx context.Context, name string, data []byte) (*ObjectInfo, error)
 
-	// PutBytes is convenience function to put a string into this object store.
-	PutString(name string, data string, opts ...ObjectOpt) (*ObjectInfo, error)
-	// GetString is a convenience function to pull an object from this object store and return it as a string.
-	GetString(name string, opts ...ObjectOpt) (string, error)
+	// PutString is convenience function to put a string into this object
+	// store under the given name.
+	//
+	// ObjectInfo will be returned, containing the object's metadata, digest
+	// and instance information.
+	PutString(ctx context.Context, name string, data string) (*ObjectInfo, error)
 
-	// PutFile is convenience function to put a file into this object store.
-	PutFile(file string, opts ...ObjectOpt) (*ObjectInfo, error)
-	// GetFile is a convenience function to pull an object from this object store and place it in a file.
-	GetFile(name, file string, opts ...ObjectOpt) error
+	// PutFile is convenience function to put a file contents into this
+	// object store. The name of the object will be the path of the file.
+	//
+	// ObjectInfo will be returned, containing the object's metadata, digest
+	// and instance information.
+	PutFile(ctx context.Context, file string) (*ObjectInfo, error)
 
-	// GetInfo will retrieve the current information for the object.
-	GetInfo(name string) (*ObjectInfo, error)
-	// UpdateMeta will update the meta data for the object.
-	UpdateMeta(name string, meta *ObjectMeta) error
+	// Get will pull the named object from the object store. If the object
+	// does not exist, ErrObjectNotFound will be returned.
+	//
+	// The returned ObjectResult will contain the object's metadata and a
+	// reader to read the object's contents. The reader will be closed when
+	// all data has been read or an error occurs.
+	//
+	// A GetObjectShowDeleted option can be supplied to return an object
+	// even if it was marked as deleted.
+	Get(ctx context.Context, name string, opts ...GetObjectOpt) (ObjectResult, error)
 
-	// Delete will delete the named object.
-	Delete(name string) error
+	// GetBytes is a convenience function to pull an object from this object
+	// store and return it as a byte slice.
+	//
+	// If the object does not exist, ErrObjectNotFound will be returned.
+	//
+	// A GetObjectShowDeleted option can be supplied to return an object
+	// even if it was marked as deleted.
+	GetBytes(ctx context.Context, name string, opts ...GetObjectOpt) ([]byte, error)
 
-	// AddLink will add a link to another object into this object store.
-	AddLink(name string, obj *ObjectInfo) (*ObjectInfo, error)
+	// GetString is a convenience function to pull an object from this
+	// object store and return it as a string.
+	//
+	// If the object does not exist, ErrObjectNotFound will be returned.
+	//
+	// A GetObjectShowDeleted option can be supplied to return an object
+	// even if it was marked as deleted.
+	GetString(ctx context.Context, name string, opts ...GetObjectOpt) (string, error)
 
-	// AddBucketLink will add a link to another object store.
-	AddBucketLink(name string, bucket ObjectStore) (*ObjectInfo, error)
+	// GetFile is a convenience function to pull an object from this object
+	// store and place it in a file. If the file already exists, it will be
+	// overwritten, otherwise it will be created.
+	//
+	// If the object does not exist, ErrObjectNotFound will be returned.
+	// A GetObjectShowDeleted option can be supplied to return an object
+	// even if it was marked as deleted.
+	GetFile(ctx context.Context, name, file string, opts ...GetObjectOpt) error
+
+	// GetInfo will retrieve the current information for the object, containing
+	// the object's metadata and instance information.
+	//
+	// If the object does not exist, ErrObjectNotFound will be returned.
+	//
+	// A GetObjectInfoShowDeleted option can be supplied to return an object
+	// even if it was marked as deleted.
+	GetInfo(ctx context.Context, name string, opts ...GetObjectInfoOpt) (*ObjectInfo, error)
+
+	// UpdateMeta will update the metadata for the object.
+	//
+	// If the object does not exist, ErrUpdateMetaDeleted will be returned.
+	// If the new name is different from the old name, and an object with the
+	// new name already exists, ErrObjectAlreadyExists will be returned.
+	UpdateMeta(ctx context.Context, name string, meta ObjectMeta) error
+
+	// Delete will delete the named object from the object store. If the object
+	// does not exist, ErrObjectNotFound will be returned. If the object is
+	// already deleted, no error will be returned.
+	//
+	// All chunks for the object will be purged, and the object will be marked
+	// as deleted.
+	Delete(ctx context.Context, name string) error
+
+	// AddLink will add a link to another object. A link is a reference to
+	// another object. The provided name is the name of the link object.
+	// The provided ObjectInfo is the info of the object being linked to.
+	//
+	// If an object with given name already exists, ErrObjectAlreadyExists
+	// will be returned.
+	// If object being linked to is deleted, ErrNoLinkToDeleted will be
+	// returned.
+	// If the provided object is a link, ErrNoLinkToLink will be returned.
+	// If the provided object is nil or the name is empty, ErrObjectRequired
+	// will be returned.
+	AddLink(ctx context.Context, name string, obj *ObjectInfo) (*ObjectInfo, error)
+
+	// AddBucketLink will add a link to another object store. A link is a
+	// reference to another object store. The provided name is the name of
+	// the link object.
+	// The provided ObjectStore is the object store being linked to.
+	//
+	// If an object with given name already exists, ErrObjectAlreadyExists
+	// will be returned.
+	// If the provided object store is nil ErrBucketRequired will be returned.
+	AddBucketLink(ctx context.Context, name string, bucket ObjectStore) (*ObjectInfo, error)
 
 	// Seal will seal the object store, no further modifications will be allowed.
-	Seal() error
+	Seal(ctx context.Context) error
 
-	// Watch for changes in the underlying store and receive meta information updates.
-	Watch(opts ...WatchOpt) (ObjectWatcher, error)
+	// Watch for any updates to objects in the store. By default, the watcher will send the latest
+	// info for each object and all future updates. Watch will send a nil
+	// entry when it has received all initial values. There are a few ways
+	// to configure the watcher:
+	//
+	// - IncludeHistory will have the watcher send all historical information
+	// for each object.
+	// - IgnoreDeletes will have the watcher not pass any objects with
+	// delete markers.
+	// - UpdatesOnly will have the watcher only pass updates on objects
+	// (without latest info when started).
+	Watch(ctx context.Context, opts ...WatchOpt) (ObjectWatcher, error)
 
-	// List will list all the objects in this store.
-	List(opts ...WatchOpt) ([]*ObjectInfo, error)
+	// List will list information about objects in the store.
+	//
+	// If the object store is empty, ErrNoObjectsFound will be returned.
+	List(ctx context.Context, opts ...ListObjectsOpt) ([]*ObjectInfo, error)
 
-	// Status retrieves run-time status about the backing store of the bucket.
-	Status() (ObjectStoreStatus, error)
+	// Status retrieves the status and configuration of the bucket.
+	Status(ctx context.Context) (ObjectStoreStatus, error)
 }
 ```
+
+See more at [jetstream/object.go](https://github.com/nats-io/nats.go/blob/main/jetstream/object.go)
+
 {% endtab %}
 
 {% tab title="Java" %}
