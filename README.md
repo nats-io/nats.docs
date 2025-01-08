@@ -16,6 +16,9 @@ layout:
 
 ## The official [NATS](https://nats.io/) documentation
 
+
+{% embed url="https://github.com/nats-io/nats.js/blob/main/jetstream/examples/01_consumers.js#L16-L19" %}
+
 NATS is a simple, secure and high performance open source data layer for cloud native applications, IoT messaging, and microservices architectures.
 
 We feel that it should be the backbone of your communication between services. It doesn't matter what language, protocol, or platform you are using; NATS is the best way to connect your services.
