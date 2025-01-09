@@ -164,7 +164,7 @@ The authorization token is simply a JWT signed by your account where you authori
 nsc add export --subject "private.abc.*" --private --account A
 ```
 
-This is sSimilar to when we defined an export, but this time we added the `--private` flag. The other thing to note is that the subject for the request has a wildcard. This enables the account to map specific subjects to specifically authorized accounts.
+This is similar to when we defined an export, but this time we added the `--private` flag. The other thing to note is that the subject for the request has a wildcard. This enables the account to map specific subjects to specifically authorized accounts.
 
 ```shell
 nsc describe account A
