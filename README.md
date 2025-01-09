@@ -16,6 +16,9 @@ layout:
 
 ## The official [NATS](https://nats.io/) documentation
 
+{% embed url="https://github.com/nats-io/nats.go/blob/main/examples/jetstream/js-consume/main.go" %}
+
+{% embed url="https://github.com/nats-io/nats.go/blob/main/README.md?plain=1#L19-L29" %}
 
 {% embed url="https://github.com/nats-io/nats.js/blob/main/jetstream/examples/01_consumers.js#L16-L19" %}
 
