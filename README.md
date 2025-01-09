@@ -19,6 +19,8 @@ layout:
 
 {% embed url="https://github.com/nats-io/nats.js/blob/main/jetstream/examples/01_consumers.js#L16-L19" %}
 
+{% embed url="https://github.com/nats-io/nats.js/blob/main/jetstream/examples/01_consumers.js" %}
+
 {% embed url="https://github.com/GitbookIO/gitbook/blob/main/packages/react-contentkit/package.json" %}
 
 
