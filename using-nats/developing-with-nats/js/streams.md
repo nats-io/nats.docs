@@ -258,7 +258,7 @@ await js.DeleteStreamAsync("example-stream");
 {% endtab %}
 
 {% tab title="C" %}
-````
+```C
 #include "examples.h"
 
 static const char *usage = ""\
@@ -448,14 +448,5 @@ int main(int argc, char **argv)
     return 0;
 }
 ```
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-````
 {% endtab %}
 {% endtabs %}
