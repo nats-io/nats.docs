@@ -10,7 +10,7 @@
     "toggle-chapters",
     "anchors",
     "edit-link",
-    "gitbook-plugin-skip-to-main@git+https://github.com/joeriddles/gitbook-plugin-skip-to-main.git#0.0.1"
+    "gitbook-plugin-skip-to-main@git+https://github.com/joeriddles/gitbook-plugin-skip-to-main.git#0.0.2"
   ],
   "pluginsConfig": {
     "prism": {
