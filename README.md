@@ -22,12 +22,12 @@ We feel that it should be the backbone of your communication between services. I
 
 ### 10,000 foot view
 
-- Publish and subscribe to messages at millions of messages per second. At least once delivery.
+- Publish and subscribe to messages at millions of messages per second. At most once delivery.
 - Supports fan-in/out delivery patterns
 - Request/reply
 - Every major language is supported
 - Persistence via JetStream
-  - at most once delivery or **exactly once** delivery
+  - at least once delivery or **exactly once** delivery
   - work queues
   - stream processing
   - data replication
