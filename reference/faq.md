@@ -51,7 +51,7 @@ As of NATS Server 2.2, NATS [JetStream](../using-nats/jetstream/develop_jetstrea
 
 ### What language is NATS written in?
 
-The NATS server (`nats-server`) is written in Go. There is client support for a wide variety of languages. Please see the Please see the [Developing with NATS](../using-nats/developing-with-nats/developer.md) page for more info.
+The NATS server (`nats-server`) is written in Go. There is client support for a wide variety of languages. Please see the [Developing with NATS](../using-nats/developing-with-nats/developer.md) page for more info.
 
 ### Who maintains NATS?
 
