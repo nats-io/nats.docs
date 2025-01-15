@@ -54,6 +54,14 @@ mappings: {
 	orders.* orders.central.{{wildcard(1)}}
 }
 ```
+OR
+```
+server_name: "hub"
+cluster: { name: "hub" }
+mappings: {
+	orders.> orders.central.>}
+}
+```
 
 On a leaf cluster    
 ```
@@ -117,7 +125,7 @@ Egress Count:
 
 
 
-## Simple mapping
+## Simple mappings
 
 The example of `foo:bar` is straightforward. All messages the server receives on subject `foo` are remapped and can be received by clients subscribed to `bar`.
 
@@ -148,6 +156,15 @@ mappings: {
 }
 ```
 
+Mapping a full wildcard
+```
+server_name: "hub"
+cluster: { name: "hub" }
+mappings: {
+    orders.>  orders.central.> 
+}
+```
+
 With accounts 
 
 ```
@@ -164,9 +181,20 @@ accounts {
 }
 ```
 
+## Mapping a full wildcard '>'
+A full wildcard token can be used ONCE in source expression and must be present on the destination expression as well exactly once.
+
+Example: Prefixing a subject:
+```
+nats server mapping ">"  "baz.>" bar.a.b
+> baz.bar.b.a
+```
+
+
+
 ## Subject token reordering
 
-Wildcard tokens may be referenced by position number in the destination mapping using (only for versions 2.8.0 and above of `nats-server`) `{{wildcard(position)}}`. E.g. `{{wildcard(1)}}` references the first wildcard token, `{{wildcard(2)}}` references the second wildcard token, etc..
+Wildcard tokens may be referenced by position number in the destination mapping using (only for versions 2.8.0 and above of `nats-server`). Syntax: `{{wildcard(position)}}`. E.g. `{{wildcard(1)}}` references the first wildcard token, `{{wildcard(2)}}` references the second wildcard token, etc..
 
 Example: with this transform `"bar.*.*" : "baz.{{wildcard(2)}}.{{wildcard(1)}}"`, messages that were originally published to `bar.a.b` are remapped in the server to `baz.b.a`. Messages arriving at the server on `bar.one.two` would be mapped to `baz.two.one`, and so forth. Try it for yourself using `nats server mapping`.
 
