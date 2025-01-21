@@ -4,11 +4,11 @@ The NATS.io team is continually working to bring you features that enhance your 
 Release notes for the latest patch releases are available on [GitHub Releases](https://github.com/nats-io/nats-server/releases)
 
 ## Roadmap for future releases 
-See https://nats.io/about/#roadmap
+See [https://nats.io/about/#roadmap](https://nats.io/about/#roadmap)
 
 ## Server release v2.11.0 (coming early 2025)
 
-See https://nats.io/about/#211-release
+See [https://nats.io/about/#211-release](https://nats.io/about/#211-release)
 
 ## Server release v2.10.0
 
