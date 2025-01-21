@@ -1,6 +1,14 @@
 # What's New!
 
-The NATS.io team is always working to bring you features to improve your NATS experience. Below you will find feature summaries for new NATS implementations. Check back often for release highlights and updates.
+The NATS.io team is continually working to bring you features that enhance your NATS experience. Below, you will find summaries of new NATS implementations.
+Release notes for the latest patch releases are available on [GitHub Releases](https://github.com/nats-io/nats-server/releases)
+
+## Roadmap for future releases 
+See https://nats.io/about/#roadmap
+
+## Server release v2.11.0 (coming early 2025)
+
+See https://nats.io/about/#211-release
 
 ## Server release v2.10.0
 
