@@ -1,6 +1,6 @@
 # What's New!
 
-The NATS.io team is continually working to bring you features that enhance your NATS experience. Below, you will find summaries of new NATS implementations.
+The NATS.io team is continually working to bring you features that enhance your NATS experience. Below, you will find summaries of new NATS implementations.  
 Release notes for the latest patch releases are available on [GitHub Releases](https://github.com/nats-io/nats-server/releases)
 
 ## Roadmap for future releases 
