@@ -10,6 +10,12 @@ The `-js` option is passed to the server to enable JetStream. The `-p` option fo
 docker run -p 4222:4222 nats -js
 ```
 
+To persist JetStream data to a volume, you can use the `-v` option in combination with `-sd`:
+
+```shell
+docker run -p 4222:4222 -v nats:/data nats -js -sd /data
+```
+
 With the server running, use `nats bench` to create a stream and publish some messages to it.
 
 ```shell
