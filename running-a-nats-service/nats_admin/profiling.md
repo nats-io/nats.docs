@@ -47,7 +47,7 @@ prof_port = 65432
 
 Once the profiling port has been enabled, you can download profiles as per the following sections. These profiles can be inspected using [`go tool pprof`](https://pkg.go.dev/net/http/pprof).  
 
-To see all available profiles, open http://localhost:65432/debug/pprof/
+To see all available profiles, open [http://localhost:65432/debug/pprof/](http://localhost:65432/debug/pprof/)
 
 #### Memory profile
 
