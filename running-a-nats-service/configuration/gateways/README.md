@@ -66,7 +66,7 @@ Local interest permitting, the receiving gateway node sends the messages directl
 
 ### Interest-only Mode
 
-Gateway _A_ sends messages only for subjects that _B_ has explicitly expressed interest in. As subscriptions come and go on _B_, _B_ will update its subject interest with _A_.
+Gateway _A_ sends messages only for subjects that gateway _B_ has explicitly expressed interest in. As subscriptions come and go on _B_, _B_ will update its subject interest with _A_.
 
 ### Queue Subscriptions
 
