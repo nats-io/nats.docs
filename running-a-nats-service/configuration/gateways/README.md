@@ -12,7 +12,7 @@ Gateway configuration is similar to clustering:
 Unlike clusters, gateways:
 
 * have names, specifying the cluster they are in
-* don't form a full mesh between gateway nodes, but form a full mesh between cluster instead
+* don't form a full mesh between gateway nodes, but form a full mesh between clusters instead
 * are bound by uni-directional connections
 * don't gossip gateway nodes to clients
 
@@ -21,7 +21,8 @@ Gateways exist to:
 * reduce the number of connections required between servers 
 * optimize the interest graph propagation
 
-If gateways are to be used in a cluster, **all** servers of this cluster need to have a gateway configuration with the **same name**. Furthermore, every gateway node needs to be able to **connect to any** other gateway node and vice versa. Everything else is considered a misconfiguration.
+If gateways are to be used in a cluster, **all** servers of this cluster need to have a gateway configuration with the **same name**.  
+Furthermore, every gateway node needs to be able to **connect to any** other gateway node and vice versa. Everything else is considered a misconfiguration.
 
 ## Gateway Connections
 
@@ -56,23 +57,16 @@ A cluster section is not needed for gateways, they work with single server as we
 
 ## Interest Propagation
 
-Messages from clients directly connected to a gateway node will be sent along outgoing gateway connections according to the following three interest propagation mechanisms:
+Messages from clients directly connected to a gateway node will be sent along outgoing gateway connections according to the following two interest propagation mechanisms:
 
-* Optimistic Mode
 * Interest-only Mode
 * Queue Subscriptions
 
-Local interest permitting, the receiving gateway node sends the messages directly to its subscribing clients as well as server within the cluster.
-
-### Optimistic Mode
-
-When a publisher in _A_ publishes "foo", the _A_ gateway will check if cluster _B_ has registered _no_ interest in "foo". If not, it forwards "foo" to _B_. If upon receiving "foo", _B_ has no subscribers on "foo", _B_ will send a gateway protocol message to _A_ expressing that it has no interest on "foo", preventing future messages on "foo" from being forwarded.
-
-Should a subscriber on _B_ create a subscription to "foo", _B_ knowing that it had previously rejected interest on _foo_, will send a gateway protocol message to cancel its previous _no interest_ on "foo" in _A_.
+Local interest permitting, the receiving gateway node sends the messages directly to its subscribing clients as well as the server within the cluster.
 
 ### Interest-only Mode
 
-When a gateway on _A_ sends many messages on various subjects for which _B_ has no interest. _B_ sends a gateway protocol message for _A_ to stop sending optimistically, and instead send if there's known interest in the subject. As subscriptions come and go on _B_, _B_ will update its subject interest with _A_.
+Gateway _A_ sends messages only for subjects that gateway _B_ has explicitly expressed interest in. As subscriptions come and go on _B_, _B_ will update its subject interest with _A_.
 
 ### Queue Subscriptions
 
