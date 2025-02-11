@@ -13,7 +13,7 @@ Unlike [cluster](../clustering/) or [gateway](../gateways/) nodes, leaf nodes do
 
 If a leaf node connects to a cluster, it is recommended to configure it with knowledge of **all** _seed servers_ and have **each** _seed server_ accept connections from leaf nodes. Should the remote cluster's configuration change, the discovery protocol will gossip peers capable of accepting leaf connections. A leaf node can have multiple remotes, each connecting to a different cluster. Each URL in a remote needs to point to the same cluster. If one node in a cluster is configured as leaf node, **all** nodes need to. Likewise, if one server in a cluster accepts leaf node connections, **all** servers need to.
 
-> Leaf Nodes are an important component as a way to bridge traffic between local NATS servers you control and servers that are managed by a third-party. [Synadia's NGS](https://synadia.com/ngs) allows accounts to use leaf nodes, but gain accessibility to the global network to inexpensively connect geographically distributed servers or small clusters.
+> Leaf Nodes are an important component as a way to bridge traffic between local NATS servers you control and servers that are managed by a third-party. [Synadia's NGS](https://www.synadia.com/cloud) allows accounts to use leaf nodes, but gain accessibility to the global network to inexpensively connect geographically distributed servers or small clusters.
 
 [LeafNode Configuration Options](leafnode_conf.md)
 
@@ -106,7 +106,7 @@ Received  [_INBOX.Ua82OJamRdWof5FBoiKaRm.gZhJP6RU] : '42'
 
 ## Leaf Node Example Using a Remote Global Service
 
-In this example, we connect a leaf node to Synadia's [NGS](https://www.synadia.com/ngs). Leaf nodes are supported on free developer and paid accounts. To use NGS, ensure that you've signed up and have an account loaded on your local system. It takes less than 30 seconds to grab yourself a free account to follow along if you don't have one already!
+In this example, we connect a leaf node to Synadia's [NGS](https://www.synadia.com/cloud). Leaf nodes are supported on free developer and paid accounts. To use NGS, ensure that you've signed up and have an account loaded on your local system. It takes less than 30 seconds to grab yourself a free account to follow along if you don't have one already!
 
 The `nsc` tool can operate with many accounts and operators, so it's essential to make sure you're working with the right operator and account. You can set the account using the `nsc` tool like below. The `DELETE_ME` account is used as an example, which is registered with NGS as a free account.
 

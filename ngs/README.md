@@ -2,7 +2,7 @@
 
 So now that you are using NATS in your application, you are going to need a NATS infrastructure for the instances of your applications to use.
 
-The simplest thing to do is actually not to even bother with setting up, running and monitoring your own NATS service but rather to simply use [NGS](https://synadia.com/ngs/pricing), [Synadia](https://synadia.com)'s NATS as a Service offering.
+The simplest thing to do is actually not to even bother with setting up, running and monitoring your own NATS service but rather to simply use [NGS](https://www.synadia.com/cloud?utm_source=nats_docs&utm_medium=nats), [Synadia](https://www.synadia.com?utm_source=nats_docs&utm_medium=nats)'s NATS as a Service offering.
 
 One way to explain what NGS is, is to draw an analogy to something everyone is familiar with: the Internet. NGS is the 'Internet' of NATS, the "InterNATS" if you want, and Synadia is an 'InterNATS Service Provider', meaning that NGS is a globally distributed super-cluster of nats server clusters that offers NATS connectivity and JetStream support.
 
@@ -23,7 +23,7 @@ One way to explain what NGS is, is to draw an analogy to something everyone is f
 
 You can start by creating a developer account which is *free* and doesn't even require a credit card:
 
-* [Install NSC and get an NGS account](https://synadia.com/ngs/signup)
+* [Install NSC and get an NGS account](https://www.synadia.com/cloud)
 
 You can then follow the instructions to obtain your NGS account, and create the first of any number of users and user authorizations you want and distribute those user credentials to use with your applications.
 
