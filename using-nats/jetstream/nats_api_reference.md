@@ -86,8 +86,33 @@ The API uses JSON for inputs and outputs, all the responses are typed using a `t
 | `$JS.API.CONSUMER.NAMES.<stream>`            | `api.JSApiConsumerNamesT` | Paged list of known consumer names for a given stream | `api.JSApiConsumerNamesRequest` | `api.JSApiConsumerNamesResponse` |
 | `$JS.API.CONSUMER.INFO.<stream>.<consumer>`           | `api.JSApiConsumerInfoT` | Information about a specific consumer by name | empty payload | `api.JSApiConsumerInfoResponse` |
 | `$JS.API.CONSUMER.DELETE.<stream>.<consumer>` | `api.JSApiConsumerDeleteT` | Deletes a Consumer                                                             | empty payload | `api.JSApiConsumerDeleteResponse` |
-| `$JS.FC.<stream>.>` | N/A | Consumer to subscriber flow control replies for `PUSH` consumer. Also used for sourcing and mirroring, which are implemented as `PUSH` consumers . If this subject is not forwarded, the consumer my stall under high load.| empty payload |  reply subject |
+| `$JS.FC.<stream>.>` | N/A | Consumer to subscriber flow control replies for `PUSH` consumer. Also used for sourcing and mirroring, which are implemented as `PUSH` consumers . If this subject is not forwarded, the consumer my stall under high load.| empty payload |  N/A |
+| `$JSC.R.<uid>` | N/A | Reply subject used by source and mirror consumer create request | Consumer info |  N/A |
+| `$JS.S.<uid>` | N/A | Default delivery subject for sourced streams. Can be overwritten by the `deliver` attribute in the source configuration. | Message data |  N/A |
+| `$JS.M.<uid>` | N/A | Default delivery subject for mirroed streams. Can be overwritten by the `deliver` attribute in the source configuration. | Message data |  N/A |
 | `$JS.ACK.<stream>.>` | N/A | Acknowledgments for `PULL` consumers. When this subject is not forwarded, `PULL` consumers in acknowledgment modes `all` or `explicit` will fail. | empty payload |  reply subject |
+
+
+### Stream Source and Mirror
+
+Sourcing and mirroring streams uses 2 inbound and 2 outbound subject to establish and control the data flow. When setting permissions or creating export/import agreements all 4 subjects may need to be considered.
+
+ Subject                               | Direction | Description                                                                     | Type | 
+|:--------------------------------------| :--- |:--------------------------------------------------------------------------------| :--- | :--- |
+| `$JS.API.CONSUMER.DURABLE.CREATE.<stream>.<consumer>`           | outbound | Create an ephemeral consumer to deliver pending messages. Note that this subject may be prefixed with a jetstream domain  `$JS.<domain>.API.CONSUMER.DURABLE.CREATE.<stream>.<consumer>`                                 | service request with `$JSC.R.<uid>` as reply subject |
+|`$JS.FC.<stream>.>`  | outbound | Flow control messages. Will on slow routes or when the target cannot keep up with the message flow.   | service request with `$JSC.R.<uid>` as reply subject |
+|`$JSC.R.<uid>`           | inbound | Reply to consumer creation request  | reply message to service request |
+|`$JS.S.<uid>` (source) OR `$JS.M.<uid>` (mirror) OR `<custom deliver subject>`          | inbound | Message data and heartbeats  | message stream|
+
+#### Heartbeats and Retries
+The stream from which data is sourced/mirrored MAY NOT be reachable. It may not have been created yet OR the route may be down. This does not prevent the source/mirror agreement from being created.
+* The target stream will try to create a consumer every 10s to 60s. (This value may change in the future or may be configurable). Note that delivery may therefore only resume are a short delay.
+* For active consumers heartbeats are send at a rate of 1/s.
+
+
+#### Constraints and Limitation
+* Do not delete and recreate the origin stream! Please flush/purge the stream instead. The target stream remember the last sequence id to be delivered. A delete will reset the sequence ID.
+* `$JS.FC.<stream>.>` - The flow control subject is NOT prefixed with a Jetstream domain. This create a limitation where identically named stream in different domains cannot be reliably sourced/mirrored into the same account. Please create unique stream names to avoid this limitation.
 
 ### ACLs
 
