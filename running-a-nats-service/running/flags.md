@@ -62,7 +62,7 @@ The following flags are available on the server to configure logging:
 | `-DV`                   | Enable both debug and protocol trace messages                 |
 | `-DVV`                  | Debug and verbose trace (traces system account as well)       |
 | `--max_traced_msg_len`  | Maximum printable length for traced messages. 0 for unlimited |
-| `--max_traced_msg_len   | Maximum printable length for traced messages (default: unlimited) |
+| `--max_traced_msg_len`   | Maximum printable length for traced messages (default: unlimited) |
 
 You can read more about [logging configuration here](../configuration/logging.md).
 
