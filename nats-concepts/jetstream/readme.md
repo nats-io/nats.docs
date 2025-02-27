@@ -108,6 +108,8 @@ JetStream uses a NATS optimized RAFT distributed quorum algorithm to distribute 
 
 For writes (publications to a stream), the formal consistency model of NATS JetStream is [Linearizable](https://jepsen.io/consistency/models/linearizable). On the read side (listening to or replaying messages from streams) the formal models don't really apply because JetStream does not support atomic batching of multiple operations together (so the only kind of 'transaction' is the persisting, replicating and voting of a single operation on the stream) but in essence, JetStream is [serializable](https://jepsen.io/consistency/models/serializable) because messages are added to a stream in one global order (which you can control using compare and publish).
 
+Do note, while we do guarantee immediate consistency when it comes to [monotonic writes](https://jepsen.io/consistency/models/monotonic-writes) and [monotonic reads](https://jepsen.io/consistency/models/monotonic-reads). We don't guarantee [read your writes](https://jepsen.io/consistency/models/read-your-writes) at this time, as reads through _direct get_ requests may be served by followers or mirrors. More consistent results can be achieved by sending get requests to the stream leader.
+
 JetStream can also provide encryption at rest of the messages being stored.
 
 In JetStream the configuration for storing messages is defined separately from how they are consumed. Storage is defined in a [_Stream_](streams.md) and consuming messages is defined by multiple [_Consumers_](consumers.md).

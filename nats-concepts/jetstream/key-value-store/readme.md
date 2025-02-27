@@ -4,6 +4,8 @@ JetStream, the persistence layer of NATS, not only allows for the higher qualiti
 
 One such feature is the Key/Value store functionality, which allows client applications to create `buckets` and use them as immediately (as opposed to eventually) consistent, persistent [associative arrays](https://en.wikipedia.org/wiki/Associative_array) (or maps).
 
+Do note, while we do guarantee immediate consistency when it comes to [monotonic writes](https://jepsen.io/consistency/models/monotonic-writes) and [monotonic reads](https://jepsen.io/consistency/models/monotonic-reads). We don't guarantee [read your writes](https://jepsen.io/consistency/models/read-your-writes) at this time, as reads through _direct get_ requests may be served by followers or mirrors. More consistent results can be achieved by sending get requests to the underlying stream leader of the Key/Value store.
+
 * [Walkthrough](kv_walkthrough.md)
 * [Details](../../../using-nats/developing-with-nats/js/kv.md)
 
