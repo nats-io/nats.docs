@@ -395,6 +395,7 @@ The Configuration options here refer to [JWT](/running-a-nats-service/configurat
 | `disable_sublist_cache`  | If `true` disable subscription caches for all accounts. This is saves resources in situations where different subjects are used all the time.                                                                                                                                    | `false`, cache enabled |
 | `lame_duck_duration`     | In lame duck mode the server rejects new clients and **slowly** closes client connections. After this duration is over the server shuts down. This value cannot be set lower than 30 seconds. Start lame duck mode with: [`nats-server --signal ldm`](../nats_admin/signals.md). | `"2m"`                 |
 | `lame_duck_grace_period` | This is the duration the server waits, after entering lame duck mode, before starting to close client connections                                                                                                                                                                | `"10s"`                |
+| `no_fast_producer_stall` | if `true`, the server will no longer stall the producer when attempting to deliver a message to a slow consumer but instead skip this consumer(by dropping the message for this consumer) and move to the next. | `false` the server will stall the fast producer |
 
 ### Cluster Configuration, Monitoring and Tracing
 
