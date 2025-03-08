@@ -16,7 +16,7 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 | **gRPC** | 13 client languages. |
 | **Kafka** | 18 client types supported across the community and by Confluent. Kafka servers can run on platforms supporting java; very wide support. |
 | **Pulsar** | 7 client languages, 5 third-party clients - tested on macOS and Linux. |
-| **Rabbit** | At least 10 client platforms that are maintainer-supported with over 50 community supported client types. Servers are supported on the following platforms: Linux Windows, NT. |
+| **Rabbit** | At least 10 client platforms that are maintainer-supported with over 50 community supported client types. Servers are supported on the following platforms: Linux, Windows NT. |
 
 ## Built-in Patterns
 
@@ -130,7 +130,6 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 
 ## References
 
-1.  [https://docs.cloudera.com/HDPDocuments/HDF3/HDF-3.1.0/bk_planning-your-deployment/content/ch_hardware-sizing.html](https://docs.cloudera.com/HDPDocuments/HDF3/HDF-3.1.0/bk_planning-your-deployment/content/ch_hardware-sizing.html)
+1. [https://docs.cloudera.com/HDPDocuments/HDF3/HDF-3.1.0/bk_planning-your-deployment/content/ch_hardware-sizing.html](https://docs.cloudera.com/HDPDocuments/HDF3/HDF-3.1.0/bk_planning-your-deployment/content/ch_hardware-sizing.html)
 2. [https://pulsar.apache.org/docs/v1.21.0-incubating/deployment/cluster/](https://pulsar.apache.org/docs/v1.21.0-incubating/deployment/cluster/)
 3. [https://github.com/grpc-ecosystem](https://github.com/grpc-ecosystem)
-
