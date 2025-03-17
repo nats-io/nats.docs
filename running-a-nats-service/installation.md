@@ -67,6 +67,8 @@ This table follows the same pattern, with published messages received by a strea
 
 For **production deployment** of JetStream, we recommend starting with **at least 4 CPU cores and 8 GiB of memory** to reduce the risk of resource-related issues.
 
+For recommendations on configuring limits in Kubernetes, see: https://github.com/nats-io/k8s/tree/main/helm/charts/nats#nats-container-resources
+
 ## Getting the binary from the command line
 
 The simplest way to just get the binary of a release of `nats-server` for your machine is to use the following shell command.
