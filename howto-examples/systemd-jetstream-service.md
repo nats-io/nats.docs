@@ -57,6 +57,6 @@ All it does is specify a folder where NATS should store data (jetstream data wil
 
 5. Run `sudo systemctl enable nats-jetstream-queue.service && sudo systemctl start nats-jetstream-queue.service`. Enabling the service will cause it to automatically start on boot, and starting the service will run the service without needing to reboot. 
 
-6. Run `sudo systemctl status nats-jetstream-queue.service` and see if everything looks good/if the logs show any errors 
+6. Run `sudo systemctl status nats-jetstream-queue.service` and see if everything looks good/if the logs show any errors. 
 
 
