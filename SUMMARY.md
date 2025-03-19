@@ -5,6 +5,7 @@
 ## Release Notes
 
 * [What's New!](release\_notes/whats\_new.md)
+  * [NATS 2.11](release\_notes/whats\_new\_211.md)
   * [NATS 2.10](release\_notes/whats\_new\_210.md)
   * [NATS 2.2](release\_notes/whats\_new\_22.md)
   * [NATS 2.0](release\_notes/whats\_new\_20.md)
