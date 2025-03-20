@@ -95,11 +95,16 @@ The API uses JSON for inputs and outputs, all the responses are typed using a `t
 
 ### Stream Source and Mirror
 
-Sourcing and mirroring streams uses 2 inbound and 2 outbound subject to establish and control the data flow. When setting permissions or creating export/import agreements all 4 subjects may need to be considered.
+Sourcing and mirroring streams uses 3 inbound and 2 outbound subject to establish and control the data flow. When setting permissions or creating export/import agreements all 5 subjects may need to be considered.
 
- Subject                               | Direction | Description                                                                     | Type | 
+Notes:
+* There are two variants to the consumer create subject dpending on the number of filters.
+* Is some setup a domain prefix may be present e.g. `$JS.<domain>.API.CONSUMER.CREATE.<stream>.>`
+
+
+ Subject                               | Direction | Description                                                                     | Reply | 
 |:--------------------------------------| :--- |:--------------------------------------------------------------------------------| :--- | :--- |
-| `$JS.API.CONSUMER.DURABLE.CREATE.<stream>.<consumer>`           | outbound | Create an ephemeral consumer to deliver pending messages. Note that this subject may be prefixed with a jetstream domain  `$JS.<domain>.API.CONSUMER.DURABLE.CREATE.<stream>.<consumer>`                                 | service request with `$JSC.R.<uid>` as reply subject |
+| `$JS.API.CONSUMER.CREATE.<stream>.>`  and/or  `$JS.API.CONSUMER.CREATE.<stream>`     | outbound | Create an ephemeral consumer to deliver pending messages. Note that this subject may be prefixed with a jetstream domain  `$JS.<domain>.API.CONSUMER.CREATE.<stream>.<consumer>`. <br>The consumer create comes in 2 flavors depending on the number of filter subjects:<BR>* `$JS.API.CONSUMER.CREATE.<stream>` - When there are no filter or mutliple filters. * `$JS.API.CONSUMER.CREATE.<stream>.<consumer>.<filter subject>` - When there is exactly one filter subject                              | service request with `$JSC.R.<uid>` as reply subject |
 |`$JS.FC.<stream>.>`  | outbound | Flow control messages. Will on slow routes or when the target cannot keep up with the message flow.   | service request with `$JSC.R.<uid>` as reply subject |
 |`$JSC.R.<uid>`           | inbound | Reply to consumer creation request  | reply message to service request |
 |`$JS.S.<uid>` (source) OR `$JS.M.<uid>` (mirror) OR `<custom deliver subject>`          | inbound | Message data and heartbeats  | message stream|
