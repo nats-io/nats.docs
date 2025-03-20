@@ -6,8 +6,8 @@ Subject mapping and transforms is a powerful feature of the NATS server. Transfo
 Mapping and transforms is an advanced topic. Before proceeding, please ensure you understand NATS concepts like clusters, accounts and streams.
 {% endhint %}
 
-**Transforms can be applied (for details see below):**
-* [On the server level](#simple-mapping) (default $G account). Applying to all matching messages entering the cluster or leaf node. Non-matching subjects will be unchanged.
+**Transforms can be defined (for details see below):**
+* On the root of the config file (applying to the default $G account). Applying to all matching messages entering through client or leaf node connection into this account. Non-matching subjects will be unchanged.
 * On the individual account level following the same rules as above.
 * On subjects, which are imported into an account.
 * In [JetStream](#subject-mapping-and-transforms-in-streams) context:
@@ -16,7 +16,7 @@ Mapping and transforms is an advanced topic. Before proceeding, please ensure yo
     * On messages copied to a stream via a source or mirror. For this purpose, the transform acts as a filter.
 
 **Transforms may be used for:**
-* Translating between namespaces. E.g. between accounts, but also when clusters and leaf nodes implement different semantics for the same subject. 
+* Translating between namespaces. E.g. when mapping between accounts, but also when clusters and leaf nodes implement different semantics for the same subject. 
 * Suppressing subjects. E.g. Temporarily for testing.
 * For backward compatibility after changing the subject naming hierarchy.
 * Merging subjects together.
@@ -46,7 +46,7 @@ mappings: {
     3. Imported into a stream and stored under a transformed name
     4. Republished from the stream to Core NATS under a final target subject
     
-On a central cluster  
+On a central cluster:
 ```
 server_name: "hub"
 cluster: { name: "hub" }
@@ -146,7 +146,7 @@ nats server mapping foo bar
 > Error: no matching transforms available
 ```
 
-Example server config: 
+Example server config. Note that the mappings below apply only to the default $G account. 
 ```
 server_name: "hub"
 cluster: { name: "hub" }
@@ -165,7 +165,7 @@ mappings: {
 }
 ```
 
-With accounts 
+With accounts. While this mapping applies to a specific account.
 
 ```
 server_name: "hub"
