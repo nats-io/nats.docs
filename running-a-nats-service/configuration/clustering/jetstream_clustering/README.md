@@ -35,7 +35,7 @@ In order to ensure data consistency across complete restarts, a quorum of server
 
 ### Cluster Size
 
-Generally, we recommend 3 or 5 JetStream enabled servers in a NATS cluster. This balances scalability with a tolerance for failure. For example, if 5 servers are JetStream enabled You would want two servers is one “zone”, two servers in another, and the remaining server in a third. This means you can lose any one “zone” at any time and continue operating.
+Generally, we recommend 3 or 5 JetStream enabled servers in a NATS cluster. This balances scalability with a tolerance for failure. For example, if 5 servers are JetStream enabled you would want two servers in one “zone”, two servers in another, and the remaining server in a third. This means you can lose any one “zone” at any time and continue operating.
 
 ### Mixing JetStream enabled servers with standard NATS servers
 
