@@ -41,11 +41,11 @@ Received  [_INBOX.fwqdpoWtG8XFXHKfqhQDVA.vBecyWmF] : '{
 
 Here the responses include a `type` which can be used to find the JSON Schema for each response.
 
-Non admin APIs - like those for adding a message to the stream will respond with `-ERR` or `+OK` with an optional reason after.
+Non-admin APIs - like those for adding a message to the stream will respond with `-ERR` or `+OK` with an optional reason after.
 
 ## Admin API
 
-All the admin actions the `nats` CLI can do falls in the sections below. The API structure are kept in the `api` package in the `jsm.go` repository.
+All of the admin actions the `nats` CLI can do fall in the sections below. The API structure is kept in the `api` package in the `jsm.go` repository.
 
 Subjects that end in `T` like `api.JSApiConsumerCreateT` are formats and would need to have the Stream Name and in some cases also the Consumer name interpolated into them. In this case `t := fmt.Sprintf(api.JSApiConsumerCreateT, streamName)` to get the final subject.
 
@@ -86,12 +86,42 @@ The API uses JSON for inputs and outputs, all the responses are typed using a `t
 | `$JS.API.CONSUMER.NAMES.<stream>`            | `api.JSApiConsumerNamesT` | Paged list of known consumer names for a given stream | `api.JSApiConsumerNamesRequest` | `api.JSApiConsumerNamesResponse` |
 | `$JS.API.CONSUMER.INFO.<stream>.<consumer>`           | `api.JSApiConsumerInfoT` | Information about a specific consumer by name | empty payload | `api.JSApiConsumerInfoResponse` |
 | `$JS.API.CONSUMER.DELETE.<stream>.<consumer>` | `api.JSApiConsumerDeleteT` | Deletes a Consumer                                                             | empty payload | `api.JSApiConsumerDeleteResponse` |
-| `$JS.FC.<stream>.>` | N/A | Consumer to subscriber flow control replies for `PUSH` consumer. Also used for sourcing and mirroring, which are implemented as `PUSH` consumers . If this subject is not forwarded, the consumer my stall under high load.| empty payload |  reply subject |
+| `$JS.FC.<stream>.>` | N/A | Consumer to subscriber flow control replies for `PUSH` consumer. Also used for sourcing and mirroring, which are implemented as `PUSH` consumers. If this subject is not forwarded, the consumer my stall under high load.| empty payload |  N/A |
+| `$JSC.R.<uid>` | N/A | Reply subject used by source and mirror consumer create request | Consumer info |  N/A |
+| `$JS.S.<uid>` | N/A | Default delivery subject for sourced streams. Can be overwritten by the `deliver` attribute in the source configuration. | Message data |  N/A |
+| `$JS.M.<uid>` | N/A | Default delivery subject for mirroed streams. Can be overwritten by the `deliver` attribute in the source configuration. | Message data |  N/A |
 | `$JS.ACK.<stream>.>` | N/A | Acknowledgments for `PULL` consumers. When this subject is not forwarded, `PULL` consumers in acknowledgment modes `all` or `explicit` will fail. | empty payload |  reply subject |
+
+
+### Stream Source and Mirror
+
+Sourcing and mirroring streams use 3 inbound and 2 outbound subjects to establish and control the data flow. When setting permissions or creating export/import agreements all 5 subjects may need to be considered.
+
+Notes:
+* There are two variants to the consumer-create subject depending on the number of filters.
+* Is some setup a domain prefix may be present e.g. `$JS.<domain>.API.CONSUMER.CREATE.<stream>.>`
+
+
+| Subject                               | Direction | Description   | Reply | 
+|:--------------------------------------| :--- |:--------------------------------------------------------------------------------| :--- | 
+| `$JS.API.CONSUMER.CREATE.<stream>.>`  and/or  `$JS.API.CONSUMER.CREATE.<stream>`     | outbound | Create an ephemeral consumer to deliver pending messages. Note that this subject may be prefixed with a JetStream domain  `$JS.<domain>.API.CONSUMER.CREATE.<stream>.<consumer>`. <br>The consumer create comes in 2 flavors depending on the number of filter subjects:<br>* `$JS.API.CONSUMER.CREATE.<stream>` - When there is no filter or there are multiple filters.<br> * `$JS.API.CONSUMER.CREATE.<stream>.<consumer>.<filter subject>` - When there is exactly one filter subject                              | service request with `$JSC.R.<uid>` as reply subject |
+|`$JS.FC.<stream>.>`  | outbound | Flow control messages. Will on slow routes or when the target cannot keep up with the message flow.   | service request with `$JSC.R.<uid>` as reply subject |
+|`$JSC.R.<uid>`           | inbound | Reply to consumer creation request  | reply message to service request |
+|`$JS.S.<uid>` (source) OR `$JS.M.<uid>` (mirror) OR `<custom deliver subject>`          | inbound | Message data and heartbeats  | message stream|
+
+#### Heartbeats and Retries
+The stream from which data is sourced/mirrored MAY NOT be reachable. It may not have been created yet OR the route may be down. This does not prevent the source/mirror agreement from being created.
+* The target stream will try to create a consumer every 10s to 60s. (This value may change in the future or may be configurable). Note that delivery may therefore only resume after a short delay.
+* For active consumers heartbeats are sent at a rate of 1/s.
+
+
+#### Constraints and Limitations
+* Do not delete and recreate the original stream! Please flush/purge the stream instead. The target stream remembers the last sequence id to be delivered. A delete will reset the sequence ID.
+* `$JS.FC.<stream>.>` - The flow control subject is NOT prefixed with a JetStream domain. This creates a limitation where identically named streams in different domains cannot be reliably sourced/mirrored into the same account. Please create unique stream names to avoid this limitation.
 
 ### ACLs
 
-When using the subjects based ACL please note the patterns in the subjects grouped by purpose below.
+When using the subjects-based ACL, please note the patterns in the subjects grouped by purpose below.
 
 General information
 
@@ -159,7 +189,7 @@ This design allows you to easily create ACL rules that limit users to a specific
 
 ## Acknowledging Messages
 
-Messages that need acknowledgement will have a Reply subject set, something like `$JS.ACK.ORDERS.test.1.2.2`, this is the prefix defined in `api.JetStreamAckPre` followed by `<stream>.<consumer>.<delivered count>.<stream sequence>.<consumer sequence>.<timestamp>.<pending messages>`.
+Messages that need acknowledgment will have a Reply subject set, something like `$JS.ACK.ORDERS.test.1.2.2`, this is the prefix defined in `api.JetStreamAckPre` followed by `<stream>.<consumer>.<delivered count>.<stream sequence>.<consumer sequence>.<timestamp>.<pending messages>`.
 
 JetStream and the consumer (including sourced and mirrored streams) may exchange flow control messages. A message with the header: `NATS/1.0 100 FlowControl Request` must be replied to, otherwise the consumer may stall. The reply subjects looks like: `$JS.FC.orders.6i5h0GiQ.ep3Y`
 
@@ -213,7 +243,7 @@ nats req '$JS.API.CONSUMER.MSG.NEXT.ORDERS.NEW' '{"no_wait": true, "batch": 10}'
 
 ## Fetching From a Stream By Sequence
 
-If you know the Stream sequence of a message you can fetch it directly, this does not support acks. Do a Request\(\) to `$JS.API.STREAM.MSG.GET.ORDERS` sending it the message sequence as payload. Here the prefix is defined in `api.JetStreamMsgBySeqT` which also requires populating using `fmt.Sprintf()`.
+If you know the Stream sequence of a message, you can fetch it directly, this does not support acks. Do a Request\(\) to `$JS.API.STREAM.MSG.GET.ORDERS` sending it the message sequence as payload. Here the prefix is defined in `api.JetStreamMsgBySeqT` which also requires populating using `fmt.Sprintf()`.
 
 ```shell
 nats req '$JS.API.STREAM.MSG.GET.ORDERS' '{"seq": 1}'
@@ -235,4 +265,4 @@ The Subject shows where the message was received, Data is base64 encoded and Tim
 
 ## Consumer Samples
 
-Samples are published to a specific subject per Consumer, something like `$JS.EVENT.METRIC.CONSUMER_ACK.<stream>.<consumer>` you can just subscribe to that and get `api.ConsumerAckMetric` messages in JSON format. The prefix is defined in `api.JetStreamMetricConsumerAckPre`.
+Samples are published to a specific subject per Consumer, something like `$JS.EVENT.METRIC.CONSUMER_ACK.<stream>.<consumer>` you can subscribe to that and get `api.ConsumerAckMetric` messages in JSON format. The prefix is defined in `api.JetStreamMetricConsumerAckPre`.
