@@ -15,7 +15,7 @@ layout:
 # Welcome
 
 {% hint style="info" %}
-<mark style="background-color:purple;">**J**</mark>**oin us March 20th for RethinkConn 2025! A free, virtual event for the NATS community.** [**Sign up today**](https://www.synadia.com/lp/rethink-conn-2025)**!**
+<mark style="background-color:purple;">**W**</mark>**atch RethinkConn 2025 - a free, virtual event for the NATS community!** [**See what you missed**](https://www.synadia.com/lp/rethink-conn-2025)**!**
 {% endhint %}
 
 ## The official [NATS](https://nats.io/) documentation
