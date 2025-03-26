@@ -189,7 +189,7 @@ port: 4222
 # The following sections are maps with a set of (nested) properties
 
 jetstream {
-    # Jetstream storage location, limits and encryption
+    # JetStream storage location, limits and encryption
 	store_dir: nats
 }
 
@@ -325,9 +325,9 @@ By default, the JetStream subsystem will store data in the /tmp directory, but y
 Normally JetStream will be run in clustered mode and will replicate data, so the best place to store JetStream data would be locally on a fast SSD. One should specifically avoid NAS or NFS storage for JetStream. 
 
 {% hint style="warning" %}
-Note that each JetStream enabled server MUST use its own individual storage directory.  Jetstream replicates data between cluster nodes (up to 5 replicas), achieving redundancy and availability through this.
+Note that each JetStream enabled server MUST use its own individual storage directory.  JetStream replicates data between cluster nodes (up to 5 replicas), achieving redundancy and availability through this.
 
-Jetstream does not implement standby and fault tolerance through a shared file system. If a standby server shares a storage dir with an active server, you must make sure only one is active at any time. Access conflicts are not detected. We do not recommend such a setup.
+JetStream does not implement standby and fault tolerance through a shared file system. If a standby server shares a storage directory with an active server, you must make sure only one is active at any time. Access conflicts are not detected. We do not recommend such a setup.
 {% endhint %}
 
 
@@ -347,11 +347,11 @@ jetstream {
 }
 ```
 
-**Global Jetstream options (server level)**
+**Global JetStream options (server level)**
 
 | Property                  | Description                                                                                                                                                                               | Default                 | Version |
 | :------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------- | :------ |
-| `enable`                     |  Enable/disable Jetstream without removing this section.  | `true`  | 2.2.0  |
+| `enable`                     |  Enable/disable JetStream without removing this section.  | `true`  | 2.2.0  |
 | `store_dir`               | Directory to use for JetStream storage.                                                                                                                                                   | `/tmp/nats/jetstream`   | 2.2.0   |
 | `max_memory_store`        | Maximum size of the 'memory' storage                                                                                                                                                      | 75% of available memory | 2.2.0   |
 | `domain`        | Isolates the JetStream cluster to the local cluster. Recommended use with leaf nodes.                                                                                                                                                      | (not set) | 2.2.3   |
@@ -360,39 +360,38 @@ jetstream {
 | `key`                     | The encryption key to use when encryption is enabled. A key length of at least 32 bytes is recommended. Note, this key is HMAC-256 hashed on startup which reduces the byte length to 64. | (not set)               | 2.3.0   |
 | `prev_encryption_key`                     |    The previous encryption key. Used when changing storage encryption keys. | (not set)   | 2.10.0   |
 | `max_outstanding_catchup` | Max in-flight bytes for stream catch-up                                                                                                                                                   | 64MB                    | 2.9.0   |
-| `max_buffered_msgs`                     |    Maximum number of messages Jetstream will buffer in memory when falling behind with RAFT or I/O. Use to protect against OOM when there are write burst to a queue. | 10.000  | 2.11.0   |
-| `max_buffered_size`                     |    Maximum number of bytes Jetstream will buffer in memory when falling behind with RAFT or I/O. Use to protect against OOM when there are write burst to a queue. | 128MB  | 2.11.0   |
-| `request_queue_limit`                     |    Limits the number of API commands Jetstream will buffer in memory. When the limit is reached clients will get error responses rather than timeout. Lower the value if you want to detect clients flooding Jetstream. | 10.000  | 2.11.0   |
+| `max_buffered_msgs`                     |    Maximum number of messages JetStream will buffer in memory when falling behind with RAFT or I/O. Used to protect against OOM when there are write bursts to a queue. | 10.000  | 2.11.0   |
+| `max_buffered_size`                     |    Maximum number of bytes JetStream will buffer in memory when falling behind with RAFT or I/O. Used to protect against OOM when there are write bursts to a queue. | 128MB  | 2.11.0   |
+| `request_queue_limit`                     |    Limits the number of API commands JetStream will buffer in memory. When the limit is reached, clients will get error responses rather than a timeout. Lower the value if you want to detect clients flooding JetStream. | 10.000  | 2.11.0   |
 | `sync_interval`           | Examples: `10s` `1m` `always`  -   Change the default fsync/sync interval for page cache in the filestore. By default JetStream relies on stream replication in the cluster to guarantee data is available after an OS crash. If you run JetStream without replication or with a replication of just 2 you may want to shorten the fsync/sync interval. - You can force an fsync after each messsage with `always`, this will slow down the throughput to a few hundred msg/s.                                                                                                           | 2m                      | 2.10.0  |
-| `strict`                     |    Return errors for invalid Jetstream API requests. Some older client APIs may not expect this. Set to `false` for maximum backwards compatibility.  | `true`  | 2.11.0   |
-| `unique_tag`                     |    Jetstream peers will be placed in servers with tags unique relative to the `unique_tag`  prefix. E.g. nodes in a cluster (or supercluster) are tagged `az:1`,`az:1`,`az:2`,`az:2`,`az:3`,`az:3`,`az:3` . Setting `unique_tag=az` will result in a new replica 3 stream to be placed in all three availability zones.  | (not set))  | 2.8.0  |
+| `strict`                     |    Return errors for invalid JetStream API requests. Some older client APIs may not expect this. Set to `false` for maximum backward compatibility.  | `true`  | 2.11.0   |
+| `unique_tag`                     |    JetStream peers will be placed in servers with tags unique relative to the `unique_tag`  prefix. E.g. nodes in a cluster (or supercluster) are tagged `az:1`,`az:1`,`az:2`,`az:2`,`az:3`,`az:3`,`az:3` . Setting `unique_tag=az` will result in a new replica 3 stream to be placed in all three availability zones.  | (not set))  | 2.8.0  |
 | `tpm`                     |  Trusted Platform Module   [TPM base encryption](#jetstream-tpm-encryption) | `tpm {}` (not set)  | 2.11.0   |
-| `limits`                     |   [Jetstream server limits](#jetstream-server-limits) | `limits{}`  (not set) | 2.8.0   |
+| `limits`                     |   [JetStream server limits](#jetstream-server-limits) | `limits{}`  (not set) | 2.8.0   |
 
 
 ### JetStream Account Settings
-A Jetstream section may also appear in accounts. Jetstream is disabled by default. The minimal configuration will enable Jetstream.
+A JetStream section may also appear in accounts. JetStream is disabled by default. The minimal configuration will enable JetStream.
 ```text
 accounts {
   A {}
     jetstream {
     }
-  }  
-}
+  } 
 
 ```
 
 | Property                  | Description                                                                                                                                                                               | Default                 | Version |
 | :------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------- | :------ |
-| `max_memory`                     |  Maximum memory for in memory streams. Sum of all accounts must be smaller than server limit.  | no limit or server limit  | 2.2.0  |
-| `max_file`                     |  Maximum memory for disk streams. Sum of all accounts must be smaller than server limit. | no limit or server limit | 2.2.0  |
+| `max_memory`                     |  Maximum memory for in-memory streams. Sum of all accounts must be smaller than the server limit.  | no limit or server limit  | 2.2.0  |
+| `max_file`                     |  Maximum memory for disk streams. Sum of all accounts must be smaller than the server limit. | no limit or server limit | 2.2.0  |
 | `max_streams`                     |  Maximum number of streams.  | no limit  | 2.2.0  |
 | `max_consumers`                     |  Maximum number of consumers per stream(!).  | no limit  | 2.2.0  |
-| `max_ack_pending`                     |   Max acks pending in explicit ack mode. Stream stops delivery when the limits has been reached. Can override the server limit. | no limit or server limit  | 2.8.0  |
-| `max_bytes_required`                     |  When `true` all streams requires a max_bytes limit set. | `false`  | 2.7.0  |
+| `max_ack_pending`                     |   Max acks pending in explicit ack mode. Stream stops delivery when the limits have been reached. Can override the server limit. | no limit or server limit  | 2.8.0  |
+| `max_bytes_required`                     |  When `true` all streams require a max_bytes limit set. | `false`  | 2.7.0  |
 | `store_max_stream_bytes`                     | Maximum size limit to which a disk stream can be set. Usually combined with `max_bytes_required`  | no limit  | 2.8.0  |
 | `memory_max_stream_bytes`                     |  Maximum size limit to which a memory stream can be set. Usually combined with `max_bytes_required`  | no limit  | 2.8.0  |
-| `cluster_traffic`                     |  `system` or `owner` Configures the account in which stream replication and RAFT traffic is sent. By default (and in all version prio to 2.11.0) all cluster traffic was handled in the system account. When set to `owner` such RAFT and replication traffic will be in the account where the stream was created. | `system`  | 2.11.0  |
+| `cluster_traffic`                     |  `system` or `owner` Configures the account in which stream replication and RAFT traffic is sent. By default (and in all versions prior to 2.11.0) all cluster traffic was handled in the system account. When set to `owner`, such RAFT and replication traffic will be in the account where the stream was created. | `system`  | 2.11.0  |
 
 
 ### JetStream TPM encryption
@@ -408,7 +407,7 @@ jetstream {
 ````
 | Property                  | Description                                                                                                                                                                               | Default                 | Version |
 | :------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------- | :------ |
-| `keys_file`                     |  Specifies the file where encryption keys are stored. This option MUST is required, otherwise TPM will not actived. If the file does  NOT EXIST, a new key will be dynamically created and store in the `pcr`  | required | 2.11.0  |
+| `keys_file`                     |  Specifies the file where encryption keys are stored. This option is required, otherwise TPM will not be active. If the file does NOT EXIST, a new key will be dynamically created and stored in the `pcr`  | required | 2.11.0  |
 | `encryption_password`                     | Password used for decrypting data the keys file. OR, the password used to seal the dynamically created key in the TPM store. | required  | 2.11.0  |
 | `srk_password`                     |  The Storage Root Key (SRK) password is used to access the TPM's storage root key. The srk password is optional in TPM 2.0. | not set  | 2.11.0  |
 | `pcr`                     |  Platform Configuration Registers (PCRs). 0-16 are reserved. Pick a value from 17 to 23. |  22  | 2.11.0  | 
@@ -428,8 +427,8 @@ jetstream {
 ````
 | Property                  | Description                                                                                                                                                                               | Default                 | Version |
 | :------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------- | :------ |
-| `max_ack_pending`                     |  Default max acks pending in explicit ack mode. Stream stops delivery when the limits has been reached.   | no limit | 2.8.0  |
-| `max_ha_assets`                     |  Maximum number of RAFT assets (stream and consumers) which can be placed on this node. Will not effect stream/consumers with replicas=1  | no limit  | 2.8.0  |
+| `max_ack_pending`                     |  Default max acks pending in explicit ack mode. Stream stops delivery when the limits have been reached.   | no limit | 2.8.0  |
+| `max_ha_assets`                     |  Maximum number of RAFT assets (stream and consumers) which can be placed on this node. Will not affect stream/consumers with replicas=1  | no limit  | 2.8.0  |
 | `max_request_batch`                     |  Maximum fetch size for pull consumers. Use with caution. May break existing clients violating this limit.| no limit  | 2.8.0  |
 | `duplicate_window`                     |  Maximum(!) de-duplication window of streams. Stream creation will fail if the value specified is larger than this. | no limit (but default for new streams is 120s) | 2.8.0  |  
 
@@ -438,14 +437,14 @@ jetstream {
 
 #### Centralized Authentication and Authorization
 
-A default nats server will have no authentication or authorization enabled. This is useful for development and simple embedded use cases only. The default account is `$G`.
+A default NATS server will have no authentication or authorization enabled. This is useful for development and simple embedded use cases only. The default account is `$G`.
 
-Once at least one user is configured in the authorization or accounts sections the default $G account an no-authentication user are disabled. You can restore no authentication access by setting the `no_auth_user`.
+Once at least one user is configured in the authorization or accounts sections, the default $G account and no-authentication user are disabled. You can restore no authentication access by setting the `no_auth_user`.
 
 | Property                                                                                       | Description                                                                                                                                                                                                                                                                                                                                                                                                     | Default                                                                                 |
 | :--------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------- |
 | [`authorization`](/running-a-nats-service/configuration/securing_nats/auth_intro)              | Configuration map for client [authentication/authorization](securing_nats/auth_intro/README.md). List of user and their auth setting. This section is used when only the default account ($G) is active.                                                                                                                                                                                                        | `authorization {}` &nbsp;(not set)                                                      |
-| [`accounts`](/running-a-nats-service/configuration/securing_nats/accounts.md)                  | Configuration map for multi tenancy via [accounts](securing_nats/accounts.md). A list of accounts each with its own users and their auth settings. Each acount forms its own subject and stream namespace, with not data shared unless explicit `import` and `export` is configured.                                                                                                                            | `accounts {}` &nbsp;(not set)                                                           |
+| [`accounts`](/running-a-nats-service/configuration/securing_nats/accounts.md)                  | Configuration map for multi tenancy via [accounts](securing_nats/accounts.md). A list of accounts each with its own users and their auth settings. Each account forms its own subject and stream namespace, with no data shared unless explicit `import` and `export` is configured.                                                                                                                            | `accounts {}` &nbsp;(not set)                                                           |
 | [`no_auth_user`](/running-a-nats-service/configuration/securing_nats/accounts.md#no-auth-user) | [Username](/running-a-nats-service/configuration/securing_nats/auth_intro/username_password.md) present in the [authorization block](/running-a-nats-service/configuration/securing_nats/auth_intro) or an [`account`](/running-a-nats-service/configuration/securing_nats/accounts.md). A client connecting without any form of authentication will be associated with this user, its permissions and account. | (not set) - will deny unauthorized access by default if any other users are configured. |
 
 #### Decentralized Authentication and Authorization
@@ -463,8 +462,8 @@ The Configuration options here refer to [JWT](/running-a-nats-service/configurat
 
 | Property                 | Description                                                                                                                                                                                                                                                                      | Default                |
 | :----------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------- |
-| `disable_sublist_cache`  | If `true` disable subscription caches for all accounts. This is saves resources in situations where different subjects are used all the time.                                                                                                                                    | `false`, cache enabled |
-| `lame_duck_duration`     | In lame duck mode the server rejects new clients and **slowly** closes client connections. After this duration is over the server shuts down. This value cannot be set lower than 30 seconds. Start lame duck mode with: [`nats-server --signal ldm`](../nats_admin/signals.md). | `"2m"`                 |
+| `disable_sublist_cache`  | If `true` disable subscription caches for all accounts. This saves resources in situations where different subjects are used all the time.                                                                                                                                    | `false`, cache enabled |
+| `lame_duck_duration`     | In lame duck mode the server rejects new clients and **slowly** closes client connections. After this duration is over, the server shuts down. This value cannot be set lower than 30 seconds. Start lame duck mode with: [`nats-server --signal ldm`](../nats_admin/signals.md). | `"2m"`                 |
 | `lame_duck_grace_period` | This is the duration the server waits, after entering lame duck mode, before starting to close client connections                                                                                                                                                                | `"10s"`                |
 | `no_fast_producer_stall` | if `true`, the server will no longer stall the producer when attempting to deliver a message to a slow consumer but instead skip this consumer(by dropping the message for this consumer) and move to the next. | `false` the server will stall the fast producer |
 
@@ -472,7 +471,7 @@ The Configuration options here refer to [JWT](/running-a-nats-service/configurat
 
 | Property                                                                          | Description                                                                                                                                                                                                              | Default                   |
 | :-------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------ |
-| `server_name`                                                                     | The servers name, shows up in logging. Defaults to the server's id. When JetStream is used, within a domain, all server names need to be unique.                                                                         | Generated Server ID       |
+| `server_name`                                                                     | The server's name, shows up in logging. Defaults to the server's id. When JetStream is used, within a domain, all server names need to be unique.                                                                         | Generated Server ID       |
 | `server_tags`                                                                     | A set of tags describing properties of the server. This will be exposed through `/varz` and can be used for system resource requests, such as placement of streams. It is recommended to use `key:value` style notation. | `[]`                      |
 | `trace`                                                                           | If `true` enable protocol trace log messages. Excludes the system account.                                                                                                                                               | `false`, disabled         |
 | `trace_verbose`                                                                   | If `true` enable protocol trace log messages. Includes the system account.                                                                                                                                               | `false`, disabled         |
@@ -491,7 +490,7 @@ The Configuration options here refer to [JWT](/running-a-nats-service/configurat
 | [`https`](/running-a-nats-service/configuration/monitoring.md)                    | Listen specification `<host>:<port>`for TLS server monitoring.  Requires the `tls` section to be present.                                                                                                                                                         |       (inactive)                       |
 | `system_account`                                                                  | Name of the system account. Users of this account can subscribe to system events. See [System Accounts](/running-a-nats-service/configuration/sys_accounts/README.md#system-account) for more details.                   |           `$SYS`                |
 | `pid_file`                                                                        | File containing PID, relative to ... This can serve as input to [nats-server --signal](/running-a-nats-service/nats_admin/signals.md)                                                                                    |        (non set)                   |
-| `port_file_dir`                                                                   | Directory to write a file containing the servers open ports to, relative to ...                                                                                                                                          |       (not set)                    |
+| `port_file_dir`                                                                   | Directory to write a file containing the servers' open ports to, relative to ...                                                                                                                                          |       (not set)                    |
 | `connect_error_reports`                                                           | Number of attempts at which a repeated failed route, gateway or leaf node connection is reported. Connect attempts are made once every second.                                                                           | `3600`, approx every hour |
 | `reconnect_error_reports`                                                         | Number of failed attempts to reconnect a route, gateway or leaf node connection. Default is to report every attempt.                                                                                                      | `1`, every failed attempt |
 
