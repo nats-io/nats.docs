@@ -14,7 +14,16 @@ On Unix systems, the NATS server responds to the following signals:
 | `SIGHUP`  | Reloads server configuration file                              |
 | `SIGUSR2` | Stops the server after evicting all clients \(lame duck mode\) |
 
-The `nats-server` binary can be used to send these signals to running NATS servers using the `-sl` flag:
+The `nats-server` binary can be used to send these signals to running NATS servers using the `--signal`/`-sl` flag. It supports the following commands:
+
+| Command  | Signal    |
+| :------- | :-------- |
+| `stop`   | `SIGKILL` |
+| `quit`   | `SIGINT`  |
+| `term`   | `SIGTERM` |
+| `reopen` | `SIGUSR1` |
+| `reload` | `SIGHUP`  |
+| `ldm`    | `SIGUSR2` |
 
 ### Quit the server
 
