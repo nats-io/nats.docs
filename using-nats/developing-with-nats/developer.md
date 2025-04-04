@@ -7,8 +7,8 @@ Developing with NATS involves a blend of distributed application techniques, com
 | Golang | [nats.go](https://github.com/nats-io/nats.go), [godoc](http://godoc.org/github.com/nats-io/nats.go)                                                       |  Yes                     |
 | Java | [nats.java](https://github.com/nats-io/nats.java), [javadoc](https://javadoc.io/doc/io.nats/jnats), [nats.java examples](https://github.com/nats-io/nats.java/tree/main/src/examples/java/io/nats/examples), [java-nats-examples repo](https://github.com/nats-io/java-nats-examples) |  Yes   | 
 | .NET | [nats.net](https://github.com/nats-io/nats.net), [docs](http://nats-io.github.io/nats.net/), [package](https://www.nuget.org/packages/NATS.Net)       |  Yes              |
-| Rust | [nats.rs](https://github.com/nats-io/nats.rs), [rust doc](https://docs.rs/nats)               |  Yes                                                                                   |
-| JavaScript | [Node.js](https://github.com/nats-io/nats.js#readme), [deno](https://github.com/nats-io/nats.deno/blob/main/README.md), [WebSocket](https://github.com/nats-io/nats.ws#readme) |  Yes  |
+| Rust | [nats.rs](https://github.com/nats-io/nats.rs), [rust doc](https://docs.rs/async-nats/latest/async_nats/)               |  Yes                                                                                   |
+| JavaScript | [nats.js](https://github.com/nats-io/nats.js), [jsdoc](https://nats-io.github.io/nats.js/) |  Yes  |
 | Python | [nats.py](https://github.com/nats-io/nats.py), [doc](https://nats-io.github.io/nats.py/)                       |  Yes                                                                  |
 | C | [nats.c](https://github.com/nats-io/nats.c), [doc](http://nats-io.github.io/nats.c)                      |  Yes                                                                        |
 | Ruby | [nats-pure.rb](https://github.com/nats-io/nats-pure.rb), [yard](https://www.rubydoc.info/gems/nats)                                                                            |
