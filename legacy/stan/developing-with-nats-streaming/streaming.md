@@ -2,7 +2,7 @@
 
 ## WARNING Deprecation Notice
 
-The NATS Streaming Server is being deprecated. Critical bug fixes and security fixes will be applied until June of 2023. NATS-enabled applications requiring persistence should use [JetStream](/nats-concepts/jetstream/readme.md).
+The NATS Streaming Server is being deprecated. Critical bug fixes and security fixes will be applied until June of 2023. NATS-enabled applications requiring persistence should use [JetStream](/nats-concepts/jetstream/README.md).
 
 ## Deciding to Use At-Least-Once Delivery
 
@@ -16,19 +16,19 @@ Just be aware that using an at least once guarantee is the facet of messaging wi
 
 NATS streaming is ideal when:
 
-*   A historical record of a stream is required. This is when a replay of data
+* A historical record of a stream is required. This is when a replay of data
 
     is required by a consumer.
-*   The last message produced on a stream is required for initialization and
+* The last message produced on a stream is required for initialization and
 
     the producer may be offline.
-*   A-priori knowledge of consumers is not available, but consumers must receive
+* A-priori knowledge of consumers is not available, but consumers must receive
 
     messages. This is often a false assumption.
-*   Data producers and consumers are highly decoupled. They may be online at
+* Data producers and consumers are highly decoupled. They may be online at
 
     different times and consumers must receive messages.
-*   The data in messages being sent have a lifespan beyond that of the
+* The data in messages being sent have a lifespan beyond that of the
 
     intended application lifespan.
 * Applications need to consume data at their own pace.
@@ -42,22 +42,22 @@ Using core NATS is ideal for the fast request path for scalable services where t
 These include:
 
 * Service patterns where there is a tightly coupled request-reply
-  *   A request is made, and the application handles error cases upon timeout
+  * A request is made, and the application handles error cases upon timeout
 
       (resends, errors, etc). __Relying on a messaging system to resend here is
 
       considered an anti-pattern.__
-*   Where only the last message received is important and new messages will
+* Where only the last message received is important and new messages will
 
     be received frequently enough for applications to tolerate a lost message.
 
     This might be a stock ticker stream, frequent exchange of messages in a
 
     service control plane, or device telemetry.
-*   Message TTL is low, where the value of the data being transmitted degrades
+* Message TTL is low, where the value of the data being transmitted degrades
 
     or expires quickly.
-*   The expected consumer set for a message is available a-priori and consumers
+* The expected consumer set for a message is available a-priori and consumers
 
     are expected to be live. The request-reply pattern works well here or
 
