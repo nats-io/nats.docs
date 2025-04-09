@@ -58,19 +58,19 @@ redirects:
   walkthrough/pubsub: ./nats-concepts/core-nats/publish-subscribe/pubsub_walkthrough.md
   nats-concepts/queue: ./nats-concepts/core-nats/queue-groups/queue.md
   walkthrough/queues: ./nats-concepts/core-nats/queue-groups/queues_walkthrough.md
-  nats-concepts/core_nats: ./nats-concepts/core-nats/readme.md
+  nats-concepts/core_nats: ./nats-concepts/core-nats/README.md
   nats-concepts/reqreply: ./nats-concepts/core-nats/request-reply/reqreply.md
   walkthrough/reqreply: ./nats-concepts/core-nats/request-reply/reqreply_walkthrough.md
-  jetstream: ./nats-concepts/jetstream/readme.md
+  jetstream: ./nats-concepts/jetstream/README.md
   jetstream/concepts/consumers: ./nats-concepts/jetstream/consumers.md
   jetstream/concepts/configuration: ./nats-concepts/jetstream/example_configuration.md
   walkthrough/js: ./nats-concepts/jetstream/js_walkthrough.md
   walkthrough/kv: ./nats-concepts/jetstream/key-value-store/kv_walkthrough.md
-  nats-concepts/kv_store: ./nats-concepts/jetstream/key-value-store/readme.md
-  nats-concepts/jetstream: ./nats-concepts/jetstream/readme.md
+  nats-concepts/kv_store: ./nats-concepts/jetstream/key-value-store/README.md
+  nats-concepts/jetstream: ./nats-concepts/jetstream/README.md
   jetstream/concepts/streams: ./nats-concepts/jetstream/streams.md
   compare-nats: ./nats-concepts/overview/compare-nats.md
-  nats-concepts/intro: ./nats-concepts/what-is-nats/readme.md
+  nats-concepts/intro: ./nats-concepts/what-is-nats/README.md
   walkthrough/walkthrough_setup: ./nats-concepts/what-is-nats/walkthrough_setup.md
   faq: ./reference/faq.md
   roadmap: ./reference/roadmap.md
@@ -144,7 +144,7 @@ redirects:
   jetstream/administration/streams: ./running-a-nats-service/nats_admin/jetstream_admin/streams.md
   nats-server/nats_admin/lame_duck_mode: ./running-a-nats-service/nats_admin/lame_duck_mode.md
   jetstream/monitoring: ./running-a-nats-service/nats_admin/monitoring/monitoring_jetstream.md
-  nats-server/nats_admin/monitoring: ./running-a-nats-service/nats_admin/monitoring/readme.md
+  nats-server/nats_admin/monitoring: ./running-a-nats-service/nats_admin/monitoring/README.md
   nats-server/nats_admin/signals: ./running-a-nats-service/nats_admin/signals.md
   nats-server/nats_admin/slow_consumers: ./running-a-nats-service/nats_admin/slow_consumers.md
   nats-server/nats_admin/upgrading_cluster: ./running-a-nats-service/nats_admin/upgrading_cluster.md
@@ -207,7 +207,7 @@ redirects:
   jetstream/model_deep_dive: ./using-nats/jetstream/model_deep_dive.md
   jetstream/nats_api_reference: ./using-nats/jetstream/nats_api_reference.md
   nats-tools/natsbench: ./using-nats/nats-tools/nats CLI/natsbench.md
-  nats-tools/natscli: ./using-nats/nats-tools/nats CLI/readme.md
+  nats-tools/natscli: ./using-nats/nats-tools/nats CLI/README.md
   nats-tools/nats_top: ./using-nats/nats-tools/nats_top/README.md
   nats-tools/nats_top/nats-top-tutorial: ./using-nats/nats-tools/nats_top/nats-top-tutorial.md
   nats-tools/nk: ./using-nats/nats-tools/nk.md
@@ -218,7 +218,7 @@ redirects:
   nats-tools/nsc/services: ./using-nats/nats-tools/nsc/services.md
   nats-tools/nsc/signing_keys: ./using-nats/nats-tools/nsc/signing_keys.md
   nats-tools/nsc/streams: ./using-nats/nats-tools/nsc/streams.md
-  nats-tools/nats-tools: ./using-nats/nats-tools/readme.md
+  nats-tools/nats-tools: ./using-nats/nats-tools/README.md
   running-a-nats-service/nats-on-kubernetes/create-k8s-cluster: running-a-nats-service/nats-on-kubernetes/nats-kubernetes.md
   running-a-nats-service/nats-on-kubernetes/from-zero-to-leafnodes: running-a-nats-service/nats-on-kubernetes/nats-kubernetes.md
   running-a-nats-service/nats-on-kubernetes/helm-charts: running-a-nats-service/nats-on-kubernetes/nats-kubernetes.md
