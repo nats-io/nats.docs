@@ -174,7 +174,7 @@ State:
 Let's now start a publisher
 
 ```shell
-nats pub foo --count=1000 --sleep 1s "publication #{{Count}} @ {{TimeStamp}}"
+nats pub foo --count=1000 --sleep 1s "publication #{{.Count}} @ {{.TimeStamp}}"
 ```
 
 As messages are being published on the subject "foo" they are also captured and stored in the stream, you can check that by using `nats stream info my_stream` and even look at the messages themselves using `nats stream view my_stream` or `nats stream get my_stream`
