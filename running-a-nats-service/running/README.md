@@ -44,9 +44,18 @@ docker run -p 4222:4222 -ti nats:latest
 ```
 
 ## Running nats-server as a systemd service on Linux
-You can easily and quickly use `systemd` to start (and restart if needed) the `nats-server` process. 
+
+You can easily and quickly use `systemd` to start (and restart if needed) the `nats-server` process.
 
 Please see the example files located in the `util` directory of the [nats-server repo](https://github.com/nats-io/nats-server/tree/main/util) that you can use to generate your own `/etc/systemd/system/nats.service` file.
+
+## Exit Status
+
+As a long-running service, it's important for administrators to understand what guarantees the `nats-server` makes about how it exits and what that means.
+
+The approach chosen by `nats-server` is that "exited cleanly after being asked to shutdown" is a successful exit.  Even on platforms where that shutdown request is a POSIX signal.  It is not an error to successfully exit when asked to shut down.
+
+When configuring a service manager, whether `systemd` or any other, we recommend that it be configured to restart the nats-server on non-zero exit status or death by signal or any other abnormal exit, so that the service manager does what service managers do best: keeping essential services available when wanted.  The service manager probably should not restart the nats-server if it exits successfully.  If your environment does not provide any means to interact with the nats-server except through the service agent, then it doesn't matter either way; this distinction only becomes noticeable when something other than the service manager asked the nats-server to shut down.
 
 ## JetStream
 
