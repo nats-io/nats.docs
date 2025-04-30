@@ -55,7 +55,7 @@ As a long-running service, it's important for administrators to understand what 
 
 The approach chosen by `nats-server` is that "exited cleanly after being asked to shutdown" is a successful exit.  Even on platforms where that shutdown request is a POSIX signal.  It is not an error to successfully exit when asked to shut down.
 
-When configuring a service manager, whether `systemd` or any other, we recommend that it be configured to restart the nats-server on non-zero exit status or death by signal or any other abnormal exit, so that the service manager does what service managers do best: keeping essential services available when wanted.  The service manager probably should not restart the nats-server if it exits successfully.  If your environment does not provide any means to interact with the nats-server except through the service agent, then it doesn't matter either way; this distinction only becomes noticeable when something other than the service manager asked the nats-server to shut down.
+When configuring a service manager, whether `systemd` or any other, we recommend that it be configured to restart the `nats-server` on non-zero exit status or death by signal or any other abnormal exit, so that the service manager does what service managers do best: keeping essential services available when wanted.  The service manager probably should not restart the `nats-server` if it exits successfully.  If your environment does not provide any means to interact with the `nats-server` except through the service agent, then it doesn't matter either way; this distinction only becomes noticeable when something other than the service manager asked the `nats-server` to shut down.
 
 ## JetStream
 
