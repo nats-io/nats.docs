@@ -62,9 +62,15 @@ A mirror can source its messages from **exactly one stream** and a clients can n
 
 ###  WorkQueue retention
 
-Source and mirror work with origin stream with workqueue retention. The source/mirror will act as a consumer removing messages from the origin stream. 
+Source and mirror works with origin stream with workqueue retention in a limited context. The source/mirror will act as a consumer removing messages from the origin stream. 
 
-The intended usage is for moving messages conveniently from one location to another (e.g. from a leaf node). It does not trivially implement a distributed workqueue (where messages are distributed to multiple streams sourcing from the same origin), although with the help of subject filtering a distributed workqueue can be approximated.
+The implementation is not resilient though when connecting over intermittent leaf node connections. Within a cluster where the target stream (with the source/mirror agreement) it will generally work well.
+
+{% hint style="warning" %}
+Source and mirror for workqueue based streams is only partially supported. It is not resilient against connection loss over leaf nodes.
+
+{% endhint %}
+
 
 {% hint style="warning" %}
 If you try to create additional (conflicting) consumers on the origin workqueue stream the behavior becomes undefined. A workqueue allows only one consumer per subject. If the source/mirror connection is active local clients trying to create additional consumers will fail. In reverse a source/mirror cannot be created when there is already a local consumer for the same subjects.
