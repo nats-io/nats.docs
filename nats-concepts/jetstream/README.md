@@ -13,7 +13,7 @@ The JetStream persistence layer enables additional use cases typically not found
 * [Key Value Store](./#key-value-store) A map (associative array) with atomic operations
 * [Object Store](./#object-store) File transfer, replications and storage API. Uses chunked transfers for scalability.
 
-Key/Value and File transfer are capabilities are commonly found in in-memory databases or deployment tools. While NATS does not intend to compete with the feature set of such tools, it is our goal to provide the developer with reasonable complete set of data storage and replications features for use cases like micro service, edge deployments and server management.
+Key/Value and File transfer are capabilities commonly found in in-memory databases or deployment tools. While NATS does not intend to compete with the feature set of such tools, it is our goal to provide the developer with reasonable complete set of data storage and replications features for use cases like micro service, edge deployments and server management.
 
 #### Configuration
 
