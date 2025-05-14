@@ -1,9 +1,9 @@
 # Run Synadia Cloud (NGS) leaf nodes in Docker
 
-This mini-tutorial shows how to run 2 NATS server in local Docker containers interconnected via [Synadia Cloud Platform](https://www.cloud.synadia.com?utm_source=nats_docs&utm_medium=nats).
+This mini-tutorial shows how to run 2 NATS server in local Docker containers interconnected via [Synadia Cloud Platform](https://cloud.synadia.com?utm_source=nats_docs&utm_medium=nats).
 NGS is a global managed NATS network of NATS, and the local containers will connect to it as leaf nodes.
 
-Start by creating a free account on [https://www.cloud.synadia.com/](https://cloud.synadia.com?utm_source=nats_docs&utm_medium=nats).
+Start by creating a free account on [https://cloud.synadia.com/](https://cloud.synadia.com?utm_source=nats_docs&utm_medium=nats).
 
 Once you are logged in, go into the `default` account (you can manage multiple isolated NGS account within your Synadia Cloud account).
 
