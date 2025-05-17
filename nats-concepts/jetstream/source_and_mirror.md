@@ -69,7 +69,7 @@ The implementation is not resilient when connecting over intermittent leaf node 
 {% hint style="warning" %}
 Source and mirror for workqueue based streams is only partially supported. It is not resilient against connection loss over leaf nodes.
 
-The consumer pulling message from a remote stream is not durable and other clients may be able to consume ad remove messages from the workqueue will leaf connection is down.
+The consumer pulling message from a remote stream is not durable and other clients may be able to consume and remove messages from the workqueue while leaf connection is down.
 {% endhint %}
 
 
