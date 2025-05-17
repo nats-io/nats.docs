@@ -62,8 +62,7 @@ nats stream add --config stream_with_sources.json
       "external": {
         "deliver": "",
         "api": "$JS.domainA.API"
-      },
-      
+      }
     },
     {
       "name": "SOURCE2_ORIGIN",
