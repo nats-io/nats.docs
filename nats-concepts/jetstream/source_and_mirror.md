@@ -17,7 +17,7 @@ There are several options available when declaring the configuration.
 The stream using a source or mirror configuration can have its own retention policy, replication, and storage type.
 
 {% hint style="info" %}
-* Changes to to the stream using source or mirror,e.g. deleting messages or publishing, do not reflect back on the origin stream from which the data was received.
+* Changes to the stream using source or mirror, e.g. deleting messages or publishing, do not reflect back on the origin stream from which the data was received.
 * Deletes in the origin stream are NOT replicated through a `source` or `mirror` agreement.
 {% endhint %}
 
