@@ -165,7 +165,7 @@ Although less common, note that both the cluster _and_ tags can be used for plac
 
 When a stream is configured with a `source` or `mirror`, it will automatically and asynchronously replicate messages from the origin stream. There are several options when declaring the configuration.
 
-A source or mirror stream can have its own retention policy, replication, and storage type. Changes to to the source or mirror,e.g. deleting messages or publishing, do not reflect on the origin stream.
+A source or mirror stream can have its own retention policy, replication, and storage type. Changes to the source or mirror, e.g. deleting messages or publishing, do not reflect on the origin stream.
 
 
 {% hint style="info" %}
