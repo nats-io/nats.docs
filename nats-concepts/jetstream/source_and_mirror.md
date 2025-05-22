@@ -3,7 +3,7 @@
 When a stream is configured with a `source` or `mirror`, it will automatically and asynchronously replicate messages from the origin stream. 
 
 `source` or `mirror` are designed to be robust and will recover from a loss of connection. They are suitable for geographic distribution over high latency and unreliable connections. E.g. even a leaf node starting and connecting intermittently every few days will still receive or send messages over the source/mirror link.
-
+Another use case is when [connecting streams cross-account](../../running-a-nats-service/configuration/securing_nats/accounts#exporting-and-importing-jetstream-streams-between-accounts).
 
 There are several options available when declaring the configuration.
 
