@@ -41,6 +41,8 @@ nats-server -m 8222
 
 Once the server is running using one of the two methods, go to <http://localhost:8222> to browse the available endpoints detailed below.
 
+Alternatively, if you have System account enabled, monitoring endpoints available as ["System services"](https://docs.nats.io/running-a-nats-service/configuration/sys_accounts#system-account)
+
 ## Monitoring Endpoints
 
 ### General Information `(/varz)`
