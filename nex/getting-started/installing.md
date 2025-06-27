@@ -13,7 +13,7 @@ If you're not comfortable running this command, you can manually install Nex by 
 **Note** that while the `nex` binary can be run on any operating system, some node functionality may only available on 64-bit Linux because of the requirements dictated by [Firecracker](https://firecracker-microvm.github.io). Also note that running Linux inside docker won't satisfy those requirements.
 {% endhint %}
 
-Once you've installed it, you should be able to check the CLI version with `nex version`. After you're able to get the help banner and version from `nex`, you can move on to the next step in this guide.
+Once you've installed it, you should be able to check the CLI version with `nex --version`. After you're able to get the help banner and version from `nex`, you can move on to the next step in this guide.
 
 ## Performing the Preflight Check
 Starting a Nex node can involve the use of the Linux kernel, the `firecracker` binary, CNI configuration files, an `ext4` root file system, machine configuration, and a handful of other things. That's a lot to keep track of, so Nex has conveniently provided a _preflight check_. Before you can run a preflight check, however, you need to create a node configuration file.
