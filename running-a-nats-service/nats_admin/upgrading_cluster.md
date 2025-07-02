@@ -1,7 +1,7 @@
 # Upgrading a Cluster
 
 Repeat this procedure for all nodes of the cluster, sequentially:
-1. Stop the server.
+1. Stop the server by triggering https://docs.nats.io/running-a-nats-service/nats_admin/lame_duck_mode
 2. Replace the binary with the new version.
 3. Restart the server.
 4. Wait until the `/healthz` endpoint returns ok.
