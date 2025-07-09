@@ -37,3 +37,7 @@ The output should indicate a successful publish to NATS.
 ```
 16:17:00 Published 2 bytes to "test"
 ```
+
+## Commercial Options
+
+Synadia offers [Deploy for Kubernetes](https://www.synadia.com/deploy-for-kubernetes/), a self-service, bring-your-own Kubernetes deployment option that includes NATS and additional components.
