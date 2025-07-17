@@ -82,7 +82,7 @@ If the `InterestPolicy` or `WorkQueuePolicy` is chosen for a stream, note that a
 {% endhint %}
 
 {% hint style="info" %}
-`WorkQueuePolicy` streams will only delete messages enforced by limits or when a message has been successfully `Ack’d` by its consumer. Messages that have attempted redelivery and have reached `MaxDelivery` attempts for the consumer will remain in the stream and must be manually deleted via the JetStream API.
+`WorkQueuePolicy` streams will only delete messages enforced by limits or when a message has been successfully `Ack’d` by its consumer. Messages that have attempted redelivery and have reached `MaxDeliver` attempts for the consumer will remain in the stream and must be manually deleted via the JetStream API.
 {% endhint %}
 
 [limits-example]: https://natsbyexample.com/examples/jetstream/limits-stream/go
