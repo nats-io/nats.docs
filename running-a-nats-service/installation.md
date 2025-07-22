@@ -71,15 +71,15 @@ For recommendations on configuring limits in Kubernetes, see: https://github.com
 
 ## Getting the binary from the command line
 
-The simplest way to just get the binary of a release of `nats-server` for your machine is to use the following shell command.
+The simplest way to get the `nats-server` binary for your machine is to use the following shell command.
 
-For example, to get the binary for version 2.10.20 you would use:
+For example, to get the binary for version 2.11.6:
 
 ```shell
-curl -sf https://binaries.nats.dev/nats-io/nats-server/v2@v2.10.20 | sh
+curl -fsSL https://binaries.nats.dev/nats-io/nats-server/v2@v2.11.6 | sh
 ```
 
-To get the current very latest version (which may be ahead of the current last officially released version!) use `@latest`, you can also use a tag or a specific branch after the `@`.
+To get the latest released version, use `@latest`. You can also use `@main` to get the tip, or use a tag, specific branch, or commit hash after the `@`.
 
 ## Installing via Docker
 
@@ -101,7 +101,6 @@ docker run -p 4222:4222 -ti nats:latest
 [1] 2019/05/24 15:42:58.228201 [INF] Starting http monitor on 0.0.0.0:8222
 [1] 2019/05/24 15:42:58.228740 [INF] Listening for client connections on 0.0.0.0:4222
 [1] 2019/05/24 15:42:58.228765 [INF] Server is ready
-[1] 2019/05/24 15:42:58.229003 [INF] Listening for route connections on 0.0.0.0:6222
 ```
 
 More information on [containerized NATS is available here](running/nats_docker/).
@@ -125,7 +124,7 @@ Arch Linux:
 For Arch users, there is an [AUR package](https://aur.archlinux.org/packages/nats-server) that you can install with:
 
 ```shell
-yay nats-server
+yay -S nats-server
 ```
 
 To test your installation (provided the executable is visible to your shell):
@@ -139,7 +138,6 @@ Typing `nats-server` should output something like
 [41634] 2019/05/13 09:42:11.746249 [INF] Server id is NBNYNR4ZNTH4N2UQKSAAKBAFLDV3PZO4OUYONSUIQASTQT7BT4ZF6WX7
 [41634] 2019/05/13 09:42:11.746252 [INF] Server is ready
 ```
-
 
 
 ## Downloading a Release Build
