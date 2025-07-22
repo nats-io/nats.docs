@@ -16,10 +16,16 @@ layout:
 
 ## The official [NATS](https://nats.io/) documentation
 
+Using tag:
+{% embed url="https://github.com/nats-io/nats.go/blob/v1.43.0/examples/jetstream/js-consume/main.go#L29-L33" %}
+
+Full file:
 {% embed url="https://github.com/nats-io/nats.go/blob/main/examples/jetstream/js-consume/main.go" %}
 
+Readme:
 {% embed url="https://github.com/nats-io/nats.go/blob/main/README.md?plain=1#L19-L29" %}
 
+Line range:
 {% embed url="https://github.com/nats-io/nats.js/blob/main/jetstream/examples/01_consumers.js#L16-L19" %}
 
 {% embed url="https://github.com/nats-io/nats.js/blob/main/jetstream/examples/01_consumers.js" %}
