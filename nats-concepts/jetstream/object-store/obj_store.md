@@ -1,7 +1,9 @@
 # Object Store
 
 {% hint style="warning" %}
-If your objects fit within the JetStream [maximum message size](/running-a-nats-service/configuration#limits) (default 1MB, configurable up to 64MB), you should use the [Key/Value Store](/nats-concepts/jetstream/key-value-store/) instead. KV store is inherently simpler and more reliable for smaller data, providing immediate consistency and atomic operations without the complexity of chunking.
+If your objects fit within the JetStream [maximum message size](/running-a-nats-service/configuration#limits) (default 1MB, not recommended above 8MB), you should use the [Key/Value Store](/nats-concepts/jetstream/key-value-store/) instead.
+
+KV store is inherently simpler and more reliable for smaller data, providing strong consistency and atomic operations without the complexity of chunking.
 {% endhint %}
 
 JetStream, the persistence layer of NATS, not only allows for the higher qualities of service and features associated with 'streaming', but it also enables some functionalities not found in messaging systems.
