@@ -20,6 +20,23 @@ layout:
 
 ## The official [NATS](https://nats.io/) documentation
 
+Using tag:
+{% embed url="https://github.com/nats-io/nats.go/blob/v1.43.0/examples/jetstream/js-consume/main.go#L29-L33" %}
+
+Full file:
+{% embed url="https://github.com/nats-io/nats.go/blob/main/examples/jetstream/js-consume/main.go" %}
+
+Readme:
+{% embed url="https://github.com/nats-io/nats.go/blob/main/README.md?plain=1#L19-L29" %}
+
+Line range:
+{% embed url="https://github.com/nats-io/nats.js/blob/main/jetstream/examples/01_consumers.js#L16-L19" %}
+
+{% embed url="https://github.com/nats-io/nats.js/blob/main/jetstream/examples/01_consumers.js" %}
+
+{% embed url="https://github.com/GitbookIO/gitbook/blob/main/packages/react-contentkit/package.json" %}
+
+
 NATS is a simple, secure and high performance open source data layer for cloud native applications, IoT messaging, and microservices architectures.
 
 We feel that it should be the backbone of your communication between services. It doesn't matter what language, protocol, or platform you are using; NATS is the best way to connect your services.
