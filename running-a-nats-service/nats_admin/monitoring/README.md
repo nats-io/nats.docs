@@ -17,6 +17,8 @@ To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP 
 
 All endpoints return a JSON object.
 
+Note that info from these monitoring endpoints is also available through [System services](../../configuration/sys_accounts#system-account)
+
 The NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSONP) and [CORS](https://en.wikipedia.org/wiki/Cross-origin\_resource\_sharing#How\_CORS\_works), making it easy to create single page monitoring web applications. Part of the NATS ecosystem is a tool called [nats-top](../../../using-nats/nats-tools/nats\_top/) that visualizes data from these endpoints on the command line.
 
 {% hint style="warning" %}
