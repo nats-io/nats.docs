@@ -43,4 +43,4 @@ Finally, you can even do things that typically can not be done with a Key/Value 
 
 ## Notes
 
-The key conforms to the same [naming restriction as a NATS subject](../../subjects.md), i.e. it can be a dot-separated list of tokens (which means that you can then use wildcards to match hierarchies of keys when watching a bucket), and can only contain [valid characters](../../../nats-concepts/subjects.md#characters-allowed-for-subject-names). The value can be any byte array
+Valid key can contain the following characters: `a-z`, `A-Z`, `0-9`, `_`, `-`, `.`, `=` and `/`, i.e. it can be a dot-separated list of tokens (which means that you can then use wildcards to match hierarchies of keys when watching a bucket). The value can be any byte array.
