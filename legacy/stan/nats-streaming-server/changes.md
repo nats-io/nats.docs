@@ -95,7 +95,7 @@ Note that the Streaming server itself is backward compatible with previous relea
 
 ## Version `0.14.0`
 
-This release adds support for custom NATS client options in the the server configuration.
+This release adds support for custom NATS client options in the server configuration.
 
 In addition, a variety of fixes and improvements were made to clustering.
 

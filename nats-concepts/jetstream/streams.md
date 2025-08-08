@@ -104,7 +104,7 @@ Without declaring explicit placement for a stream, by default, the stream will b
 
 By declaring stream placement, where these assets are located can be controlled explicitly. This is generally useful to co-locate with the most active clients (publishers or consumers) or may be required for data sovereignty reasons.
 
-Placement is supported in all client SDKs as well as the CLI. For example, adding a stream via the the CLI to place a stream in a specific cluster looks like this:
+Placement is supported in all client SDKs as well as the CLI. For example, adding a stream via the CLI to place a stream in a specific cluster looks like this:
 
 ```
 nats stream add --cluster aws-us-east1-c1
