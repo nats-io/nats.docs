@@ -99,7 +99,7 @@ Sourcing and mirroring streams use 3 inbound and 2 outbound subjects to establis
 
 Notes:
 * There are two variants to the consumer-create subject depending on the number of filters.
-* Is some setup a domain prefix may be present e.g. `$JS.<domain>.API.CONSUMER.CREATE.<stream>.>`
+* In some setup a domain prefix may be present e.g. `$JS.<domain>.API.CONSUMER.CREATE.<stream>.>`
 
 
 | Subject                               | Direction | Description   | Reply | 
