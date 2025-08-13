@@ -6,45 +6,36 @@ This guide is tailored for existing NATS users upgrading from NATS version v2.10
 
 ### Observability
 
-- **Distributed message tracing:** Users can now trace messages as they move through the system by setting a `Nats-Trace-Dest` header to an inbox subject. Servers on the message path will return events to the provided subject that report each time a message enters or leaves a server, by which connection type, when subject mappings occur, or when messages traverse an account import/export boundary. Additionally, the `Nats-Trace-Only` header (if set to true) will allow tracing events to propagate on a specific subject without delivering them to subscribers of that subject.
+* **Distributed message tracing:** Users can now trace messages as they move through the system by setting a `Nats-Trace-Dest` header to an inbox subject. Servers on the message path will return events to the provided subject that report each time a message enters or leaves a server, by which connection type, when subject mappings occur, or when messages traverse an account import/export boundary. Additionally, the `Nats-Trace-Only` header (if set to true) will allow tracing events to propagate on a specific subject without delivering them to subscribers of that subject.
 
 ### Streams
 
-- **JetStream per-message TTLs:** It is now possible to age out individual messages using a per-message TTL. The `Nats-TTL` header, in either string or integer format (in seconds) allows for individual message expiration independent of stream limits. This can be combined with other limits in place on the stream. More information is available in [ADR-43](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-43.md).
-
-- **Subject delete markers on MaxAge:** The `SubjectDeleteMarkerTTL` stream configuration option now allows for the placement of delete marker messages in the stream when the configured `MaxAge` limit causes the last message for a given subject to be deleted. The delete markers include a `Nats-Marker-Reason` header explaining which limit was responsible for the deletion.
-
-- **Stream ingest rate limiting:** New options `max_buffered_size` and `max_buffered_msgs` in the `jetstream` configuration block enable rate limiting on Core NATS publishing into JetStream streams, protecting the system from overload.
+* **JetStream per-message TTLs:** It is now possible to age out individual messages using a per-message TTL. The `Nats-TTL` header, in either string or integer format (in seconds) allows for individual message expiration independent of stream limits. This can be combined with other limits in place on the stream. More information is available in [ADR-43](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-43.md).
+* **Subject delete markers on MaxAge:** The `SubjectDeleteMarkerTTL` stream configuration option now allows for the placement of delete marker messages in the stream when the configured `MaxAge` limit causes the last message for a given subject to be deleted. The delete markers include a `Nats-Marker-Reason` header explaining which limit was responsible for the deletion.
+* **Stream ingest rate limiting:** New options `max_buffered_size` and `max_buffered_msgs` in the `jetstream` configuration block enable rate limiting on Core NATS publishing into JetStream streams, protecting the system from overload.
 
 ### Consumers
 
-- **Pull consumer priority groups:** Pull consumers now support priority groups with pinning and overflow, enabling flexible failover and priority management when multiple clients are pulling from the same consumer. Configurable policies based on the number of pending messages on the consumer, or the number of pending acks, can control when messages overflow from one client to another, enabling new design patterns or regional awareness.
-
-- **Consumer pausing:** Message delivery to consumers can be temporarily suspended using the new pause API endpoint (or the `PauseUntil` configuration option when creating), ideal for maintenance or migrations. Message delivery automatically resumes once the configured deadline has passed. Consumer clients continue to receive heartbeat messages as usual to ensure that they do not surface errors during the pause.
+* **Pull consumer priority groups:** Pull consumers now support priority groups with pinning and overflow, enabling flexible failover and priority management when multiple clients are pulling from the same consumer. Configurable policies based on the number of pending messages on the consumer, or the number of pending acks, can control when messages overflow from one client to another, enabling new design patterns or regional awareness.
+* **Consumer pausing:** Message delivery to consumers can be temporarily suspended using the new pause API endpoint (or the `PauseUntil` configuration option when creating), ideal for maintenance or migrations. Message delivery automatically resumes once the configured deadline has passed. Consumer clients continue to receive heartbeat messages as usual to ensure that they do not surface errors during the pause.
 
 ### Operations
 
-- **Replication traffic in asset accounts:** Raft replication traffic can optionally be moved into the same account in which replicated assets live on a per-account basis, rather than being sent and received in the system account using the new `cluster_traffic` property in the JetStream account settings of an account. When combined with multiple route connections, this can help to reduce latencies and avoid head-of-line blocking issues that may occur in heavily-loaded multi-tenant or multi-account deployments.
-
-- **TLS first on leafnode connections:** A new `handshake_first` in the leafnode `tls` block allows setting up leafnode connections that perform TLS negotiation first, before any other protocol handshakes take place.
-
-- **Configuration state digest:** A new `-t` command line flag on the server binary can generate a hash of the configuration file. The `config_digest` item in `varz` displays the hash of the currently running configuration file, making it possible to check whether a configuration file has changed on disk compared to the currently running configuration.
-
-- **TPM encryption on Windows:** When running on Windows, the filestore can now store encryption keys in the TPM, useful in environments where physical access may be a concern.
+* **Replication traffic in asset accounts:** Raft replication traffic can optionally be moved into the same account in which replicated assets live on a per-account basis, rather than being sent and received in the system account using the new [`cluster_traffic` property ](../running-a-nats-service/configuration/#jetstream-account-settings)in the JetStream account settings of an account. When combined with multiple route connections, this can help to reduce latencies and avoid head-of-line blocking issues that may occur in heavily-loaded multi-tenant or multi-account deployments.
+* **TLS first on leafnode connections:** A new `handshake_first` in the leafnode `tls` block allows setting up leafnode connections that perform TLS negotiation first, before any other protocol handshakes take place.
+* **Configuration state digest:** A new `-t` command line flag on the server binary can generate a hash of the configuration file. The `config_digest` item in `varz` displays the hash of the currently running configuration file, making it possible to check whether a configuration file has changed on disk compared to the currently running configuration.
+* **TPM encryption on Windows:** When running on Windows, the filestore can now store encryption keys in the TPM, useful in environments where physical access may be a concern.
 
 ### MQTT
 
-- **SparkplugB:** The built-in MQTT support is now compliant with SparkplugB Aware, with support for `NBIRTH` and `NDEATH` messages.
+* **SparkplugB:** The built-in MQTT support is now compliant with SparkplugB Aware, with support for `NBIRTH` and `NDEATH` messages.
 
 ## Improvements
 
-- **Replicated delete proposals:** Message removals in clustered interest-based or workqueue streams are now propagated via Raft to guarantee consistent removal order across replicas, reducing a number of possible ways that a cluster failure can result in de-synced streams.
-
-- **Metalayer, stream and consumer consistency:** A new leader now only responds to read/write requests after synchronizing with its Raft log, preventing desynchronization between KV key updates and the stream during leader changes.
-
-- **Replicated consumer reliability:** Replicated consumers now consistently redeliver unacknowledged messages after a leader change.
-
-- **Consumer starting sequence:** The consumer starting sequence is now always respected, except for internal hidden consumers for sources/mirrors.
+* **Replicated delete proposals:** Message removals in clustered interest-based or workqueue streams are now propagated via Raft to guarantee consistent removal order across replicas, reducing a number of possible ways that a cluster failure can result in de-synced streams.
+* **Metalayer, stream and consumer consistency:** A new leader now only responds to read/write requests after synchronizing with its Raft log, preventing desynchronization between KV key updates and the stream during leader changes.
+* **Replicated consumer reliability:** Replicated consumers now consistently redeliver unacknowledged messages after a leader change.
+* **Consumer starting sequence:** The consumer starting sequence is now always respected, except for internal hidden consumers for sources/mirrors.
 
 ## Upgrade Considerations
 
