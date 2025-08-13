@@ -24,7 +24,7 @@ This guide is tailored for existing NATS users upgrading from NATS version v2.10
 
 ### Operations
 
-- **Replication traffic in asset accounts:** Raft replication traffic can optionally be moved into the same account in which replicated assets live on a per-account basis, rather than being sent and received in the system account. When combined with multiple route connections, this can help to reduce latencies and avoid head-of-line blocking issues that may occur in heavily-loaded multi-tenant or multi-account deployments.
+- **Replication traffic in asset accounts:** Raft replication traffic can optionally be moved into the same account in which replicated assets live on a per-account basis, rather than being sent and received in the system account using the new `cluster_traffic` property in the JetStream account settings of an account. When combined with multiple route connections, this can help to reduce latencies and avoid head-of-line blocking issues that may occur in heavily-loaded multi-tenant or multi-account deployments.
 
 - **TLS first on leafnode connections:** A new `handshake_first` in the leafnode `tls` block allows setting up leafnode connections that perform TLS negotiation first, before any other protocol handshakes take place.
 
