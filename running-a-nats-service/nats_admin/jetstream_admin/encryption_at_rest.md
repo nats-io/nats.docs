@@ -2,8 +2,13 @@
 
 *Supported since NATS server version 2.3.0*
 
+*TPM is supported on Windows since 2.11.0*
+
 {% hint style="warning" %}
-Note, although this feature is supported, we recommend file system encryption if available.
+Note, that although encryption at rest by the NATS server is fully supported, we recommend using file system encryption where available. 
+
+File system encryption, in particular when provided by Cloud hosted services, is optimized for throughput, does not place a burden on the NATS server and removes the need for secret management from the NATS installation.
+
 {% endhint %}
 
 The NATS server can be configured to encrypt message blocks which includes message headers and payloads. Other metadata files are encrypted as well, such as the stream metadata file and consumer metadata files.
@@ -36,6 +41,27 @@ The variable can be exported in the environment or passed when the server starts
 ```shell
 JS_KEY="mykey" nats-server -c js.conf
 ```
+
+## TPM (Windows only)
+
+````
+jetstream {
+  store_dir: nats
+  max_file_store: 10G
+  tpm {
+          keys_file: "keys"
+          encryption_password: "pwd"
+  }
+}
+````
+| Property                  | Description                                                                                                                                                                               | Default                 | Version |
+| :------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------- | :------ |
+| `keys_file`                     |  Specifies the file where encryption keys are stored. This option is required, otherwise TPM will not be active. If the file does NOT EXIST, a new key will be dynamically created and stored in the `pcr`  | required | 2.11.0  |
+| `encryption_password`                     | Password used for decrypting data in the keys file. OR, the password used to seal the dynamically created key in the TPM store. | required  | 2.11.0  |
+| `srk_password`                     |  The Storage Root Key (SRK) password is used to access the TPM's storage root key. The srk password is optional in TPM 2.0. | not set  | 2.11.0  |
+| `pcr`                     |  Platform Configuration Registers (PCRs). 0-16 are reserved. Pick a value from 17 to 23. |  22  | 2.11.0  | 
+| `cipher`                     |   `chacha`/`chachapoly` or `aes`.                    | `chachapoly` | 2.11.0  |  
+
 
 ## Changing encryption settings
 

@@ -39,14 +39,15 @@ resolver: {
     limit: 1000
 }
 ```
-
+ 
 This resolver type also supports `resolver_preload`. When present, JWTs are listed and stored in the resolver. There, they may be subject to updates. Restarts of the `nats-server` will hold on to these more recent versions.
 
 Not every server in a cluster needs to be set to `full`. You need enough to still serve your workload adequately, while some servers are offline.
-
+ 
 ### Cache
 
-The Cache resolver means that the `nats-server` only stores a subset of the JWTs and evicts others based on an LRU scheme. Missing JWTs are downloaded from the `full` nats based resolver(s).
+The Cache resolver means that the `nats-server` only stores a subset of the JWTs and evicts others based on an LRU scheme. 
+The cache relies on (a) `full` nats based resolver(s) to retrieve accounts not present in the cache. A cache resolver does NOT accept account push messages from nsc and therefore is not suitable for stand-alone operation without a full resolver present. 
 
 ```yaml
 resolver: {
