@@ -2,7 +2,7 @@
 
 *Supported since NATS server version 2.3.0*
 
-*TPM is supported on Windows since 2.11.0*
+*TPM is supported on Windows since NATS Server version 2.11.0*
 
 {% hint style="warning" %}
 Note, that although encryption at rest by the NATS server is fully supported, we recommend using file system encryption where available. 
