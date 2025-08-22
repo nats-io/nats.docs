@@ -39,14 +39,15 @@ resolver: {
     limit: 1000
 }
 ```
-
+ 
 This resolver type also supports `resolver_preload`. When present, JWTs are listed and stored in the resolver. There, they may be subject to updates. Restarts of the `nats-server` will hold on to these more recent versions.
 
 Not every server in a cluster needs to be set to `full`. You need enough to still serve your workload adequately, while some servers are offline.
-
+ 
 ### Cache
 
-The Cache resolver means that the `nats-server` only stores a subset of the JWTs and evicts others based on an LRU scheme. Missing JWTs are downloaded from the `full` nats based resolver(s).
+The Cache resolver means that the `nats-server` only stores a subset of the JWTs and evicts others based on an LRU scheme. 
+The cache relies on (a) `full` NATS-based resolver(s) to retrieve accounts not present in the cache. A cache resolver does NOT accept account push messages from nsc and therefore is not suitable for stand-alone operation without a full resolver present. 
 
 ```yaml
 resolver: {
@@ -60,11 +61,11 @@ resolver: {
 }
 ```
 
-### NATS Based Resolver - Integration
+### NATS-Based Resolver - Integration
 
-The NATS based resolver utilizes the system account for lookup and upload of account JWTs. If your application requires tighter integration you can make use of these subjects for tighter integration.
+The NATS-based resolver utilizes the system account for lookup and upload of account JWTs. If your application requires tighter integration you can make use of these subjects for tighter integration.
 
-To upload or update any generated account JWT without [`nsc`](../../../../using-nats/nats-tools/nsc/), send it as a request to `$SYS.REQ.CLAIMS.UPDATE`. Each participating `full` NATS based account resolver will respond with a message detailing success or failure.
+To upload or update any generated account JWT without [`nsc`](../../../../using-nats/nats-tools/nsc/), send it as a request to `$SYS.REQ.CLAIMS.UPDATE`. Each participating `full` NATS-based account resolver will respond with a message detailing success or failure.
 
 To serve a requested account JWT yourself and essentially implement an account server, subscribe to `$SYS.REQ.ACCOUNT.*.CLAIMS.LOOKUP` and respond with the account JWT corresponding to the requested account id (wildcard).
 
@@ -98,7 +99,7 @@ For more information on how to configure a memory resolver, see [this tutorial](
 
 **NOTE:** The [standalone NATS Account JWT Server](https://nats-io.gitbook.io/legacy-nats-docs/nats-account-server) is now _legacy_, please use the [NATS Based Resolver](resolver.md#nats-based-resolver) instead. However, the URL resolver option is still available in case you want to implement your own version of an account resolver
 
-The `URL` resolver specifies a URL where the server can append an account public key to retrieve that account's JWT. Convention for standalone NATS Account JWT Servers is to serve JWTs at: `http://localhost:9090/jwt/v1/accounts/`. For such a configuration you would specify the resolver as follows:
+The `URL` resolver specifies a URL where the server can append an account public key to retrieve that account's JWT. Convention for standalone NATS Account JWT Servers is to serve JWTs at: `http://localhost:9090/jwt/v1/accounts/`. For such a configuration, you would specify the resolver as follows:
 
 ```yaml
 resolver: URL(http://localhost:9090/jwt/v1/accounts/)
