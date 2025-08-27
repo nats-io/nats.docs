@@ -70,8 +70,7 @@ public class PublishJSON {
 
 {% tab title="JavaScript" %}
 ```javascript
-const jc = JSONCodec();
-nc.publish("updates", jc.encode({ ticker: "GOOG", price: 2868.87 }));
+nc.publish("updates", JSON.stringify({ ticker: "GOOG", price: 2868.87 }));
 ```
 {% endtab %}
 
