@@ -101,10 +101,9 @@ public class SubscribeJSON {
 
 {% tab title="JavaScript" %}
 ```javascript
-const jc = JSONCodec();
 const sub = nc.subscribe(subj, {
   callback: (_err, msg) => {
-    t.log(`${jc.decode(msg.data)}`);
+    t.log(`${msg.json()}`);
   },
   max: 1,
 });
