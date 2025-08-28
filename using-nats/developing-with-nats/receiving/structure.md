@@ -103,7 +103,7 @@ public class SubscribeJSON {
 ```javascript
 const sub = nc.subscribe(subj, {
   callback: (_err, msg) => {
-    t.log(`${JSON.parse(msg.data)}`);
+    t.log(`${msg.json()}`);
   },
   max: 1,
 });
