@@ -135,7 +135,7 @@ The rules and recommendations here apply to ALL system names, subjects, streams,
 
 * **Recommended characters:** (`a` - `z`), (`A` - `Z`), (`0` - `9`), `-` and `_` (names are case sensitive, and cannot contain whitespace).
 
-* **Naming Conventions** If you want to delimit words, use either CamelCase as in `MyServiceOrderCreate` or `-` and `_` as in `my-service-order-create`
+* **Naming Conventions** If you want to delimit words, use either PascalCase as in `MyServiceOrderCreate` or `-` and `_` as in `my-service-order-create`
 
 * **Special characters:** The period `.` (which is used to separate the tokens in the subject) and `*` and also `>` (the `*` and `>` are used as wildcards) are reserved and cannot be used.
 
