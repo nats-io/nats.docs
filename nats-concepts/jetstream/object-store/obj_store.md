@@ -1,5 +1,11 @@
 # Object Store
 
+{% hint style="warning" %}
+If your objects fit within the JetStream [maximum message size](/running-a-nats-service/configuration#limits) (default 1MB, not recommended above 8MB), you should use the [Key/Value Store](/nats-concepts/jetstream/key-value-store/) instead.
+
+KV store is inherently simpler and more reliable for smaller data, providing strong consistency and atomic operations without the complexity of chunking.
+{% endhint %}
+
 JetStream, the persistence layer of NATS, not only allows for the higher qualities of service and features associated with 'streaming', but it also enables some functionalities not found in messaging systems.
 
 One such feature is the Object store functionality, which allows client applications to create `buckets` (corresponding to streams) that can store a set of files. Files are stored and transmitted in chunks, allowing files of arbitrary size to be transferred safely over the NATS infrastructure.
