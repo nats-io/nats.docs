@@ -7,6 +7,13 @@ Release notes for the latest patch releases are available on [GitHub Releases](h
 
 See [https://nats.io/about/#roadmap](https://nats.io/about/#roadmap)
 
+## Server release v2.12.0
+
+Check out the:
+
+- [Upgrade guide](./whats_new_212.md)
+- [Release notes](https://github.com/nats-io/nats-server/releases/tag/v2.12.0)
+
 ## Server release v2.11.0
 
 Check out the:
