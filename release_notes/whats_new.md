@@ -105,8 +105,8 @@ See important [notes](https://github.com/nats-io/nats-server/releases/tag/v2.5.0
 
 ### Monitoring
 
-- JetStream's reserved memory and memory used from accounts with reservations in `/jsz` and `/varz` endpoints
-- Hardened systemd service
+- JetStream's reserved memory and memory used from accounts with reservations in `/jsz` and `/varz` endpoints.
+- Hardened systemd service.
 
 For full release information, see links below;
 
