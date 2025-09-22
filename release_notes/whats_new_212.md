@@ -2,9 +2,9 @@
 
 This guide is tailored for existing NATS users upgrading from NATS version v2.11.x. This will read as a summary with links to specific documentation pages to learn more about the feature or improvement.
 
-# Features
+## Features
 
-## Streams
+### Streams
 
 * **Atomic batch publish:** The `AllowAtomicPublish` stream configuration option allows to atomically publish N messages into a stream. This includes support for replicated and non-replicated streams, as well as doing per-message consistency checks prior to committing the batch. More information is available in [ADR-50](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-50.md).
 
@@ -12,11 +12,11 @@ This guide is tailored for existing NATS users upgrading from NATS version v2.11
 
 * **Delayed Message Scheduling:** The `AllowMsgSchedules` stream configuration option allows the scheduling of messages. Users can use this feature for delayed publishing/scheduling of messages. More information is available in [ADR-51](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-51.md)
 
-## Consumers
+### Consumers
 
 * **Prioritized pull consumer policy:** In addition to the consumer policies like overflow or client pinning, a new `prioritized` policy has been added. In contrast with the overflow policy, this allows a consumer to receive messages sooner instead of delaying failover, but at the cost of potentially flip-flopping work between clients. More information is available in [ADR-42](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-42.md#prioritized-policy)
 
-## Operations
+### Operations
 
 * **Server metadata:** Similar to `server_tags` which contains a set of tags describing the server, `server_metadata` is a map containing string keys and values describing metadata of the server.
 
@@ -28,7 +28,7 @@ This guide is tailored for existing NATS users upgrading from NATS version v2.11
 
 * **Stream/consumer scaleup and reset disk/state protection:** The server now has better protections against leader elections based on empty state. This also improves reliability of replicated in-memory streams. Usually a quorum of servers needs to be online and contain data. Now all but one server can be restarted and the in-memory stream’s data can reliably be caught back up. However, during such a scenario all servers involved with replication of that stream will need to be available, not just what’s needed for quorum. This lets the servers decide the best course of action to preserve all data.
 
-# Improvements
+## Improvements
 
 * **Async stream flushing:** Replicated streams will now asynchronously flush data to the underlying store on disk, resulting in a significant improvement in performance. Writes to a replicated stream are still persisted synchronously in the Raft log prior to committing them, so the improved performance has no downsides with respect to consistency.
 
@@ -50,9 +50,9 @@ This guide is tailored for existing NATS users upgrading from NATS version v2.11
 
 * **Disable leaf node connection through config reload:** This allows disabling a remote leaf node using configuration reload, when using `disabled: true`. If changed from false to true, a solicited leaf node will be disconnected and will not reconnect. If changed from true to false, the leafnode will be solicited again.
 
-# Upgrade Considerations
+## Upgrade Considerations
 
-**Memory usage**
+#### Memory usage
 
 With the new elastic pointers in the filestore, it is expected that a NATS Server running 2.12 may show a different memory usage pattern to before. In some systems this may result in lower resident set size (RSS) reported, in others it may result in higher, depending on the number of assets and publish/access patterns. 
 
@@ -60,7 +60,7 @@ For the first time, the server will be able to respond to memory pressure by fre
 
 This behaviour is largely controlled by the GC thresholds as set by the `GOMEMLIMIT` [environment variable](https://tip.golang.org/doc/gc-guide#Memory_limit). You may wish to tune this value in your environment based on available system memory, or in the case of Kubernetes environments, memory reservations.
 
-**Strict JetStream API**
+#### Strict JetStream API
 
 Starting from version v2.11, the server would start logging the following statement if an invalid JetStream request was received:
 
@@ -78,9 +78,9 @@ jetstream {
 }  
 ```
 
-# Downgrade Considerations
+## Downgrade Considerations
 
-**Stream state**  
+#### Stream state
 When downgrading from v2.12 to v2.11, the stream state files on disk will be rebuilt due to a change in the format of these files in v2.12. This requires re-scanning all stream message blocks, which may use higher CPU than usual and will likely take longer for the restarted node to report healthy. This will only happen on the first restart after downgrading and will not result in data loss.
 
 When downgrading, only downgrade to v2.11.9 or higher. Starting from this version, the server will recognize the use of new v2.12 features and will safely put the stream and/or consumer that uses these new features into an unsupported/offline mode. Importantly, this will both protect the data as well as the server itself from accessing unsupported features or data.
