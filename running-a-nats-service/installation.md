@@ -189,3 +189,23 @@ To test your installation (provided $GOPATH/bin is in your path) by typing `nats
 [2397474] 2023/09/27 10:32:02.709795 [INF] Listening for client connections on 0.0.0.0:4222
 [2397474] 2023/09/27 10:32:02.710173 [INF] Server is ready
 ```
+
+## Building From the Source
+
+We use goreleaser to build assets published on [GitHub releases](https://github.com/nats-io/nats-server/releases).  
+Our builds are fully reproducible, so with Go installed, one can execute the following commands to build from source:
+```
+go install github.com/goreleaser/goreleaser/v2@latest
+
+git clone git@github.com:nats-io/nats-server.git
+cd nats-server
+git checkout v2.12.0 
+[[ `git status --porcelain` ]] && echo "Must have repo in clean state before building"
+
+goreleaser release --skip=announce,publish,validate --clean -f .goreleaser.yml
+```
+And to verify SHASUMs against our release:
+```
+wget https://github.com/nats-io/nats-server/releases/download/v2.12.0/SHA256SUMS
+diff --color --minimal --context=0 SHA256SUMS dist/SHA256SUMS
+```
