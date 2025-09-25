@@ -4,6 +4,8 @@ _Supported since NATS Server version 2.2_
 
 NATS follows as closely as possible to the MQTT v3.1.1 [specification](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html). Refer to the [MQTT implementation overview](https://github.com/nats-io/nats-server/blob/main/server/README-MQTT.md) in the nats-server repo.
 
+NATS supports MQTT QoS: 0, 1 and 2
+
 ## When to Use MQTT
 
 MQTT support in NATS is intended to be an enabling technology allowing users to leverage existing investments in their IoT deployments. Updating software on the edge or endpoints can be onerous and risky, especially when embedded applications are involved.
@@ -61,13 +63,13 @@ This works the same way for MQTT publishers. When the server receives an MQTT pu
 
 If the MQTT subscription is QoS1 and an MQTT publisher publishes an MQTT QoS1 message on the same or any other server in the cluster, the message will be persisted in the cluster and routed and delivered as QoS 1 to the MQTT subscription.
 
-## QoS 1 Redeliveries
+## QoS 1 and 2 Redeliveries
 
-When the server delivers a QoS 1 message to a QoS 1 subscription, it will keep the message until it receives the PUBACK for the corresponding packet identifier. If it does not receive it within the "ack_wait" interval, that message will be resent.
+When the server delivers a QoS 1 or 2 message to a QoS 1 or 2 subscription, it will keep the message until it receives the PUBACK for the corresponding packet identifier. If it does not receive it within the "ack_wait" interval, that message will be resent.
 
 ## Max Ack Pending
 
-This is the amount of QoS 1 messages the server can send to a subscription without receiving any PUBACK for those messages. The maximum value is 65535.
+This is the amount of QoS 1 or 2 messages the server can send to a subscription without receiving any PUBACK for those messages. The maximum value is 65535.
 
 The total of subscriptions' `max_ack_pending` on a given session cannot exceed 65535. Attempting to create a subscription that would bring the total above the limit would result in the server returning a failure code in the SUBACK for this subscription.
 
