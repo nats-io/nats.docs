@@ -120,7 +120,7 @@ Legend: Client: --C Router: --> Gateway: ==> Leafnode: ~~> JetStream: --J Error:
 Egress Count:
 
   JetStream: 1
-````
+```
 {% endhint %}
 
 
@@ -187,7 +187,7 @@ A full wildcard token can be used ONCE in source expression and must be present 
 Example: Prefixing a subject:
 ```
 nats server mapping ">"  "baz.>" bar.a.b
-> baz.bar.b.a
+> baz.bar.a.b
 ```
 
 

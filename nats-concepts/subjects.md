@@ -88,13 +88,13 @@ service.deploy.server-acme.app123
 * Name business or physical entities. Refrain from encoding too much data into the subject.
 * Encode (business) intent into the subject, not technical details.
 
-Pragmatic:
+✅ Pragmatic:
 
 ````shell
 orders.online.store123.order171711
 ````
 
-Maybe not so useful:
+❌ Maybe not so useful:
 
 ````shell
 orders.online.us.server42.ccpayment.premium.store123.electronics.deliver-dhl.order171711.create
@@ -141,7 +141,7 @@ The rules and recommendations here apply to ALL system names, subjects, streams,
 
 * **Reserved names:** By convention subject names starting with a `$` are reserved for system use (e.g. subject names starting with `$SYS` or `$JS` or `$KV`, etc...). Many system subjects also use `_` (underscore) (e.g. _INBOX , KV_ABC, OBJ_XYZ etc.)
 
-Good names
+✅ Good names
 
 ```markup
 time.us
@@ -158,7 +158,7 @@ $location.Stockholm
 _Subjects_.mysubject
 ```
 
-Forbidden stream names
+Forbidden **stream** names
 
 ```markup
 all*data

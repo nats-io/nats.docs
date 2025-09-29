@@ -9,7 +9,7 @@ While **Streams** are responsible for storing the published messages, the consum
 This tracking ensures that if a message is not acknowledged (un-acked or 'nacked'), the consumer will automatically attempt to re-deliver it. JetStream consumers support various acknowledgment types and policies. If a message is not
 acknowledged within a user-specified number of delivery attempts, an advisory notification is emitted.
 
- ## Dispatch type - Pull / Push
+## Dispatch type - Pull / Push
 Consumers can be **push**-based where messages will be delivered to a specified subject or **pull**-based which allows clients to request batches of messages on
 demand. The choice of what kind of consumer to use depends on the use-case.
 

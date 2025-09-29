@@ -4,9 +4,9 @@ In this tutorial you run the [NATS server Docker image](https://hub.docker.com/_
 
 **1. Set up Docker.**
 
-See [Get Started with Docker](http://docs.docker.com/mac/started/) for guidance.
+See [Get Started with Docker](https://www.docker.com/get-started/) for guidance.
 
-The easiest way to run Docker is to use the [Docker Toolbox](http://docs.docker.com/mac/step_one/).
+The easiest way to run Docker is to use the [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 
 **2. Run the nats-server Docker image.**
 

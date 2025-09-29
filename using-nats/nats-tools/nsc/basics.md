@@ -222,7 +222,7 @@ nsc describe operator
 +-----------------------+----------------------------------------------------------+
 ```
 
-Since the operator JWT is just a JWT you can use other tools, such as jwt.io to decode a JWT and inspect its contents. All JWTs have a header, payload, and signature:
+Since the operator JWT is just a JWT you can use other tools, such as https://jwt.io to decode a JWT and inspect its contents. All JWTs have a header, payload, and signature:
 
 ```text
 {
@@ -408,7 +408,7 @@ Received on [hello]: ’NATS’
 
 ### Create a `nats` context
 
-If you are going to use those credentials with `nats` you should create a context so you don't have to pass the connection and authentication arguments each time:
+If you are going to use those credentials with `nats` CLI you should create a context so you don't have to pass the connection and authentication arguments each time:
 
 ```shell
 nats context add myuser --creds ~/.nkeys/creds/MyOperator/MyAccount/MyUser.creds
