@@ -149,11 +149,11 @@ From the releases page, copy the link to the release archive file of your choice
 For example, assuming version X.Y.Z of the server and a Linux AMD64:
 
 ```shell
-curl -L https://github.com/nats-io/nats-server/releases/download/vX.Y.Z/nats-server-vX.Y.Z-linux-amd64.zip -o nats-server.zip
+curl -L https://github.com/nats-io/nats-server/releases/download/vX.Y.Z/nats-server-vX.Y.Z-linux-amd64.tar.gz -o nats-server.tar.gz
 ```
 
 ```shell
-unzip nats-server.zip -d nats-server
+tar -xvzf nats-server.tar.gz
 ```
 
 ```shell
@@ -165,7 +165,7 @@ Archive:  nats-server.zip
 and finally:
 
 ```shell
-sudo cp nats-server/nats-server-vX.Y.Z-linux-amd64/nats-server /usr/bin
+sudo cp nats-server-vX.Y.Z-linux-amd64/nats-server /usr/bin
 ```
 
 ## Installing From the Source
