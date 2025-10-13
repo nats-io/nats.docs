@@ -1,6 +1,8 @@
 # Enabling TLS
 
-The NATS server uses modern TLS semantics to encrypt client, route, and monitoring connections. Server configuration revolves around a `tls` map, which has the following properties:
+The NATS server uses modern TLS semantics to encrypt client, route, and monitoring connections. [Check here for pitfalls.](#problems-with-self-signed-certificates) 
+
+Server configuration revolves around a `tls` map, which has the following properties:
 
 | Property | Description |  |  |
 | :--- | :--- | :--- | :--- |
@@ -132,6 +134,16 @@ If anybody outside your organization needs to connect, get certs from a public c
 > **DO NOT USE these certificates in production!!!**
 
 ### Problems With Self Signed Certificates
+
+The issues and pitfalls listed here are not limited to self-signed certificates. You will most likely encounter them first in DEV environments when using those.
+
+#### Client advertise not matching TLS names
+
+NATS cluster advertises `host:port` of all nodes in a cluster to connecting client. When connecting to a server via TLS the server name (or IP) is validate against the certificate presented by the server,
+
+When using TLS it is important to set to control the hostname that clients will use when discovering the server since by default this will be an IP, otherwise TLS hostname verification may fail with an IP SANs error.
+
+Set `avertise` or `cluster_advertise` in the cluster section to advertise verifiable server names. See [cluster_config.md](../clustering/cluster_config.md)
 
 #### Missing in Relevant Trust Stores
 
