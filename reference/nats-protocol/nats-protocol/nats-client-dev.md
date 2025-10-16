@@ -20,9 +20,9 @@ Probably the best way to learn about implementing a client is to look at one of 
 
 * [GoLang](https://github.com/nats-io/nats.go)
 * [Java](https://github.com/nats-io/nats.java)
-* [c\# / .NET](https://github.com/nats-io/nats.net)
+* [C\# / .NET](https://github.com/nats-io/nats.net)
 * [Rust](https://github.com/nats-io/nats.rs)
-* [Javascript](https://github.com/nats-io/nats.js)
+* [JavaScript](https://github.com/nats-io/nats.js)
 * [Python](https://github.com/nats-io/nats.py)
 * [C](https://github.com/nats-io/nats.c)
 
@@ -81,7 +81,7 @@ A NATS publisher publishes the data argument to the given subject. The data argu
 
 ## Deciding on a parsing strategy
 
-Generally, protocol parsing for a NATS client is a string operation. In Python, for example, string operations are faster than regex. The Go and Java clients also use string operations to parse the message. But, if you look at the Ruby client, regex is used to parse the protocol because in Ruby regex is faster that string operations.
+Generally, protocol parsing for a NATS client is a string operation. In Python, for example, string operations are faster than regex. The Go and Java clients also use string operations to parse the message. But, if you look at the Ruby client, regex is used to parse the protocol because in Ruby regex is faster than string operations.
 
 In sum, there is no magic formula for parsing—it depends on the programming language. But, you need to take into consideration how you are going to parse the message when you write a client.
 
