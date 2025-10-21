@@ -29,7 +29,7 @@ See [NATS by Example](https://natsbyexample.com/) under "Authentication and Auth
 
 Golang example from https://natsbyexample.com/examples/auth/nkeys-jwts/go
 
-```
+```go
 package main
 
 import (

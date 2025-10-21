@@ -179,34 +179,33 @@ NATS Pub/Sub stats: 7,019,849 msgs/sec ~ 107.11 MB/sec
   min 1,170,250 | avg 1,170,821 | max 1,171,181 | stddev 349 msgs
 ```
 
-## Run a request-reply latency test
+## Run a Micro-service latency test
 
-In one shell start a nats bench in 'reply mode' and let it run
+In one shell start a nats bench in 'serve mode' and let it run
 
 ```bash
-nats bench foo --sub 1 --reply
+nats bench service serve foo --clients=1
 ```
 
 And in another shell send some requests
 
 ```bash
-nats bench foo --pub 1 --request --msgs 10000
+nats bench service request foo --clients=1 --msgs=10000
 ```
 
 ```
-23:47:35 Benchmark in request-reply mode
-23:47:35 Starting request-reply benchmark [msgs=10,000, msgsize=128 B, pubs=1, subs=0, js=false, request=true, reply=false]
-23:47:35 Starting publisher, publishing 10,000 messages
-Finished      1s [==============================================================================================================================================================================================================================================================================================================================================================================================================================================================] 100%
+23:29:05 Starting Core NATS service requester benchmark [clients=1, msg-size=128 B, msgs=10,000, sleep=0s, subject=foo]
+23:29:05 [1] Starting Core NATS service requester, requesting 10,000 messages
+Finished      0s [==================================================================================================================] 100%
 
-Pub stats: 8,601 msgs/sec ~ 1.05 MB/sec
+NATS Core NATS service requester stats: 11,016 msgs/sec ~ 1.3 MiB/sec ~ 90.78us
 ```
 
-In this case the average latency of request-reply between the two `nats bench` processes over NATS was 1/8,601th of a second (116.2655505 microseconds).
+In this case the average latency of request-reply between the two `nats bench` processes over NATS was 1/11,016th of a second (90.78 microseconds).
 
-You can now hit control-c to kill that `nats bench --reply` process
+You can now hit control-c to kill that `nats bench service serve` process
 
-Note: by default `nats bench` subscribers in 'reply mode' join a queue group, so you can use `nats bench` for example to simulate a bunch of load balanced server processes.
+Note: by default `nats bench` subscribers in 'serve mode' join a queue group, so you can use `nats bench` for example to simulate a bunch of load balanced server processes.
 
 ## Run JetStream benchmarks
 

@@ -16,7 +16,7 @@ Examples will be roughly classified as:
 * **Complex** - A non-trivial setup requiring some prior knowledge of NATS - e.g. Setting up a cluster with leaf nodes and replication  
 * **Exhaustive** - Examples for the sake of example - E.g. Demonstrating all retention and limit options of a stream
 
-Last but not least:  LLVMs learn by example. Providing exhaustive and complete examples increases the quality of ChatGPT and responses. Content matters more than structure for this purpose.
+Last but not least:  LLMs learn by example. Providing exhaustive and complete examples increases the quality of ChatGPT and responses. Content matters more than structure for this purpose.
 
 ## Programming examples and Client APIs
 

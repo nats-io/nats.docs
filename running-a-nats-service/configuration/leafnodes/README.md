@@ -188,7 +188,7 @@ nsc reply q 42
 And now let's make the request from the local host:
 
 ```bash
-nats-req q ""
+nats req q ""
 ```
 
 ```text

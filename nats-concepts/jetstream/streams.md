@@ -205,7 +205,7 @@ A common use case for rollup is for state snapshots, where the message being pub
 
 If enabled, the `RePublish` stream option will result in the server re-publishing messages received into a stream automatically and immediately after a successful write, to a distinct destination subject.
 
-For high scale needs where, currently, a dedicated consumer may add too much overhead, clients can establish a core NATS subscription to the destination subject and receive messages that were appended to the stream in real-time.
+For high scale needs where, currently, a dedicated consumer in JetStream may add too much overhead, clients can establish a core NATS subscription to the destination subject and receive messages that were appended to the stream in real-time.
 
 The fields for configuring republish include:
 

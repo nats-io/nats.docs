@@ -9,7 +9,7 @@ Common stream management operations are:
 * Purge a stream (delete all the messages stored in the stream)
 * Get or remove a specific message from a stream by sequence number
 * Add or update (or delete) a consumer
-* Get info and statistics on streams/consumers/account. Get/remove/get information on individual messages stored in a stream.
+* Get info and statistics on streams/consumers/account. Get/remove information on individual messages stored in a stream.
 
 {% tabs %}
 {% tab title="Go" %}

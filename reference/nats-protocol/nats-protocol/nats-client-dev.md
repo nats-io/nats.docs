@@ -77,7 +77,7 @@ type Msg struct {
 }
 ```
 
-A NATS publisher publishes the data argument to the given subject. The data argument is left untouched and needs to be correctly interpreted on the receiver. How the client parses a NATS message depends on the programming language.
+A NATS publisher publishes the `Data` argument to the given subject. The data argument is left untouched and needs to be correctly interpreted on the receiver. How the client parses a NATS message depends on the programming language.
 
 ## Deciding on a parsing strategy
 
