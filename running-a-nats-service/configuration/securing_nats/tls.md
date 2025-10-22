@@ -139,9 +139,9 @@ The issues and pitfalls listed here are not limited to self-signed certificates.
 
 #### Client advertise not matching TLS names
 
-NATS cluster advertises `host:port` of all nodes in a cluster to connecting client. When connecting to a server via TLS the server name (or IP) is validate against the certificate presented by the server,
+NATS cluster advertises `host:port` of all nodes in a cluster to the connecting client. When connecting to a server via TLS the server name (or IP) is validated against the certificate presented by the server.
 
-When using TLS it is important to set to control the hostname that clients will use when discovering the server since by default this will be an IP, otherwise TLS hostname verification may fail with an IP SANs error.
+When using TLS, it is important to set to control the hostname that clients will use when discovering the server since, by default, this will be an IP, otherwise TLS hostname verification may fail with an IP SANs error.
 
 Set `avertise` or `cluster_advertise` in the cluster section to advertise verifiable server names. See [cluster_config.md](../clustering/cluster_config.md)
 
