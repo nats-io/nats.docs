@@ -25,8 +25,13 @@ The main server is just a standard NATS server. Clients to the main cluster are 
 leafnodes {
     port: 7422
 }
-authorization {
-    token: "s3cr3t"
+accounts: {
+    app: { 
+        users: [
+            {user: appuser, password: s3cr3t},
+            {user: leafuser, password: s3cr3t}
+           ]
+    }  
 }
 ```
 
@@ -47,7 +52,7 @@ Output extract
 We create a replier on the server to listen for requests on 'q', which it will aptly respond with '42':
 
 ```bash
-nats reply -s nats://s3cr3t@localhost q 42
+nats reply -s nats://appuser:s3cr3t@localhost q 42
 ```
 
 The leaf node, allows local clients to connect to through port 4111, and doesn't require any kind of authentication. The configuration specifies where the remote cluster is located, and specifies how to connect to it (just a simple token in this case):
@@ -57,7 +62,7 @@ listen: "127.0.0.1:4111"
 leafnodes {
     remotes = [
         {
-          url: "nats://s3cr3t@localhost"
+          url: "nats://leafuser:s3cr3t@localhost"
         },
     ]
 }
@@ -70,7 +75,7 @@ listen: "127.0.0.1:4111"
 leafnodes {
     remotes = [
         {
-          url: "tls://s3cr3t@localhost"
+          url: "tls://leafuser:s3cr3t@localhost"
         },
     ]
 }
