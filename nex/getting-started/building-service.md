@@ -84,13 +84,13 @@ this is a test
 Finally, let's also make sure that this service is behaving properly according to the NATS services specification:
 
 ```
-$ nats micro ls
+$ nats service ls
 ╭──────────────────────────────────────────────────────────────╮
-│                      All Micro Services                      │
+│                           All Services                       │
 ├─────────────┬─────────┬────────────────────────┬─────────────┤
 │ Name        │ Version │ ID                     │ Description │
 ├─────────────┼─────────┼────────────────────────┼─────────────┤
-│ EchoService │ 1.0.0   │ FKIuiivKgSB8VWyjDYBpEc │             │
+│ EchoService │ 1.0.0   │ 8GGpcCv98xgoGb5VUDRAl8 │             │
 ╰─────────────┴─────────┴────────────────────────┴─────────────╯
 ```
 

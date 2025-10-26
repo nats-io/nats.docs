@@ -5,7 +5,7 @@ NGS is a global managed NATS network of NATS, and the local containers will conn
 
 Start by creating a free account on [https://cloud.synadia.com/](https://cloud.synadia.com?utm_source=nats_docs&utm_medium=nats).
 
-Once you are logged in, go into the `default` account (you can manage multiple isolated NGS account within your Synadia Cloud account).
+Once you are logged in, go into the `default` NGS account (you can manage multiple isolated NGS account within your Synadia Cloud account).
 
 In `Settings` > `Limits`, increase `Leaf Nodes` to 2. Save the configuration change.
 (Your free account comes with up to 2 leaf connection, but the account is configured to use at most 1 initially).
@@ -50,7 +50,7 @@ Launching the container, you should see the NATS server starting successfully:
 ```
 
 Now start the second leaf nodes with two minor tweaks to the command:
-```
+```shell
 docker run  -p 4333:4222 -v leafnode.conf:/leafnode.conf -v /etc/ssl/cert.pem:/etc/ssl/cert.pem -v default-blue.creds:/ngs.creds  nats:latest -c /leafnode.conf
 ```
 

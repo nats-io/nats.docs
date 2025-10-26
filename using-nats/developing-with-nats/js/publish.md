@@ -178,7 +178,7 @@ foreach (var future in futures)
 {% endtab %}
 
 {% tab title="C" %}
-```
+```c
 #include "examples.h"
 
 static const char *usage = ""\
