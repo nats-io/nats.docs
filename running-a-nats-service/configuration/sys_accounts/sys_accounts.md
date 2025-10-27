@@ -278,10 +278,9 @@ Received  [_INBOX.DQD44ugVt0O4Ur3pWIOOD1.WQOBevoq] : '{
 
 If profiling is enabled for a server, this service enables requesting it from the server. The request payload must specify the name of the profile being requested with an optional debug level, including:
 
-- `allocs` - 0, 1
+- `heap` - 0, 1
 - `block` - 0
 - `goroutine` - 0, 1, 2
-- `heap` - 0, 1
 - `mutex` - 0
 - `threadcount` - 0
 
