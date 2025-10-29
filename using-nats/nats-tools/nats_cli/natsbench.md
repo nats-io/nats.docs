@@ -1,6 +1,6 @@
 # nats bench
 
-NATS is fast and lightweight and places a priority on performance. the `nats` CLI tool can, amongst many other things, be used for running benchmarks and measuring performance of your target NATS service infrastructure. In this tutorial you learn how to benchmark and tune NATS on your systems and environment.
+NATS is fast and lightweight, and places a priority on performance. The `nats` CLI tool can, amongst many other things, be used for running benchmarks and measuring performance of your target NATS service infrastructure. In this tutorial, you learn how to benchmark and tune NATS on your systems and environment.
 
 Note: the numbers below are just examples and were obtained using a MacBook Pro M4 (November 2024) running version 2.12.1 of `nats-server`:
 ```
@@ -75,9 +75,9 @@ NATS Core NATS publisher stats: 14,786,683 msgs/sec ~ 226 MiB/sec ~ 0.07us
 
 ## Run a publish/subscribe throughput test
 
-While the measurement above is an interesting data point, it is a purely academic measurement as usually you will have one (or more) subscribers for the messages being published.
+While the measurement above is an interesting data point, it is purely an academic measurement as you will usually have one (or more) subscribers for the messages being published.
 
-Let's look at throughput for a single publisher with a single subscriber, for this we need to run two instances of `nats bench` at the same time (e.g. in two shell windows), one to subscribe and one to publish.
+Let's look at throughput for a single publisher with a single subscriber. For this, we need to run two instances of `nats bench` at the same time (e.g. in two shell windows), one to subscribe and one to publish.
 
 First start the subscriber (it doesn't start measuring until it receives the first message from the publisher).
 ```bash
@@ -133,7 +133,7 @@ Finished      0s [============================================================] 
 NATS Core NATS subscriber stats: 226,091 msgs/sec ~ 3.4 GiB/sec ~ 4.42us
 ```
 
-As expected, while the number of messages per second decreases with the larger messages, the throughput however increases massively.
+As expected, while the number of messages per second decreases with the larger messages, the throughput, however, increases massively.
 
 ## Run a 1:N throughput test
 
@@ -264,7 +264,7 @@ Finished      5s [==============================================================
 NATS Core NATS service requester stats: 19,659 msgs/sec ~ 2.4 MiB/sec ~ 50.87us
 ```
 
-In this case the average latency of request-reply between the two `nats bench` processes over NATS was 50.87 micro-seconds. However, since those requests are made synchronously we can not measure throughput this way, we need to generate a lot more load by having more than one client making those synchronous requests are the same time, and also we will run more than one service instance (as you would in production) such that the requests are load-balanced between the service instances using the queue group functionality.
+In this case, the average latency of request-reply between the two `nats bench` processes over NATS was 50.87 micro-seconds. However, since those requests are made synchronously, we can not measure throughput this way. We need to generate a lot more load by having more than one client making those synchronous requests at the same time, and we will also run more than one service instance (as you would in production) such that the requests are load-balanced between the service instances using the queue group functionality.
 
 Start the service instances and leave running:
 ```bash
