@@ -145,7 +145,7 @@ A stream can be copied into another, which also allows the configuration of the 
 nats str cp ORDERS ARCHIVE --subjects "ORDERS_ARCHIVE.*" --max-age 2y
 ```
 ```text
-Stream ORDERS was created
+Stream ARCHIVE was created
 
 Information for Stream ORDERS created 2021-02-27T16:52:46-07:00
 
