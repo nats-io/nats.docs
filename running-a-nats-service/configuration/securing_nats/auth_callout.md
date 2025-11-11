@@ -63,7 +63,7 @@ The available properties in the `auth_callout` block include:
 | Property     | Description                                                                                                       |
 | ------------ | ----------------------------------------------------------------------------------------------------------------- |
 | `issuer`     | The public key of the designated NKey used for signing authorization payloads.                                    |
-| `auth_users` | The list of user names under `account` that are designated auth callout users.                                    |
+| `auth_users` | The list of user names or nkeys under `account` that are designated auth callout users.                                    |
 | `account`    | The account containing the users that are designated _auth callout_ users. Defaults to the global account (`$G`). |
 | `xkey`       | Optional. The public key of a designated XKey (x25519) used for encrypting authorization payloads.                |
 
