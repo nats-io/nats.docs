@@ -27,7 +27,7 @@ nats-server -m 8222
 [4528] 2019/06/01 20:09:58.572939 [INF] Starting nats-server version 2.0.0
 [4528] 2019/06/01 20:09:58.573007 [INF] Starting http monitor on port 8222
 [4528] 2019/06/01 20:09:58.573071 [INF] Listening for client connections on 0.0.0.0:4222
-[4528] 2019/06/01 20:09:58.573090 [INF] nats-server is ready</td>
+[4528] 2019/06/01 20:09:58.573090 [INF] nats-server is ready
 ```
 
 To test, run `nats-server -m 8222`, then go to [http://localhost:8222/](http://localhost:8222/)
