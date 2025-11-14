@@ -2,9 +2,11 @@
 
 Message headers are used in a variety of JetStream contexts, such de-duplication, auto-purging of messages, metadata from republished messages, and more.
 
+`Nats-` is a reserved namespace. Please use a different prefix for your own headers. This list may not be complete. Additional headers may be used for API internal messages or messages used for monitoring and control.  
+
 ## Publish
 
-Headers that can be set by a client when a message being published.
+Headers that can be set by a client when a message being published. These headers are recognized by the server.
 
 | Name                                  | Description                                                                                                                                                                                                       | Example                                | Version |
 | :------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------- | :------ |
@@ -13,11 +15,13 @@ Headers that can be set by a client when a message being published.
 | `Nats-Expected-Last-Msg-Id`           | Used to apply optimistic concurrency control at the stream-level. The value is the last expected `Nats-Msg-Id` and the server will reject a publish if the current ID does not match.                             | `9f01ccf0-8c34-4789-8688-231a2538a98b` | 2.2.0   |
 | `Nats-Expected-Last-Sequence`         | Used to apply optimistic concurrency control at the stream-level. The value is the last expected sequence and the server will reject a publish if the current sequence does not match.                            | `328`                                  | 2.2.0   |
 | `Nats-Expected-Last-Subject-Sequence` | Used to apply optimistic concurrency control at the subject-level. The value is the last expected sequence and the server will reject a publish if the current sequence does not match for the message's subject. | `38`                                   | 2.3.1   |
-| `Nats-Rollup`                         | Used to apply a purge of all prior messages in the stream or at the subject-level.                                                                                                                                | `all` for stream, `sub` for subject    | 2.6.2   |
+| `Nats-Rollup`                         | Used to apply a purge of all prior messages in a stream or at the subject-level. The `rollup message` will stay in the stream.       | `all` purges the full stream, `sub` purges the subject on which this messages was sent. Wildcards subjects are not allowed and will result in undefined behavior.   | 2.6.2   |
 
 ## RePublish
 
-Headers set messages that are republished.
+When messages are being re-published by a stream (must be configured in stream settings) these headers are being set.
+
+Do not set these headers on client published messages.
 
 | Name                 | Description                                                                                                            | Example                       | Version |
 | :------------------- | :--------------------------------------------------------------------------------------------------------------------- | :---------------------------- | :------ |
@@ -30,6 +34,8 @@ Headers set messages that are republished.
 ## Sources
 
 Headers that are implicitly added to messages sourced from other streams.
+
+The format of the header content may change in the future. Please parse conservatively and assume that additional fields may be added or that older nats-server version have fewer fields.
 
 | Name                 | Description                                                                                                                                           | Example     | Version |
 | :------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------- | :---------- | :------ |
@@ -45,7 +51,9 @@ Headers added to messages when the consumer is configured to be "headers only" o
 
 ## Mirror
 
-Headers used for internal flow-control messages for a mirror.
+Headers used for internal flow-control messages for a mirror. 
+
+This is for information only and may change without notice. 
 
 | Name                    | Description | Example | Version |
 | :---------------------- | :---------- | :------ | :------ |
