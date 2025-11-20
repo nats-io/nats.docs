@@ -32,5 +32,5 @@ All these events have JSON Schemas that describe them, schemas can be viewed on 
 
 ## Dashboards
 
-The [NATS Surveyor](https://github.com/nats-io/nats-surveyor) system has initial support for passing JetStream metrics to Prometheus, dashboards and more will be added towards final release.
+Check out [NATS Surveyor Dashboards](https://github.com/nats-io/nats-surveyor/tree/main/docker-compose/grafana/provisioning/dashboards).
 
