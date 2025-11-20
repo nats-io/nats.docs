@@ -11,7 +11,7 @@ Within an account there are operations and reports that show where users data is
 When adding a stream using the `nats` CLI the number of replicas will be asked, when you choose a number more than 1, \(we suggest 1, 3 or 5\), the data will be stored on multiple nodes in your cluster using the RAFT protocol as above.
 
 ```shell
-nats str add ORDERS --replicas 3
+nats stream add ORDERS --replicas 3
 ```
 Example output extract:
 ```text
@@ -36,7 +36,7 @@ Here we have a stream in the NATS cluster `C1`, its current leader is a node `n1
 
 The `current` indicates that followers are up to date and have all the messages, here both cluster peers were seen very recently.
 
-The replica count cannot be edited once configured.
+The replica count can be edited once configured.
 
 ### Viewing Stream Placement and Stats
 
@@ -117,7 +117,7 @@ nats server report jetstream --user admin --password s3cr3t!
 +-------+--------+---------+---------+--------+-----+
 | n1-c1 | yes    | true    | false   | 0.00s  | 0   |
 | n1-c2 |        | true    | false   | 0.05s  | 0   |
-| n2-c1 |        | true    | false   | 0.05s  | 0   |
+| n2-c1 |        | false   | true    | 9.00s  | 2   |
 | n2-c2 |        | true    | false   | 0.05s  | 0   |
 | n3-c1 |        | true    | false   | 0.05s  | 0   |
 | n3-c2 |        | true    | false   | 0.05s  | 0   |
@@ -186,7 +186,7 @@ This will produce a wealth of raw information about the current state of your cl
 Similar to Streams and Consumers above the Meta Group allows leader stand down. The Meta Group is cluster wide and spans all accounts, therefore to manage the meta group you have to use a `SYSTEM` user.
 
 ```shell
-nats server raft step-down --user admin --password s3cr3t!
+nats server cluster step-down --user admin --password s3cr3t!
 ```
 ```text
 17:44:24 Current leader: n2-c2
@@ -195,11 +195,26 @@ nats server raft step-down --user admin --password s3cr3t!
 
 ### Evicting a peer
 
-Generally when shutting down NATS, including using Lame Duck Mode, the cluster will notice this and continue to function. A 5 node cluster can withstand 2 nodes being down.
+Generally when shutting down NATS, including using Lame Duck Mode, the cluster will notice this and continue to function.
 
-There might be a case though where you know a machine will never return, and you want to signal to JetStream that the machine will not return. This will remove it from the Stream in question and all it's Consumers.
+There might be a case though where you know a node will never return, and you want to signal to JetStream that the node will not return. A peer-remove will remove that node from the Stream in question and all its Consumers.
 
-After the node is removed the cluster will notice that the replica count is not honored anymore and will immediately pick a new node and start replicating data to it. The new node will be selected using the same placement rules as the existing stream.
+After the node is removed the cluster will notice that the replica count of a stream is not honored anymore and will immediately pick a new node and start replicating data to it. The new node will be selected using the same placement rules as the existing stream.
+
+```shell
+nats server cluster peer-remove n4-c1 --user admin --password s3cr3t!
+```
+```text
+? Really remove offline peer n4-c1 (y/N)
+```
+
+{% hint style="danger" %}
+Peer-removing nodes from the cluster is a destructive operation, and decreases the size of the cluster.
+A server that is to be peer-removed should ideally already be offline. It can be performed with nodes that are still online, but in this case, JetStream will be disabled on those nodes. The server should be shut down and not restarted, or if it is, JetStream should be disabled.
+The server may not come back under the same `server_name` if it was peer-removed and its disk wiped. This means the configured `server_name` will need to be changed to a new value before restarting.
+{% endhint %}
+
+Alternatively, if you're intending for the node to remain and only move a stream off of a specific node, you can peer-remove a node on the stream-level.
 
 ```shell
 nats stream cluster peer-remove ORDERS
@@ -210,7 +225,7 @@ nats stream cluster peer-remove ORDERS
 14:38:50 Requested removal of peer "n4-c1"
 ```
 
-At this point the stream and all consumers will have removed `n4-c1` from the group, they will all start new peer selection and data replication.
+At this point the stream and all consumers will have removed `n4-c1` from the group. A new node will be selected, and data will be replicated to it. In this case `n2-c1` is selected as a new peer.
 
 ```shell
 $ nats stream info ORDERS
