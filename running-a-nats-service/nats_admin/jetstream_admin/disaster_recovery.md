@@ -17,7 +17,7 @@ NATS will create replacement stream replicas automatically under the following c
 * Impacted stream is of replica configuration R3 (or greater)
 * Remaining intact nodes (stream replicas) meet minimum RAFT quorum: floor(R/2) + 1
 * Available node(s) in the stream's cluster for new replica(s)
-* Impacted node(s) removed from the stream's domain RAFT Meta group (e.g. `nats server raft peer-remove`)
+* Impacted node(s) removed from the stream's domain RAFT Meta group (e.g. `nats server cluster peer-remove`)
 
 ## Manual Recovery
 
