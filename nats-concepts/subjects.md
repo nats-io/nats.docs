@@ -163,7 +163,7 @@ Forbidden stream names
 ```markup
 all*data
 <my_stream>
-service.stream.1
+service stream 1
 ```
 
 ### Pedantic mode
