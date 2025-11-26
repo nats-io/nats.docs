@@ -34,7 +34,7 @@ In this comparison, we will be featuring NATS, Apache Kafka, RabbitMQ, Apache Pu
 | :--- | :--- |
 | **NATS** | At most once, at least once, and exactly once is available in JetStream. |
 | **gRPC** | At most once. |
-| **Kafka** | At least once, exactly once. |
+| **Kafka** | At most once, at least once, and exactly once. |
 | **Pulsar** | At most once, at least once, and exactly once. |
 | **Rabbit** | At most once, at least once. |
 
