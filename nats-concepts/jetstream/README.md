@@ -132,6 +132,50 @@ Rather than defaulting to the maximum, we suggest selecting the best option base
 
 JetStream also allows server administrators to easily mirror streams, for example between different JetStream domains in order to offer disaster recovery. You can also define a stream that 'sources' from one or more other streams.
 
+**Syncing data to disk**
+
+JetStream’s file-based streams persist messages to disk. However, under the default configuration, JetStream does not immediately `fsync` data to disk. The server uses a configurable `sync_interval` option, with a default value of 2 minutes, which controls how often the server will `fsync` its data. The data will be `fsync`-ed no later than this interval. This has important consequences for durability:
+
+In a non-replicated setup, an OS failure may result in data loss. A client might publish a message and receive an acknowledgment, but the data may not yet be safely stored to disk. As a result, after an OS failure recovery, a server may have lost recently acknowledged messages.
+
+In a replicated setup, a published message is acknowledged after it successfully replicated to at least a quorum of servers. However, replication alone is not enough to guarantee the strongest level of durability against multiple systemic failures.
+- If multiple servers fail simultaneously, all due to an OS failure, and before their data has been `fsync`-ed, the cluster may fail to recover the most recently acknowledged messages.
+- If a failed server lost data locally due to an OS failure, although extremely rare, it may rejoin the cluster and form a new majority with nodes that have never received or persisted a given message. The cluster may then proceed with incomplete data causing acknowledged messages to be lost.
+
+Setting a lower `sync_interval` increases the frequency of disk writes, and reduces the window for potential data loss, but at the expense of performance. Additionally, setting `sync_interval: always` will make sure servers `fsync` after every message before it is acknowledged. This setting, combined with replication in different data centers or availability zones, provides the strongest durability guarantees but at the slowest performance.
+
+The default settings have been chosen to balance performance and risk of data loss in what we consider to be a typical production deployment scenario across multiple availability zones.
+
+For example, consider a stream with 3 replicas deployed across three separate availability zones. For the stream state to diverge across nodes would require that:
+- One of the 3 servers is already offline, isolated or partitioned.
+- A second server’s OS needs to be killed such that it loses writes of messages that were only available on 2 out of 3 nodes due to them not being `fsync`-ed.
+- The stream leader that’s part of the above 2 out of 3 nodes needs to go down or become isolated/partitioned.
+- The first server of the original partition that didn’t receive the writes recovers from the partition.
+- The OS-killed server now returns and comes in contact with the first server but not with the previous stream leader.
+
+In the end, 2 out of 3 nodes will be available, the previous stream leader with the writes will be unavailable, one server will have lost some writes due to the OS kill, and one server will have never seen these writes due to the earlier partition. The last two servers could then form a majority and accept new writes, essentially losing some of the former writes.
+
+Importantly this is a failure condition where stream state could diverge, but in a system that is deployed across multiple availability zones, it would require multiple faults to align precisely in the right way.
+
+A potential mitigation to a failure of this kind is not automatically bringing back a server process that was OS-killed until it is known that a majority of the remaining servers have received the new writes, or by peer-removing the crashed server and admitting it as a new and wiped peer and allowing it to recover over the network from existing healthy nodes (although this could be expensive depending on the amount of data involved).
+
+For use cases where minimizing loss is an absolute priority,  `sync_interval: always` can of course still be configured, but note that this will have a server-wide performance impact that may affect throughput or latencies. For production environments, operators should evaluate whether the default is correct for their use case, target environment, costs, and performance requirements.
+
+Alternatively, a hybrid approach can be used where existing clusters still function under their default `sync_interval` settings but a new cluster gets added that’s configured with `sync_interval: always`, and utilizes server tags. The placement of a stream can then be specified to have this stream store data on this higher durability cluster through the use of [placement tags](streams.md#placement).
+```
+# Configure a cluster that's dedicated to always sync writes.
+server_tags: ["sync:always"]
+
+jetstream {
+    sync_interval: always
+}
+```
+
+Create a replicated stream that’s specifically placed in the cluster using `sync_interval: always`, to ensure strongest durability only for stream writes that require this level of durability.
+```
+nats stream add --replicas 3 --tag sync:always
+```
+
 #### De-coupled flow control
 
 JetStream provides decoupled flow control over streams, the flow control is not 'end to end' where the publisher(s) are limited to publish no faster than the slowest of all the consumers (i.e. the lowest common denominator) can receive but is instead happening individually between each client application (publishers or consumers) and the nats server.
