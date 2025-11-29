@@ -14,11 +14,11 @@ The `--name`, `--tags` and `--cluster` selectors can be used either individually
 
 | Command                                                    | Description                                                                                   |
 |------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
-| `nats server request profile allocs`                       | Request a memory profile from all servers in the system                                       |
-| `nats server request profile allocs ./profiles`            | Request a memory profile from all servers in the system and write to the `profiles` directory |
-| `nats server request profile allocs --name=servername1`    | Request a memory profile from `servername1` only                                              |
-| `nats server request profile allocs --tags=aws`            | Request a memory profile from all servers tagged as `aws`                                     |
-| `nats server request profile allocs --cluster=aws-useast2` | Request a memory profile from all servers in the cluster named `aws-useast2` only             |
+| `nats server request profile heap`                       | Request a memory profile from all servers in the system                                       |
+| `nats server request profile heap ./profiles`            | Request a memory profile from all servers in the system and write to the `profiles` directory |
+| `nats server request profile heap --name=servername1`    | Request a memory profile from `servername1` only                                              |
+| `nats server request profile heap --tags=aws`            | Request a memory profile from all servers tagged as `aws`                                     |
+| `nats server request profile heap --cluster=aws-useast2` | Request a memory profile from all servers in the cluster named `aws-useast2` only             |
 
 #### CPU profile
 
@@ -44,6 +44,7 @@ The NATS Server can expose a HTTP `pprof` profiling port, although it must be en
 ```
 prof_port = 65432
 ```
+
 Note that this option does not support [configuration-reloading](../configuration/#configuration-reloading), so the server must be restarted for the config change to take effect.  
 
 Once the profiling port has been enabled, you can download profiles as per the following sections. These profiles can be inspected using [`go tool pprof`](https://pkg.go.dev/net/http/pprof).  
@@ -52,14 +53,14 @@ To see all available profiles, open [http://localhost:65432/debug/pprof/](http:/
 
 #### Memory profile
 
-`http://localhost:65432/debug/pprof/allocs`
+`http://localhost:65432/debug/pprof/heap`
 
 This endpoint will return instantly.
 
 For example, to download an allocation profile from NATS running on the same machine:
 
 ```shell
-curl -o mem.prof http://localhost:65432/debug/pprof/allocs
+curl -o mem.prof http://localhost:65432/debug/pprof/heap
 ```
 
 The profile will be saved into `mem.prof`.
@@ -77,5 +78,3 @@ curl -o cpu.prof http://localhost:65432/debug/pprof/profile?seconds=30
 ```
 
 The profile will be saved into `cpu.prof`.
-
-
