@@ -148,7 +148,7 @@ The default settings have been chosen to balance performance and risk of data lo
 
 For example, consider a stream with 3 replicas deployed across three separate availability zones. For the stream state to diverge across nodes would require that:
 - One of the 3 servers is already offline, isolated or partitioned.
-- A second server’s OS needs to be fail such that it loses writes of messages that were only available on 2 out of 3 nodes due to them not being `fsync`-ed.
+- A second server’s OS needs to fail such that it loses writes of messages that were only available on 2 out of 3 nodes due to them not being `fsync`-ed.
 - The stream leader that’s part of the above 2 out of 3 nodes needs to go down or become isolated/partitioned.
 - The first server of the original partition that didn’t receive the writes recovers from the partition.
 - The OS-failed server now returns and comes in contact with the first server but not with the previous stream leader.
