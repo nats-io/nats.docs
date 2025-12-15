@@ -2,57 +2,31 @@
 
 ## Command Line
 
-On Unix systems, the NATS server responds to the following signals:
+On Unix systems, the NATS server responds to the following signals.  
+You can send these using the standard Unix `kill` command, or use the `nats-server --signal` command for convenience.
 
-| Signal    | Result                                                         |
-| :-------- | :------------------------------------------------------------- |
-| `SIGKILL` | Kills the process immediately                                  |
-| `SIGQUIT` | Kills the process immediately and performs a core dump         |
-| `SIGINT`  | Stops the server gracefully                                    |
-| `SIGTERM` | Stops the server gracefully                                    |
-| `SIGUSR1` | Reopens the log file for log rotation                          |
-| `SIGHUP`  | Reloads server configuration file                              |
-| `SIGUSR2` | Stops the server after evicting all clients \(lame duck mode\) |
+| nats-server command | Unix Signal | Description                                                    |
+| :------------------ | :---------- | :------------------------------------------------------------- |
+| `--signal ldm`      | `SIGUSR2`   | Stops the server gracefully by draining client connections first \([lame duck mode](lame_duck_mode.md)\) |
+| `--signal quit`     | `SIGINT`    | Stops the server gracefully                                    |
+| `--signal term`     | `SIGTERM`   | Stops the server gracefully                                    |
+| `--signal stop`     | `SIGKILL`   | Kills the process immediately                                  |
+| `--signal reload`   | `SIGHUP`    | Reloads server configuration file                              |
+| `--signal reopen`   | `SIGUSR1`   | Reopens the log file for log rotation                          |
+| _(kill only)_       | `SIGQUIT`   | Kills the process immediately and performs a [stack dump](https://pkg.go.dev/os/signal#hdr-Default_behavior_of_signals_in_Go_programs)         |
 
-The `nats-server` binary can be used to send these signals to running NATS servers using the `--signal`/`-sl` flag. It supports the following commands:
+### Usage
 
-| Command  | Signal    |
-| :------- | :-------- |
-| `stop`   | `SIGKILL` |
-| `quit`   | `SIGINT`  |
-| `term`   | `SIGTERM` |
-| `reopen` | `SIGUSR1` |
-| `reload` | `SIGHUP`  |
-| `ldm`    | `SIGUSR2` |
-
-### Quit the server
+To send a signal to a running nats-server:
 
 ```shell
-nats-server --signal quit
+nats-server --signal <command>
 ```
 
-### Stop the server
-
-```shell
-nats-server --signal stop
-```
-
-### Lame duck mode the server
+For example, to gracefully stop the server with lame duck mode:
 
 ```shell
 nats-server --signal ldm
-```
-
-### Reopen log file for log rotation
-
-```shell
-nats-server --signal reopen
-```
-
-### Reload server configuration
-
-```shell
-nats-server --signal reload
 ```
 
 ### Multiple processes
