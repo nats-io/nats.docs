@@ -7,7 +7,7 @@ You can send these using the standard Unix `kill` command, or use the `nats-serv
 
 | nats-server command | Unix Signal | Description                                                    |
 | :------------------ | :---------- | :------------------------------------------------------------- |
-| `--signal ldm`      | `SIGUSR2`   | Stops the server gracefully by draining client connections first \([lame duck mode](lame_duck_mode.md)\) |
+| `--signal ldm`      | `SIGUSR2`   | Graceful shutdown (evicts clients gradually) \([lame duck mode](lame_duck_mode.md)\) |
 | `--signal quit`     | `SIGINT`    | Stops the server gracefully                                    |
 | `--signal term`     | `SIGTERM`   | Stops the server gracefully                                    |
 | `--signal stop`     | `SIGKILL`   | Kills the process immediately                                  |
