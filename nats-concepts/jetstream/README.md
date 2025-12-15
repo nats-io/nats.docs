@@ -134,13 +134,13 @@ JetStream also allows server administrators to easily mirror streams, for exampl
 
 **Syncing data to disk**
 
-JetStream’s file-based streams persist messages to disk. However, under the default configuration, JetStream does not immediately `fsync` data to disk. The server uses a configurable `sync_interval` option, with a default value of 2 minutes, which controls how often the server will `fsync` its data. The data will be `fsync`-ed no later than this interval. This has important consequences for durability:
+JetStream’s file-based streams persist messages to disk. However, while JetStream does flush file writes to the OS synchronously, under the default configuration it does not immediately `fsync` data to disk. The server uses a configurable `sync_interval` option, with a default value of 2 minutes, which controls how often the server will `fsync` its data. The data will be `fsync`-ed no later than this interval. This has important consequences for durability with respect to OS failures (meaning ungraceful exit of the Operating System such as a power outage, and not just ungraceful exit or killing of the `nats-server` process itself):
 
 In a non-replicated setup, an OS failure may result in data loss. A client might publish a message and receive an acknowledgment, but the data may not yet be safely stored to disk. As a result, after an OS failure recovery, a server may have lost recently acknowledged messages.
 
 In a replicated setup, a published message is acknowledged after it successfully replicated to at least a quorum of servers. However, replication alone is not enough to guarantee the strongest level of durability against multiple systemic failures.
 - If multiple servers fail simultaneously, all due to an OS failure, and before their data has been `fsync`-ed, the cluster may fail to recover the most recently acknowledged messages.
-- If a failed server lost data locally due to an OS failure, although extremely rare, it may rejoin the cluster and form a new majority with nodes that have never received or persisted a given message. The cluster may then proceed with incomplete data causing acknowledged messages to be lost.
+- If a failed server lost data locally due to an OS failure, although extremely rare, there are some combinations of events where it may rejoin the cluster and form a new majority with nodes that have never received or persisted a given message. The cluster may then proceed with incomplete data causing acknowledged messages to be lost.
 
 Setting a lower `sync_interval` increases the frequency of disk writes, and reduces the window for potential data loss, but at the expense of performance. Additionally, setting `sync_interval: always` will make sure servers `fsync` after every message before it is acknowledged. This setting, combined with replication in different data centers or availability zones, provides the strongest durability guarantees but at the slowest performance.
 
@@ -148,16 +148,16 @@ The default settings have been chosen to balance performance and risk of data lo
 
 For example, consider a stream with 3 replicas deployed across three separate availability zones. For the stream state to diverge across nodes would require that:
 - One of the 3 servers is already offline, isolated or partitioned.
-- A second server’s OS needs to be killed such that it loses writes of messages that were only available on 2 out of 3 nodes due to them not being `fsync`-ed.
+- A second server’s OS needs to fail such that it loses writes of messages that were only available on 2 out of 3 nodes due to them not being `fsync`-ed.
 - The stream leader that’s part of the above 2 out of 3 nodes needs to go down or become isolated/partitioned.
 - The first server of the original partition that didn’t receive the writes recovers from the partition.
-- The OS-killed server now returns and comes in contact with the first server but not with the previous stream leader.
+- The OS-failed server now returns and comes in contact with the first server but not with the previous stream leader.
 
-In the end, 2 out of 3 nodes will be available, the previous stream leader with the writes will be unavailable, one server will have lost some writes due to the OS kill, and one server will have never seen these writes due to the earlier partition. The last two servers could then form a majority and accept new writes, essentially losing some of the former writes.
+In the end, 2 out of 3 nodes will be available, the previous stream leader with the writes will be unavailable, one server will have lost some writes due to the OS failure, and one server will have never seen these writes due to the earlier partition. The last two servers could then form a majority and accept new writes, essentially losing some of the former writes.
 
 Importantly this is a failure condition where stream state could diverge, but in a system that is deployed across multiple availability zones, it would require multiple faults to align precisely in the right way.
 
-A potential mitigation to a failure of this kind is not automatically bringing back a server process that was OS-killed until it is known that a majority of the remaining servers have received the new writes, or by peer-removing the crashed server and admitting it as a new and wiped peer and allowing it to recover over the network from existing healthy nodes (although this could be expensive depending on the amount of data involved).
+A potential mitigation to a failure of this kind is not automatically bringing back a server process that was OS-failed until it is known that a majority of the remaining servers have received the new writes, or by peer-removing the crashed server and admitting it as a new and wiped peer and allowing it to recover over the network from existing healthy nodes (although this could be expensive depending on the amount of data involved).
 
 For use cases where minimizing loss is an absolute priority,  `sync_interval: always` can of course still be configured, but note that this will have a server-wide performance impact that may affect throughput or latencies. For production environments, operators should evaluate whether the default is correct for their use case, target environment, costs, and performance requirements.
 
@@ -171,7 +171,7 @@ jetstream {
 }
 ```
 
-Create a replicated stream that’s specifically placed in the cluster using `sync_interval: always`, to ensure strongest durability only for stream writes that require this level of durability.
+Create a replicated stream that’s specifically placed in the cluster using `sync_interval: always`, to ensure the strongest durability only for stream writes that require this level of durability.
 ```
 nats stream add --replicas 3 --tag sync:always
 ```
