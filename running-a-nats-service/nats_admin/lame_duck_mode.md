@@ -4,7 +4,7 @@ In production we recommend that a server is shut down with ​lame duck mode​ 
 
 ## Server
 
-Lame duck mode is initiated by signaling the server:
+Lame duck mode is initiated by [signaling](signals.md) the server:
 
 ```shell
 nats-server --signal ldm
