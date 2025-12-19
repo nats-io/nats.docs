@@ -34,7 +34,7 @@ JetStream was developed with the following goals in mind:
 * The system must be secure and operate well with NATS 2.0 security models.
 * The system must scale horizontally and be applicable to a high ingestion rate.
 * The system must support multiple use cases.
-* The system must self-heal and always be available.
+* The system must self-heal.
 * The system must allow NATS messages to be part of a stream as desired.
 * The system must display payload agnostic behavior.
 * The system must not have third party dependencies.
