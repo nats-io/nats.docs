@@ -32,7 +32,7 @@ nc.close();
 {% tab title="JavaScript" %}
 ```javascript
 const nc = await connect({
-    reconnectTimeWait: 10 * 1000, // 10s
+    timeout: 10 * 1000, // 10s
     servers: ["demo.nats.io"],
 });
 ```
