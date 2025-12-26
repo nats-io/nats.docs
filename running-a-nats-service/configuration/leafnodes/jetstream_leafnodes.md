@@ -121,43 +121,55 @@ nats  --server nats://acc:acc@localhost:4222 stream add
 ```
 ```text
 ? Stream Name test
-? Subjects to consume test
-? Storage backend file
+? Subjects test
+? Storage file
+? Replication 1
 ? Retention Policy Limits
 ? Discard Policy Old
 ? Stream Messages Limit -1
 ? Per Subject Messages Limit -1
-? Message size limit -1
-? Maximum message age limit -1
-? Maximum individual message size -1
-? Duplicate tracking time window 2m
-? Replicas 1
+? Total Stream Size -1
+? Message TTL -1
+? Max Message Size -1
+? Duplicate tracking time window 2m0s
+? Allow message Roll-ups No
+? Allow message deletion Yes
+? Allow purging subjects or the entire stream Yes
 Stream test was created
 
-Information for Stream test created 2021-06-28T12:52:29-04:00
+Information for Stream test created 2025-01-17 17:49:07
 
-Configuration:
+              Subjects: test
+              Replicas: 1
+               Storage: File
 
-             Subjects: test
-     Acknowledgements: true
-            Retention: File - Limits
-             Replicas: 1
-       Discard Policy: Old
-     Duplicate Window: 2m0s
-     Maximum Messages: unlimited
-        Maximum Bytes: unlimited
-          Maximum Age: 0.00s
- Maximum Message Size: unlimited
-    Maximum Consumers: unlimited
+Options:
 
+             Retention: Limits
+       Acknowledgments: true
+        Discard Policy: Old
+      Duplicate Window: 2m0s
+            Direct Get: true
+     Allows Msg Delete: true
+          Allows Purge: true
+        Allows Rollups: false
+
+Limits:
+
+      Maximum Messages: unlimited
+   Maximum Per Subject: unlimited
+         Maximum Bytes: unlimited
+           Maximum Age: unlimited
+  Maximum Message Size: unlimited
+     Maximum Consumers: unlimited
 
 State:
 
-             Messages: 0
-                Bytes: 0 B
-             FirstSeq: 0
-              LastSeq: 0
-     Active Consumers: 0
+              Messages: 0
+                 Bytes: 0 B
+        First Sequence: 0
+         Last Sequence: 0
+      Active Consumers: 0
 ```
 
 To create a stream in a different domain while connected somewhere else, just provide the `js-domain` argument. While connected to the same server as before, now the stream is created in `leaf`.
@@ -167,43 +179,55 @@ nats  --server nats://acc:acc@localhost:4222 stream add --js-domain leaf
 ```
 ```text
 ? Stream Name test
-? Subjects to consume test
-? Storage backend file
+? Subjects test
+? Storage file
+? Replication 1
 ? Retention Policy Limits
 ? Discard Policy Old
 ? Stream Messages Limit -1
 ? Per Subject Messages Limit -1
-? Message size limit -1
-? Maximum message age limit -1
-? Maximum individual message size -1
-? Duplicate tracking time window 2m
-? Replicas 1
+? Total Stream Size -1
+? Message TTL -1
+? Max Message Size -1
+? Duplicate tracking time window 2m0s
+? Allow message Roll-ups No
+? Allow message deletion Yes
+? Allow purging subjects or the entire stream Yes
 Stream test was created
 
-Information for Stream test created 2021-06-28T12:59:18-04:00
+Information for Stream test created 2025-01-17 17:50:59
 
-Configuration:
+              Subjects: test
+              Replicas: 1
+               Storage: File
 
-             Subjects: test
-     Acknowledgements: true
-            Retention: File - Limits
-             Replicas: 1
-       Discard Policy: Old
-     Duplicate Window: 2m0s
-     Maximum Messages: unlimited
-        Maximum Bytes: unlimited
-          Maximum Age: 0.00s
- Maximum Message Size: unlimited
-    Maximum Consumers: unlimited
+Options:
 
+             Retention: Limits
+       Acknowledgments: true
+        Discard Policy: Old
+      Duplicate Window: 2m0s
+            Direct Get: true
+     Allows Msg Delete: true
+          Allows Purge: true
+        Allows Rollups: false
+
+Limits:
+
+      Maximum Messages: unlimited
+   Maximum Per Subject: unlimited
+         Maximum Bytes: unlimited
+           Maximum Age: unlimited
+  Maximum Message Size: unlimited
+     Maximum Consumers: unlimited
 
 State:
 
-             Messages: 0
-                Bytes: 0 B
-             FirstSeq: 0
-              LastSeq: 0
-     Active Consumers: 0
+              Messages: 0
+                 Bytes: 0 B
+        First Sequence: 0
+         Last Sequence: 0
+      Active Consumers: 0
 ```
 
 Publish a message so there is something to retrieve.
@@ -254,44 +278,66 @@ nats  --server nats://acc:acc@localhost:4222 stream add --js-domain hub --mirror
 ```
 ```text
 ? Stream Name backup-test-leaf
-? Storage backend file
+? Storage file
+? Replication 1
 ? Retention Policy Limits
 ? Discard Policy Old
 ? Stream Messages Limit -1
-? Message size limit -1
-? Maximum message age limit -1
-? Maximum individual message size -1
-? Replicas 1
+? Total Stream Size -1
+? Message TTL -1
+? Max Message Size -1
+? Allow message Roll-ups No
+? Allow message deletion Yes
+? Allow purging subjects or the entire stream Yes
 ? Adjust mirror start No
-? Import mirror from a different JetStream domain Yes
-? Foreign JetStream domain name leaf
-? Delivery prefix
+? Adjust mirror filter and transform No
+? Import mirror from a different JetStream domain No
+? Import mirror from a different account No
 Stream backup-test-leaf was created
 
-Information for Stream backup-test-leaf created 2021-06-28T14:00:43-04:00
+Information for Stream backup-test-leaf created 2025-01-17 17:52:23
 
-Configuration:
+              Replicas: 1
+               Storage: File
 
-     Acknowledgements: true
-            Retention: File - Limits
-             Replicas: 1
-       Discard Policy: Old
-     Duplicate Window: 2m0s
-     Maximum Messages: unlimited
-        Maximum Bytes: unlimited
-          Maximum Age: 0.00s
- Maximum Message Size: unlimited
-    Maximum Consumers: unlimited
-               Mirror: test, API Prefix: $JS.leaf.API, Delivery Prefix:
+Options:
 
+             Retention: Limits
+       Acknowledgments: true
+        Discard Policy: Old
+      Duplicate Window: 0s
+            Direct Get: true
+     Mirror Direct Get: true
+     Allows Msg Delete: true
+          Allows Purge: true
+        Allows Rollups: false
+
+Limits:
+
+      Maximum Messages: unlimited
+   Maximum Per Subject: unlimited
+         Maximum Bytes: unlimited
+           Maximum Age: unlimited
+  Maximum Message Size: unlimited
+     Maximum Consumers: unlimited
+
+Replication:
+
+                Mirror: test
+
+Mirror Information:
+
+           Stream Name: test
+                   Lag: 0
+             Last Seen: never
 
 State:
 
-             Messages: 0
-                Bytes: 0 B
-             FirstSeq: 0
-              LastSeq: 0
-     Active Consumers: 0
+              Messages: 0
+                 Bytes: 0 B
+        First Sequence: 0
+         Last Sequence: 0
+      Active Consumers: 0
 ```
 
 Similarly, if you want to aggregate streams located in any number of leaf nodes use `source`. If the streams located in each leaf are used for the same reasons, it is recommended to aggregate them in the hub for processing via `source`.
@@ -301,45 +347,66 @@ nats  --server nats://acc:acc@localhost:4222 stream add --js-domain hub --source
 ```
 ```text
 ? Stream Name aggregate-test-leaf
-? Storage backend file
+? Storage file
+? Replication 1
 ? Retention Policy Limits
 ? Discard Policy Old
 ? Stream Messages Limit -1
-? Message size limit -1
-? Maximum message age limit -1
-? Maximum individual message size -1
-? Duplicate tracking time window 2m
-? Replicas 1
+? Total Stream Size -1
+? Message TTL -1
+? Max Message Size -1
+? Duplicate tracking time window 2m0s
+? Allow message Roll-ups No
+? Allow message deletion Yes
+? Allow purging subjects or the entire stream Yes
 ? Adjust source "test" start No
-? Import "test" from a different JetStream domain Yes
-? test Source foreign JetStream domain name leaf
-? test Source foreign JetStream domain delivery prefix
+? Adjust source "test" filter and transform No
+? Import "test" from a different JetStream domain No
+? Import "test" from a different account No
 Stream aggregate-test-leaf was created
 
-Information for Stream aggregate-test-leaf created 2021-06-28T14:02:36-04:00
+Information for Stream aggregate-test-leaf created 2025-01-17 17:53:10
 
-Configuration:
+              Replicas: 1
+               Storage: File
 
-     Acknowledgements: true
-            Retention: File - Limits
-             Replicas: 1
-       Discard Policy: Old
-     Duplicate Window: 2m0s
-     Maximum Messages: unlimited
-        Maximum Bytes: unlimited
-          Maximum Age: 0.00s
- Maximum Message Size: unlimited
-    Maximum Consumers: unlimited
-              Sources: test, API Prefix: $JS.leaf.API, Delivery Prefix:
+Options:
 
+             Retention: Limits
+       Acknowledgments: true
+        Discard Policy: Old
+      Duplicate Window: 2m0s
+            Direct Get: true
+     Allows Msg Delete: true
+          Allows Purge: true
+        Allows Rollups: false
+
+Limits:
+
+      Maximum Messages: unlimited
+   Maximum Per Subject: unlimited
+         Maximum Bytes: unlimited
+           Maximum Age: unlimited
+  Maximum Message Size: unlimited
+     Maximum Consumers: unlimited
+
+Replication:
+
+               Sources: test
+
+Source Information:
+
+           Stream Name: test
+                   Lag: 0
+             Last Seen: never
 
 State:
 
-             Messages: 0
-                Bytes: 0 B
-             FirstSeq: 0
-              LastSeq: 0
-     Active Consumers: 0
+              Messages: 0
+                 Bytes: 0 B
+        First Sequence: 0
+         Last Sequence: 0
+      Active Consumers: 0
 ```
 
 `source` as well as `mirror` take a copy of the messages. Once copied, accessing the data is independent of the leaf node connection being online. Copying this way also avoids having to run a dedicated program of your own. This is the recommended way to exchange persistent data across domains.
@@ -378,7 +445,9 @@ In support of another example on how to share a durable pull consumer for client
 
 > _Known issue_: Currently, across accounts, push consumer are not supported. 
 
-On import, the JetStream API prefix `$JS.hub.API` is renamed to `JS.test@hub.API`. This is to, once more, disambiguate which JetStream a client in the importing account might want to interact with. When using domains, the general recommendation is to export the domain specific API `$JS.<domain>.API` as this allows you to pin the export to a particular domain.
+#### Modify `accounts.conf`
+
+On import, the JetStream API prefix `$JS.hub.API` is renamed to `JS.acc@hub.API`. This is to, once more, disambiguate which JetStream a client in the importing account might want to interact with. When using domains, the general recommendation is to export the domain specific API `$JS.<domain>.API` as this allows you to pin the export to a particular domain.
 
 Furthermore, the delivery subject is extended on import. This is to allow for easier export into multiple accounts.
 
@@ -402,7 +471,7 @@ accounts {
             # minimum export needed to ack messages for durable consumer `dur` in stream `aggregate-test-leaf`. (clients only - source and mirror do not use this)
             {service: "$JS.ACK.aggregate-test-leaf.dur.>"}
             # minimum export needed for flow control of source/mirror
-            {service: "$JS.FC.aggregate-test-leaf.dur.>"}
+            {service: "$JS.FC.aggregate-test-leaf.>"}
         ]
     }
     IMPORT_MIRROR: {
@@ -410,7 +479,7 @@ accounts {
         jetstream: enabled
         imports: [
             {service: {account: ACC, subject: "$JS.hub.API.CONSUMER.CREATE.*"}, to: "JS.acc@hub.API.CONSUMER.CREATE.*" }
-            {service: {account: ACC, subject: "$JS.FC.aggregate-test-leaf.dur.>"}}
+            {service: {account: ACC, subject: "$JS.FC.aggregate-test-leaf.>"}}
             {stream: {account: ACC, subject: deliver.acc.hub.import_mirror.>}}
         ]
     }
@@ -436,48 +505,72 @@ nats  --server nats://import_mirror:import_mirror@localhost:4222 stream add --js
 ```
 ```text
 ? Stream Name aggregate-test-leaf-from-acc
-? Storage backend file
+? Storage file
+? Replication 1
 ? Retention Policy Limits
 ? Discard Policy Old
 ? Stream Messages Limit -1
-? Message size limit -1
-? Maximum message age limit -1
-? Maximum individual message size -1
-? Replicas 1
+? Total Stream Size -1
+? Message TTL -1
+? Max Message Size -1
+? Allow message Roll-ups No
+? Allow message deletion Yes
+? Allow purging subjects or the entire stream Yes
 ? Adjust mirror start No
+? Adjust mirror filter and transform No
 ? Import mirror from a different JetStream domain No
 ? Import mirror from a different account Yes
 ? Foreign account API prefix JS.acc@hub.API
-? Foreign account delivery prefix deliver.acc.hub.import_mirror.hub.aggregate-test-leaf-from-acc
+? Foreign account delivery prefix deliver.acc.hub.import_mirror.leaf.aggregate-test-leaf-from-acc
 Stream aggregate-test-leaf-from-acc was created
 
-Information for Stream aggregate-test-leaf-from-acc created 2021-06-28T16:59:15-04:00
+Information for Stream aggregate-test-leaf-from-acc created 2025-01-17 18:09:10
 
-Configuration:
+              Replicas: 1
+               Storage: File
 
-     Acknowledgements: true
-            Retention: File - Limits
-             Replicas: 1
-       Discard Policy: Old
-     Duplicate Window: 2m0s
-     Maximum Messages: unlimited
-        Maximum Bytes: unlimited
-          Maximum Age: 0.00s
- Maximum Message Size: unlimited
-    Maximum Consumers: unlimited
-               Mirror: aggregate-test-leaf, API Prefix: JS.acc@hub.API, Delivery Prefix: deliver.acc.hub.import_mirror.hub.aggregate-test-leaf-from-acc
+Options:
 
+             Retention: Limits
+       Acknowledgments: true
+        Discard Policy: Old
+      Duplicate Window: 0s
+            Direct Get: true
+     Allows Msg Delete: true
+          Allows Purge: true
+        Allows Rollups: false
+
+Limits:
+
+      Maximum Messages: unlimited
+   Maximum Per Subject: unlimited
+         Maximum Bytes: unlimited
+           Maximum Age: unlimited
+  Maximum Message Size: unlimited
+     Maximum Consumers: unlimited
+
+Replication:
+
+                Mirror: aggregate-test-leaf, API Prefix: JS.acc@hub.API, Delivery Prefix: deliver.acc.hub.import_mirror.leaf.aggregate-test-leaf-from-acc
+
+Mirror Information:
+
+           Stream Name: aggregate-test-leaf
+                   Lag: 0
+             Last Seen: never
+       Ext. API Prefix: JS.acc@hub.API
+  Ext. Delivery Prefix: deliver.acc.hub.import_mirror.leaf.aggregate-test-leaf-from-acc
 
 State:
 
-             Messages: 0
-                Bytes: 0 B
-             FirstSeq: 0
-              LastSeq: 0
-     Active Consumers: 0
+              Messages: 0
+                 Bytes: 0 B
+        First Sequence: 0
+         Last Sequence: 0
+      Active Consumers: 0
 ```
 
-A subsequent check shows that the one message stored in the stream aggregate in account `ACC` got copied to the new stream in the account `IMPORTER`.
+A subsequent check shows that the one message stored in the stream aggregate in account `ACC` got copied to the new stream in the account `IMPORT_MIRROR`.
 
 ```bash
 nats  --server nats://import_mirror:import_mirror@localhost:4222 stream report --js-domain hub
@@ -485,21 +578,21 @@ nats  --server nats://import_mirror:import_mirror@localhost:4222 stream report -
 ```text
 Obtaining Stream stats
 
-╭───────────────────────────────────────────────────────────────────────────────────────────────────╮
-│                                           Stream Report                                           │
-├──────────────────────────────┬─────────┬───────────┬──────────┬───────┬──────┬─────────┬──────────┤
-│ Stream                       │ Storage │ Consumers │ Messages │ Bytes │ Lost │ Deleted │ Replicas │
-├──────────────────────────────┼─────────┼───────────┼──────────┼───────┼──────┼─────────┼──────────┤
-│ aggregate-test-leaf-from-acc │ File    │ 0         │ 1        │ 98 B  │ 0    │ 0       │          │
-╰──────────────────────────────┴─────────┴───────────┴──────────┴───────┴──────┴─────────┴──────────╯
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                 Stream Report                                                 │
+├──────────────────────────────┬─────────┬───────────┬───────────┬──────────┬───────┬──────┬─────────┬──────────┤
+│ Stream                       │ Storage │ Placement │ Consumers │ Messages │ Bytes │ Lost │ Deleted │ Replicas │
+├──────────────────────────────┼─────────┼───────────┼───────────┼──────────┼───────┼──────┼─────────┼──────────┤
+│ aggregate-test-leaf-from-acc │ File    │           │         0 │ 1        │ 93 B  │ 0    │       0 │          │
+╰──────────────────────────────┴─────────┴───────────┴───────────┴──────────┴───────┴──────┴─────────┴──────────╯
 
-╭─────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│                                         Replication Report                                          │
-├──────────────────────────────┬────────┬────────────────┬─────────────────────┬────────┬─────┬───────┤
-│ Stream                       │ Kind   │ API Prefix     │ Source Stream       │ Active │ Lag │ Error │
-├──────────────────────────────┼────────┼────────────────┼─────────────────────┼────────┼─────┼───────┤
-│ aggregate-test-leaf-from-acc │ Mirror │ JS.acc@hub.API │ aggregate-test-leaf │ 0.59s  │ 0   │       │
-╰──────────────────────────────┴────────┴────────────────┴─────────────────────┴────────┴─────┴───────╯
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                         Replication Report                                                        │
+├──────────────────────────────┬────────┬────────────────┬─────────────────────┬────────────────────────┬────────┬───────┬───────┬──┤
+│ Stream                       │ Kind   │ API Prefix     │ Source Stream       │ Filters and Transforms │ Active │ Lag   │ Error │  │
+├──────────────────────────────┼────────┼────────────────┼─────────────────────┼────────────────────────┼────────┼───────┼───────┼──┤
+│ aggregate-test-leaf-from-acc │ Mirror │ JS.acc@hub.API │ aggregate-test-leaf │                        │        │ 565ms │ 0     │  │
+╰──────────────────────────────┴────────┴────────────────┴─────────────────────┴────────────────────────┴────────┴───────┴───────┴──╯
 ```
 
 #### Direct access of a durable pull consumer
@@ -512,33 +605,36 @@ nats  --server nats://acc:acc@localhost:4222 consumer add  --js-domain hub
 ```text
 ? Consumer name dur
 ? Delivery target (empty for Pull Consumers)
-? Start policy (all, new, last, 1h, msg sequence) all
+? Start policy (all, new, last, subject, 1h, msg sequence) all
+? Acknowledgment policy explicit
 ? Replay policy instant
-? Filter Stream by subject (blank for all)
+? Filter Stream by subjects (blank for all)
 ? Maximum Allowed Deliveries -1
-? Maximum Acknowledgements Pending 0
+? Maximum Acknowledgments Pending 0
+? Deliver headers only without bodies No
+? Add a Retry Backoff Policy No
 ? Select a Stream aggregate-test-leaf
-Information for Consumer aggregate-test-leaf > dur created 2021-06-28T17:16:51-04:00
+Information for Consumer aggregate-test-leaf > dur created 2025-01-17T18:10:20+01:00
 
 Configuration:
 
-        Durable Name: dur
-           Pull Mode: true
-         Deliver All: true
-          Ack Policy: Explicit
-            Ack Wait: 30s
-       Replay Policy: Instant
-     Max Ack Pending: 20,000
-   Max Waiting Pulls: 512
+                    Name: dur
+               Pull Mode: true
+          Deliver Policy: All
+              Ack Policy: Explicit
+                Ack Wait: 30.00s
+           Replay Policy: Instant
+         Max Ack Pending: 1,000
+       Max Waiting Pulls: 512
 
 State:
 
-   Last Delivered Message: Consumer sequence: 0 Stream sequence: 0
-     Acknowledgment floor: Consumer sequence: 0 Stream sequence: 0
-         Outstanding Acks: 0 out of maximum 20000
-     Redelivered Messages: 0
-     Unprocessed Messages: 1
-            Waiting Pulls: 0 of maximum 512
+  Last Delivered Message: Consumer sequence: 0 Stream sequence: 0
+    Acknowledgment Floor: Consumer sequence: 0 Stream sequence: 0
+        Outstanding Acks: 0 out of maximum 1,000
+    Redelivered Messages: 0
+    Unprocessed Messages: 1
+           Waiting Pulls: 0 of maximum 512
 ```
 ```shell
 nats  --server nats://acc:acc@localhost:4222 stream report --js-domain hub
@@ -546,39 +642,39 @@ nats  --server nats://acc:acc@localhost:4222 stream report --js-domain hub
 ```text
 Obtaining Stream stats
 
-╭──────────────────────────────────────────────────────────────────────────────────────────╮
-│                                      Stream Report                                       │
-├─────────────────────┬─────────┬───────────┬──────────┬───────┬──────┬─────────┬──────────┤
-│ Stream              │ Storage │ Consumers │ Messages │ Bytes │ Lost │ Deleted │ Replicas │
-├─────────────────────┼─────────┼───────────┼──────────┼───────┼──────┼─────────┼──────────┤
-│ backup-test-leaf    │ File    │ 0         │ 1        │ 45 B  │ 0    │ 0       │          │
-│ test                │ File    │ 0         │ 1        │ 45 B  │ 0    │ 0       │          │
-│ aggregate-test-leaf │ File    │ 1         │ 1        │ 98 B  │ 0    │ 0       │          │
-╰─────────────────────┴─────────┴───────────┴──────────┴───────┴──────┴─────────┴──────────╯
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                             Stream Report                                            │
+├─────────────────────┬─────────┬───────────┬───────────┬──────────┬───────┬──────┬─────────┬──────────┤
+│ Stream              │ Storage │ Placement │ Consumers │ Messages │ Bytes │ Lost │ Deleted │ Replicas │
+├─────────────────────┼─────────┼───────────┼───────────┼──────────┼───────┼──────┼─────────┼──────────┤
+│ backup-test-leaf    │ File    │           │         0 │ 1        │ 45 B  │ 0    │       0 │          │
+│ test                │ File    │           │         0 │ 1        │ 45 B  │ 0    │       0 │          │
+│ aggregate-test-leaf │ File    │           │         1 │ 1        │ 93 B  │ 0    │       0 │          │
+╰─────────────────────┴─────────┴───────────┴───────────┴──────────┴───────┴──────┴─────────┴──────────╯
 
-╭────────────────────────────────────────────────────────────────────────────────────╮
-│                                 Replication Report                                 │
-├─────────────────────┬────────┬──────────────┬───────────────┬────────┬─────┬───────┤
-│ Stream              │ Kind   │ API Prefix   │ Source Stream │ Active │ Lag │ Error │
-├─────────────────────┼────────┼──────────────┼───────────────┼────────┼─────┼───────┤
-│ backup-test-leaf    │ Mirror │ $JS.leaf.API │ test          │ 1.85s  │ 0   │       │
-│ aggregate-test-leaf │ Source │ $JS.leaf.API │ test          │ 1.85s  │ 0   │       │
-╰─────────────────────┴────────┴──────────────┴───────────────┴────────┴─────┴───────╯
+╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                               Replication Report                                               │
+├─────────────────────┬────────┬────────────┬───────────────┬────────────────────────┬────────┬───────┬───────┬──┤
+│ Stream              │ Kind   │ API Prefix │ Source Stream │ Filters and Transforms │ Active │ Lag   │ Error │  │
+├─────────────────────┼────────┼────────────┼───────────────┼────────────────────────┼────────┼───────┼───────┼──┤
+│ backup-test-leaf    │ Mirror │            │ test          │                        │        │ 313ms │ 0     │  │
+│ aggregate-test-leaf │ Source │            │ test          │                        │ 13ms   │ 0     │       │  │
+╰─────────────────────┴────────┴────────────┴───────────────┴────────────────────────┴────────┴───────┴───────┴──╯
 ```
 
 ```bash
-nats  --server nats://acc:acc@localhost:4222 consumer report --js-domain hub
+nats  --server nats://import_client:import_client@localhost:4222 consumer report --js-domain hub
 ```
 Output
 ```text
 ? Select a Stream aggregate-test-leaf
-╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│                          Consumer report for aggregate-test-leaf with 1 consumers                           │
-├──────────┬──────┬────────────┬──────────┬─────────────┬─────────────┬─────────────┬───────────┬─────────────┤
-│ Consumer │ Mode │ Ack Policy │ Ack Wait │ Ack Pending │ Redelivered │ Unprocessed │ Ack Floor │ Cluster     │
-├──────────┼──────┼────────────┼──────────┼─────────────┼─────────────┼─────────────┼───────────┼─────────────┤
-│ dur      │ Pull │ Explicit   │ 30.00s   │ 0           │ 0           │ 1 / 100%    │ 0         │ hub-server* │
-╰──────────┴──────┴────────────┴──────────┴─────────────┴─────────────┴─────────────┴───────────┴─────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                         Consumer report for aggregate-test-leaf with 1 consumers                        │
+├──────────┬──────┬────────────┬──────────┬─────────────┬─────────────┬─────────────┬───────────┬─────────┤
+│ Consumer │ Mode │ Ack Policy │ Ack Wait │ Ack Pending │ Redelivered │ Unprocessed │ Ack Floor │ Cluster │
+├──────────┼──────┼────────────┼──────────┼─────────────┼─────────────┼─────────────┼───────────┼─────────┤
+│ dur      │ Pull │ Explicit   │ 30.00s   │ 0           │ 0           │ 1 / 100%    │ 0         │         │
+╰──────────┴──────┴────────────┴──────────┴─────────────┴─────────────┴─────────────┴───────────┴─────────╯
 ```
 
 To retrieve the messages stored in the domain `hub` using `nats` while connected to the leaf node, provide the correct stream and durable name as well as the API prefix `JS.acc@hub.API`
@@ -587,11 +683,11 @@ To retrieve the messages stored in the domain `hub` using `nats` while connected
 nats --server nats://import_client:import_client@localhost:4111 consumer next aggregate-test-leaf dur --js-api-prefix JS.acc@hub.API
 ```
 ```text
-[17:44:16] subj: test / tries: 1 / cons seq: 1 / str seq: 1 / pending: 0
+[18:11:45] subj: test / tries: 1 / cons seq: 1 / str seq: 1 / pending: 0
 
 Headers:
 
-  Nats-Stream-Source: test:mSx7q4yJ 1
+  Nats-Stream-Source: test 1 > >
 
 Data:
 
@@ -606,13 +702,13 @@ nats  --server nats://acc:acc@localhost:4222 consumer report --js-domain hub
 ```
 ```text
 ? Select a Stream aggregate-test-leaf
-╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│                          Consumer report for aggregate-test-leaf with 1 consumers                           │
-├──────────┬──────┬────────────┬──────────┬─────────────┬─────────────┬─────────────┬───────────┬─────────────┤
-│ Consumer │ Mode │ Ack Policy │ Ack Wait │ Ack Pending │ Redelivered │ Unprocessed │ Ack Floor │ Cluster     │
-├──────────┼──────┼────────────┼──────────┼─────────────┼─────────────┼─────────────┼───────────┼─────────────┤
-│ dur      │ Pull │ Explicit   │ 30.00s   │ 0           │ 0           │ 0           │ 1         │ hub-server* │
-╰──────────┴──────┴────────────┴──────────┴─────────────┴─────────────┴─────────────┴───────────┴─────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                         Consumer report for aggregate-test-leaf with 1 consumers                        │
+├──────────┬──────┬────────────┬──────────┬─────────────┬─────────────┬─────────────┬───────────┬─────────┤
+│ Consumer │ Mode │ Ack Policy │ Ack Wait │ Ack Pending │ Redelivered │ Unprocessed │ Ack Floor │ Cluster │
+├──────────┼──────┼────────────┼──────────┼─────────────┼─────────────┼─────────────┼───────────┼─────────┤
+│ dur      │ Pull │ Explicit   │ 30.00s   │ 0           │ 0           │ 0           │ 1         │         │
+╰──────────┴──────┴────────────┴──────────┴─────────────┴─────────────┴─────────────┴───────────┴─────────╯
 ```
 
 This works similarly when writing your own client. To avoid waiting for the ack timeout, a new message is sent on `test` from where it is copied into `aggregate-test-leaf`.
