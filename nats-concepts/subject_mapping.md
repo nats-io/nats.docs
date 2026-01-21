@@ -100,7 +100,6 @@ When using **operator JWT security** (distributed security) with the built-in re
 You can easily test individual subject transform rules using the [`nats`](../using-nats/nats-tools/nats\_cli/) CLI tool command `nats server mapping`. See examples below.
 {% endhint %}
 
-{% hint style="info" %}
 From NATS server 2.11 (and NATS versions published thereafter) the handling of subjects, including mappings can be observed with `nats trace`
 
 In the example below a message is first disambiguated from `orders.device1.order1` -> `orders.hub.device1.order1`. Then imported into a stream and stored under its original name.
@@ -121,9 +120,6 @@ Egress Count:
 
   JetStream: 1
 ````
-{% endhint %}
-
-
 
 ## Simple mappings
 
