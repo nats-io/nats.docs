@@ -93,6 +93,17 @@ async def create_key_value(
     """
     create_key_value takes an api.KeyValueConfig and creates a KV in JetStream.
     """
+
+async def key_value(
+    self,
+    config: Optional[api.KeyValueConfig] = None,
+    **params,
+) -> KeyValue:
+    """
+    key_value retrieves the bucket with the passed name, if it exists
+    """
+
+
     
 async def delete_key_value(self, bucket: str) -> bool:
     """
