@@ -2,57 +2,31 @@
 
 ## 命令行
 
-在 Unix 系统上，NATS 服务器会响应以下信号：
+在 Unix 系统上，NATS 服务器会响应以下信号。  
+您可以使用标准 Unix `kill` 命令发送这些信号，或使用 `nats-server --signal` 命令以方便使用。
 
-| Signal    | Result                                                         |
-| :-------- | :------------------------------------------------------------- |
-| `SIGKILL` | 立即终止进程                                  |
-| `SIGQUIT` | 立即终止进程并生成核心转储（core dump）         |
-| `SIGINT`  | 优雅地停止服务器                                    |
-| `SIGTERM` | 优雅地停止服务器                                    |
-| `SIGUSR1` | 重新打开日志文件以进行日志轮转                          |
-| `SIGHUP`  | 重新加载服务器配置文件                              |
-| `SIGUSR2` | 在驱逐所有客户端后停止服务器（跛脚鸭模式）
+| nats-server command | Unix Signal | Description                       |
+| :------------------ | :---------- | :------------------------------------------------------------- |
+| `--signal ldm`      | `SIGUSR2`   | 优雅关闭（逐步驱逐客户端）\([跛脚鸭模式](lame_duck_mode.md)\) |
+| `--signal quit`     | `SIGINT`    | 优雅地停止服务器                                    |
+| `--signal term`     | `SIGTERM`   | 优雅地停止服务器                                    |
+| `--signal stop`     | `SIGKILL`   | 立即终止进程                                  |
+| `--signal reload`   | `SIGHUP`    | 重新加载服务器配置文件                              |
+| `--signal reopen`   | `SIGUSR1`   | 重新打开日志文件以进行日志轮转                          |
+| _(仅 kill)_       | `SIGQUIT`   | 立即终止进程并执行[堆栈转储](https://pkg.go.dev/os/signal#hdr-Default_behavior_of_signals_in_Go_programs)         |
 
-`nats-server` 二进制文件可用于通过 `--signal`/`-sl` 标志向正在运行的 NATS 服务器发送这些信号。它支持以下命令：
+### 用法
 
-| Command  | Signal    |
-| :------- | :-------- |
-| `stop`   | `SIGKILL` |
-| `quit`   | `SIGINT`  |
-| `term`   | `SIGTERM` |
-| `reopen` | `SIGUSR1` |
-| `reload` | `SIGHUP`  |
-| `ldm`    | `SIGUSR2` |
-
-### 优雅地停止服务器
+要向正在运行的 nats-server 发送信号：
 
 ```shell
-nats-server --signal quit
+nats-server --signal <command>
 ```
 
-### 强制停止服务器
-
-```shell
-nats-server --signal stop
-```
-
-### 启用“跛脚鸭模式”停止服务器
+例如，使用跛脚鸭模式优雅停止服务器：
 
 ```shell
 nats-server --signal ldm
-```
-
-### 重新打开日志文件以进行日志轮转
-
-```shell
-nats-server --signal reopen
-```
-
-### 重新加载服务器配置
-
-```shell
-nats-server --signal reload
 ```
 
 ### 多个进程

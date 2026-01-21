@@ -11,7 +11,7 @@ Within an account there are operations and reports that show where users data is
 使用 `nats` CLI 添加流时，将询问副本数量，当您选择大于 1 的数字时（我们建议 1、3 或 5），数据将使用上述 RAFT 协议存储在集群中的多个节点上。
 
 ```shell
-nats str add ORDERS --replicas 3
+nats stream add ORDERS --replicas 3
 ```
 示例输出提取：
 ```text
@@ -36,7 +36,7 @@ Cluster Information:
 
 `current` 表示跟随者是最新的并且拥有所有消息，这里两个集群对等节点都是最近看到的。
 
-副本数量一旦配置就无法编辑。
+副本数量可以在日后继续更改。
 
 ### 查看流放置和统计信息
 
@@ -117,7 +117,7 @@ nats server report jetstream --user admin --password s3cr3t!
 +-------+--------+---------+---------+--------+-----+
 | n1-c1 | yes    | true    | false   | 0.00s  | 0   |
 | n1-c2 |        | true    | false   | 0.05s  | 0   |
-| n2-c1 |        | true    | false   | 0.05s  | 0   |
+| n2-c1 |        | false   | true    | 9.00s  | 2   |
 | n2-c2 |        | true    | false   | 0.05s  | 0   |
 | n3-c1 |        | true    | false   | 0.05s  | 0   |
 | n3-c2 |        | true    | false   | 0.05s  | 0   |
@@ -186,7 +186,7 @@ nats server req jetstream --user admin --password s3cr3t! --leader
 与上面的流和消费者类似，元组允许领导者卸任。元组是集群范围的，跨越所有账户，因此要管理元组，您必须使用 `SYSTEM` 用户。
 
 ```shell
-nats server raft step-down --user admin --password s3cr3t!
+nats server cluster step-down --user admin --password s3cr3t!
 ```
 ```text
 17:44:24 Current leader: n2-c2
@@ -195,11 +195,26 @@ nats server raft step-down --user admin --password s3cr3t!
 
 ### 驱逐对等节点
 
-通常在关闭 NATS 时，包括使用跛脚鸭模式，集群会注意到这一点并继续运行。一个 5 节点集群可以承受 2 个节点宕机。
+通常在关闭 NATS 时，包括使用跛脚鸭模式，集群会注意到这一点并继续运行。
 
-但可能有一种情况，您知道一台机器永远不会返回（重新上线），并且您想向 JetStream 发出信号，表明该机器不会返回。这将从相关流及其所有消费者中移除它。
+但可能有一种情况，您知道一个节点永远不会恢复（重新上线），并希望向 JetStream 发出该节点不会返回的信号。对等节点移除(peer-remove)操作将从指定的流及其所有消费者中移除该节点。
 
-节点被移除后，集群会注意到副本数量不再被遵守，并将立即选择新节点并开始向其复制数据。新节点将使用与现有流相同的放置规则进行选择。
+节点被移除后，集群会察觉到流的副本数量不再满足配置要求，并会立即选取一个新节点开始复制数据。新节点的选择将遵循与现有流相同的放置规则。
+
+```shell
+nats server cluster peer-remove n4-c1 --user admin --password s3cr3t!
+```
+```text
+? Really remove offline peer n4-c1 (y/N)
+```
+
+{% hint style="danger" %}
+从集群中移除对等节点(peer-remove)节点是一项破坏性操作，它会减小集群的规模。
+理想情况下，一个将被移除的服务器应该已经离线。虽然也可以对仍在线的节点执行此操作，但在这种情况下，JetStream 将在这些节点上被禁用。该服务器应当被关闭且不再重启，或者如果必须重启，则应禁用 JetStream。
+一个服务器在被 peer-remove 且磁盘被清空后，不应再以相同的 `server_name` 重新加入。这意味着在重启前，必须将其配置中的 server_name 更改为一个新值。
+{% endhint %}
+
+或者，如果您打算保留该节点、只是想将流从特定节点移走，您可以在流级别对节点执行 peer-remove。
 
 ```shell
 nats stream cluster peer-remove ORDERS
@@ -210,7 +225,7 @@ nats stream cluster peer-remove ORDERS
 14:38:50 Requested removal of peer "n4-c1"
 ```
 
-此时，流和所有消费者都将从组中移除 `n4-c1`，它们都将开始新的对等节点选择和数据复制。
+此时，该流及其所有消费者都将从组中移除 `n4-c1`。随后将选择一个新的节点（本例中选中了 `n2-c1` 作为新对等节点），并将数据复制到该节点。
 
 ```shell
 $ nats stream info ORDERS
