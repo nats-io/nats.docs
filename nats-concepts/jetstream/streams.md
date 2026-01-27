@@ -87,6 +87,10 @@ If the `InterestPolicy` or `WorkQueuePolicy` is chosen for a stream, note that a
 {% endhint %}
 
 {% hint style="info" %}
+If the `InterestPolicy` is chosen for a stream, note that when a consumer is deleted, either manually or as part of a server cleanup when the consumer's `InactiveThreshold` is reached, and that consumer was the last one that marked interest in a set of subjects, the server may not immediately delete all messages that belong to that set of subjects, for performance reasons. Instead, deletion may be deferred until those messages reach the start of the stream.
+{% endhint %}
+
+{% hint style="info" %}
 `WorkQueuePolicy` streams will only delete messages enforced by limits or when a message has been successfully `Ack’d` by its consumer. Messages that have attempted redelivery and have reached `MaxDeliver` attempts for the consumer will remain in the stream and must be manually deleted via the JetStream API.
 {% endhint %}
 
