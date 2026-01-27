@@ -1449,4 +1449,4 @@ You can leverage those advisory messages to implement "Dead Letter Queue" (DLQ) 
 
 ### Consumer deletion
 
-When a consumer is deleted, either manually or as part of a server cleanup when the consumer's `InactiveThreshold` is reached, the server may not immediately delete all the messages that were pending acknowledgment for performance reasons. Instead, the deletion of pending messages will be deferred until those messages reach the start of the stream.
+When a consumer is deleted, either manually or as part of a server cleanup when the consumer's `InactiveThreshold` is reached, the server may not immediately delete all the messages that were pending acknowledgment for performance reasons. Instead, the deletion of pending messages may be deferred until those messages reach the start of the stream.
