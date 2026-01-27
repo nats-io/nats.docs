@@ -5,7 +5,6 @@ Consumers are how client applications get the messages stored in the streams. Yo
 Consumers can be 'durable' or 'ephemeral'.
 
 ## Durable versus ephemeral consumers
-
 Durable consumer persist message delivery progress on the server side. A durable consumer can be retrieved by name and shared between client instance for load balancing. It can be made highly available through replicas.
 
 An ephemeral consumer does not persist delivery progress and will automatically be deleted when there are no more client instances connected.
@@ -31,21 +30,19 @@ Ephemeral consumers otherwise have the same control over message acknowledged an
 
 ## Push and Pull consumers
 
-Clients implement two implementations of consumers identified as 'push' or 'pull'.
+Clients implement two implementations of consumers identified as 'push' or 'pull'. 
 
 ### Push consumers
-
 Push consumers receive messages on a specific subject where message flow is controlled by the server. Load balancing is supported through NATS core queue groups. The messages from the stream are distributed automatically between the subscribing clients to the push consumers.
 
 ### Pull consumers
-
 Pull consumers request messages explicitly from the server in batches, giving the client full control over dispatching, flow control, pending (unacknowledged) messages and load balancing. Pull consuming client make `fetch()` calls in a dispatch loop.
 
 {% hint style="info" %}We recommend using pull consumers for new projects. In particular when scalability, detailed flow control or error handling are a design focus.
 Most client API have been updated to provide convenient interfaces for consuming messages through callback handler or iterators without the need to manage message retrieval.
 {% endhint %}
 
-`fetch()` calls can be immediate or have a defined timeout, allowing for either controlled (1 by 1) consumption or `realtime` delivery with minimal polling overhead.
+`fetch()` calls can be immediate or have a defined timeout, allowing for either controlled (1 by 1) consumption or `realtime` delivery with minimal polling overhead.  
 
 Pull consumers create less CPU load on the NATS servers and therefore scale better (note that the push consumers are still quite fast and scalable, you may only notice the difference between the two if you have sustained high message rates).
 
@@ -239,7 +236,7 @@ const psub = await js.pullSubscribe(subj, {
     console.log(
       `[${m.seq}] ${
         m.redelivered ? `- redelivery ${m.info.redeliveryCount}` : ""
-      }`,
+      }`
     );
     if (m.seq % 2 === 0) {
       m.ack();
@@ -303,7 +300,6 @@ if __name__ == '__main__':
 {% endtab %}
 
 {% tab title="C#" %}
-
 ```csharp
 // dotnet add package NATS.Net
 using NATS.Net;
@@ -360,8 +356,8 @@ while (cts.IsCancellationRequested == false)
     }
 }
 ```
-
 {% endtab %}
+
 
 {% tab title="C" %}
 
@@ -964,13 +960,11 @@ if __name__ == '__main__':
 {% endtab %}
 
 {% tab title="C#" %}
-
 ```csharp
 // NATS .NET doesn't publicly support push consumers and treats all consumers
 // as just consumers. The mecahnics of the consuming messages are abstracted
 // away from the applications and are handled by the library.
 ```
-
 {% endtab %}
 
 {% tab title="C" %}
@@ -1204,17 +1198,17 @@ int main(int argc, char **argv)
 {% endtab %}
 {% endtabs %}
 
-## Ordered Consumers
 
+
+## Ordered Consumers
 Ordered consumers are a convenient form of ephemeral push consumer for applications, that want to efficiently consume a stream for data inspection or analysis.
 
-The API consumer is guaranteed delivery of messages in sequence and without gaps.
-
-- Always ephemeral - minimal overhead for the server
-- Single threaded in sequence dispatching
-- Client checks message sequence and will prevent gaps in the delivery
-- Can recover from server node failure and reconnect
-- Does not recover from client failure as it is ephemeral
+The API consumer is guaranteed delivery of messages in sequence and without gaps. 
+* Always ephemeral - minimal overhead for the server
+* Single threaded in sequence dispatching 
+* Client checks message sequence and will prevent gaps in the delivery
+* Can recover from server node failure and reconnect
+* Does not recover from client failure as it is ephemeral
 
 {% tabs %}
 {% tab title="Go" %}
@@ -1380,7 +1374,6 @@ if __name__ == '__main__':
 {% endtab %}
 
 {% tab title="C#" %}
-
 ```csharp
 // dotnet add package NATS.Net
 using NATS.Net;
@@ -1408,10 +1401,12 @@ await foreach (NatsJSMsg<string> msg in orderedConsumer.ConsumeAsync<string>(can
     Console.WriteLine($"Consumer Sequence: {meta?.Sequence.Consumer}");
 }
 ```
-
 {% endtab %}
 
 {% endtabs %}
+
+
+
 
 ## Delivery reliability
 
