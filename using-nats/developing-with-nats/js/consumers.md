@@ -1444,9 +1444,3 @@ You can leverage those advisory messages to implement "Dead Letter Queue" (DLQ) 
 
 - If you only need to know about each time a message is 'dead' (considered un-re-deliverable by the consumer), then listening to the advisories is enough.
 - If you also need to have access to the message in question then you can use the message's sequence number included in the advisory to retrieve that specific message by sequence number from the stream. If a message reaches its maximum level of delivery attempts, it will still stay in the stream until it is manually deleted or manually acknowledged.
-
-## Miscellaneous
-
-### Consumer deletion
-
-When a consumer is deleted, either manually or as part of a server cleanup when the consumer's `InactiveThreshold` is reached, the server may not immediately delete all the messages that were pending acknowledgment for performance reasons. Instead, the deletion of pending messages may be deferred until those messages reach the start of the stream.
