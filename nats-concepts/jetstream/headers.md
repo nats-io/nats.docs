@@ -96,9 +96,13 @@ The final scheduled message will contain the following headers.
 
 Introduced in version 2.12 with optimizations in 2.14 - see [ADR-50](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-50.md)
 
+Atomic batch sends will use the following headers. Batches are atomic on send only, but a client may reconstruct a batch using the headers below.
+
 | Name            | Description                          | Example | Version |
 | :-------------- | :----------------------------------- | :------ | :------ |
-| `TODO` | Indicates the message size in bytes. | `1024`  | 2.6.2   |
+| `Nats-Batch-Id` | Unique identifier for the batch. | `<uuid>` (<=64 characters)  | 2.6.2   |
+| `Nats-Batch-Sequence` | Monotonously increasing id, starting with `1` | `1`, `2` | 2.6.2   |
+| `Nats-Batch-Commit` | Only on last message. `1` commit the batch including this message. `eob` commit the batch excluding this message. Any other value will terminate the batch. | `1`, `eob`   | 2.6.2   |
 
 
 ## Internal 
