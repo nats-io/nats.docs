@@ -58,7 +58,7 @@ Introduced in version 2.11 - see [ADR-41](https://github.com/nats-io/nats-archit
 | :-------------- | :----------------------------------- | :------ | :------ |
 | `traceparent` | Triggers tracing as per the [https://www.w3.org/TR/trace-context/](https://www.w3.org/TR/trace-context/) standard. Requires the `msg-trace` section to be configured on the account level. | N/A | 2.11   |
 | `Nats-Trace-Dest` |  The subject that will receive the Trace messages  | trace.receiver.all | 2.11   |
-| `Nats-Trace-Only` | Optional. Defaults to `false`. Set to `true` to skip message delivery. If true only traces will be produced, but the messages is not sent to a subscribing client or stored in Jetstream.   | `true` | 2.11   |
+| `Nats-Trace-Only` | Optional. Defaults to `false`. Set to `true` to skip message delivery. If true only traces will be produced, but the messages is not sent to a subscribing client or stored in JetStream.   | `true` | 2.11   |
 | `Accept-Encoding` | Optional. Enables compression of the payload of the trace messages.  | `gzip`, `snappy` | 2.11   |
 | `Nats-Trace-Hop` | Internal. **Do not set**. Set by the server to count hops.  | `<hop count>` | 2.11   |
 | `Nats-Trace-Origin-Account` | Internal. **Do not set**. Set by the server when an account boundary is crossed  | `<account name>` | 2.11   |
@@ -113,7 +113,7 @@ This is list is not exhaustive. Headers used in error replies may not be documen
 
 | Name            | Description                          | Example | Version |
 | :-------------- | :----------------------------------- | :------ | :------ |
-| `Nats-Required-Api-Level` | Optional. The required API level for the Jetstream request. Servers from version 2.11 will return an error if larger than the support API level.  | `2` (Integer value) | 2.11  |
+| `Nats-Required-Api-Level` | Optional. The required API level for the JetStream request. Servers from version 2.11 will return an error if larger than the support API level.  | `2` (Integer value) | 2.11  |
 | `Nats-Request-Info` |  When messages cross account boundaries a header with origin information (account, user etc) may be added. |  | 2.2.0  |
 | `Nats-Marker-Reason` |  When messages are removed from a KV where subject delete markers are supported, a delete marker will be placed. And notifications are sent to interested watchers. The message payload is empty and the removal reason is indicated through this header. See [ADR-48](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-48.md)  | `MaxAge`, `Remove`, `Purge` | 2.12  |
 | `Nats-Incr` | Used in KV stores to atomically increment counter. Any valid integer (including 0) starting with a sign..  See [ADR-49](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-49.md)  | `+1`, `+42`, `-1`, `+0`  | 2.12  |
