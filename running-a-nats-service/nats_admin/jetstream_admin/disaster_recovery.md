@@ -37,6 +37,10 @@ The `nats stream backup` CLI command is used to create snapshots of a stream and
 As an account owner, if you wish to make a backup of ALL streams in your account, you may use `nats account backup` instead.
 {% endhint %}
 
+{% hint style="warning" %}
+Memory storage streams do not support snapshots. Only file-based storage streams can be backed up.
+{% endhint %}
+
 ```shell
 nats stream backup ORDERS '/data/js-backup/backup1'
 ```
@@ -61,7 +65,7 @@ Progress using the terminal bar can be disabled using `--no-progress`, it will t
 An existing backup (as above) can be restored to the same or a new NATS server (or cluster) using the `nats stream restore` command.
 
 {% hint style="info" %}
-If there are multiple streams in the backup directory, they will all be restored.
+`nats stream restore` restores a single stream from one backup directory. To restore all streams at once, use `nats account restore` as described below.
 {% endhint %}
 
 ```shell
@@ -83,45 +87,79 @@ Configuration:
 ...
 ```
 
-The `/data/js-backup/ORDERS.tgz` file can also be extracted into the data dir of a stopped NATS Server.
-
 Progress using the terminal bar can be disabled using `--no-progress`, it will then issue log lines instead.
 
-## Interactive CLI
+## Account-Level Backup and Restore
 
 In environments where the `nats` CLI is used interactively to configure the server you do not have a desired state to recreate the server from. This is not the ideal way to administer the server, we recommend Configuration Management, but many will use this approach.
 
-Here you can back up the configuration into a directory from where you can recover the configuration later. The data for File backed stores can also be backed up.
+The `nats account backup` and `nats account restore` commands allow you to back up and restore all streams in an account at once, including their configuration, consumer state, and all message data.
+
+### Account Backup
 
 ```shell
 nats account backup /data/js-backup
 ```
+Output
 ```text
-15:56:11 Creating JetStream backup into /data/js-backup
-15:56:11 Stream ORDERS to /data/js-backup/stream_ORDERS.json
-15:56:11 Consumer ORDERS > NEW to /data/js-backup/stream_ORDERS_consumer_NEW.json
-15:56:11 Configuration backup complete
+Performing backup of all streams to /data/js-backup
+
+    Streams: 3
+       Size: 14 KiB
+  Consumers: 2
+
+Starting backup of Stream "EVENTS" with 0 B
+Received 1.5 KiB compressed data in 2 chunks for stream "EVENTS" in 0s, 16 KiB uncompressed
+
+Starting backup of Stream "ORDERS" with 55 B
+Received 976 B compressed data in 2 chunks for stream "ORDERS" in 1ms, 9.5 KiB uncompressed
+
+Starting backup of Stream "WORK" with 7.3 KiB
+Received 7.3 KiB compressed data in 2 chunks for stream "WORK" in 0s, 30 KiB uncompressed
 ```
 
-This backs up Stream and Consumer configuration.
+This creates a subdirectory per stream inside `/data/js-backup`, each containing the full stream snapshot (configuration, consumer state, and message data) in the same format as `nats stream backup`.
 
-During the same process the data can also be backed up by passing `--data`, this will create files like `/data/js-backup/stream_ORDERS.tgz`.
+Available flags for `nats account backup`:
 
-Later the data can be restored, for Streams we support editing the Stream configuration in place to match what was in the backup.
+| Flag | Description |
+| :--- | :--- |
+| `--consumers` | Include consumer configuration and state |
+| `--check` | Check backup integrity |
+| `--force` | Force overwrite of existing backup directory |
+| `--critical-warnings` | Treat warnings as critical errors |
+
+### Account Restore
 
 ```shell
-nats account restore /tmp/backup --update-streams
+nats account restore /data/js-backup
 ```
+Output
 ```text
-15:57:42 Reading file /tmp/backup/stream_ORDERS.json
-15:57:42 Reading file /tmp/backup/stream_ORDERS_consumer_NEW.json
-15:57:42 Updating Stream ORDERS configuration
-15:57:42 Restoring Consumer ORDERS > NEW
+Restoring backup of all 3 streams in directory "/data/js-backup"
+
+Starting restore of Stream "EVENTS" from file "/data/js-backup/EVENTS"
+Restored stream "EVENTS" in 0s
+...
+
+Starting restore of Stream "ORDERS" from file "/data/js-backup/ORDERS"
+Restored stream "ORDERS" in 1ms
+...
+
+Starting restore of Stream "WORK" from file "/data/js-backup/WORK"
+Restored stream "WORK" in 0s
+...
 ```
 
-The `nats account restore` tool does not support restoring data, the same process using `nats stream restore`, as outlined earlier, can be used which will also restore Stream and Consumer configurations and state.
+This restores all stream subdirectories found in `/data/js-backup`, including their full message data and consumer state.
 
+Available flags for `nats account restore`:
+
+| Flag | Description |
+| :--- | :--- |
+| `--cluster` | Target cluster for restored streams |
+| `--tag` | Placement tag for restored streams |
 
 {% hint style="warning" %}
-On restore, if a stream already exists in the server of same name and account, you will receive a `Stream {name} already exist` error.
+`nats account restore` will fail if a stream with the same name already exists. You must remove the existing stream before restoring from backup.
 {% endhint %}
