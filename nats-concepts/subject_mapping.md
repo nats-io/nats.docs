@@ -80,12 +80,10 @@ A stream config on the leaf cluster
   "subject_transform":{"src":"orders.local.*","dest":"orders.{{wildcard(1)}}"},
   "retention": "limits",
   ...
-  "republish": [
-    {
-      "src": "orders.*",
-      "dest": "orders.trace.{{wildcard(1)}}""
-    }
-  ],
+  "republish": {
+    "src": "orders.*",
+    "dest": "orders.trace.{{wildcard(1)}}"
+  },
 ```
 
 **Security**
@@ -411,12 +409,10 @@ Note that when used in Mirror, Sources or Republish, the subject transforms are 
       ]
     }
   ],
-  "republish": [
-    {
-      "src": "orders.*",
-      "dest": "orders.trace.{{wildcard(1)}}""
-    }
-  ]
+  "republish": {
+    "src": "orders.*",
+    "dest": "orders.trace.{{wildcard(1)}}"
+  }
     
 }
 ```
