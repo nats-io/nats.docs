@@ -219,6 +219,8 @@ The fields for configuring republish include:
 
 For each message that is republished, a set of [headers](./headers.md) are automatically added.
 
+**Note:**  The `reply-subject` is being removed on republished messages, even if `no-ack` is set on the stream.
+
 ### SubjectTransform
 
 If configured, the `SubjectTransform` will perform a subject transform to matching subjects of messages received by the stream and transform the subject, before storing it in the stream. The transform configuration specifies a `Source` and `Destination` field, following the rules of [subject transform](../../running-a-nats-service/configuration/configuring_subject_mapping.md).
