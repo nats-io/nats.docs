@@ -100,9 +100,9 @@ Atomic batch sends will use the following headers. Batches are atomic on send on
 
 | Name            | Description                          | Example | Version |
 | :-------------- | :----------------------------------- | :------ | :------ |
-| `Nats-Batch-Id` | Unique identifier for the batch. | `<uuid>` (<=64 characters)  | 2.6.2   |
-| `Nats-Batch-Sequence` | Monotonously increasing id, starting with `1` | `1`, `2` | 2.6.2   |
-| `Nats-Batch-Commit` | Only on last message. `1` commit the batch including this message. `eob` commit the batch excluding this message. Any other value will terminate the batch. | `1`, `eob`   | 2.6.2   |
+| `Nats-Batch-Id` | Unique identifier for the batch. | `<uuid>` (<=64 characters)  | 2.12   |
+| `Nats-Batch-Sequence` | Monotonously increasing id, starting with `1` | `1`, `2` | 2.12   |
+| `Nats-Batch-Commit` | Only on last message. `1` commit the batch including this message. `eob` commit the batch excluding this message. Any other value will terminate the batch. | `1`, `eob`   | 2.12   |
 
 
 ## Internal 
