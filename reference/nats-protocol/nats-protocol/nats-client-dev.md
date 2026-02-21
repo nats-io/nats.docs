@@ -1,72 +1,72 @@
-# Developing a Client
+# Разработка клиента
 
-## NATS Client Development Guide
+## Руководство по разработке клиента NATS
 
-This guide provides you with considerations for developing NATS clients, including:
+Это руководство описывает ключевые аспекты разработки клиентов NATS:
 
-* CONNECT handling
-* Authorization
-* Verbose \(acks\)
-* Pedantic mode
-* Ping/pong interval
-* Parsing the protocol
-* Deciding on a parsing strategy
-* Storing and dispatching subscription callbacks
-* Implementing requests/response
-* Error handling, disconnecting and reconnecting
-* Cluster support
+* обработка `CONNECT`
+* авторизация
+* verbose-режим (acks)
+* pedantic-режим
+* интервал ping/pong
+* парсинг протокола
+* выбор стратегии парсинга
+* хранение и диспетчеризация callback-подписок
+* реализация request/response
+* обработка ошибок, отключение и переподключение
+* поддержка кластеров
 
-Probably the best way to learn about implementing a client is to look at one of the client's maintained by the Synadia team. These clients are generally full featured, so if you can use them, that is even better, but if you have to write a client these may go beyond your needs while still capturing many of the design considerations discussed here.
+Лучший способ быстро понять реализацию клиента - посмотреть на официальные клиенты команды Synadia. Обычно они полнофункциональны: если можете использовать их напрямую, это оптимально; если нужно писать собственный клиент, они все равно дают полезные инженерные ориентиры.
 
 * [GoLang](https://github.com/nats-io/nats.go)
 * [Java](https://github.com/nats-io/nats.java)
-* [C\# / .NET](https://github.com/nats-io/nats.net)
+* [C# / .NET](https://github.com/nats-io/nats.net)
 * [Rust](https://github.com/nats-io/nats.rs)
 * [JavaScript](https://github.com/nats-io/nats.js)
 * [Python](https://github.com/nats-io/nats.py)
 * [C](https://github.com/nats-io/nats.c)
 
-See [Developing with NATS](../../../using-nats/developing-with-nats/developer.md) for more links and community supported languages.
+Больше ссылок и языков от сообщества - в [Developing with NATS](../../../using-nats/developing-with-nats/developer.md).
 
-## Client connection options
+## Опции подключения клиента
 
-Clients can connect in authenticated or unauthenticated mode, as well as verbose mode which enables acknowledgements. See the [protocol documentation](./#connect) for details.
+Клиенты могут подключаться в аутентифицированном или неаутентифицированном режиме, а также в verbose-режиме, который включает подтверждения. Подробности см. в [документации протокола](./#connect).
 
-## Client authorization
+## Авторизация клиента
 
-By default clients can connect to the server in unauthenticated mode. You can configure the NATS server to require password authentication to connect.
+По умолчанию клиент может подключаться к серверу без аутентификации. Сервер NATS можно настроить так, чтобы требовалась парольная аутентификация.
 
-For example, using the command line:
+Например, через командную строку:
 
 ```shell
 nats-server -DV -m 8222 -user foo -pass bar
 ```
 
-The client must then authenticate to connect to the server. For example:
+Тогда клиент должен аутентифицироваться при подключении:
 
 ```shell
 nats.Connect("nats://foo:bar@localhost:4222")
 ```
 
-## Verbose mode
+## Verbose-режим
 
-When 'verbose' is enabled \(via the `CONNECT` message\), the NATS server will return `+OK` to acknowledge receipt of a valid protocol message. The NATS server automatically runs in verbose mode. Most client implementations disable verbose mode \(set it to `false` in the `CONNECT` message\) for performance reasons.
+Если включен `verbose` (через сообщение `CONNECT`), сервер NATS возвращает `+OK`, подтверждая получение корректного протокольного сообщения. Сервер сам по себе работает в verbose-режиме, но большинство клиентов отключает его (`false` в `CONNECT`) ради производительности.
 
-## Pedantic mode
+## Pedantic-режим
 
-A client may also support 'pedantic' mode. Pedantic mode indicates to the server that strict protocol enforcement is required.
+Клиент также может поддерживать `pedantic`-режим. Он сообщает серверу, что требуется более строгая проверка формата протокольных сообщений.
 
-## Ping/pong interval
+## Интервал ping/pong
 
-NATS implements auto-pruning. When a client connects to the server, the server expects that client to be active. Periodically, the NATS server pings each subscriber, expecting a reply. If there is no reply within the configurable time limit, the server disconnects the client.
+NATS использует автоочистку неактивных соединений. Когда клиент подключается, сервер ожидает, что клиент активен. Периодически сервер отправляет ping каждому подписчику и ждёт ответ. Если ответа нет в пределах настроенного таймаута, сервер отключает клиента.
 
-## Parsing the protocol
+## Парсинг протокола
 
-NATS provides a text-based message format. The text-based [protocol](./) makes it easy to implement NATS clients. The key consideration is deciding on a parsing strategy.
+NATS использует текстовый формат протокольных сообщений. Это делает реализацию клиентов простой для многих языков. Основной инженерный выбор - стратегия парсинга.
 
-The NATS server implements a [zero allocation byte parser](https://youtu.be/ylRKac5kSOk?t=10m46s) that is fast and efficient. Off the wire, a NATS message is simply a slice of bytes. Across the wire the message is transported as an immutable string over a TCP connection. It is up to the client to implement logic to parse the message.
+Сервер NATS реализует [zero allocation byte parser](https://youtu.be/ylRKac5kSOk?t=10m46s), который работает быстро и эффективно. На уровне wire сообщение NATS - это срез байтов. По сети оно передаётся как неизменяемая строка поверх TCP. Логика парсинга целиком на стороне клиента.
 
-The NATS message structure includes the Subject string, an optional Reply string, and an optional Data field that is a byte array. The type `Msg` is a structure used by Subscribers and PublishMsg\(\).
+Структура сообщения NATS включает subject, опциональный reply и опциональный data (массив байтов). Тип `Msg` используется подписчиками и `PublishMsg()`.
 
 ```text
 type Msg struct {
@@ -77,33 +77,32 @@ type Msg struct {
 }
 ```
 
-A NATS publisher publishes the data argument to the given subject. The data argument is left untouched and needs to be correctly interpreted on the receiver. How the client parses a NATS message depends on the programming language.
+Издатель NATS публикует аргумент `data` на subject. Данные не модифицируются и должны корректно интерпретироваться на стороне получателя. Конкретная реализация парсинга зависит от языка.
 
-## Deciding on a parsing strategy
+## Выбор стратегии парсинга
 
-Generally, protocol parsing for a NATS client is a string operation. In Python, for example, string operations are faster than regex. The Go and Java clients also use string operations to parse the message. But, if you look at the Ruby client, regex is used to parse the protocol because in Ruby regex is faster than string operations.
+Как правило, парсинг протокола в клиенте NATS - это строковые операции. Например, в Python строковые операции обычно быстрее regex. В Go и Java также чаще используют строковый парсинг. В Ruby, наоборот, regex обычно быстрее строковых операций, поэтому там используют regex.
 
-In sum, there is no magic formula for parsing—it depends on the programming language. But, you need to take into consideration how you are going to parse the message when you write a client.
+Универсальной формулы нет: решение зависит от языка. Но стратегию парсинга нужно закладывать заранее при проектировании клиента.
 
-## Storing and dispatching subscription callbacks
+## Хранение и диспетчеризация callback-подписок
 
-When you make a subscription to the server, you need to store and dispatch callback handlers.
+При подписке на сервер необходимо хранить и вызывать callback-обработчики.
 
-On the client side, you need a hash map for this data structure. The hash map will be storing the callback that maps the subscription ID to the subscription.
+На стороне клиента обычно используется hash map, который сопоставляет subscription ID с подпиской и callback.
 
-The key of the hash map is the subscription ID. The key is used to look up the callback in the hash map. When you process the NATS message off the wire, you pass the parameters subject, reply subject, and the payload to the callback handler, which does its work.
+Ключ hash map - subscription ID. По этому ключу ищется callback. Когда клиент парсит сообщение, пришедшее с wire, он передаёт `subject`, `reply subject` и `payload` в callback, и тот выполняет обработку.
 
-Thus, you must store the mapping of subscription ID to the callback. Inside the subscription you have the callback.
+Итого: необходимо хранить отображение subscription ID -> callback. Callback находится внутри объекта подписки.
 
-## Implementing request/response
+## Реализация request/response
 
-When to use pub/sub vs. req/rep depends on your use case. Run the tutorials for each to understand the differences between each style of implementation.
+Что использовать - pub/sub или req/rep - зависит от вашего сценария. Лучше пройти оба туториала и сравнить практические отличия.
 
-## Error handling, disconnecting and reconnecting
+## Обработка ошибок, отключение и переподключение
 
-Considerations for error handling primarily include handling client disconnections and implementing retry logic.
+Ключевые аспекты обработки ошибок - корректная реакция на отключения клиента и реализация логики retry/reconnect.
 
-## Cluster support
+## Поддержка кластеров
 
-The NATS client has reconnection logic. So, if you are implementing clustering, you need to implement reconnect callbacks a priori, meaning you cannot modify it during runtime. When you start it, you need to have that information already.
-
+Клиент NATS уже имеет логику переподключения. Поэтому при реализации поддержки кластеров callback-обработчики reconnect нужно задавать заранее, а не менять динамически в рантайме. При запуске клиента эта информация уже должна быть определена.

@@ -1,13 +1,13 @@
-# Supported Stores
+# Поддерживаемые хранилища
 
-In order to run NATS Streaming Server in clustered mode, you need to specify a persistent store. At this time you have the choice between `FILE` and `SQL`
+Чтобы запустить NATS Streaming Server в кластерном режиме, нужно указать персистентное хранилище. Сейчас доступны варианты `FILE` и `SQL`.
 
-The NATS Streaming Server stores server meta information and messages to the storage you configure using the `--store` option.
+NATS Streaming Server сохраняет метаинформацию сервера и сообщения в хранилище, которое вы задаете через параметр `--store`.
 
-However, in clustered mode, we use RAFT for leader election. The raft layer uses its own stores which are currently necessarily file based. The location of the RAFT stores defaults to the current directory under a sub-directory named after the cluster ID, or you can configure it using `--cluster_log_path`.
+Однако в кластерном режиме для выбора лидера используется RAFT. У слоя RAFT есть собственные хранилища, которые сейчас обязательно файловые. По умолчанию RAFT-хранилища располагаются в текущей директории в подкаталоге с именем cluster ID, либо путь можно задать через `--cluster_log_path`.
 
-**Important if using a SQL Store:**
+**Важно при использовании SQL Store:**
 
-* There is still a need for storing RAFT data on the file system.
-* Each node in the cluster needs to have its own "database", that is, no two nodes should share the same tables.
+* Данные RAFT все равно должны сохраняться в файловой системе.
+* У каждого узла кластера должна быть своя "база данных", то есть два узла не должны использовать одни и те же таблицы.
 

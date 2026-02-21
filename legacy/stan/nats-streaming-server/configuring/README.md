@@ -1,10 +1,10 @@
-# Configuring
+# Конфигурирование
 
-NATS Streaming provides a rich set of commands and parameters to configure all aspects of the server.
+NATS Streaming предоставляет богатый набор команд и параметров для настройки всех аспектов сервера.
 
-* [Command Line Arguments](cmdline.md)
-* [Configuration File](cfgfile.md)
-* [Store Limits](storelimits.md)
-* [Persistence](persistence/)
-* [Securing](tls.md)
+* [Аргументы командной строки](cmdline.md)
+* [Файл конфигурации](cfgfile.md)
+* [Лимиты хранилища](storelimits.md)
+* [Персистентность](persistence/)
+* [Защита](tls.md)
 

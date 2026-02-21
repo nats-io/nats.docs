@@ -1,12 +1,12 @@
-# Containers
+# Контейнеры
 
-When running the docker image of NATS Streaming Server, you will want to specify a mounted volume so that the data can be recovered. Your `-dir` parameter then points to a directory inside that mounted volume. However, after a restart you may get a failure with a message similar to this:
+При запуске Docker-образа NATS Streaming Server рекомендуется указывать смонтированный том, чтобы можно было восстановить данные. Параметр `-dir` в этом случае должен указывать на директорию внутри смонтированного тома. Однако после перезапуска можно получить ошибку примерно такого вида:
 
 ```text
 [FTL] STREAM: Failed to start: streaming state was recovered but cluster log path "mycluster/a" is empty
 ```
 
-This is because the server recovered the streaming state \(as pointed by `-dir` and located in the mounted volume\), but did not recover the RAFT specific state that is by default stored in a directory named after your cluster id, relative to the current directory starting the executable. In the context of a container, this data will be lost after the container is stopped.
+Это происходит потому, что сервер восстановил состояние streaming \(по пути из `-dir` в смонтированном томе\), но не восстановил состояние RAFT, которое по умолчанию хранится в директории с именем cluster id относительно текущего каталога запуска исполняемого файла. В контексте контейнера эти данные теряются после остановки контейнера.
 
-In order to avoid this issue, you need to specify the `-cluster_log_path` and ensure that it points to the mounted volume so that the RAFT state can be recovered along with the Streaming state.
+Чтобы избежать этой проблемы, укажите `-cluster_log_path` и убедитесь, что он указывает на смонтированный том, чтобы состояние RAFT восстанавливалось вместе с состоянием Streaming.
 

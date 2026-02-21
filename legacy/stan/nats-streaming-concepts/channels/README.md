@@ -1,8 +1,8 @@
-# Channels
+# Каналы
 
-Channels are at the heart of the NATS Streaming Server. Channels are subjects clients send data to and consume from.
+Каналы — основа NATS Streaming Server. Каналы — это subjects, в которые клиенты отправляют данные и из которых получают их.
 
-_**Note: NATS Streaming server does not support wildcard for channels, that is, one cannot subscribe on `foo.*`, or `foo.>`, etc...**_
+_**Примечание: NATS Streaming Server не поддерживает wildcard для каналов, то есть нельзя подписаться на `foo.*`, `foo.>` и т.д.**_
 
-The number of channels can be limited \(and is by default\) through configuration. Messages produced to a channel are stored in a message log inside this channel.
+Количество каналов можно ограничить через конфигурацию \(и по умолчанию ограничение включено\). Сообщения, отправленные в канал, хранятся в журнале сообщений этого канала.
 

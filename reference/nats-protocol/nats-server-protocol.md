@@ -1,70 +1,70 @@
-# NATS Cluster Protocol
+# Протокол кластера NATS
 
-## NATS Cluster Protocol
+## Протокол кластера NATS
 
-The NATS server clustering protocol describes the protocols passed between NATS servers within a [cluster](../../running-a-nats-service/configuration/clustering/) to share accounts, subscriptions, forward messages, and share cluster topology regarding new servers. It is a simple text-based protocol. Servers communicate with each other through a regular TCP/IP or TLS socket using a small set of protocol operations that are terminated by newline.
+Протокол кластеризации NATS описывает сообщения, которыми обмениваются серверы NATS внутри [кластера](../../running-a-nats-service/configuration/clustering/): обмен аккаунтами, подписками, пересылка сообщений и распространение топологии при появлении новых узлов. Это простой текстовый протокол. Серверы взаимодействуют через обычный TCP/IP или TLS-сокет, используя небольшой набор протокольных операций, завершаемых символами новой строки.
 
-The NATS server implements a [zero allocation byte parser](https://youtu.be/ylRKac5kSOk?t=10m46s) that is fast and efficient.
+Сервер NATS использует [zero allocation byte parser](https://youtu.be/ylRKac5kSOk?t=10m46s), который работает быстро и эффективно.
 
-The NATS cluster protocol is very similar to that of the NATS client protocol. In the context of a cluster, it can be helpful to visualize a server being a proxy operating on behalf of its connected clients, subscribing, unsubscribing, sending and receiving messages.
+Протокол кластера очень похож на клиентский протокол NATS. В кластерном контексте полезно мыслить сервер как прокси от имени подключенных клиентов: он подписывается, отписывается, отправляет и получает сообщения.
 
-## NATS Cluster protocol conventions
+## Соглашения протокола кластера NATS
 
-**Subject names and wildcards**: The NATS cluster protocol has the same features and restrictions as the client with respect to subject names and wildcards. Clients are bound to a single account, however the cluster protocol handles all accounts.
+**Subject-ы и wildcard-ы**: кластерный протокол использует те же правила и ограничения для subject-ов и wildcard-ов, что и клиентский. Клиенты ограничены одним аккаунтом, а кластерный протокол обслуживает все аккаунты.
 
-**Field Delimiters**: The fields of NATS protocol messages are delimited by whitespace characters '`` `'\(space\) or ``\t\` (tab). Multiple whitespace characters will be treated as a single field delimiter.
+**Разделители полей**: поля в протокольных сообщениях NATS разделяются пробелом `' '` или табуляцией `'\t'`. Несколько пробелов подряд считаются одним разделителем.
 
-**Newlines**: Like other text-based protocols, NATS uses `CR` followed by `LF` (`CR+LF`, `\r`, `0x0D0A`) to terminate protocol messages. This newline sequence is also used to mark the beginning of the actual message payload in a `RMSG` protocol message.
+**Новые строки**: как и другие текстовые протоколы, NATS использует `CR` + `LF` (`\r\n`, `0x0D0A`) для завершения протокольных сообщений. Эта же последовательность используется для отделения payload в сообщении `RMSG`.
 
-## NATS Cluster protocol messages
+## Сообщения протокола кластера NATS
 
-The following table briefly describes the NATS cluster protocol messages. As in the client protocol, the NATS protocol operation names are case insensitive, thus `SUB foo 1\r` and `sub foo 1\r` are equivalent.
+Таблица ниже кратко описывает сообщения кластерного протокола. Как и в клиентском протоколе, имена операций не чувствительны к регистру: `SUB foo 1\r` и `sub foo 1\r` эквивалентны.
 
-Click the name to see more detailed information, including syntax:
+Нажмите на имя команды для подробного описания и синтаксиса:
 
 | OP Name                                      | Sent By       | Description                                                                  |
 | -------------------------------------------- | ------------- | ---------------------------------------------------------------------------- |
-| [`INFO`](nats-server-protocol.md#info)       | All Servers   | Sent after initial TCP/IP connection and to update cluster knowledge         |
-| [`CONNECT`](nats-server-protocol.md#connect) | All Servers   | Sent to establish a route                                                    |
-| [`RS+`](nats-server-protocol.md#sub)         | All Servers   | Subscribes to a subject for a given account on behalf of interested clients. |
-| [`RS-`](nats-server-protocol.md#unsub)       | All Servers   | Unsubscribe (or auto-unsubscribe) from subject for a given account.          |
-| [`RMSG`](nats-server-protocol.md#rmsg)       | Origin Server | Delivers a message for a given subject and account to another server.        |
-| [`PING`](nats-server-protocol.md#pingpong)   | All Servers   | PING keep-alive message                                                      |
-| [`PONG`](nats-server-protocol.md#pingpong)   | All Servers   | PONG keep-alive response                                                     |
-| [`-ERR`](nats-server-protocol.md#-err)       | All Servers   | Indicates a protocol error. May cause the remote server to disconnect.       |
+| [`INFO`](nats-server-protocol.md#info)       | All Servers   | Отправляется после начального TCP/IP-подключения и для обновления знаний кластера |
+| [`CONNECT`](nats-server-protocol.md#connect) | All Servers   | Отправляется для установления маршрута                                       |
+| [`RS+`](nats-server-protocol.md#rs)          | All Servers   | Подписка на subject для заданного аккаунта от имени заинтересованных клиентов |
+| [`RS-`](nats-server-protocol.md#rs-1)        | All Servers   | Отписка (или автоотписка) от subject для заданного аккаунта                 |
+| [`RMSG`](nats-server-protocol.md#rmsg)       | Origin Server | Доставка сообщения по subject и аккаунту на другой сервер                   |
+| [`PING`](nats-server-protocol.md#pingpong)   | All Servers   | PING keep-alive сообщение                                                   |
+| [`PONG`](nats-server-protocol.md#pingpong)   | All Servers   | PONG keep-alive ответ                                                       |
+| [`-ERR`](nats-server-protocol.md#-err)       | All Servers   | Протокольная ошибка; может привести к разрыву соединения                    |
 
-The following sections explain each protocol message.
+Ниже разобрано каждое сообщение.
 
 ## INFO
 
-### Description
+### Описание
 
-As soon as the server accepts a connection from another server, it will send information about itself and the configuration and security requirements that are necessary for the other server to successfully authenticate with the server and exchange messages.
+Сразу после принятия соединения от другого сервера NATS отправляет информацию о себе, конфигурации и требованиях безопасности, необходимых удаленной стороне для успешной аутентификации и обмена сообщениями.
 
-The connecting server also sends an `INFO` message. The accepting server will add an `ip` field containing the address and port of the connecting server, and forward the new server's `INFO` message to all servers it is routed to.
+Подключающийся сервер также отправляет `INFO`. Принимающий сервер добавляет поле `ip` с адресом и портом подключившегося сервера и пересылает это `INFO` всем подключенным маршрутам.
 
-Any servers in a cluster receiving an `INFO` message with an `ip` field will attempt to connect to the server at that address, unless already connected. This propagation of `INFO` messages on behalf of a connecting server provides automatic discovery of new servers joining a cluster.
+Любые серверы, получившие `INFO` с полем `ip`, попытаются подключиться к указанному адресу, если соединение ещё не установлено. Так обеспечивается автообнаружение новых серверов в кластере.
 
-### Syntax
+### Синтаксис
 
 `INFO {["option_name":option_value],...}`
 
-The valid options are as follows:
+Поддерживаемые поля:
 
-* `server_id`: The unique identifier of the NATS server
-* `version`: The version of the NATS server
-* `go`: The version of golang the NATS server was built with
-* `host`: The host specified in the cluster parameter/options
-* `port`: The port number specified in the cluster parameter/options
-* `auth_required`: If this is set, then the server should try to authenticate upon connect.
-* `tls_required`: If this is set, then the server must authenticate using TLS.
-* `max_payload`: Maximum payload size that the server will accept.
-* `connect_urls` : A list of server urls that a client can connect to.
-* `ip`: Optional route connection address of a server, `nats-route://<hostname>:<port>`
+* `server_id`: уникальный идентификатор сервера NATS
+* `version`: версия сервера NATS
+* `go`: версия Go, которой собран сервер
+* `host`: host из cluster-настроек
+* `port`: порт из cluster-настроек
+* `auth_required`: если true, сервер должен аутентифицироваться при подключении
+* `tls_required`: если true, требуется TLS-аутентификация
+* `max_payload`: максимальный размер payload, принимаемый сервером
+* `connect_urls`: список URL серверов, к которым может подключиться клиент
+* `ip`: опциональный route-адрес сервера, `nats-route://<hostname>:<port>`
 
-### Example
+### Пример
 
-Below is an example of an `INFO` string received by a NATS server, with the `ip` field.
+Пример строки `INFO` с полем `ip`:
 
 ```
 INFO {"server_id":"KP19vTlB417XElnv8kKaC5","version":"2.0.0","go":"","host":"localhost","port":5222,"auth_required":false,"tls_required":false,"tls_verify":false,"max_payload":1048576,"ip":"nats-route://127.0.0.1:5222/","connect_urls":["localhost:4222"]}
@@ -72,96 +72,96 @@ INFO {"server_id":"KP19vTlB417XElnv8kKaC5","version":"2.0.0","go":"","host":"loc
 
 ## CONNECT
 
-### Description
+### Описание
 
-The `CONNECT` message is analogous to the [`INFO`](nats-server-protocol.md#info) message. Once the NATS server has established a TCP/IP socket connection with another server, and an [`INFO`](nats-server-protocol.md#info) message has been received, the server will send a `CONNECT` message to provide more information about the current connection as well as security information.
+`CONNECT` аналогичен [`INFO`](nats-server-protocol.md#info). После установления TCP/IP-соединения между серверами и получения `INFO` сервер отправляет `CONNECT` с дополнительной информацией о текущем соединении и безопасностью.
 
-### Syntax
+### Синтаксис
 
 `CONNECT {["option_name":option_value],...}`
 
-The valid options are as follows:
+Поддерживаемые поля:
 
-* `tls_required`: Indicates whether the server requires an SSL connection.
-* `auth_token`: Authorization token
-* `user`: Connection username (if `auth_required` is set)
-* `pass`: Connection password (if `auth_required` is set)
-* `name`: Generated Server Name
-* `lang`: The implementation language of the server (go).
-* `version`: The version of the server.
+* `tls_required`: требует ли сервер SSL/TLS-соединение
+* `auth_token`: токен авторизации
+* `user`: имя пользователя соединения (если `auth_required`)
+* `pass`: пароль соединения (если `auth_required`)
+* `name`: сгенерированное имя сервера
+* `lang`: язык реализации сервера (`go`)
+* `version`: версия сервера
 
-### Example
+### Пример
 
-Here is an example from the default string from a server.
+Пример строки `CONNECT`:
 
 `CONNECT {"tls_required":false,"name":"wt0vffeQyoDGMVBC2aKX0b"}\r`
 
 ## RS+
 
-### Description
+### Описание
 
-`RS+` initiates a subscription to a subject on on a given account, optionally with a distributed queue group name and weighting factor. Note that queue subscriptions will use RS+ for increases and decreases to queue weight except when the weighting factor is 0.
+`RS+` инициирует подписку на subject в указанном аккаунте, опционально с queue group и весом. Для queue-подписок `RS+` используется как при увеличении, так и при уменьшении queue weight, кроме случая, когда вес становится 0.
 
-### Syntax
+### Синтаксис
 
-**Subscription**: `RS+ <account> <subject>\r`
+**Подписка**: `RS+ <account> <subject>\r`
 
-**Queue Subscription**: `RS+ <account> <subject> <queue> <weight>\r`
+**Queue-подписка**: `RS+ <account> <subject> <queue> <weight>\r`
 
-where:
+где:
 
-* `account`: The account associated with the subject interest
-* `subject`: The subject
-* `queue`: Optional queue group name
-* `weight`: Optional queue group weight representing how much interest/subscribers
+* `account`: аккаунт, связанный с интересом к subject
+* `subject`: subject
+* `queue`: опциональное имя queue group
+* `weight`: опциональный вес queue group, отражающий величину интереса/число подписчиков
 
 ## RS-
 
-### Description
+### Описание
 
-`RS-` unsubcribes from the specified subject on the given account. It is sent by a server when it no longer has interest in a given subject.
+`RS-` отменяет подписку на указанный subject в заданном аккаунте. Сервер отправляет его, когда больше не заинтересован в этом subject.
 
-### Syntax
+### Синтаксис
 
-**Subscription**: `RS- <account> <subject>\r`
+**Подписка**: `RS- <account> <subject>\r`
 
-where:
+где:
 
-* `account`: The account associated with the subject interest
-* `subject`: The subject
+* `account`: аккаунт, связанный с интересом к subject
+* `subject`: subject
 
 ## RMSG
 
-### Description
+### Описание
 
-The `RMSG` protocol message delivers a message to another server.
+`RMSG` доставляет сообщение другому серверу.
 
-### Syntax
+### Синтаксис
 
 `RMSG <account> <subject> [reply-to] <#bytes>\r\n[payload]\r`
 
-where:
+где:
 
-* `account`: The account associated with the subject interest
-* `subject`: Subject name this message was received on
-* `reply-to`: The optional reply subject
-* `#bytes`: Size of the payload in bytes
-* `payload`: The message payload data
+* `account`: аккаунт, связанный с интересом к subject
+* `subject`: имя subject, на который пришло сообщение
+* `reply-to`: опциональный reply-subject
+* `#bytes`: размер payload в байтах
+* `payload`: данные сообщения
 
 ## PING/PONG
 
-### Description
+### Описание
 
-`PING` and `PONG` implement a simple keep-alive mechanism between servers. Once two servers establish a connection with each other, the NATS server will continuously send `PING` messages to other servers at a configurable interval. If another server fails to respond with a `PONG` message within the configured response interval, the server will terminate its connection. If your connection stays idle for too long, it is cut off.
+`PING` и `PONG` реализуют keep-alive между серверами. После установления соединения сервер NATS периодически отправляет `PING` другим серверам с настраиваемым интервалом. Если удаленный сервер не отвечает `PONG` в заданный интервал, соединение закрывается.
 
-If the another server sends a ping request, a server will reply with a pong message to notify the other server that it is still present.
+Если удаленный сервер отправляет `PING`, локальный сервер отвечает `PONG`, подтверждая свою доступность.
 
-### Syntax
+### Синтаксис
 
 `PING\r` `PONG\r`
 
 ## -ERR
 
-### Description
+### Описание
 
-The `-ERR` message is used by the server to indicate a protocol, authorization, or other runtime connection error to another server. Most of these errors result in the remote server closing the connection.
+`-ERR` используется сервером для индикации протокольной, авторизационной или иной runtime-ошибки удаленному серверу. Большинство таких ошибок приводит к закрытию соединения.

@@ -1,19 +1,19 @@
-# Fault Tolerance
+# Отказоустойчивость
 
-To minimize the single point of failure, NATS Streaming server can be run in Fault Tolerance mode. It works by having a group of servers with one acting as the active server \(accessing the store\) and handling all communication with clients, and all others acting as standby servers.
+Чтобы уменьшить риск единой точки отказа, NATS Streaming Server можно запускать в режиме Fault Tolerance. Он работает как группа серверов: один выступает активным сервером \(получает доступ к хранилищу\) и обрабатывает всё взаимодействие с клиентами, остальные работают как резервные.
 
-It is important to note that is not possible to run Nats Streaming as Fault Tolerance mode and Clustering mode at the same time.
+Важно: NATS Streaming нельзя одновременно запускать и в режиме Fault Tolerance, и в режиме Clustering.
 
-To start a server in Fault Tolerance \(FT\) mode, you specify an FT group name.
+Чтобы запустить сервер в режиме Fault Tolerance \(FT\), нужно указать имя FT-группы.
 
-Here is an example on how starting 2 servers in FT mode running on the same host and embedding the NATS servers:
+Ниже пример запуска 2 серверов в режиме FT на одном хосте со встроенными NATS-серверами:
 
-Server 1
+Сервер 1
 ```shell
 nats-streaming-server -store file -dir datastore -ft_group "ft" -cluster nats://localhost:6222 -routes nats://localhost:6223 -p 4222
 ```
 
-Server 2
+Сервер 2
 ```shell
 nats-streaming-server -store file -dir datastore -ft_group "ft" -cluster nats://localhost:6223 -routes nats://localhost:6222 -p 4223
 ```

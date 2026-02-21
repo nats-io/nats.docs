@@ -1,4 +1,4 @@
-# Shared State
+# Общее состояние
 
-Actual file replication to multiple disks is not handled by the Streaming server. This - if required - needs to be handled by the user. For the FileStore implementation that we currently provide, the data store needs to be mounted by all servers in the FT group \(e.g. an NFS Mount, Gluster in Google Cloud or EFS in Amazon\).
+Фактическая репликация файлов на несколько дисков не выполняется Streaming Server. При необходимости это должен организовать пользователь. Для реализации FileStore, которую мы сейчас предоставляем, хранилище данных должно быть смонтировано на всех серверах в FT-группе \(например, NFS mount, Gluster в Google Cloud или EFS в Amazon\).
 

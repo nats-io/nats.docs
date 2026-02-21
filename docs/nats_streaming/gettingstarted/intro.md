@@ -1,5 +1,5 @@
-# Getting Started
+# Начало работы
 
-The best way to get the NATS Streaming Server is to use one of the pre-built release binaries which are available for OSX, Linux (x86-64/ARM), Windows.
+Лучший способ получить NATS Streaming Server — использовать один из готовых бинарных релизов для OSX, Linux (x86-64/ARM) или Windows.
 
-Of course you can build the latest version of the server from the master branch. The master branch will always build and pass tests, but may not work correctly in your environment. First you will need at least Go version 1.11+ installed on your machine to build the NATS Streaming Server.
+Также можно собрать последнюю версию сервера из ветки `master`. Ветка `master` всегда должна собираться и проходить тесты, но может работать некорректно в вашем окружении. Для сборки NATS Streaming Server на машине должен быть установлен как минимум Go 1.11+.

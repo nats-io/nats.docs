@@ -1,12 +1,12 @@
 # Queue Group
 
-When consumers want to consume from the same channel but each receive a different message, as opposed to all receiving the same messages, they need to create a queue subscription. When a queue group name is specified, the server will send each message from the log to a single consumer in the group. The distribution of these messages is not specified, therefore applications should not rely on an expected delivery scheme.
+Когда потребители хотят читать из одного канала, но получать разные сообщения \(а не одни и те же всем\), нужно создавать queue-подписку. При указании имени queue-группы сервер отправляет каждое сообщение из журнала только одному потребителю в группе. Схема распределения сообщений не фиксирована, поэтому приложению не стоит полагаться на конкретный порядок доставки.
 
-After the first queue member is created, any other member joining the group will receive messages based on where the server is in the message log for that particular group. That means that the starting position given by joining members is ignored by the server.
+После создания первого участника группы любой следующий участник будет получать сообщения, исходя из текущей позиции сервера в журнале сообщений для этой группы. Это означает, что стартовая позиция, указанная новым участником, сервером игнорируется.
 
-When the last member of the group leaves \(subscription unsubscribed/closed/or connection closed\), the group is removed from the server. The next application creating a subscription with the same name will create a new group, starting at the start position given in the subscription request.
+Когда последний участник группы уходит \(unsubscribe/close подписки или закрытие подключения\), группа удаляется с сервера. Следующее приложение, создающее подписку с тем же именем, создаст новую группу, начиная со стартовой позиции из запроса на подписку.
 
-A queue subscription can also be durable. For that, the client needs to provide a queue and durable name. The behavior is, as you would expect, a combination of queue and durable subscription. Though unlike a durable subscription, the client ID is not part of the queue group name since the client ID must be unique, and would prevent more than one connection to participate in the queue group. The main difference between a queue subscription and a durable one, is that when the last member leaves the group, the state of the group will be maintained by the server. Later, when a member rejoins the group, the delivery will resume.
+Queue-подписка также может быть durable. Для этого клиент должен передать имя queue и durable. Поведение будет комбинацией queue- и durable-подписки. Но, в отличие от durable-подписки, client ID не является частью имени queue-группы, так как client ID должен быть уникальным и иначе не позволил бы нескольким подключениям участвовать в группе. Главное отличие queue-подписки от durable-подписки: когда последний участник покидает группу, состояние группы сохраняется на сервере. Когда участник снова присоединяется, доставка продолжается.
 
-_**Note: For a durable queue subscription, the last member to**_ **unsubscribe** _**\(not simply close\) causes the group to be removed from the server.**_
+_**Примечание: для durable queue-подписки удаление группы происходит, когда последний участник делает**_ **unsubscribe** _**\(а не просто close\).**_
 

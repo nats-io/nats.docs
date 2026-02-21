@@ -1,5 +1,5 @@
 # STAN
 
-## WARNING Deprecation Notice
+## ПРЕДУПРЕЖДЕНИЕ: уведомление об устаревании
 
-The NATS Streaming Server is being deprecated. Critical bug fixes and security fixes will be applied until June of 2023. NATS-enabled applications requiring persistence should use [JetStream](../../nats-concepts/jetstream/README.md).
+NATS Streaming Server объявлен устаревшим. Критические исправления ошибок и обновления безопасности выпускались до июня 2023 года. Приложения на базе NATS, которым требуется персистентность, должны использовать [JetStream](../../nats-concepts/jetstream/README.md).

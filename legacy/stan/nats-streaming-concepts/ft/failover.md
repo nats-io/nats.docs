@@ -1,10 +1,10 @@
-# Failover
+# Переключение при сбое
 
-When the active server fails, all standby servers will try to activate. The process consists of trying to get an exclusive lock on the storage.
+Когда активный сервер выходит из строя, все резервные серверы пытаются стать активными. Процесс состоит из попыток получить эксклюзивную блокировку хранилища.
 
-The first server that succeeds will become active and go through the process of recovering the store and service clients. It is as if a server in standalone mode was automatically restarted.
+Первый сервер, которому это удалось, становится активным и проходит процесс восстановления хранилища и обслуживания клиентов. Это похоже на автоматический перезапуск сервера в standalone-режиме.
 
-All other servers that failed to get the store lock will go back to standby mode and stay in this mode until they stop receiving heartbeats from the current active server.
+Все остальные серверы, которые не смогли получить блокировку хранилища, возвращаются в режим ожидания и остаются в нем, пока получают heartbeats от текущего активного сервера.
 
-It is possible that a standby trying to activate is not able to immediately acquire the store lock. When that happens, it goes back into standby mode, but if it fails to receive heartbeats from an active server, it will try again to acquire the store lock. The interval is random but as of now set to a bit more than a second.
+Возможно, что резервный сервер при активации не сможет сразу получить блокировку хранилища. В этом случае он возвращается в режим ожидания, но если перестает получать heartbeats от активного сервера, то снова пытается получить блокировку. Интервал случайный, но сейчас составляет немного больше секунды.
 

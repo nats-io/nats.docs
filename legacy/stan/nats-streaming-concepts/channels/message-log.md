@@ -1,6 +1,6 @@
-# Message Log
+# Журнал сообщений
 
-You can view a message log as a First In First Out \(FIFO\) queue. Messages are appended to the end of the log. If a limit is set globally for all channels, or specifically for this channel, when the limit is reached, older messages are removed to make room for the new ones.
+Журнал сообщений можно рассматривать как очередь First In First Out \(FIFO\). Сообщения добавляются в конец журнала. Если задан лимит глобально для всех каналов или отдельно для этого канала, то при достижении лимита старые сообщения удаляются, освобождая место для новых.
 
-But except for the administrative size/age limit set for a message log, messages are not removed due to consumers consuming them. In fact, messages are stored regardless of the presence of subscriptions on that channel.
+Но, кроме административных ограничений по размеру/возрасту журнала, сообщения не удаляются из-за того, что потребители их прочитали. Фактически сообщения хранятся независимо от наличия подписок на этот канал.
 

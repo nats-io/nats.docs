@@ -1,114 +1,114 @@
-# Client Protocol
+# Протокол клиента
 
-## Client Protocol
+## Протокол клиента
 
-The wire protocol used to communicate between the NATS server and clients is a simple, text-based publish/subscribe style protocol. Clients connect to and communicate with `nats-server` (the NATS server) through a regular TCP/IP socket using a small set of protocol operations that are terminated by a new line.
+Сетевой протокол, используемый для обмена между сервером NATS и клиентами, это простой текстовый publish/subscribe-протокол. Клиенты подключаются к `nats-server` через обычный TCP/IP-сокет и используют небольшой набор протокольных команд, завершаемых переводом строки.
 
-Unlike traditional messaging systems that use a binary message format that require an API to consume, the text-based NATS protocol makes it easy to implement clients in a wide variety of programming and scripting languages. In fact, refer to the topic [NATS Protocol Demo](../nats-protocol-demo.md) to play with the NATS protocol for yourself using telnet.
+В отличие от традиционных систем обмена сообщениями с бинарным форматом и обязательным API, текстовый протокол NATS позволяет просто реализовывать клиентов на большом числе языков программирования и сценариев. Для практики см. [NATS Protocol Demo](../nats-protocol-demo.md), где можно поработать с протоколом через telnet.
 
-The NATS server implements a [zero allocation byte parser](https://youtu.be/ylRKac5kSOk?t=10m46s) that is fast and efficient.
+Сервер NATS реализует [zero allocation byte parser](https://youtu.be/ylRKac5kSOk?t=10m46s), который работает быстро и эффективно.
 
-## Protocol conventions
+## Соглашения протокола
 
-**Control Line with Optional Content**: Each interaction between the client and server consists of a control, or protocol, line of text followed, optionally by message content. Most of the protocol messages don't require content, only `PUB`, `MSG`, `HPUB`, and `HMSG` include payloads.
+**Управляющая строка с опциональным содержимым**: каждое взаимодействие клиента и сервера состоит из управляющей (протокольной) текстовой строки и, опционально, содержимого сообщения. Большинство команд не требует payload, он есть только у `PUB`, `MSG`, `HPUB` и `HMSG`.
 
-**Field Delimiters**: The fields of NATS protocol messages are delimited by whitespace characters ` `(space) or `	`(tab). Multiple whitespace characters will be treated as a single field delimiter.
+**Разделители полей**: поля протокольных сообщений NATS разделяются пробелом ` ` или табуляцией `\t`. Несколько пробельных символов подряд считаются одним разделителем.
 
-**Newlines**: NATS uses `␍` followed by `␊` (`␍␊`, `0x0D0A`) to terminate protocol messages. This newline sequence is also used to mark the end of the message payload in `PUB`, `MSG`, `HPUB`, and `HMSG` protocol messages.
+**Новые строки**: NATS использует `␍` + `␊` (`␍␊`, `0x0D0A`) для завершения протокольных сообщений. Эта последовательность также используется как граница payload в сообщениях `PUB`, `MSG`, `HPUB` и `HMSG`.
 
-**Subject names**: Subject names, including reply subject names, are case-sensitive and must be non-empty alphanumeric strings with no embedded whitespace. All UTF-8 characters except spaces/tabs and separators which are `.` and `>` are allowed. Subject names can be optionally token-delimited using the dot character (`.`), e.g.:
+**Имена subject-ов**: имена subject-ов (включая reply subject) чувствительны к регистру, должны быть непустыми и не могут содержать встроенных пробелов. Разрешены UTF-8 символы, кроме пробела/табуляции и разделителей `.` и `>`. Subject можно структурировать токенами через точку (`.`), например:
 
-`FOO`, `BAR`, `foo.bar`, `foo.BAR`, `FOO.BAR` and `FOO.BAR.BAZ` are all valid subject names
+`FOO`, `BAR`, `foo.bar`, `foo.BAR`, `FOO.BAR`, `FOO.BAR.BAZ` - валидные имена.
 
-`FOO. BAR`, `foo. .bar` and`foo..bar` are _not_ valid subject names
+`FOO. BAR`, `foo. .bar`, `foo..bar` - невалидные имена.
 
-A subject is comprised of 1 or more tokens. Tokens are separated by `.` and can be any non whitespace UTF-8 character. The full wildcard token `>` is only valid as the last token and matches all tokens past that point. A token wildcard, `*` matches any token in the position it was listed. Wildcard tokens should only be used in a wildcard capacity and not part of a literal token.
+Subject состоит из одного или более токенов. Токены разделяются `.` и могут содержать любые непробельные UTF-8 символы. Полный wildcard-токен `>` допустим только последним и совпадает со всеми последующими токенами. Wildcard-токен `*` совпадает с любым токеном в своей позиции. Wildcard-токены должны использоваться только как wildcard, а не как часть буквального токена.
 
-**Character Encoding**: Subject names should be UTF-8 compatible.
+**Кодировка символов**: имена subject-ов должны быть совместимы с UTF-8.
 
-**Wildcards**: NATS supports the use of wildcards in subject subscriptions.
+**Wildcard-ы**: NATS поддерживает wildcard в subject-подписках.
 
-* The asterisk character (`*`) matches a single token at any level of the subject.
-* The greater than symbol (`>`), also known as the _full wildcard_, matches one or more tokens at the tail of a subject, and must be the last token. The wildcarded subject `foo.>` will match `foo.bar` or `foo.bar.baz.1`, but not `foo`.
-* Wildcards must be a separate token (`foo.*.baz` or `foo.>` are syntactically valid; `foo*.bar`, `f*o.b*r` and `foo>` are not)
+* Символ `*` совпадает с одним токеном на соответствующем уровне subject-а.
+* Символ `>` (_full wildcard_) совпадает с одним или несколькими токенами в хвосте subject-а и должен быть последним токеном. Subject `foo.>` совпадёт с `foo.bar` и `foo.bar.baz.1`, но не с `foo`.
+* Wildcard должен быть отдельным токеном (`foo.*.baz` и `foo.>` синтаксически валидны; `foo*.bar`, `f*o.b*r` и `foo>` - нет).
 
-For example, the wildcard subscriptions `foo.*.quux` and `foo.>` both match `foo.bar.quux`, but only the latter matches `foo.bar.baz`. With the full wildcard, it is also possible to express interest in every subject that may exist in NATS: `sub > 1`, limited of course by authorization settings.
+Например, wildcard-подписки `foo.*.quux` и `foo.>` обе совпадают с `foo.bar.quux`, но только `foo.>` совпадает с `foo.bar.baz`. С `>` также можно выразить интерес ко всем subject-ам в NATS: `sub > 1` (в пределах правил авторизации).
 
-## Protocol messages
+## Протокольные сообщения
 
-The following table briefly describes the NATS protocol messages. NATS protocol operation names are case insensitive, thus `SUB foo 1␍␊` and `sub foo 1␍␊` are equivalent.
+Таблица ниже кратко описывает сообщения протокола NATS. Имена протокольных операций не чувствительны к регистру, то есть `SUB foo 1␍␊` и `sub foo 1␍␊` эквивалентны.
 
-Click the name to see more detailed information, including syntax:
+Нажмите на имя команды для подробного описания и синтаксиса:
 
 | OP Name                 | Sent By | Description                                                                        |
 |-------------------------|---------|------------------------------------------------------------------------------------|
-| [`INFO`](./#info)       | Server  | Sent to client after initial TCP/IP connection                                     |
-| [`CONNECT`](./#connect) | Client  | Sent to server to specify connection information                                   |
-| [`PUB`](./#pub)         | Client  | Publish a message to a subject, with optional reply subject                        |
-| [`HPUB`](./#hpub)       | Client  | Publish a message to a subject including NATS headers, with optional reply subject |
-| [`SUB`](./#sub)         | Client  | Subscribe to a subject (or subject wildcard)                                       |
-| [`UNSUB`](./#unsub)     | Client  | Unsubscribe (or auto-unsubscribe) from subject                                     |
-| [`MSG`](./#msg)         | Server  | Delivers a message payload to a subscriber                                         |
-| [`HMSG`](./#hmsg)       | Server  | Delivers a message payload to a subscriber with NATS headers                       |
-| [`PING`](./#pingpong)   | Both    | PING keep-alive message                                                            |
-| [`PONG`](./#pingpong)   | Both    | PONG keep-alive response                                                           |
-| [`+OK`](./#okerr)       | Server  | Acknowledges well-formed protocol message in `verbose` mode                        |
-| [`-ERR`](./#okerr)      | Server  | Indicates a protocol error. May cause client disconnect.                           |
+| [`INFO`](./#info)       | Server  | Отправляется клиенту после начального TCP/IP-подключения                         |
+| [`CONNECT`](./#connect) | Client  | Отправляется серверу с параметрами подключения                                    |
+| [`PUB`](./#pub)         | Client  | Публикация сообщения в subject с опциональным reply subject                       |
+| [`HPUB`](./#hpub)       | Client  | Публикация сообщения в subject с NATS-заголовками и опциональным reply subject   |
+| [`SUB`](./#sub)         | Client  | Подписка на subject (или wildcard subject)                                        |
+| [`UNSUB`](./#unsub)     | Client  | Отписка (или автоотписка) от subject                                              |
+| [`MSG`](./#msg)         | Server  | Доставка payload сообщения подписчику                                              |
+| [`HMSG`](./#hmsg)       | Server  | Доставка payload сообщения с NATS-заголовками                                     |
+| [`PING`](./#pingpong)   | Both    | PING keep-alive сообщение                                                          |
+| [`PONG`](./#pingpong)   | Both    | PONG keep-alive ответ                                                              |
+| [`+OK`](./#okerr)       | Server  | Подтверждение корректного протокольного сообщения в `verbose`-режиме             |
+| [`-ERR`](./#okerr)      | Server  | Протокольная ошибка; может привести к отключению клиента                          |
 
-The following sections explain each protocol message.
+Ниже подробно описано каждое сообщение.
 
 ## INFO
 
-### Description
+### Описание
 
-A client will need to start as a plain TCP connection, then when the server accepts a connection from the client, it will send information about itself, the configuration and security requirements necessary for the client to successfully authenticate with the server and exchange messages.
+Клиент начинает с обычного TCP-соединения. Когда сервер принимает подключение клиента, он отправляет информацию о себе, конфигурации и требованиях безопасности, необходимых для успешной аутентификации и обмена сообщениями.
 
-When using the updated client protocol (see [`CONNECT`](./#connect) below), `INFO` messages can be sent anytime by the server. This means clients with that protocol level need to be able to asynchronously handle `INFO` messages.
+При использовании обновленного клиентского протокола (см. [`CONNECT`](./#connect) ниже) сообщения `INFO` могут приходить в любой момент. Это означает, что клиент соответствующего уровня протокола должен уметь обрабатывать `INFO` асинхронно.
 
-### Syntax
+### Синтаксис
 
 `INFO {"option_name":option_value,...}␍␊`
 
-The valid options are as follows, encoded as JSON:
+Поддерживаемые JSON-поля:
 
 | name              | description                                                                                                                                                            | type     | presence |
 |-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|----------|
-| `server_id`       | The unique identifier of the NATS server.                                                                                                                              | string   | always   |
-| `server_name`     | The name of the NATS server.                                                                                                                                           | string   | always   |
-| `version`         | The version of NATS.                                                                                                                                                   | string   | always   |
-| `go`              | The version of golang the NATS server was built with.                                                                                                                  | string   | always   |
-| `host`            | The IP address used to start the NATS server, by default this will be `0.0.0.0` and can be configured with `-client_advertise host:port`.                              | string   | always   |
-| `port`            | The port number the NATS server is configured to listen on.                                                                                                            | int      | always   |
-| `headers`         | Whether the server supports headers.                                                                                                                                   | bool     | always   |
-| `max_payload`     | Maximum payload size, in bytes, that the server will accept from the client.                                                                                           | int      | always   |
-| `proto`           | An integer indicating the protocol version of the server. The server version 1.2.0 sets this to `1` to indicate that it supports the "Echo" feature.                   | int      | always   |
-| `client_id`       | The internal client identifier in the server. This can be used to filter client connections in monitoring, correlate with error logs, etc...                           | uint64   | optional |
-| `auth_required`   | If this is true, then the client should try to authenticate upon connect.                                                                                              | bool     | optional |
-| `tls_required`    | If this is true, then the client must perform the TLS/1.2 handshake. Note, this used to be `ssl_required` and has been updated along with the protocol from SSL to TLS.| bool     | optional |
-| `tls_verify`      | If this is true, the client must provide a valid certificate during the TLS handshake.                                                                                 | bool     | optional |
-| `tls_available`   | If this is true, the client can provide a valid certificate during the TLS handshake.                                                                                  | bool     | optional |
-| `connect_urls`    | List of server urls that a client can connect to.                                                                                                                      | [string] | optional |
-| `ws_connect_urls` | List of server urls that a websocket client can connect to.                                                                                                            | [string] | optional |
-| `ldm`             | If the server supports _Lame Duck Mode_ notifications, and the current server has transitioned to lame duck, `ldm` will be set to `true`.                              | bool     | optional |
-| `git_commit`      | The git hash at which the NATS server was built.                                                                                                                       | string   | optional |
-| `jetstream`       | Whether the server supports JetStream.                                                                                                                                 | bool     | optional |
-| `ip`              | The IP of the server.                                                                                                                                                  | string   | optional |
-| `client_ip`       | The IP of the client.                                                                                                                                                  | string   | optional |
-| `nonce`           | The nonce for use in CONNECT.                                                                                                                                          | string   | optional |
-| `cluster`         | The name of the cluster.                                                                                                                                               | string   | optional |
-| `domain`          | The configured NATS domain of the server.                                                                                                                              | string   | optional |
+| `server_id`       | Уникальный идентификатор сервера NATS.                                                                                                                                | string   | always   |
+| `server_name`     | Имя сервера NATS.                                                                                                                                                      | string   | always   |
+| `version`         | Версия NATS.                                                                                                                                                           | string   | always   |
+| `go`              | Версия Go, которой собран сервер NATS.                                                                                                                                | string   | always   |
+| `host`            | IP-адрес запуска сервера NATS; по умолчанию `0.0.0.0`, может быть задан через `-client_advertise host:port`.                                                      | string   | always   |
+| `port`            | Порт, на котором сервер NATS слушает подключения.                                                                                                                     | int      | always   |
+| `headers`         | Поддерживает ли сервер заголовки.                                                                                                                                     | bool     | always   |
+| `max_payload`     | Максимальный размер payload в байтах, принимаемый сервером от клиента.                                                                                               | int      | always   |
+| `proto`           | Версия протокола сервера. Начиная с версии сервера 1.2.0 значение `1` означает поддержку функции `Echo`.                                                           | int      | always   |
+| `client_id`       | Внутренний идентификатор клиента на сервере; можно использовать в мониторинге и корреляции логов ошибок.                                                            | uint64   | optional |
+| `auth_required`   | Если `true`, клиенту следует аутентифицироваться при подключении.                                                                                                     | bool     | optional |
+| `tls_required`    | Если `true`, клиент должен выполнить TLS/1.2 handshake. Ранее поле называлось `ssl_required`.                                                                       | bool     | optional |
+| `tls_verify`      | Если `true`, клиент должен предоставить валидный сертификат в TLS handshake.                                                                                         | bool     | optional |
+| `tls_available`   | Если `true`, клиент может предоставить валидный сертификат в TLS handshake.                                                                                          | bool     | optional |
+| `connect_urls`    | Список URL серверов, к которым клиент может подключаться.                                                                                                             | [string] | optional |
+| `ws_connect_urls` | Список URL серверов для websocket-клиента.                                                                                                                            | [string] | optional |
+| `ldm`             | Если сервер поддерживает уведомления _Lame Duck Mode_ и уже перешел в lame duck, `ldm` будет `true`.                                                               | bool     | optional |
+| `git_commit`      | Git-хеш, на котором был собран сервер NATS.                                                                                                                           | string   | optional |
+| `jetstream`       | Поддерживает ли сервер JetStream.                                                                                                                                     | bool     | optional |
+| `ip`              | IP сервера.                                                                                                                                                            | string   | optional |
+| `client_ip`       | IP клиента.                                                                                                                                                            | string   | optional |
+| `nonce`           | Nonce для использования в `CONNECT`.                                                                                                                                   | string   | optional |
+| `cluster`         | Имя кластера.                                                                                                                                                          | string   | optional |
+| `domain`          | Настроенный домен NATS на сервере.                                                                                                                                    | string   | optional |
 
 #### connect_urls
 
-The `connect_urls` field is a list of urls the server may send when a client first connects, and when there are changes to server cluster topology. This field is considered optional, and may be omitted based on server configuration and client protocol level.
+Поле `connect_urls` содержит список URL, который сервер может отправлять при первом подключении клиента и при изменениях топологии кластера. Поле опционально и может отсутствовать в зависимости от конфигурации сервера и уровня клиентского протокола.
 
-When a NATS server cluster expands, an `INFO` message is sent to the client with an updated `connect_urls` list. This cloud-friendly feature asynchronously notifies a client of known servers, allowing it to connect to servers not originally configured.
+Когда кластер NATS расширяется, сервер отправляет клиенту сообщение `INFO` с обновленным `connect_urls`. Это упрощает облачные сценарии: клиент асинхронно узнает о новых серверах и может переподключиться к узлам, которые не были заданы изначально.
 
-The `connect_urls` will contain a list of strings with an IP and port, looking like this: `"connect_urls":["10.0.0.184:4333","192.168.129.1:4333","192.168.192.1:4333"]`
+`connect_urls` выглядит как список строк с IP и портом, например: `"connect_urls":["10.0.0.184:4333","192.168.129.1:4333","192.168.192.1:4333"]`.
 
-### Example
+### Пример
 
-Below you can see a sample connection string from a telnet connection to the `demo.nats.io` site.
+Ниже пример строки подключения при telnet-соединении к `demo.nats.io`.
 
 ```bash
 telnet demo.nats.io 4222
@@ -122,256 +122,256 @@ INFO {"server_id":"Zk0GQ3JBSrg3oyxCRRlE09","version":"1.2.0","proto":1,"go":"go1
 
 ## CONNECT
 
-### Description
+### Описание
 
-The `CONNECT` message is the client version of the [`INFO`](./#info) message. Once the client has established a TCP/IP socket connection with the NATS server, and an [`INFO`](./#info) message has been received from the server, the client may send a `CONNECT` message to the NATS server to provide more information about the current connection as well as security information.
+Сообщение `CONNECT` - клиентская версия [`INFO`](./#info). После установки TCP/IP-соединения с сервером NATS и получения `INFO` клиент может отправить серверу `CONNECT`, чтобы передать сведения о текущем соединении и безопасности.
 
-### Syntax
+### Синтаксис
 
 `CONNECT {"option_name":option_value,...}␍␊`
 
-The valid options are as follows, encoded as JSON:
+Поддерживаемые JSON-поля:
 
 | name            | description                                                                                                                                                                                                                                                                       | type   | required                     |
 |-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|------------------------------|
-| `verbose`       | Turns on [`+OK`](./#okerr) protocol acknowledgements.                                                                                                                                                                                                                             | bool   | true                         |
-| `pedantic`      | Turns on additional strict format checking, e.g. for properly formed subjects.                                                                                                                                                                                                    | bool   | true                         |
-| `tls_required`  | Indicates whether the client requires an SSL connection.                                                                                                                                                                                                                          | bool   | true                         |
-| `auth_token`    | Client authorization token.                                                                                                                                                                                                                                                       | string | if `auth_required` is `true` |
-| `user`          | Connection username.                                                                                                                                                                                                                                                              | string | if `auth_required` is `true` |
-| `pass`          | Connection password.                                                                                                                                                                                                                                                              | string | if `auth_required` is `true` |
-| `name`          | Client name.                                                                                                                                                                                                                                                                      | string | false                        |
-| `lang`          | The implementation language of the client.                                                                                                                                                                                                                                        | string | true                         |
-| `version`       | The version of the client.                                                                                                                                                                                                                                                        | string | true                         |
-| `protocol`      | Sending `0` (or absent) indicates client supports original protocol. Sending `1` indicates that the client supports dynamic reconfiguration of cluster topology changes by asynchronously receiving [`INFO`](./#info) messages with known servers it can reconnect to.            | int    | false                        |
-| `echo`          | If set to `false`, the server (version 1.2.0+) will not send originating messages from this connection to its own subscriptions. Clients should set this to `false` only for server supporting this feature, which is when `proto` in the `INFO` protocol is set to at least `1`. | bool   | false                        |
-| `sig`           | In case the server has responded with a `nonce` on `INFO`, then a NATS client must use this field to reply with the signed `nonce`.                                                                                                                                               | string | if `nonce` received          |
-| `jwt`           | The JWT that identifies a user permissions and account.                                                                                                                                                                                                                           | string | false                        |
-| `no_responders` | Enable [quick replies for cases where a request is sent to a topic with no responders](/nats-concepts/core-nats/request-reply/reqreply.md#no-responders).                                                                                                                                           | bool   | false                        |
-| `headers`       | Whether the client supports headers.                                                                                                                                                                                                                                              | bool   | false                        |
-| `nkey`          | The public NKey to authenticate the client. This will be used to verify the signature (`sig`) against the `nonce` provided in the `INFO` message.                                                                                                                                 | string | false                        |
+| `verbose`       | Включает протокольные подтверждения [`+OK`](./#okerr).                                                                                                                                                                                                                           | bool   | true                         |
+| `pedantic`      | Включает дополнительную строгую проверку формата, например корректности subject-ов.                                                                                                                                                                                             | bool   | true                         |
+| `tls_required`  | Указывает, требуется ли клиенту SSL/TLS-соединение.                                                                                                                                                                                                                              | bool   | true                         |
+| `auth_token`    | Токен авторизации клиента.                                                                                                                                                                                                                                                        | string | if `auth_required` is `true` |
+| `user`          | Имя пользователя соединения.                                                                                                                                                                                                                                                      | string | if `auth_required` is `true` |
+| `pass`          | Пароль соединения.                                                                                                                                                                                                                                                                 | string | if `auth_required` is `true` |
+| `name`          | Имя клиента.                                                                                                                                                                                                                                                                      | string | false                        |
+| `lang`          | Язык реализации клиента.                                                                                                                                                                                                                                                          | string | true                         |
+| `version`       | Версия клиента.                                                                                                                                                                                                                                                                   | string | true                         |
+| `protocol`      | `0` (или отсутствие поля) означает поддержку исходного протокола. `1` означает поддержку динамического обновления топологии кластера через асинхронные [`INFO`](./#info) с известными серверами для переподключения.                                                           | int    | false                        |
+| `echo`          | Если `false`, сервер (версия 1.2.0+) не будет отправлять обратно в это соединение его собственные опубликованные сообщения. Используйте `false` только если сервер поддерживает это (то есть `proto` в `INFO` не меньше `1`).                                                  | bool   | false                        |
+| `sig`           | Если сервер прислал `nonce` в `INFO`, клиент должен вернуть в этом поле подпись для этого `nonce`.                                                                                                                                                                               | string | if `nonce` received          |
+| `jwt`           | JWT, определяющий права пользователя и аккаунт.                                                                                                                                                                                                                                   | string | false                        |
+| `no_responders` | Включает [быстрые ответы в случаях, когда запрос отправлен в topic без ответчиков](/nats-concepts/core-nats/request-reply/reqreply.md#no-responders).                                                                                                                         | bool   | false                        |
+| `headers`       | Поддерживает ли клиент заголовки.                                                                                                                                                                                                                                                 | bool   | false                        |
+| `nkey`          | Публичный NKey клиента. Используется для проверки подписи (`sig`) по `nonce`, присланному в `INFO`.                                                                                                                                                                             | string | false                        |
 
-### Example
+### Пример
 
-Here is an example from the default string of the Go client:
+Пример строки из клиента Go по умолчанию:
 
 ```
 CONNECT {"verbose":false,"pedantic":false,"tls_required":false,"name":"","lang":"go","version":"1.2.2","protocol":1}␍␊
 ```
 
-Most clients set `verbose` to `false` by default. This means that the server should not confirm each message it receives on this connection with a [`+OK`](./#okerr) back to the client.
+Большинство клиентов по умолчанию ставит `verbose` в `false`. Это означает, что сервер не подтверждает каждое полученное в этом соединении сообщение через [`+OK`](./#okerr).
 
 ## PUB
 
-### Description
+### Описание
 
-The `PUB` message publishes the message payload to the given subject name, optionally supplying a reply subject. If a reply subject is supplied, it will be delivered to eligible subscribers along with the supplied payload. Note that the payload itself is optional. To omit the payload, set the payload size to 0, but the second CRLF is still required.
+Сообщение `PUB` публикует payload в заданный subject, опционально указывая reply subject. Если reply subject задан, он будет доставлен подходящим подписчикам вместе с payload. Сам payload опционален: чтобы отправить пустое сообщение, установите размер payload в 0, но второй `CRLF` всё равно обязателен.
 
-### Syntax
+### Синтаксис
 
 `PUB <subject> [reply-to] <#bytes>␍␊[payload]␍␊`
 
-where:
+где:
 
 | name       | description                                                                                   | type   | required |
 |------------|-----------------------------------------------------------------------------------------------|--------|----------|
-| `subject`  | The destination subject to publish to.                                                        | string | true     |
-| `reply-to` | The reply subject that subscribers can use to send a response back to the publisher/requestor.| string | false    |
-| `#bytes`   | The payload size in bytes.                                                                    | int    | true     |
-| `payload`  | The message payload data.                                                                     | string | false    |
+| `subject`  | Целевой subject для публикации.                                                               | string | true     |
+| `reply-to` | Reply subject, который подписчики могут использовать для ответа издателю/инициатору запроса. | string | false    |
+| `#bytes`   | Размер payload в байтах.                                                                      | int    | true     |
+| `payload`  | Данные payload сообщения.                                                                     | string | false    |
 
 
-### Example
+### Пример
 
-To publish the ASCII string message payload "Hello NATS!" to subject FOO:
+Публикация ASCII-строки `Hello NATS!` в subject `FOO`:
 
 `PUB FOO 11␍␊Hello NATS!␍␊`
 
-To publish a request message "Knock Knock" to subject FRONT.DOOR with reply subject JOKE.22:
+Публикация request-сообщения `Knock Knock` в subject `FRONT.DOOR` с reply subject `JOKE.22`:
 
 `PUB FRONT.DOOR JOKE.22 11␍␊Knock Knock␍␊`
 
-To publish an empty message to subject NOTIFY:
+Публикация пустого сообщения в subject `NOTIFY`:
 
 `PUB NOTIFY 0␍␊␍␊`
 
 ## HPUB
 
-### Description
+### Описание
 
-The `HPUB` message is the same as `PUB` but extends the message payload to include NATS headers. Note that the payload itself is optional. To omit the payload, set the total message size equal to the size of the headers. Note that the trailing CR+LF is still required.
+Сообщение `HPUB` аналогично `PUB`, но расширяет payload, добавляя NATS-заголовки. Payload опционален: чтобы отправить только заголовки, установите общий размер сообщения равным размеру секции заголовков. Закрывающий `CR+LF` всё равно обязателен.
 
-NATS headers are similar, in structure and semantics, to HTTP headers as `name: value` pairs including supporting multi-value headers. Headers can be mixed case and NATS will preserve case between message publisher and message receiver(s).  See also [ADR-4 NATS Message Headers](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-4.md).
+Заголовки NATS по структуре и семантике похожи на HTTP-заголовки: пары `name: value`, включая многозначные заголовки. Регистр символов в заголовках сохраняется между издателем и получателем. См. также [ADR-4 NATS Message Headers](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-4.md).
 
-### Syntax
+### Синтаксис
 
 `HPUB <subject> [reply-to] <#header bytes> <#total bytes>␍␊[headers]␍␊␍␊[payload]␍␊`
 
-where:
+где:
 
 | name            | description                                                                                     | type   | required |
 |-----------------|-------------------------------------------------------------------------------------------------|--------|----------|
-| `subject`       | The destination subject to publish to.                                                          | string | true     |
-| `reply-to`      | The reply subject that subscribers can use to send a response back to the publisher/requestor.  | string | false    |
-| `#header bytes` | The size of the headers section in bytes including the `␍␊␍␊` delimiter before the payload.     | int    | true     |
-| `#total bytes`  | The total size of headers and payload sections in bytes.                                        | int    | true     |
-| `headers`       | Header version `NATS/1.0␍␊` followed by one or more `name: value` pairs, each separated by `␍␊`.| string | false    |
-| `payload`       | The message payload data.                                                                       | string | false    |
+| `subject`       | Целевой subject для публикации.                                                                  | string | true     |
+| `reply-to`      | Reply subject для отправки ответа издателю/инициатору запроса.                                   | string | false    |
+| `#header bytes` | Размер секции заголовков в байтах, включая разделитель `␍␊␍␊` перед payload.                     | int    | true     |
+| `#total bytes`  | Общий размер секций заголовков и payload в байтах.                                              | int    | true     |
+| `headers`       | Версия заголовков `NATS/1.0␍␊`, затем одна или более пар `name: value`, разделенных `␍␊`.       | string | false    |
+| `payload`       | Данные payload сообщения.                                                                         | string | false    |
 
-### Example
+### Пример
 
-To publish the ASCII string message payload &quot;Hello NATS!&quot; to subject FOO with one header Bar with value Baz:
+Публикация ASCII-строки `Hello NATS!` в subject `FOO` с заголовком `Bar: Baz`:
 
 `HPUB FOO 22 33␍␊NATS/1.0␍␊Bar: Baz␍␊␍␊Hello NATS!␍␊`
 
-To publish a request message "Knock Knock" to subject FRONT.DOOR with reply subject JOKE.22 and two headers:
+Публикация request-сообщения `Knock Knock` в `FRONT.DOOR` с reply subject `JOKE.22` и двумя заголовками:
 
 `HPUB FRONT.DOOR JOKE.22 45 56␍␊NATS/1.0␍␊BREAKFAST: donut␍␊LUNCH: burger␍␊␍␊Knock Knock␍␊`
 
-To publish an empty message to subject NOTIFY with one header Bar with value Baz:
+Публикация пустого сообщения в `NOTIFY` с заголовком `Bar: Baz`:
 
 `HPUB NOTIFY 22 22␍␊NATS/1.0␍␊Bar: Baz␍␊␍␊␍␊`
 
-To publish a message to subject MORNING MENU with one header BREAKFAST having two values and payload "Yum!"
+Публикация сообщения в `MORNING.MENU` с заголовком `BREAKFAST` (два значения) и payload `Yum!`:
 
 `HPUB MORNING.MENU 47 51␍␊NATS/1.0␍␊BREAKFAST: donut␍␊BREAKFAST: eggs␍␊␍␊Yum!␍␊`
 
 ## SUB
 
-### Description
+### Описание
 
-`SUB` initiates a subscription to a subject, optionally joining a distributed queue group.
+`SUB` инициирует подписку на subject, опционально присоединяя клиента к распределенной queue group.
 
-### Syntax
+### Синтаксис
 
 `SUB <subject> [queue group] <sid>␍␊`
 
-where:
+где:
 
 | name          | description                                                    | type   | required |
 |---------------|----------------------------------------------------------------|--------|----------|
-| `subject`     | The subject name to subscribe to.                              | string | true     |
-| `queue group` | If specified, the subscriber will join this queue group.       | string | false    |
-| `sid`         | A unique alphanumeric subscription ID, generated by the client.| string | true     |
+| `subject`     | Имя subject для подписки.                                      | string | true     |
+| `queue group` | Если задано, подписчик присоединится к этой queue group.       | string | false    |
+| `sid`         | Уникальный буквенно-цифровой ID подписки, генерируемый клиентом.| string | true     |
 
-### Example
+### Пример
 
-To subscribe to the subject `FOO` with the connection-unique subscription identifier (sid) `1`:
+Подписка на subject `FOO` с уникальным для соединения идентификатором подписки (`sid`) `1`:
 
 `SUB FOO 1␍␊`
 
-To subscribe the current connection to the subject `BAR` as part of distribution queue group `G1` with sid `44`:
+Чтобы подписать текущее соединение на subject `BAR` в составе распределенной queue group `G1` с `sid` `44`:
 
 `SUB BAR G1 44␍␊`
 
 ## UNSUB
 
-### Description
+### Описание
 
-`UNSUB` unsubscribes the connection from the specified subject, or auto-unsubscribes after the specified number of messages has been received.
+`UNSUB` отменяет подписку соединения на указанный subject или настраивает автоотписку после получения заданного числа сообщений.
 
-### Syntax
+### Синтаксис
 
 `UNSUB <sid> [max_msgs]␍␊`
 
-where:
+где:
 
 | name       | description                                                                | type   | required |
 |------------|----------------------------------------------------------------------------|--------|----------|
-| `sid`      | The unique alphanumeric subscription ID of the subject to unsubscribe from.| string | true     |
-| `max_msgs` | A number of messages to wait for before automatically unsubscribing.       | int    | false    |
+| `sid`      | Уникальный буквенно-цифровой ID подписки, от которой нужно отписаться.     | string | true     |
+| `max_msgs` | Число сообщений, которое нужно дождаться перед автоотпиской.                | int    | false    |
 
-### Example
+### Пример
 
-The following examples concern subject `FOO` which has been assigned sid `1`. To unsubscribe from `FOO`:
+Примеры ниже используют subject `FOO`, которому назначен `sid` `1`. Отписка от `FOO`:
 
 `UNSUB 1␍␊`
 
-To auto-unsubscribe from `FOO` after 5 messages have been received:
+Автоотписка от `FOO` после получения 5 сообщений:
 
 `UNSUB 1 5␍␊`
 
 ## MSG
 
-### Description
+### Описание
 
-The `MSG` protocol message is used to deliver an application message to the client.
+Протокольное сообщение `MSG` используется для доставки прикладного сообщения клиенту.
 
-### Syntax
+### Синтаксис
 
 `MSG <subject> <sid> [reply-to] <#bytes>␍␊[payload]␍␊`
 
-where:
+где:
 
 | name       | description                                                   | type   | presence |
 |------------|---------------------------------------------------------------|--------|----------|
-| `subject`  | Subject name this message was received on.                    | string | always   |
-| `sid`      | The unique alphanumeric subscription ID of the subject.       | string | always   |
-| `reply-to` | The subject on which the publisher is listening for responses.| string | optional |
-| `#bytes`   | Size of the payload in bytes.                                 | int    | always   |
-| `payload`  | The message payload data.                                     | string | optional |
+| `subject`  | Имя subject, на котором получено сообщение.                   | string | always   |
+| `sid`      | Уникальный буквенно-цифровой ID подписки.                     | string | always   |
+| `reply-to` | Subject, на котором издатель ожидает ответы.                  | string | optional |
+| `#bytes`   | Размер payload в байтах.                                      | int    | always   |
+| `payload`  | Данные payload сообщения.                                     | string | optional |
 
-### Example
+### Пример
 
-The following message delivers an application message from subject `FOO.BAR`:
+Следующее сообщение доставляет прикладное сообщение из subject `FOO.BAR`:
 
 `MSG FOO.BAR 9 11␍␊Hello World␍␊`
 
-To deliver the same message along with a reply subject:
+Чтобы доставить это же сообщение вместе с reply subject:
 
 `MSG FOO.BAR 9 GREETING.34 11␍␊Hello World␍␊`
 
 ## HMSG
 
-### Description
+### Описание
 
-The `HMSG` message is the same as `MSG`, but extends the message payload with headers. See also [ADR-4 NATS Message Headers](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-4.md).
+Сообщение `HMSG` аналогично `MSG`, но расширяет payload заголовками. См. также [ADR-4 NATS Message Headers](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-4.md).
 
-### Syntax
+### Синтаксис
 
 `HMSG <subject> <sid> [reply-to] <#header bytes> <#total bytes>␍␊[headers]␍␊␍␊[payload]␍␊`
 
-where:
+где:
 
 | name            | description                                                                                     | type   | presence |
 |-----------------|-------------------------------------------------------------------------------------------------|--------|----------|
-| `subject`       | Subject name this message was received on.                                                      | string | always   |
-| `sid`           | The unique alphanumeric subscription ID of the subject.                                         | string | always   |
-| `reply-to`      | The subject on which the publisher is listening for responses.                                  | string | optional |
-| `#header bytes` | The size of the headers section in bytes including the `␍␊␍␊` delimiter before the payload.     | int    | always   |
-| `#total bytes`  | The total size of headers and payload sections in bytes.                                        | int    | always   |
-| `headers`       | Header version `NATS/1.0␍␊` followed by one or more `name: value` pairs, each separated by `␍␊`.| string | optional |
-| `payload`       | The message payload data.                                                                       | string | optional |
+| `subject`       | Имя subject, на котором получено сообщение.                                                      | string | always   |
+| `sid`           | Уникальный буквенно-цифровой ID подписки.                                                        | string | always   |
+| `reply-to`      | Subject, на котором издатель ожидает ответы.                                                     | string | optional |
+| `#header bytes` | Размер секции заголовков в байтах, включая разделитель `␍␊␍␊` перед payload.                     | int    | always   |
+| `#total bytes`  | Общий размер секций заголовков и payload в байтах.                                               | int    | always   |
+| `headers`       | Версия `NATS/1.0␍␊`, затем одна или более пар `name: value`, разделенных `␍␊`.                   | string | optional |
+| `payload`       | Данные payload сообщения.                                                                          | string | optional |
 
-### Example
+### Пример
 
-The following message delivers an application message from subject `FOO.BAR` with a header:
+Следующее сообщение доставляет сообщение из `FOO.BAR` с заголовком:
 
 `HMSG FOO.BAR 34 45␍␊NATS/1.0␍␊FoodGroup: vegetable␍␊␍␊Hello World␍␊`
 
-To deliver the same message along with a reply subject:
+Чтобы доставить то же сообщение с reply subject:
 
 `HMSG FOO.BAR 9 BAZ.69 34 45␍␊NATS/1.0␍␊FoodGroup: vegetable␍␊␍␊Hello World␍␊`
 
 ## PING/PONG
 
-### Description
+### Описание
 
-`PING` and `PONG` implement a simple keep-alive mechanism between client and server. Once a client establishes a connection to the NATS server, the server will continuously send `PING` messages to the client at a configurable interval. If the client fails to respond with a `PONG` message within the configured response interval, the server will terminate its connection. If your connection stays idle for too long, it is cut off.
+`PING` и `PONG` реализуют простой keep-alive между клиентом и сервером. После подключения клиента сервер NATS периодически отправляет `PING` с настраиваемым интервалом. Если клиент не отвечает `PONG` в установленный интервал, сервер закрывает соединение. Если соединение слишком долго остаётся неактивным, оно разрывается.
 
-If the server sends a ping request, you can reply with a pong message to notify the server that you are still interested. You can also ping the server and will receive a pong reply. The ping/pong interval is configurable.
+Если сервер присылает `PING`, клиент может ответить `PONG`, подтверждая, что соединение живо. Клиент также может отправить `PING` серверу и получить `PONG` в ответ. Интервал ping/pong настраивается.
 
-The server uses normal traffic as a ping/pong proxy, so a client that has messages flowing may not receive a ping from the server.
+Сервер использует обычный трафик как proxy-сигнал живости, поэтому клиент с постоянным потоком сообщений может не получать отдельные `PING` от сервера.
 
-### Syntax
+### Синтаксис
 
 `PING␍␊`
 
 `PONG␍␊`
 
-### Example
+### Пример
 
-The following example shows the demo server pinging the client and finally shutting it down.
+Пример ниже показывает, как демо-сервер пингует клиента и затем закрывает соединение.
 
 ```
 telnet demo.nats.io 4222
@@ -388,37 +388,37 @@ Connection closed by foreign host.
 
 ## +OK/ERR
 
-### Description
+### Описание
 
-When the `verbose` connection option is set to `true` (the default value), the server acknowledges each well-formed protocol message from the client with a `+OK` message. Most NATS clients set the `verbose` option to `false` using the [`CONNECT`](./#connect) message
+Если опция подключения `verbose` установлена в `true` (значение по умолчанию), сервер подтверждает каждое корректное протокольное сообщение клиента сообщением `+OK`. Большинство клиентов NATS отключает `verbose` (`false`) через [`CONNECT`](./#connect).
 
-The `-ERR` message is used by the server indicate a protocol, authorization, or other runtime connection error to the client. Most of these errors result in the server closing the connection.
+Сообщение `-ERR` используется сервером для передачи клиенту протокольной, авторизационной или другой runtime-ошибки соединения. Большинство таких ошибок приводит к закрытию соединения сервером.
 
-Handling of these errors usually has to be done asynchronously.
+Обработка таких ошибок обычно выполняется асинхронно.
 
-### Syntax
+### Синтаксис
 
 `+OK␍␊`
 
 `-ERR <error message>␍␊`
 
-Some protocol errors result in the server closing the connection. Upon receiving these errors, the connection is no longer valid and the client should clean up relevant resources. These errors include:
+Часть протокольных ошибок приводит к закрытию соединения сервером. После получения таких ошибок соединение считается недействительным, и клиент должен освободить связанные ресурсы. К таким ошибкам относятся:
 
-* `-ERR 'Unknown Protocol Operation'`: Unknown protocol error
-* `-ERR 'Attempted To Connect To Route Port'`: Client attempted to connect to a route port instead of the client port
-* `-ERR 'Authorization Violation'`: Client failed to authenticate to the server with credentials specified in the [`CONNECT`](./#connect) message
-* `-ERR 'Authorization Timeout'`: Client took too long to authenticate to the server after establishing a connection (default 1 second)
-* `-ERR 'Invalid Client Protocol'`: Client specified an invalid protocol version in the [`CONNECT`](./#connect) message
-* `-ERR 'Maximum Control Line Exceeded'`: Message destination subject and reply subject length exceeded the maximum control line value specified by the `max_control_line` server option. The default is 1024 bytes.
-* `-ERR 'Parser Error'`: Cannot parse the protocol message sent by the client
-* `-ERR 'Secure Connection - TLS Required'`: The server requires TLS and the client does not have TLS enabled.
-* `-ERR 'Stale Connection'`: The server hasn't received a message from the client, including a `PONG` in too long.
-* `-ERR 'Maximum Connections Exceeded`': This error is sent by the server when creating a new connection and the server has exceeded the maximum number of connections specified by the `max_connections` server option. The default is 64k.
-* `-ERR 'Slow Consumer'`: The server pending data size for the connection has reached the maximum size (default 10MB).
-* `-ERR 'Maximum Payload Violation'`: Client attempted to publish a message with a payload size that exceeds the `max_payload` size configured on the server. This value is supplied to the client upon connection in the initial [`INFO`](./#info) message. The client is expected to do proper accounting of byte size to be sent to the server in order to handle this error synchronously.
+* `-ERR 'Unknown Protocol Operation'`: неизвестная протокольная операция
+* `-ERR 'Attempted To Connect To Route Port'`: клиент попытался подключиться к route-порту вместо клиентского порта
+* `-ERR 'Authorization Violation'`: клиент не прошел аутентификацию с учетными данными из [`CONNECT`](./#connect)
+* `-ERR 'Authorization Timeout'`: клиент слишком долго аутентифицировался после установления соединения (по умолчанию 1 секунда)
+* `-ERR 'Invalid Client Protocol'`: клиент указал неверную версию протокола в [`CONNECT`](./#connect)
+* `-ERR 'Maximum Control Line Exceeded'`: длина subject назначения и reply subject превысила максимум `max_control_line` (по умолчанию 1024 байта)
+* `-ERR 'Parser Error'`: не удалось распарсить протокольное сообщение клиента
+* `-ERR 'Secure Connection - TLS Required'`: сервер требует TLS, но у клиента TLS не включен
+* `-ERR 'Stale Connection'`: сервер слишком долго не получал сообщения от клиента, включая `PONG`
+* `-ERR 'Maximum Connections Exceeded`': сервер превысил максимальное число соединений `max_connections` при создании нового подключения (по умолчанию 64k)
+* `-ERR 'Slow Consumer'`: объем pending-данных для соединения достиг максимума (по умолчанию 10MB)
+* `-ERR 'Maximum Payload Violation'`: клиент попытался опубликовать сообщение, payload которого превышает `max_payload`, настроенный на сервере. Это значение клиент получает в начальном [`INFO`](./#info), и должен корректно считать отправляемые байты для синхронной обработки ошибки.
 
-Protocol error messages where the connection remains open are listed below. The client should not close the connection in these cases.
+Ниже перечислены протокольные ошибки, при которых соединение остается открытым. В этих случаях клиент не должен закрывать соединение.
 
-* `-ERR 'Invalid Subject'`: Client sent a malformed subject (e.g. `sub foo. 90`)
-* `-ERR 'Permissions Violation for Subscription to <subject>'`: The user specified in the [`CONNECT`](./#connect) message does not have permission to subscribe to the subject.
-* `-ERR 'Permissions Violation for Publish to <subject>'`: The user specified in the [`CONNECT`](./#connect) message does not have permissions to publish to the subject.
+* `-ERR 'Invalid Subject'`: клиент отправил некорректный subject (например, `sub foo. 90`)
+* `-ERR 'Permissions Violation for Subscription to <subject>'`: пользователь из [`CONNECT`](./#connect) не имеет права подписываться на этот subject
+* `-ERR 'Permissions Violation for Publish to <subject>'`: пользователь из [`CONNECT`](./#connect) не имеет права публиковать в этот subject

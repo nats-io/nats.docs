@@ -1,14 +1,14 @@
-# Relation to NATS
+# Связь с NATS
 
-NATS Streaming Server by default embeds a [NATS](https://github.com/nats-io/nats-server) server. That is, the Streaming server is not a server per-se, but instead, a client to a NATS Server.
+NATS Streaming Server по умолчанию встраивает сервер [NATS](https://github.com/nats-io/nats-server). То есть Streaming-сервер в строгом смысле не является отдельным сервером, а выступает клиентом NATS Server.
 
-It means that Streaming clients are not directly connected to the streaming server, but instead communicate with the streaming server _through_ NATS Server.
+Это значит, что Streaming-клиенты подключаются не напрямую к Streaming-серверу, а взаимодействуют с ним _через_ NATS Server.
 
-This detail is important when it comes to Streaming clients connections to the Streaming server. Indeed, since there is no direct connection, the server knows if a client is connected based on heartbeats.
+Эта деталь важна для подключений Streaming-клиентов к Streaming-серверу. Поскольку прямого подключения нет, сервер определяет наличие клиента по heartbeat-сообщениям.
 
-_**It is therefore strongly recommended for clients to close their connection when the application exits, otherwise the server will consider these clients connected \(sending data, etc...\) until it detects missing heartbeats.**_
+_**Поэтому настоятельно рекомендуется закрывать подключение клиента при завершении приложения, иначе сервер будет считать клиента подключенным \(и продолжающим работу\), пока не обнаружит отсутствие heartbeat-сообщений.**_
 
-The streaming server creates internal subscriptions on specific subjects to communicate with its clients and/or other servers.
+Streaming-сервер создает внутренние подписки на определенные subjects для взаимодействия со своими клиентами и/или другими серверами.
 
-Note that NATS clients and NATS Streaming clients cannot exchange data between each other. That is, if a streaming client publishes on `foo`, a NATS client subscribing on that same subject will not receive the messages. Streaming messages are NATS messages made of a protobuf. The streaming server is expected to send ACKs back to producers and receive ACKs from consumers. If messages were freely exchanged with the NATS clients, this would cause problems.
+Обратите внимание: клиенты NATS и клиенты NATS Streaming не могут обмениваться данными друг с другом. Например, если Streaming-клиент публикует в `foo`, NATS-клиент с подпиской на тот же subject эти сообщения не получит. Streaming-сообщения — это NATS-сообщения в формате protobuf. Streaming-сервер должен отправлять ACK производителям и получать ACK от потребителей. Свободный обмен такими сообщениями с обычными NATS-клиентами вызвал бы проблемы.
 

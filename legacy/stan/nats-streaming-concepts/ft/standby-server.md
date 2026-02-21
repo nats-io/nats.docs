@@ -1,4 +1,4 @@
-# Standby Servers
+# Резервные серверы
 
-There can be as many standby servers as you want in the same group. These servers do not access the store and do not receive any data from the streaming clients. They are just running waiting for the detection of the active server failure.
+В одной группе может быть любое количество резервных серверов. Эти серверы не обращаются к хранилищу и не получают данные от streaming-клиентов. Они просто запущены и ждут обнаружения отказа активного сервера.
 

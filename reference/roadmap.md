@@ -1,3 +1,3 @@
-# NATS.io Roadmap
+# Дорожная карта NATS.io
 
-You can find the NATS.io roadmap on the [nats.io main site](https://nats.io/about/#roadmap). See what is coming to NATS!
+Актуальная дорожная карта NATS.io доступна на [основном сайте nats.io](https://nats.io/about/#roadmap). Там можно посмотреть, какие функции готовятся к выпуску.

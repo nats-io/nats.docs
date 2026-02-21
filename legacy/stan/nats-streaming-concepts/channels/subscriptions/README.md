@@ -1,17 +1,17 @@
-# Subscriptions
+# Подписки
 
-A client creates a subscription on a given channel. Remember, there is no support for wildcards, so a subscription is really tied to one and only one channel. The server will maintain the subscription state on behalf of the client until the latter closes the subscription \(or its connection\).
+Клиент создает подписку на заданный канал. Помните, wildcard не поддерживаются, поэтому подписка всегда привязана только к одному каналу. Сервер хранит состояние подписки от имени клиента, пока клиент не закроет подписку \(или подключение\).
 
-If there are messages in the log for this channel, messages will be sent to the consumer when the subscription is created. The server will send up to the maximum number of inflight messages as given by the client when creating the subscription.
+Если в журнале этого канала есть сообщения, они будут отправлены потребителю при создании подписки. Сервер отправляет до максимального числа inflight-сообщений, указанного клиентом при создании подписки.
 
-When receiving ACKs from the consumer, the server will then deliver more messages, if more are available.
+Получая ACK от потребителя, сервер отправляет следующие сообщения, если они доступны.
 
-A subscription can be created to start at any point in the message log, either by message sequence, or by time.
+Подписку можно создать с любой стартовой позиции в журнале сообщений: по sequence-номеру или по времени.
 
-The following pages describe all of the types of subscriptions.
+На следующих страницах описаны все типы подписок.
 
-* [Regular](regular.md)
-* [Durable](durable.md)
+* [Обычные](regular.md)
+* [Долговременные](durable.md)
 * [Queue Group](queue-group.md)
-* [Redelivery](redelivery.md)
+* [Повторная доставка](redelivery.md)
 

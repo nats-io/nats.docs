@@ -1,5 +1,5 @@
-# Setting the Connection Name
+# Установка имени подключения
 
-Connections can be assigned a name which will appear in some of the server monitoring data. This name is not required but can help in debugging and testing.
+Подключению можно назначить имя, которое будет отображаться в части данных мониторинга сервера. Это имя не обязательно, но помогает при отладке и тестировании.
 
 !INCLUDE "../../_examples/connect_name.html"

@@ -1,8 +1,8 @@
-# Active Server
+# Активный сервер
 
-There is a single Active server in the group. This server was the first to obtain the exclusive lock for storage. For the `FileStore` implementation, it means trying to get an advisory lock for a file located in the shared datastore. For the `SQLStore` implementation, a special table is used in which the owner of the lock updates a column. Other instances will steal the lock if the column is not updated for a certain amount of time.
+В группе есть только один активный сервер. Это сервер, который первым получил эксклюзивную блокировку хранилища. Для реализации `FileStore` это означает попытку получить advisory lock на файл в общем хранилище данных. Для реализации `SQLStore` используется специальная таблица, где владелец блокировки обновляет колонку. Другие инстансы перехватят блокировку, если колонка не обновляется в течение некоторого времени.
 
-If the elected server fails to grab this lock because it is already locked, it will go back to standby.
+Если выбранный сервер не смог получить блокировку, потому что она уже занята, он вернется в режим ожидания.
 
-_**Only the active server accesses the store and service all clients.**_
+_**Только активный сервер обращается к хранилищу и обслуживает всех клиентов.**_
 

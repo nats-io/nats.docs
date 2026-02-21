@@ -1,30 +1,30 @@
-# Redelivery
+# Повторная доставка
 
-When the server sends a message to a consumer, it expects to receive an ACK from this consumer. The consumer is the one specifying how long the server should wait before resending all unacknowledged messages to the consumer.
+Когда сервер отправляет сообщение потребителю, он ожидает получить от него ACK. Именно потребитель задает, сколько сервер должен ждать перед повторной отправкой всех неподтвержденных сообщений.
 
-When the server restarts and recovers unacknowledged messages for a subscription, it will first attempt to redeliver those messages before sending new messages. However, if during the initial redelivery some messages don't make it to the client, the server cannot know that and will enable delivery of new messages.
+Когда сервер перезапускается и восстанавливает неподтвержденные сообщения для подписки, он сначала пытается повторно доставить их, а затем отправляет новые. Однако если на начальном этапе повторной доставки какие-то сообщения не дошли до клиента, сервер об этом не знает и начинает доставку новых сообщений.
 
-_**So it is possible for an application to receive redelivered messages mixed with new messages. This is typically what happens outside of the server restart scenario.**_
+_**Поэтому приложение может получать вперемешку повторно доставленные и новые сообщения. Обычно именно это и происходит вне сценария перезапуска сервера.**_
 
-For queue subscriptions, if a member has unacknowledged messages, when this member's `AckWait` \(which is the duration given to the server before the server should attempt to redeliver unacknowledged messages\) time elapses, the messages are redelivered to any other member in the group \(including itself\).
+Для queue-подписок: если у участника есть неподтвержденные сообщения, то после истечения его `AckWait` \(интервал до попытки повторной доставки\) сообщения будут повторно доставлены любому участнику группы \(включая этого же участника\).
 
-If a queue member leaves the group, its unacknowledged messages are redistributed to other queue members.
+Если участник queue-группы покидает группу, его неподтвержденные сообщения перераспределяются между остальными участниками.
 
-## Redelivery Of Acknowledged Messages
+## Повторная доставка подтвержденных сообщений
 
-As described above, once the server sends a message to a consumer, a timer is started with a duration equal to the consumer's `AckWait`. After this interval is reached, and in the absence of an `Ack`, the message is redelivered.
+Как описано выше, после отправки сообщения потребителю сервер запускает таймер длительностью `AckWait` этого потребителя. После истечения этого интервала при отсутствии `Ack` сообщение будет повторно доставлено.
 
-Let's say that a consumer uses an `AckWait` of 5 seconds and the default `MaxInflight` of 1024 messages. Ten messages are available in the channel when this consumer is started. The server delivers them, and each one will be redelivered after 5 seconds if no `Ack` is received.
+Предположим, потребитель использует `AckWait` в 5 секунд и стандартный `MaxInflight` в 1024 сообщения. На момент запуска потребителя в канале доступно десять сообщений. Сервер доставляет их, и каждое будет отправлено повторно через 5 секунд, если ACK не придет.
 
-Suppose now that your application's message handler takes 4 seconds to process a single message, you can see that although the first message is acknowledged before the `AckWait` interval, the second message is not: it has been waiting in the library internal queue for 4 seconds while the first message was processed, and then it takes 4 more seconds to process that second message. After 1 second in the message callback, the server will already redeliver message 2. Since all other messages were delivered at the "same time", they too will be redelivered. Even if message 2 is acknowledged by the application, it does not prevent the redelivered message to be given again to the message callback.
+Теперь представим, что обработчик сообщений в вашем приложении тратит 4 секунды на одно сообщение. Тогда видно, что хотя первое сообщение подтверждается до истечения `AckWait`, второе — уже нет: оно 4 секунды ждет в очереди библиотеки, пока обрабатывается первое, и еще 4 секунды обрабатывается само. Через 1 секунду после начала callback для второго сообщения сервер уже отправит его повторно. Поскольку остальные сообщения были доставлены почти одновременно, они тоже будут повторно доставлены. Даже если приложение подтвердит второе сообщение, это не мешает повторно доставленному экземпляру снова попасть в callback.
 
-After few processed messages \(and assuming that each takes 4 seconds of processing\), it is easy to see that some messages will be presented to the message callback many times over.
+После обработки нескольких сообщений \(если каждое обрабатывается по 4 секунды\) легко увидеть, что некоторые сообщения будут попадать в callback много раз.
 
-> One way to prevent this behavior would be to set `MaxInflight` to 1 when creating the subscription.
+> Один из способов избежать такого поведения — задать `MaxInflight = 1` при создании подписки.
 
-### Why is the library presenting an acknowledged message to the message callback?
+### Почему библиотека передает в callback уже подтвержденное сообщение?
 
-For non-queue subscriptions, the libraries could have implemented some sort of ack floor mechanism that would allow it to detect that a message has been acknowledged by the user \(or auto-acknowledged when the callback returns\) and suppress the redelivered messages.
+Для не-queue подписок библиотеки могли бы реализовать что-то вроде ack-floor-механизма: он позволял бы определить, что сообщение уже подтверждено пользователем \(или auto-ack при возврате callback\), и подавлять его повторную доставку.
 
-However, it is not possible for queue subscriptions - and they seem to be the most popular subscriptions - since a queue member can receive message sequences completely out of order. For instance, a member could receive message 1 to 10, while another member of the same group receive messages 11, 13 and 15. If the first member exits without acknowledging its messages, messages 1 to 10 may be redelivered to the member that already received messages 11, 13 and 15. So the concept of "floor" would not work. Some map/time-based detection approach could work, but is currently not implemented in any of the supported libraries.
+Однако для queue-подписок это невозможно \(и именно они, похоже, самые популярные\), потому что участник группы может получать sequence сообщений полностью не по порядку. Например, один участник может получить сообщения с 1 по 10, а другой в той же группе — 11, 13 и 15. Если первый участник завершится без подтверждения своих сообщений, сообщения 1-10 могут быть повторно доставлены второму участнику, который уже получил 11, 13 и 15. Поэтому концепция "floor" здесь не работает. Подход с map/time-детекцией мог бы помочь, но сейчас он не реализован ни в одной из поддерживаемых библиотек.
 
