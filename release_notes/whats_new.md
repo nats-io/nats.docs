@@ -1,243 +1,237 @@
-# What's New!
+# Что нового!
 
-The NATS.io team is continually working to bring you features that enhance your NATS experience. Below, you will find summaries of new NATS implementations.
-Release notes for the latest patch releases are available on [GitHub Releases](https://github.com/nats-io/nats-server/releases)
+Команда NATS.io постоянно работает над новыми возможностями, чтобы улучшить ваш опыт использования NATS. Ниже приведены краткие обзоры недавних релизов.
+Актуальные заметки к патч-релизам доступны на странице [GitHub Releases](https://github.com/nats-io/nats-server/releases).
 
-## Roadmap for future releases
+## Дорожная карта будущих релизов
 
-See [https://nats.io/about/#roadmap](https://nats.io/about/#roadmap)
+Смотрите [https://nats.io/about/#roadmap](https://nats.io/about/#roadmap).
 
-## Server release v2.12.0
+## Релиз сервера v2.12.0
 
-Check out the:
+Ознакомьтесь с:
 
-- [Upgrade guide](./whats_new_212.md)
-- [Release notes](https://github.com/nats-io/nats-server/releases/tag/v2.12.0)
+- [Руководством по обновлению](./whats_new_212.md)
+- [Заметками о релизе](https://github.com/nats-io/nats-server/releases/tag/v2.12.0)
 
-## Server release v2.11.0
+## Релиз сервера v2.11.0
 
-Check out the:
+Ознакомьтесь с:
 
-- [Upgrade guide](./whats_new_211.md)
-- [Release notes](https://github.com/nats-io/nats-server/releases/tag/v2.11.0)
+- [Руководством по обновлению](./whats_new_211.md)
+- [Заметками о релизе](https://github.com/nats-io/nats-server/releases/tag/v2.11.0)
 
-## Server release v2.10.0
+## Релиз сервера v2.10.0
 
-Check out the:
+Ознакомьтесь с:
 
-- [Upgrade guide](./whats_new_210.md)
-- [Podcast EP06: The journey and features of the NATS.io 2.10 release](https://youtu.be/9J4pRzHSc2k)
-- [Release notes](https://github.com/nats-io/nats-server/releases/tag/v2.10.0)
+- [Руководством по обновлению](./whats_new_210.md)
+- [Подкастом EP06: Путь и функции релиза NATS.io 2.10](https://youtu.be/9J4pRzHSc2k)
+- [Заметками о релизе](https://github.com/nats-io/nats-server/releases/tag/v2.10.0)
 
-## Server release v2.9.0
+## Релиз сервера v2.9.0
 
-Please check out the [announcement post](https://nats.io/blog/nats-server-29-release/) on the blog and the [detailed release notes](https://github.com/nats-io/nats-server/releases/tag/v2.9.0) in the server repo.
+Ознакомьтесь со [статьей-объявлением](https://nats.io/blog/nats-server-29-release/) в блоге и [подробными заметками](https://github.com/nats-io/nats-server/releases/tag/v2.9.0) в репозитории сервера.
 
-## Server release v2.8.0
+## Релиз сервера v2.8.0
 
 ### LeafNode
 
-Support for a `min_version` in the `leafnodes{}` that would reject servers with a lower version. Note that this would work only for servers that are v2.8.0 and above.
+Добавлена поддержка параметра `min_version` внутри блока `leafnodes{}` — он отвергает подключения серверов с версией ниже указанной. Работает только на серверах версии v2.8.0 и выше.
 
-### Monitoring
+### Мониторинг
 
-- Server version in monitoring landing page.
-- Logging to `/healthz` endpoint when failure occurs.
-- MQTT and Websocket blocks in the `/varz` endpoint.
-
-### JetStream
-
-- Consumer check added to `healthz` endpoint.
-- Max stream bytes checks.
-- Ability to limit a consumer's `MaxAckPending` value.
-- Allow streams and consumers to migrate between clusters. _This feature is considered "beta"_.
-- New `unique_tag` option in `jetstream{}` configuration block to prevent placing a stream in the same availability zone twice.
-- Stream `Alternates` field in `StreamInfo` response. They provide a priority list of mirrors and the source in relation to where the request originated.
-- Deterministic subject tokens to partition mapping.
-
-For full release information, see links below;
-
-- Release notes [2.8.0](https://github.com/nats-io/nats-server/releases/tag/v2.8.0)
-- Full list of Changes [2.7.4...2.8.0](https://github.com/nats-io/nats-server/compare/v2.7.4...v2.8.0)
-
-## Server release v2.7.0
-
-### **Notice for JetStream Users**
-
-See [important note](https://github.com/nats-io/nats-server/pull/2693#issuecomment-996212582) if using LeafNode regarding domains.
-
-### Configuration
-
-Ability to configure account limits (`max_connections`, `max_subscriptions`, `max_payload`, `max_leafnodes`) in server configuration file.
+- Версия сервера отображается на главной странице мониторинга.
+- Логирование в `/healthz`, если происходит сбой.
+- Блоки MQTT и WebSocket доступны в `/varz`.
 
 ### JetStream
 
-- Overflow placement for streams. A stream can now be placed in the closest cluster from the origin request if it can be placed there.
-- Support for ephemeral Pull consumers (client libraries will need to be updated to allow those).
-- New consumer configuration options
-  - For Pull Consumers: `MaxRequestBatch` to limit the batch size any client can request `MaxRequestExpires` to limit the expiration any client can request
-  - For ephemeral consumers: `InactiveThreshold` duration that instructs the server to cleanup ephemeral consumers that are inactive for that long.
-- Ability to configure `max_file_store` and `max_memory_store` in the `jetstream{}` block as strings with the following suffixes `K`, `M`, `G` and `T`, for instance: `max_file_store: "256M"`.
-- Support for the JWT field `MaxBytesRequired`, which defines a per-account maximum bytes for assets.
+- Добавлена проверка потребителей на endpoint `healthz`.
+- Проверки максимального размера потоков.
+- Возможность ограничивать `MaxAckPending` для потребителя.
+- Позволяют потокам и потребителям мигрировать между кластерами. _Функция в состоянии «бета»_.
+- Новый параметр `unique_tag` в блоке `jetstream{}` предотвращает размещение потока дважды в одной зоне доступности.
+- Поле `Alternates` в ответе `StreamInfo` содержит приоритетный список зеркал и источника относительно запроса.
+- Детеминированное отображение subject-токенов на партиции.
+
+Полная информация о релизе:
+
+- [Заметки о релизе 2.8.0](https://github.com/nats-io/nats-server/releases/tag/v2.8.0)
+- [Список изменений 2.7.4...2.8.0](https://github.com/nats-io/nats-server/compare/v2.7.4...v2.8.0)
+
+## Релиз сервера v2.7.0
+
+### **Уведомление для пользователей JetStream**
+
+Смотрите [важную заметку](https://github.com/nats-io/nats-server/pull/2693#issuecomment-996212582) про LeafNode и домены.
+
+### Конфигурация
+
+Можно задавать лимиты учетных записей (`max_connections`, `max_subscriptions`, `max_payload`, `max_leafnodes`) в конфигурации сервера.
+
+### JetStream
+
+- Появилась возможность размещать потоки в ближайшем к источнику запросов кластере, если такая маршрутизация возможна.
+- Поддержка эфемерных Pull-потребителей (клиентские библиотеки должны обновиться).
+- Новые опции конфигурации потребителей:
+  - Для Pull-потребителей: `MaxRequestBatch` ограничивает размер запрашиваемых пакетов, `MaxRequestExpires` ограничивает срок действия запроса.
+  - Для эфемерных потребителей: `InactiveThreshold` указывает, как долго сервер ждет активности перед удалением такого потребителя.
+- Можно задавать `max_file_store` и `max_memory_store` в блоке `jetstream{}` строками с суффиксами `K`, `M`, `G`, `T`, например `max_file_store: "256M"`.
+- Поддерживается поле JWT `MaxBytesRequired`, которое определяет максимальный размер ресурсов на учетную запись.
 
 ### MQTT
 
-Support for websocket protocol. MQTT clients must connect to the opened websocket port and add `/mqtt` to the URL path.
+Поддержка протокола WebSocket. Клиенты MQTT должны подключаться к открытому WebSocket-порту и добавлять `/mqtt` в путь URL.
 
 ### TLS
 
-Ability to rate-limit the clients connections by adding the `connection_rate_limit: <number of connections per seconds>` in the `tls{}` top-level block.
+Добавлена возможность ограничивать частоту подключений клиентов через `connection_rate_limit: <число подключений в секунду>` в верхнем блоке `tls{}`.
 
-For full release information, see links below;
+Полная информация о релизе:
 
-- Release notes [2.7.0](https://github.com/nats-io/nats-server/releases/tag/v2.7.0)
-- Full list of Changes [2.6.6...2.7.0](https://github.com/nats-io/nats-server/compare/v2.6.6...v2.7.0)
+- [Заметки о релизе 2.7.0](https://github.com/nats-io/nats-server/releases/tag/v2.7.0)
+- [Список изменений 2.6.6...2.7.0](https://github.com/nats-io/nats-server/compare/v2.6.6...v2.7.0)
 
-## Server release v2.6.0
+## Релиз сервера v2.6.0
 
-### **Notice for JetStream Users**
+### **Уведомление для пользователей JetStream**
 
-See important [note](https://github.com/nats-io/nats-server/releases/tag/v2.4.0) if upgrading from a version prior to NATS Server v2.4.0.
+Смотрите важную [заметку](https://github.com/nats-io/nats-server/releases/tag/v2.4.0), если вы обновляетесь с версии до NATS Server v2.4.0.
 
-### Notice for MQTT Users
+### Уведомление для пользователей MQTT
 
-See important [notes](https://github.com/nats-io/nats-server/releases/tag/v2.5.0) if upgrading from a version prior to v2.5.0.
+Смотрите важные [заметки](https://github.com/nats-io/nats-server/releases/tag/v2.5.0), если вы обновляетесь с версии до v2.5.0.
 
-### Monitoring
+### Мониторинг
 
-- JetStream's reserved memory and memory used from accounts with reservations in `/jsz` and `/varz` endpoints.
-- Hardened systemd service.
+- Отображается зарезервированная память JetStream и память, используемая учетными записями с резервированием, на `/jsz` и `/varz`.
+- Укреплена служба systemd.
 
-For full release information, see links below;
+Полная информация о релизе:
 
-- Release notes [2.6.0](https://github.com/nats-io/nats-server/releases/tag/v2.6.0)
-- Full list of Changes [2.5.0...2.6.0](https://github.com/nats-io/nats-server/compare/v2.6.0...v2.5.0)
+- [Заметки о релизе 2.6.0](https://github.com/nats-io/nats-server/releases/tag/v2.6.0)
+- [Список изменений 2.5.0...2.6.0](https://github.com/nats-io/nats-server/compare/v2.5.0...v2.6.0)
 
-## Server release v2.5.0
+## Релиз сервера v2.5.0
 
-### **Notice for JetStream Users**
+### **Уведомление для пользователей JetStream**
 
-See important [note](./#notice-for-jetstream-users) if upgrading from a version prior to NATS Server v2.4.0.
+См. важную [заметку](./#notice-for-jetstream-users), если вы обновляетесь с версии до NATS Server v2.4.0.
 
-### MQTT/Monitoring
+### MQTT/Мониторинг
 
-- `MQTTClient` in the `/connz` connections report and system events CONNECT and DISCONNECT. Ability to select on `mqtt_client`.
+- `MQTTClient` теперь отображается в отчете `/connz` и системные события CONNECT и DISCONNECT. Добавлена возможность фильтрации по `mqtt_client`.
 
-### MQTT Improvement
+### Улучшение MQTT
 
-- Sessions are now all stored inside a single stream, as opposed to individual streams, reducing resources usage.
+- Все сессии теперь хранятся в одном потоке вместо отдельных, что снижает расход ресурсов.
 
-### MQTT Update
+### Обновление MQTT
 
-- Due to the aforementioned improvement described above, when an MQTT client connects for the first time after an upgrade to this server version, the server will migrate all individual `$MQTT_sess_<xxxx>` streams to a new `$MQTT_sess` stream for the user's account.
+- После обновления до этой версии сервера MQTT-клиент при первом подключении инициирует миграцию всех индивидуальных потоков `$MQTT_sess_<xxxx>` в новый поток `$MQTT_sess` своей учетной записи.
 
-For full release information, see links below;
+Полная информация о релизе:
 
-- Release notes [2.5.0](https://github.com/nats-io/nats-server/releases/tag/v2.5.0)
-- Full list of Changes [2.4.0...2.5.0](https://github.com/nats-io/nats-server/compare/v2.4.0...v2.5.0)
+- [Заметки о релизе 2.5.0](https://github.com/nats-io/nats-server/releases/tag/v2.5.0)
+- [Список изменений 2.4.0...2.5.0](https://github.com/nats-io/nats-server/compare/v2.4.0...v2.5.0)
 
-## Server release v2.4.0
+## Релиз сервера v2.4.0
 
-### Notice for JetStream Users
+### Уведомление для пользователей JetStream
 
-With the latest release of the NATS server, we have fixed bugs around queue subscriptions and have restricted undesired behavior that could be confusing or introduce data loss by unintended/undefined behavior of client applications. If you are using queue subscriptions on a JetStream Push Consumer or have created multiple push subscriptions on the same consumer, you may be affected and need to upgrade your client version along with the server version. We’ve detailed the behavior with different client versions below.
+В последнем релизе сервера NATS исправлены ошибки, связанные с очередями подписок, и ограничено поведение, которое могло привести к путанице или потере данных из-за непреднамеренного использования API клиентскими приложениями. Если вы используете очереди подписок для JetStream Push Consumer или создали несколько push-подписок на одном и том же consumer’е, вы можете столкнуться с проблемами и требуется обновление клиентских библиотек вместе с серверной частью. Ниже описано поведение разных версий клиента.
 
-With a NATS Server **prior** to v2.4.0 and client libraries **prior** to these versions: NATS C client v3.1.0, Go client v1.12.0, Java client 2.12.0-SNAPSHOT, NATS.js v2.2.0, NATS.ws v1.3.0, NATS.deno v1.2.0, NATS .NET 0.14.0-pre2:
+Если сервер и клиент **оба** версии до v2.4.0 (в т.ч. NATS C v3.1.0, Go v1.12.0, Java 2.12.0-SNAPSHOT, NATS.js v2.2.0, NATS.ws v1.3.0, NATS.deno v1.2.0, NATS .NET 0.14.0-pre2):
 
-- It was possible to create multiple non-queue subscription instances for the same JetStream durable consumer. This is not correct since each instance will receive the same copy of a message and acknowledgment is therefore meaningless since the first instance to acknowledge the message will prevent other instances to control if/when a message should be acknowledged.
-- Similar to the first issue, it was possible to create many different queue groups for one single JetStream consumer.
-- For queue subscriptions, if no consumer nor durable name was provided, the libraries would create ephemeral JetStream consumers, which meant that each member of the same group would receive the same message as the other members, which was not the expected behavior. Users assumed that 2 members subscribing to “foo” with the queue group named “bar” would load-balance the consumption of messages from the stream/consumer.
-- It was possible to create a queue subscription on a JetStream consumer configured with heartbeat and/or flow control. This does not make sense because by definition, queue members would receive some (randomly distributed) messages, so the library would think that heartbeats are missed, and flow control would also be disrupted.
+- Возможно создание нескольких экземпляров не-queue-подписок для одного JetStream durable consumer, что приводит к дублирующим сообщениям и некорректным подтверждениям.
+- Можно создавать разные группы очередей на один и тот же JetStream consumer.
+- При отсутствии consumer или durable name создавались эфемерные потребители, и каждый член группы получал одно и то же сообщение, вместо балансировки нагрузки.
+- Создание queue-подписки для consumer’а с heartbeat и/или flow control приводило к ложным пропускам heartbeat и нарушало flow control.
 
-If above client libraries are not updated to the latest but the NATS Server is upgraded to v2.4.0:
+Если клиентские библиотеки старые, а сервер уже v2.4.0:
 
-- It is still possible to create multiple non-queue subscription instances for the same JetStream durable consumer. Since the check is performed by the library (with the help of a new field called `PushBound` in the consumer information object set by the server), this misbehavior is still possible.
-- Queue subscriptions will not receive any message. This is because the server now has a new field `DeliverGroup` in the consumer configuration, which won’t be set for existing JetStream consumers and by the older libraries, and detects interest (and starts delivering) only when a subscription on the deliver subject for a queue subscription matching the “deliver group” name is found. Since the JetStream consumer is thought to be a non-deliver-group consumer, the opposite happens: the server detects a core NATS _queue_ subscription on the “deliver subject”, therefore does not trigger delivery on the JetStream consumer’s “deliver subject”.
+- Всё ещё можно создавать несколько экземпляров не-queue-подписок, так как проверка выполняется на стороне библиотеки (использует поле `PushBound`).
+- Queue-подписки не будут получать сообщения: поле `DeliverGroup` не установлено старой библиотекой, и сервер думает, что потребитель не предназначен для queue-подписок.
 
-The 2 other issues are still present because those checks are done in the updated libraries.
+Оставшиеся две проблемы всё ещё актуальны, так как их проверка по-прежнему делается в клиентских библиотеках.
 
-If the above client libraries are updated to the latest version, but the NATS Server is still to version prior to v2.4.0 (that is, up to v2.3.4):
+Если библиотека обновлена, а сервер всё ещё старее v2.4.0:
 
-- It is still possible to create multiple non-queue subscription instances for the same JetStream durable consumer. This is because the JetStream consumer’s information retrieved by the library will not have the `PushBound` boolean set by the server, therefore will not be able to alert the user that they are trying to create multiple subscription instances for the same JetStream consumer.
-- Queue subscriptions will fail because the consumer information returned will not contain the `DeliverGroup` field. The error will be likely to the effect that the user tries to create a queue subscription to a non-queue JetStream consumer. Note that if the application creates a queue subscription for a non-yet created JetStream consumer, then this call will succeed, however, adding new members or restarting the application with the now existing JetStream consumer will fail.
-- Creating queue subscriptions without a named consumer/durable will now result in the library using the queue name as the durable name.
-- Trying to create a queue subscription with a consumer configuration that has heartbeat and/or flow control will now return an error message.
+- Можно создавать два экземпляра не-queue-подписок для одного JetStream consumer, поскольку сервер не передаёт `PushBound`.
+- Queue-подписки будут падать с ошибкой о попытке подписаться на не-queue consumer, отсутствует поле `DeliverGroup`.
+- При отсутствии durable/consumer name библиотека будет использовать queue group как durable name.
+- Попытки создать queue-подписку с heartbeat/flow control теперь возвращают ошибку.
 
-For completeness, using the latest client libraries and NATS Server v2.4.0:
-
-- Trying to start multiple non-queue subscriptions instances for the same JetStream consumer will now return an error to the effect that the user is trying to create a “duplicate subscription”. That is, there is already an active subscription on that JetStream consumer. It is now only possible to create a queue group for a JetStream consumer created for that group. The `DeliverGroup` field will be set by the library or need to be provided when creating the consumer externally.
-- Trying to create a queue subscription without a durable nor consumer name results in the library creating/using the queue group as the JetStream consumer’s durable name.
-- Trying to create a queue subscription with a consumer configuration that has heartbeat and/or flow control will now return an error message.
-
-Note that if the server v2.4.0 recovers existing JetStream consumers that were created prior to v2.4.0 (and with older libraries), none of them will have a `DeliverGroup`, so none of them can be used for queue subscriptions. They will have to be recreated.
+Если сервер v2.4.0 восстанавливает существующие JetStream consumers, созданные до v2.4.0 (с более старыми библиотеками), у них не будет `DeliverGroup`, и их нельзя будет использовать для queue-подписок. Потребуется создание заново.
 
 ### JetStream
 
-- Domain to the content of a `PubAck` protocol
-- `PushBound` boolean in `ConsumerInfo` to indicate that a push consumer is already bound to an active subscription
-- `DeliverGroup` string in `ConsumerConfig` to specify which deliver group (or queue group name) the consumer is created for
-- Warning log statement in situations where catchup for a stream resulted in an error
+- Переход поля `PubAck` протокола в доменную область
+- Булево `PushBound` в `ConsumerInfo`, показывающее, что push-потребитель уже привязан к активной подписке
+- Строка `DeliverGroup` в `ConsumerConfig`, определяющая имя группы доставки (queue group)
+- Предупреждение в логах, если catchup для потока завершился ошибкой
 
-### Monitoring
+### Мониторинг
 
-- The ability for normal accounts to access scoped `connz` information
+- Возможность обычных учетных записей получать scoped-информацию `/connz`
 
-### Misc
+### Разное
 
-- Operator option `resolver_pinned_accounts` to ensure users are signed by certain accounts
+- Опция оператора `resolver_pinned_accounts`, требующая подписи пользователей определёнными учетными записями
 
-For full release information, see links below;
+Полная информация о релизе:
 
-- Release notes [2.4.0](https://github.com/nats-io/nats-server/releases/tag/v2.4.0)
-- Full list of Changes [2.3.4...2.4.0](https://github.com/nats-io/nats-server/compare/v2.3.4...v2.4.0)
+- [Заметки о релизе 2.4.0](https://github.com/nats-io/nats-server/releases/tag/v2.4.0)
+- [Список изменений 2.3.4...2.4.0](https://github.com/nats-io/nats-server/compare/v2.3.4...v2.4.0)
 
-## Server release v2.3.0
+## Релиз сервера v2.3.0
 
-- [OCSP support](../running-a-nats-service/configuration/ocsp.md)
+- [Поддержка OCSP](../running-a-nats-service/configuration/ocsp.md)
 
 ### JetStream
 
-- Richer API errors. JetStream errors now contain an ErrCode that uniquely describes the error.
-- Ability to send more advanced Stream purge requests that can purge all messages for a specific subject
-- Stream can now be configured with a per-subject message limit
-- Encryption of JetStream data at rest
+- Более подробные ошибки API: в JetStream теперь есть `ErrCode`, уникально описывающий ошибку.
+- Возможность отправлять расширенные запросы очистки потока с выборкой по subject.
+- Поток можно настроить с ограничением количества сообщений для каждого subject.
+- Шифрование данных JetStream в состоянии покоя.
 
-For full release information, see links below;
+Полная информация о релизе:
 
-- Release notes [2.3.0](https://github.com/nats-io/nats-server/releases/tag/v2.3.0)
-- Full list of Changes [2.2.6...2.3.0](https://github.com/nats-io/nats-server/compare/v2.2.6...v2.3.0)
+- [Заметки о релизе 2.3.0](https://github.com/nats-io/nats-server/releases/tag/v2.3.0)
+- [Список изменений 2.2.6...2.3.0](https://github.com/nats-io/nats-server/compare/v2.2.6...v2.3.0)
 
-## Server release v2.2.0
+## Релиз сервера v2.2.0
 
-See [NATS 2.2](whats_new_22.md) for new features.
+См. [NATS 2.2](whats_new_22.md) для новых возможностей.
 
-## Server release v2.1.7
+## Релиз сервера v2.1.7
 
-### Monitoring Endpoints Available via System Services
+### Мониторинговые endpoint’ы через системные сервисы
 
-Monitoring endpoints as listed in the table below are accessible as system services using the following subject pattern:
+Мониторинговые endpoint’ы из таблицы ниже доступны в виде системных сервисов по шаблону subject:
 
-- `$SYS.REQ.SERVER.<id>.<endpoint-name>` (request server monitoring endpoint corresponding to endpoint name.)
-- `$SYS.REQ.SERVER.PING.<endpoint-name>` (from all server request server monitoring endpoint corresponding to endpoint name - will return multiple messages)
+- `$SYS.REQ.SERVER.<id>.<endpoint-name>` (запрос к серверному endpoint, соответствующему имени)
+- `$SYS.REQ.SERVER.PING.<endpoint-name>` (запрос к серверному endpoint; может вернуться несколько сообщений)
 
-For more information on monitoring endpoints see [NATS Server Configurations System Events](../running-a-nats-service/configuration/sys_accounts/).
+Для подробностей обратитесь к разделу [Системные события конфигурации NATS](../running-a-nats-service/configuration/sys_accounts/).
 
-### Addition of `no_auth_user` Configuration
+### Добавление конфигурации `no_auth_user`
 
-Configuration of `no_auth_user` allows you to refer to a configured user/account when no credentials are provided.
+Параметр `no_auth_user` позволяет указывать заранее созданного пользователя/учетную запись, если учетные данные не передаются.
 
-For more information and examples, see [Securing NATS](../running-a-nats-service/configuration/securing_nats/)
+Больше информации и примеров в разделе [Securing NATS](../running-a-nats-service/configuration/securing_nats/)
 
-For full release information, see links below;
+Полная информация о релизе:
 
-- Release notes [2.1.7](https://github.com/nats-io/nats-server/releases/tag/v2.1.7)
-- Full list of Changes [2.1.6...2.1.7](https://github.com/nats-io/nats-server/compare/v2.1.6...v2.1.7)
+- [Заметки о релизе 2.1.7](https://github.com/nats-io/nats-server/releases/tag/v2.1.7)
+- [Список изменений 2.1.6...2.1.7](https://github.com/nats-io/nats-server/compare/v2.1.6...v2.1.7)
 
-## Server release v2.1.6
+## Релиз сервера v2.1.6
 
-### TLS Configuration for Account Resolver
+### TLS-конфигурация для resolver’а учетных записей
 
-This release adds the ability to specify TLS configuration for the account resolver.
+Теперь можно задавать TLS-настройки для resolver’а учетных записей.
 
 ```
 resolver_tls {
@@ -247,52 +241,52 @@ resolver_tls {
 }
 ```
 
-### Additional Trace & Debug Verbosity Options
+### Дополнительные опции трассировки и отладки
 
-`trace_verbose` and command line parameters `-VV` and `-DVV` added. See [NATS Logging Configuration](../running-a-nats-service/configuration/logging.md#configuring-logging)
+Добавлены `trace_verbose` и командные параметры `-VV`, `-DVV`. Смотрите [Настройку логирования NATS](../running-a-nats-service/configuration/logging.md#configuring-logging).
 
-### Subscription Details in Monitoring Endpoints
+### Детали подписок в endpoint’ах мониторинга
 
-We've added the option to include subscription details in monitoring endpoints `/routez` and `/connz`. For instance `/connz?subs=detail` will now return not only the subjects of the subscription, but the queue name (if applicable) and some other details.
+В `/routez` и `/connz` появилась опция `subs=detail`: теперь возвращается не только subject, но и имя очереди (если есть) и другие метаданные.
 
-- Release notes [2.1.6](https://github.com/nats-io/nats-server/releases/tag/v2.1.6)
-- Full list of Changes [2.1.4...2.1.6](https://github.com/nats-io/nats-server/compare/v2.1.4...v2.1.6)
+- [Заметки о релизе 2.1.6](https://github.com/nats-io/nats-server/releases/tag/v2.1.6)
+- [Список изменений 2.1.4...2.1.6](https://github.com/nats-io/nats-server/compare/v2.1.4...v2.1.6)
 
-## Server release v2.1.4
+## Релиз сервера v2.1.4
 
-### Log Rotation
+### Ротация логов
 
-NATS introduces `logfile_size_limit` allowing auto-rotation of log files when the size is greater than the configured limit set in `logfile_size_limit` as a number of bytes. You can provide the size with units, such as MB, GB, etc. The backup files will have the same name as the original log file with the suffix .yyyy.mm.dd.hh.mm.ss.micros. For more information see Configuring Logging in the [NATS Server Configuration section](../running-a-nats-service/configuration/logging.md).
+Появился параметр `logfile_size_limit`, позволяющий автоматически вращать файлы логов при достижении заданного размера в байтах. Можно указывать величину с единицами (MB, GB и т.п.). Файлы резервных копий получают тот же путь с суффиксом `.yyyy.mm.dd.hh.mm.ss.micros`. Подробнее — в [разделе Конфигурация логов](../running-a-nats-service/configuration/logging.md).
 
-- Release notes [2.1.4](https://github.com/nats-io/nats-server/releases/tag/v2.1.4)
-- Full list of Changes [2.1.2...2.1.4](https://github.com/nats-io/nats-server/compare/v2.1.2...v2.1.4)
+- [Заметки о релизе 2.1.4](https://github.com/nats-io/nats-server/releases/tag/v2.1.4)
+- [Список изменений 2.1.2...2.1.4](https://github.com/nats-io/nats-server/compare/v2.1.2...v2.1.4)
 
-## Server release v2.1.2
+## Релиз сервера v2.1.2
 
-### Queue Permissions
+### Разрешения для очередей
 
-Queue Permissions allow you to express authorization for queue groups. As queue groups are integral to implementing horizontally scalable microservices, control of who is allowed to join a specific queue group is important to the overall security model. Original PR - [https://github.com/nats-io/nats-server/pull/1143](https://github.com/nats-io/nats-server/pull/1143)
+Queue Permissions позволяют задавать авторизацию для входа в группы очередей. Группы очередей — ключ к масштабируемым микросервисам, поэтому важно управлять тем, кто может к ним подключаться. Изначальный PR — [https://github.com/nats-io/nats-server/pull/1143](https://github.com/nats-io/nats-server/pull/1143).
 
-More information on Queue Permissions can be found in the [Developing with NATS](../using-nats/developing-with-nats/receiving/queues.md) section.
+Подробности есть в разделе [Разработка с NATS](../using-nats/developing-with-nats/receiving/queues.md).
 
-## Server release v2.1.0
+## Релиз сервера v2.1.0
 
-### Service Latency Tracking
+### Отслеживание задержек сервисов
 
-As services and service mesh functionality has become prominent, we have been looking at ways to make running scalable services on NATS.io a great experience. One area we have been looking at is observability. With publish/subscribe systems, everything is inherently observable, however we realized it was not as simple as it could be. We wanted the ability to transparently add service latency tracking to any given service with no changes to the application. We also realized that global systems, such as those NATS.io can support, needed something more than a single metric. The solution was to allow any sampling rate to be attached to an exported service, with a delivery subject for all collected metrics. We collect metrics that show the requestor’s view of latency, the responder’s view of latency and the NATS subsystem itself, even when requestor and responder are in different parts of the world and connected to different servers in a NATS supercluster.
+По мере роста сервисной архитектуры и mesh-функциональности мы искали способы сделать работу масштабируемых сервисов на NATS.io приятной. Наблюдаемость в publish/subscribe системах была очевидной, но мы хотели сделать её проще. Мы добавили возможность прозрачно включать сбор метрик задержек для любой экспортированной службы без изменений в приложении. Мы также поняли, что глобальные системы требуют больше, чем один показатель, поэтому можно задать любую частоту сэмплирования и единый subject для всех собранных метрик. Мы фиксируем задержки с точки зрения инициатора запроса, обработчика и самой подсистемы NATS, даже если они находятся в разных регионах и подключены к разным серверам супер-кластера.
 
-- Release notes [2.1.0](https://github.com/nats-io/nats-server/releases/tag/v2.1.0)
-- Full list of Changes [2.0.4...2.1.0](https://github.com/nats-io/nats-server/compare/v2.0.4...v2.1.0)
+- [Заметки о релизе 2.1.0](https://github.com/nats-io/nats-server/releases/tag/v2.1.0)
+- [Список изменений 2.0.4...2.1.0](https://github.com/nats-io/nats-server/compare/v2.0.4...v2.1.0)
 
-## Server release v2.0.4
+## Релиз сервера v2.0.4
 
-### Response Only Permissions
+### Разрешения только на ответ
 
-For services, the authorization for responding to requests usually included wildcards for \_INBOX.> and possibly $GR.> with a supercluster for sending responses. What we really wanted was the ability to allow a service responder to only respond to the reply subject it was sent.
+Для сервисов авторизация часто включала wildcard для `_INBOX.>` и, при супер-кластере, `$GR.>` для ответов. Мы хотели дать возможность сервисному обработчику отвечать только на тот subject, на который пришёл запрос.
 
-### Response Types
+### Типы ответов
 
-Exported Services were originally tied to a single response. We added the type for the service response and now support singletons (default), streams and chunked. Stream responses represent multiple response messages, chunked represents a single response that may have to be broken up into multiple messages.
+Экспортированные сервисы раньше были привязаны к одному типу ответа. Мы добавили возможность выбирать тип: singletons (по умолчанию), streams или chunked. Stream-ответы переводят несколько сообщений, chunked — один ответ, разбиваемый на части.
 
-- Release notes [2.0.4](https://github.com/nats-io/nats-server/releases/tag/v2.0.4)
-- Full list of Changes [2.0.2...2.0.4](https://github.com/nats-io/nats-server/compare/v2.0.2...v2.0.4)
+- [Заметки о релизе 2.0.4](https://github.com/nats-io/nats-server/releases/tag/v2.0.4)
+- [Список изменений 2.0.2...2.0.4](https://github.com/nats-io/nats-server/compare/v2.0.2...v2.0.4)

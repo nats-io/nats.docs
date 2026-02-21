@@ -1,188 +1,141 @@
 # NATS 2.0
 
-NATS 2.0 was the largest feature release since the original code base for the server was released. NATS 2.0 was created to allow a new way of thinking about NATS as a shared utility, solving problems at scale through distributed security, multi-tenancy, larger networks, and secure sharing of data.
+NATS 2.0 стал крупнейшим релизом по возможностям с момента появления начальной версии сервера. NATS 2.0 задумывался как способ посмотреть на NATS как на общую службу, которая решает масштабные задачи за счет распределенной безопасности, мультиарендности, больших сетей и безопасного обмена данными.
 
-## Rationale
+## Обоснование
 
-NATS 2.0 was created to address problems in large scale distributed computing.
+NATS 2.0 создавался для решения проблем масштабных распределенных систем.
 
-It is difficult at best to combine identity management end-to-end \(or end-to-edge\), with data sharing, while adhering to policy and compliance. Current distributed systems increase significantly in operational complexity as they scale upward. Problems arise around service discovery, connectivity, scaling for volume, and application onboarding and updates. Disaster recovery is difficult, especially as systems have evolved to operate in silos defined by technology rather than business needs. As complexity increases, systems become expensive to operate in terms of time and money. They become fragile making it difficult to deploy services and applications hindering innovation, increasing time to value and total cost of ownership.
+Сочетать управление идентичностью от начала до конца (или от начала до периферии), совместно с обменом данными, соблюдая политики и требования соответствия — задача непростая. Современные распределенные системы значительно увеличивают сложность операций по мере роста. Возникают трудности с обнаружением служб, подключением, масштабированием под нагрузку, внедрением и обновлениями приложений. Восстановление после аварий становится сложнее, особенно когда системы развиваются в силу технологического разнообразия, а не бизнес-требований. По мере роста сложности системы становятся дорогими в эксплуатации по времени и деньгам. Они становятся хрупкими, усложняя развертывание служб и приложений, тормозя инновации, увеличивая время до получения ценности и совокупную стоимость владения.
 
-We decided to:
+Мы решили:
 
-* **Reduce total cost of ownership**: Users want reduced TCO for their
+* **Снизить совокупную стоимость владения**: пользователи хотят снизить TCO для своих распределенных систем. Это достигается с помощью простых в использовании технологий, способных работать глобально при минимальной конфигурации и устойчивой облачно-нативной архитектуре.
+* **Уменьшить время до получения ценности**: по мере масштабирования систем *время до получения ценности* увеличивается. Операционные команды сопротивляются изменениям из-за риска тронуть сложную и хрупкую систему. Изоляция контекстов позволяет снять часть этих рисков.
+* **Поддержать управляемые крупномасштабные развертывания**: никаких силосов данных, формируемых программным обеспечением — всё управляется централизованно и предоставляет бизнесу ровно то, что нужно. Мы хотели обеспечить простую настройку аварийного восстановления.
+* **Децентрализовать безопасность**: обеспечить безопасность, охватывающую одну технологию от начала до конца, при которой организации могут настраивать всё самостоятельно, что облегчает поддержку огромного количества конечных точек.
 
-  distributed systems. This is addressed by an easy to use technology that
+Для этого мы добавили множество новых возможностей, полностью совместимых с существующими клиентами и сохранив 100% обратную совместимость.
 
-  can operate at global scale with simple configuration and a resilient
+## Учетные записи
 
-  and cloud-native architecture.
+Accounts (учетные записи) — это безопасные изолированные контексты общения, которые позволяют реализовать мультиарендность в рамках одного развертывания NATS. Учетные записи дают возможность отделить технологию от бизнес-кейсов: силосы данных создаются по проекту, а не по ограничением ПО. При подключении клиент указывает учетную запись или происходит аутентификация по умолчанию с глобальной учетной записью.
 
-* **Decrease Time to Value**: As systems scale, _time to value_ increases.
+Некоторым службам нужно делиться данными за пределами своей учетной записи. Данные можно безопасно передавать между учетными записями через защищенные сервисы и потоки. Поток данных разрешается только при взаимном согласии владельцев учетных записей, а импортирующая учетная запись полностью контролирует свое пространство subject-ов.
 
-  Operations resist change due to risk in touching a complex and fragile
+Это означает, что внутри учетной записи можно задавать ограничения и использовать subject-ы без опасений столкновений с другими группами или организациями. Группы разработчиков выбирают любые subject-ы, не влияя на остальную систему, и открывают учетные записи только для тех сервисов и потоков, которые действительно нужны.
 
-  system. Providing isolation contexts can help mitigate this.
+Учетные записи просты, безопасны и экономичны. Управление одной инсталляцией NATS остается централизованным, но организации и команды разработки получают больше автономии, быстрее достигают результата и используют более гибкие практики.
 
-* **Support manageable large scale deployments**: No data silos defined by
+### Сервисы и потоки
 
-  software, instead easily managed through software to provide exactly what the
+Сервисы и потоки позволяют обмениваться сообщениями между учетными записями.
 
-  business needs. We wanted to provide easy to configure disaster recovery.
+Рассматривайте сервис как RPC-точку входа в учетную запись. За этой учетной записью может скрываться множество микросервисов, обрабатывающих запросы, но снаружи виден лишь один subject.
 
-* **Decentralize security**: Provide security supporting one
+**Определения сервисов** открывают точку взаимодействия:
 
-  technology end-to-end where organizations may self-manage making it
+* Экспортировать сервис, чтобы другие учетные записи могли его импортировать.
+* Импортировать сервис, чтобы отправлять запросы надежно и прозрачно в другую учетную запись.
 
-  easier to support a massive number of endpoints.
+Варианты использования включают большинство приложений — всё, что принимает запрос и возвращает ответ.
 
-To achieve this, we added a number of new features that are transparent to existing clients with 100% backward client compatibility.
+**Определения потоков** обеспечивают непрерывный поток данных между учетными записями:
 
-## Accounts
+* Экспортировать поток, чтобы разрешить исходящий трафик.
+* Импортировать поток, чтобы принимать входящий трафик.
 
-Accounts are securely isolated communication contexts that allow multi-tenancy spanning a NATS deployment. Accounts allow users to bifurcate technology from business driven use cases, where data silos are created by design, not software limitations. When a client connects, it specifies an account or will default to authentication with a global account.
+Сценарии применения включают observability, метрики и аналитику данных. Любое приложение или конечная точка, которая читает поток данных.
 
-At least some services need to share data outside of their account. Data can be securely shared between accounts with secure services and streams. Only mutual agreement between account owners permit data flow, and the import account has complete control over its own subject space.
+Обратите внимание, что сервисы и потоки работают без изменений в конфигурации клиентов или API. Сервисы могут мигрировать между учетными записями полностью прозрачно для клиентов.
 
-This means within an account, limitations may be set and subjects can be used without worry of collisions with other groups or organizations. Development groups choose any subjects without affecting the rest of the system, and open up accounts to export or import only the services and streams they need.
+### Системные учетные записи
 
-Accounts are easy, secure, and cost effective. There is one NATS deployment to manage, but organizations and development teams can self manage with more autonomy reducing time to value with faster, more agile development practices.
+Системная учетная запись публикует служебные сообщения по установленным шаблонам subject-ов. Это внутренние сообщения NATS, полезные операторам.
 
-### Service and Streams
+События и данные, инициируемые сервером:
 
-Services and streams are mechanisms to share messages between accounts.
+* События подключений клиентов
+* Статус подключения учетных записей
+* Ошибки аутентификации
+* События подключений leaf node
+* Сводка статистики серверов
 
-Think of a service as an RPC endpoint into an account. Behind that account there might be many microservices working in concert to handle requests, but from outside the account there is simply one subject exposed.
+Инструменты и клиенты при наличии прав могут запросить:
 
-**Service** definitions share an endpoint:
+* Статистику по сервисам
+* Обнаружение серверов и метрики
 
-* Export a service to allow other accounts to import
-* Import a service to allow requests to be sent securely and seamlessly to another account
+Серверы учетных записей также публикуют сообщения при изменениях учетной записи.
 
-Use cases include most applications - anything that accepts a request and returns a response.
+Имея эту информацию и системные метаданные, можно построить полезные инструменты мониторинга и обнаружения аномалий.
 
-**Stream** definitions allow continuous data flow between accounts:
+## Глобальные развертывания
 
-* Export a stream to allow egress
-* Import a stream to allow ingress
+NATS 2.0 поддерживает глобальные развертывания, позволяя строить топологии, оптимизированные для WAN-сетей и растущие до edge и устройств.
 
-Use cases include Observability, Metrics, and Data analytics. Any application or endpoint reading a stream of data.
+### Самовосстановление
 
-Note that services and streams operate with **zero** client configuration or API changes. Services may even move between accounts, entirely transparent to end clients.
+Функции самовосстановления присутствовали в релизах NATS 1.x, и мы сохранили их в глобальных развертываниях. Это включает:
 
-### System Accounts
+* Автоматическое переподключение клиентов и серверов
+* Автообнаружение, при котором серверы обмениваются изменениями топологии между собой и клиентами в реальном времени без дополнительных настроек и простоя. Клиенты могут переключаться на сервера, которые не были им изначально заданы.
+* Кластеры серверов NATS автоматически реагируют на появление или удаление серверов, обеспечивая бесшовное обновление и масштабирование.
 
-The system account publishes system messages under established subject patterns. These are internal NATS system messages that may be useful to operators.
+### Супер-кустеры
 
-Server initiated events and data include:
+Супер-кустеры — это кластеры NATS-кластеров. Создавайте супер-кустеры для построения по-настоящему глобальной сети NATS. Супер-кустеры используют уникальную технологию на основе сплайнов, сохраняют семантику одного хопа и оптимизируют трафик WAN благодаря оптимистичным отправкам и prune-отображению интересов. Супер-кустеры предоставляют прозрачную интеллектуальную поддержку гео-распределенных подписчиков очередей.
 
-* Client connection events
-* Account connection status
-* Authentication errors
-* Leaf node connection events
-* Server stats summary
+### Восстановление после катастроф
 
-Tools and clients with proper privileges can request:
+Супер-кустеры изначально поддерживают восстановление после катастроф. При гео-распределенных подписчиках очередей предпочтение отдается локальным клиентам, затем RTT используется для поиска кластера с минимальной задержкой и соответствующим подписчиком очереди.
 
-* Service statistics
-* Server discovery and metrics
+Что это значит?
 
-Account servers will also publish messages when an account changes.
+Допустим, у вас есть набор балансируемых сервисов на восточном побережье США (US-EAST), другой набор в ЕС (EU-WEST) и супер-кустер, состоящий из NATS-кластера в US-EAST, связанного с кластером в EU-WEST. Клиенты из США будут подключаться к US-EAST, а сервисы, связанные с этим кластером, обслуживать их. Клиенты из Европы автоматически используют сервисы в EU-WEST. Если сервисы в US-EAST отключатся, клиенты из США начнут использовать сервисы в EU-WEST.
 
-With this information and system metadata you can build useful monitoring and anomaly detection tools.
+Когда восточные сервисы снова подключатся к US-EAST, они начнут обслуживать клиентов, находящихся рядом с ними, поскольку находятся в том же кластере. Это происходит автоматически и полностью прозрачно для клиента. Дополнительной конфигурации на серверах NATS не требуется.
 
-## Global Deployments
+Это **восстановление после катастроф без настройки**.
 
-NATS 2.0 supports global deployments, allowing for global topologies that optimize for WANs while extend to the edge or devices.
+### Leaf node
 
-### Self Healing
+Leaf node — это сервер NATS, работающий в специализированной конфигурации, позволяющий расширить супер-кустеры топологией хаб-спиц.
 
-While self healing features have been part of NATS 1.X releases, we ensured they continue to work in global deployments. These include:
+Leaf node также позволяют объединить разные домены безопасности, например IoT, мобильные приложения или веб. Они идеально подходят для edge-вычислений, IoT-хабов и дата-центров, которым необходим доступ к глобальному развертыванию NATS. Локальные приложения, общающиеся по loopback-интерфейсу с физическим VM или контейнерной безопасностью, тоже могут использовать leaf node.
 
-* Client and server connections automatically reconnect
-* Auto-Discovery where servers exchange server topology changes with each
+Leaf node:
 
-  other and with clients, in real time with zero configuration changes and
+* Прозрачно и безопасно подключаются к удаленной учетной записи NATS
+* Безопасно мостят локальные данные в глобальное развертывание NATS
+* На 100% прозрачны для клиентов, которые остаются простыми, легковесными и удобными в разработке
+* Позволяют использовать локальные схемы безопасности вместе с новыми глобальными функциями защиты NATS
+* Могут создавать DMZ между локальным развертыванием NATS и внешним кластером или супер-кустером.
 
-  zero downtime while being entirely transparent to clients. Clients can
+## Децентрализованная безопасность
 
-  failover to servers they were not originally configured with.
+### Операторы, учетные записи и пользователи
 
-* NATS server clusters dynamically adjust to new or removed servers allowing
+Безопасность NATS 2.0 строится на определении Операторов, Учетных записей и Пользователей в рамках одного развертывания NATS.
 
-  for seamless rolling upgrades and scaling up or down.
+* **Оператор** обеспечивает корень доверия в системе, может представлять компанию или предприятие
 
-### Superclusters
+  * Создает **учетные записи** для администраторов. Учетная запись представляет собой организацию, бизнес-подразделение или сервис с безопасным контекстом внутри развертывания NATS, например группу мониторинга, набор микросервисов или региональное IoT-развертывание. Созданием учетных записей обычно управляет центральная группа.
 
-Conceptually, superclusters are clusters of NATS clusters. Create superclusters to deploy a truly global NATS network. Superclusters use a novel spline based technology with a unique approach to topology, keeping one hop semantics and optimizing WAN traffic through optimistic sends with interest graph pruning. Superclusters provide transparent, intelligent support for geo-distributed queue subscribers.
+* **Учетные записи** задают ограничения и могут безопасно экспортировать сервисы и потоки.
+  * Менеджеры учетных записей создают **пользователей** с нужными правами.
+* **Пользователи** имеют конкретные учетные данные и разрешения.
 
-### Disaster Recovery
+### Цепочка доверия
 
-Superclusters inherently support disaster recovery. With geo-distributed queue subscribers, local clients are preferred, then an RTT is used to find the lowest latency NATS cluster containing a matching queue subscriber in the supercluster.
+PKI (NKeys, закодированные по Ed25519 и подписанные JWT) формируют иерархию Операторов, Учетных записей и Пользователей, создавая масштабируемую и гибкую модель распределенной безопасности.
 
-What does this mean?
+* **Операторы** представлены самоподписанным JWT и это единственное, что нужно настроить на сервере. Такой JWT обычно подписывается мастер-ключом, хранящимся офлайн. JWT содержит действительные ключи подписи, которые можно отозвать, обновив JWT.
 
-Let's say you have a set of load balanced services in US East Coast \(US-EAST\), another set in the EU \(EU-WEST\), and a supercluster consisting of a NATS cluster in US-EAST connected to a NATS cluster in EU-WEST. Clients in the US would connect to a US-EAST, and services connected to that cluster would service those clients. Clients in Europe would automatically use services connected to EU-WEST. If the services in US-EAST disconnect, clients in US-EAST will begin using services in EU-WEST.
+  * Операторы подписывают JWT для **учетных записей** с использованием разных ключей.
+  * **Учетные записи** подписывают JWT для **пользователей**, снова применяя разные ключи подписи.
 
-Once the Eastern US services have reconnected to US-EAST, those services will immediately begin servicing the Eastern US clients since they're local to the NATS cluster. This is automatic and entirely transparent to the client. There is no extra configuration in NATS servers.
+* Клиенты или leaf node предъявляют учетные данные **пользователей** и подписанный nonce при подключении.
+  * Сервер с помощью резолверов получает JWT и проверяет цепочку доверия клиента.
 
-This is **zero configuration disaster recovery**.
-
-### Leaf Nodes
-
-Leaf nodes are NATS servers running in a special configuration, allowing hub and spoke topologies to extend superclusters.
-
-Leaf nodes can also bridge separate security domains. e.g. IoT, mobile, web. They are ideal for edge computing, IoT hubs, or data centers that need to be connected to a global NATS deployment. Local applications that communicate using the loopback interface with physical VM or Container security can leverage leaf nodes as well.
-
-Leaf nodes:
-
-* Transparently and securely bind to a remote NATS account
-* Securely bridge specific local data to a wider NATS deployment
-* Are 100% transparent to clients which remain simple, lightweight, and easy to develop
-* Allow for a local security scheme while using new NATS security features globally
-* Can create a DMZ between a local NATS deployment and external NATS cluster or supercluster.
-
-## Decentralized Security
-
-### Operators, Accounts, and Users
-
-NATS 2.0 Security consists of defining Operators, Accounts, and Users within a NATS deployment.
-
-* An **Operator** provides the root of trust for the system, may represent
-
-  a company or enterprise
-
-  * Creates **Accounts** for account administrators. An account represents
-
-    an organization, business unit, or service offering with a secure context
-
-    within the NATS deployment, for example an IT system monitoring group, a
-
-    set of microservices, or a regional IoT deployment. Account creation
-
-    would likely be managed by a central group.
-
-* **Accounts** define limits and may securely expose services and streams.
-  * Account managers create **Users** with permissions
-* **Users** have specific credentials and permissions.
-
-### Trust Chain
-
-PKI \(NKeys encoded [Ed25519](https://ed25519.cr.yp.to/)\) and signed JWTs create a hierarchy of Operators, Accounts, and Users creating a scalable and flexible distributed security mechanism.
-
-* **Operators** are represented by a self signed JWT and is the only thing that
-
-  is required to be configured in the server. This JWT is usually signed by a
-
-  master key that is kept offline. The JWT will contain valid signing keys that
-
-  can be revoked with the master updating this JWT.
-
-  * Operators will sign **Account** JWTs with various signing keys.
-  * **Accounts** sign **User** JWTs, again with various signing keys.
-
-* Clients or leaf nodes present **User** credentials and a signed nonce when connecting.
-  * The server uses resolvers to obtain JWTs and verify the client trust chain.
-
-This allows for rapid change of permissions, authentication and limits, to a secure multi-tenant NATS system.
-
+Это позволяет оперативно менять права, аутентификацию и ограничения в безопасной мультиарендной системе NATS.

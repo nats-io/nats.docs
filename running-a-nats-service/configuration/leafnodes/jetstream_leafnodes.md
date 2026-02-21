@@ -1,5 +1,5 @@
 ---
-description: Using JetStream on Leaf Nodes
+description: Использование JetStream на листовых узлах
 ---
 
 # Leaf Nodes (листовые узлы)

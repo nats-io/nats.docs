@@ -1,72 +1,72 @@
 # NATS 2.2
 
-NATS 2.2 is the largest feature release since version 2.0. The 2.2 release provides highly scalable, highly performant, secure and easy-to-use next generation streaming in the form of JetStream, allows remote access via websockets, has simplified NATS account management, native MQTT support, and further enables NATS toward our goal of securely democratizing streams and services for the hyperconnected world we live in.
+NATS 2.2 — крупнейший релиз с версии 2.0. Он приносит масштабируемую, производительную, безопасную и простую в использовании потоковую платформу нового поколения JetStream, удалённый доступ по WebSocket, упрощённое управление аккаунтами, нативную поддержку MQTT и продвигает NATS к цели безопасного демократизирования потоков и сервисов для гиперсвязанного мира.
 
-## Next Generation Streaming
+## Стриминг нового поколения
 
-JetStream is the next generation streaming platform for NATS, highly resilient, highly available, and easy to use. We’ve spent a long time listening to our community, learning from our experiences, looking at the needs of today, and thinking deeply about the needs of tomorrow. We built JetStream to address these needs.
+JetStream — это следующая генерация платформы потоков для NATS: высокодоступная, отказоустойчивая и простая в использовании. Мы долго слушали сообщество, анализировали текущие потребности и думали о будущем, чтобы создать JetStream, отвечающий этим требованиям.
 
 JetStream:
 
-* is easy to deploy and manage, built into the NATS server
-* simplifies and accelerates development
-* supports wildcard subjects
-* supports at least once delivery and exactly once within a window
-* is horizontally scalable at runtime with no interruptions
-* persists data via streams and delivers or replays via consumers
-* supports multiple patterns to consume data on the same stream
-* supports push and pull modes when consuming messages
-* is account aware
-* allows for detailed granularity of security, by stream, by consumer, by function
+* легко разворачивается и управляется, встроен в сервер NATS
+* упрощает и ускоряет разработку
+* поддерживает wildcard subject-ы
+* обеспечивает доставку как минимум один раз и точно один раз в пределах окна
+* масштабируется по горизонтали во время работы без остановок
+* сохраняет данные в потоках и доставляет или проигрывает через потребителей
+* поддерживает несколько шаблонов потребления для одного потока
+* поддерживает push и pull режимы при получении сообщений
+* осведомлён об аккаунтах
+* позволяет задавать гибкие политики безопасности: по потоку, по потребителю, по функции
 
-Get started with [JetStream](../nats-concepts/jetstream/).
+Начните с [JetStream](../nats-concepts/jetstream/).
 
-## Security and Simplified Account Management
+## Безопасность и упрощённое управление аккаунтами
 
-Account management just became much easier. This version of NATS has a built-in account management system, eliminating the need to set up an account manager when not using the memory account resolver. With automated default system account generation, and the ability to preload accounts, simply enable a set of servers in your deployment to be account resolvers or account resolver caches, and they will handle public account information provided to the NATS system through the NATS nsc tooling. Have enterprise-scale account management up and running in minutes.
+Теперь управление аккаунтами стало проще. В NATS встроена система управления аккаунтами, что устраняет необходимость разворачивать отдельный account manager при отказе от memory account resolver. С автоматической генерацией дефолтного системного аккаунта и возможностью предзагрузки аккаунтов достаточно обозначить сервера в кластере как account resolver или cache, и они будут обслуживать публичную информацию об аккаунтах из nsc-утилит. Крупномасштабное управление аккаунтами можно запустить за считанные минуты.
 
-### CIDR Block Account Restrictions
+### Ограничения аккаунтов по CIDR-блокам
 
-By specifying a CIDR block restriction for a user, policy can be applied to limit connections from clients within a certain range or set of IP addresses. Use this as another layer of security atop user credentials to better secure your distributed system. Ensure your applications can only connect from within a specific cloud, enterprise, geographic location, virtual or physical network.
+Задавайте ограничение CIDR-блока для пользователя, чтобы ограничить подключения клиентов из заданного диапазона IP. Это дополнительный уровень безопасности поверх учетных данных: разрешайте подключения только из нужного облака, предприятия, региона или сети.
 
-### Time-Based Account Restrictions
+### Временные ограничения аккаунтов
 
-Scoped to the user, you can now [specify a specific block of time](../using-nats/nats-tools/nsc/basics.md#user-authorization) during the day when applications can connect. For example, permit certain users or applications to access the system during specified business hours, or protect business operations during the busiest parts of the day from batch driven back-office applications that could adversely impact the system when run at the wrong time.
+Теперь можно [указать временной интервал](../using-nats/nats-tools/nsc/basics.md#user-authorization) в течение дня, когда приложения могут подключаться. Например, разрешайте доступ отдельным пользователям или приложениям только в бизнес-часы или защищайте критические операции от пакетных приложений, запускаемых вне нужного времени.
 
-### Default User Permissions
+### Дефолтные разрешения пользователей
 
-Now you can specify [default user permissions](../running-a-nats-service/configuration/securing\_nats/authorization.md#examples) within an account. This significantly reduces efforts around policy, reduces chances for error in permissioning, and simplifies the provisioning of user credentials.
+Можно задавать [дефолтные разрешения пользователей](../running-a-nats-service/configuration/securing_nats/authorization.md#examples) внутри аккаунта. Это упрощает политику, уменьшает вероятность ошибок при выдаче прав и облегчает создание учетных данных.
 
 ## WebSockets
 
-Connect mobile and web applications to any NATS server using [WebSockets](../running-a-nats-service/configuration/websocket/). Built to more easily traverse firewalls and load balancers, NATS WebSocket support provides even more flexibility to NATS deployments and makes it easier to communicate to the edge and endpoints. This is currently supported in NATS server leaf nodes, nats.ts, nats.deno, and the nats.js clients.
+Подключайте мобильные и веб-приложения к любому серверу NATS через [WebSockets](../running-a-nats-service/configuration/websocket/). WebSocket-протокол легче проходит сквозь фаерволы и балансировщики, расширяя варианты развертывания NATS и упрощая связь с периферией. Поддерживаются leaf node сервера, nats.ts, nats.deno и клиенты nats.js.
 
-## Native MQTT Support
+## Нативная поддержка MQTT
 
-With the [Adaptive Edge architecture](https://nats.io/blog/synadia-adaptive-edge/) and the ease with which NATS can extend a cloud deployment to the edge, it makes perfect sense to leverage existing investments in IoT deployments. It’s expensive to update devices and large edge deployments. Our goal is to enable the hyperconnected world, so we added first-class support for [MQTT 3.1.1](../running-a-nats-service/configuration/mqtt/) directly into the NATS Server.
+С архитектурой [Adaptive Edge](https://nats.io/blog/synadia-adaptive-edge/) и возможностью расширять облачные развертывания на edge логично использовать существующие инвестиции в IoT. Обновление устройств и крупных edge-сетей дорогостоящее, поэтому мы добавили полноценную поддержку [MQTT 3.1.1](../running-a-nats-service/configuration/mqtt/) прямо в сервер NATS.
 
-Seamlessly integrate existing IoT deployments using MQTT 3.1.1 with a cloud-native NATS deployment. Add a leaf node that is MQTT enabled and instantly send and receive messages to your MQTT applications and devices from a NATS deployment whether it be edge, single-cloud, multi-cloud, on-premise, or any combination thereof.
+Интегрируйте IoT-развертывания на MQTT 3.1.1 с облачным NATS, добавьте MQTT-leaf node и мгновенно отправляйте и принимайте сообщения в MQTT-приложениях и устройствах, независимо от того, развернут ли NATS на edge, одном облаке, в нескольких облаках, локально или в любой комбинации.
 
-## Build Better Systems
+## Создавайте лучшие системы
 
-We’ve added a variety of features to allow you to build a more resilient, secure, and simply better system at scale.
+Мы добавили функции, повышающие устойчивость, безопасность и общую надёжность системы в масштабе.
 
-### Message Headers
+### Заголовки сообщений
 
-We’ve added the ability to optionally use headers, following the HTTP semantics familiar to developers. Headers naturally apply overhead, which was why we resisted adding them for so long. By creating new internal protocol messages transparent to developers, we maintain the extremely fast processing of simple NATS messages that we have always had while supporting headers for those who would like to leverage them. Adding headers to messages allows you to provide application-specific metadata, such as compression or encryption-related information, without touching the payload. We also provide some NATS specific headers for use in JetStream and other features.
+Добавлена опция использовать заголовки, как в HTTP. Заголовки дают накладные расходы, поэтому мы долго их откладывали. Мы создали внутренние протоколы, видимые разработчикам, сохранив быстрое выполнение простых сообщений, но поддерживая заголовки для тех, кто хочет внедрить метаданные (например, про сжатие или шифрование) без изменения payload. Также доступны специфичные для NATS заголовки для JetStream и других возможностей.
 
-### Seamless Maintenance with Lame Duck Notifications
+### Плавная техобслуживание с уведомлениями Lame Duck
 
-When taking down a server for maintenance, servers can be signaled to enter [Lame Duck Mode](../running-a-nats-service/nats\_admin/lame\_duck\_mode.md) where they do not accept new connections and evict existing connections over a period of time. Maintainer supported clients will notify applications that a server has entered this state and will be shutting down, allowing a client to smoothly transition to another server or cluster and better maintain business continuity during scheduled maintenance periods.
+При отключении сервера для обслуживания можно послать сигнал, активирующий [Lame Duck Mode](../running-a-nats-service/nats_admin/lame_duck_mode.md): сервер больше не принимает новые подключения и постепенно отключает существующие. Клиенты с поддержкой этого режима уведомляют приложения о переходе сервера в состояние отключения, что даёт время плавно перейти на другой сервер или кластер и сохранить непрерывность работы.
 
-### React Quicker with No-Responder Notifications
+### Быстрый отклик при отсутствии ответчиков
 
-Why wait for timeouts when services aren’t available? When a request is made to a service (request-reply) and the NATS Server knows there are no services available the server will short circuit the request. A “no-responders” protocol message will be sent back to the requesting client which will break from blocking API calls. This allows applications to immediately react which further enables building a highly responsive system at scale, even in the face of application failures and network partitions.
+Зачем ждать таймаутов, если сервисы недоступны? При вызове request-reply, когда сервер знает, что ответчиков нет, он сразу прерывает запрос, отправляя клиенту сообщение `no-responders`. Это позволяет приложениям мгновенно отреагировать и строить отзывчивые системы даже при отказах сервисов и сетевых разделениях.
 
-### Subject Mapping and Traffic Shaping
+### Subject mapping и Traffic Shaping
 
-Reduce risk when onboarding new services. Canary deployments, A/B testing, and transparent teeing of data streams are now fully supported in NATS. The NATS Server allows accounts to form subject mappings from one subject to another for both client inbound and service import invocations and allows weighted sets for the destinations. Map any percentage - 1 to 100 percent of your traffic - to other subjects, and change this at runtime with a server configuration reload. You can even artificially drop a percentage of traffic to introduce chaos testing into your system. See [Configuring Subject Mapping and Traffic Shaping](../running-a-nats-service/configuration/configuring\_subject\_mapping.md) in NATS Server configuration for more details.
+Минимизируйте риски при выводе новых сервисов. Теперь поддерживаются canary-развертывания, A/B-тесты и прозрачное дублирование потоков. Сервер позволяет аккаунтам создавать маппинги subject-ов для inbound-клиентов и сервисов, а также задавать веса назначения. Можно перенаправлять от 1 до 100% трафика и изменять правила на лету через reload конфигурации. Можно даже отбрасывать часть трафика для chaos-тестирования. Подробности — в [Configuring Subject Mapping and Traffic Shaping](../running-a-nats-service/configuration/configuring_subject_mapping.md).
 
-### Account Monitoring - More Meaningful Metrics
+### Мониторинг аккаунтов — более информативные метрики
 
-NATS now allows for [fine-grained monitoring](../running-a-nats-service/nats\_admin/monitoring/#monitoring-nats) to identify usage metrics tied to a particular account. Inspect messages and bytes sent or received and various connection statistics for a particular account. Accounts can represent anything - a group of applications, a team or organization, a geographic location, or even roles. If NATS is enabling your SaaS solution you could use NATS account scoped metrics to bill users.
+NATS теперь поддерживает [тонкий мониторинг](../running-a-nats-service/nats_admin/monitoring/#monitoring-nats) по аккаунтам: можно отслеживать сообщения, байты и другие статистики подключений конкретного аккаунта. Аккаунты могут представлять команды, организации, гео-регионы или роли. Если NATS обеспечивает ваш SaaS, вы можете использовать метрики аккаунтов для биллинга.

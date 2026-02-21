@@ -1,147 +1,143 @@
 # NATS 2.10
 
-This guide is tailored for existing NATS users upgrading from NATS version 2.9.x. This will read as a summary with links to specific documentation pages to learn more about the feature or improvement.
+Гид предназначен для пользователей NATS, обновляющихся с версий 2.9.x. Здесь приведён краткий обзор новых возможностей с ссылками на подробную документацию.
 
-## Upgrade considerations
+## Предостережения при обновлении
 
-### Client versions
+### Версии клиентов
 
-Although all existing client versions will work, new client versions will expose additional options used to leverage new features. The minimum client versions that have full 2.10.0 support include:
+Хотя все существующие клиентские версии продолжают работать, новые версии открывают доступ к дополнительным опциям для новых функций. Минимальные версии клиентов с полноценной поддержкой 2.10.0:
 
-* CLI - [v0.1.0](https://github.com/nats-io/natscli/releases/tag/v0.1.0)
-* nats.go - [v1.30.0](https://github.com/nats-io/nats.go/releases/tag/v1.30.0)
-* nats.rs - [v0.32.0](https://github.com/nats-io/nats.rs/releases/tag/async-nats%2Fv0.32.0)
-* nats.deno - [v1.17.0](https://github.com/nats-io/nats.deno/releases/tag/v1.17.0)
-* nats.js - [v2.17.0](https://github.com/nats-io/nats.js/releases/tag/v2.17.0)
-* nats.ws - [v1.18.0](https://github.com/nats-io/nats.ws/releases/tag/v1.18.0)
-* nats.java - [v2.17.0](https://github.com/nats-io/nats.java/releases/tag/2.17.0)
-* nats.net - [v1.1.0](https://github.com/nats-io/nats.net/releases/tag/1.1.0)
-* nats.net.v2 - Coming soon!
-* nats.py - Coming soon!
-* nats.c - Coming soon!
+- CLI — [v0.1.0](https://github.com/nats-io/natscli/releases/tag/v0.1.0)
+- nats.go — [v1.30.0](https://github.com/nats-io/nats.go/releases/tag/v1.30.0)
+- nats.rs — [v0.32.0](https://github.com/nats-io/nats.rs/releases/tag/async-nats%2Fv0.32.0)
+- nats.deno — [v1.17.0](https://github.com/nats-io/nats.deno/releases/tag/v1.17.0)
+- nats.js — [v2.17.0](https://github.com/nats-io/nats.js/releases/tag/v2.17.0)
+- nats.ws — [v1.18.0](https://github.com/nats-io/nats.ws/releases/tag/v1.18.0)
+- nats.java — [v2.17.0](https://github.com/nats-io/nats.java/releases/tag/2.17.0)
+- nats.net — [v1.1.0](https://github.com/nats-io/nats.net/releases/tag/1.1.0)
+- nats.net.v2 — скоро!
+- nats.py — скоро!
+- nats.c — скоро!
 
-### Helm charts
+### Helm-чарты
 
-* k8s/nats - [v1.1.0](https://github.com/nats-io/k8s/releases/tag/nats-1.1.0)
-* k8s/nack - [v0.24.0](https://github.com/nats-io/k8s/releases/tag/nack-0.24.0)
+- k8s/nats — [v1.1.0](https://github.com/nats-io/k8s/releases/tag/nats-1.1.0)
+- k8s/nack — [v0.24.0](https://github.com/nats-io/k8s/releases/tag/nack-0.24.0)
 
-### Downgrade warnings
+### Предупреждения по откату
 
-For critical infrastructure like NATS, zero downtime upgrades are table stakes. Although the best practice for all infrastructure like this is for users to thoroughly test a new release against your specific workloads, inevitably there are cases where an upgrade occurs in production followed by a decision to downgrade. This is never recommended and can cause more harm than good for most infrastructure and data systems.
+Для критичных систем вроде NATS практикой считается безостановочное обновление; тем не менее иногда приходится откатываться. Это нежелательно и может нарушить стабильность и данные, но если откат неизбежен, обратите внимание на следующие моменты.
 
-Below are a few important considerations if downgrading is required.
+#### Изменения формата хранилища
 
-#### Storage format changes
+В 2.10.0 изменён on-disk формат, что улучшает производительность, но делает данные несовместимыми со старыми серверами. Если после обновления с уже существующими данными выполнить откат, то более старый сервер не сможет прочитать новый формат.
 
-2.10.0 brings on-disk storage changes which bring significant performance improvements. These are not compatible with previous versions of the NATS Server. If an upgrade is performed to a server with existing stream data on disk, followed by a downgrade, the older version server will not understand the stream data in the new format.
+Однако готовится специальная ветка 2.9.x, осведомлённая о ключевых изменениях в формате, чтобы при откате сервер мог стартовать. Поэтому если откат — единственный выход, возвращайтесь только к версии 2.9.22 или новее.
 
-However, being mindful of the possibility of the need to downgrade, a special version of the 2.9.x series was released with awareness of key changes in the new storage format, allowing it to startup properly.
+#### Новые опции потоков и потребителей
 
-The takeaway is that if a downgrade is the only resort, it must be to 2.9.22 or later to ensure storage format changes are handled appropriately.
+Ранее отсутствующие в сервере версии опции могут вызвать проблемы при откате:
 
-#### Stream and consumer config options
+- Multi-filter consumers: при откате фильтры не применяются, поскольку новое поле — список, а не строка.
+- Subject-transform на потоках: при откате трансформация игнорируется, так как старый сервер не поддерживает поле.
+- Сжатие потоков: потоки с включенным сжатием не будут загружаться на старых серверах.
 
-There are new stream and consumer configuration options that could be problematic if a downgrade occurs since previous versions of the server have no awareness of them. Examples include:
+## Возможности
 
-* Multi-filter consumers - Downgrading would result in no filter being applied since the new field is configured as a list rather than a single string.
-* Subject-transform on streams - Downgrading would result in the subject transform not being applied since the server has no awareness of it.
-* Compression on streams - Downgrading when compression is enabled on streams will cause those streams to become unloadable since the older server versions will not understand the compression being used.
+### Платформы
 
-## Features
+- Экспериментальная поддержка [IBM z/OS](../running-a-nats-service/installation.md#supported-operating-systems-and-architectures)
+- Экспериментальная поддержка [NetBSD](../running-a-nats-service/installation.md#supported-operating-systems-and-architectures)
 
-### Platforms
+### Перезагрузка
 
-* Experimental support for [IBM z/OS](../running-a-nats-service/installation.md#supported-operating-systems-and-architectures)
-* Experimental support for [NetBSD](../running-a-nats-service/installation.md#supported-operating-systems-and-architectures)
-
-### Reload
-
-* A server reload can now be performed by sending a message on [`$SYS.REQ.SERVER.<server-id>.RELOAD`](../running-a-nats-service/configuration/#configuration-reloading) by a client authenticated in the system account.
+- Перезагрузку сервера теперь можно инициировать, отправив сообщение на [`$SYS.REQ.SERVER.<server-id>.RELOAD`](../running-a-nats-service/configuration/#configuration-reloading) от клиента, аутентифицированного в системном аккаунте.
 
 ### JetStream
 
-* A new [`sync_interval` server config option](../running-a-nats-service/configuration/#jetstream) has been added to change the default sync interval of stream data when written to disk, including allowing all writes to be flushed immediately. This option is only relevant if you need to modify durability guarantees.
+- Появилась опция сервера [`sync_interval`](../running-a-nats-service/configuration/#jetstream), изменяющая интервал синхронизации данных потоков на диск, включая возможность мгновенной записи для силовых гарантий.
 
 ### Subject mapping
 
-* Subject mappings can now be [cluster-scoped](../nats-concepts/subject\_mapping.md#cluster-scoped-mappings) and weighted, enabling the ability to have different mappings or weights on a per cluster basis.
-* The requirement to use all wildcard tokens in subject mapping or transforms has been relaxed. This can be applied to config or account-based subject mapping, stream subject transforms, and stream republishing, but not on subject mappings that are associated with stream and service import/export between accounts.
+- Subject mapping теперь можно [определять на уровне кластера](../nats-concepts/subject_mapping.md#cluster-scoped-mappings) и задавать веса, чтобы в разных регионах действовали разные правила.
+- Требование использования всех wildcard-токенов в subject-mapping или трансформациях ослаблено. Это касается конфигурации, mapping-а аккаунтов, subject-transform потоков и републикации, но не касается mapping-ов, связанных с импортом/экспортом потоков и сервисов между аккаунтами.
 
-### Streams
+### Потоки
 
-* A [`subject_transform` field](../nats-concepts/jetstream/streams.md#subjecttransforms) has been added enabling per-stream subject transforms. This applies to standard streams, mirrors, and sourced streams.
-* A [`metadata` field](../nats-concepts/jetstream/streams.md#configuration) has been added to stream configuration enabling arbitrary user-defined key-value data. This is to supplant or augment the `description` field.
-* A [`first_seq` field](../nats-concepts/jetstream/streams.md#configuration) has been added to stream configuration enabling explicitly setting the initial sequence on stream creation.
-* A [`compression` field](../nats-concepts/jetstream/streams.md#configuration) has been added to stream configuration enabling on-disk compression for file-based streams.
-* The ability to edit the [`republish` config option](../nats-concepts/jetstream/streams.md#republish) on a stream after stream creation was added.
-* A [`Nats-Time-Stamp` header](../nats-concepts/jetstream/headers.md#republish) is now included in republished messages containing the original message's timestamp.
-* A `ts` field has been added to stream info responses indicating the server time of the snapshot. This was added to allow for local time calculations relying on the local clock.
-* An array of subject-transforms (subject filter + subject transform destination) can be added to a mirror or source configuration (can not use the single subject filter/subject transform destination fields at the same time as the array).
-* A stream configured with `sources` can source from the same stream multiple times when distinct filter+transform options are used, allowing for some messages of a stream to be sourced more than once.
+- Добавлено поле [`subject_transform`](../nats-concepts/jetstream/streams.md#subjecttransforms) для per-stream трансформации subject-ов, включая базовые потоки, зеркала и источники.
+- Появилось поле [`metadata`](../nats-concepts/jetstream/streams.md#configuration) для произвольных KV-данных, дополняющее или заменяющее `description`.
+- Добавлено поле [`first_seq`](../nats-concepts/jetstream/streams.md#configuration) для явного указания стартовой последовательности при создании.
+- Добавлено поле [`compression`](../nats-concepts/jetstream/streams.md#configuration) для on-disk сжатия файловых потоков.
+- Возможность редактировать [`republish`](../nats-concepts/jetstream/streams.md#republish) после создания потока.
+- Републикованные сообщения теперь получают заголовок [`Nats-Time-Stamp`](../nats-concepts/jetstream/headers.md#republish) с оригинальным временем.
+- Ответы `StreamInfo` содержат поле `ts` с серверным временем снимка, что позволяет рассчитывать локальное время.
+- В зеркалах и источниках можно задавать массив subject-transform (фильтр + destination) вместо отдельной пары полей.
+- Поток с несколькими `sources` может подключаться к одному и тому же потоку несколько раз при разных сочетаниях фильтра и трансформации, что позволяет дублировать часть сообщений.
 
-### Consumers
+### Потребители
 
-* A [`filter_subjects` field](../nats-concepts/jetstream/consumers.md#filtersubjects) has been added which enables applying server-side filtering against multiple disjoint subjects, rather than only one.
-* A [`metadata` field](../nats-concepts/jetstream/consumers.md#configuration) has been added to consumer configuration enabling arbitrary user-defined key-value data. This is to supplant or augment the `description` field.
-* A `ts` field has been added to consumer info responses indicating the server time of the snapshot. This was added to allow for local time calculations without relying on the local clock.
+- Добавлено поле [`filter_subjects`](../nats-concepts/jetstream/consumers.md#filtersubjects) — серверная фильтрация по нескольким несвязанным subject-ам.
+- Поле [`metadata`](../nats-concepts/jetstream/consumers.md#configuration) позволяет сохранять пользовательские KV-данные, дополняя `description`.
+- Ответ `ConsumerInfo` теперь содержит поле `ts` с серверным временем снимка.
 
 ### Key-value
 
-* A [`metadata` field](../nats-concepts/jetstream/key-value-store.md#configuration) has been added to key-value configuration enabling arbitrary user-defined key-value data. This is to supplant or augment the `description` field.
-* A bucket configured as a mirror or sourcing from other buckets
+- Добавлено поле [`metadata`](../nats-concepts/jetstream/key-value-store.md#configuration) с пользовательскими KV-данными.
+- Бакет, настроенный как mirror или источник других бакетов, тоже может содержать такие метаданные.
 
 ### Object store
 
-* A [`metadata` field](../nats-concepts/jetstream/object-store.md#configuration) has been added to object store configuration enabling arbitrary user-defined key-value data. This is to supplant or augment the `description` field.
+- Добавлено поле [`metadata`](../nats-concepts/jetstream/object-store.md#configuration) с произвольными KV-данными.
 
 ### Authn/Authz
 
-* A pluggable server extension, referred to as [auth callout](../running-a-nats-service/configuration/securing\_nats/auth\_callout.md), has been added. This provides a mechanism for delegating authentication checks against a bring-your-own (BYO) provider and, optionally, dynamically declaring permissions for the authenticated user.
+- Добавлено серверное расширение `auth callout` ([auth callout](../running-a-nats-service/configuration/securing_nats/auth_callout.md)), позволяющее делегировать проверку аутентификации внешнему провайдеру и опционально устанавливать разрешения для авторизованного пользователя.
 
-### Monitoring
+### Мониторинг
 
-* A `unique_tag` field has been added to the [`/varz`](../running-a-nats-service/nats\_admin/monitoring/#general-information) and [`/jsz`](../running-a-nats-service/nats\_admin/monitoring/#jetstream-information) HTTP endpoint responses, corresponding to the value of `unique_tag` defined in the server config.
-* A `slow_consumer_stats` field has been added to the [`/varz`](../running-a-nats-service/nats\_admin/monitoring/#general-information) HTTP endpoint providing a count of slow consumers for clients, routes, gateways, and leafnodes.
-* A `raft=1` query parameter has been added to the [`/jsz`](../running-a-nats-service/nats\_admin/monitoring/#jetstream-information) HTTP endpoint which adds `stream_raft_group` and `consumer_raft_groups` fields to the response.
-* A `num_subscriptions` field has been added to the [`$SYS.REQ.SERVER.PING.STATZ`](../running-a-nats-service/configuration/sys\_accounts/sys\_accounts.md#usdsys.req.server.less-than-id-greater-than.statsz-requesting-server-stats-summary) NATS endpoint responses.
-* A system account responder for [`$SYS.REQ.SERVER.PING.IDZ`](../running-a-nats-service/configuration/sys\_accounts/sys\_accounts.md#usdsys.req.server.ping.idz-discovering-servers) has been added which returns info for the server that the client is connected to.
-* A system account responder for [`$SYS.REQ.SERVER.PING.PROFILEZ`](../running-a-nats-service/configuration/sys\_accounts/sys\_accounts.md#usdsys.req.server.less-than-id-greater-than.profilez-request-profiling-information) has been added and works even if a profiling port is not enabled in the server configuration.
-* A user account responder for [`$SYS.REQ.USER.INFO`](../running-a-nats-service/configuration/sys\_accounts/sys\_accounts.md#usdsys.req.user.info-request-connected-user-information) has been added which allows a connected user to query for the account they are in and permissions they have.
+- В ответы [`/varz`](../running-a-nats-service/nats_admin/monitoring/#general-information) и [`/jsz`](../running-a-nats-service/nats_admin/monitoring/#jetstream-information) добавлено поле `unique_tag`, соответствующее конфигурации.
+- В `/varz` появился блок `slow_consumer_stats` со статистикой медленных потребителей по клиентам, маршрутам, gateway и leafnode.
+- К `/jsz` добавлен параметр `raft=1`, который расширяет ответ полями `stream_raft_group` и `consumer_raft_groups`.
+- В ответ `$SYS.REQ.SERVER.PING.STATZ` введено поле `num_subscriptions`.
+- Системный аккаунт теперь обрабатывает `$SYS.REQ.SERVER.PING.IDZ`, возвращая информацию о сервере, к которому подключён клиент.
+- Системный аккаунт также отвечает на `$SYS.REQ.SERVER.PING.PROFILEZ`, даже если порт профилирования отключён.
+- Пользовательский аккаунт отвечает на `$SYS.REQ.USER.INFO`, позволяя пользователю узнать свой аккаунт и разрешения.
 
 ### MQTT
 
-* Support for [QoS2](../running-a-nats-service/configuration/mqtt/) has been added. Check out the new [MQTT implementation details](https://github.com/nats-io/nats-server/blob/main/server/README-MQTT.md) overview.
+- Добавлена поддержка [QoS2](../running-a-nats-service/configuration/mqtt/). Подробнее см. [MQTT implementation details](https://github.com/nats-io/nats-server/blob/main/server/README-MQTT.md).
 
 ### Clustering
 
-* When defining routes between servers, a handful of optimizations have been introduced including a pool of TCP connections between servers, optional pinning of accounts to connections, and optional compression of traffic. There is quite a bit to dig into, so check out the [v2 routes](../running-a-nats-service/configuration/clustering/v2\_routes.md) page for details.
+- При настройке маршрутов введены оптимизации: пул TCP-соединений между серверами, опциональное закрепление аккаунтов за соединениями и сжатие трафика. Подробности — на странице [v2 routes](../running-a-nats-service/configuration/clustering/v2_routes.md).
 
 ### Leafnodes
 
-* A [`handshake_first` config option](../running-a-nats-service/configuration/leafnodes/#tls-first-handshake) has been added enabling TLS-first handshakes for leafnode connections.
+- Появилась опция [`handshake_first`](../running-a-nats-service/configuration/leafnodes/#tls-first-handshake) для TLS-first handshake при подключении leafnode.
 
 ### Windows
 
-* The [`NATS_STARTUP_DELAY` environment variable](../running-a-nats-service/running/windows\_srv.md#nats\_startup\_delay-environment-variable) has been added to allow changing the default startup for the server of 10 seconds
+- Добавлена переменная окружения [`NATS_STARTUP_DELAY`](../running-a-nats-service/running/windows_srv.md#nats_startup_delay-environment-variable), позволяющая изменять дефолтную задержку старта сервера (10 секунд).
 
-## Improvements
+## Улучшения
 
-### Reload
+### Перезагрузка
 
-* The [`nats-server --signal` command](../running-a-nats-service/nats\_admin/signals.md#multiple-processes) now supports a glob expression on the `<pid>` argument which would match a subset of all `nats-server` instances running on the host.
+- Команда [`nats-server --signal`](../running-a-nats-service/nats_admin/signals.md#multiple-processes) теперь поддерживает glob-выражения в параметре `<pid>`, позволяя выбирать заданное подмножество процессов `nats-server` на хосте.
 
-### Streams
+### Потоки
 
-* Prior to 2.10, setting [`republish` configuration](../nats-concepts/jetstream/streams.md#republish) on mirrors would result in an error. On sourcing streams, only messages that were actively between stored matching configured `subjects` would be republished. The behavior has been relaxed to allow republishing on mirrors and includes all messages on sourcing streams.
+- До 2.10 установка [`republish`](../nats-concepts/jetstream/streams.md#republish) на зеркалах вызывала ошибку. На потоках source републиковались только сообщения, удовлетворяющие настроенным `subjects`. Сейчас режим смягчён — републикация разрешена и на зеркалах, и включает все сообщения источников.
 
-### Consumers
+### Потребители
 
-* A new header has been added on a fetch response that indicates to clients the fetch has been fulfilled without requiring clients to rely on heartbeats. It avoids some conditions in which the client would issue fetch requests that could go over limits or have more fetch requests pending than required.
+- В ответ на fetch добавлен заголовок, сообщающий клиенту, что запрос выполнен, без необходимости опираться на heartbeat. Это предотвращает избыточные fetch-запросы.
 
 ### Leafnodes
 
-* Previously, a leafnode configured with two or more remotes binding to the same hub account would be rejected. This restriction has been relaxed since each remote could be binding to a different local account.
+- Ранее leafnode с двумя или более remote, привязанными к одному hub-аккаунту, отклонялся. Теперь каждый remote может ассоциироваться с собственным локальным аккаунтом.
 
 ### MQTT
 
-* Previously a dot `.` in an MQTT topic was not supported, however now it is! Check out the [topic-subject conversion table](../running-a-nats-service/configuration/mqtt/) for details.
+- Символ `.` в MQTT-темах теперь поддерживается. Подробности — в таблице соответствия [topic-subject](../running-a-nats-service/configuration/mqtt/).

@@ -1,43 +1,43 @@
-# Introduction
+# Введение
 
-The recommended way to deploy NATS on Kubernetes is using [Helm](https://helm.sh/) with the official NATS Helm Chart.
+Рекомендуемый способ разворачивать NATS в Kubernetes — использовать [Helm](https://helm.sh/) с официальной Helm‑диаграммой NATS.
 
-## Helm repo
+## Репозиторий Helm
 
-To register the NATS Helm chart run:
+Чтобы зарегистрировать Helm‑чарт NATS, выполните:
 
 ```sh
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 ```
 
-## Config values
+## Значения конфигурации
 
-The default configuration values of the chart will deploy a single NATS server as a `StatefulSet` and a single replica [nats-box](https://github.com/nats-io/nats-box) `Deployment`.
+Конфигурация по умолчанию развертывает один `nats-server` в виде `StatefulSet` и одну реплику [nats-box](https://github.com/nats-io/nats-box) как `Deployment`.
 
-The [ArtifactHub page](https://artifacthub.io/packages/helm/nats/nats) provides the list of Helm configuration values and examples for the current release.
+На [странице ArtifactHub](https://artifacthub.io/packages/helm/nats/nats) перечислены все значения Helm и примеры для текущего релиза.
 
-_For tracking the development version, refer to the [source repo](https://github.com/nats-io/k8s/tree/main/helm/charts/nats#nats-server)._
+_Чтобы отслеживать ветку разработки, смотрите [репозиторий исходников](https://github.com/nats-io/k8s/tree/main/helm/charts/nats#nats-server)._ 
 
-Once the desired configuration is created, install the chart:
+Когда нужная конфигурация готова, установите чарта:
 
 ```sh
 helm install nats nats/nats
 ```
 
-## Validate connectivity
+## Проверка подключения
 
-Once the pods are up, validate by accessing the `nats-box` container and running a CLI command.
+Когда поды запущены, подтвердите подключение, зайдя в контейнер `nats-box` и выполнив CLI‑команду.
 
 ```sh
 kubectl exec -it deployment/nats-box -- nats pub test hi
 ```
 
-The output should indicate a successful publish to NATS.
+Вывод должен подтвердить успешную публикацию в NATS:
 
 ```
 16:17:00 Published 2 bytes to "test"
 ```
 
-## Commercial Options
+## Коммерческие варианты
 
-Synadia offers [Deploy for Kubernetes](https://www.synadia.com/deploy-for-kubernetes/), a self-service, bring-your-own Kubernetes deployment option that includes NATS and additional components.
+[Synadia](https://www.synadia.com/deploy-for-kubernetes/) предлагает решение Deploy for Kubernetes — вариант самообслуживания и bring‑your‑own Kubernetes, включающий NATS и дополнительные компоненты.

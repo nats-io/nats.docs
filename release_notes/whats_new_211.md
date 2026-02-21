@@ -1,57 +1,57 @@
 # NATS 2.11
 
-This guide is tailored for existing NATS users upgrading from NATS version v2.10.x. This will read as a summary with links to specific documentation pages to learn more about the feature or improvement.
+Гид рассчитан на пользователей NATS, обновляющихся с версий v2.10.x. Представлен краткий обзор возможностей с ссылками на подробную документацию.
 
-## Features
+## Возможности
 
-### Observability
+### Наблюдаемость
 
-* **Distributed message tracing:** Users can now trace messages as they move through the system by setting a `Nats-Trace-Dest` header to an inbox subject. Servers on the message path will return events to the provided subject that report each time a message enters or leaves a server, by which connection type, when subject mappings occur, or when messages traverse an account import/export boundary. Additionally, the `Nats-Trace-Only` header (if set to true) will allow tracing events to propagate on a specific subject without delivering them to subscribers of that subject.
+- **Распределённый трекинг сообщений:** теперь можно отслеживать, как сообщение проходит систему — задайте заголовок `Nats-Trace-Dest` с inbox-subject. Серверы по пути отправляют события на указанный subject, сообщающие когда сообщение приходит/уходит, по какому типу соединения, при маппинге subject-ов и при пересечении границ import/export аккаунтов. Заголовок `Nats-Trace-Only` при значении `true` позволяет распространять трейс-события по subject-у без доставки их подписчикам.
 
-### Streams
+### Потоки
 
-* **JetStream per-message TTLs:** It is now possible to age out individual messages using a per-message TTL. The `Nats-TTL` header, in either string or integer format (in seconds) allows for individual message expiration independent of stream limits. This can be combined with other limits in place on the stream. More information is available in [ADR-43](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-43.md).
-* **Subject delete markers on MaxAge:** The `SubjectDeleteMarkerTTL` stream configuration option now allows for the placement of delete marker messages in the stream when the configured `MaxAge` limit causes the last message for a given subject to be deleted. The delete markers include a `Nats-Marker-Reason` header explaining which limit was responsible for the deletion.
-* **Stream ingest rate limiting:** New options `max_buffered_size` and `max_buffered_msgs` in the `jetstream` configuration block enable rate limiting on Core NATS publishing into JetStream streams, protecting the system from overload.
+- **TTL для отдельных сообщений:** можно задавать `Nats-TTL` в строковом или числовом (секунды) формате, чтобы отдельные сообщения устаревали независимо от глобальных ограничений потока. Работает вместе с другими лимитами. Подробнее — в [ADR-43](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-43.md).
+- **Маркеры удаления subject-ов при `MaxAge`:** опция `SubjectDeleteMarkerTTL` добавляет сообщения-маркеры удаления при полном удалении последнего сообщения subject-а по `MaxAge`. Маркеры содержат заголовок `Nats-Marker-Reason` с причиной удаления.
+- **Ограничение скорости поступления:** параметры `max_buffered_size` и `max_buffered_msgs` в блоке `jetstream` позволяют ограничить скорость публикаций Core NATS в JetStream, защищая систему от перегрузки.
 
-### Consumers
+### Потребители
 
-* **Pull consumer priority groups:** Pull consumers now support priority groups with pinning and overflow, enabling flexible failover and priority management when multiple clients are pulling from the same consumer. Configurable policies based on the number of pending messages on the consumer, or the number of pending acks, can control when messages overflow from one client to another, enabling new design patterns or regional awareness.
-* **Consumer pausing:** Message delivery to consumers can be temporarily suspended using the new pause API endpoint (or the `PauseUntil` configuration option when creating), ideal for maintenance or migrations. Message delivery automatically resumes once the configured deadline has passed. Consumer clients continue to receive heartbeat messages as usual to ensure that they do not surface errors during the pause.
+- **Приоритетные группы Pull-потребителей:** теперь можно назначать приоритетные группы с pinning и overflow, управлять фейловером и приоритетом для нескольких клиентов, читающих из одного потребителя. Политики основаны на количестве ожидающих сообщений или неподтверждений, позволяя гибко переключать нагрузку или учитывать региональные сценарии.
+- **Приостановка потребителей:** доставку можно временно приостановить через новый API endpoint `pause` (или `PauseUntil` при конфигурации), удобно для обслуживания и миграций. После окончания паузы доставка возобновляется автоматически, при этом клиенты всё ещё получают heartbeat, чтобы не срабатывали ошибки.
 
-### Operations
+### Операционные улучшения
 
-* **Replication traffic in asset accounts:** Raft replication traffic can optionally be moved into the same account in which replicated assets live on a per-account basis, rather than being sent and received in the system account using the new [`cluster_traffic` property ](../running-a-nats-service/configuration/#jetstream-account-settings)in the JetStream account settings of an account. When combined with multiple route connections, this can help to reduce latencies and avoid head-of-line blocking issues that may occur in heavily-loaded multi-tenant or multi-account deployments.
-* **TLS first on leafnode connections:** A new `handshake_first` in the leafnode `tls` block allows setting up leafnode connections that perform TLS negotiation first, before any other protocol handshakes take place.
-* **Configuration state digest:** A new `-t` command line flag on the server binary can generate a hash of the configuration file. The `config_digest` item in `varz` displays the hash of the currently running configuration file, making it possible to check whether a configuration file has changed on disk compared to the currently running configuration.
-* **TPM encryption on Windows:** When running on Windows, the filestore can now store encryption keys in the TPM, useful in environments where physical access may be a concern.
+- **Репликационный трафик в аккаунтах с ассетами:** трафик Raft можно отправлять в тот же аккаунт, где живут ассеты, а не через системный аккаунт — это задаётся свойством `cluster_traffic` в настройках JetStream-аккаунта. В связке с несколькими маршрутизаторами это снижает задержки и предотвращает head-of-line блокировки в сильно загруженных мульти-арендных или мульти-аккаунтных сетапах.
+- **TLS первым на leafnode:** опция `handshake_first` внутри `tls` leafnode позволяет сначала выполнять TLS-handshake, прежде чем идти дальше по протоколу.
+- **Хэш состояния конфигурации:** новая опция `-t` для бинарника генерирует хэш конфигурационного файла. Поле `config_digest` в `/varz` показывает текущий хэш, позволяя проверять, изменилась ли конфигурация на диске по отношению к запущенной.
+- **Шифрование TPM на Windows:** в Windows ключи файлового хранилища теперь можно хранить в TPM — полезно в средах с риском физического доступа.
 
 ### MQTT
 
-* **SparkplugB:** The built-in MQTT support is now compliant with SparkplugB Aware, with support for `NBIRTH` and `NDEATH` messages.
+- **SparkplugB:** встроенная поддержка MQTT теперь соответствует SparkplugB, включая `NBIRTH` и `NDEATH`.
 
-## Improvements
+## Улучшения
 
-* **Replicated delete proposals:** Message removals in clustered interest-based or workqueue streams are now propagated via Raft to guarantee consistent removal order across replicas, reducing a number of possible ways that a cluster failure can result in de-synced streams.
-* **Metalayer, stream and consumer consistency:** A new leader now only responds to read/write requests after synchronizing with its Raft log, preventing desynchronization between KV key updates and the stream during leader changes.
-* **Replicated consumer reliability:** Replicated consumers now consistently redeliver unacknowledged messages after a leader change.
-* **Consumer starting sequence:** The consumer starting sequence is now always respected, except for internal hidden consumers for sources/mirrors.
+- **Реплицированные предложения удаления:** удаления сообщений в потоках с interest или workqueue теперь реплицируются через Raft, чтобы гарантировать одинаковый порядок удаления на всех репликах и снизить риск рассинхронизации после отказов.
+- **Метаслой, поток и согласованность потребителей:** новый лидер отвечает на запросы только после синхронизации Raft-лога, что защищает от рассинхронизации KV-обновлений и потока при смене лидера.
+- **Надёжность реплицированных потребителей:** после смены лидера такие потребители теперь стабильно повторно доставляют неподтверждённые сообщения.
+- **Начальная последовательность потребителей:** теперь всегда соблюдается значение `StartSeq`, кроме внутренних скрытых потребителей источников/зеркал.
 
-## Upgrade Considerations
+## Предостережения при обновлении
 
-#### Stream ingest rate limiting
+#### Ограничение скорости поступления
 
-The NATS Server can now return a 429 error with type `JSStreamTooManyRequests` when too many messages have been queued up for a stream. It should not generally be possible to hit this limit while using JetStream publishes and waiting for PubAcks, but may trigger if trying to publish into JetStream using Core NATS publishes without waiting for PubAcks, which is not advised.
+Сервер может возвращать ошибку 429 с типом `JSStreamTooManyRequests`, если очередь на поток переполнена. Обычно этого не происходит при публикации через JetStream с ожиданием PubAck, но может случаться при отправке через Core NATS без ожидания PubAck, что не рекомендуется.
 
-The new `max_buffered_size` and `max_buffered_msgs` options control how many messages can be queued for each stream before the rate limit is hit, therefore if needed, you can increase these limits on your deployments. The default values for `max_buffered_size` and `max_buffered_msgs` are 128MB and 10,000 respectively, whereas in v2.10 these were unlimited.
+Параметры `max_buffered_size` и `max_buffered_msgs` определяют, сколько сообщений можно поставить в очередь до ограничения. При необходимости увеличьте их. Значения по умолчанию — 128МБ и 10 000 записей (в v2.10 — без ограничений).
 
-You can detect in the server logs whether running into a queue limit with the following warning:
+В логах это выглядит так:
 
 ```
 [WRN] Dropping messages due to excessive stream ingest rate on 'account' > 'my-stream': IPQ len limit reached
 ```
 
-If your application starts to log the above warnings then you can first try to increase the limits to higher values while investigating the fast publishers, for example:
+Если появляются такие предупреждения, сначала попробуйте поднять лимиты, одновременно исследуя быстрых издателей. Например:
 
 ```
 jetstream {
@@ -60,24 +60,24 @@ jetstream {
 }
 ```
 
-#### Replicated delete proposals
+#### Реплицированные предложения удаления
 
-Since stream deletes are now replicated through group proposals in a replicated stream, there may be a slight increase in replication traffic on this version.
+Поскольку удаления теперь реплицируются через proposals, немного возрастает репликационный трафик.
 
-#### JetStream healthcheck
+#### Проверка здоровья JetStream
 
-The `js-server-only` healthcheck no longer checks for the health of the metaleader on v2.11.0. Since this healthcheck was designed to detect the server readiness (or in k8s for the readiness probe) checking the metaleader would sometimes cause a NATS server to be considered unhealthy when restarting the servers. In v2.11, this should no longer be an issue. If the previous behavior from v2.10 is preferred, there is a new healthcheck option `js-meta-only` which can be used to check whether the meta group is healthy.
+`js-server-only` healthcheck больше не проверяет металида на v2.11.0. До этого при перезапуске сервер мог считаться unhealthy из-за проверки металида. Теперь проблема устранена. Если нужна старая логика v2.10, есть новый healthcheck `js-meta-only` для проверки мета-группы.
 
-#### Exit code
+#### Код возврата
 
-Earlier versions of the NATS Server would return an exit code 1 when gracefully shut down, i.e. after SIGTERM. From v2.11, an exit code of 0 (zero) will now be returned instead.
+Ранее NATS Server при graceful shutdown (например, SIGTERM) завершался с кодом 1. С v2.11 возвращается код 0.
 
-#### Server, cluster and gateway names
+#### Имена сервера, кластера и gateway
 
-Configurations that have server, cluster, and gateway names with spaces are now considered invalid, as this can cause problems at the protocol level. A server running NATS v2.11 will fail to start with spaces configured in these names. Please ensure that spaces are not used in server, cluster or gateway names.
+Имена серверов, кластеров и gateway с пробелами теперь недопустимы — такие конфигурации не запускаются, потому что нарушают протокол. Убедитесь, что пробелов нет.
 
-## Downgrade Considerations
+## Предостережения при откате
 
-#### Stream state
+#### Состояние потока
 
-When downgrading from v2.11 to v2.10, the stream state files on disk will be rebuilt due to a change in the format of these files in v2.11. This requires re-scanning all stream message blocks, which may use higher CPU than usual and will likely take longer for the restarted node to report healthy. This will only happen on the first restart after downgrading and will not result in data loss.
+При откате с v2.11 до v2.10 файлы состояния потока пересобираются из-за изменения формата. Требуется повторное сканирование всех блоков, что может временно увеличить CPU и время возвращения узла в состояние healthy. Случается только при первом запуске после отката и не приводит к потере данных.
