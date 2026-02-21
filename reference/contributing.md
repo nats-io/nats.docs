@@ -1,12 +1,12 @@
-# Ways to Contribute
-Do you want to contribute to NATS? Awesome! We’d love your help.
+# Как помочь проекту
+Хочешь внести вклад в NATS? Отлично! Мы будем рады твоей помощи.
 
-The best way to get started contributing to NATS is to read our [Contributor’s Guide](https://nats.io/contributing/). Here are some examples of ways you can contribute:
-- Report or fix bugs
-- Add or propose new features
-- Improve our documentation
-- Add or update client libraries
-- Host a Meetup
-- Improve this website
+Лучший способ начать — прочитать [Contributor’s Guide](https://nats.io/contributing/). Вот несколько распространённых вариантов помощи:
+- Сообщить об ошибке или исправить её
+- Добавить новую фичу или предложить улучшение
+- Улучшить документацию
+- Расширить или обновить клиентские библиотеки
+- Провести meetup или встречу
+- Улучшить этот сайт
 
-Please [contact us](mailto:info@nats.io) with any other suggestions.
+Если есть другие идеи, [напиши нам](mailto:info@nats.io).

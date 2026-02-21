@@ -1,163 +1,142 @@
-# FAQ
+# Часто задаваемые вопросы (FAQ)
 
-### General
+### Общие вопросы
 
-* [What is NATS?](faq.md#what-is-nats)
-* [What language is NATS written in?](faq.md#what-language-is-nats-written-in)
-* [Who maintains NATS?](faq.md#who-maintains-nats)
-* [What clients does NATS support?](faq.md#what-client-support-exists-for-nats)
-* [What does the NATS acronym stand for?](faq.md#what-does-the-nats-acronym-stand-for)
-* [JetStream and NATS Streaming?](faq.md#jetstream-and-nats-streaming)
+* [Что такое NATS?](faq.md#что-такое-nats)
+* [На каком языке написан NATS?](faq.md#на-каком-языке-написан-nats)
+* [Кто поддерживает NATS?](faq.md#кто-поддерживает-nats)
+* [Какие клиенты поддерживаются?](faq.md#какая-поддержка-клиентов-существует-для-nats)
+* [Что означает аббревиатура NATS?](faq.md#что-означает-аббревиатура-nats)
+* [Что такое JetStream и как он связан с NATS Streaming?](faq.md#jetstream-и-nats-streaming)
 
-### Technical Questions
+### Технические вопросы
 
-* [What is the difference between Request() and Publish()?](faq.md#what-is-the-difference-between-request-and-publish)
-* [Can multiple subscribers receive a Request?](faq.md#can-multiple-subscribers-receive-a-request)
-* [How can I monitor my NATS cluster?](faq.md#how-can-i-monitor-my-nats-cluster)
-* [Does NATS do queuing? Does NATS do load balancing?](faq.md#does-nats-do-queuing-does-nats-do-load-balancing)
-* [Can I list the subjects that exist in my NATS cluster?](faq.md#can-i-list-the-subjects-that-exist-in-my-nats-cluster)
-* [Does NATS support subject wildcards?](faq.md#does-nats-support-subject-wildcards)
-* [What is the right kind of Stream consumer to use?](faq.md)
-* [What do ‘verbose’ and ‘pedantic’ mean when using CONNECT?](faq.md#what-do-verbose-and-pedantic-mean-when-using-connect)
-* [Does NATS offer any guarantee of message ordering?](faq.md#does-nats-offer-any-guarantee-of-message-ordering)
-* [Is there a message size limitation in NATS?](faq.md#is-there-a-message-size-limitation-in-nats)
-* [Does NATS impose any limits on the # of subjects?](faq.md#does-nats-impose-any-limits-on-the-of-subjects)
-* [Does NATS guarantee message delivery?](faq.md#does-nats-guarantee-message-delivery)
-* [Does NATS support replay/redelivery of historical data?](faq.md#does-nats-support-replayredelivery-of-historical-data)
-* [How do I gracefully shut down an asynchronous subscriber?](faq.md#how-do-i-gracefully-shut-down-an-asynchronous-subscriber)
-* [How do I create subjects?](faq.md#how-do-i-create-subjects)
-* [How many clients can connect simultaneously?](faq.md#how-many-clients-can-connect-simultaneously)
+* [В чем разница между Request() и Publish()?](faq.md#в-чем-разница-между-request-и-publish)
+* [Могут ли несколько подписчиков получить один и тот же Request?](faq.md#могут-ли-несколько-подписчиков-получить-request)
+* [Как мониторить кластер NATS?](faq.md#как-мониторить-кластер-nats)
+* [Поддерживает ли NATS очереди и балансировку нагрузки?](faq.md#поддерживает-ли-nats-очереди-и-балансировку-нагрузки)
+* [Можно ли получить список всех существующих subjects?](faq.md#можно-ли-получить-список-субъектов-в-кластере)
+* [Поддерживает ли NATS wildcard subject-ов?](faq.md#поддерживает-ли-nats-subject-wildcards)
+* [Какой тип consumer-а лучше использовать?](faq.md#какой-тип-stream-consumer-использовать)
+* [Что означают 'verbose' и 'pedantic' при CONNECT?](faq.md#что-означают-verbose-и-pedantic-в-connect)
+* [Гарантирует ли NATS порядок доставки сообщений?](faq.md#гарантирует-ли-nats-порядок)
+* [Есть ли ограничение размера сообщений?](faq.md#есть-ли-ограничение-размера)
+* [Есть ли лимит на число subjects?](faq.md#есть-ли-лимит-на-число-subjects)
+* [Гарантирует ли NATS доставку сообщений?](faq.md#гарантирует-ли-nats-доставку)
+* [Поддерживает ли NATS воспроизведение исторических данных?](faq.md#поддерживает-ли-nats-воспроизведение)
+* [Как корректно завершить асинхронного подписчика?](faq.md#как-правильно-завершить-асинхронного-подписчика)
+* [Как создавать subjects?](faq.md#как-создавать-subjects)
+* [Сколько клиентов может одновременно подключиться?](faq.md#сколько-клиентов-может-подключиться)
 
-## General
+## Общие вопросы
 
-### What is NATS?
+### Что такое NATS?
 
-NATS is an open source, lightweight, high-performance cloud native infrastructure messaging system. It implements a highly scalable and elegant publish-subscribe (pub/sub) distribution model. The performant nature of NATS make it an ideal base for building modern, reliable, scalable cloud native distributed systems.
+NATS — это открытая, лёгкая, высокопроизводительная облачная система обмена сообщениями. Она реализует масштабируемую и изящную модель publish-subscribe. Благодаря своей производительности NATS подходит как основа для современных надёжных распределённых систем.
 
-NATS is offered in two interoperable modules in a single "NATS Server" binary (often referred to as `nats-server` throughout this site):
+NATS представлен двумя модулями в одном бинарнике `nats-server`:
 
-* 'Core NATS' is the set of core NATS functionalities and qualities of service.
-* ['JetStream'](../using-nats/jetstream/develop_jetstream.md) is the (optionally enabled) built-in persistence layer that adds streaming, at-least-once and exactly-once guarantees, historical data replay, decoupled flow-control and key/value store functionalities to Core NATS.
+* `Core NATS` — базовая функциональность и стандарты качества.
+* [JetStream](../using-nats/jetstream/develop_jetstream.md) — встроенный, опционально включаемый слой персистентности, добавляющий стриминг, гарантии «как минимум один раз» и «ровно один раз», воспроизведение истории, развязанный контроль потока и key/value store.
 
-NATS was created by Derek Collison, who has over 25 years of experience designing, building, and using publish-subscribe messaging systems. NATS is maintained by an amazing Open Source Ecosystem, find more at [GitHub](https://www.github.com/nats-io).
+NATS создал Дерек Коллисон, специалист с более чем 25-летним опытом проектирования pub-sub систем. Сейчас проект поддерживается широким Open Source-сообществом. Подробнее — на [GitHub](https://www.github.com/nats-io).
 
-### What does the NATS acronym stand for?
+### На каком языке написан NATS?
 
-NATS stands for Neural Autonomic Transport System. Derek Collison conceived NATS as a messaging platform that functions like a central nervous system.
+Сервер `nats-server` написан на Go. Клиентские библиотеки доступны для множества языков — см. страницу [Developing with NATS](../using-nats/developing-with-nats/developer.md).
 
-### JetStream and NATS Streaming?
+### Кто поддерживает NATS?
 
-As of NATS Server 2.2, NATS [JetStream](../using-nats/jetstream/develop_jetstream.md) is the recommended option for persistence, streaming and higher message guarantees. [NATS Streaming](https://github.com/nats-io/nats-streaming-server) a.k.a. 'STAN' is now deprecated.
+NATS поддерживается небольшой группой Maintainers в рамках процессa Governance и входит в [Cloud Native Computing Foundation (CNCF)](http://cncf.io). Инженеры Synadia совместно с сообществом поддерживают сервер, NATS Streaming и клиенты (Go, Ruby, Node.js, C, C#, Java и др.). Активное сообщество добавляет другие клиенты и коннекторы. Полный список доступен на странице [download](https://nats.io/download).
 
-### What language is NATS written in?
+### Какая поддержка клиентов существует для NATS?
 
-The NATS server (`nats-server`) is written in Go. There is client support for a wide variety of languages. Please see the [Developing with NATS](../using-nats/developing-with-nats/developer.md) page for more info.
+Последний список клиентов (официальных и сторонних) см. на [Developing with NATS](../using-nats/developing-with-nats/developer.md).
 
-### Who maintains NATS?
+### Что означает аббревиатура NATS?
 
-NATS is maintained by a select group of Maintainers following a Governance process as part of the [Cloud Native Computing Foundation (CNCF)](http://cncf.io). The team of engineers at [Synadia](https://www.synadia.com?utm_source=nats_docs&utm_medium=nats) in conjunction with Community Maintainers, maintain the NATS server, NATS Streaming Server, as well as the official Go, Ruby, Node.js, C, C#, Java and several other client libraries. Our very active user community also contributes client libraries and connectors for several other implementation languages. Please see the [download](https://nats.io/download) page for the complete list, and links to the relevant source repositories and documentation.
+NATS расшифровывается как Neural Autonomic Transport System. Это платформа обмена сообщениями, работающая как нервная система.
 
-### What client support exists for NATS?
+### JetStream и NATS Streaming?
 
-Please see the [Developing with NATS](../using-nats/developing-with-nats/developer.md) page for the latest list of Synadia and Community maintained NATS clients.
+Начиная с версии 2.2 сервер рекомендует использовать [JetStream](../using-nats/jetstream/develop_jetstream.md) для персистентности и стриминга. [NATS Streaming (STAN)](https://github.com/nats-io/nats-streaming-server) объявлен deprecated.
 
-## Technical Questions
+## Технические вопросы
 
-### What is the difference between Request() and Publish()?
+### В чем разница между Request() и Publish()?
 
-Publish() sends a message to `nats-server` with a subject as its address, and `nats-server` delivers the message to any interested/eligible subscriber of that subject. Optionally, you may also send along a reply subject with your message, which provides a way for subscribers who have received your message(s) to send messages back to you.
+`Publish()` отправляет сообщение на сервер с subject-ом, и сервер доставляет его всем подписчикам этого subject-а. При необходимости можно указать reply-subject, чтобы получатели ответили.
 
-Request() is simply a convenience API that does this for you in a pseudo-synchronous fashion, using a timeout supplied by you. It creates an INBOX (a type of subject that is unique to the requestor), subscribes to it, then publishes your request message with the reply address set to the inbox subject. It will then wait for a response, or the timeout period to elapse, whichever comes first.
+`Request()` упрощает создание INBOX-а (уникального subject-а) и отправку запроса с ожиданием ответа. Метод сам подписывается на INBOX, публикует сообщение с указанием reply и ждёт ответа или таймаут.
 
-### Can multiple subscribers receive a Request?
+### Могут ли несколько подписчиков получить один Request?
 
-Yes. NATS is a publish and subscribe system that also has distributed queueing functionality on a per subscriber basis. When you publish a message, for instance at the beginning of a request, every subscriber will receive the message. If subscribers form a queue group, only one subscriber will be picked at random to receive the message. However, note that the requestor does not know or control this information. What the requestor does control is that it only wants one answer to the request, and NATS handles this very well by actively pruning the interest graph.
+Да. NATS — publish-subscribe система с локальными очередями. При публикации все подписчики получают сообщение. Если они входят в queue group, только один случайно выбранный участник группы получит сообщение, а остальные нет. NATS не сообщает отправителю, кто именно, зато гарантирует, что придёт ровно один ответ.
 
-### How can I monitor my NATS cluster?
+### Как мониторить кластер NATS?
 
-NATS can be deployed to have an HTTP(s) monitoring port - see the demo server here: [https://demo.nats.io:8222/](https://demo.nats.io:8222/). Alternately, there are several options available, including some from the active NATS community:
+Сервер может открывать HTTP(S) мониторинговый порт, например `https://demo.nats.io:8222/`. Также есть готовые инструменты:
 
-* [Prometheus NATS Exporter](https://github.com/nats-io/prometheus-nats-exporter) Use Prometheus to configure metrics and Grafana to create a visual display.
-* [nats-top](https://github.com/nats-io/nats-top) A top-like monitoring tool developed by Wally Quevedo of Synadia.
-* [natsboard](https://github.com/cmfatih/natsboard) A monitoring tool developed by Fatih Cetinkaya.
-* [nats-mon](https://github.com/repejota/nats-mon) A monitoring tool developed by Raül Pérez and Adrià Cidre.
+* [Prometheus NATS Exporter](https://github.com/nats-io/prometheus-nats-exporter) — экспортер для Prometheus и Grafana.
+* [nats-top](https://github.com/nats-io/nats-top) — top-подобный мониторинг.
+* [natsboard](https://github.com/cmfatih/natsboard) — визуальный дашборд.
+* [nats-mon](https://github.com/repejota/nats-mon) — ещё один мониторинг.
 
-A more detailed overview of monitoring is available under [NATS Server Monitoring](../running-a-nats-service/configuration/monitoring.md).
+Подробнее — в разделе [Server Monitoring](../running-a-nats-service/configuration/monitoring.md).
 
-### Does NATS do queuing? Does NATS do load balancing?
+### Поддерживает ли NATS очереди и балансировку нагрузки?
 
-The term 'queueing' implies different things in different contexts, so we must be careful with its use. NATS implements non-persistent distributed queuing via subscriber queue groups. Subscriber queue groups offer a form of message-distribution load balancing. Subject subscriptions in NATS may be either 'individual' subscriptions or queue group subscriptions. The choice to join a queue group is made when the subscription is created, by supplying an optional queue group name. For individual subject subscribers, `nats-server` will attempt to deliver a copy of _every_ message published to that subject to _every_ eligible subscriber of that subject. For subscribers in a queue group, `nats-server` will attempt to deliver each successive message to exactly _one_ subscriber in the group, chosen at random.
+Да. NATS реализует распределённые очереди через queue groups подписчиков. Каждая группа получает по очереди сообщение, и между участниками происходит балансировка. Сообщения не сохраняются на диске, распределение строится на interest graph (подписках).
 
-This form of distributed queueing is done in real time, and messages are not persisted to secondary storage. Further, the distribution is based on interest graphs (subscriptions), so it is not a publisher operation, but instead is controlled entirely by `nats-server`.
+### Можно ли получить список существующих subjects?
 
-### Can I list the subjects that exist in my NATS cluster?
+Интерес-сетка (subjects и подписчики) обновляется в реальном времени. Это не статическая справка, а постоянно меняющийся граф. При желании можно опрашивать `/connz` и `/routez` мониторингового API, но напрямую выводить «доступные subject-ы» нельзя.
 
-NATS maintains and constantly updates the interest graph (subjects and their subscribers) in real time. Do not think of it as a "directory" that is aggregated over time. The interest graph is dynamic, and will change constantly as publishers and subscribers come and go.
+### Поддерживает ли NATS wildcard subject-ов?
 
-If you are determined to gather this information, it can be indirectly derived at any instant in time by polling the monitoring endpoint for /connz and /routez. See [Server Monitoring](../running-a-nats-service/configuration/monitoring.md) for more information.
+Да. В NATS доступны два wildcard-символа:
 
-### Does NATS support subject wildcards?
+* `*` — соответствует ровно одному токену (`foo.*` охватывает `foo.bar`, `foo.baz`).
+* `>` — захватывает одну или несколько секций, и может быть только в конце (`foo.>` соответствует `foo.bar`, `foo.bar.baz`).
 
-Yes. The valid wildcards are as follows:
+### Какой тип stream consumer-а выбрать?
 
-The dot character `'.'` is the token separator.
+Зависит от сценария:
+* Для масштабирования обработки всех сообщений потока или для батчевых задач — используйте общий pull consumer (по нескольку клиентов можно параллельно вызывать `fetch`).
+* Для индивидуального воспроизведения — ordered push consumer. Если нужен масштабируемый, низколатентный realtime, используйте durable push consumer с queue group.
 
-The asterisk character `'*'` is a token wildcard match.
+### Что означают `verbose` и `pedantic` при CONNECT?
 
-```
- e.g foo.* matches foo.bar, foo.baz, but not foo.bar.baz.
-```
+`verbose` включает подтверждения `+OK`/`-ERR` для каждой команды (по умолчанию включён). `pedantic` включает дополнительные проверки, например валидности subject-ов. Клиентские библиотеки обычно отключают `verbose` в INFO-хендшейке.
 
-The greater-than symbol `'>'` is a full wildcard match.
+### Гарантирует ли NATS порядок доставки?
 
-```
-e.g. foo.> matches foo.bar, foo.baz, foo.bar.baz, foo.bar.1, etc.
-```
+Да, для одного издателя сообщения доставляются в исходном порядке всем подписчикам. Между разными издателями гарантии порядка нет.
 
-### What is the right kind of Stream consumer to use
+### Есть ли ограничение размера сообщений?
 
-It depends on the access pattern of the application using the stream: if you want to horizontally scale the processing of all the messages stored in a stream and/or process a high-throughput stream of messages in real-time using batching, then use a shared pull consumer (as they scale well horizontally and batching is in practice key to achieving high throughput). But if the access pattern is more like individual application instances needing their own individual replay of the messages in a stream on demand: then an 'ordered push consumer' is best. Consider the use of a durable push consumer with a queue-group for the clients if you want a scalable low latency real time processing of the messages inserted into a stream.
+Да, в конфигурации (`max_payload`) задаёт максимальный размер сообщения. По умолчанию 1 МБ, можно увеличить до 64 МБ (рекомендуется ~8 МБ).
 
-### What do ‘verbose’ and ‘pedantic’ mean when using CONNECT?
+### Есть ли лимит на число subjects?
 
-‘Verbose’ means all protocol commands will be acked with a +OK or -ERR. If verbose is off, you don't get the +OK for each command. Pedantic means the server does lots of extra checking, mostly around properly formed subjects, etc. Verbose mode is ON by default for new connections; most client implementations disable verbose mode by default in their INFO handshake during connection.
+Начиная с `nats-server` v0.8.0 нет жёсткого ограничения на количество subjects.
 
-### Does NATS offer any guarantee of message ordering?
+### Гарантирует ли NATS доставку сообщений?
 
-NATS implements source ordered delivery per publisher. That is to say, messages from a given single publisher will be delivered to all eligible subscribers in the order in which they were originally published. There are no guarantees of message delivery order amongst multiple publishers.
+Core NATS обеспечивает «не более одного раза» (at-most-once). Сообщения целостны и упорядочены относительно одного издателя, но при проблемах соединения они могут быть потеряны. JetStream (с версии 2.2) добавляет персистентность и гарантии «как минимум один раз» и («ровно один раз» в пределах окна). Подробнее — в документации JetStream.
 
-### Is there a message size limitation in NATS?
+### Поддерживает ли NATS воспроизведение исторических данных?
 
-Messages have a maximum size (which is set in the server configuration with `max_payload`) that is enforced by the server and communicated to the client during connection setup. The size is set to 1 MB by default, but can be increased up to 64 MB if needed (though we recommend keeping the max message size to something more reasonable like 8 MB).
+Да, JetStream предлагает хранение и воспроизведение сообщений по времени или последовательности.
 
-### Does NATS impose any limits on the # of subjects?
+### Как корректно завершить асинхронного подписчика?
 
-No. As of `nats-server` v0.8.0, there is no hard limit on the maximum number of subjects.
+Вызовите `sub.Unsubscribe()` в Go (или аналог в других языках) — подписка завершится, а внутренние ресурсы очистятся. Это позволяет завершать обработчики без внезапного закрытия.
 
-### Does NATS guarantee message delivery?
+### Как создавать subjects?
 
-Core NATS, offers "at-most-once" delivery. This means messages are guaranteed to arrive intact, in order from a given publisher, but not across different publishers. NATS does everything required to remain available and provide a dial-tone. However, if a subscriber is problematic or goes offline it will not receive messages, as the basic NATS platform is a simple pub-sub transport system that offers only TCP reliability.
+Subjects создаются автоматически на основании интереса (подписок). Пока ни один клиент не подписан, subject не существует, и удаляется после отписки последнего клиента.
 
-As of NATS Server 2.2, NATS JetStream offers persistence with "at-least-once" and "exactly-once" (within a time window) delivery. See the [JetStream](../using-nats/jetstream/develop_jetstream.md) documentation for detailed information.
+### Сколько клиентов может подключиться одновременно?
 
-### Does NATS support replay/redelivery of historical data?
-
-NATS [JetStream](../using-nats/jetstream/develop_jetstream.md) offers message store and replay by time or sequence.
-
-### How do I gracefully shut down an asynchronous subscriber?
-
-To gracefully shut down an asynchronous subscriber so that any outstanding MsgHandlers have a chance to complete outstanding work, call sub.Unsubscribe(). There is a Go routine per subscription. These will be cleaned up on Unsubscribe(), or upon connection teardown.
-
-### How do I create subjects?
-
-Subjects are created and pruned (deleted) dynamically based on interest (subscriptions). This means that a subject does not exist in a NATS cluster until a client subscribes to it, and the subject goes away after the last subscribing client unsubscribes from that subject.
-
-### How many clients can connect simultaneously?
-
-The default setting for a single server is 65,536. Although there is no specified limit to the number of connections supported by NATS, there are some environmental factors that will influence your decision as to how many connections to allow per server.
-
-Most systems can handle several thousand NATS connections per server without any changes although some have a very low default such as OS X. You'll want to look at kernel/OS settings to increase that limit. You'll also want to look at default TCP buffer sizes to best optimize your machine for your traffic characteristics.
-
-If you are using TLS you'll want to be sure the hardware can handle the CPU load created by TLS negotiation when there is the thundering herd of inbound connections after an outage or network partition event. This often overlooked factor is usually the constraint limiting the number of connections a single server should support. Choosing a cipher suite that is supported by TLS acceleration can mitigate this (e.g. AES with x86). Thinking of the entire system, you'll also want to look at a range of reconnect delay times or add reconnect jitter to the NATS clients to even out the distribution of connection attempts over time and reduce CPU spikes.
-
-All said, each server can be tuned to handle a large number of clients, and given the flexibility and scalability of NATS with clusters, superclusters, and leaf nodes one can build a NATS deployment supporting many millions of connections.
+По умолчанию NATS поддерживает 65 536 соединений на сервер. Точная цифра зависит от ОС и настройки (например, ограничений FD/памяти). Большинство систем выдерживают тысячи соединений; при необходимости увеличьте лимиты ядра и TCP-буферов.
