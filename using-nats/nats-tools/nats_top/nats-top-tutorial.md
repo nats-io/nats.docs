@@ -1,37 +1,37 @@
-# Tutorial
+# Руководство
 
-You can use [nats-top](https://github.com/nats-io/nats-top) to monitor in realtime NATS server connections and message statistics.
+Вы можете использовать [nats-top](https://github.com/nats-io/nats-top) для мониторинга в реальном времени соединений и статистики сообщений NATS server.
 
-## Prerequisites
+## Предварительные требования
 
-* [Set up your Go environment](https://golang.org/doc/install)
-* [Install the NATS server](../../../running-a-nats-service/installation.md)
+* [Настройте окружение Go](https://golang.org/doc/install)
+* [Установите NATS server](../../../running-a-nats-service/installation.md)
 
-## 1. Install nats-top
+## 1. Установите nats-top
 
 ```bash
 go install github.com/nats-io/nats-top@latest
 ```
 
-You may need to run the following instead:
+Возможно, потребуется выполнить:
 
 ```bash
 sudo -E go install github.com/nats-io/nats-top
 ```
 
-## 2. Start the NATS server with monitoring enabled
+## 2. Запустите NATS server с включенным мониторингом
 
 ```bash
 nats-server -m 8222
 ```
 
-## 3. Start nats-top
+## 3. Запустите nats-top
 
 ```bash
 nats-top
 ```
 
-Result:
+Результат:
 
 ```text
 nats-server version 0.6.6 (uptime: 2m2s)
@@ -44,13 +44,13 @@ Connections: 0
   HOST                 CID      SUBS    PENDING     MSGS_TO     MSGS_FROM   BYTES_TO    BYTES_FROM  LANG     VERSION
 ```
 
-## 4. Run NATS client programs
+## 4. Запустите NATS‑клиентские программы
 
-Run some NATS client programs and exchange messages.
+Запустите несколько NATS клиентских программ и обменяйтесь сообщениями.
 
-For the best experience, you will want to run multiple subscribers, at least 2 or 3. Refer to the [example pub-sub clients](../../../running-a-nats-service/clients.md).
+Для лучшего опыта запустите несколько подписчиков, как минимум 2 или 3. См. [примеры pub‑sub клиентов](../../../running-a-nats-service/clients.md).
 
-## 5. Check nats-top for statistics
+## 5. Проверьте статистику в nats-top
 
 ```text
 nats-server version 0.6.6 (uptime: 30m51s)
@@ -66,9 +66,9 @@ Connections: 3
   ::1:58953            39       1       0           21          0           105         0           go       1.1.0
 ```
 
-## 6. Sort nats-top statistics
+## 6. Сортировка статистики nats-top
 
-In nats-top, enter the command `o` followed by the option, such as `bytes_to`. You see that nats-top sorts the BYTES_TO column in ascending order.
+В nats-top введите команду `o` и опцию, например `bytes_to`. Вы увидите, что nats-top сортирует колонку BYTES_TO по возрастанию.
 
 ```text
 nats-server version 0.6.6 (uptime: 45m40s)
@@ -84,17 +84,17 @@ Connections: 3
   ::1:59342            90       1       0           0           0           0           0           go       1.1.0
 ```
 
-## 7. Use different sort options
+## 7. Используйте разные варианты сортировки
 
-Use some different sort options to explore nats-top, such as:
+Попробуйте разные опции сортировки, например:
 
 `cid`, `subs`, `pending`, `msgs_to`, `msgs_from`, `bytes_to`, `bytes_from`, `lang`, `version`
 
-You can also set the sort option on the command line using the `-sort` flag. For example: `nats-top -sort bytes_to`.
+Можно также задать опцию сортировки в командной строке через флаг `-sort`. Например: `nats-top -sort bytes_to`.
 
-## 8. Display the registered subscriptions.
+## 8. Отображение зарегистрированных подписок
 
-In nats-top, enter the command `s` to toggle displaying connection subscriptions. When enabled, you see the subscription subject in nats-top table:
+В nats-top введите команду `s`, чтобы переключить отображение подписок соединений. Включив, вы увидите subject подписки в таблице nats-top:
 
 ```text
 nats-server version 0.6.6 (uptime: 1h2m23s)
@@ -110,19 +110,19 @@ Connections: 3
   ::1:59817            124      1       0           0           0           0           0           go       1.1.0   foo
 ```
 
-## 9. Quit nats-top
+## 9. Выход из nats-top
 
-Use the `q` command to quit nats-top.
+Используйте команду `q`, чтобы выйти из nats-top.
 
-## 10. Restart nats-top with a specified query
+## 10. Перезапуск nats-top с заданным запросом
 
-For example, to query for the connection with largest number of subscriptions:
+Например, чтобы запросить соединение с наибольшим числом подписок:
 
 ```bash
 nats-top -n 1 -sort subs
 ```
 
-Result: nats-top displays only the client connection with the largest number of subscriptions:
+Результат: nats-top отображает только клиентское соединение с наибольшим числом подписок:
 
 ```text
 nats-server version 0.6.6 (uptime: 1h7m0s)
@@ -135,4 +135,3 @@ Connections: 3
   HOST                 CID      SUBS    PENDING     MSGS_TO     MSGS_FROM   BYTES_TO    BYTES_FROM  LANG     VERSION
   ::1:59708            115      1       0           6           0           48          0           go       1.1.0
 ```
-

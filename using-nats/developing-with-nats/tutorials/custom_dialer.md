@@ -1,6 +1,6 @@
-# Advanced Connect and Custom Dialer in Go
+# Расширенное подключение и пользовательский dialer в Go
 
-The Go NATS client features a [CustomDialer](https://godoc.org/github.com/nats-io/go-nats#CustomDialer) option which allows you to customize the connection logic against the NATS server without having to modify the internals of the client. For example, let's say that you want to make the client use the `context` package to use `DialContext` and be able to cancel connecting to NATS altogether with a deadline, you could then do define a Dialer implementation as follows:
+Клиент NATS для Go предоставляет опцию [CustomDialer](https://godoc.org/github.com/nats-io/go-nats#CustomDialer), которая позволяет настроить логику подключения к серверу NATS без изменения внутренних частей клиента. Например, если вы хотите, чтобы клиент использовал пакет `context`, `DialContext` и мог отменять подключение к NATS по дедлайну, можно определить реализацию Dialer следующим образом:
 
 ```go
 package main
@@ -47,7 +47,7 @@ func (cd *customDialer) Dial(network, address string) (net.Conn, error) {
 }
 ```
 
-With the dialer implementation above, the NATS client will retry a number of times to connect to the NATS server until the context is no longer valid:
+С реализацией dialer выше клиент NATS будет повторять попытки подключения к серверу NATS до тех пор, пока контекст остаётся валидным:
 
 ```go
 func main() {
@@ -125,4 +125,3 @@ WaitForEstablishedConnection:
     log.Println("Disconnected")
 }
 ```
-

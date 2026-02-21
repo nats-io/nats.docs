@@ -1,31 +1,31 @@
-# NATS Request-Reply Walkthrough
+# Пошаговое руководство по NATS Request‑Reply
 
-NATS supports [request-reply](reqreply.md) messaging. In this tutorial you explore how to exchange point-to-point messages using NATS.
+NATS поддерживает обмен сообщениями [request‑reply](reqreply.md). В этом руководстве вы изучите, как обмениваться точка‑точка сообщениями с помощью NATS.
 
-## Prerequisites
+## Подготовка
 
-If you have not already done so, you need to [install](/nats-concepts/what-is-nats/walkthrough_setup.md) the `nats` CLI Tool and optionally, the nats-server on your machine.  
+Если вы еще этого не сделали, вам нужно [установить](/nats-concepts/what-is-nats/walkthrough_setup.md) CLI‑инструмент `nats` и, при необходимости, `nats-server` на вашей машине.  
   
-## Walkthrough
+## Руководство
 
-Start two terminal sessions. These will be used to run the NATS request and reply clients.
+Запустите две терминальные сессии. Они будут использоваться для запуска клиентов запроса и ответа NATS.
 
-### In one terminal, run the reply client listener
+### В одном терминале запустите слушателя ответа
 
 ```bash
 nats reply help.please 'OK, I CAN HELP!!!'
 ```
 
-You should see the message: _Listening on \[help.please\]_
+Вы должны увидеть сообщение: _Listening on \[help.please\]_
 
-This means that the NATS receiver client is listening for request messages on the "help.please" subject. In NATS, the receiver is a subscriber.
+Это означает, что клиент‑получатель NATS слушает запросы на subject "help.please". В NATS получатель — это подписчик.
 
-### In the other terminal, run the request client
+### В другом терминале запустите клиента запроса
 
 ```bash
 nats request help.please 'I need help!'
 ```
 
-The NATS requestor client makes a request by sending the message "I need help!" on the “help.please” subject.
+Клиент‑инициатор NATS делает запрос, отправляя сообщение "I need help!" в subject “help.please”.
 
-The NATS receiver client receives the message, formulates the reply \("OK, I CAN HELP!!!"\), and sends it to the inbox of the requester.
+Клиент‑получатель NATS получает сообщение, формирует ответ \("OK, I CAN HELP!!!"\) и отправляет его в inbox инициатора.

@@ -1,24 +1,24 @@
-# Clustering
+# Кластеризация
 
-## NATS Server Clustering
+## Кластеризация сервера NATS
 
-NATS supports running each server in clustered mode. You can cluster servers together for high volume messaging systems and resiliency and high availability.
+NATS поддерживает запуск каждого сервера в кластерном режиме. Вы можете объединять серверы в кластер для высоконагруженных систем обмена сообщениями, устойчивости и высокой доступности.
 
-NATS servers achieve this by gossiping about and connecting to, all of the servers they know, thus dynamically forming a full mesh. Once clients [connect](../../../using-nats/developing-with-nats/connecting/cluster.md) or [re-connect](/using-nats/developing-with-nats/reconnect) to a particular server, they are informed about current cluster members. Because of this behavior, a cluster can grow, shrink and self heal. The full mesh does not necessarily have to be explicitly configured either.
+Серверы NATS достигают этого, обмениваясь (gossip) информацией и подключаясь ко всем серверам, которые они знают, динамически формируя полносвязную сеть. После того как клиенты [подключаются](../../../using-nats/developing-with-nats/connecting/cluster.md) или [переподключаются](/using-nats/developing-with-nats/reconnect) к конкретному серверу, они получают информацию о текущих участниках кластера. Благодаря этому кластер может расти, сокращаться и само‑восстанавливаться. Полносвязность не обязательно конфигурировать явно.
 
-Note that NATS clustered servers have a forwarding limit of one hop. This means that each `nats-server` instance will **only** forward messages that it has received **from a client** to the immediately adjacent `nats-server` instances to which it has routes. Messages received **from** a route will only be distributed to local clients.
+Обратите внимание: у кластерных серверов NATS есть ограничение пересылки на один хоп. Это означает, что каждый `nats-server` будет пересылать сообщения **только** полученные **от клиента** на соседние `nats-server`, к которым у него есть маршруты. Сообщения, полученные **по маршруту**, распространяются только локальным клиентам.
 
-For the cluster to successfully form a full mesh and NATS to function as intended and described throughout the documentation - temporary errors permitting - it is necessary that servers can connect to each other and that clients can connect to each server in the cluster.
+Чтобы кластер успешно сформировал полносвязную сеть и NATS работал как описано в документации (временно‑ошибочные ситуации исключая), необходимо, чтобы серверы могли подключаться друг к другу, а клиенты — к каждому серверу в кластере.
 
-## Cluster URLs
+## URL кластера
 
-In addition to a port to listen for clients, `nats-server` listens on a "cluster" URL \(the `-cluster` option\). Additional `nats-server` servers can then add that URL to their `-routes` argument to join the cluster. These options can also be specified in a [config file](cluster_config.md), but only the command-line version is shown in this overview for simplicity.
+Помимо порта для клиентов, `nats-server` слушает «кластерный» URL (опция `-cluster`). Другие `nats-server` могут добавить этот URL в аргумент `-routes`, чтобы войти в кластер. Эти опции можно задавать и в [конфигурационном файле](cluster_config.md), но для простоты в этом обзоре показана только командная строка.
 
-## Running a Simple Cluster
+## Простой кластер
 
-Here is a simple cluster running on the same machine:
+Пример простого кластера на одной машине:
 
-Server A - the 'seed server'
+Server A — «seed server»
 
 ```bash
 nats-server -p 4222 -cluster nats://localhost:4248 --cluster_name test-cluster
@@ -30,7 +30,7 @@ Server B
 nats-server -p 5222 -cluster nats://localhost:5248 -routes nats://localhost:4248 --cluster_name test-cluster
 ```
 
-Check the output of the server for the selected client and route ports.
+Проверьте вывод сервера с выбранными портами клиента и маршрутов.
 
 Server C
 
@@ -38,41 +38,41 @@ Server C
 nats-server -p 6222 -cluster nats://localhost:6248 -routes nats://localhost:4248 --cluster_name test-cluster
 ```
 
-Check the output of the server for the selected client and route ports.
+Проверьте вывод сервера с выбранными портами клиента и маршрутов.
 
-Each server has a client and cluster port specified. Servers with the routes option establish a route to the _seed server_. Because the clustering protocol gossips members of the cluster, all servers are able to discover other server in the cluster. When a server is discovered, the discovering server will automatically attempt to connect to it in order to form a _full mesh_. Typically only one instance of the server will run per machine, so you can reuse the client port \(4222\) and the cluster port \(4248\), and simply the route to the host/port of the seed server.
+У каждого сервера задан порт клиента и порт кластера. Серверы с опцией routes устанавливают маршрут к _seed server_. Поскольку протокол кластеризации распространяет (gossip) участников кластера, все серверы могут обнаруживать другие серверы в кластере. Когда сервер обнаружен, обнаруживший сервер автоматически пытается подключиться к нему, чтобы сформировать _полносвязную сеть_. Обычно на каждой машине запускают только один экземпляр сервера, поэтому можно использовать тот же порт клиента (4222) и порт кластера (4248), и просто указывать маршруты к host/port seed‑сервера.
 
-Similarly, clients connecting to any server in the cluster will discover other servers in the cluster. If the connection to the server is interrupted, the client will attempt to connect to all other known servers.
+Аналогично, клиенты, подключенные к любому серверу в кластере, будут обнаруживать другие серверы. Если соединение с сервером прерывается, клиент будет пытаться подключиться ко всем другим известным серверам.
 
-There is no explicit configuration for _seed server_. They simply serve as the starting point for server discovery by other members of the cluster as well as clients. As such these are the servers that clients have in their list of connect urls and cluster members have in their list of routes. They reduce configuration as not every server needs to be in these lists. But the ability for other server and clients to successfully connect depends on _seed server_ running. If multiple _seed server_ are used, they make use of the routes option as well, so they can establish routes to one another.
+Явной конфигурации для _seed server_ нет. Они просто служат точкой старта для обнаружения серверов другими участниками кластера, а также клиентами. Поэтому это серверы, которые клиенты включают в список URL подключения, а участники кластера — в список routes. Они уменьшают объем конфигурации, так как не каждый сервер должен быть в этих списках. Но способность других серверов и клиентов успешно подключаться зависит от работы _seed server_. Если используется несколько _seed server_, они также используют опцию routes, чтобы установить маршруты друг к другу.
 
-## Command Line Options
+## Опции командной строки
 
-The following cluster options are supported:
+Поддерживаются следующие опции кластеризации:
 
 ```text
---routes [rurl-1, rurl-2]     Routes to solicit and connect
---cluster nats://host:port    Cluster URL for solicited routes
+--routes [rurl-1, rurl-2]     Маршруты для запроса и подключения
+--cluster nats://host:port    URL кластера для запросов маршрутов
 ```
 
-When a NATS server routes to a specified URL, it will advertise its own cluster URL to all other servers in the route effectively creating a routing mesh to all other servers.
+Когда сервер NATS строит маршрут к указанному URL, он объявляет свой кластерный URL всем другим серверам на маршруте, эффективно создавая маршрутизирующую сеть между всеми серверами.
 
-**Note:** when using the `-routes` option, you must also specify a `-cluster` option.
+**Примечание:** при использовании `-routes` вы также должны указать `-cluster`.
 
-Clustering can also be configured using the server [config file](cluster_config.md).
+Кластеризацию можно также настроить через [конфигурационный файл](cluster_config.md).
 
-## Three Server Cluster Example
+## Пример кластера из трех серверов
 
-The following example demonstrates how to run a cluster of 3 servers on the same host. We will start with the seed server and use the `-D` command line parameter to produce debug information.
+Следующий пример показывает, как запустить кластер из 3 серверов на одном хосте. Начнем с seed‑сервера и используем параметр `-D` для вывода отладочной информации.
 
 ```bash
 nats-server -p 4222 -cluster nats://localhost:4248 -D
 ```
 
-Alternatively, you could use a configuration file, let's call it `seed.conf`, with a content similar to this:
+Либо можно использовать конфигурационный файл `seed.conf` с таким содержимым:
 
 ```text
-# Cluster Seed Node
+# Узел‑seed кластера
 
 listen: 127.0.0.1:4222
 http: 8222
@@ -82,13 +82,13 @@ cluster {
 }
 ```
 
-And start the server like this:
+И запустить сервер так:
 
 ```bash
 nats-server -config ./seed.conf -D
 ```
 
-This will produce an output similar to:
+Это даст вывод примерно такого вида:
 
 ```text
 [83329] 2020/02/12 16:04:52.369039 [INF] Starting nats-server version 2.1.4
@@ -101,7 +101,7 @@ This will produce an output similar to:
 [83329] 2020/02/12 16:04:52.369534 [INF] Listening for route connections on 127.0.0.1:4248
 ```
 
-It is also possible to specify the hostname and port independently. At the minimum, the port is required. If you leave the hostname off it will bind to all the interfaces \('0.0.0.0'\).
+Можно указать hostname и порт отдельно. Минимально требуется порт. Если hostname не задан, будет привязка ко всем интерфейсам (`0.0.0.0`).
 
 ```text
 cluster {
@@ -110,15 +110,15 @@ cluster {
 }
 ```
 
-Now let's start two more servers, each one connecting to the seed server.
+Теперь запустим еще два сервера, каждый подключается к seed‑серверу.
 
 ```bash
 nats-server -p 5222 -cluster nats://localhost:5248 -routes nats://localhost:4248 -D
 ```
 
-When running on the same host, we need to pick different ports for the client connections `-p`, and for the port used to accept other routes `-cluster`. Note that `-routes` points to the `-cluster` address of the seed server \(`localhost:4248`\).
+При запуске на одном хосте нужно выбрать разные порты для клиентских подключений `-p` и для порта маршрутов `-cluster`. Обратите внимание, что `-routes` указывает на адрес `-cluster` seed‑сервера (`localhost:4248`).
 
-Here is the log produced. See how it connects and registers a route to the seed server \(`...GzM`\).
+Ниже лог. Видно, как он подключается и регистрирует маршрут к seed‑серверу (`...GzM`).
 
 ```text
 [83330] 2020/02/12 16:05:09.661047 [INF] Starting nats-server version 2.1.4
@@ -135,7 +135,7 @@ Here is the log produced. See how it connects and registers a route to the seed 
 [83330] 2020/02/12 16:05:09.663549 [DBG] 127.0.0.1:4248 - rid:1 - Sent local subscriptions to route
 ```
 
-From the seed's server log, we see that the route is indeed accepted:
+Из лога seed‑сервера видно, что маршрут принят:
 
 ```text
 [83329] 2020/02/12 16:05:09.663386 [INF] 127.0.0.1:62941 - rid:1 - Route connection created
@@ -143,13 +143,13 @@ From the seed's server log, we see that the route is indeed accepted:
 [83329] 2020/02/12 16:05:09.663681 [DBG] 127.0.0.1:62941 - rid:1 - Sent local subscriptions to route
 ```
 
-Finally, let's start the third server:
+Наконец, запустим третий сервер:
 
 ```bash
 nats-server -p 6222 -cluster nats://localhost:6248 -routes nats://localhost:4248 -D
 ```
 
-Again, notice that we use a different client port and cluster address, but still point to the same seed server at the address `nats://localhost:4248`:
+Снова видим, что используем другой клиентский порт и другой cluster‑адрес, но указываем тот же seed‑сервер `nats://localhost:4248`:
 
 ```text
 [83331] 2020/02/12 16:05:12.838022 [INF] Listening for client connections on 0.0.0.0:6222
@@ -167,9 +167,9 @@ Again, notice that we use a different client port and cluster address, but still
 [83331] 2020/02/12 16:05:12.840915 [DBG] 127.0.0.1:62946 - rid:2 - Sent local subscriptions to route
 ```
 
-First a route is created to the seed server \(`...IOW`\) and after that, a route from `...3PK` - which is the ID of the second server - is accepted.
+Сначала создается маршрут к seed‑серверу (`...IOW`), а после этого принимается маршрут от `...3PK` — это ID второго сервера.
 
-The log from the seed server shows that it accepted the route from the third server:
+Лог seed‑сервера показывает, что он принял маршрут от третьего сервера:
 
 ```text
 [83329] 2020/02/12 16:05:12.840111 [INF] 127.0.0.1:62945 - rid:2 - Route connection created
@@ -177,7 +177,7 @@ The log from the seed server shows that it accepted the route from the third ser
 [83329] 2020/02/12 16:05:12.840363 [DBG] 127.0.0.1:62945 - rid:2 - Sent local subscriptions to route
 ```
 
-And the log from the second server shows that it connected to the third.
+А лог второго сервера показывает, что он подключился к третьему.
 
 ```text
 [83330] 2020/02/12 16:05:12.840529 [DBG] Trying to connect to route on 127.0.0.1:6248
@@ -187,13 +187,13 @@ And the log from the second server shows that it connected to the third.
 [83330] 2020/02/12 16:05:12.840827 [DBG] 127.0.0.1:6248 - rid:2 - Sent local subscriptions to route
 ```
 
-At this point, there is a full mesh cluster of NATS servers.
+На этом этапе кластер серверов NATS полносвязный.
 
-### Testing the Cluster
+### Тестирование кластера
 
-Now, the following should work: make a subscription to the first server \(port 4222\). Then publish to each server \(ports 4222, 5222, 6222\). You should be able to receive messages without problems.
+Далее должно работать следующее: создайте подписку на первом сервере (порт 4222). Затем публикуйте на каждый сервер (порты 4222, 5222, 6222). Вы должны получать сообщения без проблем.
 
-Testing server A
+Тестирование сервера A
 
 ```bash
 nats sub -s "nats://127.0.0.1:4222" hello &
@@ -208,7 +208,7 @@ nats pub -s "nats://127.0.0.1:4222" hello world_4222
 world_4222
 ```
 
-Testing server B
+Тестирование сервера B
 
 ```shell
 nats pub -s "nats://127.0.0.1:5222" hello world_5222
@@ -220,7 +220,7 @@ nats pub -s "nats://127.0.0.1:5222" hello world_5222
 world_5222
 ```
 
-Testing server C
+Тестирование сервера C
 
 ```shell
 nats pub -s "nats://127.0.0.1:6222" hello world_6222
@@ -232,7 +232,7 @@ nats pub -s "nats://127.0.0.1:6222" hello world_6222
 world_6222
 ```
 
-Testing using seed (i.e. A, B and C) server URLs
+Тестирование через URL seed‑серверов (т. е. A, B и C)
 
 ```shell
 nats pub -s "nats://127.0.0.1:4222,nats://127.0.0.1:5222,nats://127.0.0.1:6222" hello whole_world

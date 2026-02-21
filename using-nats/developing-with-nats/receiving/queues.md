@@ -1,12 +1,12 @@
-# Queue Subscriptions
+# Подписки очереди
 
-Subscribing to a [queue group](../../../nats-concepts/core-nats/queue-groups/queue.md) is only slightly different than subscribing to a subject alone. The application simply includes a queue name with the subscription. The server will load balance between all members of the queue group. In a cluster setup, every member has the same chance of receiving a particular message.
+Подписка на [queue group](../../../nats-concepts/core-nats/queue-groups/queue.md) лишь немного отличается от подписки на один subject. Приложение просто указывает имя очереди вместе с подпиской. Сервер будет балансировать нагрузку между всеми участниками queue group. В кластерной конфигурации каждый участник имеет одинаковый шанс получить конкретное сообщение.
 
-Keep in mind that queue groups in NATS are dynamic and do not require any server configuration.
+Имейте в виду, что queue group в NATS динамические и не требуют конфигурации сервера.
 
 ![](../../../.gitbook/assets/queues.svg)
 
-As an example, to subscribe to the queue `workers` with the subject `updates`:
+Например, чтобы подписаться на очередь `workers` с subject `updates`:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -181,5 +181,4 @@ natsConnection_Destroy(conn);
 {% endtab %}
 {% endtabs %}
 
-If you run this example with the publish examples that send to `updates`, you will see that one of the instances gets a message while the others you run won't. But the instance that receives the message will change.
-
+Если запустить этот пример вместе с примерами публикации, которые отправляют в `updates`, вы увидите, что сообщение получит один из экземпляров, а остальные — нет. Но экземпляр, который получит сообщение, будет меняться.

@@ -1,16 +1,16 @@
-# Authenticating with a Token
+# Аутентификация по токену
 
-Tokens are basically random strings, much like a password, and can provide a simple authentication mechanism in some situations. However, tokens are only as safe as they are secret so other authentication schemes can provide more security in large installations. It is highly recommended to use one of the other NATS authentication mechanisms.
+Токены — это по сути случайные строки, похожие на пароль, и они могут обеспечивать простую аутентификацию в некоторых случаях. Однако токены безопасны ровно настолько, насколько они секретны, поэтому в крупных установках другие схемы аутентификации могут дать больше безопасности. Настоятельно рекомендуется использовать один из других механизмов аутентификации NATS.
 
-For this example, start the server using:
+Для этого примера запустите сервер так:
 
 ```bash
 nats-server --auth mytoken
 ```
 
-The code uses localhost:4222 so that you can start the server on your machine to try them out.
+В коде используется localhost:4222, чтобы вы могли запустить сервер на своей машине и попробовать примеры.
 
-## Connecting with a Token
+## Подключение с токеном
 
 {% tabs %}
 {% tab title="Go" %}
@@ -106,13 +106,13 @@ natsOptions_Destroy(opts);
 {% endtab %}
 {% endtabs %}
 
-## Connecting with a Token in the URL
+## Подключение с токеном в URL
 
-Some client libraries will allow you to pass the token as part of the server URL using the form:
+Некоторые клиентские библиотеки позволяют передать токен как часть URL сервера в виде:
 
 > nats://_token_@server:port
 
-Again, once you construct this URL you can connect as if this was a normal URL.
+После формирования такого URL вы можете подключиться как к обычному URL.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -200,4 +200,3 @@ natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
-

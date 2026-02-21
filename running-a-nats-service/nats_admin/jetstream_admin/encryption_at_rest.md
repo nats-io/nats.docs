@@ -1,24 +1,24 @@
-# Encryption at Rest
+# Шифрование данных на диске
 
-*Supported since NATS server version 2.3.0*
+*Поддерживается начиная с NATS server версии 2.3.0*
 
-*TPM is supported on Windows since NATS Server version 2.11.0*
+*TPM поддерживается в Windows начиная с NATS Server версии 2.11.0*
 
 {% hint style="warning" %}
-Note, that although encryption at rest by the NATS server is fully supported, we recommend using file system encryption where available. 
+Обратите внимание: хотя шифрование данных на диске в NATS server полностью поддерживается, мы рекомендуем использовать шифрование файловой системы, где это доступно.
 
-File system encryption, in particular when provided by Cloud hosted services, is optimized for throughput, does not place a burden on the NATS server and removes the need for secret management from the NATS installation.
+Шифрование файловой системы, особенно предоставляемое облачными сервисами, оптимизировано по производительности, не создает нагрузки на NATS server и устраняет необходимость управления секретами в установке NATS.
 
 {% endhint %}
 
-The NATS server can be configured to encrypt message blocks which includes message headers and payloads. Other metadata files are encrypted as well, such as the stream metadata file and consumer metadata files.
+NATS server можно настроить на шифрование блоков сообщений, включая заголовки и payload. Также шифруются другие файлы метаданных, такие как файл метаданных stream и файлы метаданных consumer.
 
-Two choices of ciphers are currently supported:
+Сейчас поддерживаются два варианта шифров:
 
-- `chachapoly` - [ChaCha20-Poly1305](https://pkg.go.dev/golang.org/x/crypto/chacha20poly1305)
-- `aes` - [AES-GCM](https://pkg.go.dev/crypto/aes)
+- `chachapoly` — [ChaCha20-Poly1305](https://pkg.go.dev/golang.org/x/crypto/chacha20poly1305)
+- `aes` — [AES-GCM](https://pkg.go.dev/crypto/aes)
 
-Enabling encryption is done through the `jetstream` [configuration block](/running-a-nats-service/configuration/README.md#jetstream) on the server.
+Включение шифрования выполняется через блок [конфигурации `jetstream`](/running-a-nats-service/configuration/README.md#jetstream) на сервере.
 
 ```text
 jetstream : {
@@ -27,7 +27,7 @@ jetstream : {
 }
 ```
 
-It is recommended to provide the encryption key through an environment variable at runtime, such as `$JS_KEY`, so it will not be persisted in a file.
+Рекомендуется передавать ключ шифрования через переменную окружения во время запуска, например `$JS_KEY`, чтобы ключ не сохранялся в файле.
 
 ```text
 jetstream : {
@@ -36,13 +36,13 @@ jetstream : {
 }
 ```
 
-The variable can be exported in the environment or passed when the server starts up.
+Переменную можно экспортировать в окружение или передать при старте сервера.
 
 ```shell
 JS_KEY="mykey" nats-server -c js.conf
 ```
 
-## TPM (Windows only)
+## Использование TPM (только Windows)
 
 ````
 jetstream {
@@ -54,39 +54,38 @@ jetstream {
   }
 }
 ````
-| Property                  | Description                                                                                                                                                                               | Default                 | Version |
-| :------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------- | :------ |
-| `keys_file`                     |  Specifies the file where encryption keys are stored. This option is required, otherwise TPM will not be active. If the file does NOT EXIST, a new key will be dynamically created and stored in the `pcr`  | required | 2.11.0  |
-| `encryption_password`                     | Password used for decrypting data in the keys file. OR, the password used to seal the dynamically created key in the TPM store. | required  | 2.11.0  |
-| `srk_password`                     |  The Storage Root Key (SRK) password is used to access the TPM's storage root key. The srk password is optional in TPM 2.0. | not set  | 2.11.0  |
-| `pcr`                     |  Platform Configuration Registers (PCRs). 0-16 are reserved. Pick a value from 17 to 23. |  22  | 2.11.0  | 
-| `cipher`                     |   `chacha`/`chachapoly` or `aes`.                    | `chachapoly` | 2.11.0  |  
+| Свойство                  | Описание                                                                                                                                                                               | По умолчанию           | Версия |
+| :------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------- | :------ |
+| `keys_file`                     |  Задает файл, в котором хранятся ключи шифрования. Эта опция обязательна, иначе TPM не будет активен. Если файл НЕ СУЩЕСТВУЕТ, новый ключ будет динамически создан и сохранен в `pcr`  | требуется | 2.11.0  |
+| `encryption_password`           | Пароль для расшифровки данных в файле ключей. ИЛИ пароль для запечатывания динамически созданного ключа в хранилище TPM. | требуется  | 2.11.0  |
+| `srk_password`                  | Пароль Storage Root Key (SRK) используется для доступа к корневому ключу хранения TPM. Пароль srk опционален в TPM 2.0. | не задан  | 2.11.0  |
+| `pcr`                           | Platform Configuration Registers (PCR). 0–16 зарезервированы. Выберите значение от 17 до 23. |  22  | 2.11.0  | 
+| `cipher`                        |   `chacha`/`chachapoly` или `aes`.                    | `chachapoly` | 2.11.0  |  
 
 
-## Changing encryption settings
+## Изменение настроек шифрования
 
-### Enabling with existing data
+### Включение при наличии существующих данных
 
-Enabling encryption on a server with existing data is supported. Do note that existing unencrypted message blocks will not be re-encrypted, however any new blocks that are stored _will_ be encrypted going forward.
+Включение шифрования на сервере с существующими данными поддерживается. Учтите, что уже существующие незашифрованные блоки сообщений не будут перешифрованы, однако все новые блоки, которые будут сохранены, _будут_ шифроваться далее.
 
-If it is desired to encrypt the existing blocks, the stream can be backed up and restored (which decrypts on backup and then re-encrypts when restoring it).
+Если нужно зашифровать существующие блоки, stream можно бэкапить и восстановить (при бэкапе происходит расшифровка, а при восстановлении — повторное шифрование).
 
 
-### Disabling or changing the key
+### Отключение или изменение ключа
 
-If encryption was enabled on the server and the server is restarted with a different key or disabled all together, the server will fail to decrypt messages when attempting to load them from the store. If this happens, you’ll see log messages like the following:
+Если шифрование было включено, а сервер перезапущен с другим ключом или вовсе без шифрования, сервер не сможет расшифровать сообщения при загрузке из хранилища. В этом случае в логах будут сообщения примерно такого вида:
 
 ```text
 Error decrypting our stream metafile: chacha20poly1305: message authentication failed
 ```
 
-Note, that this will impact JetStream functionality, but the server will still support core NATS functionality.
+Обратите внимание: это повлияет на функциональность JetStream, но сервер по‑прежнему будет поддерживать функциональность core NATS.
 
-### Changing the cipher
+### Изменение шифра
 
-It is possible to change the `cipher`, however the same key must be used. The server will properly encrypt new message blocks with the new cipher and decrypt existing messages blocks with the existing cipher.
+Можно изменить `cipher`, но при этом нужно использовать тот же ключ. Сервер корректно зашифрует новые блоки сообщений новым шифром и расшифрует существующие блоки сообщений старым шифром.
 
-## Performance considerations
+## Производительность
 
-Performance considerations: As expected, encryption is likely to decrease performance, but by how much is hard to define. In some performance tests on a MacbookPro 2.8 GHz Intel Core i7 with SSD, we have observed as little as 1% decrease to more than 30%. In addition to CPU cycles required for encryption, the encrypted files may be larger, which results in more data being stored or read.
-
+Как и ожидалось, шифрование снижает производительность, но насколько именно — трудно оценить. В некоторых тестах производительности на MacbookPro 2.8 GHz Intel Core i7 с SSD мы наблюдали снижение от 1% до более чем 30%. Помимо CPU‑циклов на шифрование, зашифрованные файлы могут быть больше, что приводит к большему объему записываемых и читаемых данных.

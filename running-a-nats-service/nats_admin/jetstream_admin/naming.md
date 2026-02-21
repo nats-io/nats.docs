@@ -1,14 +1,14 @@
-# Naming Streams, Consumers, and Accounts
+# Имена Streams, Consumers и Accounts
 
-Stream, Consumer (durable name), and Account names are used in both the subject namespace used by JetStream and the filesystem backing JetStream persistence. This means that when naming streams, consumers, and accounts, names must adhere to subject naming rules as well as being friendly to the file system.
+Имена Stream, Consumer (durable name) и Account используются как в пространстве имен subject, используемом JetStream, так и в файловой системе, где хранится персистентность JetStream. Это означает, что при именовании streams, consumers и accounts имена должны соответствовать правилам именования subject и быть удобными для файловой системы.
 
-We recommend the following guideline for stream, consumer, and account names:
+Рекомендуем следующие правила для имен stream, consumer и account:
 
-* Alphanumeric values are recommended.
-* Spaces, tabs, period (`.`), greater than (`>`) or asterisk (`*`) are prohibited.
-* Path separators (i.e. forward slash and backward slash) are prohibited. 
-* Limit name length: The JetStream storage directories will include the account, stream name, and consumer name, so a generally safe approach would be to keep names **under 32 characters.**
-* Do not use reserved file names like NUL, LPT1, etc.
-* Be aware that some file systems are case insensitive so do not use stream or account names that would collide in a file system. For example, `Foo` and `foo` would collide on a Windows or Mac OSx System. &#x20;
+* Рекомендуются буквенно‑цифровые значения.
+* Пробелы, табуляции, точка (`.`), больше (`>`) или звездочка (`*`) запрещены.
+* Разделители пути (прямой и обратный слэш) запрещены.
+* Ограничьте длину имени: каталоги хранения JetStream включают имя аккаунта, имя stream и имя consumer, поэтому безопасный подход — держать имена **короче 32 символов**.
+* Не используйте зарезервированные имена файлов вроде NUL, LPT1 и т. п.
+* Учитывайте, что некоторые файловые системы нечувствительны к регистру, поэтому не используйте имена stream или account, которые будут конфликтовать в файловой системе. Например, `Foo` и `foo` конфликтуют в Windows или Mac OSx. 
 
-We plan to address these limitations in a future release.
+Мы планируем устранить эти ограничения в одном из будущих релизов.

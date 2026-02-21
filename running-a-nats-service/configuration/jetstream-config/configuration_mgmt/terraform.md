@@ -1,12 +1,12 @@
 # Terraform
 
-[Terraform](https://www.terraform.io/) is a Cloud configuration tool from Hashicorp. We maintain a Provider for Terraform called [terraform-provider-jetstream](https://github.com/nats-io/terraform-provider-jetstream/) that can maintain JetStream using Terraform.
+[Terraform](https://www.terraform.io/) — инструмент конфигурации облака от Hashicorp. Мы поддерживаем provider для Terraform под названием [terraform-provider-jetstream](https://github.com/nats-io/terraform-provider-jetstream/), который умеет управлять JetStream через Terraform.
 
-Find it in the [Terraform registry](https://registry.terraform.io/providers/nats-io/jetstream/latest/docs).
+См. в [Terraform registry](https://registry.terraform.io/providers/nats-io/jetstream/latest/docs).
 
-## Setup
+## Настройка
 
-In your project you can configure the Provider like this:
+В проекте можно настроить provider так:
 
 ```text
 provider "jetstream" {
@@ -15,7 +15,7 @@ provider "jetstream" {
 }
 ```
 
-Sample code below that creates the `ORDERS` example. Review the [Project README](https://github.com/nats-io/terraform-provider-jetstream#readme) for full details.
+Ниже пример кода, создающего пример `ORDERS`. Полные детали см. в [Project README](https://github.com/nats-io/terraform-provider-jetstream#readme).
 
 ```text
 resource "jetstream_stream" "ORDERS" {
@@ -53,4 +53,3 @@ output "ORDERS_SUBJECTS" {
   value = jetstream_stream.ORDERS.subjects
 }
 ```
-

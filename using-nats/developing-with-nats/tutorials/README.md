@@ -1,7 +1,6 @@
-# Tutorials
+# Руководства
 
-Tutorials are provided to give guidance on commonly used aspects of NATS.
+Руководства предназначены для пояснения часто используемых аспектов NATS.
 
-* [Advanced Connect and Custom Dialer in Go](custom_dialer.md)
-* [In-Depth JWT Guide](../../../running-a-nats-service/nats_admin/jwt.md)
-
+* [Расширенное подключение и пользовательский dialer в Go](custom_dialer.md)
+* [Подробное руководство по JWT](../../../running-a-nats-service/nats_admin/jwt.md)

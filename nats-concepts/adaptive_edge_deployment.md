@@ -1,42 +1,42 @@
-# NATS Adaptive Deployment Architectures
+# Адаптивные архитектуры развертывания NATS
 
-From a single process to a global super-cluster with leaf node servers, you can always adapt your NATS service deployment to your needs. From servers and VPCs in many clouds, to partially connected small edge devices and everything in between, you can always easily extend and scale your NATS service as your needs grow.
+От одного процесса до глобального супер‑кластера с leaf node серверами — вы всегда можете адаптировать развертывание сервиса NATS под свои нужды. От серверов и VPC в разных облаках до частично подключенных edge‑устройств и всего между ними — вы легко расширяете и масштабируете сервис NATS по мере роста потребностей.
 
-## A single server
+## Один сервер
 
-The simplest version of a NATS service infrastructure is a single `nats-server` process. The `nats-server` binary is highly optimized, very lightweight and extremely efficient in its resources' usage.
+Самая простая версия инфраструктуры сервиса NATS — один процесс `nats-server`. Бинарник `nats-server` высоко оптимизирован, очень легкий и крайне эффективен по ресурсам.
 
-Client applications establish a connection to the URL of that nats-server process (e.g. `"nats://localhost"`).
+Клиентские приложения подключаются к URL этого процесса nats-server (например, `"nats://localhost"`).
 
 ![](../.gitbook/assets/single-server.svg)
 
-## A cluster of servers
+## Кластер серверов
 
-If you need a fault-tolerant NATS service or if you need to scale your service capacity, you can cluster a set of nats-server processes together in a cluster.
+Если вам нужна отказоустойчивость или масштабирование мощности сервиса, можно объединить несколько процессов nats-server в кластер.
 
-Client applications establish and maintain a connection to (one of) the nats server URL(s) composing the cluster (e.g. `"nats://server1","nats://server2",...`).
+Клиентские приложения устанавливают и поддерживают соединение с (одним из) URL серверов кластера (например, `"nats://server1","nats://server2",...`).
 
 ![](../.gitbook/assets/server-cluster.svg)
 
-## A super-cluster
+## Супер‑кластер
 
-You can go further than a single cluster and have disaster recovery and get global deployments (e.g. on multiple locations or regions, multiple VPCs or multiple Cloud providers) by deploying multiple clusters and connecting them together via gateway connections (which are interest pruned).
+Можно пойти дальше одного кластера и обеспечить аварийное восстановление и глобальные развертывания (например, в нескольких локациях или регионах, нескольких VPC или у нескольких облачных провайдеров), развернув несколько кластеров и соединив их через gateway‑подключения (interest‑pruned).
 
-Client applications establish a connection to (one of) the nats server URL(s) of one of the clusters (e.g. `"nats://us-west-1.company.com","nats://us-west-2.company.com",...`).
+Клиентские приложения подключаются к (одному из) URL серверов одного из кластеров (например, `"nats://us-west-1.company.com","nats://us-west-2.company.com",...`).
 
 ![](../.gitbook/assets/super_cluster.svg)
 
-## With Leaf Nodes
+## С Leaf Nodes
 
-You can easily 'extend' the NATS service provided by a cluster or super-cluster by deploying 'locally' one or more **leaf node** nats servers that proxy and route traffic between their client applications and the NATS service infrastructure. The context of 'locality' in this case is not just physical: it could mean a location, an edge device or a single development machine, but it could also service a VPC, a group of server processes for a specific application or different accounts, or even a business unit. Leaf node NATS servers can be configured to connect to their cluster over a WebSocket connection (rather than TLS or plain TCP).
+Вы можете легко «расширить» сервис NATS, предоставляемый кластером или супер‑кластером, развернув локально один или несколько **leaf node** серверов NATS, которые проксируют и маршрутизируют трафик между клиентскими приложениями и инфраструктурой сервиса NATS. Контекст «локальности» здесь не только физический: это может быть локация, edge‑устройство или отдельная машина разработки, но также VPC, группа серверных процессов для конкретного приложения или разных аккаунтов, или даже бизнес‑единица. Leaf node серверы NATS могут быть настроены на подключение к своему кластеру по WebSocket (вместо TLS или обычного TCP).
 
-Leaf nodes appear to the cluster as a single account connection. Leaf nodes can provide continuous NATS service for their clients, even while being temporarily disconnected from the cluster(s). You can even enable JetStream on the leaf nodes in order to create local streams that are mirrored (mirroring is store and forward and therefore can recover from connectivity outages) to global streams in the upstream cluster(s).
+Leaf nodes видятся кластеру как одно подключение аккаунта. Leaf nodes могут обеспечивать непрерывный сервис NATS для своих клиентов, даже при временном отключении от кластера(ов). Можно включить JetStream на leaf nodes, чтобы создавать локальные потоки, которые зеркалируются (store‑and‑forward, поэтому могут восстанавливаться после потери связи) в глобальные потоки в upstream‑кластере(ах).
 
-Client applications are configured with the URLs of their 'local' leaf node server(s) and establish a connection to (one of) the leaf node server(s) (e.g. `"nats://leaf-node-1","nats://leaf-node-2",...`).
+Клиентские приложения настраиваются на URL своих «локальных» leaf node серверов и подключаются к (одному из) них (например, `"nats://leaf-node-1","nats://leaf-node-2",...`).
 
 ![](../.gitbook/assets/leaf_nodes.svg)
 
-## See Also
+## См. также
 
 NATS Clusters&#x20;
 
@@ -44,7 +44,7 @@ NATS Clusters&#x20;
 Clusters
 {% endembed %}
 
-NATS Super-clusters&#x20;
+NATS Super‑clusters&#x20;
 
 {% embed url="https://youtu.be/6O_sNSJ2p70" %}
 Super-clusters
@@ -56,7 +56,7 @@ NATS Leaf Nodes&#x20;
 Leaf Nodes
 {% endembed %}
 
-NATS Service Geo-affinity in Queues&#x20;
+NATS Service Geo‑affinity in Queues&#x20;
 
 {% embed url="https://youtu.be/jLTVhP08Tq0?t=190" %}
 Geo-affinity in Queues

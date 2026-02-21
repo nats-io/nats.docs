@@ -1,66 +1,66 @@
-# Logging
+# Логирование
 
-## Configuring Logging
+## Настройка логирования
 
-The NATS server provides various logging options that you can set via the command line or the configuration file.
+Сервер NATS предоставляет различные варианты логирования, которые можно задать через командную строку или конфигурационный файл.
 
-### Command Line Options
+### Опции командной строки
 
-The following logging operations are supported:
+Поддерживаются следующие операции логирования:
 
 ```
--l, --log FILE                   File to redirect log output.
--T, --logtime                    Timestamp log entries (default is true).
--s, --syslog                     Enable syslog as log method.
--r, --remote_syslog              Syslog server address.
--D, --debug                      Enable debugging output.
--V, --trace                      Trace the raw protocol.
--VV                              Verbose trace (traces system account as well)
--DV                              Debug and Trace.
--DVV                             Debug and verbose trace (traces system account as well)
+-l, --log FILE                   Файл для перенаправления вывода логов.
+-T, --logtime                    Временные метки в логах (по умолчанию true).
+-s, --syslog                     Включить syslog как метод логирования.
+-r, --remote_syslog              Адрес syslog‑сервера.
+-D, --debug                      Включить отладочный вывод.
+-V, --trace                      Трассировка «сырого» протокола.
+-VV                              Подробная трассировка (включая системный аккаунт)
+-DV                              Отладка и трассировка.
+-DVV                             Отладка и подробная трассировка (включая системный аккаунт)
 ```
 
-#### Debug and trace
+#### Отладка и трассировка
 
-The `-DV` flag enables trace and debug for the server.
+Флаг `-DV` включает трассировку и отладку сервера.
 
 ```bash
 nats-server -DV -m 8222 -user foo -pass bar
 ```
 
-#### Log file redirect
+#### Перенаправление логов в файл
 
 ```bash
 nats-server -DV -m 8222 -l nats.log
 ```
 
-#### Timestamp
+#### Временные метки
 
-If `-T false` then log entries are not timestamped. Default is true.
+Если `-T false`, то записи в логах не получают временные метки. По умолчанию — true.
 
 #### Syslog
 
-You can configure syslog with `UDP`:
+Вы можете настроить syslog с `UDP`:
 
 ```bash
 nats-server -r udp://localhost:514
 ```
 
-or `syslog:`
+или `syslog:`
 
 ```bash
 nats-server -r syslog://<hostname>:<port>
 ```
 
-For example:
+Например:
 
 ```bash
 syslog://logs.papertrailapp.com:26900
 ```
 
-### Using the Configuration File
+### Использование конфигурационного файла
 
-All of these settings are available in the configuration file as well.
+Все эти настройки доступны и в конфигурационном файле.
 
 ```
 debug:   false
@@ -71,13 +71,13 @@ logfile_max_num: 100
 log_file: "/tmp/nats-server.log"
 ```
 
-### Log Rotation
+### Ротация логов
 
-Introduced in NATS Server v2.1.4, NATS allows for auto-rotation of log files when the size is greater than the configured limit set in `logfile_size_limit`. The backup files will have the same name as the original log file with the suffix .yyyy.mm.dd.hh.mm.ss.micros.
+Начиная с NATS Server v2.1.4, NATS поддерживает авто‑ротацию логов, когда размер файла превышает лимит `logfile_size_limit`. Бэкап‑файлы имеют то же имя, что и исходный лог, с суффиксом `.yyyy.mm.dd.hh.mm.ss.micros`.
 
-You can also use NATS-included mechanisms with [logrotate](https://github.com/logrotate/logrotate), a simple standard Linux utility to rotate logs available on most distributions like Debian, Ubuntu, RedHat (CentOS), etc., to make log rotation simple.
+Также можно использовать встроенные механизмы NATS вместе с [logrotate](https://github.com/logrotate/logrotate) — простой стандартной утилитой Linux для ротации логов, доступной в большинстве дистрибутивов (Debian, Ubuntu, RedHat (CentOS) и т. п.), чтобы упростить ротацию.
 
-For example, you could configure `logrotate` with:
+Например, можно настроить `logrotate` так:
 
 ```
 /path/to/nats-server.log {
@@ -92,14 +92,15 @@ For example, you could configure `logrotate` with:
 }
 ```
 
-The first line specifies the location that the subsequent lines will apply to.
+Первая строка задает путь, к которому применяются последующие строки.
 
-The rest of the file specifies that the logs will rotate daily ("daily" option) and that 30 older copies will be preserved ("rotate" option). Other options are described in [logrorate documentation](https://linux.die.net/man/8/logrotate).
+Остальная часть файла указывает, что логи ротируются ежедневно (опция "daily") и что сохраняются 30 более старых копий (опция "rotate"). Другие опции описаны в [документации logrotate](https://linux.die.net/man/8/logrotate).
 
-The "postrotate" section tells NATS server to reload the log files once the rotation is complete. The command `` `kill -SIGUSR1 ``cat /var/run/nats-server.pid\`\`\` does not kill the NATS server process, but instead sends it a signal causing it to reload its log files. This will cause new requests to be logged to the refreshed log file.
+Раздел "postrotate" говорит серверу NATS перечитать файлы логов после завершения ротации. Команда `` `kill -SIGUSR1 ``cat /var/run/nats-server.pid\`
+`` не завершает процесс nats-server, а отправляет сигнал, заставляющий его перечитать файлы логов. Это приведет к записи новых запросов в обновленный лог‑файл.
 
-The `/var/run/nats-server.pid` file is where NATS server stores the master process's pid.
+Файл `/var/run/nats-server.pid` — это место, где NATS server хранит pid master‑процесса.
 
-## Some Logging Notes
+## Некоторые замечания о логировании
 
-* The NATS server, in verbose mode, will log the receipt of `UNSUB` messages, but this does not indicate the subscription is gone, only that the message was received. The `DELSUB` message in the log can be used to determine when the actual subscription removal has taken place.
+* Сервер NATS в подробном режиме логирует получение сообщений `UNSUB`, но это не означает, что подписка уже удалена, а лишь что сообщение получено. По сообщению `DELSUB` в логе можно определить, когда фактическое удаление подписки завершилось.

@@ -1,6 +1,6 @@
-# Disabling Reconnect
+# Отключение переподключения
 
-You can disable automatic reconnect with connection options:
+Вы можете отключить автоматическое переподключение через опции соединения:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -107,4 +107,3 @@ natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
-

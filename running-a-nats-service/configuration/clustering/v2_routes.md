@@ -1,12 +1,12 @@
-# v2 Routes
+# v2 Routes (маршруты)
 
-_Introduced in NATS v2.10.0_
+_Введено в NATS v2.10.0_
 
-## Connection pooling
+## Пулинг соединений
 
-Before the v2.10.0 release, two servers in a cluster had only one connection to transmit all messages for all accounts, which could lead to slow down and increased memory usage when data was not transmitted fast enough.
+До релиза v2.10.0 два сервера в кластере имели только одно соединение для передачи всех сообщений всех аккаунтов, что могло приводить к замедлению и росту использования памяти, если данные не успевали передаваться достаточно быстро.
 
-The v2.10.0 release introduces the ability to have multiple route connections between two servers. By default, without any configuration change, clustering two v2.10.0+ servers together will create 3 route connections. This can of course be configured to a different value by explicitly configuring the pool size.
+Релиз v2.10.0 ввел возможность иметь несколько route‑соединений между двумя серверами. По умолчанию, без изменения конфигурации, кластеризация двух серверов v2.10.0+ создаст 3 route‑соединения. Это значение можно изменить, явно настроив размер пула.
 
 ```
 cluster {
@@ -14,35 +14,35 @@ cluster {
 }
 ```
 
-### Pool size requirements
+### Требования к размеру пула
 
-Each of those connections will handle a specific subset of the accounts, and the assignment of an account to a specific connection index in the pool is the same in any server in the cluster. It is required that each server in the cluster have the same pool size value, otherwise, clustering will fail to be established with an error similar to:
+Каждое из этих соединений обслуживает определенное подмножество аккаунтов, и назначение аккаунта на конкретный индекс соединения в пуле одинаково на всех серверах кластера. Требуется, чтобы каждый сервер в кластере имел одинаковое значение `pool_size`, иначе кластеризация завершится ошибкой вроде:
 
 ```
 [ERR] 127.0.0.1:6222 - rid:6 - Mismatch route pool size: 3 vs 4
 ```
 
-### Handling loss of connection
+### Обработка потери соединения
 
-In the event that a given connection of the pool breaks, automatic reconnection occurs as usual. However, while the disconnection is happening, traffic for accounts handled by that connection is stopped (that is, traffic is not routed through other connections), the same way that it was when there was a single route connection.
+Если одно из соединений пула разрывается, автоматическое переподключение происходит как обычно. Однако пока идет отключение, трафик аккаунтов, обслуживаемых этим соединением, останавливается (то есть не маршрутизируется через другие соединения), так же как раньше при единственном route‑соединении.
 
-### Configuration reload
+### Перезагрузка конфигурации
 
-Note that although the cluster's `pool_size` configuration parameter can be changed through a configuration reload, connections between servers will likely break since there will be a mismatch between servers. It is possible though to do a rolling reload by setting the same value on all servers. Client and other connections (including dedicated account routes - see next section) will not be closed.
+Хотя параметр `pool_size` можно изменить через перезагрузку конфигурации, соединения между серверами, скорее всего, будут разорваны из‑за несоответствия значений между серверами. Однако можно выполнить поэтапную (rolling) перезагрузку, задав одинаковое значение на всех серверах. Клиентские и другие соединения (включая выделенные маршруты аккаунтов — см. следующий раздел) не будут закрыты.
 
-### Monitoring
+### Мониторинг
 
-When monitoring is enabled, you will see that the `/routez` page now has more connections than before, which is expected.
+Когда мониторинг включен, на странице `/routez` будет больше соединений, чем раньше, что ожидаемо.
 
-### Disabling connection pooling
+### Отключение пула соединений
 
-It is possible to disable route connection pooling by setting the `pool_size` configuration parameter to the value `-1`. When that is the case, a server will behave as a server pre-v2.10.0 and create a single route connection between its peers.
+Можно отключить пулинг route‑соединений, установив параметр `pool_size` в значение `-1`. В этом случае сервер будет вести себя как до v2.10.0 и создавать одно route‑соединение между peers.
 
-Note that in that mode, no `accounts` list can be defined (see "Accounts Pinning" below).
+Учтите, что в этом режиме нельзя задавать список `accounts` (см. раздел "Account pinning" ниже).
 
-## Account pinning
+## Закрепление аккаунтов (Account pinning)
 
-In addition to connection pooling, the release v2.10.0 has introduced the ability to configure a list of accounts that will have a dedicated route connection.
+Кроме пулинга соединений, релиз v2.10.0 ввел возможность задать список аккаунтов, для которых будут выделены отдельные route‑соединения.
 
 ```
 cluster {
@@ -50,39 +50,39 @@ cluster {
 }
 ```
 
-Note that by default, the server will create a dedicated route for the system account (no specific configuration is needed).
+По умолчанию сервер создаст выделенный route для системного аккаунта (специальной конфигурации не требуется).
 
-Having a dedicated route improves performance and reduces latency, but another benefit is that since the route is dedicated to an account, the account name does not need to be added to the message route protocols. Since account names can be quite long, this reduces the number of bytes that need to be transmitted in all other cases.
+Выделенный route улучшает производительность и снижает задержки. Еще одно преимущество: так как route выделен конкретному аккаунту, имя аккаунта не нужно добавлять в протоколы маршрутизации сообщений. Поскольку имена аккаунтов могут быть длинными, это снижает количество передаваемых байтов во всех остальных случаях.
 
-### Handling loss of connection
+### Обработка потери соединения
 
-In the event that an account route connection breaks, automatic reconnection occurs as usual. However, while the disconnection is happening, traffic for this account is stopped.
+Если route‑соединение аккаунта разрывается, автоматическое переподключение происходит как обычно. Однако в момент разрыва трафик этого аккаунта останавливается.
 
-### Configuration reload
+### Перезагрузка конфигурации
 
-The `accounts` list can be modified and a configuration signal be sent to the server. All servers need to have the same list, however, it is possible to perform a rolling configuration reload.
+Список `accounts` можно менять и отправлять серверу сигнал перезагрузки конфигурации. Все серверы должны иметь одинаковый список, однако можно выполнить rolling‑перезагрузку.
 
-For instance, adding an account to the list of server `A` and issuing a configuration reload will not produce an error, even though the other server in the cluster does not have that account in the list yet. A dedicated connection will not yet be established, but traffic for this account in the pooled connection currently handling it will stop. When the configuration reload happens on the other server, a dedicated connection will then be established and this account’s traffic will resume.
+Например, добавление аккаунта в список сервера `A` и перезагрузка конфигурации не приведут к ошибке, даже если другой сервер в кластере еще не имеет этот аккаунт в списке. Выделенное соединение еще не будет установлено, но трафик этого аккаунта в пул‑соединении, которое его обслуживает, будет остановлен. Когда перезагрузка произойдет на другом сервере, выделенное соединение будет установлено и трафик аккаунта возобновится.
 
-When removing an account from the list and issuing a configuration reload, the connection for this account will be closed, and traffic for this account will stop. Other server(s) that still have this account configured with a dedicated connection will fail to reconnect. When they are also sent the configuration reload (with updated `accounts` configuration), the account traffic will now be handled by a connection in the pool.
+При удалении аккаунта из списка и перезагрузке конфигурации соединение для этого аккаунта будет закрыто, и трафик этого аккаунта остановится. Другие серверы, у которых этот аккаунт еще настроен с выделенным соединением, не смогут переподключиться. Когда им также отправят сигнал перезагрузки (с обновленной конфигурацией `accounts`), трафик аккаунта будет обслуживаться соединением из пула.
 
-Note that configuration reload of changes in the `accounts` list do not affect existing pool connections, and therefore should not affect traffic for other accounts.
+Обратите внимание, что перезагрузка конфигурации со сменой списка `accounts` не влияет на существующие соединения пула и, следовательно, не должна влиять на трафик других аккаунтов.
 
-### Monitoring
+### Мониторинг
 
-When monitoring is enabled, the route connection's information now has a new field called `account` that displays the name of the account this route is for.
+Когда мониторинг включен, информация о route‑соединении содержит новое поле `account`, показывающее имя аккаунта, для которого это соединение.
 
-### Disabling connection pooling
+### Отключение пула соединений
 
-As indicated in the connection pooling section, if `pool_size` is set to `-1`, the `accounts` list cannot be configured nor would be in use.
+Как указано в разделе про пулинг, если `pool_size` установлен в `-1`, список `accounts` нельзя настроить и он не будет использоваться.
 
-### Connecting to an older server
+### Подключение к старому серверу
 
-Although it is recommended that all servers part of the same cluster be at the same version number, a v2.10.0 server will be able to connect to an older server and in that case create a single route to that server. This allows for an easy deployment of a v2.10.0 release into an existing cluster running an older release.
+Хотя рекомендуется, чтобы все серверы в одном кластере были одной версии, сервер v2.10.0 сможет подключиться к более старому серверу и в этом случае создаст одно route‑соединение к этому серверу. Это позволяет легко развернуть v2.10.0 в существующем кластере с более старым релизом.
 
-## Compression
+## Сжатие
 
-Release v2.10.0 introduces the ability to configure compression between servers having route connections. The current compression algorithm used is [S2, an extension of Snappy](https://github.com/klauspost/compress/tree/master/s2#s2-compression). By default, routes do not use compression and it needs to be explicitly enabled.
+Релиз v2.10.0 ввел возможность настраивать сжатие между серверами, имеющими route‑соединения. Текущий алгоритм сжатия — [S2, расширение Snappy](https://github.com/klauspost/compress/tree/master/s2#s2-compression). По умолчанию маршруты не используют сжатие, его нужно явно включить.
 
 ```
 cluster {
@@ -92,20 +92,20 @@ cluster {
 }
 ```
 
-### Compression Modes
+### Режимы сжатия
 
-There are several modes of compression and there is no requirement to have the same mode between routed servers.
+Есть несколько режимов сжатия, и нет требования, чтобы у соединенных серверов были одинаковые режимы.
 
-- `off` - Explicitly disables compression for any route between the server and a peer.
-- `accept` (default) - Does not initiate compression, but will accept the compression mode of the peer it connects to.
-- `s2_fast` - Applies compression, but optimizes for speed over compression ratio.
-- `s2_better` - Applies compression, providing a balance of speed and compression ratio.
-- `s2_best` - Applies compression and optimizes for compression ratio over speed.
-- `s2_auto` - Choose the appropriate `s2_*` mode relative to the round-trip time (RTT) measured between the server and the peer. See `rtt_thresholds` below.
+- `off` — явно отключает сжатие для любых route‑соединений между сервером и peer.
+- `accept` (по умолчанию) — не инициирует сжатие, но принимает режим сжатия peer, к которому подключается.
+- `s2_fast` — применяет сжатие с оптимизацией скорости, а не степени сжатия.
+- `s2_better` — применяет сжатие с балансом скорости и степени сжатия.
+- `s2_best` — применяет сжатие с оптимизацией степени сжатия, а не скорости.
+- `s2_auto` — выбирает подходящий `s2_*` режим относительно измеренного RTT между сервером и peer. См. `rtt_thresholds` ниже.
 
-### Round-trip time thresholds
+### Пороги RTT (round-trip time)
 
-When `s2_auto` compression is used, it relies on a `rtt_thresholds` option, which is a list of three latency thresholds that dictate increasing or decreasing the compression mode.
+Когда используется `s2_auto`, он опирается на опцию `rtt_thresholds` — список из трех порогов задержки, определяющих увеличение/уменьшение режима сжатия.
 
 ```
 cluster {
@@ -116,20 +116,20 @@ cluster {
 }
 ```
 
-The default `rtt_thresholds` value is `[10ms, 50ms, 100ms]`. The way to read this is that if the RTT is under 10ms, no compression is applied. Once 10ms is reached, `s2_fast` is applied and so on with the remaining two thresholds for `s2_better` and `s2_best`.
+Значение по умолчанию для `rtt_thresholds` — `[10ms, 50ms, 100ms]`. Это читается так: если RTT меньше 10ms, сжатие не применяется. При достижении 10ms применяется `s2_fast`, и далее по двум порогам — `s2_better` и `s2_best`.
 
-### Configuration reload
+### Перезагрузка конфигурации
 
-The `compression` configuration can be changed through configuration reload. If the value is changed from `off` to anything else, then connections are closed and recreated, same as if the compression mode was set to something and disabled by setting it to `off`.
+Конфигурацию `compression` можно изменить через перезагрузку конфигурации. Если значение меняется с `off` на любое другое, соединения закрываются и пересоздаются — так же, как при выключении сжатия установкой `off`.
 
-For all other compression modes, the mode is changed dynamically without a need to close the route connections.
+Для всех остальных режимов сжатия режим меняется динамически без необходимости закрывать route‑соединения.
 
-### Monitoring
+### Мониторинг
 
-When monitoring is enabled, the route connection's information now has a new field called `compression` that displays the current compression mode. It can be `off` or any other mode described above. Note that `s2_auto` is not displayed, instead, what will be displayed is the _current mode_, say `s2_best` or `s2_uncompressed`.
+Когда мониторинг включен, информация о route‑соединении содержит новое поле `compression`, показывающее текущий режим сжатия. Это может быть `off` или любой другой режим, описанный выше. Обратите внимание, что `s2_auto` не отображается — вместо этого отображается _текущий режим_, например `s2_best` или `s2_uncompressed`.
 
-If connected to an older server, the `compression` field will display `not supported`.
+Если подключение идет к старому серверу, поле `compression` будет показывать `not supported`.
 
-### Connecting to an older server
+### Подключение к старому серверу
 
-It is possible to have a v2.10.0+ server, with a compression mode configured, connect to an older server that does not support compression. The connection will simply not use compression.
+Сервер v2.10.0+ с настроенным режимом сжатия может подключиться к старому серверу, который сжатие не поддерживает. Соединение просто не будет использовать сжатие.

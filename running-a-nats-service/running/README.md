@@ -1,10 +1,10 @@
-# Running
+# Запуск
 
-The nats-server has many command line options. To get started, you don't have to specify anything. In the absence of any flags, the NATS server will start listening for NATS client connections on port 4222. By default, security is disabled.
+`nats-server` имеет множество опций командной строки. Для старта ничего указывать не нужно. При отсутствии флагов сервер NATS начинает слушать клиентские соединения на порту 4222. По умолчанию безопасность отключена.
 
-## Standalone
+## Автономный режим
 
-When the server starts it will print some information including where the server is listening for client connections:
+При запуске сервер выводит информацию, включая адрес прослушивания клиентских соединений:
 
 ```shell
 nats-server
@@ -22,7 +22,7 @@ nats-server
 
 ## Docker
 
-If you are running your NATS server in a docker container:
+Если вы запускаете сервер NATS в контейнере Docker:
 
 ```shell
 docker run -p 4222:4222 -ti nats:latest
@@ -43,33 +43,33 @@ docker run -p 4222:4222 -ti nats:latest
 ...
 ```
 
-## Running nats-server as a systemd service on Linux
+## Запуск nats-server как systemd‑сервиса на Linux
 
-You can easily and quickly use `systemd` to start (and restart if needed) the `nats-server` process.
+Вы можете легко и быстро использовать `systemd` для запуска (и перезапуска при необходимости) процесса `nats-server`.
 
-Please see the example files located in the `util` directory of the [nats-server repo](https://github.com/nats-io/nats-server/tree/main/util) that you can use to generate your own `/etc/systemd/system/nats.service` file.
+См. примеры файлов в директории `util` репозитория [nats-server](https://github.com/nats-io/nats-server/tree/main/util), которые можно использовать для генерации собственного файла `/etc/systemd/system/nats.service`.
 
-## Exit Status
+## Код завершения
 
-As a long-running service, it's important for administrators to understand what guarantees the `nats-server` makes about how it exits and what that means.
+Для долгоживущего сервиса важно понимать, какие гарантии `nats-server` дает по завершению работы и что это означает.
 
-The approach chosen by `nats-server` is that "exited cleanly after being asked to shutdown" is a successful exit.  Even on platforms where that shutdown request is a POSIX signal.  It is not an error to successfully exit when asked to shut down.
+Выбранный подход `nats-server` таков: «корректное завершение после запроса на остановку» считается успешным выходом — даже на платформах, где запрос остановки приходит в виде POSIX‑сигнала. Успешный выход по запросу остановки не является ошибкой.
 
-When configuring a service manager, whether `systemd` or any other, we recommend that it be configured to restart the `nats-server` on non-zero exit status or death by signal or any other abnormal exit, so that the service manager does what service managers do best: keeping essential services available when wanted.  The service manager probably should not restart the `nats-server` if it exits successfully.  If your environment does not provide any means to interact with the `nats-server` except through the service agent, then it doesn't matter either way; this distinction only becomes noticeable when something other than the service manager asked the `nats-server` to shut down.
+При настройке менеджера сервисов (будь то `systemd` или иной) мы рекомендуем настраивать перезапуск `nats-server` при ненулевом коде завершения, смерти от сигнала или любом другом ненормальном выходе, чтобы менеджер делал то, что он делает лучше всего: поддерживал доступность критически важных сервисов. Менеджер сервисов, вероятно, не должен перезапускать `nats-server`, если тот завершился успешно. Если ваша среда не предоставляет способа взаимодействовать с `nats-server` кроме как через агент сервиса, то разницы нет; эта разница становится заметной, когда кто‑то кроме менеджера сервисов попросил `nats-server` завершиться.
 
 ## JetStream
 
-Remember that in order to enable JetStream and all the functionalities that use it you need to enable it on at least one of your servers
+Помните, что для включения JetStream и всех функций, которые его используют, нужно включить его как минимум на одном из серверов.
 
-### Command Line
+### Командная строка
 
-Enable JetStream by specifying the `-js` flag when starting the NATS server.
+Включите JetStream, указав флаг `-js` при запуске сервера NATS.
 
 `$ nats-server -js`
 
-### Configuration File
+### Конфигурационный файл
 
-You can also enable JetStream through a configuration file. By default, the JetStream subsytem will store data in the /tmp directory. Here's a minimal file that will store data in a local "nats" directory, suitable for development and local testing.
+JetStream можно включить через конфигурационный файл. По умолчанию подсистема JetStream хранит данные в каталоге `/tmp`. Ниже минимальный файл, который хранит данные в локальном каталоге "nats", подходящий для разработки и локального тестирования.
 
 ```shell
 nats-server -c js.conf
@@ -82,6 +82,5 @@ jetstream {
 }
 ```
 
-Normally JetStream will be run in clustered mode and will replicate data, so the best place to store JetStream data would be locally on a fast SSD. One should specifically avoid NAS or NFS storage for JetStream.
-More information on [containerized NATS is available here](nats_docker/).
-
+Обычно JetStream запускается в кластерном режиме и реплицирует данные, поэтому лучшее место для хранения данных JetStream — локальный быстрый SSD. Следует явно избегать NAS или NFS‑хранилищ для JetStream.
+Подробнее о [NATS в контейнерах](nats_docker/).

@@ -1,21 +1,21 @@
-# Draining Messages Before Disconnect
+# Дренирование сообщений перед отключением
 
-This feature is the ability to drain connections or subscriptions and then close the connection. Closing a connection (using `close()`), or unsubscribing from a subscription, are generally considered immediate requests. When you close or unsubscribe the library will halt messages in any pending queue or cache for subscribers. When you drain a subscription or connection, it will process any inflight and cached/pending messages before closing.
+Эта функция позволяет дренировать соединения или подписки и затем закрывать соединение. Закрытие соединения (через `close()`), или отписка от подписки обычно считаются немедленными операциями. При закрытии или отписке библиотека остановит сообщения в любой очереди ожидания или кэше для подписчиков. При дренировании подписки или соединения библиотека обработает все сообщения в полёте и в кэше/ожидании перед закрытием.
 
-Drain provides clients that use queue subscriptions with a way to bring down applications without losing any messages. A client can bring up a new queue member, drain and shut down the old queue member, all without losing messages sent to the old client. Without drain, there is the possibility of lost messages due to delivery timing.
+Drain предоставляет клиентам с queue‑подписками способ выключать приложения без потери сообщений. Клиент может поднять нового участника очереди, дренировать и выключить старого участника очереди — и при этом не потерять сообщения, отправленные старому клиенту. Без drain возможна потеря сообщений из‑за тайминга доставки.
 
-The libraries can provide drain on a connection or on a subscriber, or both.
+Библиотеки могут предоставлять drain на уровне соединения, подписчика или обоих.
 
-For a connection the process is essentially:
+Для соединения процесс по сути такой:
 
-1. Drain all subscriptions
-2. Stop new messages from being published
-3. Flush any remaining published messages
-4. Close
+1. Drain всех подписок
+2. Остановить публикацию новых сообщений
+3. Flush оставшихся опубликованных сообщений
+4. Закрыть
 
-The API for drain can generally be used instead of close:
+API drain обычно можно использовать вместо close:
 
-As an example of draining a connection:
+Пример дренирования соединения:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -304,13 +304,13 @@ natsOptions_Destroy(opts);
 {% endtab %}
 {% endtabs %}
 
-The mechanics of drain for a subscription are simpler:
+Механика drain для подписки проще:
 
 1. Unsubscribe
-2. Process all cached or inflight messages
-3. Clean up
+2. Обработать все кэшированные или «в полёте» сообщения
+3. Очистить ресурсы
 
-The API for drain can generally be used instead of unsubscribe:
+API drain обычно можно использовать вместо unsubscribe:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -535,5 +535,4 @@ natsConnection_Destroy(conn);
 {% endtab %}
 {% endtabs %}
 
-Because draining can involve messages flowing to the server, for a flush and asynchronous message processing, the timeout for drain should generally be higher than the timeout for a simple message request-reply or similar.
-
+Поскольку drain может включать поток сообщений к серверу, для flush и асинхронной обработки сообщений, таймаут drain обычно должен быть больше, чем таймаут для простого request-reply или подобного.

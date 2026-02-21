@@ -1,55 +1,56 @@
-# JetStream Concepts
+# Концепции JetStream
 
-## Functionalities enabled by JetStream
+## Функциональности, предоставляемые JetStream
 
-JetSteam is NATS' built-in distributed persistence sub-system. It enables new functionalities and higher qualities of service on top of the base 'Core NATS' functionality.
+JetSteam — встроенная в NATS распределённая подсистема персистентности. Она добавляет новые возможности и более высокие качества обслуживания поверх базовой функциональности Core NATS.
 
-### Temporal de-coupling
+### Временная развязка
 
-In modern systems applications can expose services or produce and consume data streams using publish-subscribe messaging systems such as NATS.
+В современных системах приложения могут предоставлять сервисы или производить и потреблять потоки данных, используя publish-subscribe системы обмена сообщениями, такие как NATS.
 
-A basic aspect of basic publish-subscribe messaging is temporal coupling: the subscribers need to be up and running to receive the message when it is published. At a high level, if observability is required, applications need to consume messages in the future, need to come consume at their own pace, or need all messages, then JetStream's streaming functionalities provide the temporal de-coupling between publishers and consumers.
+Базовый аспект publish-subscribe — временная связность: подписчики должны быть запущены, чтобы получить сообщение в момент публикации. В общем случае, если требуется наблюдаемость, приложения должны потреблять сообщения в будущем, потреблять их в своём темпе или получать все сообщения, то стриминговые возможности JetStream обеспечивают временную развязку между издателями и потребителями.
 
-### Queueing and replay
+### Очереди и replay
 
-JetStream enables the ability to queue messages for future consumption and replay of messages. Streams can be configured to either queue messages for future consumption by consumers using the `WorkingQueue` retention policy, meaning that the messages are deleted from the stream as they are consumed, or consumers can be configured using the `Limits` retention policy to provide on demand individual or distributed replay messages from the beginning of the stream or from a specific point in time.
+JetStream обеспечивает возможность ставить сообщения в очередь для будущего потребления и повторно воспроизводить (replay) сообщения. Streams можно настраивать либо на очередь сообщений для будущего потребления consumer'ами с политикой retention `WorkingQueue` (в этом случае сообщения удаляются из stream по мере потребления), либо consumer'ы могут быть настроены с политикой retention `Limits`, чтобы обеспечивать по запросу индивидуальный или распределённый replay сообщений с начала stream или с определённого момента времени.
 
-### Mirroring and Sourcing
+### Mirroring и Sourcing
 
-JetStream enables the ability to mirror messages from one stream to another, and to source messages from one stream to another. This enables the ability to build complex topologies of streams and consumers.
+JetStream позволяет зеркалировать сообщения из одного stream в другой и «источить» (source) сообщения из одного stream в другой. Это даёт возможность строить сложные топологии streams и consumers.
 
-For example, you can have an initial stream that captures messages only for a limited amount of time and is used for replay of messages that can also feed any number of other streams configured for message consumption in a queue that mirror or source from this initial stream. This enables the ability to have consumers consuming from the mirrored/sourced stream without impacting that original stream and at their own pace.
+Например, можно иметь исходный stream, который хранит сообщения только ограниченное время и используется для replay, и который также может подпитывать любое количество других streams, настроенных для потребления сообщений в очереди и зеркалирующих или источающих из этого исходного stream. Это позволяет consumer'ам потреблять из зеркального/источенного stream, не влияя на исходный stream, и в своём темпе.
 
-### Higher qualities of services
+### Более высокие качества обслуживания
 
-Besides temporal decoupling of the publishers and subscribers (i.e. 'streaming'), there are other functionalities and qualities of service that JetStream enables.
+Помимо временной развязки издателей и подписчиков (то есть «стриминга»), JetStream предоставляет и другие возможности и качества обслуживания.
 
-#### Guaranteed messaging
+#### Гарантированная доставка
 
-The 'core NATS' basic quality of service is what is called *'at most once'* delivery of messages. It means that while relying on reliable network transport protocol (i.e. TCP) for communications between servers and clients (and between the servers themselves in clusters) to recover from 'casual' network failures (i.e. packet drops), it is not a 'guaranteed' quality of service: there are some failure scenarios that can cause client applications to experience 'message loss', specifically:
-* Disconnections:
-If a client application experiences a network outage that is significant enough for it's TCP connection to the server to get dropped or reset it can then fail to receive some messages that were buffered (or published) during that outage.
-* Slow consumers
-The NATS server infrastructure is designed to 'protect itself' against 'bad clients'. Specifically, if a NATS client application subscribing to messages can not keep up with the flow of publications on the subject (i.e. if the application is a 'slow consumer'), while the nats-server will do its best to buffer messages to be delivered to a subscribing client application its resources are never infinite and therefore in order to protect the nats-server from running out of memory buffers (including the buffers to connected client applications) have limits. When a client buffer's limit it reached the nats-server will react by 'resetting' the connection with that client and purging the buffer.
+Базовое качество обслуживания Core NATS — это *«не более одного раза»* (at most once) доставка сообщений. Это означает, что хотя для коммуникации между серверами и клиентами (и между серверами в кластерах) используется надёжный транспорт (TCP) для восстановления после «случайных» сетевых сбоев (например, потери пакетов), качество обслуживания не является «гарантированным»: есть сценарии сбоев, при которых клиентские приложения могут столкнуться с потерей сообщений, в частности:
+* Отключения:
+Если клиентское приложение испытывает сетевой сбой, достаточный для того, чтобы TCP‑соединение с сервером было разорвано или сброшено, оно может не получить часть сообщений, буферизованных (или опубликованных) во время сбоя.
+* Медленные потребители
+Инфраструктура NATS спроектирована так, чтобы «защищать себя» от «плохих клиентов». Если клиентское приложение, подписанное на сообщения, не успевает за потоком публикаций по subject (то есть является «медленным потребителем»), nats-server будет пытаться буферизовать сообщения для доставки, но ресурсы не бесконечны, и для защиты от исчерпания памяти (включая буферы для подключённых клиентов) у буферов есть лимиты. Когда лимит буфера клиента достигнут, nats-server «сбрасывает» соединение с этим клиентом и очищает буфер.
 
-While the nats-server does log a 'slow consumer' message when dropping a client connection to protect itself, from the client application's point of view it simply looks like the application experienced temporary server disconnection, and some messages may never be received.
+Хотя nats-server логирует сообщение «slow consumer» при отключении клиента, с точки зрения клиентского приложения это выглядит как временное отключение от сервера, и некоторые сообщения могут так и не быть получены.
 
-JetStream offers a "guaranteed" quality of service through the use of various acknowledgements (for both the publishers and subscribers) that offer two qualities of service beyond the base 'at most once' quality of service of Core NATS:
-* *"at least once"* quality of service: leverage JetSteam acknowledged Publish calls and acknowledged consumers to ensure that all messages are received, without any 'loss' due to failures or client applications not being always up or being slow to consume. It is called 'at least once' because there are still some failure scenario corner cases that could result in some messages actually being received more than once by the consuming application (which is not a problem if the processing of the received messages is idempotent) 
-* *"exactly once"* quality of service: add to the above the ability for the nats-server to perform message de-duplication on the publisher's side and avoid consuming application getting some messages more than once while recovering from some failure scenarios through the use of 'double acknowledgements'
+JetStream предлагает «гарантированное» качество обслуживания за счёт различных подтверждений (и для издателей, и для подписчиков), которые обеспечивают два уровня качества обслуживания сверх базового «at most once» Core NATS:
+* *«как минимум один раз»* (at least once): использование подтверждённых публикаций JetStream и подтверждённых consumers гарантирует получение всех сообщений без потерь из‑за сбоев, остановок приложений или медленного потребления. Это называется «как минимум один раз», потому что остаются редкие сценарии сбоев, при которых некоторые сообщения могут быть получены более одного раза (что не проблема при идемпотентной обработке).
+* *«ровно один раз»* (exactly once): дополнительно к вышеописанному сервер выполняет дедупликацию сообщений на стороне издателя и предотвращает повторное получение сообщений приложением‑потребителем при восстановлении после некоторых сбоев, используя «двойные подтверждения».
 
-Both of those qualities of service mean that client applications will automatically recover from getting disconnected from the nats-server without any message loss (if durable consumers are used, the client applications can even stop and restart later). For 'slow consumers' using a stream means that the 'buffering' of the messages for that slow consumer happen in a stream (which can be much larger than a server buffer) rather than a server buffer.
+Оба эти качества обслуживания означают, что клиентские приложения автоматически восстанавливаются после отключения от nats-server без потери сообщений (при использовании durable consumers приложения могут даже остановиться и позже перезапуститься). Для «медленных потребителей» использование stream означает, что «буферизация» сообщений происходит в stream (который может быть гораздо больше серверного буфера), а не в серверном буфере.
 
-### Flow control
+### Управление потоком
 
-The most obvious way to avoid 'slow consumers' would be to implement some form of flow-control. While there is an inherent form of flow-control provided by TCP for communications over a network, it doesn't directly apply to publish/subscribe messaging systems because unlike TCP which is purely point-to-point (i.e. '1 to 1'), publish-subscribe allows for '1 to N' (and 'N to M') communications. 
+Самый очевидный способ избежать «медленных потребителей» — реализовать некоторую форму управления потоком. Хотя TCP предоставляет встроенную форму управления потоком для сетевых коммуникаций, она напрямую не применима к publish-subscribe системам, потому что TCP — это точка‑точка («1 к 1»), а publish-subscribe допускает «1 к N» (и «N к M») коммуникации.
 
-If you were to implement a form of flow control for basic 'Core NATS' publish-subscribe you would have to implement an 'end-to-end' form of flow control (meaning between the publisher and all of its current subscribers) and it would mean that you would end up flow controlling you publisher(s) to the _lowest common denominator_ of all the current subscribers. Meaning that the publisher(s) would be slowed down to not publish faster than the _slowest_ of all its subscribers.
-Because of this 'lowest common denominator' aspect of end-to-end flow control in 1-to-N or N-to-M communications and because one of the most important use-case for publish-subscribe messaging systems is the distribution of *real-time* data, 'Core NATS' does _not_ implement any kind of end-to-end flow control.
+Если реализовывать управление потоком для базового Core NATS publish-subscribe, пришлось бы делать «end-to-end» управление потоком (между издателем и всеми текущими подписчиками). В итоге вы ограничивали бы издателей по _наименьшему общему знаменателю_ всех подписчиков — издатель(и) замедлялись бы до скорости _самого медленного_ подписчика.
+Из‑за этого эффекта и потому что один из ключевых сценариев publish-subscribe — распространение *данных в реальном времени*, Core NATS _не_ реализует end-to-end управление потоком.
 
-While you can certainly implement your own form of end-to-end flow-control with 'Core NATS' by leveraging the request-reply interaction, it is instead much easier (and better) to use JetStream and leverage the *de-coupled* flow control functionality that it offers.
+Хотя вы можете реализовать собственную end-to-end схему на Core NATS, используя request-reply, проще (и лучше) использовать JetStream и его *развязанный* контроль потока.
 
-Flow-control over JetStream is *de-coupled* because it is not 'end-to-end' but rather independently between the client application publishing with JetStream and stream (i.e. the JetStream enabled nats-server(s)) and between the stream and the client applications using JetStream consumers.
+Контроль потока в JetStream *развязан*, потому что он не «end-to-end», а независим между клиентским приложением‑издателем JetStream и stream (то есть JetStream‑включёнными nats-server'ами), а также между stream и клиентскими приложениями, использующими JetStream consumers.
 
-## Storage
-In JetStream the configuration for storing messages is defined separately from how they are consumed. Storage is defined in a _Stream_ and consuming messages is defined by multiple _Consumers_.
+## Хранение
+
+В JetStream конфигурация хранения сообщений задаётся отдельно от их потребления. Хранение определяется в _Stream_, а потребление сообщений — несколькими _Consumers_.

@@ -1,16 +1,16 @@
-# Ping/Pong Protocol
+# Протокол Ping/Pong
 
-NATS client applications use a PING/PONG protocol to check that there is a working connection to the NATS service. Periodically the client will send PING messages to the server, which responds with a PONG. This period is configured by specifying a ping interval on the client connection settings.
+Клиентские приложения NATS используют протокол PING/PONG, чтобы проверять, что соединение с сервисом NATS рабочее. Периодически клиент отправляет серверу сообщения PING, на которые сервер отвечает PONG. Этот период настраивается интервалом ping в настройках подключения клиента.
 
 ![](../../../.gitbook/assets/pingpong.svg)
 
-The connection will be closed as stale when the client reaches a number of pings which recieved no pong in response, which is configured by specifying the maximum pings outstanding on the client connection settings.
+Соединение будет закрыто как устаревшее, когда клиент достигнет количества ping без ответа pong; это настраивается параметром максимального числа ожидающих ping (max pings outstanding) в настройках подключения клиента.
 
-The ping interval and the maximum pings outstanding work together to specify how quickly the client connection will be notified of a problem. This will also help when there is a remote network partition where the operating system does not detect a socket error. Upon connection close, the client will attempt to reconnect. When it knows about other servers, these will be tried next.
+Интервал ping и максимальное число ожидающих ping работают вместе и определяют, как быстро клиентское соединение узнает о проблеме. Это также помогает при удалённой сетевой сегментации, когда ОС не обнаруживает ошибку сокета. При закрытии соединения клиент попытается переподключиться. Если ему известны другие серверы, он попробует подключиться к ним.
 
-In the presence of traffic, such as messages or client side pings, the server will not initiate the PING/PONG interaction.
+При наличии трафика, такого как сообщения или ping'и со стороны клиента, сервер не инициирует взаимодействие PING/PONG.
 
-On connections with significant traffic, the client will often figure out there is a problem between PINGS, and as a result the default ping interval is typically on the order of minutes. To close an unresponsive connection after 100s, set the ping interval to 20s and the maximum pings outstanding to 5:
+При соединениях с заметным трафиком клиент часто обнаруживает проблему между PING'ами, поэтому интервал ping по умолчанию обычно измеряется минутами. Чтобы закрывать неотвечающее соединение через 100 секунд, установите интервал ping 20 секунд и максимальное число ожидающих ping 5:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -126,4 +126,3 @@ natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
-

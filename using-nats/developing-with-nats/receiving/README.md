@@ -1,11 +1,11 @@
-# Receiving Messages
+# Получение сообщений
 
-In general, applications can receive messages asynchronously or synchronously. Receiving messages with NATS can be library dependent.
+В общем случае приложения могут получать сообщения асинхронно или синхронно. Получение сообщений в NATS может зависеть от библиотеки.
 
-Some languages, like Go or Java, provide synchronous and asynchronous APIs, while others may only support one type of subscription.
+Некоторые языки, такие как Go или Java, предоставляют синхронные и асинхронные API, тогда как другие могут поддерживать только один тип подписки.
 
-In all cases, the process of subscribing involves having the client library tell the NATS system that an application is interested in a particular subject. When an application is done with a subscription it unsubscribes telling the server to stop sending messages.
+Во всех случаях процесс подписки означает, что клиентская библиотека сообщает системе NATS, что приложению интересен определённый subject. Когда приложение завершает работу с подпиской, оно отписывается, сообщая серверу прекратить отправку сообщений.
 
-A client will receive a message for each matching subscription, so if a connection has multiple subscriptions using identical or overlapping subjects \(say `foo` and `>`\) the same message will be sent to the client multiple times.
+Клиент получает сообщение для каждой подходящей подписки, поэтому если у соединения есть несколько подписок с одинаковыми или пересекающимися subject (например, `foo` и `>`), одно и то же сообщение будет доставлено клиенту несколько раз.
 
-Note: The client API (asynchronous) subscribe call can return before the subscription is actually fully established at the nats-server. Call `Flush()` on the connection right after you call subscribe if you need to synchronize with the subscription being ready at the server level.
+Примечание: вызов subscribe в клиентском API (асинхронный) может вернуться до того, как подписка фактически полностью установлена на стороне nats-server. Вызовите `Flush()` на соединении сразу после subscribe, если нужно синхронизировать готовность подписки на уровне сервера.

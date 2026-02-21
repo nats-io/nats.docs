@@ -1,114 +1,114 @@
-# Developing with JetStream
+# Разработка с JetStream
 
-## Deciding to use streaming and higher qualities of service
+## Решение использовать стриминг и более высокие качества обслуживания
 
-In modern systems, applications can expose services or produce and consume data streams. A basic aspect of publish-subscribe messaging is temporal coupling: the subscribers need to be up and running to receive the message when it is published. At a high level, if observability is required, applications need to consume messages in the future, need to consume at their own pace, or need all messages, then JetStream's streaming functionalities provide the temporal de-coupling between publishers and consumers.
+В современных системах приложения могут предоставлять сервисы или производить и потреблять потоки данных. Базовый аспект publish-subscribe — временная связность: подписчики должны быть запущены, чтобы получить сообщение в момент публикации. В общем случае, если требуется наблюдаемость, приложения должны потреблять сообщения в будущем, потреблять их в своём темпе или получать все сообщения, то стриминговые возможности JetStream обеспечивают временную развязку между издателями и потребителями.
 
-Using streaming and its associated higher qualities of service is the facet of messaging with the highest cost in terms of compute and storage.
+Использование стриминга и связанных с ним более высоких качеств обслуживания — это наиболее затратная по вычислениям и хранению часть обмена сообщениями.
 
-### When to use streaming
+### Когда использовать стриминг
 
-Streaming is ideal when:
+Стриминг идеален, когда:
 
-* Data producers and consumers are highly decoupled. They may be online at different times and consumers must receive messages.
+* Производители и потребители данных сильно развязаны. Они могут быть онлайн в разное время, и потребители должны получать сообщения.
 
-* A historical record of the data in the stream is required. This is when a replay of data is required by a consumer.
+* Нужна историческая запись данных в stream. Это ситуация, когда потребителю нужен replay данных.
 
-* The last message on a stream is required for initialization and the producer may be offline.
+* Для инициализации требуется последнее сообщение в stream, а производитель может быть офлайн.
 
-* A-priori knowledge of consumers is not available, but consumers must receive messages. This is often a false assumption.
+* Нет априорного знания о потребителях, но они должны получать сообщения. Это часто ошибочное предположение.
 
-* The data in messages being sent have a lifespan beyond that of the intended application lifespan.
+* Данные в сообщениях живут дольше, чем предполагаемая жизнь приложения.
 
-* Applications need to consume data at their own pace.
+* Приложения должны потреблять данные в своём темпе.
 
-* You want decoupled flow control between the publishers and the consumers of the stream
+* Нужен развязанный контроль потока между издателями и потребителями stream.
 
-* You need 'exactly once' quality of service with de-duplication of publications and double-acknowledged consumption
+* Требуется качество обслуживания «ровно один раз» с дедупликацией публикаций и двойными подтверждениями потребления.
 
-Note that no assumptions should ever be made of who will receive and process data in the future, or for what purpose.
+Обратите внимание: нельзя делать предположений о том, кто будет получать и обрабатывать данные в будущем, и с какой целью.
 
-### When to use Core NATS
+### Когда использовать Core NATS
 
-Using core NATS is ideal as the fast request path for scalable services where there is tolerance for message loss or when applications themselves handle message delivery guarantees.
+Core NATS идеален как быстрый путь запросов для масштабируемых сервисов, где допускается потеря сообщений или когда приложения сами обеспечивают гарантии доставки.
 
-These include:
+Сюда относятся:
 
-* Service patterns where there is a tightly coupled request-reply
-    * A request is made, and the application handles error cases upon timeout
+* Сервисные паттерны с тесно связанным request-reply
+    * Отправляется запрос, и приложение обрабатывает ошибки по таймауту
 
-      \(resends, errors, etc\). __Relying on a messaging system to resend here is
+      (повторы, ошибки и т. д.). __Полагаться здесь на то, что система сообщений выполнит повторную отправку, считается анти‑паттерном.__
+* Где важно только последнее полученное сообщение, а новые сообщения приходят достаточно часто, чтобы приложение могло терпеть потерю. Это может быть поток котировок, частый обмен сообщениями в control plane сервиса или телеметрия устройств.
 
-      considered an anti-pattern.__
-* Where only the last message received is important and new messages will be received frequently enough for applications to tolerate a lost message. This might be a stock ticker stream, frequent exchange of messages in a service control plane, or device telemetry.
+* Сообщения с низким TTL, когда ценность данных быстро деградирует или истекает.
 
-* Message TTL is low, where the value of the data being transmitted degrades or expires quickly.
+* Ожидаемый набор потребителей известен заранее, и потребители должны быть в сети. Здесь хорошо работает request-reply или потребители могут отправлять подтверждения на уровне приложения.
 
-* The expected consumer set for a message is available a-priori and consumers are expected to be live. The request-reply pattern works well here or consumers can send an application level acknowledgement.
+* Control plane сообщения.
 
-* Control plane messages.
-
-## JetStream functionality overview
+## Обзор функциональности JetStream
 
 ### Streams
-  * You can use 'Add Stream' to idempotently define streams and their attributes (i.e. source subjects, retention and storage policies, limits)
-  * You can use 'Purge' to purge the messages in a stream
-  * You can use 'Delete' to delete a stream
+  * Можно использовать `Add Stream`, чтобы идемпотентно определять streams и их атрибуты (исходные subjects, политики retention и хранения, лимиты)
+  * Можно использовать `Purge` для очистки сообщений в stream
+  * Можно использовать `Delete` для удаления stream
 
 
-### Publish to a stream
-There is interoperability between 'Core NATS' and JetStream in the fact that the streams are listening to core NATS messages. _However_ you will notice that the NATS client libraries' JetStream calls include some 'Publish' calls and so may be wondering what is the difference between a 'Core NATS Publish' and a 'JetStream Publish'.
+### Публикация в stream
 
-So yes, when a 'Core NATS' application publishes a message on a Stream's subject, that message will indeed get stored in the stream, but that's not really the intent as you are then publishing with the lower quality of service provided by Core NATS. So, while it will definitely work to just use the Core NATS Publish call to publish to a stream, look at it more as a convenience that you can use to help ease the migration of your applications to use streaming rather the desired end state or ideal design.
+Есть совместимость между Core NATS и JetStream в том смысле, что streams слушают сообщения Core NATS. _Однако_ вы заметите, что в JetStream вызовах клиентских библиотек есть свои `Publish`‑вызовы, и может возникнуть вопрос, в чём разница между `Core NATS Publish` и `JetStream Publish`.
 
-Instead, it is better for applications to use the JetStream Publish calls (which Core NATS subscribers not using Streams will still receive like any other publication) when publishing to a stream as:
+Да, когда приложение Core NATS публикует сообщение на subject stream, сообщение будет сохранено в stream, но это не цель, поскольку вы публикуете с более низким качеством обслуживания Core NATS. Так что, хотя использовать Core NATS Publish для публикации в stream технически возможно, рассматривайте это скорее как удобство для облегчения миграции приложений на стриминг, а не как желаемое конечное состояние или идеальный дизайн.
 
-* JetStream publish calls are acknowledged by the JetStream enabled servers, which allows for the following higher qualities of service
-    * If the publisher receives the acknowledgement from the server it can safely discard any state it has for that publication, the message has not only been received correctly by the server, but it has also been successfully persisted.
-    * Whether you use the synchronous or the asynchronous JetStream publish calls, there is an implied flow control between the publisher and the JetStream infrastructure.
-    * You can have 'exactly-once' quality of service by the JetStream publishing application inserting a unique publication ID in a header field of the message.
+Вместо этого лучше использовать JetStream Publish (которые всё равно получат подписчики Core NATS, не использующие streams), потому что:
 
-#### See Also
-* [Sync and Async JetStream publishing in Java](https://nats.io/blog/sync-async-publish-java-client/#synchronous-and-asynchronous-publishing-with-the-nats-java-library)
+* JetStream публикации подтверждаются серверами с JetStream, что обеспечивает более высокие качества обслуживания
+    * Если издатель получает подтверждение от сервера, он может безопасно удалить любое состояние, связанное с публикацией: сообщение не только правильно принято сервером, но и успешно сохранено.
+    * Независимо от того, используете ли вы синхронные или асинхронные JetStream публикации, между издателем и инфраструктурой JetStream подразумевается контроль потока.
+    * Можно получить качество обслуживания «ровно один раз», вставляя уникальный ID публикации в заголовок сообщения.
 
-### Create a consumer
-    
-[Consumers](../../nats-concepts/jetstream/consumers.md) are 'views' into a stream, with their own cursor. They are how client applications get messages from a stream (i.e. 'replayed') for processing or consumption. They can filter messages in the stream according to a 'filtering subject' and define which part of the stream is replayed according to a 'replay policy'.
+#### См. также
+* [Синхронная и асинхронная публикация JetStream в Java](https://nats.io/blog/sync-async-publish-java-client/#synchronous-and-asynchronous-publishing-with-the-nats-java-library)
 
-You can create *push* or *pull* consumers:
-* *Push* consumers (specifically ordered push consumers) are the best way for an application to receive its own complete copy of the selected messages in the stream.
-* *Pull* consumers are the best way to scale horizontally the processing (or consuming) of the selected messages in the stream using multiple client applications sharing the same pull consumer, and allow for the processing of messages in batches.
+### Создание consumer
 
-Consumers can be ephemeral or durable, and support different sets of acknowledgement policies; none, this sequence number, this sequence number and all before it.
+[Consumers](../../nats-concepts/jetstream/consumers.md) — это «представления» stream с собственным курсором. Через них клиентские приложения получают сообщения из stream (то есть «replay») для обработки или потребления. Consumers могут фильтровать сообщения по `filtering subject` и определять, какая часть stream воспроизводится, согласно `replay policy`.
+
+Вы можете создавать *push* или *pull* consumers:
+* *Push* consumers (в частности упорядоченные push consumers) — лучший способ получить собственную полную копию выбранных сообщений в stream.
+* *Pull* consumers — лучший способ горизонтально масштабировать обработку (или потребление) выбранных сообщений в stream, используя несколько клиентских приложений, разделяющих один pull consumer, и позволяя обрабатывать сообщения пачками.
+
+Consumers могут быть ephemeral или durable и поддерживают разные политики подтверждений: none, этот номер последовательности, этот номер и все предыдущие.
 
 #### Replay policy
 
-You select which of the messages in the stream you want to have delivered to your consumer
-* all
-* from a sequence number
-* from a point in time
-* the last message
-* the last message(s) for all the subject(s) in the stream
+Вы выбираете, какие сообщения из stream доставлять вашему consumer:
+* все
+* начиная с номера последовательности
+* начиная с момента времени
+* последнее сообщение
+* последние сообщения для всех subject в stream
 
-And you can select the replay speed to be instant or to match the initial publication rate into the stream
+И вы можете выбрать скорость воспроизведения: мгновенно или с темпом, соответствующим исходной скорости публикации в stream.
 
-### Subscribe from a consumer
+### Подписка из consumer
 
-Client applications 'subscribe' from consumers using the JetStream's Subscribe, QueueSubscribe or PullSubscribe (and variations) calls. Note that since the initial release of JetStream, clients have developed a more ergonomic API to work with [Consumers](https://github.com/nats-io/nats.go/blob/main/jetstream/README.md#consumers) to process messages.
+Клиентские приложения «подписываются» из consumers через JetStream вызовы Subscribe, QueueSubscribe или PullSubscribe (и вариации). Обратите внимание: с момента первого релиза JetStream клиенты разработали более эргономичный API для работы с [Consumers](https://github.com/nats-io/nats.go/blob/main/jetstream/README.md#consumers) при обработке сообщений.
 
-#### Acknowledging messages
-Some consumers require the client application code to acknowledge the processing or consumption of the message, but there is more than one way to acknowledge (or not) a message
+#### Подтверждение сообщений
 
-* `Ack` Acknowledges a message was completely handled 
-* `Nak` Signals that the message will not be processed now and processing can move onto the next message, NAK'd message will be retried 
-* `InProgress` When sent before the AckWait period indicates that work is ongoing and the period should be extended by another equal to `AckWait` 
-* `Term` Instructs the server to stop redelivery of a message without acknowledging it as successfully processed
+Некоторые consumers требуют, чтобы код клиентского приложения подтверждал обработку или потребление сообщения, но способов подтверждения (или отказа) больше одного:
 
-#### See Also
+* `Ack` — подтверждает, что сообщение полностью обработано
+* `Nak` — сигнализирует, что сообщение сейчас не будет обработано, и можно перейти к следующему; NAK‑сообщение будет повторно доставлено
+* `InProgress` — отправляется до истечения AckWait и указывает, что работа продолжается и период следует продлить ещё на `AckWait`
+* `Term` — инструктирует сервер прекратить повторную доставку сообщения, не считая его успешно обработанным
+
+#### См. также
 * Java
   * [JetStream Java tutorial](https://nats.io/blog/hello-world-java-client/)
-  * [JetStream stream creation in Java](https://nats.io/blog/jetstream-java-client-01-stream-create/)
-  * [JetStream publishing in Java](https://nats.io/blog/jetstream-java-client-02-publish/)
-  * [Consumers in Java](https://nats.io/blog/jetstream-java-client-03-consume/)
-  * [Push consumers in Java](https://nats.io/blog/jetstream-java-client-04-push-subscribe/#jetstream-push-consumers-with-the-natsio-java-library)
-  * [Pull consumers in Java](https://nats.io/blog/jetstream-java-client-05-pull-subscribe/#jetstream-pull-consumers-with-the-natsio-java-library)
+  * [Создание stream в JetStream на Java](https://nats.io/blog/jetstream-java-client-01-stream-create/)
+  * [Публикация в JetStream на Java](https://nats.io/blog/jetstream-java-client-02-publish/)
+  * [Consumers на Java](https://nats.io/blog/jetstream-java-client-03-consume/)
+  * [Push consumers на Java](https://nats.io/blog/jetstream-java-client-04-push-subscribe/#jetstream-push-consumers-with-the-natsio-java-library)
+  * [Pull consumers на Java](https://nats.io/blog/jetstream-java-client-05-pull-subscribe/#jetstream-pull-consumers-with-the-natsio-java-library)

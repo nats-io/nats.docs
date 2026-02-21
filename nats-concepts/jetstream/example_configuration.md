@@ -1,24 +1,24 @@
-# Example
+# Пример
 
-Consider this architecture
+Рассмотрим такую архитектуру:
 
 ![Orders](<../../.gitbook/assets/streams-and-consumers-75p (1).png>)
 
-While it is an incomplete architecture it does show a number of key points:
+Хотя это неполная архитектура, она демонстрирует несколько ключевых моментов:
 
-* Many related subjects are stored in a Stream
-* Consumers can have different modes of operation and receive just subsets of the messages
-* Multiple Acknowledgement modes are supported
+* Многие связанные subjects хранятся в одном Stream
+* Consumers могут работать в разных режимах и получать только подмножества сообщений
+* Поддерживаются разные режимы подтверждений
 
-A new order arrives on `ORDERS.received`, gets sent to the `NEW` Consumer who, on success, will create a new message on `ORDERS.processed`. The `ORDERS.processed` message again enters the Stream where a `DISPATCH` Consumer receives it and once processed it will create an `ORDERS.completed` message which will again enter the Stream. These operations are all `pull` based meaning they are work queues and can scale horizontally. All require acknowledged delivery ensuring no order is missed.
+Новый заказ приходит на `ORDERS.received` и отправляется consumer‑у `NEW`, который в случае успеха создаст новое сообщение на `ORDERS.processed`. Сообщение `ORDERS.processed` снова попадет в Stream, где consumer `DISPATCH` получит его и после обработки создаст сообщение `ORDERS.completed`, которое снова попадет в Stream. Все эти операции выполняются в режиме `pull`, то есть это рабочие очереди, которые можно масштабировать горизонтально. Все они требуют подтвержденной доставки, чтобы ни один заказ не был пропущен.
 
-All messages are delivered to a `MONITOR` Consumer without any acknowledgement and using Pub/Sub semantics - they are pushed to the monitor.
+Все сообщения доставляются consumer‑у `MONITOR` без подтверждений и с семантикой Pub/Sub — они пушатся в монитор.
 
-As messages are acknowledged to the `NEW` and `DISPATCH` Consumers, a percentage of them are Sampled and messages indicating redelivery counts, ack delays and more, are delivered to the monitoring system.
+По мере подтверждения сообщений consumer‑ами `NEW` и `DISPATCH`, часть из них семплируется, и сообщения, указывающие количество повторных доставок, задержки подтверждений и другое, отправляются в систему мониторинга.
 
-## Example Configuration
+## Пример конфигурации
 
-[Additional documentation](/running-a-nats-service/configuration/clustering/jetstream_clustering/administration.md) introduces the `nats` utility and how you can use it to create, monitor, and manage streams and consumers, but for completeness and reference this is how you'd create the ORDERS scenario. We'll configure a 1 year retention for order related messages:
+[Дополнительная документация](/running-a-nats-service/configuration/clustering/jetstream_clustering/administration.md) описывает утилиту `nats` и то, как использовать ее для создания, мониторинга и управления потоками и consumers, но для полноты и справки вот как создать сценарий ORDERS. Мы настроим хранение сообщений, связанных с заказами, на 1 год:
 
 ```bash
 nats stream add ORDERS --subjects "ORDERS.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size=-1 --discard=old

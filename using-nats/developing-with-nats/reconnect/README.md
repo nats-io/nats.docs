@@ -1,86 +1,87 @@
-# Automatic Reconnections
+# Автоматические переподключения
 
-All the client libraries maintained on the [nats.io GitHub page](https://github.com/nats-io) will automatically attempt to re-connect if their current server connection gets disconnected for any reason. Upon re-connection the client library will automatically re-establish all the subscriptions, there is nothing for the application programmer to do.
+Все клиентские библиотеки, поддерживаемые на странице [nats.io GitHub](https://github.com/nats-io), автоматически пытаются переподключиться, если текущее соединение с сервером по любой причине разорвано. После переподключения клиентская библиотека автоматически восстанавливает все подписки, приложению не нужно ничего делать.
 
-Unless specifically [disabled](disable.md) client will try to re-connect to one of the servers it knows about, either through the URLs provided in the `connect` call or the URLs provided by the NATS system during earlier connects. This feature allows NATS applications and the NATS system itself to self-heal and reconfigure itself with no additional configuration or intervention.
+Если переподключения не [отключены](disable.md), клиент будет пытаться переподключиться к одному из известных серверов — либо из URL, переданных в `connect`, либо из URL, предоставленных системой NATS во время предыдущих подключений. Эта возможность позволяет приложениям NATS и самой системе NATS самовосстанавливаться и перенастраиваться без дополнительной конфигурации или вмешательства.
 
-You can adjust the [wait time](wait.md) between connections attempts, the [maximum](max.md) number of reconnection attempts, and adjust the size of the reconnection [buffer](buffer.md).
-## Advisories
+Вы можете настроить [время ожидания](wait.md) между попытками подключения, [максимальное](max.md) число попыток переподключения и размер [буфера](buffer.md) переподключения.
 
-Your application can register callback to receive [events](events.md) to be notified about the following connection events:
+## Уведомления
+
+Ваше приложение может зарегистрировать callback'и для получения [событий](events.md) о следующих событиях соединения:
 
 * `ClosedCB ConnHandler`
 
-The ClosedCB handler is called when a client will no longer be connected.
+Обработчик ClosedCB вызывается, когда клиент больше не будет подключаться.
 
 * `DisconnectedCB ConnHandler`
 
-The DisconnectedCB handler is called whenever the connection is disconnected. It will not be called if DisconnectedErrCB is set
-**DEPRECATED**: Use DisconnectedErrCB instead which passes error that caused the disconnect event.
+Обработчик DisconnectedCB вызывается при каждом отключении. Он не будет вызван, если задан DisconnectedErrCB.
+**УСТАРЕЛО**: используйте DisconnectedErrCB, который передаёт ошибку, вызвавшую событие отключения.
 
 * `DisconnectedErrCB ConnErrHandler`
 
-The DisconnectedErrCB handler is called whenever the connection is disconnected. Disconnected error could be nil, for instance when user explicitly closes the connection.
-**NOTE**: DisconnectedCB will not be called if DisconnectedErrCB is set
+Обработчик DisconnectedErrCB вызывается при каждом отключении. Ошибка отключения может быть nil, например, когда пользователь явно закрывает соединение.
+**ПРИМЕЧАНИЕ**: DisconnectedCB не будет вызван, если задан DisconnectedErrCB.
 
 * `ReconnectedCB ConnHandler`
 
-The ReconnectedCB handler is called whenever the connection is successfully reconnected.
+Обработчик ReconnectedCB вызывается при успешном переподключении.
 
 * `DiscoveredServersCB ConnHandler`
 
-The DiscoveredServersCB handler is called whenever a new server has joined the cluster. 
+Обработчик DiscoveredServersCB вызывается, когда к кластеру присоединяется новый сервер.
 
 * `AsyncErrorCB ErrHandler`
   
-The AsyncErrorCB handler is called whenever asynchronous connection errors happen (e.g. slow consumer errors)
+Обработчик AsyncErrorCB вызывается при асинхронных ошибках соединения (например, ошибки медленного потребителя).
 
-## Connection timeout attributes
+## Атрибуты таймаута соединения
 
 * `Timeout time.Duration`
 
-Timeout sets the timeout for a Dial operation on a connection. Default is `2 * time.Second`
+Timeout задаёт таймаут для операции Dial при подключении. По умолчанию `2 * time.Second`.
 	
 * `PingInterval time.Duration`
 
-PingInterval is the period at which the client will be sending ping commands to the server, disabled if 0 or negative. Default is `2 * time.Minute`
+PingInterval — период, с которым клиент отправляет ping‑команды серверу; отключается, если 0 или отрицательное. По умолчанию `2 * time.Minute`.
 
 * `MaxPingsOut int`
 
-MaxPingsOut is the maximum number of pending ping commands that can be awaiting a response before raising an ErrStaleConnection error. Default is `2`
+MaxPingsOut — максимальное число ожидающих ping‑команд, которые могут ждать ответа перед генерацией ошибки ErrStaleConnection. По умолчанию `2`.
 
-## Reconnection attributes
+## Атрибуты переподключения
 
-Besides the error and advisory callbacks mentioned above you can also set a few reconnection attributes in the connection options:
+Помимо упомянутых выше callback'ов ошибок и уведомлений, в опциях соединения можно задать несколько атрибутов переподключения:
 
 * `AllowReconnect bool`
 
-AllowReconnect enables reconnection logic to be used when we encounter a disconnect from the current server. Default is `true`
+AllowReconnect включает логику переподключения при разрыве соединения с текущим сервером. По умолчанию `true`.
 
 * `MaxReconnect int`
 
-MaxReconnect sets the number of reconnect attempts that will be tried before giving up. If negative, then it will never give up trying to reconnect. Default is `60`
+MaxReconnect задаёт число попыток переподключения, после которого попытки прекращаются. Если значение отрицательное, попытки не прекращаются. По умолчанию `60`.
 
 * `ReconnectWait time.Duration`
 
-ReconnectWait sets the time to backoff after attempting to (and failing to) reconnect. Default is `2 * time.Second`
+ReconnectWait задаёт время ожидания после попытки (и неудачи) переподключения. По умолчанию `2 * time.Second`.
 
 * `CustomReconnectDelayCB ReconnectDelayHandler`
   
-CustomReconnectDelayCB is invoked after the library tried every URL in the server list and failed to reconnect. It passes to the user the current number of attempts. This function returns the amount of time the library will sleep before attempting to reconnect again. It is strongly recommended that this value contains some jitter to prevent all connections to attempt reconnecting at the same time.
+CustomReconnectDelayCB вызывается после того, как библиотека попыталась подключиться ко всем URL в списке серверов и не смогла. Пользователю передаётся текущий счётчик попыток. Эта функция возвращает время, в течение которого библиотека будет спать перед следующей попыткой переподключения. Настоятельно рекомендуется добавлять некоторый jitter, чтобы все соединения не пытались переподключаться одновременно.
 
 * `ReconnectJitter time.Duration`
   
-ReconnectJitter sets the upper bound for a random delay added to *ReconnectWait* during a reconnect when no TLS is used. Note that any jitter is capped with ReconnectJitterMax. Default is `100 * time.Millisecond`
+ReconnectJitter задаёт верхнюю границу случайной задержки, добавляемой к *ReconnectWait* во время переподключения без TLS. Обратите внимание, что любой jitter ограничивается ReconnectJitterMax. По умолчанию `100 * time.Millisecond`.
 
 * `ReconnectJitterTLS time.Duration`
 
-ReconnectJitterTLS sets the upper bound for a random delay added to *ReconnectWait* during a reconnect when TLS is used. Note that any jitter is capped with ReconnectJitterMax. Default is `1 * time.Second`
+ReconnectJitterTLS задаёт верхнюю границу случайной задержки, добавляемой к *ReconnectWait* во время переподключения с TLS. Обратите внимание, что любой jitter ограничивается ReconnectJitterMax. По умолчанию `1 * time.Second`.
 
 * `ReconnectBufSize int`
 
-ReconnectBufSize is the size of the backing bufio during reconnect. Once this has been exhausted publish operations will return an error. Default is `8 * 1024 * 1024`
+ReconnectBufSize — размер буфера bufio при переподключении. После его исчерпания операции публикации будут возвращать ошибку. По умолчанию `8 * 1024 * 1024`.
 
 * `RetryOnFailedConnect bool`
 
-RetryOnFailedConnect sets the connection in reconnecting state right away if it can't connect to a server in the initial set. The *MaxReconnect* and *ReconnectWait* options are used for this process, similarly to when an established connection is disconnected. If a ReconnectHandler is set, it will be invoked on the first successful reconnect attempt (if the initial connect fails), and if a ClosedHandler is set, it will be invoked if it fails to connect (after exhausting the MaxReconnect attempts). Default is `false`
+RetryOnFailedConnect переводит соединение в состояние переподключения сразу, если не удаётся подключиться к серверу из начального списка. Опции *MaxReconnect* и *ReconnectWait* используются для этого процесса так же, как при разрыве уже установленного соединения. Если задан ReconnectHandler, он будет вызван при первой успешной попытке переподключения (если начальное подключение не удалось), а если задан ClosedHandler, он будет вызван, если подключиться не удалось (после исчерпания MaxReconnect попыток). По умолчанию `false`.

@@ -1,63 +1,63 @@
-# NATS Queueing Walkthrough
+# Пошаговое руководство по очередям NATS
 
-NATS supports a form of load balancing using [queue groups](queue.md). Subscribers register a queue group name. A single subscriber in the group is randomly selected to receive the message.
+NATS поддерживает форму балансировки нагрузки с помощью [групп очередей](queue.md). Подписчики указывают имя группы очереди. Для получения сообщения случайным образом выбирается один подписчик из группы.
 
-## Walkthrough prerequisites
+## Подготовка
 
-If you have not already done so, you need to [install](/nats-concepts/what-is-nats/walkthrough_setup.md) the `nats` CLI Tool and optionally the nats-server on your machine.
+Если вы еще этого не сделали, вам нужно [установить](/nats-concepts/what-is-nats/walkthrough_setup.md) CLI‑инструмент `nats` и, при необходимости, `nats-server` на вашей машине.
 
-### 1. Start the first member of the queue group
+### 1. Запустите первого участника группы очереди
 
-The `nats reply` instances don't just subscribe to the subject but also automatically join a queue group (`"NATS-RPLY-22"` by default)
+Экземпляры `nats reply` не только подписываются на subject, но и автоматически присоединяются к группе очереди (по умолчанию `"NATS-RPLY-22"`).
 
 ```bash
 nats reply foo "service instance A Reply# {{Count}}"
 ```
 
-### 2. Start a second member of the queue-group
+### 2. Запустите второго участника группы очереди
 
-In a new window
+В новом окне:
 
 ```bash
 nats reply foo "service instance B Reply# {{Count}}"
 ```
 
-### 3. Start a third member of the queue-group
+### 3. Запустите третьего участника группы очереди
 
-In a new window
+В новом окне:
 
 ```bash
 nats reply foo "service instance C Reply# {{Count}}"
 ```
 
-### 4. Publish a NATS message
+### 4. Отправьте сообщение NATS
 
 ```bash
 nats request foo "Simple request"
 ```
 
-### 5. Verify message publication and receipt
+### 5. Проверьте публикацию и получение сообщения
 
-You should see that only one of the my-queue group subscribers receives the message and replies it, and you can also see which one of the available queue-group subscribers processed the request from the reply message received (i.e. service instance A, B or C)
+Вы увидите, что сообщение получает и отвечает только один подписчик группы очереди, а также сможете определить, кто именно обработал запрос по полученному ответу (например, service instance A, B или C).
 
-### 6. Publish another message
+### 6. Отправьте еще одно сообщение
 
 ```bash
 nats request foo "Another simple request"
 ```
 
-You should see that a different queue group subscriber receives the message this time, chosen at random among the 3 queue group members.
+На этот раз сообщение получит другой подписчик группы очереди, выбранный случайным образом среди 3 участников.
 
-You can also send any number of requests back-to-back. From the received messages, you'll see the distribution of those requests amongst the members of the queue-group. For example: `nats request foo --count 10 "Request {{Count}}"`
+Вы также можете отправлять сколько угодно запросов подряд. По полученным ответам вы увидите распределение запросов между участниками группы очереди. Например: `nats request foo --count 10 "Request {{Count}}"`
 
-### 7. Stop/start queue-group members
+### 7. Остановите/запустите участников группы очереди
 
-You can at any time start yet another service instance, or kill one and see how the queue-group automatically takes care of adding/removing those instances from the group.
+Вы можете в любой момент запустить еще один экземпляр сервиса или остановить один из них и увидеть, как группа очереди автоматически добавляет/удаляет экземпляры из группы.
 
 
-## See Also
+## См. также
 
-Queue groups using the NATS CLI
+Группы очередей с NATS CLI
 
 {% embed url="https://youtu.be/jLTVhP08Tq0?t=101" %}
 Queue Groups NATS CLI

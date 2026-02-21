@@ -1,6 +1,6 @@
-# Setting a Connect Timeout
+# Настройка таймаута подключения
 
-Each library has its own, language preferred way, to pass connection options. One of the most common options is a connect timeout. It limits how long it can take to establish a connection to a server. Should multiple URLs be provided, this timeout applies to each cluster member individually. To set the maximum time to connect to a server to 10 seconds:
+Каждая библиотека имеет свой, предпочтительный для языка способ передачи опций подключения. Одна из самых распространённых опций — таймаут подключения. Он ограничивает, сколько времени может занять установка соединения с сервером. Если указано несколько URL, этот таймаут применяется к каждому члену кластера отдельно. Чтобы установить максимальное время подключения к серверу в 10 секунд:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -107,4 +107,3 @@ nnatsConnection      *conn    = NULL;
 ```
 {% endtab %}
 {% endtabs %}
-

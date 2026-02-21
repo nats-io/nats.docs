@@ -1,95 +1,95 @@
-# Installing a NATS Server
+# Установка сервера NATS
 
-NATS philosophy is simplicity. Installation is just decompressing a zip file and copying the binary to an appropriate directory; you can also use your favorite package manager. Here's a list of different ways you can install or run NATS:
+Философия NATS — простота. Установка сводится к распаковке zip‑файла и копированию бинарника в подходящий каталог; также можно использовать любимый менеджер пакетов. Ниже приведены разные способы установить или запустить NATS:
 
-* [Command Line](installation.md#getting-the-binary-from-the-command-line)
+* [Командная строка](installation.md#getting-the-binary-from-the-command-line)
 * [Docker](installation.md#installing-via-docker)
 * [Kubernetes](nats-on-kubernetes/nats-kubernetes.md)
-* [Package Manager](installation.md#installing-via-a-package-manager)
-* [Release Zip](installation.md#downloading-a-release-build)
-* [Development Build](installation.md#installing-from-the-source)
+* [Менеджер пакетов](installation.md#installing-via-a-package-manager)
+* [Release‑архив](installation.md#downloading-a-release-build)
+* [Сборка для разработки](installation.md#installing-from-the-source)
 
-See also [installing the NATS client](clients.md#installing-the-nats-cli-tool)
+См. также [установку клиента NATS](clients.md#installing-the-nats-cli-tool)
 
-## Supported operating systems and architectures
+## Поддерживаемые ОС и архитектуры
 
-The following table indicates the current supported NATS server build combinations for operating systems and architectures.
+Таблица ниже показывает текущие поддерживаемые комбинации ОС и архитектур для сборок сервера NATS.
 
-| Operating System | Architectures                                  | Status       |
-| ---------------- | ---------------------------------------------- | ------------ |
-| Darwin (macOS)   | amd64, arm64                                   | Stable       |
-| Linux            | amd64, 386, arm6, arm7, arm64, mips64le, s390x | Stable       |
-| Windows          | amd64, 386, arm6, arm7, arm64                  | Stable       |
-| FreeBSD          | amd64                                          | Stable       |
-| NetBSD           | -                                              | Experimental |
-| IBM z/OS         | -                                              | Experimental |
+| Операционная система | Архитектуры                                  | Статус       |
+| -------------------- | -------------------------------------------- | ------------ |
+| Darwin (macOS)       | amd64, arm64                                 | Stable       |
+| Linux                | amd64, 386, arm6, arm7, arm64, mips64le, s390x | Stable       |
+| Windows              | amd64, 386, arm6, arm7, arm64                | Stable       |
+| FreeBSD              | amd64                                        | Stable       |
+| NetBSD               | -                                            | Experimental |
+| IBM z/OS             | -                                            | Experimental |
 
-_Note, not all installation methods below have distributions for all OS and architecture combinations._
+_Примечание: не все методы установки ниже имеют дистрибутивы для всех комбинаций ОС и архитектуры._
 
-## Hardware requirements
+## Требования к железу
 
-The NATS server itself has minimal hardware requirements to support small edge devices, but can take advantage of more resources if available.
+Сервер NATS сам по себе имеет минимальные требования и подходит для небольших edge‑устройств, но при наличии ресурсов может ими эффективно воспользоваться.
 
-CPU should be considered in accepting TLS connections. After a network partition, every disconnected client will attempt to connect to a NATS server in the cluster simultaneously, so CPU on those servers will momentarily spike. When there are many clients this can be mitigated with reconnect jitter settings, and errors can be reduced with longer TLS timeouts, and scaling up cluster sizes.
+CPU стоит учитывать при приеме TLS‑соединений. После сетевого разделения каждый отключенный клиент будет одновременно пытаться подключиться к серверу NATS в кластере, поэтому CPU на этих серверах кратковременно «взлетит». При большом числе клиентов это можно смягчить настройками jitter при переподключении, уменьшить ошибки можно более длинными TLS‑таймаутами и масштабированием кластера.
 
-We highly recommend testing to see if smaller, cheaper machines suffice for your workload - often they do! We suggest starting here and adjusting resources after load testing specific to your environment. When using cloud provider instance types make sure the node has a sufficient NIC to support the required bandwidth for the application needs.
+Мы настоятельно рекомендуем протестировать, хватит ли для вашей нагрузки небольших и более дешевых машин — часто их достаточно. Мы предлагаем начать с этого и корректировать ресурсы после нагрузочного тестирования, специфичного для вашей среды. При выборе типов инстансов у облачных провайдеров убедитесь, что у узла достаточно производительная сетевая карта (NIC) для нужной пропускной способности.
 
-For high throughput use cases, the network interface card (NIC) or the available bandwidth are often the bottleneck, so ensure the hardware or cloud provider instance types are sufficient for your needs.
+Для сценариев с высокой пропускной способностью именно NIC или доступная полоса часто становятся узким местом, поэтому проверьте, что железо или тип инстанса облака удовлетворяет вашим требованиям.
 
 ### Core NATS
 
-The tables below outline the **minimum number of cores and memory** for stable cluster performance with different combinations of publishers, subscribers, and message rates.  
-Stability is defined as the system avoiding slowdowns or running out of memory.  
-These tests were conducted inside containers with `GOMEMLIMIT` set to 90% of the memory allocation, utilizing a 2021-era CPU and SSD for JetStream storage.  
-Note that these are **minimum configurations**, and actual production environments may require additional resources.
+Таблицы ниже показывают **минимальное количество ядер и памяти** для стабильной работы кластера при разных комбинациях издателей, подписчиков и скоростей сообщений.  
+Под стабильностью понимается отсутствие деградации и нехватки памяти.  
+Тесты проводились в контейнерах с `GOMEMLIMIT`, установленным на 90% выделенной памяти, с CPU и SSD уровня 2021 года для хранения JetStream.  
+Обратите внимание, что это **минимальные конфигурации**, а в продакшн‑среде могут потребоваться дополнительные ресурсы.
 
-| Cluster Size | CPU cores | Memory | Subscribers | Publishers | Publish Rate msg/s | Total Message Rate msg/s|
-| -----------: | --------: | -----: | ----------: | ---------: | -----------------: | ----------------------: |
-|            1 |         1 | 32 MiB |           1 |        100 |               1000 |                 100,000 |
-|            1 |         1 | 64 MiB |           1 |       1000 |                100 |                 100,000 |
-|            3 |         1 | 32 MiB |           1 |       1000 |                100 |                 100,000 |
-|            3 |         1 | 64 MiB |           1 |       1000 |                100 |                 100,000 |
+| Размер кластера | Ядра CPU | Память | Подписчики | Издатели | Скорость публикации msg/s | Общая скорость msg/s |
+| -------------: | -------: | -----: | ----------: | -------: | ------------------------: | -------------------: |
+|            1   |       1  | 32 MiB |           1 |     100  |                      1000 |              100,000 |
+|            1   |       1  | 64 MiB |           1 |    1000  |                       100 |              100,000 |
+|            3   |       1  | 32 MiB |           1 |    1000  |                       100 |              100,000 |
+|            3   |       1  | 64 MiB |           1 |    1000  |                       100 |              100,000 |
 
-### With JetStream
+### С JetStream
 
-This table follows the same pattern, with published messages received by a stream using file storage. For a cluster size of three, the stream uses three replicas. Subscribers rely on a "pull consumer" for fetching messages.
+Эта таблица следует той же логике: опубликованные сообщения принимает поток с файловым хранением. Для кластера из трех узлов поток использует три реплики. Подписчики полагаются на pull consumer для выборки сообщений.
 
-| Cluster Size | CPU cores |  Memory | Subscribers | Publishers | Publish Rate msg/s | Total Message Rate msg/s |
-| -----------: | --------: | ------: | ----------: | ---------: | -----------------: | -----------------------: |
-|            1 |         1 |  32 MiB |           1 |         10 |                100 |                    1,000 |
-|            1 |         1 |  32 MiB |           1 |        100 |                 10 |                    1,000 |
-|            1 |         1 |  64 MiB |           1 |        100 |                100 |                   10,000 |
-|            1 |         1 |  64 MiB |           1 |       1000 |                 10 |                   10,000 |
-|            3 |         1 |  32 MiB |           1 |        100 |                 10 |                    1,000 |
-|            3 |         1 |  64 MiB |           1 |        100 |                100 |                   10,000 |
-|            3 |         1 |  64 MiB |           1 |       1000 |                 10 |                   10,000 |
-|            3 |         1 | 256 MiB |           1 |       1000 |                100 |                  100,000 |
+| Размер кластера | Ядра CPU | Память | Подписчики | Издатели | Скорость публикации msg/s | Общая скорость msg/s |
+| -------------: | -------: | -----: | ----------: | -------: | ------------------------: | -------------------: |
+|            1   |       1  |  32 MiB |           1 |      10 |                       100 |                 1,000 |
+|            1   |       1  |  32 MiB |           1 |     100 |                        10 |                 1,000 |
+|            1   |       1  |  64 MiB |           1 |     100 |                       100 |                10,000 |
+|            1   |       1  |  64 MiB |           1 |    1000 |                        10 |                10,000 |
+|            3   |       1  |  32 MiB |           1 |     100 |                        10 |                 1,000 |
+|            3   |       1  |  64 MiB |           1 |     100 |                       100 |                10,000 |
+|            3   |       1  |  64 MiB |           1 |    1000 |                        10 |                10,000 |
+|            3   |       1  | 256 MiB |           1 |    1000 |                       100 |               100,000 |
 
-For **production deployment** of JetStream, we recommend starting with **at least 4 CPU cores and 8 GiB of memory** to reduce the risk of resource-related issues.
+Для **продакшн‑развертывания** JetStream мы рекомендуем начинать как минимум с **4 ядер CPU и 8 ГиБ памяти**, чтобы снизить риск проблем, связанных с ресурсами.
 
-For recommendations on configuring limits in Kubernetes, see: https://github.com/nats-io/k8s/tree/main/helm/charts/nats#nats-container-resources
+Рекомендации по настройке лимитов в Kubernetes см.: https://github.com/nats-io/k8s/tree/main/helm/charts/nats#nats-container-resources
 
-## Getting the binary from the command line
+## Получение бинарника из командной строки
 
-The simplest way to get the `nats-server` binary for your machine is to use the following shell command.
+Самый простой способ получить бинарник `nats-server` для вашей машины — использовать следующую команду оболочки.
 
-For example, to get the binary for version 2.11.6:
+Например, чтобы получить бинарник версии 2.11.6:
 
 ```shell
 curl -fsSL https://binaries.nats.dev/nats-io/nats-server/v2@v2.11.6 | sh
 ```
 
-To get the latest released version, use `@latest`. You can also use `@main` to get the tip, or use a tag, specific branch, or commit hash after the `@`.
+Чтобы получить последнюю релизную версию, используйте `@latest`. Также можно указать `@main`, чтобы получить latest из main, либо использовать тег, конкретную ветку или хэш коммита после `@`.
 
-## Installing via Docker
+## Установка через Docker
 
-With Docker, you can install the server easily without scattering binaries and other artifacts on your system. The only pre-requisite is to [install docker](https://docs.docker.com/install).
+С Docker вы можете легко установить сервер, не разбрасывая бинарники и другие артефакты по системе. Единственное требование — [установить docker](https://docs.docker.com/install).
 
 ```shell
 docker pull nats:latest
 ```
 
-To run NATS on Docker:
+Чтобы запустить NATS в Docker:
 
 ```shell
 docker run -p 4222:4222 -ti nats:latest
@@ -103,17 +103,17 @@ docker run -p 4222:4222 -ti nats:latest
 [1] 2019/05/24 15:42:58.228765 [INF] Server is ready
 ```
 
-More information on [containerized NATS is available here](running/nats_docker/).
+Подробнее о [NATS в контейнерах](running/nats_docker/).
 
-## Installing via a Package Manager
+## Установка через менеджер пакетов
 
-On Windows, using [scoop.sh](https://scoop.sh):
+На Windows, используя [scoop.sh](https://scoop.sh):
 
 ```shell
 scoop install main/nats-server
 ```
 
-On Mac OS:
+На Mac OS:
 
 ```shell
 brew install nats-server
@@ -121,15 +121,15 @@ brew install nats-server
 
 Arch Linux:
 
-For Arch users, there is an [AUR package](https://aur.archlinux.org/packages/nats-server) that you can install with:
+Для пользователей Arch есть [AUR‑пакет](https://aur.archlinux.org/packages/nats-server), который можно установить так:
 
 ```shell
 yay -S nats-server
 ```
 
-To test your installation (provided the executable is visible to your shell):
+Чтобы проверить установку (при условии, что исполняемый файл доступен вашей оболочке):
 
-Typing `nats-server` should output something like
+Ввод `nats-server` должен вывести что‑то вроде
 
 ```
 [41634] 2019/05/13 09:42:11.745919 [INF] Starting nats-server version 2.*.*
@@ -140,13 +140,13 @@ Typing `nats-server` should output something like
 ```
 
 
-## Downloading a Release Build
+## Загрузка релизной сборки
 
-You can find the latest release of nats-server on [the nats-io/nats-server GitHub releases page](https://github.com/nats-io/nats-server/releases/).
+Последний релиз nats-server можно найти на [странице релизов nats-io/nats-server на GitHub](https://github.com/nats-io/nats-server/releases/).
 
-From the releases page, copy the link to the release archive file of your choice and download it using `curl -L`.
+На странице релизов скопируйте ссылку на архив релиза нужной вам платформы и скачайте с помощью `curl -L`.
 
-For example, assuming version X.Y.Z of the server and a Linux AMD64:
+Например, для версии сервера X.Y.Z и Linux AMD64:
 
 ```shell
 curl -L https://github.com/nats-io/nats-server/releases/download/vX.Y.Z/nats-server-vX.Y.Z-linux-amd64.tar.gz -o nats-server.tar.gz
@@ -162,23 +162,23 @@ Archive:  nats-server.zip
 ...
 ```
 
-and finally:
+И наконец:
 
 ```shell
 sudo cp nats-server-vX.Y.Z-linux-amd64/nats-server /usr/bin
 ```
 
-## Installing From the Source
+## Установка из исходников
 
-If you have [Go installed](https://go.dev/doc/install), installing the binary is easy:
+Если у вас установлен [Go](https://go.dev/doc/install), установить бинарник просто:
 
 ```shell
 go install github.com/nats-io/nats-server/v2@main
 ```
 
-This mechanism will install a build of the [main](https://github.com/nats-io/nats-server) branch, which almost certainly will not be a released version. If you are a developer and want to play with the latest, this is the easiest way.
+Этот механизм устанавливает сборку ветки [main](https://github.com/nats-io/nats-server), которая почти наверняка не является релизом. Если вы разработчик и хотите поиграть с последними изменениями, это самый простой путь.
 
-To test your installation (provided $GOPATH/bin is in your path) by typing `nats-server` which should output something like
+Проверить установку (если `$GOPATH/bin` в вашем PATH) можно, набрав `nats-server`, что должно вывести примерно следующее:
 
 ```
 [2397474] 2023/09/27 10:32:02.709019 [INF] Starting nats-server
@@ -190,10 +190,10 @@ To test your installation (provided $GOPATH/bin is in your path) by typing `nats
 [2397474] 2023/09/27 10:32:02.710173 [INF] Server is ready
 ```
 
-## Building From the Source
+## Сборка из исходников
 
-We use goreleaser to build assets published on [GitHub releases](https://github.com/nats-io/nats-server/releases).  
-Our builds are fully reproducible, so with Go installed, one can execute the following commands to build from source:
+Мы используем goreleaser для сборки артефактов, публикуемых на [GitHub releases](https://github.com/nats-io/nats-server/releases).  
+Наши сборки полностью воспроизводимы, поэтому при установленном Go можно выполнить следующие команды, чтобы собрать из исходников:
 ```
 go install github.com/goreleaser/goreleaser/v2@latest
 
@@ -204,7 +204,7 @@ git checkout v2.12.0
 
 goreleaser release --skip=announce,publish,validate --clean -f .goreleaser.yml
 ```
-And to verify SHASUMs against our release:
+И чтобы проверить SHASUMы относительно релиза:
 ```
 wget https://github.com/nats-io/nats-server/releases/download/v2.12.0/SHA256SUMS
 diff --color --minimal --context=0 SHA256SUMS dist/SHA256SUMS

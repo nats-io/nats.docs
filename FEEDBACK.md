@@ -1,13 +1,13 @@
-# Feedback page
+# Страница обратной связи
 
-This is the place to provide feedback, comment, suggest, discuss, etc... it doesn't appear in the docs and is only for reviewers/contributors.
+Это место для обратной связи, комментариев, предложений, обсуждений и т. п. В документации эта страница не отображается и предназначена только для ревьюеров/контрибьюторов.
 
-This is just like a scratchpad or a board or even a chatroom, just edit, add a comment, create a new section, whatever and commit and push you changes to this file (do approve and merge your own PRs, heck you don't even have to create a PR and can simply commit and push to the repo master)
+Это что-то вроде черновика, доски или даже чат‑комнаты. Просто редактируйте, добавляйте комментарии, создавайте новые разделы — что угодно — и коммитьте и пушьте изменения в этот файл (можете одобрять и сливать свои PR, да и PR создавать не обязательно: можно просто коммитить и пушить в master репозитория).
 
-## Chat - General
+## Чат — общее
 
-[JNM] to feedback on this new version of the docs just add to this document and push your commit, you can make any changes/additions/etc... to the docs and merge that in and use this place to explain what you did.
+[JNM] Чтобы оставить отзыв о новой версии документации, просто добавьте его в этот документ и отправьте коммит. Вы можете вносить любые изменения/добавления в документацию, сливать их и использовать это место, чтобы пояснить, что именно сделали.
 
-## Concepts
+## Концепции
 
-[JNM] @Scott created a 'Core NATS'
+[JNM] @Scott создал раздел «Core NATS»

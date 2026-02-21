@@ -1,40 +1,40 @@
-# What is NATS
+# Что такое NATS
 
-Software applications and services need to exchange data. NATS is an infrastructure that allows such data exchange, segmented in the form of messages. We call this a "**message oriented middleware**".
+Программным приложениям и сервисам нужно обмениваться данными. NATS — это инфраструктура, которая позволяет такой обмен данными, разбитый на сообщения. Мы называем это "**message oriented middleware**".
 
-With NATS, application developers can:
+С NATS разработчики приложений могут:
 
-* Effortlessly build distributed and scalable client-server applications.
-* Store and distribute data in realtime in a general manner. This can flexibly be achieved across various environments, languages, cloud providers and on-premises systems.
+* Без усилий создавать распределенные и масштабируемые клиент‑серверные приложения.
+* Хранить и распределять данные в реальном времени универсальным способом. Это гибко достигается в разных средах, языках, облачных провайдерах и on‑premises системах.
 
-### NATS Client Applications
+### Клиентские приложения NATS
 
-Developers use one of the NATS client libraries in their application code to allow them to publish, subscribe, request and reply between instances of the application or between completely separate applications. Those applications are generally referred to as 'client applications' or sometimes just as 'clients' throughout this manual (since from the point of view of the NATS server, they are clients).
+Разработчики используют одну из клиентских библиотек NATS в коде приложения, чтобы публиковать, подписываться, запрашивать и отвечать между экземплярами приложения или между полностью отдельными приложениями. Такие приложения обычно называются «клиентскими приложениями» или просто «клиентами» в этом руководстве (поскольку с точки зрения сервера NATS они являются клиентами).
 
-### NATS Service Infrastructure
+### Инфраструктура сервисов NATS
 
-The NATS services are provided by one or more NATS server processes that are configured to interconnect with each other and provide a _NATS service infrastructure_. The NATS service infrastructure can scale from a single NATS server process running on an end device (the `nats-server` process is less than 20 MB in size!) all the way to a public global super-cluster of many clusters spanning all major cloud providers and all regions of the world such as Synadia's NGS.
+Сервисы NATS предоставляются одним или несколькими процессами NATS‑сервера, настроенными на взаимное соединение и образующими _инфраструктуру сервисов NATS_. Инфраструктура NATS может масштабироваться от одного процесса NATS‑сервера, работающего на конечном устройстве (процесс `nats-server` занимает менее 20 МБ!), до публичного глобального супер‑кластера из множества кластеров, охватывающего основных облачных провайдеров и регионы мира, например Synadia NGS.
 
-### Connecting NATS Client applications to the NATS servers
+### Подключение клиентских приложений NATS к серверам NATS
 
-To connect a NATS client application with a NATS service, and then subscribe or publish messages to subjects, it only needs to be configured with:
+Чтобы подключить клиентское приложение NATS к сервису NATS и затем подписываться или публиковать сообщения в темы, достаточно настроить:
 
-1. **URL:** A ['NATS URL'](../../using-nats/developing-with-nats/connecting/#nats-url). This is a string (in a URL format) that specifies the IP address and port where the NATS server(s) can be reached, and what kind of connection to establish (plain TCP, TLS, or Websocket).
-2. **Authentication** (if needed): [Authentication](../../using-nats/developing-with-nats/connecting/#authentication-details) details for the application to identify itself with the NATS server(s). NATS supports multiple authentication schemes (username/password, decentralized JWT, token, TLS certificates and Nkey with challenge).
+1. **URL:** ['NATS URL'](../../using-nats/developing-with-nats/connecting/#nats-url). Это строка (в формате URL), которая задает IP‑адрес и порт, где доступен(ы) сервер(ы) NATS, и тип соединения (обычный TCP, TLS или Websocket).
+2. **Аутентификацию** (если нужно): параметры [Authentication](../../using-nats/developing-with-nats/connecting/#authentication-details), чтобы приложение могло идентифицироваться перед сервером(ами) NATS. NATS поддерживает несколько схем аутентификации (имя пользователя/пароль, децентрализованный JWT, токен, TLS‑сертификаты и Nkey с challenge).
 
-## Simple messaging design
+## Простая модель обмена сообщениями
 
-NATS makes it easy for applications to communicate by sending and receiving messages. These messages are addressed and identified by subject strings, and do not depend on network location.
+NATS упрощает коммуникацию приложений через отправку и получение сообщений. Эти сообщения адресуются и идентифицируются строками тем и не зависят от сетевого местоположения.
 
-Data is encoded and framed as a message and sent by a publisher. The message is received, decoded, and processed by one or more subscribers.
+Данные кодируются и оформляются как сообщение и отправляются издателем. Сообщение принимается, декодируется и обрабатывается одним или несколькими подписчиками.
 
 ![](../../.gitbook/assets/intro.svg)
 
-With this simple design, NATS lets programs share common message-handling code, isolate resources and interdependencies, and scale by easily handling an increase in message volume, whether those are service requests or stream data.
+Благодаря этой простой модели NATS позволяет программам использовать общий код обработки сообщений, изолировать ресурсы и взаимозависимости и масштабироваться, легко справляясь с ростом объема сообщений — будь то запросы к сервисам или потоковые данные.
 
-### NATS Quality of service (QoS)
+### Качество обслуживания (QoS) в NATS
 
-NATS offers multiple qualities of service, depending on whether the application uses just the _Core NATS_ functionality or also leverages the added functionalities enabled by _NATS JetStream_ (JetStream is built into `nats-server` but may not be enabled on all service infrastructures).
+NATS предлагает несколько уровней качества обслуживания в зависимости от того, использует ли приложение только функциональность _Core NATS_ или также задействует дополнительные возможности _NATS JetStream_ (JetStream встроен в `nats-server`, но может быть не включен во всех инфраструктурах сервиса).
 
-* **At most once QoS:** _Core NATS_ offers an **at most once** quality of service. If a subscriber is not listening on the subject (no subject match), or is not active when the message is sent, the message is not received. This is the same level of guarantee that TCP/IP provides. _Core NATS_ is a fire-and-forget messaging system. It will only hold messages in memory and will never write messages directly to disk.
-* **At-least / exactly once QoS:** If you need higher qualities of service (**at least once** and **exactly once**), or functionalities such as persistent streaming, de-coupled flow control, and Key/Value Store, you can use [NATS JetStream](../jetstream/), which is built in to the NATS server (but needs to be enabled). Of course, you can also always build additional reliability into your client applications yourself with proven and scalable reference designs such as acks and sequence numbers.
+* **QoS At most once:** _Core NATS_ предоставляет качество обслуживания **at most once**. Если подписчик не слушает тему (нет совпадения темы) или не активен в момент отправки сообщения, сообщение не будет получено. Это тот же уровень гарантий, что и у TCP/IP. _Core NATS_ — это система обмена сообщениями fire‑and‑forget. Она хранит сообщения только в памяти и никогда не записывает их напрямую на диск.
+* **QoS At‑least / exactly once:** Если вам нужны более высокие уровни качества обслуживания (**at least once** и **exactly once**) или такие возможности, как персистентные потоки, развязанный контроль потока и Key/Value Store, вы можете использовать [NATS JetStream](../jetstream/), который встроен в сервер NATS (но должен быть включен). Разумеется, вы также всегда можете повысить надежность клиентских приложений самостоятельно, используя проверенные и масштабируемые подходы, такие как acknowledgements и номера последовательностей.

@@ -1,88 +1,88 @@
-# Subject Mapping and Traffic Shaping
+# Маппинг subject и формирование трафика
 
-_Supported since NATS Server version 2.2_
+_Поддерживается начиная с NATS Server версии 2.2_
 
-Subject mapping is a very powerful feature of the NATS server, useful for canary deployments, A/B testing, chaos testing, and migrating to a new subject namespace.
+Subject mapping — очень мощная возможность сервера NATS, полезная для канареечных развертываний, A/B‑тестирования, chaos‑тестирования и миграции на новое пространство имен subject.
 
-## Configuring subject mapping
+## Настройка subject mapping
 
-Subject mappings are defined and applied at the account level. If you are using static account security you will need to edit the server configuration file, however if you are using JWT Security (Operator Mode), then you need to use nsc or customer tools to edit and push changes to you account.
+Маппинги subject определяются и применяются на уровне аккаунта. Если вы используете статическую безопасность аккаунтов, вам нужно редактировать конфигурационный файл сервера. Если же используется JWT‑безопасность (Operator Mode), то нужно использовать `nsc` или пользовательские инструменты для изменения и отправки изменений в ваш аккаунт.
 
-NOTE: _You can also use subject mapping as part of defining imports and exports between accounts_
+Примечание: _Вы также можете использовать subject mapping как часть определения импортов и экспортов между аккаунтами._
 
-### Static authentication
+### Статическая аутентификация
 
-In any of the static authentication modes the mappings are defined in the server configuration file, any changes to mappings in the configuration file will take effect as soon as a reload signal is sent to the server process (e.g. use `nats-server --signal reload`).
+В любом из статических режимов аутентификации маппинги задаются в конфигурационном файле сервера. Любые изменения в маппингах вступят в силу сразу после отправки серверу сигнала перезагрузки (например, `nats-server --signal reload`).
 
-The `mappings` stanza can occur at the top level to apply to the global account or be scoped within a specific account.
+Блок `mappings` может находиться на верхнем уровне (применяется к глобальному аккаунту) или быть ограничен конкретным аккаунтом.
 
 ```text
 mappings = {
 
-  # Simple direct mapping.  Messages published to foo are mapped to bar.
+  # Простой прямой маппинг. Сообщения, опубликованные в foo, маппятся в bar.
   foo: bar
 
-  # remapping tokens can be done with $<N> representing token position.
-  # In this example bar.a.b would be mapped to baz.b.a.
+  # Перемаппинг токенов можно делать с помощью $<N>, где N — позиция токена.
+  # В этом примере bar.a.b будет отображаться в baz.b.a.
   bar.*.*: baz.$2.$1
 
-  # You can scope mappings to a particular cluster
+  # Можно ограничить маппинг конкретным кластером
   foo.cluster.scoped : [
     { destination: bar.cluster.scoped, weight:100%, cluster: us-west-1 }
   ]
 
-  # Use weighted mapping for canary testing or A/B testing.  Change dynamically
-  # at any time with a server reload.
+  # Взвешенный маппинг для канареечного или A/B‑тестирования.
+  # Можно динамически менять в любой момент через reload сервера.
   myservice.request: [
     { destination: myservice.request.v1, weight: 90% },
     { destination: myservice.request.v2, weight: 10% }
   ]
 
-  # A testing example of wildcard mapping balanced across two subjects.
-  # 20% of the traffic is mapped to a service in QA coded to fail.
+  # Пример тестирования wildcard‑маппинга, сбалансированного по двум subject.
+  # 20% трафика маппится в сервис в QA, который намеренно падает.
   myservice.test.*: [
     { destination: myservice.test.$1, weight: 80% },
     { destination: myservice.test.fail.$1, weight: 20% }
   ]
 
-  # A chaos testing trick that introduces 50% artificial message loss of
-  # messages published to foo.loss
+  # Прием chaos‑тестирования: вводим 50% искусственной потери сообщений,
+  # опубликованных в foo.loss
   foo.loss.>: [ { destination: foo.loss.>, weight: 50% } ]
 }
 ```
 
-### JWT authentication 
+### JWT‑аутентификация
 
-When using the JWT authentication mode, the mappings are defined in the account's JWT. Account JWTs can be created or modified either through the_ [_JWT API_](https://github.com/nats-io/jwt)_ or using the `nsc` CLI too. For more detailed information see `nsc add mapping --help`, `nsc delete mapping --help`. Subject mapping changes take effect as soon as the modified account JWT is pushed to the nats servers (i.e. `nsc push`).
+При использовании JWT‑аутентификации маппинги задаются в JWT аккаунта. JWT аккаунтов можно создавать или менять через [_JWT API_](https://github.com/nats-io/jwt) или через CLI `nsc`. Подробности см. `nsc add mapping --help`, `nsc delete mapping --help`. Изменения маппинга вступают в силу сразу после того, как измененный JWT аккаунта отправлен на серверы NATS (то есть `nsc push`).
 
-Examples of using `nsc` to manage mappings:
+Примеры использования `nsc` для управления маппингами:
 
-* Add a new mapping: `nsc add mapping --from "a" --to "b"`
-* Modify an entry, say to set a weight after the fact: `nsc add mapping --from "a" --to "b" --weight 50`
-* Add two entries from one subject, set weights and execute multiple times: `nsc add mapping --from "a" --to "c" --weight 50`
-* Delete a mapping: `nsc delete mapping --from "a"`
+* Добавить новый маппинг: `nsc add mapping --from "a" --to "b"`
+* Изменить запись, например задать вес: `nsc add mapping --from "a" --to "b" --weight 50`
+* Добавить две записи с одного subject, задать веса и выполнить несколько раз: `nsc add mapping --from "a" --to "c" --weight 50`
+* Удалить маппинг: `nsc delete mapping --from "a"`
 
-## Simple Mapping
+## Простой маппинг
 
-The example of `foo:bar` is straightforward. All messages the server receives on subject `foo` are remapped and can be received by clients subscribed to `bar`.
+Пример `foo:bar` прямолинейный. Все сообщения, которые сервер получает на subject `foo`, перемаппируются и могут быть получены клиентами, подписанными на `bar`.
 
-## Subject Token Reordering
+## Переупорядочивание токенов subject
 
-Wildcard tokens may be referenced via `$<position>`. For example, the first wildcard token is $1, the second is $2, etc. Referencing these tokens can allow for reordering.
+Wildcard‑токены можно ссылочно использовать через `$<позиция>`. Например, первый wildcard‑токен — это $1, второй — $2 и т. д. Ссылки на эти токены позволяют переупорядочивать части subject.
 
-With this mapping:
+При таком маппинге:
 
 ```text
   bar.*.*: baz.$2.$1
 ```
 
-Messages that were originally published to `bar.a.b` are remapped in the server to `baz.b.a`. Messages arriving at the server on `bar.one.two` would be mapped to `baz.two.one`, and so forth.
+Сообщения, опубликованные в `bar.a.b`, будут перемаппированы сервером в `baz.b.a`. Сообщения на `bar.one.two` будут перемаппированы в `baz.two.one` и т. д.
 
-## Weighted Mappings for A/B Testing or Canary Releases
+## Взвешенные маппинги для A/B‑тестирования или канареечных релизов
 
-Traffic can be split by percentage from one subject to multiple subjects. Here's an example for canary deployments, starting with version 1 of your service.
+Трафик можно разделять по процентам с одного subject на несколько subject. Ниже пример для канареечного развертывания, начиная с версии 1 вашего сервиса.
 
-Applications would make requests of a service at `myservice.requests`. The responders doing the work of the server would subscribe to `myservice.requests.v1`. Your configuration would look like this:
+Приложения будут отправлять запросы сервису на `myservice.requests`. Обработчики сервиса будут подписываться на `myservice.requests.v1`. Конфигурация будет такой:
 
 ```text
   myservice.requests: [
@@ -90,11 +90,11 @@ Applications would make requests of a service at `myservice.requests`. The respo
   ]
 ```
 
-All requests to `myservice.requests` will go to version 1 of your service.
+Все запросы на `myservice.requests` попадут в версию 1 сервиса.
 
-When version 2 comes along, you'll want to test it with a canary deployment. Version 2 would subscribe to `myservice.requests.v2`. Launch instances of your service \(don't forget about queue subscribers and load balancing\).
+Когда выходит версия 2, вы хотите протестировать ее канареечно. Версия 2 подписывается на `myservice.requests.v2`. Запустите экземпляры сервиса (не забывайте про queue‑подписчиков и балансировку нагрузки).
 
-Update the configuration file to redirect some portion of the requests made to `myservice.requests` to version 2 of your service. In this case we'll use 2%.
+Обновите конфигурационный файл так, чтобы часть запросов, отправляемых на `myservice.requests`, перенаправлялась в версию 2. В данном случае используем 2%.
 
 ```text
   myservice.requests: [
@@ -103,9 +103,9 @@ Update the configuration file to redirect some portion of the requests made to `
   ]
 ```
 
-You can [reload](../nats_admin/signals.md) the server at this point to make the changes with zero downtime. After reloading, 2% of your requests will be serviced by the new version.
+В этот момент вы можете [перезагрузить](../nats_admin/signals.md) сервер, чтобы применить изменения без простоя. После перезагрузки 2% запросов будут обслуживаться новой версией.
 
-Once you've determined Version 2 stable switch 100% of the traffic over and reload the server with a new configuration.
+После того как вы убедились в стабильности версии 2, переключите 100% трафика и перезагрузите сервер с новой конфигурацией.
 
 ```text
   myservice.requests: [
@@ -113,11 +113,11 @@ Once you've determined Version 2 stable switch 100% of the traffic over and relo
   ]
 ```
 
-Now shutdown the version 1 instances of your service.
+Теперь остановите экземпляры версии 1.
 
-## Traffic Shaping in Testing
+## Формирование трафика в тестировании
 
-Traffic shaping is useful in testing. You might have a service that runs in QA that simulates failure scenarios which could receive 20% of the traffic to test the service requestor.
+Формирование трафика полезно в тестировании. У вас может быть сервис в QA, который симулирует сценарии отказов и должен получать 20% трафика запросов для тестирования отправителя.
 
 ```text
   myservice.requests.*: [
@@ -126,21 +126,20 @@ Traffic shaping is useful in testing. You might have a service that runs in QA t
   ]
 ```
 
-## Artificial Loss
+## Искусственные потери
 
-Alternatively, introduce loss into your system for chaos testing by mapping a percentage of traffic to the same subject. In this drastic example, 50% of the traffic published to `foo.loss.a` would be artificially dropped by the server.
+В качестве альтернативы можно вводить потери в систему для chaos‑тестирования, маппируя процент трафика на тот же subject. В этом радикальном примере 50% трафика, опубликованного в `foo.loss.a`, будет искусственно отброшено сервером.
 
 ```text
   foo.loss.>: [ { destination: foo.loss.>, weight: 50% } ]
 ```
 
-You can both split and introduce loss for testing. Here, 90% of requests would go to your service, 8% would go to a service simulating failure conditions, and the unaccounted for 2% would simulate message loss.
+Можно одновременно разделять трафик и вводить потери для тестирования. Здесь 90% запросов пойдут в ваш сервис, 8% — в сервис, который имитирует отказ, а оставшиеся 2% будут симулировать потерю сообщений.
 
 ```text
   myservice.requests: [
     { destination: myservice.requests.v3, weight: 90% },
     { destination: myservice.requests.v3.fail, weight: 8% }
-    # the remaining 2% is "lost"
+    # оставшиеся 2% «теряются»
   ]
 ```
-

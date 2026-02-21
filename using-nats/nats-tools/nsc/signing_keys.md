@@ -1,29 +1,29 @@
-# Signing Keys
+# Ключи подписи
 
-As previously discussed, NKEYs are identities, and if someone gets a hold of an account or operator nkey they can do everything you can do as you.
+Как уже обсуждалось, NKEY — это идентичности, и если кто‑то получит nkey аккаунта или оператора, он сможет делать всё, что можете вы.
 
-NATS has strategies to let you deal with scenarios where your private keys escape out in the wild.
+NATS предлагает стратегии для случаев, когда приватные ключи утекают.
 
-The first and most important line of defense is _Signing Keys_. _Signing Keys_ allow you have multiple NKEY identities of the same kind \(Operator or Account\) that have the same degree of trust as the standard _Issuer_ nkey.
+Первая и самая важная линия защиты — _Signing Keys_. _Signing Keys_ позволяют иметь несколько NKEY‑идентичностей одного типа (Operator или Account) с тем же уровнем доверия, что и стандартный nkey‑_Issuer_.
 
-The concept behind the signing key is that you can issue a JWT for an operator or an account that lists multiple nkeys. Typically the issuer will match the _Subject_ of the entity issuing the JWT. With SigningKeys, a JWT is considered valid if it is signed by the _Subject_ of the _Issuer_ or one of its signing keys. This enables guarding the private key of the Operator or Account more closely while allowing _Accounts_, _Users_ or _Activation Tokens_ be signed using alternate private keys.
+Идея signing key в том, что вы выпускаете JWT для оператора или аккаунта, в котором перечислены несколько nkeys. Обычно issuer соответствует _Subject_ сущности, выпускающей JWT. С SigningKeys JWT считается валидным, если он подписан _Subject_‑ом _Issuer_ или одним из его signing keys. Это позволяет лучше защищать приватный ключ Operator или Account, при этом разрешая подписывать _Accounts_, _Users_ или _Activation Tokens_ альтернативными приватными ключами.
 
-If an issue should arise where somehow a signing key escapes into the wild, you would remove the compromised signing key from the entity, add a new one, and reissue the entity. When a JWT is validated, if the signing key is missing, the operation is rejected. You are also on the hook to re-issue all JWTs \(accounts, users, activation tokens\) that were signed with the compromised signing key.
+Если возникает проблема и signing key каким‑то образом утек, нужно удалить скомпрометированный signing key из сущности, добавить новый и перевыпустить сущность. При проверке JWT, если signing key отсутствует, операция отклоняется. Также вам нужно перевыпустить все JWT (аккаунты, пользователи, activation tokens), которые были подписаны скомпрометированным ключом.
 
-This is effectively a large hammer. You can mitigate the process a bit by having a larger number of signing keys and then rotating the signing keys to get a distribution you can easily handle in case of a compromise. In a future release, we’ll have a revocation process were you can invalidate a single JWT by its unique JWT ID \(JTI\). For now a sledge hammer you have.
+Это, по сути, «большой молот». Можно смягчить процесс, используя больше signing keys и затем ротируя их, чтобы получить распределение, с которым вам проще работать при компрометации. В будущих релизах появится процесс отзыва, где можно будет инвалидировать один JWT по его уникальному JWT ID (JTI). Пока же — только «кувалда».
 
-With greater security process, there’s greater complexity. With that said, `nsc` doesn’t track public or private signing keys. As these are only identities that when in use presume a manual use. That means that you the user will have to track and manage your private keys more closely.
+Чем выше безопасность, тем выше сложность. При этом `nsc` не отслеживает публичные или приватные signing keys. Это идентичности, которые предполагают ручное использование. Это означает, что вы должны более тщательно отслеживать и управлять своими приватными ключами.
 
-Let’s get a feel for the workflow. We are going to:
+Разберем workflow. Мы собираемся:
 
-* Create an operator with a signing key
-* Create an account with a signing key
-* The account will be signed using the operator’s signing key
-* Create an user with the account’s signing key
+* Создать оператора с signing key
+* Создать аккаунт с signing key
+* Подписать аккаунт signing key оператора
+* Создать пользователя с signing key аккаунта
 
-All signing key operations revolve around the global `nsc` flag `-K` or `--private-key`. Whenever you want to modify an entity, you have to supply the parent key so that the JWT is signed. Normally this happens automatically but in the case of signing keys, you’ll have to supply the flag by hand.
+Все операции с signing keys используют глобальный флаг `nsc` `-K` или `--private-key`. Каждый раз, когда вы хотите изменить сущность, нужно передать родительский ключ, чтобы JWT был подписан. Обычно это происходит автоматически, но в случае signing keys вам нужно указывать флаг вручную.
 
-Creating the operator:
+Создаем оператора:
 
 ```shell
 nsc add operator O2
@@ -33,7 +33,7 @@ nsc add operator O2
 [ OK ] added operator "O2"
 ```
 
-To add a signing key we have to first generate one with `nsc`:
+Чтобы добавить signing key, сначала сгенерируем его с `nsc`:
 
 ```shell
 nsc generate nkey --operator --store
@@ -45,9 +45,9 @@ OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5
 operator key stored ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk
 ```
 
-> On a production environment private keys should be saved to a file and always referenced from the secured file.
+> В production приватные ключи следует сохранять в файл и всегда ссылаться на защищенный файл.
 
-Now we are going to edit the operator by adding a signing key with the `--sk` flag providing the generated operator public key \(the one starting with `O`\):
+Теперь отредактируем оператора, добавив signing key флагом `--sk` и передав публичный ключ оператора (начинается с `O`):
 
 ```shell
 nsc edit operator --sk OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5
@@ -58,7 +58,7 @@ nsc edit operator --sk OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5
 [ OK ] edited operator "O2"
 ```
 
-Check our handy work:
+Проверим результат:
 
 ```shell
 nsc describe operator
@@ -78,7 +78,7 @@ nsc describe operator
 ╰──────────────┴──────────────────────────────────────────────────────────╯
 ```
 
-Now let’s create an account called `A` and sign it with the generated operator private signing key. To sign it with the key specify the `-K` flag and the private key or a path to the private key:
+Теперь создадим аккаунт `A` и подпишем его приватным signing key оператора. Чтобы подписать, укажите флаг `-K` и приватный ключ или путь к нему:
 
 ```shell
 nsc add account A -K ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk
@@ -89,7 +89,7 @@ nsc add account A -K ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WU
 [ OK ] added account "A"
 ```
 
-Let’s generate an account signing key, again we use `nk`:
+Сгенерируем account signing key (снова через `nsc`):
 
 ```bash
 nsc generate nkey --account --store
@@ -101,7 +101,7 @@ ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7
 account key stored ~/.nkeys/keys/A/DU/ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7.nk
 ```
 
-Let’s add the signing key to the account, and remember to sign the account with the operator signing key:
+Добавим signing key в аккаунт и подпишем аккаунт signing key оператора:
 
 ```shell
 nsc edit account --sk ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7 -K ~/.nkeys/keys/O/AZ/OAZBRNE7DQGDYT5CSAGWDMI5ENGKOEJ57BXVU6WUTHFEAO3CU5GLQYF5.nk
@@ -111,7 +111,7 @@ nsc edit account --sk ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7 -
 [ OK ] added signing key "ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7"
 [ OK ] edited account "A"
 ```
-Let's take a look at the account
+Посмотрим аккаунт:
 
 ```shell
 nsc describe account
@@ -143,9 +143,9 @@ nsc describe account
 ╰───────────────────────────┴──────────────────────────────────────────────────────────╯
 ```
 
-We can see that the signing key `ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7` was added to the account. Also the issuer is the operator signing key \(specified by the `-K`\).
+Мы видим, что signing key `ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7` добавлен в аккаунт. Также issuer — signing key оператора (переданный через `-K`).
 
-Now let’s create a user and sign it with the account signing key starting with `ADUQTJD4TF4O`.
+Теперь создадим пользователя и подпишем его signing key аккаунта, начинающимся с `ADUQTJD4TF4O`.
 
 ```shell
 nsc add user U -K ~/.nkeys/keys/A/DU/ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO6MPA7ZETFEEF7.nk
@@ -156,7 +156,7 @@ nsc add user U -K ~/.nkeys/keys/A/DU/ADUQTJD4TF4O6LTTHCKDKSHKGBN2NECCHHMWFREPKNO
 [ OK ] generated user creds file "~/.nkeys/creds/O2/A/U.creds"
 [ OK ] added user "U" to account "A"
 ```
-Check the user
+Проверим пользователя:
 ```shell
 nsc describe user
 ```
@@ -181,15 +181,15 @@ nsc describe user
 ╰──────────────────────┴──────────────────────────────────────────────────────────╯
 ```
 
-As expected, the issuer is now the signing key we generated earlier. To map the user to the actual account, an `Issuer Account` field was added to the JWT that identifies the public key of account _A_.
+Как и ожидалось, issuer теперь — signing key, который мы сгенерировали ранее. Чтобы связать пользователя с реальным аккаунтом, в JWT добавлено поле `Issuer Account`, которое содержит публичный ключ аккаунта _A_.
 
 ## Scoped Signing Keys
 
-Scoped Signing Keys simplify user permission management. Previously if you wanted to limit the permissions of users, you had to specify permissions on a per-user basis. With scoped signing keys, you associate a signing key with a set of permissions. This configuration lives on the account JWT and is managed with the `nsc edit signing-key` command. You can add as many scoped signing keys as necessary.
+Scoped Signing Keys упрощают управление правами пользователей. Ранее, если вы хотели ограничить права пользователей, нужно было задавать права каждому пользователю отдельно. С scoped signing keys вы связываете signing key с набором прав. Эта конфигурация хранится в JWT аккаунта и управляется командой `nsc edit signing-key`. Можно добавить сколько угодно scoped signing keys.
 
-To issue a user with a set of permissions, simply sign the user with the signing key having the permission set you want. The user configuration must _not_ have any permissions assigned to it.
+Чтобы выпустить пользователя с набором прав, просто подпишите пользователя signing key с нужным набором прав. Конфигурация пользователя _не должна_ содержать никаких прав.
 
-On connect, the nats-server will assign the permissions associated with that signing key to the user. If you update the permissions associated with a signing key, the server will immediately update permissions for users signed with that key.
+При подключении nats-server назначит пользователю права, связанные с этим signing key. Если вы обновите права, связанные с signing key, сервер немедленно обновит права пользователей, подписанных этим ключом.
 
 ```shell
 nsc add account A
@@ -205,7 +205,7 @@ nsc add account A
 [ OK ] pull jwt from account server
 [ OK ] added account "A"
 ```
-Generate the signing key
+Сгенерируйте signing key:
 
 ```shell
 nsc edit account -n A --sk generate
@@ -218,79 +218,3 @@ nsc edit account -n A --sk generate
 [ OK ] account server modifications:
        > allow wildcard exports changed from true to false
 [ OK ] edited account "A"
-```
-
-Add a service to the account
-
-```shell
-nsc edit signing-key --account A --role service --sk AAZQXKDPOTGUCOCOGDW7HWWVR5WEGF3KYL7EKOEHW2XWRS2PT5AOTRH3 --allow-sub "q.>" --deny-pub ">" --allow-pub-response
-```
-
-```
-[ OK ] set max responses to 1
-[ OK ] added deny pub ">"
-[ OK ] added sub "q.>"
-[ OK ] push jwt to account server
-[ OK ] pull jwt from account server
-[ OK ] edited signing key "AAZQXKDPOTGUCOCOGDW7HWWVR5WEGF3KYL7EKOEHW2XWRS2PT5AOTRH3"
-```
-
-Since the signing key has a unique role name within an account, it can be subsequently used for easier referencing.
-
-```shell
-nsc add user U -K service
-```
-
-```
-[ OK ] generated and stored user key "UBFRJ6RNBYJWSVFBS7O4ZW5MM6J3EPE75II3ULPVUWOUH7K7A23D3RQE"
-[ OK ] generated user creds file `~/test/issue-2621/keys/creds/synadia/A/U.creds`
-[ OK ] added user "U" to account "A"
-```
-
-To see the permissions for the user enter `nsc describe user` - you will see in the report that the user is scoped, and has the permissions listed. You can inspect and modify the scoped permissions with `nsc edit signing-key` - pushing updates to the account will reassign user permissions.
-
-### Template functions
-
-*Available as of NATS 2.9.0*
-
-Although scoped signing keys are very useful and improve security, by limiting the scope of a particular signing key, the permissions that are set may be too rigid in multi-user setups. For example, given two users `pam` and `joe`, we may want to allow them to subscribe to their own namespaced subject in order to service requests, e.g. `pam.>` and `joe.>`. The permission _structure_ is the same between these users, but they differ in the concrete subjects which are further scoped to some property about that user.
-
-Template functions can be used to declare the structure within a scope signing key, but utilize basic templating so that each user that is created with the signing key has user-specific subjects.
-
-The following template functions will expand when a user is created.
-
-- `{{name()}}` - expands to the name of the user, e.g. `pam`
-- `{{subject()}}` - expands to the user public nkey value of the user, e.g. `UAC...`
-- `{{account-name()}}` - expands to the signing account name, e.g. `sales`
-- `{{account-subject()}}` - expands to the account public nkey value, e.g. `AXU...`
-- `{{tag(key)}}` - expands `key:value` tags associated with the signing key
-
-For example, given a scoped signing key with a templated `--allow-sub` subject:
-
-```
-nsc edit signing-key \
-  --account sales \
-  --role team-service \
-  --sk AXUQXKDPOTGUCOCOGDW7HWWVR5WEGF3KYL7EKOEHW2XWRS2PT5AOTRH3 \
-  --allow-sub "{{account-name()}}.{{tag(team)}}.{{name()}}.>" \
-  --allow-pub-response
-```
-
-We can create two users in different teams.
-
-```
-nsc add user pam -K team-service --tag team:support
-nsc add user joe -K team-service --tag team:leads
-```
-
-The resulting `--allow-sub` permission per user would be expanded to:
-
-```
-sales.support.pam.>
-```
-
-and
-
-```
-sales.leads.joe.>
-```

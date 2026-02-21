@@ -1,23 +1,23 @@
-# Object Store
+# Хранилище объектов
 
-JetStream, the persistence layer of NATS, not only allows for the higher qualities of service and features associated with 'streaming', but it also enables some functionalities not found in messaging systems.
+JetStream — слой персистентности NATS — обеспечивает не только более высокие уровни качества обслуживания и функции, связанные со «streaming», но и некоторые возможности, не характерные для систем обмена сообщениями.
 
-One such feature is the Object store functionality, which allows client applications to create `buckets` (corresponding to streams) that can store a set of files. Files are stored and transmitted in chunks, allowing files of arbitrary size to be transferred safely over the NATS infrastructure.
+Одна из таких возможностей — Object Store, которая позволяет клиентским приложениям создавать `buckets` (соответствующие потокам) для хранения набора файлов. Файлы хранятся и передаются чанками, что позволяет безопасно передавать файлы произвольного размера через инфраструктуру NATS.
 
-**Note:**  Object store is not a distributed storage system. All files in a bucket will need to fit on the target file system.
+**Примечание:** Object Store не является распределенной системой хранения. Все файлы в bucket должны помещаться в целевой файловой системе.
 
 * [Walkthrough](obj_walkthrough.md)
-* [Details](../../../using-nats/developing-with-nats/js/object.md)
+* [Подробности](../../../using-nats/developing-with-nats/js/object.md)
 
-## Basic Capabilities
+## Базовые возможности
 
-The Object Store implements a chunking mechanism, allowing you to for example store and retrieve files (i.e. the object) of any size by associating them with a path or file name as the key.
+Object Store реализует механизм чанкинга, позволяя, например, хранить и извлекать файлы (то есть объекты) любого размера, связывая их с путем или именем файла как ключом.
  
-* `add` a `bucket` to hold the files.
-* `put` Add a file to the bucket
-* `get` Retrieve the file and store it to a designated location
-* `del` Delete a file
+* `add` — добавить `bucket` для хранения файлов.
+* `put` — добавить файл в bucket.
+* `get` — получить файл и сохранить его в указанное место.
+* `del` — удалить файл.
 
-## Advanced Capabilities 
+## Расширенные возможности
 
-* `watch` Subscribe to changes in the bucket. Will receive notifications on successful `put` and `del` operations.
+* `watch` — подписаться на изменения в bucket. Будут приходить уведомления об успешных операциях `put` и `del`.

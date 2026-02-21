@@ -1,8 +1,8 @@
-# Unsubscribing
+# Отписка
 
-The client libraries provide a means to unsubscribe a previous subscription request.
+Клиентские библиотеки предоставляют способ отписаться от ранее созданной подписки.
 
-This process requires an interaction with the server, so for an asynchronous subscription there may be a small window of time where a message comes through as the unsubscribe is processed by the library. Ignoring that slight edge case, the client library will clean up any outstanding messages and tell the server that the subscription is no longer used.
+Этот процесс требует взаимодействия с сервером, поэтому для асинхронной подписки может быть небольшое окно времени, когда сообщение придёт, пока отписка обрабатывается библиотекой. Не считая этого небольшого крайнего случая, клиентская библиотека очистит все ожидающие сообщения и сообщит серверу, что подписка больше не используется.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -172,4 +172,3 @@ natsConnection_Destroy(conn);
 ```
 {% endtab %}
 {% endtabs %}
-

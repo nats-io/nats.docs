@@ -1,33 +1,33 @@
-# Walkthrough Setup
+# Пошаговая настройка
 
-We have provided Walkthroughs for you to try NATS (and JetStream) on your own. In order to follow along with the walkthroughs, you could choose one of these options:
+Мы подготовили пошаговые руководства, чтобы вы могли самостоятельно попробовать NATS (и JetStream). Чтобы следовать этим руководствам, можно выбрать один из вариантов:
 
-* The `nats` CLI tool must be installed, and a local NATS server must be installed (or you can use a remote server you have access to).
-* You can use Synadia's NGS.
-* You could even use the demo server from where you installed NATS. This is accessible via `nats://demo.nats.io` (this is a NATS connection URL; not a browser URL. You pass it to a NATS client application).
+* Установить CLI‑инструмент `nats` и локальный сервер NATS (или использовать удаленный сервер, к которому у вас есть доступ).
+* Использовать NGS от Synadia.
+* Использовать демо‑сервер от места установки NATS. Он доступен по адресу `nats://demo.nats.io` (это URL подключения NATS, а не адрес в браузере. Его нужно передать клиентскому приложению NATS).
 
-## Installing the [`nats`](../../using-nats/nats-tools/nats\_cli/) CLI Tool
+## Установка CLI‑инструмента [`nats`](../../using-nats/nats-tools/nats\_cli/)
 
-Please refer to the [installation section in the readme](https://github.com/nats-io/natscli?tab=readme-ov-file#installation).
+См. [раздел установки в readme](https://github.com/nats-io/natscli?tab=readme-ov-file#installation).
 
-## Installing the NATS server locally (if needed)
+## Установка сервера NATS локально (если нужно)
 
-If you are going to run a server locally you need to first install it and start it.  
-Please refer to the [nats server installation doc](../../running-a-nats-service/installation.md)
+Если вы собираетесь запускать сервер локально, его нужно сначала установить и запустить.  
+См. [документацию по установке сервера NATS](../../running-a-nats-service/installation.md)
 
-Alternatively if you already know how to use NATS on a remote server, you only need to pass the server URL to `nats` using the `-s` option or preferably create a context using `nats context add`, to specify the server URL(s) and credentials file containing your user JWT.
+Если же вы уже умеете работать с NATS на удаленном сервере, достаточно передать URL сервера в `nats` с помощью опции `-s` или, что предпочтительнее, создать контекст через `nats context add`, чтобы задать URL сервера(ов) и файл credentials с вашим JWT пользователя.
 
-### Start the NATS server (if needed)
+### Запуск сервера NATS (если нужно)
 
-To start a simple demonstration server locally, simply run:
+Чтобы запустить простой демонстрационный сервер локально, выполните:
 
 ```bash
 nats-server
 ```
 
-(or `nats-server -m 8222` if you want to enable the HTTP monitoring functionality)
+(или `nats-server -m 8222`, если хотите включить HTTP‑мониторинг)
 
-When the server starts successfully, you will see the following messages:
+После успешного запуска вы увидите сообщения:
 
 ```
 [14524] 2021/10/25 22:53:53.525530 [INF] Starting nats-server
@@ -40,4 +40,4 @@ When the server starts successfully, you will see the following messages:
 [14524] 2021/10/25 22:53:53.526684 [INF] Server is ready
 ```
 
-The NATS server listens for client connections on TCP Port 4222.
+Сервер NATS принимает клиентские подключения на TCP‑порту 4222.

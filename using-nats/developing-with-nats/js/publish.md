@@ -1,4 +1,4 @@
-# Publishing to Streams
+# Публикация в streams
 
 {% tabs %}
 {% tab title="Go" %}

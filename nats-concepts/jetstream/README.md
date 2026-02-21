@@ -1,167 +1,167 @@
 # JetStream
 
-NATS has a built-in persistence engine called [JetStream](../../using-nats/jetstream/develop\_jetstream.md) which enables messages to be stored and replayed at a later time. Unlike _NATS Core_ which requires you to have an active subscription to process messages as they happen, JetStream allows the NATS server to capture messages and replay them to consumers as needed. This functionality enables a different quality of service for your NATS messages, and enables fault-tolerant and high-availability configurations.
+В NATS есть встроенный движок персистентности под названием [JetStream](../../using-nats/jetstream/develop\_jetstream.md), который позволяет хранить сообщения и воспроизводить их позже. В отличие от _Core NATS_, где требуется активная подписка для обработки сообщений «по мере поступления», JetStream позволяет серверу NATS захватывать сообщения и воспроизводить их потребителям по необходимости. Эта функциональность обеспечивает другое качество обслуживания для сообщений NATS и позволяет строить отказоустойчивые и высокодоступные конфигурации.
 
-JetStream is built into `nats-server`. If you have a cluster of JetStream-enabled servers you can enable data replication and thus guard against failures and service disruptions.
+JetStream встроен в `nats-server`. Если у вас есть кластер серверов с JetStream, вы можете включить репликацию данных и тем самым защититься от сбоев и прерываний обслуживания.
 
-JetStream was created to address the problems identified with streaming technology today - complexity, fragility, and a lack of scalability. Some technologies address these better than others, but no current streaming technology is truly multi-tenant, horizontally scalable, or supports multiple deployment models. No other technology that we are aware of can scale from edge to cloud using the same security context while having complete deployment observability for operations.
+JetStream создан для решения проблем современных streaming‑технологий: сложности, хрупкости и недостатка масштабируемости. Некоторые технологии справляются с этим лучше других, но ни одна существующая streaming‑технология не является по‑настоящему мультиарендной, горизонтально масштабируемой или поддерживающей несколько моделей развертывания. Ни одна известная нам технология не может масштабироваться от edge до облака, используя тот же контекст безопасности и обеспечивая полную наблюдаемость развертывания для операций.
 
-#### Additional capabilities enabled by JetStream
+#### Дополнительные возможности JetStream
 
-The JetStream persistence layer enables additional use cases typically not found in messaging systems. Being built on top of JetStream they inherit the core capabilities of JetStream, replication, security, routing limits, and mirroring.
+Слой персистентности JetStream открывает дополнительные сценарии использования, которые обычно не встречаются в системах обмена сообщениями. Построенные поверх JetStream, они наследуют его ключевые возможности: репликацию, безопасность, ограничения маршрутизации и зеркалирование.
 
-* [Key Value Store](./#key-value-store) A map (associative array) with atomic operations
-* [Object Store](./#object-store) File transfer, replications and storage API. Uses chunked transfers for scalability.
+* [Key Value Store](./#key-value-store) карта (ассоциативный массив) с атомарными операциями
+* [Object Store](./#object-store) API для передачи, репликации и хранения файлов. Использует chunk‑передачи для масштабируемости.
 
-Key/Value and File transfer are capabilities commonly found in in-memory databases or deployment tools. While NATS does not intend to compete with the feature set of such tools, it is our goal to provide the developer with reasonable complete set of data storage and replications features for use cases like micro service, edge deployments and server management.
+Key/Value и передача файлов — возможности, часто встречающиеся в in‑memory базах данных или инструментах развертывания. NATS не стремится конкурировать с их функциональностью, но наша цель — предоставить разработчику разумно полный набор возможностей хранения данных и репликации для сценариев вроде микросервисов, edge‑развертываний и управления серверами.
 
-#### Configuration
+#### Конфигурация
 
-To configure a `nats-server` with JetStream refer to:
+Чтобы настроить `nats-server` с JetStream, см.:
 
-* [Configuring JetStream](../../running-a-nats-service/configuration/jetstream-config/resource\_management.md)
-* [JetStream Clustering](../../running-a-nats-service/configuration/clustering/jetstream\_clustering/)
+* [Настройка JetStream](../../running-a-nats-service/configuration/jetstream-config/resource\_management.md)
+* [Кластеризация JetStream](../../running-a-nats-service/configuration/clustering/jetstream\_clustering/)
 
-#### Examples
+#### Примеры
 
-For runnable JetStream code examples, refer to [NATS by Example](https://natsbyexample.com).
+Рабочие примеры кода JetStream см. в [NATS by Example](https://natsbyexample.com).
 
-#### Goals
+#### Цели
 
-JetStream was developed with the following goals in mind:
+JetStream разрабатывался со следующими целями:
 
-* The system must be easy to configure and operate and be observable.
-* The system must be secure and operate well with NATS 2.0 security models.
-* The system must scale horizontally and be applicable to a high ingestion rate.
-* The system must support multiple use cases.
-* The system must self-heal.
-* The system must allow NATS messages to be part of a stream as desired.
-* The system must display payload agnostic behavior.
-* The system must not have third party dependencies.
+* Система должна быть простой в настройке и эксплуатации и быть наблюдаемой.
+* Система должна быть безопасной и хорошо работать с моделями безопасности NATS 2.0.
+* Система должна масштабироваться горизонтально и подходить для высокой скорости приема данных.
+* Система должна поддерживать несколько сценариев использования.
+* Система должна самовосстанавливаться.
+* Система должна позволять сообщениям NATS быть частью потока по мере необходимости.
+* Система должна быть агностичной к содержимому payload.
+* Система не должна иметь сторонних зависимостей.
 
-### JetStream capabilities
+### Возможности JetStream
 
-#### Streaming: temporal decoupling between the publishers and subscribers
+#### Streaming: временная развязка издателей и подписчиков
 
-One of the tenets of basic publish/subscribe messaging is that there is a required temporal coupling between the publishers and the subscribers: subscribers only receive the messages that are published when they are actively connected to the messaging system (i.e. they do not receive messages that are published while they are not subscribing or not running or disconnected). The traditional way for messaging systems to provide temporal decoupling of the publishers and subscribers is through the 'durable subscriber' functionality or sometimes through 'queues', but neither one is perfect:
+Одна из аксиом базовой модели publish/subscribe — наличие временной связности между издателями и подписчиками: подписчики получают сообщения только тогда, когда они активно подключены к системе обмена сообщениями (то есть они не получают сообщения, опубликованные в периоды, когда они не подписаны, не запущены или отключены). Традиционный способ обеспечить временную развязку — это 'durable subscriber' или иногда 'queues', но ни один из них не идеален:
 
-* durable subscribers need to be created _before_ the messages get published
-* queues are meant for workload distribution and consumption, not to be used as a mechanism for message replay.
+* durable‑подписчики должны быть созданы _до_ публикации сообщений
+* очереди предназначены для распределения и потребления нагрузки, а не для воспроизведения сообщений.
 
-However, in many use cases, you do not need to 'consume exactly once' functionality but rather the ability to replay messages on demand, as many times as you want. This need has led to the popularity of some 'streaming' messaging platforms.
+Однако во многих случаях вам не нужно «потребление ровно один раз», а нужна возможность воспроизведения сообщений по запросу столько раз, сколько нужно. Это и привело к популярности некоторых streaming‑платформ обмена сообщениями.
 
-JetStream provides _both_ the ability to _consume_ messages as they are published (i.e. 'queueing') as well as the ability to _replay_ messages on demand (i.e. 'streaming'). See [retention policies](./#Retention-policies-and-limits) below.
+JetStream дает _оба_ варианта: возможность _потреблять_ сообщения по мере публикации (то есть 'queueing') и возможность _воспроизводить_ сообщения по запросу (то есть 'streaming'). См. [политики хранения](./#Retention-policies-and-limits) ниже.
 
-**Replay policies**
+**Политики воспроизведения**
 
-JetStream consumers support multiple replay policies, depending on whether the consuming application wants to receive either:
+JetStream consumers поддерживают несколько политик воспроизведения в зависимости от того, хочет ли приложение получить:
 
-* _all_ of the messages currently stored in the stream, meaning a complete 'replay' and you can select the 'replay policy' (i.e. the speed of the replay) to be either:
-  * _instant_ (meaning the messages are delivered to the consumer as fast as it can take them).
-  * _original_ (meaning the messages are delivered to the consumer at the rate they were published into the stream, which can be very useful for example for staging production traffic).
-* the _last_ message stored in the stream, or the _last message for each subject_ (as streams can capture more than one subject).
-* starting from a specific _sequence number_.
-* starting from a specific _start time_.
+* _все_ сообщения, которые сейчас хранятся в потоке — то есть полный 'replay', при этом скорость воспроизведения может быть:
+  * _instant_ (сообщения доставляются потребителю настолько быстро, насколько он способен их принимать).
+  * _original_ (сообщения доставляются с той же скоростью, с какой они публиковались в поток; это полезно, например, для прогонки продакшн‑трафика на стейджинг).
+* _последнее_ сообщение в потоке или _последнее сообщение по каждому subject_ (поскольку поток может захватывать более одного subject).
+* начиная с конкретного _sequence number_.
+* начиная с конкретного _start time_.
 
-**Retention policies and limits**
+**Политики хранения и лимиты**
 
-JetStream enables new functionalities and higher qualities of service on top of the base 'Core NATS' functionality. However, practically speaking, streams can't always just keep growing 'forever' and therefore JetStream supports multiple retention policies as well as the ability to impose size limits on streams.
+JetStream добавляет новые возможности и более высокое качество обслуживания поверх базовой функциональности Core NATS. Однако на практике потоки не могут расти «бесконечно», поэтому JetStream поддерживает несколько политик хранения и возможность задавать лимиты на потоки.
 
-**Limits**
+**Лимиты**
 
-You can impose the following limits on a stream
+Вы можете установить следующие лимиты для потока:
 
-* Maximum message age.
-* Maximum total stream size (in bytes).
-* Maximum number of messages in the stream.
-* Maximum individual message size.
-* You can also set limits on the number of consumers that can be defined for the stream at any given point in time.
+* Максимальный возраст сообщения.
+* Максимальный общий размер потока (в байтах).
+* Максимальное количество сообщений в потоке.
+* Максимальный размер отдельного сообщения.
+* Лимит на количество consumers, которые могут быть определены для потока в любой момент времени.
 
-You must also select a **discard policy** which specifies what should happen once the stream has reached one of its limits and a new message is published:
+Также необходимо выбрать **политику сброса (discard policy)**, которая определяет, что происходит, когда поток достигает одного из лимитов и публикуется новое сообщение:
 
-* _discard old_ means that the stream will automatically delete the oldest message in the stream to make room for the new messages.
-* _discard new_ means that the new message is discarded (and the JetStream publish call returns an error indicating that a limit was reached).
+* _discard old_ — поток автоматически удаляет самое старое сообщение, чтобы освободить место для новых.
+* _discard new_ — новое сообщение отбрасывается (и вызов публикации JetStream возвращает ошибку, указывающую, что лимит достигнут).
 
-**Retention policy**
+**Политика хранения**
 
-You can choose what kind of retention you want for each stream:
+Для каждого потока можно выбрать тип хранения:
 
-* _limits_ (the default) is to provide a replay of messages in the stream.
-* _work queue_ (the stream is used as a shared queue and messages are removed from it as they are consumed) is to provide the exactly-once consumption of messages in the stream.
-* _interest_ (messages are kept in the stream for as long as there are consumers that haven't delivered the message yet) is a variation of work queue that only retains messages if there is interest (consumers currently defined on the stream) for the message's subject.
+* _limits_ (по умолчанию) — обеспечивает воспроизведение сообщений в потоке.
+* _work queue_ (поток используется как общая очередь, и сообщения удаляются по мере потребления) — обеспечивает потребление сообщений «ровно один раз».
+* _interest_ (сообщения хранятся в потоке, пока есть consumers, которые еще не доставили сообщение) — вариант work queue, который сохраняет сообщения только при наличии интереса (consumers, определенных для subject сообщения).
 
-Note that regardless of the retention policy selected, the limits (and the discard policy) _always_ apply.
+Обратите внимание: независимо от выбранной политики хранения, лимиты (и политика сброса) _всегда_ применяются.
 
-**Subject mapping transformations**
+**Преобразования subject mapping**
 
-JetStream also enables the ability to apply subject mapping transformations to messages as they are ingested into a stream.
+JetStream также позволяет применять преобразования subject mapping к сообщениям при их попадании в поток.
 
-#### Persistent and Consistent distributed storage
+#### Персистентное и консистентное распределенное хранилище
 
-You can choose the durability as well as the resilience of the message storage according to your needs.
+Вы можете выбрать долговечность и устойчивость хранения сообщений под свои потребности.
 
-* Memory storage.
-* File storage.
-* Replication (1 (none), 2, 3) between nats servers for Fault Tolerance.
+* Хранение в памяти.
+* Хранение на диске.
+* Репликация (1 (нет), 2, 3) между серверами NATS для отказоустойчивости.
 
-JetStream uses a NATS optimized RAFT distributed quorum algorithm to distribute the persistence service between NATS servers in a cluster while maintaining immediate consistency (as opposed to [eventual consistency](https://en.wikipedia.org/wiki/Eventual\_consistency)) even in the face of failures.
+JetStream использует оптимизированный для NATS распределенный кворумный алгоритм RAFT, чтобы распределять сервис персистентности между серверами NATS в кластере и сохранять немедленную консистентность (в отличие от [eventual consistency](https://en.wikipedia.org/wiki/Eventual\_consistency)) даже при сбоях.
 
-For writes (publications to a stream), the formal consistency model of NATS JetStream is [Linearizable](https://jepsen.io/consistency/models/linearizable). On the read side (listening to or replaying messages from streams) the formal models don't really apply because JetStream does not support atomic batching of multiple operations together (so the only kind of 'transaction' is the persisting, replicating and voting of a single operation on the stream) but in essence, JetStream is [serializable](https://jepsen.io/consistency/models/serializable) because messages are added to a stream in one global order (which you can control using compare and publish).
+Для записей (публикаций в поток) формальная модель консистентности NATS JetStream — [Linearizable](https://jepsen.io/consistency/models/linearizable). Для чтений (прослушивания или воспроизведения сообщений из потоков) формальные модели не вполне применимы, поскольку JetStream не поддерживает атомарное объединение нескольких операций (единственный вид «транзакции» — это персистентность, репликация и голосование одной операции над потоком). По сути JetStream [serializable](https://jepsen.io/consistency/models/serializable), так как сообщения добавляются в поток в едином глобальном порядке (который можно контролировать с помощью compare and publish).
 
-Do note, while we do guarantee immediate consistency when it comes to [monotonic writes](https://jepsen.io/consistency/models/monotonic-writes) and [monotonic reads](https://jepsen.io/consistency/models/monotonic-reads). We don't guarantee [read your writes](https://jepsen.io/consistency/models/read-your-writes) at this time, as reads through _direct get_ requests may be served by followers or mirrors. More consistent results can be achieved by sending get requests to the stream leader.
+Обратите внимание, что мы гарантируем немедленную консистентность для [monotonic writes](https://jepsen.io/consistency/models/monotonic-writes) и [monotonic reads](https://jepsen.io/consistency/models/monotonic-reads). Мы пока не гарантируем [read your writes](https://jepsen.io/consistency/models/read-your-writes), так как чтение через _direct get_ запросы может обслуживаться followers или mirrors. Более согласованные результаты можно получить, отправляя get‑запросы лидеру потока.
 
-JetStream can also provide encryption at rest of the messages being stored.
+JetStream также может обеспечивать шифрование «на диске» для хранимых сообщений.
 
-In JetStream the configuration for storing messages is defined separately from how they are consumed. Storage is defined in a [_Stream_](streams.md) and consuming messages is defined by multiple [_Consumers_](consumers.md).
+В JetStream конфигурация хранения сообщений определена отдельно от способов их потребления. Хранение описывается в [_Stream_](streams.md), а потребление сообщений — через несколько [_Consumers_](consumers.md).
 
-**Stream replication factor**
+**Коэффициент репликации потоков**
 
-A stream's replication factor (R, often referred to as the number 'Replicas') determines how many places it is stored allowing you to tune to balance risk with resource usage and performance. A stream that is easily rebuilt or temporary might be memory-based with a R=1 and a stream that can tolerate some downtime might be file-based R-1.
+Коэффициент репликации потока (R, часто обозначаемый как число Replicas) определяет, в скольких местах он хранится, позволяя балансировать риск, использование ресурсов и производительность. Поток, который легко восстановить или который временный, может быть в памяти с R=1, а поток, который может пережить небольшой простой, может быть на диске с R=1.
 
-Typical usage to operate in typical outages and balance performance would be a file-based stream with R=3. A highly resilient, but less performant and more expensive configuration is R=5, the replication factor limit.
+Типичный вариант для работы при обычных сбоях и баланса производительности — поток на диске с R=3. Очень устойчивый, но менее производительный и более дорогой вариант — R=5, максимальный коэффициент репликации.
 
-Rather than defaulting to the maximum, we suggest selecting the best option based on the use case behind the stream. This optimizes resource usage to create a more resilient system at scale.
+Вместо выбора максимума по умолчанию, мы рекомендуем выбирать оптимальный вариант в зависимости от сценария использования потока. Это оптимизирует ресурсы и повышает устойчивость системы в масштабе.
 
-* Replicas=1 - Cannot operate during an outage of the server servicing the stream. Highly performant.
-* Replicas=2 - No significant benefit at this time. We recommend using Replicas=3 instead.
-* Replicas=3 - Can tolerate the loss of one server servicing the stream. An ideal balance between risk and performance.
-* Replicas=4 - No significant benefit over Replicas=3 except marginally in a 5 node cluster.
-* Replicas=5 - Can tolerate simultaneous loss of two servers servicing the stream. Mitigates risk at the expense of performance.
+* Replicas=1 — не работает при сбое сервера, обслуживающего поток. Очень высокая производительность.
+* Replicas=2 — на данный момент существенной пользы нет. Рекомендуем использовать Replicas=3.
+* Replicas=3 — выдерживает потерю одного сервера, обслуживающего поток. Идеальный баланс между риском и производительностью.
+* Replicas=4 — нет значимого преимущества по сравнению с Replicas=3, кроме небольшого выигрыша в кластере из 5 узлов.
+* Replicas=5 — выдерживает одновременную потерю двух серверов, обслуживающих поток. Снижает риск ценой производительности.
 
-**Mirroring and Sourcing between streams**
+**Зеркалирование и источники между потоками**
 
-JetStream also allows server administrators to easily mirror streams, for example between different JetStream domains in order to offer disaster recovery. You can also define a stream that 'sources' from one or more other streams.
+JetStream также позволяет администраторам легко зеркалировать потоки, например, между разными доменами JetStream для аварийного восстановления. Также можно определить поток, который «источником» использует один или несколько других потоков.
 
-**Syncing data to disk**
+**Синхронизация данных на диск**
 
-JetStream’s file-based streams persist messages to disk. However, while JetStream does flush file writes to the OS synchronously, under the default configuration it does not immediately `fsync` data to disk. The server uses a configurable `sync_interval` option, with a default value of 2 minutes, which controls how often the server will `fsync` its data. The data will be `fsync`-ed no later than this interval. This has important consequences for durability with respect to OS failures (meaning ungraceful exit of the Operating System such as a power outage, and not just ungraceful exit or killing of the `nats-server` process itself):
+Потоки JetStream на диске сохраняют сообщения на диск. Однако, хотя JetStream синхронно сбрасывает записи файлов в ОС, при конфигурации по умолчанию он не выполняет немедленный `fsync` на диск. Сервер использует настраиваемый параметр `sync_interval` со значением по умолчанию 2 минуты, который определяет, как часто сервер делает `fsync` данных. Данные будут `fsync`‑нуты не позднее этого интервала. Это имеет важные последствия для надежности при сбоях ОС (то есть аварийном завершении ОС, например при отключении питания, а не только аварийном завершении или убийстве процесса `nats-server`):
 
-In a non-replicated setup, an OS failure may result in data loss. A client might publish a message and receive an acknowledgment, but the data may not yet be safely stored to disk. As a result, after an OS failure recovery, a server may have lost recently acknowledged messages.
+В нереплицированной конфигурации сбой ОС может привести к потере данных. Клиент может опубликовать сообщение и получить подтверждение, но данные еще не были надежно записаны на диск. В результате после восстановления ОС сервер может потерять недавно подтвержденные сообщения.
 
-In a replicated setup, a published message is acknowledged after it successfully replicated to at least a quorum of servers. However, replication alone is not enough to guarantee the strongest level of durability against multiple systemic failures.
-- If multiple servers fail simultaneously, all due to an OS failure, and before their data has been `fsync`-ed, the cluster may fail to recover the most recently acknowledged messages.
-- If a failed server lost data locally due to an OS failure, although extremely rare, there are some combinations of events where it may rejoin the cluster and form a new majority with nodes that have never received or persisted a given message. The cluster may then proceed with incomplete data causing acknowledged messages to be lost.
+В реплицированной конфигурации сообщение подтверждается после успешной репликации как минимум на кворум серверов. Однако одной репликации недостаточно, чтобы гарантировать максимальную устойчивость к множественным системным сбоям.
+- Если несколько серверов одновременно выходят из строя из‑за сбоя ОС, и до того, как их данные были `fsync`‑нуты, кластер может не восстановить самые недавно подтвержденные сообщения.
+- Если сбойный сервер потерял данные локально из‑за сбоя ОС (хотя это крайне редко), возможны комбинации событий, при которых он может снова войти в кластер и сформировать новое большинство с узлами, которые никогда не получали и не сохраняли конкретное сообщение. Тогда кластер может продолжить работу с неполными данными, и подтвержденные сообщения будут потеряны.
 
-Setting a lower `sync_interval` increases the frequency of disk writes, and reduces the window for potential data loss, but at the expense of performance. Additionally, setting `sync_interval: always` will make sure servers `fsync` after every message before it is acknowledged. This setting, combined with replication in different data centers or availability zones, provides the strongest durability guarantees but at the slowest performance.
+Уменьшение `sync_interval` увеличивает частоту записи на диск и уменьшает окно потенциальной потери данных, но снижает производительность. Кроме того, установка `sync_interval: always` гарантирует `fsync` после каждого сообщения до подтверждения. Эта настройка, в сочетании с репликацией в разных дата‑центрах или зонах доступности, обеспечивает самые сильные гарантии долговечности, но при самой низкой производительности.
 
-The default settings have been chosen to balance performance and risk of data loss in what we consider to be a typical production deployment scenario across multiple availability zones.
+Настройки по умолчанию выбраны так, чтобы сбалансировать производительность и риск потери данных в типичном продакшн‑сценарии развертывания в нескольких зонах доступности.
 
-For example, consider a stream with 3 replicas deployed across three separate availability zones. For the stream state to diverge across nodes would require that:
-- One of the 3 servers is already offline, isolated or partitioned.
-- A second server’s OS needs to fail such that it loses writes of messages that were only available on 2 out of 3 nodes due to them not being `fsync`-ed.
-- The stream leader that’s part of the above 2 out of 3 nodes needs to go down or become isolated/partitioned.
-- The first server of the original partition that didn’t receive the writes recovers from the partition.
-- The OS-failed server now returns and comes in contact with the first server but not with the previous stream leader.
+Например, рассмотрим поток с 3 репликами в трех отдельных зонах доступности. Чтобы состояние потока разошлось между узлами, требуется:
+- Один из 3 серверов уже офлайн, изолирован или в partition.
+- У второй машины происходит сбой ОС, из‑за которого теряются записи сообщений, которые были только на 2 из 3 узлов, потому что они не были `fsync`‑нуты.
+- Лидер потока, входящий в эти 2 из 3 узлов, должен упасть или стать изолированным/в partition.
+- Первый сервер из первоначального partition, который не получал записи, восстанавливается.
+- Сбойный сервер ОС возвращается и связывается с первым сервером, но не с предыдущим лидером потока.
 
-In the end, 2 out of 3 nodes will be available, the previous stream leader with the writes will be unavailable, one server will have lost some writes due to the OS failure, and one server will have never seen these writes due to the earlier partition. The last two servers could then form a majority and accept new writes, essentially losing some of the former writes.
+В итоге 2 из 3 узлов будут доступны, предыдущий лидер с записями будет недоступен, один сервер потеряет часть записей из‑за сбоя ОС, а один сервер никогда эти записи не видел из‑за предыдущего partition. Последние два сервера могут сформировать большинство и принять новые записи, фактически потеряв часть прежних записей.
 
-Importantly this is a failure condition where stream state could diverge, but in a system that is deployed across multiple availability zones, it would require multiple faults to align precisely in the right way.
+Важно, что это сценарий, в котором состояние потока может разойтись, но в системе, развернутой в нескольких зонах доступности, потребуется, чтобы несколько отказов совпали очень точным образом.
 
-A potential mitigation to a failure of this kind is not automatically bringing back a server process that was OS-failed until it is known that a majority of the remaining servers have received the new writes, or by peer-removing the crashed server and admitting it as a new and wiped peer and allowing it to recover over the network from existing healthy nodes (although this could be expensive depending on the amount of data involved).
+Потенциальной мерой против такого отказа является не возвращать автоматически сервер после сбоя ОС, пока не станет известно, что большинство оставшихся серверов получили новые записи, или выполнить peer‑remove сбойного сервера, добавить его как нового очищенного peer и дать ему восстановиться по сети от здоровых узлов (что может быть дорого, в зависимости от объема данных).
 
-For use cases where minimizing loss is an absolute priority,  `sync_interval: always` can of course still be configured, but note that this will have a server-wide performance impact that may affect throughput or latencies. For production environments, operators should evaluate whether the default is correct for their use case, target environment, costs, and performance requirements.
+Если минимизация потерь — абсолютный приоритет, `sync_interval: always` можно настроить, но учтите, что это влияет на производительность всего сервера и может ухудшить throughput или latency. Для продакшн‑сред операторам следует оценить, подходит ли конфигурация по умолчанию под их сценарий, целевую среду, стоимость и требования к производительности.
 
-Alternatively, a hybrid approach can be used where existing clusters still function under their default `sync_interval` settings but a new cluster gets added that’s configured with `sync_interval: always`, and utilizes server tags. The placement of a stream can then be specified to have this stream store data on this higher durability cluster through the use of [placement tags](streams.md#placement).
+В качестве альтернативы можно использовать гибридный подход: существующие кластеры продолжают работать с настройками `sync_interval` по умолчанию, а добавляется новый кластер, настроенный с `sync_interval: always` и использующий server tags. Размещение потока можно указать так, чтобы этот поток хранил данные на более надежном кластере с помощью [placement tags](streams.md#placement).
 ```
 # Configure a cluster that's dedicated to always sync writes.
 server_tags: ["sync:always"]
@@ -171,72 +171,72 @@ jetstream {
 }
 ```
 
-Create a replicated stream that’s specifically placed in the cluster using `sync_interval: always`, to ensure the strongest durability only for stream writes that require this level of durability.
+Создайте реплицированный поток, специально размещенный в кластере с `sync_interval: always`, чтобы обеспечить максимальную надежность только для тех записей потока, где это требуется.
 ```
 nats stream add --replicas 3 --tag sync:always
 ```
 
-#### De-coupled flow control
+#### Развязанный контроль потока
 
-JetStream provides decoupled flow control over streams, the flow control is not 'end to end' where the publisher(s) are limited to publish no faster than the slowest of all the consumers (i.e. the lowest common denominator) can receive but is instead happening individually between each client application (publishers or consumers) and the nats server.
+JetStream предоставляет развязанный контроль потока для потоков: это не end‑to‑end контроль, где издатель(и) ограничены скоростью самого медленного потребителя (то есть минимальным общим знаменателем). Вместо этого контроль потока происходит индивидуально между каждым клиентским приложением (издателем или потребителем) и сервером NATS.
 
-When using the JetStream publish calls to publish to streams there is an acknowledgment mechanism between the publisher and the NATS server, and you have the choice of making synchronous or asynchronous (i.e. 'batched') JetStream publish calls.
+При публикации в потоки через вызовы JetStream publish существует механизм подтверждений между издателем и сервером NATS, и вы можете выбирать синхронные или асинхронные (то есть «батчевые») публикации JetStream.
 
-On the subscriber side, the sending of messages from the NATS server to the client applications receiving or consuming messages from streams is also flow controlled.
+На стороне подписчиков отправка сообщений от сервера NATS к клиентским приложениям, получающим или потребляющим сообщения из потоков, также контролируется потоком.
 
-#### Exactly once semantics
+#### Семантика exactly once
 
-Because publications to streams using the JetStream publish calls are acknowledged by the server the base quality of service offered by streams is '_at least once_', meaning that while reliable and normally duplicate free there are some specific failure scenarios that could result in a publishing application believing (wrongly) that a message was not published successfully and therefore publishing it again, and there are failure scenarios that could result in a client application's consumption acknowledgment getting lost and therefore in the message being re-sent to the consumer by the server. Those failure scenarios while being rare and even difficult to reproduce do exist and can result in perceived 'message duplication' at the application level.
+Поскольку публикации в потоки через JetStream publish подтверждаются сервером, базовое качество обслуживания потоков — '_at least once_'. Это означает, что хотя система надежная и обычно без дубликатов, существуют специфические сценарии сбоев, при которых приложение‑издатель может ошибочно считать, что сообщение не было опубликовано, и повторить публикацию, а также сценарии, при которых подтверждение потребления может потеряться, и сервер повторно отправит сообщение потребителю. Такие сценарии редки и сложны для воспроизведения, но они существуют и могут привести к воспринимаемой «дупликации» сообщений на уровне приложения.
 
-Therefore, JetStream also offers an '_exactly once_' quality of service. For the publishing side, it relies on the publishing application attaching a unique message or publication ID in a message header and on the server keeping track of those IDs for a configurable rolling period of time in order to detect the publisher publishing the same message twice. For the subscribers a _double_ acknowledgment mechanism is used to avoid a message being erroneously re-sent to a subscriber by the server after some kinds of failures.
+Поэтому JetStream предлагает качество обслуживания '_exactly once_'. Для публикации это опирается на то, что приложение‑издатель добавляет уникальный ID сообщения или публикации в заголовок, а сервер отслеживает эти ID в течение настраиваемого скользящего периода времени, чтобы обнаружить повторную публикацию. Для подписчиков используется _двойной_ механизм подтверждений, чтобы избежать ошибочной повторной отправки сообщения подписчику после некоторых видов сбоев.
 
 #### Consumers
 
-JetStream [consumers](consumers.md) are 'views' on a stream, they are subscribed to (or pulled) by client applications to receive copies of (or to consume if the stream is set as a working queue) messages stored in the stream.
+JetStream [consumers](consumers.md) — это «представления» потока. Клиентские приложения подписываются на них (или тянут их), чтобы получать копии сообщений (или потреблять их, если поток настроен как рабочая очередь), хранящихся в потоке.
 
-**Fast push consumers**
+**Быстрые push‑consumers**
 
-Client applications can choose to use fast un-acknowledged `push` (ordered) consumers to receive messages as fast as possible (for the selected replay policy) on a specified delivery subject or to an inbox. Those consumers are meant to be used to 'replay' rather than 'consume' the messages in a stream.
+Клиентские приложения могут использовать быстрых `push` (упорядоченных) consumers без подтверждений, чтобы получать сообщения как можно быстрее (в рамках выбранной политики воспроизведения) на заданный subject доставки или в inbox. Эти consumers предназначены для «воспроизведения», а не для «потребления» сообщений потока.
 
-**Horizontally scalable pull consumers with batching**
+**Горизонтально масштабируемые pull‑consumers с батчингом**
 
-Client applications can also use and share `pull` consumers that are demand-driven, support batching and must explicitly acknowledge message reception and processing which means that they can be used to consume (i.e. use the stream as a distributed queue) as well as process the messages in a stream.
+Клиентские приложения также могут использовать и разделять `pull` consumers, которые работают по спросу, поддерживают батчи и требуют явного подтверждения получения и обработки сообщений. Это означает, что их можно использовать как для потребления (то есть для использования потока как распределенной очереди), так и для обработки сообщений в потоке.
 
-Pull consumers can and are meant to be shared between applications (just like queue groups) in order to provide easy and transparent horizontal scalability of the processing or consumption of messages in a stream without having (for example) to worry about having to define partitions or worry about fault-tolerance.
+Pull consumers могут и должны разделяться между приложениями (как queue‑groups), чтобы обеспечить простую и прозрачную горизонтальную масштабируемость обработки или потребления сообщений в потоке без необходимости, например, определять партиции или беспокоиться об отказоустойчивости.
 
-Note: using pull consumers doesn't mean that you can't get updates (new messages published into the stream) 'pushed' in real-time to your application, as you can pass a (reasonable) timeout to the consumer's Fetch call and call it in a loop.
+Примечание: использование pull consumers не означает, что вы не можете получать обновления (новые сообщения, опубликованные в поток) «пушем» в реальном времени. Вы можете задать (разумный) таймаут для вызова Fetch и вызывать его в цикле.
 
-**Consumer acknowledgments**
+**Подтверждения consumers**
 
-While you can decide to use un-acknowledged consumers trading quality of service for the fastest possible delivery of messages, most processing is not idem-potent and requires higher qualities of service (such as the ability to automatically recover from various failure scenarios that could result in some messages not being processed or being processed more than once) and you will want to use acknowledged consumers. JetStream supports more than one kind of acknowledgment:
+Хотя можно выбрать consumers без подтверждений, обменивая качество обслуживания на максимально быструю доставку, большая часть обработки не является идемпотентной и требует более высокого качества обслуживания (например, способности автоматически восстанавливаться после разных сценариев отказов, при которых некоторые сообщения могут не быть обработаны или быть обработаны больше одного раза). В таких случаях лучше использовать consumers с подтверждениями. JetStream поддерживает несколько видов подтверждений:
 
-* Some consumers support acknowledging _all_ the messages up to the sequence number of the message being acknowledged, some consumers provide the highest quality of service but require acknowledging the reception and processing of each message explicitly as well as the maximum amount of time the server will wait for an acknowledgment for a specific message before re-delivering it (to another process attached to the consumer).
-* You can also send back _negative_ acknowledgements.
-* You can even send _in progress_ acknowledgments (to indicate that you are still processing the message in question and need more time before acking or nacking it).
+* Некоторые consumers поддерживают подтверждение _всех_ сообщений вплоть до номера последовательности подтверждаемого сообщения; другие consumers обеспечивают высочайшее качество обслуживания, но требуют явного подтверждения получения и обработки каждого сообщения, а также задают максимальное время ожидания подтверждения сервером для конкретного сообщения перед повторной доставкой (в другой процесс, подключенный к consumer).
+* Вы также можете отправлять _отрицательные_ подтверждения.
+* Можно отправлять подтверждения _in progress_ (чтобы показать, что сообщение все еще обрабатывается и нужно больше времени до ack или nack).
 
-### Key Value Store
+### Хранилище ключ‑значение
 
-The JetStream persistence layer enables the Key Value store: the ability to store, retrieve and delete `value` messages associated with a `key` into a `bucket`.
+Слой персистентности JetStream предоставляет хранилище ключ‑значение: возможность хранить, извлекать и удалять сообщения‑`value`, связанные с `key`, в рамках `bucket`.
 
-* [Concepts](key-value-store/)
-* [Walkthrough](key-value-store/kv\_walkthrough.md)
-* [API and details](../../using-nats/developing-with-nats/js/kv.md)
+* [Концепции](key-value-store/)
+* [Пошаговое руководство](key-value-store/kv\_walkthrough.md)
+* [API и детали](../../using-nats/developing-with-nats/js/kv.md)
 
-#### Watch and History
+#### Наблюдение и история
 
-You can subscribe to changes in a Key Value on the bucket or individual key level with `watch` and optionally retrieve a `history` of the values (and deletions) that have happened on a particular key.
+Вы можете подписываться на изменения в Key Value на уровне bucket или отдельного ключа с помощью `watch` и при необходимости получать `history` значений (и удалений), которые происходили по конкретному ключу.
 
-#### Atomic updates and locking
+#### Атомарные обновления и блокировки
 
-The Key Value store supports atomic `create` and `update` operations. This enables pessimistic locks (by creating a key and holding on to it) and optimistic locks (using CAS - compare and set).
+Хранилище ключ‑значение поддерживает атомарные операции `create` и `update`. Это позволяет реализовать пессимистические блокировки (создав ключ и удерживая его) и оптимистические блокировки (используя CAS — compare and set).
 
-### Object Store
+### Хранилище объектов
 
-The Object Store is similar to the Key Value Store. The key being replaced by a file name and value being designed to store arbitrarily large `objects` (e.g. files, even if they are very large) rather than 'values' that are message-sized (i.e. limited to 1Mb by default). This is achieved by chunking messages.
+Хранилище объектов похоже на хранилище ключ‑значение. Ключ заменяется именем файла, а значение предназначено для хранения произвольно больших `objects` (например, файлов, даже очень больших), а не «значений» размером с сообщение (по умолчанию ограничено 1 МБ). Это достигается разбиением сообщений на части.
 
-* [Concepts](object-store/obj\_store.md)
-* [Walkthrough](object-store/obj\_walkthrough.md)
-* [API and details](../../using-nats/developing-with-nats/js/object.md)
+* [Концепции](object-store/obj\_store.md)
+* [Пошаговое руководство](object-store/obj\_walkthrough.md)
+* [API и детали](../../using-nats/developing-with-nats/js/object.md)
 
 ## Legacy
 

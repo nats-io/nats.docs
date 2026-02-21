@@ -1,10 +1,10 @@
-# Mixed Authentication/Authorization Setup
+# Смешанная настройка аутентификации/авторизации
 
-Mixing both [nkeys](../auth_intro/nkey_auth.md) static config and [decentralized JWT Authentication/Authorization](./) is possible but needs some preparation in order to be able to do it.
+Смешивать статическую конфигурацию [nkeys](../auth_intro/nkey_auth.md) и [децентрализованную JWT‑аутентификацию/авторизацию](./) возможно, но для этого нужна подготовка.
 
-The way this can be done is by **first** preparing a basic trusted operator setup that could be used in the future, and then base from that configuration to create the NKEYS static config using the same shared public nkeys for the accounts and then use clustering routes to bridge the two different auth setups during the transition.
+Это можно сделать так: **сначала** подготовить базовую конфигурацию доверенного оператора, которую затем можно будет использовать, а после этого на основе этой конфигурации создать статическую NKEYS‑конфигурацию, используя те же общие публичные NKEY для аккаунтов, и затем задействовать кластерные маршруты, чтобы «связать» две разные схемы аутентификации во время перехода.
 
-For example, creating the following initial setup using [NSC](../../../../using-nats/nats-tools/nsc/):
+Например, создадим начальную конфигурацию с помощью [NSC](../../../../using-nats/nats-tools/nsc/):
 
 ```bash
         nsc add account --name SYS
@@ -15,7 +15,7 @@ For example, creating the following initial setup using [NSC](../../../../using-
         nsc add user -a B --name test
 ```
 
-This will then generate something like the following:
+Это приведет примерно к следующему:
 
 ```bash
  nsc list accounts
@@ -44,7 +44,7 @@ This will then generate something like the following:
 ╰──────┴──────────────────────────────────────────────────────────╯
 ```
 
-We could use this configuration as the initial starting configuration for an nkeys config now, where all the NKEYS users public nkeys are explicitly listed \(centralized auth model\).
+Теперь мы можем использовать эту конфигурацию как начальную для nkeys‑конфига, где все публичные NKEY пользователей перечислены явно (централизованная модель авторизации).
 
 ```text
 port = 4222
@@ -52,7 +52,7 @@ port = 4222
 cluster {
   port = 6222
 
-  # We will bridge two different servers with different auth models via routes
+  # Мы свяжем два разных сервера с разными моделями авторизации через маршруты
   # routes [ nats://127.0.0.1:6223 ]
 }
 
@@ -77,13 +77,13 @@ accounts {
 }
 ```
 
-By using `nsc` it is possible to create a mem based resolver for the trusted operator setup:
+С помощью `nsc` можно создать mem‑based resolver для конфигурации доверенного оператора:
 
 ```shell
 nsc generate config --mem-resolver --sys-account SYS
 ```
 
-An example configuration from the second node with the trusted operator setup could then be:
+Пример конфигурации для второго узла с доверенным оператором может выглядеть так:
 
 ```text
 port = 4223
@@ -115,9 +115,9 @@ resolver_preload = {
 }
 ```
 
-Even though they have different authorization mechanisms, these two servers are able to route account messages because they share the same NKEY.
+Хотя механизмы авторизации различаются, эти два сервера способны маршрутизировать сообщения аккаунтов, потому что они разделяют один и тот же NKEY.
 
-We have created at least one user, in this case with creds:
+Мы создали как минимум одного пользователя, в данном случае с creds:
 
 ```text
 -----BEGIN NATS USER JWT-----
@@ -132,9 +132,9 @@ SUANVBWRHHFMGHNIT6UJHPN2TGVBVIILE7VPVNEQ7DGCJ26ZD2V3KAHT4M
 *************************************************************
 ```
 
-And this same user is able to connect to either one of the servers \(bound to 4222 and 4223 respectively\):
+И этот же пользователь может подключаться к любому из серверов (привязанных к 4222 и 4223 соответственно):
 
-Subscriber Service:
+Сервис подписчика:
 
 ```go
 package main
@@ -148,11 +148,11 @@ import (
 func main() {
     opts := make([]nats.Option, 0)
 
-    // Extract public nkey from seed
+    // Извлечь публичный nkey из seed
     //
     // Public:  UAPOK2P7EN3UFBL7SBJPQK3M3JMLALYRYKX5XWSVMVYK63ZMBHTOHVJR
     // Private: SUANVBWRHHFMGHNIT6UJHPN2TGVBVIILE7VPVNEQ7DGCJ26ZD2V3KAHT4M
-    // 
+    //
     nkey, err := nats.NkeyOptionFromSeed("path/to/seed.nkey")
     if err != nil {
         log.Fatal(err)
@@ -171,7 +171,7 @@ func main() {
 }
 ```
 
-Requestor:
+Запросчик:
 
 ```go
 package main
@@ -199,4 +199,3 @@ func main() {
     }
 }
 ```
-

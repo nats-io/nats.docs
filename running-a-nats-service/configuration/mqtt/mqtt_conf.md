@@ -1,107 +1,103 @@
-# Configuration
+# Конфигурация
 
-To enable MQTT support in the server, add a `mqtt` configuration
-block in the server's configuration file like the following:
+Чтобы включить поддержку MQTT на сервере, добавьте блок `mqtt` в конфигурационный файл сервера, например так:
 
 ```
 mqtt {
-    # Specify a host and port to listen for websocket connections
+    # Укажите host и порт, на котором слушать MQTT‑подключения
     #
     # listen: "host:port"
-    # It can also be configured with individual parameters,
-    # namely host and port.
+    # Можно также настроить отдельными параметрами,
+    # а именно host и port.
     #
     # host: "hostname"
     port: 1883
 
-    # TLS configuration.
+    # Конфигурация TLS.
     #
     tls {
         cert_file: "/path/to/cert.pem"
         key_file: "/path/to/key.pem"
 
-        # Root CA file
+        # Root CA файл
         #
         # ca_file: "/path/to/ca.pem"
 
-        # If true, require and verify client certificates.
+        # Если true, требовать и проверять клиентские сертификаты.
         #
         # verify: true
 
-        # TLS handshake timeout in fractional seconds.
+        # Таймаут TLS‑рукопожатия в дробных секундах.
         #
         # timeout: 2.0
 
-        # If true, require and verify client certificates and map certificate
-        # values for authentication purposes.
+        # Если true, требовать и проверять клиентские сертификаты и
+        # маппить значения сертификата для целей аутентификации.
         #
         # verify_and_map: true
     }
 
-    # If no user name is provided when an MQTT client connects, will default
-    # this user name in the authentication phase. If specified, this will
-    # override, for MQTT clients, any `no_auth_user` value defined in the
-    # main configuration file.
-    # Note that this is not compatible with running the server in operator mode.
+    # Если при подключении MQTT‑клиента не указано имя пользователя,
+    # будет использовано это имя по умолчанию на этапе аутентификации.
+    # Если задано, это значение для MQTT‑клиентов переопределит любое
+    # `no_auth_user`, определенное в основном конфиге.
+    # Обратите внимание, что это несовместимо с operator mode.
     #
     # no_auth_user: "my_username_for_apps_not_providing_credentials"
 
-    # See below to know what is the normal way of limiting MQTT clients
-    # to specific users.
-    # If there are no users specified in the configuration, this simple authorization
-    # block allows you to override the values that would be configured in the
-    # equivalent block in the main section.
+    # См. ниже, как обычно ограничивать MQTT‑клиентов конкретными пользователями.
+    # Если в конфигурации не указаны пользователи, этот простой блок авторизации
+    # позволяет переопределить значения, которые были бы настроены в эквивалентном
+    # блоке основной секции.
     #
     # authorization {
-    #     # If this is specified, the client has to provide the same username
-    #     # and password to be able to connect.
+    #     # Если указано, клиент должен предоставить то же имя пользователя
+    #     # и пароль для подключения.
     #     # username: "my_user_name"
     #     # password: "my_password"
     #
-    #     # If this is specified, the password field in the CONNECT packet has to
-    #     # match this token.
+    #     # Если указано, поле password в пакете CONNECT должно совпадать с этим токеном.
     #     # token: "my_token"
     #
-    #     # This overrides the main's authorization timeout. For consistency
-    #     # with the main's authorization configuration block, this is expressed
-    #     # as a number of seconds.
+    #     # Переопределяет таймаут авторизации основной конфигурации. Для согласованности
+    #     # с основным блоком авторизации это выражено в секундах.
     #     # timeout: 2.0
     #}
 
-    # This is the amount of time after which a QoS 1 message sent to
-	# a client is redelivered as a DUPLICATE if the server has not
-	# received the PUBACK packet on the original Packet Identifier.
-	# The value has to be positive.
-	# Zero will cause the server to use the default value (30 seconds).
-	# Note that changes to this option is applied only to new MQTT subscriptions.
+    # Время, после которого QoS 1 сообщение, отправленное клиенту,
+	# будет повторно доставлено как DUPLICATE, если сервер не получил
+	# пакет PUBACK для исходного идентификатора пакета.
+	# Значение должно быть положительным.
+	# Ноль приведет к использованию значения по умолчанию (30 секунд).
+	# Изменения этой опции применяются только к новым MQTT‑подпискам.
     #
-    # Expressed as a time duration, with "s", "m", "h" indicating seconds,
-    # minutes and hours respectively. For instance "10s" for 10 seconds,
-    # "1m" for 1 minute, etc...
+    # Задается как длительность времени, где "s", "m", "h" означают секунды,
+    # минуты и часы соответственно. Например "10s" для 10 секунд,
+    # "1m" для 1 минуты и т. д.
     #
     # ack_wait: "1m"
 
-    # This is the amount of QoS 1 messages the server can send to
-	# a subscription without receiving any PUBACK for those messages.
-    # The valid range is [0..65535].
+    # Количество QoS 1 сообщений, которые сервер может отправить
+	# подписке, не получив PUBACK на эти сообщения.
+    # Допустимый диапазон [0..65535].
     #
-	# The total of subscriptions' max_ack_pending on a given session cannot
-	# exceed 65535. Attempting to create a subscription that would bring
-	# the total above the limit would result in the server returning 0x80
-	# in the SUBACK for this subscription.
-	# Due to how the NATS Server handles the MQTT "#" wildcard, each
-	# subscription ending with "#" will use 2 times the max_ack_pending value.
-	# Note that changes to this option is applied only to new subscriptions.
+	# Суммарный max_ack_pending всех подписок в одной сессии не может
+	# превышать 65535. Попытка создать подписку, которая превысит лимит,
+	# приведет к тому, что сервер вернет 0x80 в SUBACK для этой подписки.
+	# Из‑за того, как сервер NATS обрабатывает wildcard MQTT "#", каждая
+	# подписка, заканчивающаяся на "#", будет использовать в 2 раза больше
+	# значения max_ack_pending.
+	# Изменения этой опции применяются только к новым подпискам.
     #
     # max_ack_pending: 100
 }
 ```
 
-## Authorization of MQTT Users
+## Авторизация пользователей MQTT
 
-A new field when configuring users allows you to restrict which type of connections are allowed for a specific user.
+Новое поле при настройке пользователей позволяет ограничить, какие типы соединений разрешены для конкретного пользователя.
 
-Consider this configuration:
+Рассмотрим конфигурацию:
 
 ```
 authorization {
@@ -112,10 +108,10 @@ authorization {
 }
 ```
 
-If an MQTT client were to connect and use the username `foo` and password `foopwd`, it would be accepted.
-Now suppose that you would want an MQTT client to only be accepted if it connected using the username `bar`
-and password `barpwd`, then you would use the option `allowed_connection_types` to restrict which type
-of connections can bind to this user.
+Если MQTT‑клиент подключится с именем пользователя `foo` и паролем `foopwd`, он будет принят.
+Теперь предположим, что вы хотите принимать MQTT‑клиентов только при подключении с именем `bar`
+и паролем `barpwd`. Тогда используйте опцию `allowed_connection_types`, чтобы ограничить типы
+соединений, которые могут привязываться к этому пользователю.
 
 ```
 authorization {
@@ -126,9 +122,9 @@ authorization {
 }
 ```
 
-The option `allowed_connection_types` (also can be named `connection_types` or `clients`) as you can see
-is a list, and you can allow several type of clients. Suppose you want the user `bar` to accept both
-standard NATS clients and MQTT clients, you would configure the user like this:
+Опция `allowed_connection_types` (также может называться `connection_types` или `clients`), как видно,
+является списком, и вы можете разрешить несколько типов клиентов. Допустим, вы хотите, чтобы пользователь
+`bar` принимал как стандартные NATS‑клиенты, так и MQTT‑клиенты — тогда настройка будет такой:
 
 ```
 authorization {
@@ -139,27 +135,21 @@ authorization {
 }
 ```
 
-The absence of `allowed_connection_types` means that all type of connections are allowed (the default behavior).
+Отсутствие `allowed_connection_types` означает, что разрешены все типы соединений (поведение по умолчанию).
 
-The possible values are currently:
+Возможные значения сейчас:
 * `STANDARD`
 * `WEBSOCKET`
 * `LEAFNODE`
 * `MQTT`
 
-### Special permissions
+### Специальные разрешения
 
-When an MQTT client creates a QoS 1 subscription, this translates to the creation
-of a JetStream durable subscription. To receive messages for this durable, the NATS Server
-creates a subscription with a subject such as `$MQTT.sub.<nuid>` and sets it as the
-JetStream durable's delivery subject.
+Когда MQTT‑клиент создает подписку QoS 1, это приводит к созданию durable‑подписки JetStream. Чтобы получать сообщения для этой durable‑подписки, сервер NATS создает подписку с subject вида `$MQTT.sub.<nuid>` и устанавливает его как delivery subject для durable‑подписки JetStream.
 
-Therefore, if you have set some permissions for the MQTT user, you need to allow
-subscribe permissions on `$MQTT.sub.>`.
+Следовательно, если вы задали права для пользователя MQTT, нужно разрешить права subscribe на `$MQTT.sub.>`.
 
-Here is an example of a basic configuration that sets some permissions to a user named "mqtt".
-As you can see, the subscribe permission `$MQTT.sub.>` is added to allow this client to
-create QoS 1 subscriptions.
+Ниже пример базовой конфигурации, задающей права для пользователя с именем "mqtt". Как видно, добавлено subscribe‑разрешение `$MQTT.sub.>`, чтобы этот клиент мог создавать подписки QoS 1.
 
 ```
     listen: 127.0.0.1:4222

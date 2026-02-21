@@ -1,33 +1,33 @@
-# Managing NATS Security
+# Управление безопасностью NATS
 
-If you are using the [JWT](../configuration/securing\_nats/jwt/) model of authentication to secure your NATS infrastructure or implementing an [Auth callout](../../running-a-nats-service/configuration/securing_nats/auth_callout.md) service, you can administer authentication and authorization without having to change the servers' configuration files.
+Если вы используете [JWT](../configuration/securing_nats/jwt/) модель аутентификации для защиты инфраструктуры NATS или реализуете сервис [Auth callout](../../running-a-nats-service/configuration/securing_nats/auth_callout.md), вы можете администрировать аутентификацию и авторизацию без изменения конфигурационных файлов серверов.
 
-You can use the [`nsc`](../../using-nats/nats-tools/nsc/) CLI tool to manage identities. Identities take the form of nkeys. Nkeys are a public-key signature system based on Ed25519 for the NATS ecosystem. The nkey identities are associated with NATS configuration in the form of a JSON Web Token (JWT). The JWT is digitally signed by the private key of an issuer forming a chain of trust. The nsc tool creates and manages these identities and allows you to deploy them to a JWT account server, which in turn makes the configurations available to nats-servers.
+Вы можете использовать CLI‑инструмент [`nsc`](../../using-nats/nats-tools/nsc/) для управления идентичностями. Идентичности представлены в виде nkeys. Nkeys — система цифровой подписи на публичных ключах на базе Ed25519 для экосистемы NATS. Идентичности nkey связаны с конфигурацией NATS в виде JSON Web Token (JWT). JWT цифрово подписывается приватным ключом издателя, формируя цепочку доверия. Инструмент `nsc` создает и управляет этими идентичностями и позволяет разворачивать их в JWT account server, который, в свою очередь, делает конфигурации доступными для nats‑server.
 
-You can also use [`nk`](https://github.com/nats-io/nkeys#readme) CLI tool and library to manage keys.
+Также можно использовать CLI‑инструмент и библиотеку [`nk`](https://github.com/nats-io/nkeys#readme) для управления ключами.
 
-## Creating, updating and managing JWTs programmatically
+## Программное создание, обновление и управление JWT
 
-You can create, update and delete accounts and users programmatically using the following libraries:
+Создавать, обновлять и удалять аккаунты и пользователей программно можно с помощью следующих библиотек:
 
-* Golang: see [NKEYS](https://github.com/nats-io/nkeys) and [JWT](https://github.com/nats-io/jwt/tree/main/v2).
-* Java: see [NKey.java](https://github.com/nats-io/nats.java/blob/main/src/main/java/io/nats/client/NKey.java) and [JwtUtils.java](https://github.com/nats-io/nats.java/blob/main/src/main/java/io/nats/client/support/JwtUtils.java)
+* Golang: см. [NKEYS](https://github.com/nats-io/nkeys) и [JWT](https://github.com/nats-io/jwt/tree/main/v2).
+* Java: см. [NKey.java](https://github.com/nats-io/nats.java/blob/main/src/main/java/io/nats/client/NKey.java) и [JwtUtils.java](https://github.com/nats-io/nats.java/blob/main/src/main/java/io/nats/client/support/JwtUtils.java)
 
-## Integrating with your existing authentication/authorization system
+## Интеграция с вашей системой аутентификации/авторизации
 
-You can integrate NATS with your existing authentication/authorization system or create your own custom authentication using the [Auth callout](../../running-a-nats-service/configuration/securing_nats/auth_callout.md).
+Вы можете интегрировать NATS с вашей системой аутентификации/авторизации или создать собственную кастомную аутентификацию с помощью [Auth callout](../../running-a-nats-service/configuration/securing_nats/auth_callout.md).
 
-### Examples
+### Примеры
 
-See [NATS by Example](https://natsbyexample.com/) under "Authentication and Authorization" for JWT and Auth callout server implementation examples.
+См. [NATS by Example](https://natsbyexample.com/) в разделе "Authentication and Authorization" для примеров реализации JWT и Auth callout сервера.
 
-#### User JWTs
+#### JWT пользователей
 
-[User creation in Golang](jwt.md#automated-sign-up-services---jwt-and-nkey-libraries)
+[Создание пользователя в Golang](jwt.md#automated-sign-up-services---jwt-and-nkey-libraries)
 
-#### Account JWTs
+#### JWT аккаунтов
 
-Golang example from https://natsbyexample.com/examples/auth/nkeys-jwts/go
+Пример на Golang с https://natsbyexample.com/examples/auth/nkeys-jwts/go
 
 ```
 package main
@@ -139,10 +139,10 @@ func createUser(accountSeed, userName string) (string, error) {
 }
 ```
 
-### Notes
+### Примечания
 
-You can see the key (and any signing keys) of your operator using `nsc list keys --show-seeds`, you should use a 'signing key' to create the account JWTs (as singing keys can be revoked/rotated easily)
+Вы можете посмотреть ключ (и любые signing keys) вашего оператора командой `nsc list keys --show-seeds`. Для создания JWT аккаунтов следует использовать "signing key" (так как signing keys можно легко отзывать/ротацировать).
 
-To delete accounts use the `"$SYS.REQ.CLAIMS.DELETE"` (see [reference](jwt.md#subjects-available-when-using-nats-based-resolver)) and make sure to enable JWT deletion in your nats-server resolver (`config allow_delete: true` in the `resolver` stanza of the server configuration).
+Для удаления аккаунтов используйте `"$SYS.REQ.CLAIMS.DELETE"` (см. [справку](jwt.md#subjects-available-when-using-nats-based-resolver)) и убедитесь, что включено удаление JWT в resolver `nats-server` (`config allow_delete: true` в блоке `resolver` конфигурации сервера).
 
-The system is just like any other account, the only difference is that it is listed as system account in the operator's JWT (and the server config).
+Системный аккаунт — такой же аккаунт, как и остальные; разница лишь в том, что он указан как system account в JWT оператора (и в конфигурации сервера).

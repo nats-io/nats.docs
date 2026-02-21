@@ -1,6 +1,6 @@
 # Kubernetes Controller
 
-The JetStream controllers allow you to manage NATS JetStream Streams and Consumers via K8S CRDs. You can find more info on how to deploy and usage [here](https://github.com/nats-io/nack#getting-started). Below you can find an example of how to create a stream and a couple of consumers:
+Контроллеры JetStream позволяют управлять Streams и Consumers JetStream через K8S CRD. Подробнее о развертывании и использовании см. [здесь](https://github.com/nats-io/nack#getting-started). Ниже пример создания стрима и пары consumers:
 
 ```yaml
 ---
@@ -39,7 +39,7 @@ spec:
   ackPolicy: explicit
 ```
 
-Once the CRDs are installed you can use `kubectl` to manage the streams and consumers as follows:
+После установки CRD можно использовать `kubectl` для управления стримами и consumers:
 
 ```bash
 $ kubectl get streams
@@ -51,8 +51,7 @@ NAME               STATE     STREAM     CONSUMER           ACK POLICY
 my-pull-consumer   Created   mystream   my-pull-consumer   explicit
 my-push-consumer   Created   mystream   my-push-consumer   none
 
-# If you end up in an Errored state, run kubectl describe for more info.
+# Если вы оказались в состоянии Errored, выполните kubectl describe для деталей.
 #     kubectl describe streams mystream
 #     kubectl describe consumers my-pull-consumer
 ```
-

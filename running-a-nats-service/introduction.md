@@ -1,9 +1,9 @@
-The NATS Server is highly optimized and its binary is very compact (less than 20 MB), it can run on any machine from a lowly Raspberry Pi to the largest of servers, in the cloud, on premise or at the edge, on bare metal, on VMs or in containers.
+Сервер NATS высоко оптимизирован, а его бинарник очень компактный (менее 20 МБ). Он может работать на любой машине — от скромного Raspberry Pi до самых крупных серверов, в облаке, on‑premise или на edge, на «голом железе», в VM или в контейнерах.
 
-NATS Servers can cluster together to provide fault-tolerance and scalability. NATS servers can run as Leaf Nodes connecting to a cluster transparently proxying and expanding NATS and JetStream service to any location, be it a VPC, a VLAN, a remote office, a single machine at home or even an edge location with partial connectivity.
+Серверы NATS могут объединяться в кластеры для отказоустойчивости и масштабирования. Серверы NATS могут работать как leaf‑nodes, подключаясь к кластеру, прозрачно проксируя и расширяя NATS и JetStream в любую локацию — будь то VPC, VLAN, удаленный офис, один домашний сервер или даже edge‑точка с частичной связностью.
 
-NATS clusters in different regions or cloud providers can be connected together by gateways that filter unneeded traffic and allow for disaster recovery and queued distributed processing with geo-location affinity.
+Кластеры NATS в разных регионах или у разных облачных провайдеров могут соединяться через gateways, которые фильтруют ненужный трафик и обеспечивают аварийное восстановление и очередную распределенную обработку с учетом геолокации.
 
-Even better, if you have build your application with NATS you don't need to run your own server, cluster, or super-cluster and can simply leverage Synadia's [NGS](https://www.synadia.com/cloud), the global NATS super-cluster service provided by [Synadia](https://www.synadia.com?utm_source=nats_docs&utm_medium=nats).
+Еще лучше: если ваше приложение построено на NATS, вам не нужно запускать собственный сервер, кластер или супер‑кластер — можно просто использовать [NGS](https://www.synadia.com/cloud), глобальный супер‑кластер NATS, предоставляемый [Synadia](https://www.synadia.com?utm_source=nats_docs&utm_medium=nats).
 
-This section of the documentation explains how to install, deploy, run, configure, orchestrate, test and manage NATS servers.
+Этот раздел документации объясняет, как устанавливать, разворачивать, запускать, настраивать, оркестрировать, тестировать и управлять серверами NATS.

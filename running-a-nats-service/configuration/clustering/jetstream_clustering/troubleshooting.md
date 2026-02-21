@@ -1,66 +1,66 @@
-# Troubleshooting
+# Устранение неполадок
 
-Diagnosing problems in NATS JetStream clusters requires:
+Диагностика проблем в кластерах NATS JetStream требует:
 
-* knowledge of [JetStream concepts](../../../../nats-concepts/jetstream/)
-* knowledge of the [NATS Command Line Interface (CLI)](https://github.com/nats-io/natscli#the-nats-command-line-interface)
+* знания [концепций JetStream](../../../../nats-concepts/jetstream/)
+* знания [NATS Command Line Interface (CLI)](https://github.com/nats-io/natscli#the-nats-command-line-interface)
 
-The following tips and commands (while not an exhaustive list) can be useful when diagnosing problems in NATS JetStream clusters:
+Следующие советы и команды (не исчерпывающий список) могут быть полезны при диагностике проблем в кластерах NATS JetStream:
 
-## Troubleshooting tips
+## Советы по устранению неполадок
 
-1. Look at [nats-server](https://github.com/nats-io/nats-server) logs. By default, only warning and error logs are produced, but debug and trace logs can be turned on from the command line using `-D` and `-DV`, respectively. Alternatively, enabling `debug` or `trace` in the [server config](https://docs.nats.io/running-a-nats-service/configuration#monitoring-and-tracing).
-2. Make sure that in the [NATS JetStream configuration](./#configuration), at least one system user is configured in this section: `{ $SYS { users } }`.
+1. Посмотрите логи [nats-server](https://github.com/nats-io/nats-server). По умолчанию выводятся только предупреждения и ошибки, но debug и trace можно включить из командной строки с помощью `-D` и `-DV` соответственно. Альтернатива — включить `debug` или `trace` в [конфигурации сервера](https://docs.nats.io/running-a-nats-service/configuration#monitoring-and-tracing).
+2. Убедитесь, что в [конфигурации NATS JetStream](./#configuration) в этом разделе задан хотя бы один системный пользователь: `{ $SYS { users } }`.
 
-### `nats account` commands
+### Команды `nats account`
 
-| Command                                                                 | Description                                 |
-| ----------------------------------------------------------------------- | ------------------------------------------- |
-| [`nats account info`](../../../nats\_admin/jetstream\_admin/account.md) | Verify that JetStream is enabled on account |
+| Команда                                                                 | Описание                                      |
+| ----------------------------------------------------------------------- | -------------------------------------------- |
+| [`nats account info`](../../../nats_admin/jetstream_admin/account.md) | Проверить, что JetStream включен для аккаунта |
 
-### Basic `nats server` commands
+### Базовые команды `nats server`
 
-| Command                                                       | Description                            |
-| ------------------------------------------------------------- | -------------------------------------- |
-| `nats server ls`                                              | List known servers                     |
-| `nats server ping`                                            | Ping all servers                       |
-| `nats server info`                                            | Show information about a single server |
-| [`nats server check`](../../../clients.md#testing-your-setup) | Health check for NATS servers          |
+| Команда                                                       | Описание                              |
+| ------------------------------------------------------------- | ------------------------------------ |
+| `nats server ls`                                              | Список известных серверов             |
+| `nats server ping`                                            | Ping всех серверов                    |
+| `nats server info`                                            | Показать информацию об одном сервере |
+| [`nats server check`](../../../clients.md#testing-your-setup) | Проверка здоровья NATS‑серверов       |
 
-### `nats server report` commands
+### Команды `nats server report`
 
-| Command                                                                       | Description                  |
-| ----------------------------------------------------------------------------- | ---------------------------- |
-| `nats server report connections`                                              | Report on connections        |
-| `nats server report accounts`                                                 | Report on account activity   |
-| [`nats server report jetstream`](administration.md#viewing-the-cluster-state) | Report on JetStream activity |
+| Команда                                                                       | Описание                    |
+| ----------------------------------------------------------------------------- | -------------------------- |
+| `nats server report connections`                                              | Отчет по соединениям       |
+| `nats server report accounts`                                                 | Отчет по активности аккаунта |
+| [`nats server report jetstream`](administration.md#viewing-the-cluster-state) | Отчет по активности JetStream |
 
-### `nats server request` commands
+### Команды `nats server request`
 
-| Command                                                                        | Description                   |
-| ------------------------------------------------------------------------------ | ----------------------------- |
-| [`nats server request jetstream`](administration.md#viewing-the-cluster-state) | Show JetStream details        |
-| `nats server request subscriptions`                                            | Show subscription information |
-| `nats server request variables`                                                | Show runtime variables        |
-| `nats server request connections`                                              | Show connection details       |
-| `nats server request routes`                                                   | Show route details            |
-| `nats server request gateways`                                                 | Show gateway details          |
-| `nats server request leafnodes`                                                | Show leafnode details         |
-| `nats server request accounts`                                                 | Show account details          |
+| Команда                                                                        | Описание                         |
+| ------------------------------------------------------------------------------ | -------------------------------- |
+| [`nats server request jetstream`](administration.md#viewing-the-cluster-state) | Показать детали JetStream        |
+| `nats server request subscriptions`                                            | Показать информацию о подписках  |
+| `nats server request variables`                                                | Показать runtime‑переменные      |
+| `nats server request connections`                                              | Показать детали соединений       |
+| `nats server request routes`                                                   | Показать детали маршрутов        |
+| `nats server request gateways`                                                 | Показать детали gateways         |
+| `nats server request leafnodes`                                                | Показать детали leafnodes        |
+| `nats server request accounts`                                                 | Показать детали аккаунтов        |
 
-### `nats server cluster` commands
+### Команды `nats server cluster`
 
-| Command                                                                                       | Description                                                          |
-| --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| [`nats server cluster step-down`](administration.md#forcing-stream-and-consumer-leader-election) | Force a new leader election by standing down the current meta leader |
-| [`nats server cluster peer-remove`](administration.md#evicting-a-peer)                           | Removes a server from a JetStream cluster                            |
+| Команда                                                                                          | Описание                                                         |
+| ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| [`nats server cluster step-down`](administration.md#forcing-stream-and-consumer-leader-election) | Принудительно выбрать нового лидера, сняв текущего meta‑лидера   |
+| [`nats server cluster peer-remove`](administration.md#evicting-a-peer)                           | Удаляет сервер из кластера JetStream                             |
 
-### Experimental commands
+### Экспериментальные команды
 
-| Command                                                                                | Description                                      |
-| -------------------------------------------------------------------------------------- | ------------------------------------------------ |
-| [`nats traffic`](https://github.com/nats-io/natscli/blob/main/cli/traffic\_command.go) | Monitor NATS traffic. (**Experimental command**) |
+| Команда                                                                                | Описание                                       |
+| -------------------------------------------------------------------------------------- | --------------------------------------------- |
+| [`nats traffic`](https://github.com/nats-io/natscli/blob/main/cli/traffic_command.go) | Мониторинг NATS‑трафика. (**Экспериментальная команда**) |
 
-## Further troubleshooting references
+## Дополнительные ссылки по устранению неполадок
 
-* [Testing your setup](../../../clients.md#testing-your-setup)
+* [Проверка установки](../../../clients.md#testing-your-setup)

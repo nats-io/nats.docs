@@ -2,140 +2,136 @@
 description: WebSocket Configuration Example
 ---
 
-# Configuration
+# Конфигурация
 
-To enable WebSocket support in the server, add a `websocket` configuration block in the server's configuration file like the following:
+Чтобы включить поддержку WebSocket на сервере, добавьте блок `websocket` в конфигурационный файл сервера, например так:
 
 ```text
 websocket {
-    # Specify a host and port to listen for websocket connections
+    # Укажите host и порт, на котором слушать websocket‑подключения
     #
     # listen: "host:port"
 
-    # It can also be configured with individual parameters,
-    # namely host and port.
+    # Можно также настроить отдельными параметрами,
+    # а именно host и port.
     #
     # host: "hostname"
     port: 443
 
-    # This will optionally specify what host:port for websocket
-    # connections to be advertised in the cluster.
+    # Необязательно указывает host:port для websocket‑подключений,
+    # которые будут объявляться в кластере.
     #
     # advertise: "host:port"
 
-    # TLS configuration is required by default
+    # TLS‑конфигурация требуется по умолчанию
     #
     tls {
       cert_file: "/path/to/cert.pem"
       key_file: "/path/to/key.pem"
     }
 
-    # For test environments, you can disable the need for TLS
-    # by explicitly setting this option to `true`
+    # Для тестовых окружений можно отключить необходимость TLS,
+    # явно установив эту опцию в `true`
     #
     # no_tls: true
 
-    # [Cross-origin resource sharing option](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
+    # [Опция CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
     #
-    # IMPORTANT! This option is used only when the http request presents an Origin
-    # header, which is the case for web browsers. If no Origin header is present,
-    # this check will not be performed.
+    # ВАЖНО! Эта опция используется только когда http‑запрос содержит
+    # заголовок Origin, что характерно для браузеров. Если заголовок Origin
+    # отсутствует, проверка не выполняется.
     #
-    # When set to `true`, the HTTP origin header must match the request’s hostname.
-    # The default is `false`.
+    # Если `true`, то заголовок Origin должен совпадать с hostname запроса.
+    # По умолчанию `false`.
     #
     # same_origin: true
 
-    # [Cross-origin resource sharing option](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
+    # [Опция CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
     #
-    # IMPORTANT! This option is used only when the http request presents an Origin
-    # header, which is the case for web browsers. If no Origin header is present,
-    # this check will not be performed.
+    # ВАЖНО! Эта опция используется только когда http‑запрос содержит
+    # заголовок Origin, что характерно для браузеров. Если заголовок Origin
+    # отсутствует, проверка не выполняется.
     #
-    # List of accepted origins. When empty, and `same_origin` is `false`, clients from any origin are allowed to connect.
-    # This list specifies the only accepted values for the client's request Origin header. The scheme,
-    # host and port must match. By convention, the absence of TCP port in the URL will be port 80
-    # for an "http://" scheme, and 443 for "https://".
+    # Список разрешенных origin. Когда список пуст и `same_origin` равно `false`,
+    # клиентам разрешено подключаться с любого origin.
+    # Этот список задает единственные допустимые значения заголовка Origin.
+    # Должны совпадать схема, host и порт. По соглашению, отсутствие TCP‑порта
+    # в URL означает порт 80 для схемы "http://" и 443 для "https://".
     #
     # allowed_origins [
     #    "http://www.example.com"
     #    "https://www.other-example.com"
     # ]
 
-    # This enables support for compressed websocket frames
-    # in the server. For compression to be used, both server
-    # and client have to support it.
+    # Включает поддержку сжатых websocket‑фреймов на сервере.
+    # Чтобы сжатие использовалось, его должны поддерживать и сервер, и клиент.
     #
     # compression: true
 
-    # This is the total time allowed for the server to
-    # read the client request and write the response back
-    # to the client. This includes the time needed for the
-    # TLS handshake.
+    # Общее время, отведенное серверу на чтение запроса клиента
+    # и запись ответа клиенту. Это включает время TLS‑рукопожатия.
     #
     # handshake_timeout: "2s"
 
-    # Name for an HTTP cookie, that if present will be used as a client JWT.
-    # If the client specifies a JWT in the CONNECT protocol, this option is ignored.
-    # The cookie should be set by the HTTP server as described [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#restrict_access_to_cookies).
-    # This setting is useful when generating NATS `Bearer` client JWTs as the
-    # result of some authentication mechanism. The HTTP server after correct
-    # authentication can issue a JWT for the user, that is set securely preventing
-    # access by unintended scripts. Note these JWTs must be [NATS JWTs](https://docs.nats.io/nats-server/configuration/securing_nats/jwt).
+    # Имя HTTP‑cookie, которое при наличии будет использоваться как JWT клиента.
+    # Если клиент указывает JWT в протоколе CONNECT, эта опция игнорируется.
+    # Cookie должен быть установлен HTTP‑сервером, как описано [здесь](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#restrict_access_to_cookies).
+    # Эта настройка полезна при генерации NATS `Bearer` JWT клиентов как
+    # результата некоторого механизма аутентификации. HTTP‑сервер после
+    # успешной аутентификации может выдать JWT пользователю, который
+    # устанавливается безопасно и не доступен нежелательным скриптам.
+    # Обратите внимание: это должны быть [NATS JWT](https://docs.nats.io/nats-server/configuration/securing_nats/jwt).
     #
     # jwt_cookie: "my_jwt_cookie_name"
 
-    # If no user name is provided when a websocket client connects, will default
-    # this user name in the authentication phase. If specified, this will
-    # override, for websocket clients, any `no_auth_user` value defined in the
-    # main configuration file.
-    # Note that this is not compatible with running the server in operator mode.
+    # Если при подключении websocket‑клиента не указано имя пользователя,
+    # будет использовано это имя по умолчанию на этапе аутентификации.
+    # Если задано, это значение для websocket‑клиентов переопределит любое
+    # `no_auth_user`, определенное в основном конфиге.
+    # Обратите внимание, что это несовместимо с operator mode.
     #
     # no_auth_user: "my_username_for_apps_not_providing_credentials"
 
-    # See below to know what is the normal way of limiting websocket clients
-    # to specific users.
-    # If there are no users specified in the configuration, this simple authorization
-    # block allows you to override the values that would be configured in the
-    # equivalent block in the main section.
+    # См. ниже, как обычно ограничивать websocket‑клиентов конкретными пользователями.
+    # Если в конфигурации не указаны пользователи, этот простой блок авторизации
+    # позволяет переопределить значения, которые были бы настроены в эквивалентном
+    # блоке основной секции.
     #
     # authorization {
-    #     # If this is specified, the client has to provide the same username
-    #     # and password to be able to connect.
+    #     # Если указано, клиент должен предоставить то же имя пользователя
+    #     # и пароль для подключения.
     #     # username: "my_user_name"
     #     # password: "my_password"
     #
-    #     # If this is specified, the password field in the CONNECT has to
-    #     # match this token.
+    #     # Если указано, поле password в CONNECT должно совпадать с этим токеном.
     #     # token: "my_token"
     #
-    #     # This overrides the main's authorization timeout. For consistency
-    #     # with the main's authorization configuration block, this is expressed
-    #     # as a number of seconds.
+    #     # Переопределяет таймаут авторизации основной конфигурации. Для согласованности
+    #     # с основным блоком авторизации это выражено в секундах.
     #     # timeout: 2.0
     #}
 }
 ```
 
-## Authorization of WebSocket Users
+## Авторизация пользователей WebSocket
 
-### Authentication
+### Аутентификация
 
-NATS supports different forms of authentication for clients connecting over WebSocket:
+NATS поддерживает разные формы аутентификации для клиентов, подключающихся по WebSocket:
 
 - username/password
 - token
 - NKEYS
-- client certificates
-- JWTs
+- клиентские сертификаты
+- JWT
 
-You can get some more information about how applications connecting over WebSocket can use those different forms of authentication [here](https://github.com/nats-io/nats.ws#authentication)
+Больше информации о том, как приложения, подключающиеся по WebSocket, могут использовать эти формы аутентификации, см. [здесь](https://github.com/nats-io/nats.ws#authentication)
 
-### Restricting connection types
+### Ограничение типов подключений
 
-A new field when configuring users allows you to restrict which type of connections are allowed for a specific user.
+Новое поле в конфигурации пользователей позволяет ограничить, какие типы соединений разрешены для конкретного пользователя.
 
-Consider this configuration:
+Рассмотрим конфигурацию:
 
 ```text
 authorization {
@@ -146,7 +142,7 @@ authorization {
 }
 ```
 
-If a WebSocket client were to connect and use the username `foo` and password `foopwd`, it would be accepted. Now suppose that you would want the WebSocket client to only be accepted if it connected using the username `bar` and password `barpwd`, then you would use the option `allowed_connection_types` to restrict which type of connections can bind to this user.
+Если WebSocket‑клиент подключится с именем пользователя `foo` и паролем `foopwd`, он будет принят. Теперь предположим, что вы хотите принимать WebSocket‑клиентов только при подключении с именем `bar` и паролем `barpwd`. Тогда используйте опцию `allowed_connection_types`, чтобы ограничить типы подключений, которые могут привязываться к этому пользователю.
 
 ```text
 authorization {
@@ -157,7 +153,7 @@ authorization {
 }
 ```
 
-The option `allowed_connection_types` \(also can be named `connection_types` or `clients`\) as you can see is a list, and you can allow several types of clients. Suppose you want the user `bar` to accept both standard NATS clients and WebSocket clients, you would configure the user like this:
+Опция `allowed_connection_types` (также может называться `connection_types` или `clients`), как видно, является списком и позволяет разрешать несколько типов клиентов. Допустим, вы хотите, чтобы пользователь `bar` принимал как стандартные NATS‑клиенты, так и WebSocket‑клиенты — тогда настройка будет такой:
 
 ```text
 authorization {
@@ -168,22 +164,22 @@ authorization {
 }
 ```
 
-The absence of `allowed_connection_types` means that all types of connections are allowed \(the default behavior\).
+Отсутствие `allowed_connection_types` означает, что разрешены все типы подключений (поведение по умолчанию).
 
-The possible values are currently:
+Возможные значения сейчас:
 
 * `STANDARD`
 * `WEBSOCKET`
 * `LEAFNODE`
 * `MQTT`
 
-## Leaf nodes connections
+## Подключения leaf‑nodes
 
-You can configure remote Leaf node connections so that they connect to the Websocket port instead of the Leaf node port. See [Leafnode](../leafnodes/leafnode_conf.md#connecting-using-websocket-protocol) section.
+Вы можете настроить удаленные подключения leaf‑node так, чтобы они подключались к порту Websocket вместо порта leaf‑node. См. раздел [Leafnode](../leafnodes/leafnode_conf.md#connecting-using-websocket-protocol).
 
 ## Docker
 
-When running on Docker, WebSocket is not enabled by default, so you'll have to create a configuration file with the minimal entries, such as:
+При запуске в Docker WebSocket по умолчанию отключен, поэтому нужно создать конфигурационный файл с минимальными настройками, например:
 
 ```text
 websocket 
@@ -193,9 +189,8 @@ websocket
 }
 ```
 
-Assuming the configuration was stored in `/tmp/nats.conf`, you can start docker as follows:
+Предположим, конфигурация сохранена в `/tmp/nats.conf`, тогда Docker можно запустить так:
 
 ```bash
 docker run -it --rm  -v /tmp:/container -p 8080:8080 nats -c /container/nats.conf
 ```
-

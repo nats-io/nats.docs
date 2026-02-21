@@ -1,25 +1,24 @@
-# Template
-## Pre-conditions
-Expected knowledge and tools to run this example. Only `nats-server` and `nats` are implied.
+# Шаблон
+## Предусловия
+Ожидаемые знания и инструменты для запуска этого примера. Подразумеваются только `nats-server` и `nats`.
 
-E.g. "Uses scp for configuring authentication"
+Например: «Используется scp для настройки аутентификации»
 
-## Goal
-Briefly describe what the overarching use case is and which configurations and features are being demonstrated.
+## Цель
+Кратко опишите общий сценарий использования и какие конфигурации и возможности демонстрируются.
 
-## Concepts and Patterns
-Briefly explain architectural ideas and design patterns used.
+## Концепции и паттерны
+Кратко объясните архитектурные идеи и используемые паттерны проектирования.
 
-## Step by step example
-May be broken into sections
+## Пошаговый пример
+Можно разбить на разделы
 
 
-# Do's and Dont's
-* Avoid linking to external information in the step-by-step guide. 
-* Explain or refer to a concept front up.
-* In the step-by-step section, explain the parameters and options used, nothing else.
-* Provide every single command and configuration.
-* Do not introduce a new tool in the step-by-step guide
-* Concrete parameters - there should be no need to infer anything
-* Use concrete names for entities - e.g. from payment processing or retail order management
-
+# Что делать и чего не делать
+* Избегайте ссылок на внешнюю информацию в пошаговом руководстве.
+* Объясняйте или ссылайтесь на концепцию заранее.
+* В пошаговой части объясняйте параметры и опции, ничего сверх этого.
+* Приводите каждую команду и конфигурацию.
+* Не вводите новый инструмент в пошаговом руководстве.
+* Конкретные параметры — не должно требоваться ничего додумывать.
+* Используйте конкретные названия сущностей — например из обработки платежей или управления розничными заказами.

@@ -1,23 +1,23 @@
-# Run Synadia Cloud (NGS) leaf nodes in Docker
+# Запуск leaf‑node Synadia Cloud (NGS) в Docker
 
-This mini-tutorial shows how to run 2 NATS server in local Docker containers interconnected via [Synadia Cloud Platform](https://cloud.synadia.com?utm_source=nats_docs&utm_medium=nats).
-NGS is a global managed NATS network of NATS, and the local containers will connect to it as leaf nodes.
+Этот мини‑туториал показывает, как запустить 2 сервера NATS в локальных контейнерах Docker, соединенных через [Synadia Cloud Platform](https://cloud.synadia.com?utm_source=nats_docs&utm_medium=nats).
+NGS — это глобальная управляемая сеть NATS, и локальные контейнеры будут подключаться к ней как leaf‑nodes.
 
-Start by creating a free account on [https://cloud.synadia.com/](https://cloud.synadia.com?utm_source=nats_docs&utm_medium=nats).
+Начните с создания бесплатного аккаунта на [https://cloud.synadia.com/](https://cloud.synadia.com?utm_source=nats_docs&utm_medium=nats).
 
-Once you are logged in, go into the `default` account (you can manage multiple isolated NGS account within your Synadia Cloud account).
+После входа перейдите в аккаунт `default` (внутри вашего аккаунта Synadia Cloud можно управлять несколькими изолированными аккаунтами NGS).
 
-In `Settings` > `Limits`, increase `Leaf Nodes` to 2. Save the configuration change.
-(Your free account comes with up to 2 leaf connection, but the account is configured to use at most 1 initially).
+В `Settings` > `Limits` увеличьте `Leaf Nodes` до 2. Сохраните изменение.
+(В бесплатном аккаунте доступно до 2 leaf‑подключений, но изначально он настроен максимум на 1).
 
-Now navigate to the `Users` section of your `default` account and create 2 users, `red` and `blue`.
-(Users are another way you can isolate parts of your systems customizing permissions, access to data, limits and more)
+Теперь перейдите в раздел `Users` вашего аккаунта `default` и создайте 2 пользователей: `red` и `blue`.
+(Пользователи — это еще один способ изолировать части ваших систем, настраивая права, доступ к данным, лимиты и прочее.)
 
-For each of the two users, select `Get Connected` and `Download Credentials`.
+Для каждого из двух пользователей выберите `Get Connected` и `Download Credentials`.
 
-You should now have 2 files on your computer: `default-red.creds` and `default-blue.creds`.
+Теперь на вашем компьютере должны быть 2 файла: `default-red.creds` и `default-blue.creds`.
 
-Create a minimal NATS Server configuration file `leafnode.conf`, it will work for both leaf nodes:
+Создайте минимальный конфигурационный файл сервера NATS `leafnode.conf`, он подойдет для обоих leaf‑nodes:
 
 ```
 leafnodes {
@@ -30,56 +30,56 @@ leafnodes {
 }
 ```
 
-Let's start the first leafnode (for user `red`) with:
+Запустим первый leafnode (для пользователя `red`) командой:
 
 ```shell
 docker run  -p 4222:4222 -v leafnode.conf:/leafnode.conf -v /etc/ssl/cert.pem:/etc/ssl/cert.pem -v default-red.creds:/ngs.creds  nats:latest -c /leafnode.conf
 ```
 
-`-p 4222:4222` maps the server port 4222 inside the container to your local port 4222.
-`-v leafnode.conf:/leafnode.conf` mounts the configuration file created above at location `/leafnode.conf` in the container.
-`-v /etc/ssl/cert.pem:/etc/ssl/cert.pem` installs root certificates in the container, since the `nats` image does not bundle them, and they are required to verify the TLS certificate presented by NGS.
-`-v default-red.creds:/ngs.creds` installs the credentials for user `red` at location `/ngs.creds` inside the container.
-`-c /leafnode.conf` are arguments passed to the container entry point (`nats-server`).
+`-p 4222:4222` пробрасывает порт 4222 из контейнера на локальный порт 4222.
+`-v leafnode.conf:/leafnode.conf` монтирует созданный выше конфигурационный файл в `/leafnode.conf` внутри контейнера.
+`-v /etc/ssl/cert.pem:/etc/ssl/cert.pem` устанавливает корневые сертификаты в контейнер, так как образ `nats` их не содержит, а они нужны для проверки TLS‑сертификата NGS.
+`-v default-red.creds:/ngs.creds` устанавливает учетные данные пользователя `red` в `/ngs.creds` внутри контейнера.
+`-c /leafnode.conf` — аргументы, передаваемые entrypoint контейнера (`nats-server`).
 
-Launching the container, you should see the NATS server starting successfully:
+При запуске контейнера вы увидите успешный старт сервера NATS:
 ```
 [1] 2024/06/14 18:03:51.810719 [INF] Server is ready
 [1] 2024/06/14 18:03:52.075951 [INF] 34.159.142.0:7422 - lid:5 - Leafnode connection created for account: $G
 [1] 2024/06/14 18:03:52.331354 [INF] 34.159.142.0:7422 - lid:5 - JetStream using domains: local "", remote "ngs"
 ```
 
-Now start the second leaf nodes with two minor tweaks to the command:
+Теперь запустим второй leaf‑node с двумя небольшими изменениями в команде:
 ```
 docker run  -p 4333:4222 -v leafnode.conf:/leafnode.conf -v /etc/ssl/cert.pem:/etc/ssl/cert.pem -v default-blue.creds:/ngs.creds  nats:latest -c /leafnode.conf
 ```
 
-Notice we bind to local port `4333` (since `4222`) is busy, and we mount `blue` credentials.
+Обратите внимание: мы привязываемся к локальному порту `4333` (так как `4222` занят), и монтируем учетные данные `blue`.
 
-Congratulations, you have 2 leaf nodes connected to the NGS global network.
-Despite this being a global shared environment, your account is completely isolated from the rest of the traffic, and vice versa.
+Поздравляем, у вас есть 2 leaf‑nodes, подключенные к глобальной сети NGS.
+Несмотря на то, что это общая глобальная среда, ваш аккаунт полностью изолирован от остального трафика, и наоборот.
 
-Now let's make 2 clients connected to the 2 leaf nodes talk to each other.
+Теперь давайте заставим 2 клиента, подключенных к 2 leaf‑nodes, обмениваться сообщениями.
 
-Let us start a simple service on the Leafnode of user `red`:
+Запустим простой сервис на leaf‑node пользователя `red`:
 ```shell
 nats -s localhost:4222 reply docker-leaf-test "At {{Time}}, I received your request: {{Request}}"
 ```
 
-Using the LeafNode run by user `blue`, let's send a request:
+Используя leaf‑node пользователя `blue`, отправим запрос:
 ```shell
 $ nats -s localhost:4333 request docker-leaf-test "Hello World"
 
 At 8:15PM, I received your request: Hello World
 ```
 
-Congratulations, you just connected 2 Leaf nodes to the global NGS network and used them to send a request and receive a response.
+Поздравляем, вы подключили 2 leaf‑nodes к глобальной сети NGS и использовали их, чтобы отправить запрос и получить ответ.
 
-Your messages were routed transparently with millions of others, but they were not visible to anyone outside of your Synadia Cloud account.
+Ваши сообщения прозрачно маршрутизировались вместе с миллионами других, но не были видны никому за пределами вашего аккаунта Synadia Cloud.
 
 
-### Related and useful:
- * Official [Docker image for the NATS server on GitHub](https://github.com/nats-io/nats-docker) and [issues](https://github.com/nats-io/nats-docker/issues)
- * [`nats` images on DockerHub](https://hub.docker.com/_/nats)
- * [`nats` CLI tool](/using-nats/nats-tools/nats\_cli/) and [`nats bench`](/using-nats/nats-tools/nats\_cli/natsbench)
- * [Leaf Nodes configuration](/running-a-nats-service/configuration/leafnodes)
+### Связанное и полезное:
+ * Официальный [Docker‑образ сервера NATS на GitHub](https://github.com/nats-io/nats-docker) и [issues](https://github.com/nats-io/nats-docker/issues)
+ * [`nats` образы на DockerHub](https://hub.docker.com/_/nats)
+ * [CLI‑инструмент `nats`](/using-nats/nats-tools/nats_cli/) и [`nats bench`](/using-nats/nats-tools/nats_cli/natsbench)
+ * [Конфигурация leaf‑nodes](/running-a-nats-service/configuration/leafnodes)

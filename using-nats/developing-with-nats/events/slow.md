@@ -1,24 +1,24 @@
-# Slow Consumers
+# Медленные потребители
 
-NATS is designed to move messages through the server quickly. As a result, NATS depends on the applications to consider and respond to changing message rates. The server will do a bit of impedance matching, but if a client is too slow the server will eventually cut them off by closing the connection. These cut off connections are called [_slow consumers_](../../../running-a-nats-service/nats_admin/slow_consumers.md).
+NATS разработан, чтобы быстро перемещать сообщения через сервер. В результате NATS рассчитывает на то, что приложения учитывают и реагируют на изменения скорости сообщений. Сервер делает небольшое «согласование», но если клиент слишком медленный, сервер в итоге отключит его, закрыв соединение. Такие отключённые соединения называются [_slow consumers_](../../../running-a-nats-service/nats_admin/slow_consumers.md).
 
-One way some of the libraries deal with bursty message traffic is to buffer incoming messages for a subscription. So if an application can handle 10 messages per second and sometimes receives 20 messages per second, the library may hold the extra 10 to give the application time to catch up. To the server, the application will appear to be handling the messages and consider the connection healthy. Most client libraries will notify the application that there is a SlowConsumer error and discard messages.
+Один из способов, которым некоторые библиотеки справляются с «всплесками» трафика сообщений, — буферизация входящих сообщений для подписки. Например, если приложение может обрабатывать 10 сообщений в секунду, а иногда получает 20 сообщений в секунду, библиотека может удержать лишние 10, давая приложению время догнать. Для сервера будет казаться, что приложение обрабатывает сообщения, и соединение считается здоровым. Большинство клиентских библиотек уведомит приложение об ошибке SlowConsumer и отбросит сообщения.
 
-Receiving and dropping messages from the server keeps the connection to the server healthy, but creates an application requirement. There are several common patterns:
+Получение и отбрасывание сообщений от сервера сохраняет соединение здоровым, но создаёт требования к приложению. Есть несколько распространённых подходов:
 
-* Use request-reply to throttle the sender and prevent overloading the subscriber
-* Use a queue with multiple subscribers splitting the work
-* Persist messages with something like NATS streaming
+* Использовать request-reply, чтобы ограничить отправителя и не перегружать подписчика
+* Использовать очередь с несколькими подписчиками, разделяющими работу
+* Сохранять сообщения с помощью чего‑то вроде NATS streaming
 
-Libraries that cache incoming messages may provide two controls on the incoming queue, or pending messages. These are useful if the problem is bursty publishers and not a continuous performance mismatch. Disabling these limits can be dangerous in production and although setting these limits to 0 may help find problems, it is also a dangerous proposition in production.
+Библиотеки, которые кэшируют входящие сообщения, могут предоставлять два ограничения на входящую очередь или ожидающие сообщения. Это полезно, если проблема связана со всплесками публикаций, а не с постоянным несоответствием производительности. Отключение этих лимитов может быть опасным в продакшене, и хотя установка в 0 может помочь найти проблемы, это также рискованно в продакшене.
 
-> Check your libraries documentation for the default settings, and support for disabling these limits.
+> Проверьте документацию вашей библиотеки на значения по умолчанию и поддержку отключения этих лимитов.
 
-The incoming cache is usually per subscriber, but again, check the specific documentation for your client library.
+Входной кэш обычно отдельный для каждого подписчика, но снова проверьте документацию вашей клиентской библиотеки.
 
-## Limiting Incoming/Pending Messages by Count and Bytes
+## Ограничение входящих/ожидающих сообщений по количеству и байтам
 
-The first way that the incoming queue can be limited is by message count. The second way to limit the incoming queue is by total size. For example, to limit the incoming cache to 1,000 messages or 5mb whichever comes first:
+Первый способ ограничить входящую очередь — по количеству сообщений. Второй способ — по общему размеру. Например, чтобы ограничить входной кэш 1 000 сообщений или 5 МБ (что наступит первым):
 
 {% tabs %}
 {% tab title="Go" %}
@@ -171,11 +171,11 @@ natsConnection_Destroy(conn);
 {% endtab %}
 {% endtabs %}
 
-## Detect a Slow Consumer and Check for Dropped Messages
+## Обнаружение медленного потребителя и проверка потерь сообщений
 
-When a slow consumer is detected and messages are about to be dropped, the library may notify the application. This process may be similar to other errors or may involve a custom callback.
+Когда обнаруживается медленный потребитель и сообщения вот‑вот начнут отбрасываться, библиотека может уведомить приложение. Этот процесс может быть похож на другие ошибки или включать отдельный callback.
 
-Some libraries, like Java, will not send this notification on every dropped message because that could be noisy. Rather the notification may be sent once per time the subscriber gets behind. Libraries may also provide a way to get a count of dropped messages so that applications can at least detect a problem is occurring.
+Некоторые библиотеки, например Java, не будут отправлять такое уведомление на каждое отброшенное сообщение, потому что это будет шумно. Вместо этого уведомление может приходить один раз за период, когда подписчик отстаёт. Библиотеки также могут предоставлять способ получить количество отброшенных сообщений, чтобы приложения могли хотя бы определить, что проблема возникает.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -365,4 +365,3 @@ natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
-

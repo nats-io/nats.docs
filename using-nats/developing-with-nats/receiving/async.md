@@ -1,10 +1,10 @@
-# Asynchronous Subscriptions
+# Асинхронные подписки
 
-Asynchronous subscriptions use callbacks of some form to notify an application when a message arrives. These subscriptions are usually easier to work with, but do represent some form of internal work and resource usage, i.e. threads, by the library. Check your library's documentation for any resource usage associated with asynchronous subscriptions.
+Асинхронные подписки используют callback'и для уведомления приложения о приходе сообщения. Такие подписки обычно проще в использовании, но представляют собой некоторую внутреннюю работу и расход ресурсов (например, потоков) библиотекой. Проверьте документацию вашей библиотеки на предмет использования ресурсов, связанных с асинхронными подписками.
 
-_**Note: For a given subscription, messages are dispatched serially, one message at a time. If your application does not care about processing ordering and would prefer the messages to be dispatched concurrently, it is the application's responsibility to move them to some internal queue to be picked up by threads/go routines.**_
+_**Примечание: для заданной подписки сообщения доставляются последовательно, по одному. Если ваше приложение не зависит от порядка обработки и предпочитает параллельную обработку, ответственность приложения — переложить сообщения во внутреннюю очередь для обработки потоками/го‑рутинами.**_
 
-The following example subscribes to the subject `updates` and handles the incoming messages:
+Следующий пример подписывается на subject `updates` и обрабатывает входящие сообщения:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -193,4 +193,3 @@ natsConnection_Destroy(conn);
 ```
 {% endtab %}
 {% endtabs %}
-

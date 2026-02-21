@@ -1,10 +1,10 @@
 # Username/Password
 
-## Plain Text Passwords
+## Пароли в открытом виде
 
-You can authenticate one or more clients using username and passwords; this enables you to have greater control over the management and issuance of credential secrets.
+Вы можете аутентифицировать одного или нескольких клиентов по username/password; это дает более тонкий контроль над управлением и выдачей секретов учетных данных.
 
-## Single User
+## Один пользователь
 
 ```
 authorization: {
@@ -13,13 +13,13 @@ authorization: {
 }
 ```
 
-You can also specify a single username/password by:
+Также можно задать единую пару username/password через:
 
 ```
 > nats-server --user a --pass b
 ```
 
-## Multiple users
+## Несколько пользователей
 
 ```
 authorization: {
@@ -30,9 +30,9 @@ authorization: {
 }
 ```
 
-## Bcrypted Passwords
+## Bcrypted пароли
 
-Username/password also supports bcrypted passwords using the [`nats`](../../../../using-nats/nats-tools/nats\_cli/) tool. Simply replace the clear text password with the bcrypted entries:
+Username/password также поддерживают bcrypted‑пароли с помощью инструмента [`nats`](../../../../using-nats/nats-tools/nats_cli/). Просто замените пароль в открытом виде на bcrypted значение:
 
 ```
 > nats server passwd
@@ -42,7 +42,7 @@ Username/password also supports bcrypted passwords using the [`nats`](../../../.
 $2a$11$V1qrpBt8/SLfEBr4NJq4T.2mg8chx8.MTblUiTBOLV3MKDeAy.f7u
 ```
 
-And on the configuration file:
+И в конфигурационном файле:
 
 ```
 authorization: {
@@ -53,9 +53,9 @@ authorization: {
 }
 ```
 
-## Reloading a Configuration
+## Перезагрузка конфигурации
 
-As you add/remove passwords from the server configuration file, you'll want your changes to take effect. To reload without restarting the server and disconnecting clients, do:
+По мере добавления/удаления паролей в конфигурационном файле сервера нужно применять изменения. Чтобы перезагрузить без перезапуска сервера и отключения клиентов, выполните:
 
 ```
 > nats-server --signal reload

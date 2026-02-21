@@ -1,12 +1,12 @@
-# Turning Off Echo'd Messages
+# Отключение эхо‑сообщений
 
-By default a NATS connection will echo messages if the connection also has interest in the published subject. This means that if a publisher on a connection sends a message to a subject any subscribers on that same connection will receive the message. Clients can opt to turn off this behavior, such that regardless of interest, the message will not be delivered to subscribers on the same connection.
+По умолчанию соединение NATS «эхо‑возвращает» сообщения, если в этом же соединении есть интерес к опубликованному subject. Это означает, что если издатель в соединении отправляет сообщение в subject, любые подписчики в этом же соединении получат сообщение. Клиенты могут отключить это поведение, чтобы независимо от интереса сообщение не доставлялось подписчикам в том же соединении.
 
-The NoEcho option can be useful in BUS patterns where all applications subscribe and publish to the same subject. Usually a publish represents a state change that the application already knows about, so in the case where the application publishes an update it does not need to process the update itself.
+Опция NoEcho может быть полезна в шаблонах BUS, где все приложения подписываются и публикуют в один и тот же subject. Обычно публикация отражает изменение состояния, о котором приложение уже знает, поэтому если приложение публикует обновление, ему не нужно обрабатывать его само.
 
 ![](../../../.gitbook/assets/noecho.svg)
 
-Keep in mind that each connection will have to turn off echo, and that it is per connection, not per application. Also, turning echo on and off can result in a major change to your applications communications protocol since messages will flow or stop flowing based on this setting and the subscribing code won't have any indication as to why.
+Помните, что отключение эхо настраивается для каждого соединения, а не для приложения. Кроме того, включение и выключение эхо может существенно изменить протокол взаимодействия вашего приложения, поскольку потоки сообщений будут идти или прекращаться в зависимости от этой настройки, а код подписки не будет иметь индикатора, почему это происходит.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -120,4 +120,3 @@ natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
-

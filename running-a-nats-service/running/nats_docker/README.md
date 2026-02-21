@@ -1,54 +1,54 @@
-# NATS and Docker
+# NATS и Docker
 
-## NATS Server Containerization
+## Контейнеризация сервера NATS
 
-The NATS server is provided as a Docker image on [Docker Hub](https://hub.docker.com/\_/nats/) that you can run using the Docker daemon. The NATS server Docker image is extremely lightweight, coming in under 10 MB in size.
+Сервер NATS доступен как Docker‑образ на [Docker Hub](https://hub.docker.com/_/nats/), который можно запускать через Docker daemon. Образ сервера NATS крайне легкий — менее 10 МБ.
 
-[Synadia](https://www.synadia.com?utm_source=nats_docs&utm_medium=nats) actively maintains and supports the NATS server Docker image.
+[Synadia](https://www.synadia.com?utm_source=nats_docs&utm_medium=nats) активно поддерживает и сопровождает Docker‑образ сервера NATS.
 
 ### Nightly
 
-The nightly build container can be found [here](https://hub.docker.com/r/synadia/nats-server)
+Ночной (nightly) образ можно найти [здесь](https://hub.docker.com/r/synadia/nats-server)
 
-### Usage
+### Использование
 
-To use the Docker container image, install Docker and pull the public image:
+Чтобы использовать Docker‑образ, установите Docker и скачайте публичный образ:
 
 ```bash
 docker pull nats
 ```
 
-Run the NATS server image:
+Запустите образ сервера NATS:
 
 ```bash
 docker run nats
 ```
 
-By default the NATS server exposes multiple ports:
+По умолчанию сервер NATS открывает несколько портов:
 
-* 4222 is for clients.
-* 8222 is an HTTP management port for information reporting.
-* 6222 is a routing port for clustering.
+* 4222 — для клиентов.
+* 8222 — HTTP‑порт управления и отчетов.
+* 6222 — порт маршрутизации для кластеризации.
 
-The default ports may be customized by providing either a -p or -P option on the `docker run` command line.
+Порты по умолчанию можно настроить, указав опции `-p` или `-P` в команде `docker run`.
 
-The following steps illustrate how to run a server with the ports exposed on a `docker network.`
+Ниже показано, как запускать сервер с открытыми портами в `docker network`.
 
-First, create the `docker network` 'nats:'
+Сначала создайте сеть `docker network` с именем `nats`:
 
 ```bash
 docker network create nats
 ```
 
-Then start the server:
+Затем запустите сервер:
 
 ```bash
 docker run --name nats --network nats --rm -p 4222:4222 -p 8222:8222 nats --http_port 8222
 ```
 
-### Creating a NATS Cluster
+### Создание кластера NATS
 
-First, run a server with the ports exposed on the 'nats' `docker network`:
+Сначала запустите сервер с открытыми портами в сети `docker network` `nats`:
 
 ```bash
 docker run --name nats --network nats --rm -p 4222:4222 -p 8222:8222 nats --http_port 8222 --cluster_name NATS --cluster nats://0.0.0.0:6222
@@ -67,16 +67,16 @@ docker run --name nats --network nats --rm -p 4222:4222 -p 8222:8222 nats --http
 [1] 2021/09/28 09:21:56.559433 [INF] Listening for route connections on 0.0.0.0:6222
 ```
 
-Next, start additional servers pointing them to the seed server to cause them to form a cluster:
+Затем запустите дополнительные серверы, указав им seed‑сервер, чтобы они сформировали кластер:
 
 ```bash
 docker run --name nats-1 --network nats --rm nats --cluster_name NATS --cluster nats://0.0.0.0:6222 --routes=nats://ruser:T0pS3cr3t@nats:6222
 docker run --name nats-2 --network nats --rm nats --cluster_name NATS --cluster nats://0.0.0.0:6222 --routes=nats://ruser:T0pS3cr3t@nats:6222
 ```
 
-**NOTE** Since the Docker image protects routes using credentials we need to provide them above. Extracted [from Docker image configuration](https://github.com/nats-io/nats-docker/blob/6fb8c05311bb4d1554390f66abb0a5ebef1e1c9d/2.1.0/scratch/amd64/nats-server.conf#L13-L19)
+**Примечание:** Поскольку Docker‑образ защищает маршруты учетными данными, их нужно указать выше. Извлечено [из конфигурации Docker‑образа](https://github.com/nats-io/nats-docker/blob/6fb8c05311bb4d1554390f66abb0a5ebef1e1c9d/2.1.0/scratch/amd64/nats-server.conf#L13-L19)
 
-To verify the routes are connected, you can make a request to the monitoring endpoint on `/routez` and confirm that there are now 2 routes:
+Чтобы проверить, что маршруты подключены, можно сделать запрос к endpoint мониторинга `/routez` и убедиться, что теперь есть 2 маршрута:
 
 ```bash
 curl http://127.0.0.1:8222/routez
@@ -122,9 +122,9 @@ curl http://127.0.0.1:8222/routez
 }
 ```
 
-### Creating a NATS Cluster with Docker Compose
+### Создание кластера NATS с Docker Compose
 
-It is also straightforward to create a cluster using Docker Compose. Below is a simple example that uses a network named 'nats' to create a full mesh cluster.
+Также просто создать кластер с помощью Docker Compose. Ниже простой пример, использующий сеть с именем `nats` для создания полносвязного кластера.
 
 ```yaml
 version: "3.5"
@@ -151,7 +151,7 @@ networks:
     name: nats
 ```
 
-Now we use Docker Compose to create the cluster that will be using the 'nats' network:
+Теперь используем Docker Compose для создания кластера, который будет использовать сеть `nats`:
 
 ```bash
 docker-compose -f nats-cluster.yaml up
@@ -198,45 +198,3 @@ nats-2_1  | [1] 2021/09/28 10:42:37.741557 [INF] 172.18.0.3:6222 - rid:4 - Route
 nats-1_1  | [1] 2021/09/28 10:42:37.743981 [INF] 172.18.0.5:6222 - rid:5 - Route connection created
 nats-2_1  | [1] 2021/09/28 10:42:37.744332 [INF] 172.18.0.4:40250 - rid:5 - Route connection created
 ```
-
-### Testing the Clusters
-
-Now, the following should work: make a subscription on one of the nodes and publish it from another node. You should be able to receive the message without problems.
-
-```bash
-docker run --network nats --rm -it natsio/nats-box
-```
-
-Inside the container:
-
-```shell
-nats sub -s nats://nats:4222 hello &
-nats pub -s "nats://nats-1:4222" hello first
-nats pub -s "nats://nats-2:4222" hello second
-```
-
-Stopping the seed node, which received the subscription, should trigger an automatic failover to the other nodes:
-
-```bash
-docker-compose -f nats-cluster.yaml stop nats
-```
-
-Output extract:
-
-```
-... 
-16e55f1c4f3c:~# 10:47:28 Disconnected due to: EOF, will attempt reconnect
-10:47:28 Disconnected due to: EOF, will attempt reconnect
-10:47:28 Reconnected [nats://172.18.0.4:4222]
-```
-
-Publishing again will continue to work after the reconnection:
-
-```bash
-nats pub -s "nats://nats-1:4222" hello again
-nats pub -s "nats://nats-2:4222" hello again
-```
-
-## Tutorial
-
-See the [NATS Docker tutorial](nats-docker-tutorial.md) for more instructions on using the NATS server Docker image.

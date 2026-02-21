@@ -1,7 +1,8 @@
-# JetStream contexts
-You will need the *JetStream context* to make any JetStream enabled operation. Some client libraries (e.g. Java) also have a *JetStream Management context* (which you will only need if your application needs to create/purge/delete/manage streams and consumers), while some client libraries (e.g. Golang) only have the JetStream context that you use for all operations (including stream management).
+# Контексты JetStream
 
-You obtain a JetStream context simply from your connection object (and you can optionally specify some JetStream options, most notably the JetStream operation timeout value). You also obtain the JetStream Management context from the connection.
+Для выполнения любых операций с JetStream вам понадобится *JetStream context*. Некоторые клиентские библиотеки (например, Java) также имеют *JetStream Management context* (он нужен только если вашему приложению требуется создавать/очищать/удалять/управлять streams и consumers), тогда как некоторые библиотеки (например, Golang) имеют только JetStream context, который используется для всех операций (включая управление streams).
+
+JetStream context получается напрямую из объекта соединения (при желании можно указать некоторые опции JetStream, прежде всего таймаут операций). JetStream Management context также получается из соединения.
 
 {% tabs %}
 {% tab title="Go" %}

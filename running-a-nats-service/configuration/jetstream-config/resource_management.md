@@ -1,22 +1,22 @@
-# Configuring JetStream
+# Настройка JetStream
 
-### Enabling JetStream for a nats-server
+### Включение JetStream для nats-server
 
-To enable JetStream in a server we have to configure it at the top level first:
+Чтобы включить JetStream на сервере, нужно настроить его на верхнем уровне:
 
 ```
 jetstream: enabled
 ```
 
-You can also use the `-js, --jetstream` and `-sd, --store_dir <dir>` flags from the command line
+Также можно использовать флаги командной строки `-js, --jetstream` и `-sd, --store_dir <dir>`.
 
-## Multi-tenancy & Resource Mgmt
+## Мульти‑тенантность и управление ресурсами
 
-JetStream is compatible with NATS 2.0 Multi-Tenancy using Accounts. A JetStream enabled server supports creating fully isolated JetStream environments for different accounts.
+JetStream совместим с мульти‑тенантностью NATS 2.0 через Accounts. Сервер с включенным JetStream поддерживает создание полностью изолированных сред JetStream для разных аккаунтов.
 
-JetStream environments in leaf nodes should be isolated in their own JetStream domain - [Leaf nodes](../leafnodes/)
+Среды JetStream в leaf‑nodes следует изолировать в собственном домене JetStream — см. [Leaf nodes](../leafnodes/)
 
-This will dynamically determine the available resources. It's recommended that you set specific limits though:
+JetStream будет динамически определять доступные ресурсы. Однако рекомендуется задавать конкретные лимиты:
 
 ```
 jetstream {
@@ -27,9 +27,9 @@ jetstream {
 }
 ```
 
-### Setting account resource limits
+### Настройка лимитов ресурсов аккаунта
 
-At this point JetStream will be enabled and if you have a server that does not have accounts enabled, all users in the server would have access to JetStream
+На этом этапе JetStream будет включен, и если на сервере нет включенных accounts, все пользователи на сервере получат доступ к JetStream.
 
 ```
 jetstream {
@@ -45,7 +45,7 @@ accounts {
 }
 ```
 
-Here the `HR` account would have access to all the resources configured on the server, we can restrict it:
+Здесь аккаунт `HR` получил бы доступ ко всем ресурсам сервера. Мы можем ограничить его:
 
 ```
 jetstream {
@@ -66,15 +66,15 @@ accounts {
 }
 ```
 
-Now the `HR` account is limited in various dimensions.
+Теперь аккаунт `HR` ограничен по различным параметрам.
 
-If you try to configure JetStream for an account without enabling it globally you'll get a warning and the account designated as System cannot have JetStream enabled.
+Если попытаться настроить JetStream для аккаунта, не включив его глобально, вы получите предупреждение, а аккаунт, назначенный как System, не может иметь JetStream включенным.
 
-#### Setting JetStream API and Max HA assets limits
+#### Настройка лимитов JetStream API и Max HA assets
 
-Since version v2.10.21, the NATS JetStream API has a limit of 10K inflight requests after which it will start to drop requests in order to protect from memory buildup and to avoid overwhelming the JetStream service. Sometimes it might be necessary to reduce the limit further in order to reduce the possibility of an increase in JetStream traffic impacting the service. Another important limit is `max_ha_assets` which would constrain the maximum number of supported R3 or R5 streams and consumers per server:
+Начиная с версии v2.10.21, у NATS JetStream API есть лимит 10K inflight‑запросов, после которого запросы начинают отбрасываться, чтобы защититься от роста памяти и перегрузки сервиса JetStream. Иногда нужно уменьшить этот лимит, чтобы снизить риск того, что рост JetStream‑трафика повлияет на сервис. Еще один важный лимит — `max_ha_assets`, который ограничивает максимальное число поддерживаемых R3 или R5 потоков и consumers на сервер:
 
-Example:
+Пример:
 
 ```
 jetstream {
@@ -85,17 +85,17 @@ jetstream {
   }
 ```
 
-When the request limit is reached, all pending requests are dropped, therefore it may be necessary in some situations to reduce the limit further in order to lessen the impact on applications. In the logs the following would appear reporting that requests have been dropped:
+Когда лимит запросов достигнут, все ожидающие запросы отбрасываются, поэтому в некоторых случаях стоит дополнительно уменьшить лимит, чтобы снизить влияние на приложения. В логах появится сообщение о том, что запросы были отброшены:
 
 ```
 [WRN] JetStream API queue limit reached, dropping 1000 requests
 ```
 
-For an application, this will mean that those operations will error and will have to be retried. This will also emit an advisory under the subject `$JS.EVENT.ADVISORY.API.LIMIT_REACHED` whenever it occurs.
+Для приложения это означает, что операции будут завершаться ошибкой и потребуют повторных попыток. Также будет отправлено advisory на subject `$JS.EVENT.ADVISORY.API.LIMIT_REACHED` каждый раз, когда это происходит.
 
-#### Operator mode account resources limits using the `nsc` CLI tool
+#### Лимиты ресурсов аккаунта в operator mode с помощью `nsc` CLI
 
-If your setup is in operator mode, JetStream specific account configuration can be stored in account JWT. The earlier account named HR can be configured as follows:
+Если ваша установка в operator mode, JetStream‑специфичная конфигурация аккаунта может храниться в JWT аккаунта. Ранее названный аккаунт HR можно настроить так:
 
 ```bash
 nsc add account --name HR

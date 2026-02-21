@@ -1,13 +1,13 @@
-# Upgrading a Cluster
+# Обновление кластера
 
-Repeat this procedure for all nodes of the cluster, one at a time:
-1. Stop the server by putting it into [Lame Duck Mode](https://docs.nats.io/running-a-nats-service/nats_admin/lame_duck_mode)
-2. Replace the binary or Docker image with the new version.
-3. Restart the server.
-4. Wait until the `/healthz` endpoint returns `HTTP 200 OK` before moving on to the next cluster node.
+Повторите эту процедуру для всех узлов кластера по одному:
+1. Остановите сервер, переведя его в [Lame Duck Mode](https://docs.nats.io/running-a-nats-service/nats_admin/lame_duck_mode)
+2. Замените бинарник или Docker‑образ на новую версию.
+3. Перезапустите сервер.
+4. Перед переходом к следующему узлу дождитесь, пока endpoint `/healthz` вернет `HTTP 200 OK`.
 
-### Downgrading
+### Откат версии
 
-Although the NATS server goes through rigorous testing for each release, there may be a need to revert to the previous version if you observe a performance regression for your workload. The support policy for the server is the current release as well as one patch version release prior. For example, if the latest is 2.8.4, a downgrade to 2.8.3 is supported. Downgrades to earlier versions may work, but is not recommended.
+Хотя NATS server проходит тщательное тестирование для каждого релиза, может возникнуть необходимость вернуться на предыдущую версию, если вы заметили регрессию производительности для вашей нагрузки. Политика поддержки сервера — текущий релиз и релиз на один patch‑уровень ниже. Например, если последняя версия 2.8.4, поддерживается откат на 2.8.3. Откат на более ранние версии может работать, но не рекомендуется.
 
-Fortunately, the downgrade path is the same as the upgrade path as noted above. Swap the binary and do a rolling restart.
+К счастью, путь отката тот же, что и путь обновления, описанный выше. Замените бинарник и выполните rolling restart.

@@ -1,10 +1,10 @@
-# Streams
+# Потоки
 
-To share messages you publish with other accounts, you have to _Export_ a _Stream_. _Exports_ are associated with the account performing the export and advertised in exporting account’s JWT.
+Чтобы делиться сообщениями, которые вы публикуете, с другими аккаунтами, нужно _экспортировать_ _Stream_. _Экспорты_ связаны с аккаунтом, выполняющим экспорт, и объявляются в JWT экспортирующего аккаунта.
 
-### Adding a Public Stream Export
+### Добавление публичного экспорта Stream
 
-To add a stream to your account:
+Чтобы добавить stream в аккаунт:
 
 ```shell
 nsc add export --name abc --subject "a.b.c.>"
@@ -14,9 +14,9 @@ nsc add export --name abc --subject "a.b.c.>"
   [ OK ] added public stream export "abc"
 ```
 
-> Note that we have exported stream with a subject that contains a wildcard. Any subject that matches the pattern will be exported.
+> Обратите внимание: мы экспортировали stream с subject, содержащим wildcard. Любой subject, совпадающий с шаблоном, будет экспортирован.
 
-To review the stream export:
+Чтобы посмотреть экспорт stream:
 
 ```shell
 nsc describe account
@@ -53,18 +53,18 @@ nsc describe account
 ╰──────┴────────┴─────────┴────────┴─────────────┴──────────╯
 ```
 
-Messages this account publishes on `a.b.c.>` will be forwarded to all accounts that import this stream.
+Сообщения этого аккаунта, опубликованные на `a.b.c.>`, будут пересылаться во все аккаунты, которые импортируют этот stream.
 
-### Importing a Stream
+### Импорт Stream
 
-Importing a stream enables you to receive messages that are published by a different _Account_. To import a Stream, you have to create an _Import_. To create an _Import_ you need to know:
+Импорт stream позволяет получать сообщения, опубликованные другим _Account_. Чтобы импортировать Stream, нужно создать _Import_. Для создания _Import_ необходимо знать:
 
-* The exporting account’s public key
-* The subject where the stream is published
-* You can map the stream’s subject to a different subject
-* Self-imports are not valid; you can only import streams from other accounts.
+* Публичный ключ экспортирующего аккаунта
+* Subject, на котором публикуется stream
+* Можно замаппить subject stream на другой subject
+* Самоимпорт не допускается; можно импортировать stream только из других аккаунтов
 
-With the required information, we can add an import to the public stream.
+Имея необходимую информацию, добавим импорт публичного stream.
 
 ```bash
 nsc add account B
@@ -83,9 +83,9 @@ nsc add import --src-account ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFT
 [ OK ] added stream import "a.b.c.>"
 ```
 
-> Notice that messages published by the remote account will be received on the same subject as they are originally published. Sometimes you would like to prefix messages received from a stream. To add a prefix specify `--local-subject`. Subscribers in our account can listen to `abc.>`. For example if `--local-subject abc`, The message will be received as `abc.a.b.c.>`.
+> Обратите внимание: сообщения, опубликованные удаленным аккаунтом, будут получены на том же subject, что и изначально. Иногда хочется добавить префикс к сообщениям, получаемым из stream. Для этого укажите `--local-subject`. Подписчики в нашем аккаунте могут слушать `abc.>`. Например, если `--local-subject abc`, сообщение будет получено как `abc.a.b.c.>`.
 
-And verifying it:
+И проверим:
 
 ```shell
 nsc describe account
@@ -122,7 +122,7 @@ nsc describe account
 ╰─────────┴────────┴─────────┴──────────────┴─────────┴──────────────┴────────╯
 ```
 
-Let's also add a user to make requests from the service:
+Добавим пользователя, чтобы делать запросы к сервису:
 
 ```bash
 nsc add user b
@@ -134,37 +134,37 @@ nsc add user b
 [ OK ] added user "b" to account "B"
 ```
 
-### Pushing the changes to the NATS servers
+### Публикация изменений на NATS servers
 
-If your NATS servers are configured to use the built-in NATS resolver, remember that you need to 'push' any account changes you may have done locally using `nsc add` to the servers for those changes to take effect.
+Если ваши NATS servers настроены на использование встроенного resolver NATS, не забудьте «пушить» изменения аккаунтов, сделанные локально через `nsc add`, чтобы они вступили в силу.
 
-e.g. `nsc push -i` or `nsc push -a B -u nats://localhost`
+Например: `nsc push -i` или `nsc push -a B -u nats://localhost`
 
-### Testing the Stream
+### Тестирование Stream
 
 ```bash
 nsc sub --account B --user b "a.b.c.>"
 ```
 
-then
+затем
 
 ```shell
 nsc pub --account A --user U a.b.c.hello world
 ```
 
-## Securing Streams
+## Защита Streams
 
-If you want to create a stream that is only accessible to accounts you designate, you can create a _private_ stream. The export will be visible in your account, but _subscribing_ accounts will require an authorization token that must be created by you and generated specifically for the subscribing account.
+Если вы хотите создать stream, доступный только указанным аккаунтам, можно создать _private_ stream. Экспорт будет виден в вашем аккаунте, но _подписывающимся_ аккаунтам потребуется токен авторизации, который вы создаете сами и генерируете специально для подписывающегося аккаунта.
 
-The authorization token is simply a JWT signed by your account where you authorize the client account to import your export.
+Токен авторизации — это JWT, подписанный вашим аккаунтом, где вы разрешаете клиентскому аккаунту импортировать ваш экспорт.
 
-### Creating a Private Stream Export
+### Создание private stream export
 
 ```shell
 nsc add export --subject "private.abc.*" --private --account A
 ```
 
-This is similar to when we defined an export, but this time we added the `--private` flag. The other thing to note is that the subject for the request has a wildcard. This enables the account to map specific subjects to specifically authorized accounts.
+Это похоже на определение экспорта, но на этот раз мы добавили флаг `--private`. Также обратите внимание, что subject содержит wildcard. Это позволяет аккаунту маппить конкретные subjects на конкретно авторизованные аккаунты.
 
 ```shell
 nsc describe account A
@@ -198,15 +198,16 @@ nsc describe account A
 │ Name          │ Type   │ Subject       │ Public │ Revocations │ Tracking │
 ├───────────────┼────────┼───────────────┼────────┼─────────────┼──────────┤
 │ abc           │ Stream │ a.b.c.>       │ Yes    │ 0           │ N/A      │
+│ abc           │ Stream │ a.b.c.>       │ Yes    │ 0           │ N/A      │
 │ private.abc.* │ Stream │ private.abc.* │ No     │ 0           │ N/A      │
 ╰───────────────┴────────┴───────────────┴────────┴─────────────┴──────────╯
 ```
 
-### Generating an Activation Token
+### Генерация activation token
 
-For a foreign account to _import_ a private stream, you have to generate an activation token. In addition to granting permissions to the account, the activation token also allows you to subset the exported stream's subject.
+Чтобы внешний аккаунт мог _импортировать_ приватный stream, нужно сгенерировать activation token. Помимо выдачи прав аккаунту, activation token также позволяет ограничить subject экспортируемого stream.
 
-To generate a token, you'll need to know the public key of the account importing the service. We can easily find the public key for account B by running:
+Для генерации токена нужен публичный ключ аккаунта, который импортирует сервис. Публичный ключ аккаунта B можно узнать так:
 
 ```bash
 nsc list keys --account B
@@ -233,9 +234,9 @@ nsc generate activation --account A --target-account AAM46E3YF5WOZSE5WNYWHN3YYIS
 [ OK ] wrote account description to "/tmp/activation.jwt"
 ```
 
-The command took the account that has the export ('A'), the public key of account B, the subject where the stream will publish to account B.
+Команда использовала аккаунт с экспортом ('A'), публичный ключ аккаунта B и subject, на который stream будет публиковать для аккаунта B.
 
-For completeness, the contents of the JWT file look like this:
+Для полноты, содержимое JWT‑файла:
 
 ```shell
 cat /tmp/activation.jwt
@@ -247,7 +248,7 @@ eyJ0eXAiOiJqd3QiLCJhbGciOiJlZDI1NTE5In0.eyJqdGkiOiJIS1FPQU9aQkVKS1JYNFJRUVhXS0xY
 ------END NATS ACTIVATION JWT------
 ```
 
-When decoded it looks like this:
+В декодированном виде:
 
 ```shell
 nsc describe jwt -f /tmp/activation.jwt 
@@ -275,13 +276,13 @@ nsc describe jwt -f /tmp/activation.jwt
 ╰─────────────────┴──────────────────────────────────────────────────────────────────────╯
 ```
 
-The token can be shared directly with the client account.
+Токен можно передать напрямую клиентскому аккаунту.
 
-> If you manage many tokens for many accounts, you may want to host activation tokens on a web server and share the URL with the account. The benefit to the hosted approach is that any updates to the token would be available to the importing account whenever their account is updated, provided the URL you host them in is stable.
+> Если вы управляете большим количеством токенов для разных аккаунтов, можно разместить activation tokens на web‑сервере и поделиться URL. Плюс такого подхода — любые обновления токена будут доступны импортирующему аккаунту при обновлении его аккаунта, если URL остается стабильным.
 
-## Importing a Private Stream
+## Импорт private stream
 
-Importing a private stream is more natural than a public one as the activation token given to you already has all of the necessary details. Note that the token can be an actual file path or a remote URL.
+Импорт private stream более естественный, чем public, так как activation token уже содержит все необходимые детали. Обратите внимание, что токен может быть как путем к файлу, так и удаленным URL.
 
 ```shell
 nsc add import --account B --token /tmp/activation.jwt
@@ -291,7 +292,7 @@ nsc add import --account B --token /tmp/activation.jwt
 [ OK ] added stream import "private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
 ```
 
-Describe account B
+Описание аккаунта B:
 
 ```shell
 nsc describe account B
@@ -329,15 +330,15 @@ nsc describe account B
 ╰──────────────────────────────────────────────────────────────────────┴────────┴──────────────────────────────────────────────────────────────────────┴──────────────┴─────────┴──────────────┴────────╯
 ```
 
-### Testing the Private Stream
+### Тестирование private stream
 
-Testing a private stream is no different than testing a public one:
+Тестирование private stream ничем не отличается от public:
 
 ```bash
 nsc tools sub --account B --user b private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H
 ```
 
-then
+затем
 
 ```shell
 nsc tools pub --account A --user U private.abc.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H hello

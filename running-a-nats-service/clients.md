@@ -1,27 +1,27 @@
-# NATS Server Clients
+# Клиенты сервера NATS
 
-A NATS client is an application making a connection to one of the nats servers pointed to by its connection URL, and uses a credential file to authenticate and indicate its authorization to the server and the whole NATS infrastructure.
+Клиент NATS — это приложение, которое подключается к одному из серверов NATS, указанных в URL подключения, и использует файл учетных данных для аутентификации и подтверждения авторизации на сервере и во всей инфраструктуре NATS.
 
-The nats-server doesn't come bundled with any clients, but its companion is the [`nats`](../using-nats/nats-tools/nats\_cli/) CLI tool that you should install (even if you don't intend to run your own servers) as it is the best tool to use to test, monitor, manage and generally interact with a NATS infrastructure (regardless of that infrastructure being an isolated local server, a leaf node server, a cluster or even a global super-cluster).
+`nats-server` не поставляется с какими‑либо клиентами, но его «компаньон» — CLI‑инструмент [`nats`](../using-nats/nats-tools/nats_cli/) — стоит установить (даже если вы не планируете запускать свои серверы), так как это лучший инструмент для тестирования, мониторинга, управления и общего взаимодействия с инфраструктурой NATS (независимо от того, это изолированный локальный сервер, leaf‑node сервер, кластер или даже глобальный супер‑кластер).
 
-Other NATS client tools to know about are the [`nsc`](../using-nats/nats-tools/nsc/) CLI tool (to manage accounts attributes and user JWT tokens) and the ['nk'](../using-nats/nats-tools/nk.md) tool (and library) to manage Nkeys.
+Другие полезные клиентские инструменты NATS: CLI‑инструмент [`nsc`](../using-nats/nats-tools/nsc/) (для управления атрибутами аккаунтов и JWT токенами пользователей) и инструмент (и библиотека) [`nk`](../using-nats/nats-tools/nk.md) для управления NKeys.
 
-Also, most client libraries come with sample programs that allow you to publish, subscribe, send requests and reply messages.
+Также большинство клиентских библиотек поставляется с примерами программ, позволяющими публиковать, подписываться, отправлять запросы и отвечать на сообщения.
 
-## Embedding NATS
+## Встраивание NATS
 
-If your application is in Go, and if it fits your use case and deployment scenarios, you can even embed a NATS server inside your application.
+Если ваше приложение на Go и это подходит под ваш сценарий использования и развертывания, вы можете встроить сервер NATS прямо в приложение.
 
 [Embedding NATS in Go](https://dev.to/karanpratapsingh/embedding-nats-in-go-19o)
 
-## Installing the `nats` CLI Tool
+## Установка CLI‑инструмента `nats`
 
-Please refer to the [installation section in the readme](https://github.com/nats-io/natscli?tab=readme-ov-file#installation).
+См. [раздел установки в readme](https://github.com/nats-io/natscli?tab=readme-ov-file#installation).
 
 
-## Testing your setup
+## Проверка установки
 
-Open a terminal and [start a nats-server](broken-reference):
+Откройте терминал и [запустите nats-server](broken-reference):
 
 ```shell
 nats-server
@@ -37,7 +37,7 @@ nats-server
 [45695] 2021/09/29 02:22:53.572051 [INF] Server is ready
 ```
 
-On another terminal session first check the connection to the server
+В другом терминале сначала проверьте подключение к серверу:
 
 ```shell
 nats server check connection -s nats://0.0.0.0:4222
@@ -47,15 +47,15 @@ nats server check connection -s nats://0.0.0.0:4222
 OK Connection OK:connected to nats://127.0.0.1:4222 in 790.28µs OK:rtt time 69.896µs OK:round trip took 0.000102s | connect_time=0.0008s;0.5000;1.0000 rtt=0.0001s;0.5000;1.0000 request_time=0.0001s;0.5000;1.0000
 ```
 
-Next, start a subscriber using the `nats` CLI tool:
+Затем запустите подписчика с помощью CLI‑инструмента `nats`:
 
 ```shell
 nats subscribe ">" -s nats://0.0.0.0:4222
 ```
 
-Note that when the client connected, the server didn't log anything interesting because server output is relatively quiet unless something interesting happens.
+Обратите внимание: когда клиент подключился, сервер ничего интересного не залогировал, потому что вывод сервера относительно тихий, пока не происходит чего‑то примечательного.
 
-To make the server output more lively, you can specify the `-V` flag to enable logging of server protocol tracing messages. Go ahead and `<ctrl>+c` the process running the server, and restart the server with the `-V` flag:
+Чтобы сделать вывод сервера более «живым», можно указать флаг `-V`, включающий трассировку протокольных сообщений. Остановите процесс сервера (`<ctrl>+c`) и перезапустите его с `-V`:
 
 ```shell
 nats-server -V
@@ -77,40 +77,40 @@ nats-server -V
 [45703] 2021/09/29 02:23:07.111689 [TRC] 127.0.0.1:51653 - cid:4 - "v1.12.0:go:NATS CLI Version 0.0.26" - ->> [PONG]
 ```
 
-If you had created a subscriber, you should notice output on the subscriber telling you that it disconnected, and reconnected. The server output above is more interesting. You can see the subscriber send a `CONNECT` protocol message and a `PING` which was responded to by the server with a `PONG`.
+Если вы создали подписчика, вы должны заметить сообщение о том, что он отключился и переподключился. Вывод сервера выше более интересен: вы видите, как подписчик отправляет протокольное сообщение `CONNECT` и `PING`, на которое сервер отвечает `PONG`.
 
-> You can learn more about the [NATS protocol here](../reference-protocols.md), but more interesting than the protocol description is [an interactive demo](../reference/nats-protocol/nats-protocol-demo.md).
+> Подробнее о [протоколе NATS](../reference-protocols.md), а еще интереснее — [интерактивная демонстрация](../reference/nats-protocol/nats-protocol-demo.md).
 
-On a third terminal, publish your first message:
+В третьем терминале опубликуйте первое сообщение:
 
 ```shell
 nats pub hello world -s nats://0.0.0.0:4222
 ```
 
-On the subscriber window you should see:
+В окне подписчика вы должны увидеть:
 
 ```
 [#1] Received on "hello"
 world
 ```
 
-## Testing Against a Remote Server
+## Проверка подключения к удаленному серверу
 
-If the NATS server were running in a different machine or a different port, you'd have to specify that to the client by specifying a _NATS URL_ (either in a `nats context` or using the `-s` flag).
+Если сервер NATS запущен на другой машине или другом порту, это нужно указать клиенту, задав _NATS URL_ (либо в `nats context`, либо через флаг `-s`).
 
-### NATS URLs
+### NATS URL
 
-NATS URLs take the form of: `nats://<server>:<port>` and `tls://<server>:<port>`. URLs with a `tls` protocol sport a secured TLS connection.
+NATS URL имеет вид `nats://<server>:<port>` и `tls://<server>:<port>`. URL с протоколом `tls` используют защищенное TLS‑соединение.
 
-If you are connecting to a cluster you can specify more than one URL (comma separated). e.g. `nats://localhost:4222,nats://localhost:5222,nats://localhost:6222` if you are running a test cluster of 3 nats servers on your local machine, listening at ports 4222, 5222, and 6222 respectively.
+Если вы подключаетесь к кластеру, можно указать несколько URL (через запятую), например `nats://localhost:4222,nats://localhost:5222,nats://localhost:6222`, если у вас тестовый кластер из 3 серверов NATS на локальной машине, слушающих порты 4222, 5222 и 6222 соответственно.
 
-### Example
+### Пример
 
 ```shell
 nats sub -s nats://server:port ">"
 ```
 
-If you want to try on a remote server, the NATS team maintains a demo server you can reach at `demo.nats.io`.
+Если хотите попробовать подключение к удаленному серверу, команда NATS поддерживает демо‑сервер по адресу `demo.nats.io`.
 
 ```shell
 nats sub -s nats://demo.nats.io ">"

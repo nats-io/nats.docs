@@ -1,10 +1,10 @@
-# Miscellaneous functionalities
+# Разное
 
-This section contains miscellaneous functionalities and options for connect.
+Этот раздел содержит разные возможности и опции для подключения.
 
-## Get the Maximum Payload Size
+## Получение максимального размера payload
 
-While the client can't control the maximum payload size, clients may provide a way for applications to obtain the configured [`max_payload`](/running-a-nats-service/configuration/README.md#limits) after the connection is made. This will allow the application to chunk or limit data as needed to pass through the server.
+Хотя клиент не может управлять максимальным размером payload, клиенты могут предоставлять способ получить настроенный [`max_payload`](/running-a-nats-service/configuration/README.md#limits) после установки соединения. Это позволит приложению дробить или ограничивать данные по необходимости, чтобы пройти через сервер.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -103,13 +103,13 @@ natsConnection_Destroy(conn);
 {% endtab %}
 {% endtabs %}
 
-## Turn On Pedantic Mode
+## Включение pedantic режима
 
-The NATS server provides a _pedantic_ mode that performs extra checks on the protocol.
+Сервер NATS предоставляет режим _pedantic_, который выполняет дополнительные проверки протокола.
 
-One example of such a check is if a subject used for publishing contains a [wildcard](../../../nats-concepts/subjects.md#wildcards) character. The server will not use it as wildcard and therefore omits this check.
+Пример такой проверки — если subject, используемый для публикации, содержит символ [wildcard](../../../nats-concepts/subjects.md#wildcards). Сервер не будет использовать его как wildcard и поэтому пропускает эту проверку.
 
-By default, this setting is off but you can turn it on to test your application:
+По умолчанию режим выключен, но его можно включить для тестирования приложения:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -211,13 +211,13 @@ natsOptions_Destroy(opts);
 {% endtab %}
 {% endtabs %}
 
-## Set the Maximum Control Line Size
+## Установка максимального размера контрольной строки
 
-The protocol between the client and the server is fairly simple and relies on a control line and sometimes a body. The control line contains the operations being sent, like PING or PONG, followed by a carriage return and line feed, CRLF or "\r\n". The server has a [`max_control_line`](/running-a-nats-service/configuration/README.md#limits) option that can limit the maximum size of a control line. For PING and PONG this doesn't come into play, but for messages that contain subject names and possibly queue group names, the control line length can be important as it effectively limits the possibly combined length. Some clients will try to limit the control line size internally to prevent an error from the server. These clients may or may not allow you to set the size being used, but if they do, the size should be set to match the server configuration.
+Протокол между клиентом и сервером довольно прост и опирается на контрольную строку и иногда тело сообщения. Контрольная строка содержит операции, такие как PING или PONG, за которыми следует CRLF ("\r\n"). На сервере есть опция [`max_control_line`](/running-a-nats-service/configuration/README.md#limits), которая ограничивает максимальный размер контрольной строки. Для PING и PONG это не важно, но для сообщений с именами subject и, возможно, именами queue group длина контрольной строки может быть критична, поскольку она фактически ограничивает их суммарную длину. Некоторые клиенты пытаются ограничивать размер контрольной строки внутри, чтобы предотвратить ошибку от сервера. Эти клиенты могут позволять или не позволять задавать используемый размер; если позволяют, размер должен соответствовать конфигурации сервера.
 
-> It is not recommended to set this to a value that is higher than the one of other clients or the nats-server.
+> Не рекомендуется задавать значение больше, чем у других клиентов или у nats-server.
 
-For example, to set the maximum control line size to 2k:
+Например, чтобы установить максимальный размер контрольной строки 2k:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -272,13 +272,13 @@ nc.close();
 {% endtab %}
 {% endtabs %}
 
-## Turn On/Off Verbose Mode
+## Включение/выключение verbose режима
 
-Clients can request _verbose_ mode from NATS server. When requested by a client, the server will reply to every message from that client with either a +OK or an error -ERR. However, the client will not block and wait for a response. Errors will be sent without verbose mode as well and client libraries handle them as documented.
+Клиенты могут запросить у сервера NATS _verbose_ режим. При запросе сервер будет отвечать на каждое сообщение клиента либо +OK, либо ошибкой -ERR. При этом клиент не блокируется и не ждёт ответа. Ошибки отправляются и без verbose режима, а клиентские библиотеки обрабатывают их согласно документации.
 
-> This functionality is only used for debugging the client library or the nats-server themselves. By default the server sets it to on, but every client turns it off.
+> Эта функциональность используется только для отладки клиентской библиотеки или самого nats-server. По умолчанию сервер включает её, но каждый клиент её выключает.
 
-To turn on verbose mode:
+Чтобы включить verbose режим:
 
 {% tabs %}
 {% tab title="Go" %}

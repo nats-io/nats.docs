@@ -1,36 +1,35 @@
-# Monitoring
+# Мониторинг
 
-## Server Metrics
+## Метрики сервера
 
-JetStream has a /[jsz ](../../configuration/monitoring.md#jetstream-information)HTTP endpoint and advisories available.
+У JetStream есть HTTP endpoint /[jsz ](../../configuration/monitoring.md#jetstream-information) и доступны advisories.
 
-## Advisories
+## Уведомления (Advisories)
 
-JetStream publishes a number of advisories that can inform operations about the health and the state of the Streams. These advisories are published to normal NATS subjects below `$JS.EVENT.ADVISORY.>` and one can store these advisories in JetStream Streams if desired.
+JetStream публикует ряд advisories, которые могут информировать операции о здоровье и состоянии Streams. Эти advisories публикуются в обычные NATS subject под `$JS.EVENT.ADVISORY.>` и при желании их можно хранить в Streams JetStream.
 
-The command `nats event --js-advisory` can view all these events on your console. The Golang package [jsm.go](https://github.com/nats-io/jsm.go) can consume and render these events and have data types for each of these events.
+Команда `nats event --js-advisory` позволяет просматривать все эти события в консоли. Пакет Golang [jsm.go](https://github.com/nats-io/jsm.go) может потреблять и отображать эти события и имеет типы данных для каждого события.
 
-All these events have JSON Schemas that describe them, schemas can be viewed on the CLI using the `nats schema show <schema kind>` command.
+Для всех этих событий существуют JSON Schemas, которые можно посмотреть в CLI командой `nats schema show <schema kind>`.
 
-| Description                                 | Subject | Kind                                                    |
+| Описание                                 | Subject | Kind                                                    |
 |:--------------------------------------------| :--- |:--------------------------------------------------------|
-| API interactions                            | `$JS.EVENT.ADVISORY.API` | `io.nats.jetstream.advisory.v1.api_audit`               |
-| Stream CRUD operations                      | `$JS.EVENT.ADVISORY.STREAM.CREATED.<STREAM>` | `io.nats.jetstream.advisory.v1.stream_action`           |
-| Consumer CRUD operations                    | `$JS.EVENT.ADVISORY.CONSUMER.CREATED.<STREAM>.<CONSUMER>` | `io.nats.jetstream.advisory.v1.consumer_action`         |
-| Snapshot started using `nats stream backup` | `$JS.EVENT.ADVISORY.STREAM.SNAPSHOT_CREATE.<STREAM>` | `io.nats.jetstream.advisory.v1.snapshot_create`         |
-| Snapshot completed                          | `$JS.EVENT.ADVISORY.STREAM.SNAPSHOT_COMPLETE.<STREAM>` | `io.nats.jetstream.advisory.v1.snapshot_complete`       |
-| Restore started using `nats stream restore` | `$JS.EVENT.ADVISORY.STREAM.RESTORE_CREATE.<STREAM>` | `io.nats.jetstream.advisory.v1.restore_create`          |
-| Restore completed                           | `$JS.EVENT.ADVISORY.STREAM.RESTORE_COMPLETE.<STREAM>` | `io.nats.jetstream.advisory.v1.restore_complete`        |
-| Consumer maximum delivery reached           | `$JS.EVENT.ADVISORY.CONSUMER.MAX_DELIVERIES.<STREAM>.<CONSUMER>` | `io.nats.jetstream.advisory.v1.max_deliver`             |
-| Message delivery naked using AckNak         | `$JS.EVENT.ADVISORY.CONSUMER.MSG_NAKED.<STREAM>.<CONSUMER>` | `io.nats.jetstream.advisory.v1.nak`                     |
-| Message delivery terminated using AckTerm   | `$JS.EVENT.ADVISORY.CONSUMER.MSG_TERMINATED.<STREAM>.<CONSUMER>` | `io.nats.jetstream.advisory.v1.terminated`              |
-| Message acknowledged in a sampled Consumer  | `$JS.EVENT.METRIC.CONSUMER.ACK.<STREAM>.<CONSUMER>` | `io.nats.jetstream.metric.v1.consumer_ack`              |
-| Clustered Stream elected a new leader       | `$JS.EVENT.ADVISORY.STREAM.LEADER_ELECTED.<STREAM>` | `io.nats.jetstream.advisory.v1.stream_leader_elected`   |
-| Clustered Stream lost quorum                | `$JS.EVENT.ADVISORY.STREAM.QUORUM_LOST.<STREAM>` | `io.nats.jetstream.advisory.v1.stream_quorum_lost`      |
-| Clustered Consumer elected a new leader     | `$JS.EVENT.ADVISORY.CONSUMER.LEADER_ELECTED.<STREAM>.<CONSUMER>` | `io.nats.jetstream.advisory.v1.consumer_leader_elected` |
-| Clustered Consumer lost quorum              | `$JS.EVENT.ADVISORY.CONSUMER.QUORUM_LOST.<STREAM>.<CONSUMER>` | `io.nats.jetstream.advisory.v1.consumer_quorum_lost`    |
+| Взаимодействия с API                        | `$JS.EVENT.ADVISORY.API` | `io.nats.jetstream.advisory.v1.api_audit`               |
+| CRUD‑операции stream                        | `$JS.EVENT.ADVISORY.STREAM.CREATED.<STREAM>` | `io.nats.jetstream.advisory.v1.stream_action`           |
+| CRUD‑операции consumer                      | `$JS.EVENT.ADVISORY.CONSUMER.CREATED.<STREAM>.<CONSUMER>` | `io.nats.jetstream.advisory.v1.consumer_action`         |
+| Snapshot начат с `nats stream backup`       | `$JS.EVENT.ADVISORY.STREAM.SNAPSHOT_CREATE.<STREAM>` | `io.nats.jetstream.advisory.v1.snapshot_create`         |
+| Snapshot завершен                           | `$JS.EVENT.ADVISORY.STREAM.SNAPSHOT_COMPLETE.<STREAM>` | `io.nats.jetstream.advisory.v1.snapshot_complete`       |
+| Restore начат с `nats stream restore`       | `$JS.EVENT.ADVISORY.STREAM.RESTORE_CREATE.<STREAM>` | `io.nats.jetstream.advisory.v1.restore_create`          |
+| Restore завершен                            | `$JS.EVENT.ADVISORY.STREAM.RESTORE_COMPLETE.<STREAM>` | `io.nats.jetstream.advisory.v1.restore_complete`        |
+| Достигнут максимум доставок consumer        | `$JS.EVENT.ADVISORY.CONSUMER.MAX_DELIVERIES.<STREAM>.<CONSUMER>` | `io.nats.jetstream.advisory.v1.max_deliver`             |
+| Доставка сообщения выполнена AckNak         | `$JS.EVENT.ADVISORY.CONSUMER.MSG_NAKED.<STREAM>.<CONSUMER>` | `io.nats.jetstream.advisory.v1.nak`                     |
+| Доставка сообщения остановлена AckTerm      | `$JS.EVENT.ADVISORY.CONSUMER.MSG_TERMINATED.<STREAM>.<CONSUMER>` | `io.nats.jetstream.advisory.v1.terminated`              |
+| Сообщение ack‑нуто в sampled Consumer       | `$JS.EVENT.METRIC.CONSUMER.ACK.<STREAM>.<CONSUMER>` | `io.nats.jetstream.metric.v1.consumer_ack`              |
+| Кластерный Stream избрал нового лидера      | `$JS.EVENT.ADVISORY.STREAM.LEADER_ELECTED.<STREAM>` | `io.nats.jetstream.advisory.v1.stream_leader_elected`   |
+| Кластерный Stream потерял кворум            | `$JS.EVENT.ADVISORY.STREAM.QUORUM_LOST.<STREAM>` | `io.nats.jetstream.advisory.v1.stream_quorum_lost`      |
+| Кластерный Consumer избрал нового лидера    | `$JS.EVENT.ADVISORY.CONSUMER.LEADER_ELECTED.<STREAM>.<CONSUMER>` | `io.nats.jetstream.advisory.v1.consumer_leader_elected` |
+| Кластерный Consumer потерял кворум          | `$JS.EVENT.ADVISORY.CONSUMER.QUORUM_LOST.<STREAM>.<CONSUMER>` | `io.nats.jetstream.advisory.v1.consumer_quorum_lost`    |
 
-## Dashboards
+## Дашборды
 
-Check out [NATS Surveyor Dashboards](https://github.com/nats-io/nats-surveyor/tree/main/docker-compose/grafana/provisioning/dashboards).
-
+См. [NATS Surveyor Dashboards](https://github.com/nats-io/nats-surveyor/tree/main/docker-compose/grafana/provisioning/dashboards).

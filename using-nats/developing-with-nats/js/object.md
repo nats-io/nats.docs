@@ -1,7 +1,7 @@
-# Object Store
+# Хранилище объектов
 
-The Object Store allows you to store data of any (i.e. large) size by implementing a chunking mechanism, allowing you to for example store and retrieve files (i.e. the object) of any size by associating them with a path and a file name (i.e. the key).
-You obtain a ObjectStoreManager object from your JetStream [context](context.md).
+Object Store позволяет хранить данные любого (то есть большого) размера за счёт механизма разбиения на части, позволяя, например, хранить и получать файлы (то есть объект) любого размера, связывая их с путём и именем файла (то есть ключом).
+Вы получаете объект ObjectStoreManager из JetStream [context](context.md).
 
 {% tabs %}
 {% tab title="Go" %}
@@ -214,7 +214,7 @@ type ObjectStore interface {
 }
 ```
 
-See more at [jetstream/object.go](https://github.com/nats-io/nats.go/blob/main/jetstream/object.go)
+См. подробнее в [jetstream/object.go](https://github.com/nats-io/nats.go/blob/main/jetstream/object.go)
 
 {% endtab %}
 

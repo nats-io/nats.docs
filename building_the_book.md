@@ -1,12 +1,12 @@
-# Building the Book
+# Сборка книги
 
-Before doing anything else, install the legacy command line for gitbook:
+Перед началом установите устаревший CLI для gitbook:
 
 ```bash
 npm install -g gitbook-cli
 ```
 
-There is a `Makefile` in the repo that can help building the book easier.  To build and run the docs site http server locally:
+В репозитории есть `Makefile`, который упрощает сборку книги. Чтобы собрать и запустить локальный HTTP‑сервер сайта документации:
 
 ```bash
 make && make serve
@@ -17,18 +17,18 @@ Starting server ...
 Serving book on http://localhost:4000
 ```
 
-Docs are available as separate items in https://github.com/GitbookIO/gitbook/tree/6efbb70c3298a9106cb2083648624fd1b7af51c0/docs. All of the links go to the new site so you have to poke around manually.
+Документация доступна отдельными файлами в https://github.com/GitbookIO/gitbook/tree/6efbb70c3298a9106cb2083648624fd1b7af51c0/docs. Все ссылки ведут на новый сайт, поэтому приходится просматривать вручную.
 
-The build uses https://github.com/Bandwidth/gitbook-plugin-include-html to include html directly for code examples as well as the prism plugin, https://github.com/gaearon/gitbook-plugin-prism, to handle code highlighting. CSS for code highlighting seems to get mucked up sometimes if you don't use the default them, this is something to work on in the future. We are also using https://github.com/poojan/gitbook-plugin-toggle-chapters, tried https://github.com/rtCamp/gitbook-plugin-collapsible-menu but it messed up the HTML.
+Сборка использует https://github.com/Bandwidth/gitbook-plugin-include-html, чтобы включать HTML напрямую для примеров кода, а также плагин prism https://github.com/gaearon/gitbook-plugin-prism для подсветки кода. CSS для подсветки иногда ломается, если не использовать тему по умолчанию — это стоит доработать в будущем. Также используется https://github.com/poojan/gitbook-plugin-toggle-chapters; пробовали https://github.com/rtCamp/gitbook-plugin-collapsible-menu, но он ломал HTML.
 
-Icons for dev examples are from https://cdn.materialdesignicons.com/3.6.95/.
+Иконки для примеров разработчика взяты из https://cdn.materialdesignicons.com/3.6.95/.
 
-To build the examples
+Чтобы собрать примеры:
 
 ```bash
 go run tools/examplecompiler/main.go -o developer/examples -r tools/examplecompiler/example_repos.json -t tools/examplecompiler/example_template.tmp
 ```
 
-or just use the make file `make` will download the gitbook plugins, build the example html and build the book.
+Либо просто используйте `make`: он скачает плагины gitbook, соберет HTML примеров и соберет книгу.
 
-`make serve` will just serve the files without all the other prep work.
+`make serve` просто отдаст файлы без подготовительных шагов.

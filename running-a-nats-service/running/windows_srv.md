@@ -1,13 +1,13 @@
-# Windows Service
+# Служба Windows
 
-The NATS server supports running as a Windows service. In fact, this is the recommended way of running NATS on Windows. There is currently no installer; users should use `sc.exe` to install the service:
+Сервер NATS поддерживает запуск как служба Windows. Более того, это рекомендуемый способ запуска NATS на Windows. Установщика сейчас нет; пользователи должны использовать `sc.exe`, чтобы установить службу:
 
 ```shell
 sc.exe create nats-server binPath= "%NATS_PATH%\nats-server.exe [nats-server flags]"
 sc.exe start nats-server
 ```
 
-The above will create and start a `nats-server` service. Note the nats-server flags should be provided when creating the service. This allows for the running multiple NATS server configurations on a single Windows server by using a 1:1 service instance per installed NATS server service. Once the service is running, it can be controlled using `sc.exe` or `nats-server.exe --signal`:
+Команды выше создают и запускают службу `nats-server`. Обратите внимание: флаги nats-server нужно указывать при создании службы. Это позволяет запускать несколько конфигураций NATS на одном Windows‑сервере, используя отношение 1:1 «служба на каждый установленный сервер NATS». После запуска службы ее можно контролировать через `sc.exe` или `nats-server.exe --signal`:
 
 ```shell
 REM Reload server configuration
@@ -20,47 +20,46 @@ REM Stop the server
 nats-server.exe --signal stop
 ```
 
-The above commands will default to controlling the `nats-server` service. If the service is another name, it can be specified:
+Эти команды по умолчанию управляют службой `nats-server`. Если служба называется иначе, это можно указать:
 
 ```shell
 nats-server.exe --signal stop=<service name>
 ```
 
-For a complete list of signals, see [process signaling](../nats_admin/signals.md).
+Полный список сигналов см. в [сигналах процесса](../nats_admin/signals.md).
 
-## Permissions
-The default user in the above example will be `System`, which has local administrator permissions and write access to almost all files on disk. 
+## Права доступа
 
-If you change the service user, e.g. to the more restricted `NetworkService`, make sure permissions have been set. The server at a minimum will need read access to the config file and when using Jetstream, write access to the JetStream store directory. 
+Пользователь по умолчанию в примере выше — `System`, у которого есть локальные права администратора и доступ на запись почти ко всем файлам на диске.
+
+Если вы изменяете пользователя службы, например на более ограниченный `NetworkService`, убедитесь, что выставили нужные права. Серверу как минимум нужен доступ на чтение конфигурационного файла и, при использовании JetStream, доступ на запись в каталог хранилища JetStream.
 
 ```shell
 sc config "nats-server" obj= "NT AUTHORITY\NetworkService" password= ""
 ```
 
-Nats-server will write log entries to the default console when no log file is configured. Console logging is not permitted for all users (e.g. not for NetworkService).
+Если файл логов не настроен, nats-server пишет логи в консоль по умолчанию. Логирование в консоль разрешено не для всех пользователей (например, не для NetworkService).
 
 {% hint style="info" %}
-To ease debugging, it is recommended to run a NATS service with an explicit log file and carefully check write permissions for the configured user.
+Чтобы упростить отладку, рекомендуется запускать службу NATS с явным файлом логов и внимательно проверять права на запись для настроенного пользователя.
 {% endhint %}
 
 ```shell
 sc.exe create nats-server binPath= "%NATS_PATH%\nats-server.exe --log C:\temp\nats-server.log [other flags]"
 ```
 
-## Windows Service Specific Settings
+## Специфичные настройки службы Windows
 
-## Windows Service Specific Settings
+### Переменная окружения `NATS_STARTUP_DELAY`
 
-### `NATS_STARTUP_DELAY` environment variable
+Система служб Windows требует связи с программами, работающими как службы. Один из важных сигналов — начальный сигнал «ready», где программа сообщает Windows, что она запущена и работает как ожидается.
 
-The Windows service system requires communication with programs that run as Windows services. One important signal from the program is the initial "ready" signal, where the program informs Windows that it is running as expected.
+По умолчанию `nats-server` дает себе до 10 секунд, чтобы отправить этот сигнал.
+Если сервер не готов за это время, он сигнализирует об ошибке запуска.
+Задержку можно изменить, установив переменную окружения `NATS_STARTUP_DELAY` в подходящую длительность (например, "20s" для 20 секунд, "1m" для одной минуты).
 
-By default `nats-server` allows itself up to 10 seconds to send this signal.
-If the server is not ready after this time, the server will signal a failure to start.
-This delay can be adjusted by setting the `NATS_STARTUP_DELAY` environment variable to a suitable duration (e.g. "20s" for 20 seconds, "1m" for one minute).
+**Обратите внимание**
+* Чтобы переменная `NATS_STARTUP_DELAY` была доступна службе NATS, рекомендуется задавать ее как SYSTEM‑переменную.
+* `NATS_STARTUP_DELAY=30s` заставит NATS ждать **до 30 секунд**, но сообщит о состоянии RUNNING, как только сервер будет готов принимать соединения. Чтобы **проверить** увеличенный таймаут запуска, возможно, нужно замедлить старт сервера, например, используя очень большой stream (десятки ГБ) или размещая хранилище JetStream на медленном сетевом устройстве.
 
-**Please Note** 
-* For the environment variable `NATS_STARTUP_DELAY` to be accessible from the NATS service, it is recommended to set it as a SYSTEM variable. 
-* `NATS_STARTUP_DELAY=30s` will make the NATS server wait **up to 30s**, but will report the service as RUNNING as soon as the server is ready to accept connections. To **test** the extended time startup timeout you may need to slow down server startup, e.g. by using a very large stream (10s of GB) or placing Jetstream storage on a slow network device. 
-
-This adjustment can be necessary in cases where NATS is correctly running from command line, but takes longer than 10s to recover JetStream stream state and connect to its cluster peers.
+Это может быть нужно в случаях, когда NATS корректно запускается из командной строки, но ему требуется больше 10 секунд, чтобы восстановить состояние JetStream‑потоков и подключиться к peers кластера.

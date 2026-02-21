@@ -1,16 +1,16 @@
-# NATS API Reference
+# Справочник API NATS
 
-The normal way to use JetStream is through the NATS client libraries which expose a set of JetStream functions that you can use directly in your programs. But that is not the only way you can interact with the JetStream infrastructure programmatically. Just like core NATS has a wire protocol on top of TCP, the JetStream enabled nats-server(s) expose a set of Services over core NATS.
+Обычный способ использовать JetStream — через клиентские библиотеки NATS, которые предоставляют набор функций JetStream для использования в программах. Но это не единственный способ программного взаимодействия с инфраструктурой JetStream. Так же как Core NATS имеет wire‑протокол поверх TCP, nats-server'ы с JetStream предоставляют набор сервисов поверх Core NATS.
 
-## Reference
+## Справочник
 
-All of these subjects are found as constants in the NATS Server source, so for example the subject `$JS.API.STREAM.LIST` is represented by `api.JSApiStreamList` constant in the nats-server source. Tables below will reference these constants and payload related data structures.
+Все эти subject указаны как константы в исходниках NATS Server, например subject `$JS.API.STREAM.LIST` представлен константой `api.JSApiStreamList` в исходниках nats-server. В таблицах ниже будут использоваться эти константы и структуры данных для payload.
 
-Note that if the resources you're trying to access have a JetStream [domain](https://docs.nats.io/running-a-nats-service/configuration/leafnodes/jetstream_leafnodes#leaf-nodes) associated with them, then the subject prefix will be `$JS.{domain}.API` rather than `$JS.API`.
+Учтите: если ресурсы, к которым вы обращаетесь, имеют JetStream [domain](https://docs.nats.io/running-a-nats-service/configuration/leafnodes/jetstream_leafnodes#leaf-nodes), то префикс subject будет `$JS.{domain}.API`, а не `$JS.API`.
 
-## Error Handling
+## Обработка ошибок
 
-The APIs used for administrative tools all respond with standardised JSON and these include errors.
+API, используемые административными инструментами, отвечают стандартизированным JSON, который включает ошибки.
 
 ```shell
 nats req '$JS.API.STREAM.INFO.nonexisting' ''
@@ -39,91 +39,91 @@ Received  [_INBOX.fwqdpoWtG8XFXHKfqhQDVA.vBecyWmF] : '{
 }
 ```
 
-Here the responses include a `type` which can be used to find the JSON Schema for each response.
+Здесь ответы содержат `type`, который можно использовать, чтобы найти JSON Schema для каждого ответа.
 
-Non-admin APIs - like those for adding a message to the stream will respond with `-ERR` or `+OK` with an optional reason after.
+Неадминистративные API — например, добавление сообщения в stream — отвечают `-ERR` или `+OK` с опциональной причиной.
 
 ## Admin API
 
-All of the admin actions the `nats` CLI can do fall in the sections below. The API structure is kept in the `api` package in the `jsm.go` repository.
+Все административные действия, которые может выполнять `nats` CLI, приведены в разделах ниже. Структура API хранится в пакете `api` репозитория `jsm.go`.
 
-Subjects that end in `T` like `api.JSApiConsumerCreateT` are formats and would need to have the Stream Name and in some cases also the Consumer name interpolated into them. In this case `t := fmt.Sprintf(api.JSApiConsumerCreateT, streamName)` to get the final subject.
+Subjects, оканчивающиеся на `T`, такие как `api.JSApiConsumerCreateT`, являются форматами и требуют подстановки имени Stream и в некоторых случаях имени Consumer. Например, `t := fmt.Sprintf(api.JSApiConsumerCreateT, streamName)` даёт итоговый subject.
 
-The command `nats events` will show you an audit log of all API access events which includes the full content of each admin request, use this to view the structure of messages the `nats` command sends.
+Команда `nats events` покажет аудит‑лог всех событий доступа к API, включая полный контент каждого административного запроса — используйте это для просмотра структуры сообщений, которые отправляет команда `nats`.
 
-The API uses JSON for inputs and outputs, all the responses are typed using a `type` field which indicates their Schema. A JSON Schema repository can be found in `nats-io/jsm.go/schemas`.
+API использует JSON для входов и выходов; все ответы типизированы полем `type`, которое указывает их Schema. Репозиторий JSON Schema находится в `nats-io/jsm.go/schemas`.
 
-### General Info
+### Общая информация
 
 | Subject | Constant | Description | Request Payload | Response Payload |
 | :--- | :--- | :--- | :--- | :--- |
-| `$JS.API.INFO` | `api.JSApiAccountInfo` | Retrieves stats and limits about your account | empty payload | `api.JetStreamAccountStats` |
+| `$JS.API.INFO` | `api.JSApiAccountInfo` | Возвращает статистику и лимиты вашего аккаунта | пустой payload | `api.JetStreamAccountStats` |
 
 ### Streams
 
 | Subject | Constant | Description | Request Payload | Response Payload |
 | :--- | :--- | :--- | :--- | :--- |
-| `$JS.API.STREAM.LIST` | `api.JSApiStreamList` | Paged list known Streams including all their current information | `api.JSApiStreamListRequest` | `api.JSApiStreamListResponse` |
-| `$JS.API.STREAM.NAMES` | `api.JSApiStreamNames` | Paged list of Streams | `api.JSApiStreamNamesRequest` | `api.JSApiStreamNamesResponse` |
-| `$JS.API.STREAM.CREATE.*` | `api.JSApiStreamCreateT` | Creates a new Stream | `api.StreamConfig` | `api.JSApiStreamCreateResponse` |
-| `$JS.API.STREAM.UPDATE.*` | `api.JSApiStreamUpdateT` | Updates an existing Stream with new config | `api.StreamConfig` | `api.JSApiStreamUpdateResponse` |
-| `$JS.API.STREAM.INFO.*` | `api.JSApiStreamInfoT` | Information about config and state of a Stream | empty payload, Stream name in subject | `api.JSApiStreamInfoResponse` |
-| `$JS.API.STREAM.DELETE.*` | `api.JSApiStreamDeleteT` | Deletes a Stream and all its data | empty payload, Stream name in subject | `api.JSApiStreamDeleteResponse` |
-| `$JS.API.STREAM.PURGE.*` | `api.JSApiStreamPurgeT` | Purges all of the data in a Stream, leaves the Stream | empty payload, Stream name in subject | `api.JSApiStreamPurgeResponse` |
-| `$JS.API.STREAM.MSG.DELETE.*` | `api.JSApiMsgDeleteT` | Deletes a specific message in the Stream by sequence, useful for GDPR compliance | `api.JSApiMsgDeleteRequest` | `api.JSApiMsgDeleteResponse` |
-| `$JS.API.STREAM.MSG.GET.*` | `api.JSApiMsgGetT` | Retrieves a specific message from the stream | `api.JSApiMsgGetRequest` | `api.JSApiMsgGetResponse` |
-| `$JS.API.STREAM.SNAPSHOT.*` | `api.JSApiStreamSnapshotT` | Initiates a streaming backup of a streams data | `api.JSApiStreamSnapshotRequest` | `api.JSApiStreamSnapshotResponse` |
-| `$JS.API.STREAM.RESTORE.*` | `api.JSApiStreamRestoreT` | Initiates a streaming restore of a stream | `{}` | `api.JSApiStreamRestoreResponse` |
+| `$JS.API.STREAM.LIST` | `api.JSApiStreamList` | Постраничный список известных Streams со всей текущей информацией | `api.JSApiStreamListRequest` | `api.JSApiStreamListResponse` |
+| `$JS.API.STREAM.NAMES` | `api.JSApiStreamNames` | Постраничный список Streams | `api.JSApiStreamNamesRequest` | `api.JSApiStreamNamesResponse` |
+| `$JS.API.STREAM.CREATE.*` | `api.JSApiStreamCreateT` | Создаёт новый Stream | `api.StreamConfig` | `api.JSApiStreamCreateResponse` |
+| `$JS.API.STREAM.UPDATE.*` | `api.JSApiStreamUpdateT` | Обновляет существующий Stream новой конфигурацией | `api.StreamConfig` | `api.JSApiStreamUpdateResponse` |
+| `$JS.API.STREAM.INFO.*` | `api.JSApiStreamInfoT` | Информация о конфигурации и состоянии Stream | пустой payload, имя Stream в subject | `api.JSApiStreamInfoResponse` |
+| `$JS.API.STREAM.DELETE.*` | `api.JSApiStreamDeleteT` | Удаляет Stream и все его данные | пустой payload, имя Stream в subject | `api.JSApiStreamDeleteResponse` |
+| `$JS.API.STREAM.PURGE.*` | `api.JSApiStreamPurgeT` | Очищает все данные Stream, сам Stream остаётся | пустой payload, имя Stream в subject | `api.JSApiStreamPurgeResponse` |
+| `$JS.API.STREAM.MSG.DELETE.*` | `api.JSApiMsgDeleteT` | Удаляет конкретное сообщение в Stream по sequence, полезно для соответствия GDPR | `api.JSApiMsgDeleteRequest` | `api.JSApiMsgDeleteResponse` |
+| `$JS.API.STREAM.MSG.GET.*` | `api.JSApiMsgGetT` | Получает конкретное сообщение из stream | `api.JSApiMsgGetRequest` | `api.JSApiMsgGetResponse` |
+| `$JS.API.STREAM.SNAPSHOT.*` | `api.JSApiStreamSnapshotT` | Инициирует потоковую резервную копию данных stream | `api.JSApiStreamSnapshotRequest` | `api.JSApiStreamSnapshotResponse` |
+| `$JS.API.STREAM.RESTORE.*` | `api.JSApiStreamRestoreT` | Инициирует потоковое восстановление stream | `{}` | `api.JSApiStreamRestoreResponse` |
 
 ### Consumers
 
 | Subject                               | Constant | Description                                                                     | Request Payload | Response Payload |
 |:--------------------------------------| :--- |:--------------------------------------------------------------------------------| :--- | :--- |
-| `$JS.API.CONSUMER.CREATE.<stream>`           | `api.JSApiConsumerCreateT` | Create an ephemeral consumer                                                    | `api.ConsumerConfig` | `api.JSApiConsumerCreateResponse` |
-| `$JS.API.CONSUMER.DURABLE.CREATE.<stream>.<consumer>` | `api.JSApiDurableCreateT` | Create a consumer                                                              | `api.ConsumerConfig` | `api.JSApiConsumerCreateResponse` |
-| `$JS.API.CONSUMER.CREATE.<stream>.<consumer>.<filter>` | `api.JSApiConsumerCreateExT` | Create a consumer (server 2.9+) | `api.CreateConsumerRequest` | `api.JSApiConsumerCreateResponse` |
-| `$JS.API.CONSUMER.LIST.<stream>`             | `api.JSApiConsumerListT` | Paged list of known consumers including their current info for a given stream | `api.JSApiConsumerListRequest` | `api.JSApiConsumerListResponse` |
-| `$JS.API.CONSUMER.NAMES.<stream>`            | `api.JSApiConsumerNamesT` | Paged list of known consumer names for a given stream | `api.JSApiConsumerNamesRequest` | `api.JSApiConsumerNamesResponse` |
-| `$JS.API.CONSUMER.INFO.<stream>.<consumer>`           | `api.JSApiConsumerInfoT` | Information about a specific consumer by name | empty payload | `api.JSApiConsumerInfoResponse` |
-| `$JS.API.CONSUMER.DELETE.<stream>.<consumer>` | `api.JSApiConsumerDeleteT` | Deletes a Consumer                                                             | empty payload | `api.JSApiConsumerDeleteResponse` |
-| `$JS.FC.<stream>.>` | N/A | Consumer to subscriber flow control replies for `PUSH` consumer. Also used for sourcing and mirroring, which are implemented as `PUSH` consumers. If this subject is not forwarded, the consumer my stall under high load.| empty payload |  N/A |
-| `$JSC.R.<uid>` | N/A | Reply subject used by source and mirror consumer create request | Consumer info |  N/A |
-| `$JS.S.<uid>` | N/A | Default delivery subject for sourced streams. Can be overwritten by the `deliver` attribute in the source configuration. | Message data |  N/A |
-| `$JS.M.<uid>` | N/A | Default delivery subject for mirroed streams. Can be overwritten by the `deliver` attribute in the source configuration. | Message data |  N/A |
-| `$JS.ACK.<stream>.>` | N/A | Acknowledgments for `PULL` consumers. When this subject is not forwarded, `PULL` consumers in acknowledgment modes `all` or `explicit` will fail. | empty payload |  reply subject |
+| `$JS.API.CONSUMER.CREATE.<stream>`           | `api.JSApiConsumerCreateT` | Создаёт ephemeral consumer                                                    | `api.ConsumerConfig` | `api.JSApiConsumerCreateResponse` |
+| `$JS.API.CONSUMER.DURABLE.CREATE.<stream>.<consumer>` | `api.JSApiDurableCreateT` | Создаёт consumer                                                              | `api.ConsumerConfig` | `api.JSApiConsumerCreateResponse` |
+| `$JS.API.CONSUMER.CREATE.<stream>.<consumer>.<filter>` | `api.JSApiConsumerCreateExT` | Создаёт consumer (server 2.9+) | `api.CreateConsumerRequest` | `api.JSApiConsumerCreateResponse` |
+| `$JS.API.CONSUMER.LIST.<stream>`             | `api.JSApiConsumerListT` | Постраничный список известных consumers с текущей информацией для заданного stream | `api.JSApiConsumerListRequest` | `api.JSApiConsumerListResponse` |
+| `$JS.API.CONSUMER.NAMES.<stream>`            | `api.JSApiConsumerNamesT` | Постраничный список имён consumers для заданного stream | `api.JSApiConsumerNamesRequest` | `api.JSApiConsumerNamesResponse` |
+| `$JS.API.CONSUMER.INFO.<stream>.<consumer>`           | `api.JSApiConsumerInfoT` | Информация о конкретном consumer по имени | пустой payload | `api.JSApiConsumerInfoResponse` |
+| `$JS.API.CONSUMER.DELETE.<stream>.<consumer>` | `api.JSApiConsumerDeleteT` | Удаляет Consumer                                                             | пустой payload | `api.JSApiConsumerDeleteResponse` |
+| `$JS.FC.<stream>.>` | N/A | Ответы flow‑control от consumer к подписчику для `PUSH` consumer. Также используется для sourcing и mirroring, которые реализованы как `PUSH` consumers. Если этот subject не пробрасывается, consumer может зависнуть под высокой нагрузкой.| пустой payload |  N/A |
+| `$JSC.R.<uid>` | N/A | Reply subject, используемый запросом создания source/mirror consumer | Consumer info |  N/A |
+| `$JS.S.<uid>` | N/A | Subject доставки по умолчанию для sourced streams. Может быть переопределён атрибутом `deliver` в конфигурации source. | Данные сообщений |  N/A |
+| `$JS.M.<uid>` | N/A | Subject доставки по умолчанию для mirrored streams. Может быть переопределён атрибутом `deliver` в конфигурации mirror. | Данные сообщений |  N/A |
+| `$JS.ACK.<stream>.>` | N/A | Подтверждения для `PULL` consumers. Когда этот subject не проброшен, `PULL` consumers в режимах ack `all` или `explicit` будут работать некорректно. | пустой payload |  reply subject |
 
 
-### Stream Source and Mirror
+### Stream Source и Mirror
 
-Sourcing and mirroring streams use 3 inbound and 2 outbound subjects to establish and control the data flow. When setting permissions or creating export/import agreements all 5 subjects may need to be considered.
+Sourcing и mirroring streams используют 3 входящих и 2 исходящих subject для установления и управления потоком данных. При настройке прав или создании соглашений export/import нужно учитывать все 5 subject.
 
-Notes:
-* There are two variants to the consumer-create subject depending on the number of filters.
-* In some setup a domain prefix may be present e.g. `$JS.<domain>.API.CONSUMER.CREATE.<stream>.>`
+Примечания:
+* Есть два варианта subject для создания consumer в зависимости от числа фильтров.
+* В некоторых установках может присутствовать префикс домена, например `$JS.<domain>.API.CONSUMER.CREATE.<stream>.>`
 
 
 | Subject                               | Direction | Description   | Reply | 
 |:--------------------------------------| :--- |:--------------------------------------------------------------------------------| :--- | 
-| `$JS.API.CONSUMER.CREATE.<stream>.>`  and/or  `$JS.API.CONSUMER.CREATE.<stream>`     | outbound | Create an ephemeral consumer to deliver pending messages. Note that this subject may be prefixed with a JetStream domain  `$JS.<domain>.API.CONSUMER.CREATE.<stream>.<consumer>`. <br>The consumer create comes in 2 flavors depending on the number of filter subjects:<br>* `$JS.API.CONSUMER.CREATE.<stream>` - When there is no filter or there are multiple filters.<br> * `$JS.API.CONSUMER.CREATE.<stream>.<consumer>.<filter subject>` - When there is exactly one filter subject                              | service request with `$JSC.R.<uid>` as reply subject |
-|`$JS.FC.<stream>.>`  | outbound | Flow control messages. Will on slow routes or when the target cannot keep up with the message flow.   | service request with `$JSC.R.<uid>` as reply subject |
-|`$JSC.R.<uid>`           | inbound | Reply to consumer creation request  | reply message to service request |
-|`$JS.S.<uid>` (source) OR `$JS.M.<uid>` (mirror) OR `<custom deliver subject>`          | inbound | Message data and heartbeats  | message stream|
+| `$JS.API.CONSUMER.CREATE.<stream>.>`  and/or  `$JS.API.CONSUMER.CREATE.<stream>`     | outbound | Создаёт ephemeral consumer для доставки ожидающих сообщений. Обратите внимание, что этот subject может иметь префикс домена JetStream `$JS.<domain>.API.CONSUMER.CREATE.<stream>.<consumer>`. <br>Создание consumer имеет 2 варианта в зависимости от числа filter subject:<br>* `$JS.API.CONSUMER.CREATE.<stream>` — когда фильтра нет или их несколько.<br> * `$JS.API.CONSUMER.CREATE.<stream>.<consumer>.<filter subject>` — когда фильтр ровно один                              | service request с `$JSC.R.<uid>` как reply subject |
+|`$JS.FC.<stream>.>`  | outbound | Сообщения flow‑control. Будут при медленных маршрутах или когда цель не успевает за потоком сообщений.   | service request с `$JSC.R.<uid>` как reply subject |
+|`$JSC.R.<uid>`           | inbound | Ответ на запрос создания consumer  | reply message на service request |
+|`$JS.S.<uid>` (source) OR `$JS.M.<uid>` (mirror) OR `<custom deliver subject>`          | inbound | Данные сообщений и heartbeat'ы  | message stream|
 
-#### Heartbeats and Retries
-The stream from which data is sourced/mirrored MAY NOT be reachable. It may not have been created yet OR the route may be down. This does not prevent the source/mirror agreement from being created.
-* The target stream will try to create a consumer every 10s to 60s. (This value may change in the future or may be configurable). Note that delivery may therefore only resume after a short delay.
-* For active consumers heartbeats are sent at a rate of 1/s.
+#### Heartbeats и повторные попытки
+Stream, из которого данные source/mirror, МОЖЕТ быть недоступен. Он может ещё не быть создан, ИЛИ маршрут может быть недоступен. Это не мешает созданию соглашения source/mirror.
+* Целевой stream будет пытаться создавать consumer каждые 10–60 секунд. (Значение может измениться в будущем или быть настраиваемым.) Поэтому доставка может возобновиться только после небольшой задержки.
+* Для активных consumers heartbeats отправляются с частотой 1/с.
 
 
-#### Constraints and Limitations
-* Do not delete and recreate the original stream! Please flush/purge the stream instead. The target stream remembers the last sequence id to be delivered. A delete will reset the sequence ID.
-* `$JS.FC.<stream>.>` - The flow control subject is NOT prefixed with a JetStream domain. This creates a limitation where identically named streams in different domains cannot be reliably sourced/mirrored into the same account. Please create unique stream names to avoid this limitation.
+#### Ограничения
+* Не удаляйте и не пересоздавайте исходный stream! Вместо этого используйте flush/purge. Целевой stream помнит последний sequence ID для доставки. Удаление сбросит sequence ID.
+* `$JS.FC.<stream>.>` — subject flow‑control НЕ имеет префикса домена JetStream. Это создаёт ограничение, при котором одинаково названные streams в разных доменах не могут надёжно source/mirror'иться в один аккаунт. Создавайте уникальные имена streams, чтобы избежать этой проблемы.
 
-### ACLs
+### ACL
 
-When using the subjects-based ACL, please note the patterns in the subjects grouped by purpose below.
+При использовании ACL на основе subject обратите внимание на шаблоны subject, сгруппированные по назначению ниже.
 
-General information
+Общая информация
 
 ```text
 $JS.API.INFO
@@ -153,7 +153,7 @@ $JS.API.CONSUMER.LIST.<stream>
 $JS.API.CONSUMER.NAMES.<stream>
 ```
 
-Consumer message flow
+Поток сообщений consumer
 
 ```text
 $JS.API.CONSUMER.MSG.NEXT.<stream>.<consumer>
@@ -163,7 +163,7 @@ $JS.SNAPSHOT.ACK.<stream>.<msg id>
 $JS.FC.<stream>.>
 ```
 
-Optional Events and Advisories :
+Опциональные события и advisories:
 
 ```text
 $JS.EVENT.METRIC.CONSUMER_ACK.<stream>.<consumer>
@@ -185,84 +185,16 @@ $JS.EVENT.ADVISORY.CONSUMER.QUORUM_LOST.<stream>.<consumer>
 $JS.EVENT.ADVISORY.API
 ```
 
-This design allows you to easily create ACL rules that limit users to a specific Stream or Consumer and to specific verbs for administration purposes. For ensuring only the receiver of a message can Ack it we have response permissions ensuring you can only Publish to Response subject for messages you received.
+Этот дизайн позволяет легко создавать правила ACL, которые ограничивают пользователей конкретным Stream или Consumer и конкретными административными действиями. Чтобы обеспечить, что только получатель сообщения может его Ack'нуть, у нас есть права на ответ, позволяющие публиковать только в Response subject сообщений, которые вы получили.
 
-## Acknowledging Messages
+## Подтверждение сообщений
 
-Messages that need acknowledgment will have a Reply subject set, something like `$JS.ACK.ORDERS.test.1.2.2`, this is the prefix defined in `api.JetStreamAckPre` followed by `<stream>.<consumer>.<delivered count>.<stream sequence>.<consumer sequence>.<timestamp>.<pending messages>`.
+Сообщения, требующие подтверждения, имеют reply subject, например `$JS.ACK.ORDERS.test.1.2.2`. Это префикс, определённый в `api.JetStreamAckPre`, далее идёт `<stream>.<consumer>.<delivered count>.<stream sequence>.<consumer sequence>.<timestamp>.<pending messages>`.
 
-JetStream and the consumer (including sourced and mirrored streams) may exchange flow control messages. A message with the header: `NATS/1.0 100 FlowControl Request` must be replied to, otherwise the consumer may stall. The reply subjects looks like: `$JS.FC.orders.6i5h0GiQ.ep3Y`
+JetStream и consumer (включая sourced и mirrored streams) могут обмениваться сообщениями flow‑control. Сообщение с заголовком `NATS/1.0 100 FlowControl Request` должно получить ответ, иначе consumer может зависнуть. Reply subject выглядит так: `$JS.FC.orders.6i5h0GiQ.ep3Y`.
 
-In all of the Synadia maintained API's you can simply do `msg.Respond(nil)` \(or language equivalent\) which will send nil to the reply subject.
+Во всех API, поддерживаемых Synadia, можно просто вызвать `msg.Respond(nil)` (или эквивалент в языке), чтобы отправить nil на reply subject.
 
-## Fetching The Next Message From a Pull-based Consumer
+## Получение следующего сообщения из pull‑based consumer
 
-If you have a pull-based Consumer you can send a standard NATS Request to `$JS.API.CONSUMER.MSG.NEXT.<stream>.<consumer>`, here the format is defined in `api.JetStreamRequestNextT` and requires populating using `fmt.Sprintf()`.
-
-```shell
-nats req '$JS.API.CONSUMER.MSG.NEXT.ORDERS.test' '1'
-```
-```text
-Published 1 bytes to $JS.API.CONSUMER.MSG.NEXT.ORDERS.test
-Received  [js.1] : 'message 1'
-```
-
-Here we ask for just 1 message - `nats req` only shows 1 - but you can fetch a batch of messages by varying the argument. This combines well with the `AckAll` Ack policy.
-
-The above request for the next message will stay in the server for as long as the client is connected and future pulls from the same client will accumulate on the server, meaning if you ask for 1 message 100 times and 1000 messages arrive you'll get sent 100 messages not 1.
-
-This is often not desired, pull consumers support a mode where a JSON document is sent describing the pull request.
-
-```json
-{
-  "expires": 7000000000,
-  "batch": 10
-}
-```
-
-This requests 10 messages and asks the server to keep this request for 7 seconds, this is useful when you poll the server frequently and do not want the pull requests to accumulate on the server. Set the expire time to now + your poll frequency.
-
-```json
-{
-  "batch": 10,
-  "no_wait": true
-}
-```
-
-Here we see a second format of the Pull request that will not store the request on the queue at all but when there are no messages to deliver will send a nil bytes message with a `Status` header of `404`, this way you can know when you reached the end of the stream for example. A `409` is returned if the Consumer has reached `MaxAckPending` limits.
-
-```shell
-nats req '$JS.API.CONSUMER.MSG.NEXT.ORDERS.NEW' '{"no_wait": true, "batch": 10}'
- ```
-```text
-13:45:30 Sending request on "$JS.API.CONSUMER.MSG.NEXT.ORDERS.NEW"
-13:45:30 Received on "_INBOX.UKQGqq0W1EKl8inzXU1naH.XJiawTRM" rtt 594.908µs
-13:45:30 Status: 404
-13:45:30 Description: No Messages
-```
-
-## Fetching From a Stream By Sequence
-
-If you know the Stream sequence of a message, you can fetch it directly, this does not support acks. Do a Request\(\) to `$JS.API.STREAM.MSG.GET.ORDERS` sending it the message sequence as payload. Here the prefix is defined in `api.JetStreamMsgBySeqT` which also requires populating using `fmt.Sprintf()`.
-
-```shell
-nats req '$JS.API.STREAM.MSG.GET.ORDERS' '{"seq": 1}'
-```
-```text
-Published 1 bytes to $JS.STREAM.ORDERS.MSG.BYSEQ
-Received  [_INBOX.cJrbzPJfZrq8NrFm1DsZuH.k91Gb4xM] : '{
-  "type": "io.nats.jetstream.api.v1.stream_msg_get_response",
-  "message": {
-    "subject": "x",
-    "seq": 1,
-    "data": "aGVsbG8=",
-    "time": "2020-05-06T13:18:58.115424+02:00"
-  }
-}'
-```
-
-The Subject shows where the message was received, Data is base64 encoded and Time is when it was received.
-
-## Consumer Samples
-
-Samples are published to a specific subject per Consumer, something like `$JS.EVENT.METRIC.CONSUMER_ACK.<stream>.<consumer>` you can subscribe to that and get `api.ConsumerAckMetric` messages in JSON format. The prefix is defined in `api.JetStreamMetricConsumerAckPre`.
+Если у вас pull‑based Consumer, можно отправить обычный NATS Request на `$JS.API.CONSUMER.MSG.NEXT.<stream>.<consumer>`. Формат определён в `api.JetStreamRequestNextT` и требует заполнения через `fmt.Sprintf()`.

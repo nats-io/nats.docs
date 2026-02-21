@@ -1,10 +1,10 @@
-# Services
+# Сервисы
 
-To share services that other accounts can reach via request reply, you have to _Export_ a _Service_. _Services_ are associated with the account performing the replies and are advertised in the exporting accounts' JWT.
+Чтобы делиться сервисами, к которым другие аккаунты могут обращаться через request‑reply, нужно _экспортировать_ _Service_. _Services_ связаны с аккаунтом, выполняющим ответы, и объявляются в JWT экспортирующих аккаунтов.
 
-## Adding a Public Service Export
+## Добавление публичного экспорта Service
 
-To add a service to your account:
+Чтобы добавить сервис в аккаунт:
 
 ```bash
 nsc add export --name help --subject help --service
@@ -13,7 +13,7 @@ nsc add export --name help --subject help --service
 [ OK ] added public service export "help"
 ```
 
-To review the service export:
+Чтобы просмотреть экспорт сервиса:
 
 ```bash
 nsc describe account
@@ -49,18 +49,18 @@ nsc describe account
 ╰──────┴─────────┴─────────┴────────┴─────────────┴──────────╯
 ```
 
-## Importing a Service
+## Импорт Service
 
-Importing a service enables you to send requests to the remote _Account_. To import a Service, you have to create an _Import_. To create an import you need to know:
+Импорт сервиса позволяет отправлять запросы в удаленный _Account_. Чтобы импортировать Service, нужно создать _Import_. Для создания import нужно знать:
 
-* The exporting account’s public key
-* The subject the service is listening on
-* You can map the service’s subject to a different subject
-* Self-imports are not valid; you can only import services from other accounts.
+* Публичный ключ экспортирующего аккаунта
+* Subject, на котором сервис слушает
+* Можно замаппить subject сервиса на другой subject
+* Самоимпорт не допускается; можно импортировать сервисы только из других аккаунтов
 
-To learn how to inspect a JWT from an account server, [check this article](../../../legacy/nas/inspecting_jwts.md).
+Как просмотреть JWT из account server — [см. статью](../../../legacy/nas/inspecting_jwts.md).
 
-First let's create a second account to import the service into:
+Сначала создадим второй аккаунт, в который будем импортировать сервис:
 
 ```bash
 nsc add account B
@@ -70,7 +70,7 @@ nsc add account B
 [ OK ] added account "B"
 ```
 
-Add the import of the subject 'help'
+Добавим импорт subject `help`:
 
 ```shell
 nsc add import --src-account ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFTV5NGE --remote-subject help --service
@@ -79,7 +79,7 @@ nsc add import --src-account ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFT
 [ OK ] added service import "help"
 ```
 
-Verifying our work:
+Проверим:
 
 ```bash
 nsc describe account
@@ -115,7 +115,7 @@ nsc describe account
 ╰──────┴─────────┴────────┴──────────────┴─────────┴──────────────┴────────╯
 ```
 
-Let's also add a user to make requests from the service:
+Добавим пользователя, чтобы делать запросы к сервису:
 
 ```bash
 nsc add user b
@@ -126,46 +126,46 @@ nsc add user b
 [ OK ] added user "b" to account "B"
 ```
 
-### Pushing the changes to the nats servers
+### Публикация изменений на nats servers
 
-If your nats servers are configured to use the built-in NATS resolver, remember that you need to 'push' any account changes you may have done (locally) using `nsc add` to the servers for those changes to take effect.
+Если ваши nats servers настроены на использование встроенного NATS resolver, не забудьте «пушить» изменения аккаунтов, сделанные локально через `nsc add`, чтобы они вступили в силу.
 
-e.g. `nsc push -i` or `nsc push -a B -u nats://localhost`
+Например: `nsc push -i` или `nsc push -a B -u nats://localhost`
 
-### Testing the Service
+### Тестирование сервиса
 
-To test the service, we can install the ['nats'](/using-nats/nats-tools/nats_cli) CLI tool:
+Для теста сервиса установим CLI‑инструмент ['nats'](/using-nats/nats-tools/nats_cli):
 
-Set up a process to handle the request. This process will run from account 'A' using user 'U':
+Запустим процесс, который будет обрабатывать запрос. Этот процесс будет работать из аккаунта 'A' с пользователем 'U':
 
 ```shell
 nats reply --creds ~/.nkeys/creds/O/A/U.creds help "I will help"                
 ```
 
-Remember you can also do:
+Помните, что можно также:
 ```shell
 nsc reply --account A --user U help "I will help"
 ```
 
-Send the request:
+Отправим запрос:
 
 ```shell
 nats request --creds ~/.nkeys/creds/O/B/b.creds help me
 ```
 
-The service receives the request:
+Сервис получает запрос:
 
 ```text
 Received on [help]: 'me'
 ```
 
-And the response is received by the requestor:
+А ответ получает запрашивающий:
 
 ```text
 Received  [_INBOX.v6KAX0v1bu87k49hbg3dgn.StIGJF0D] : 'I will help'
 ```
 
-Or more simply:
+Или проще:
 
 ```bash
 nsc reply --account A --user U help "I will help"
@@ -176,11 +176,11 @@ published request: [help] : 'me'
 received reply: [_INBOX.GCJltVq1wRSb5FoJrJ6SE9.w8utbBXR] : 'I will help'
 ```
 
-## Securing Services
+## Защита сервисов
 
-If you want to create a service that is only accessible to accounts you designate you can create a _private_ service. The export will be visible in your account, but subscribing accounts will require an authorization token that must be created by you and generated specifically for the requesting account. The authorization token is simply a JWT signed by your account where you authorize the client account to import your service.
+Если вы хотите создать сервис, доступный только указанным аккаунтам, можно создать _private_ service. Экспорт будет виден в вашем аккаунте, но подписывающимся аккаунтам потребуется токен авторизации, который вы создаете сами и генерируете специально для запрашивающего аккаунта. Токен авторизации — это JWT, подписанный вашим аккаунтом, где вы разрешаете клиентскому аккаунту импортировать ваш сервис.
 
-### Creating a Private Service Export
+### Создание private service export
 
 ```shell
 nsc add export --subject "private.help.*" --private --service --account A
@@ -189,7 +189,7 @@ nsc add export --subject "private.help.*" --private --service --account A
 [ OK ] added private service export "private.help.*"
 ```
 
-As before, we declared an export, but this time we added the `--private` flag. The other thing to note is that the subject for the request has a wildcard. This enables the account to map specific subjects to specifically authorized accounts.
+Как и раньше, мы объявили export, но теперь добавили флаг `--private`. Также обратите внимание, что subject содержит wildcard. Это позволяет аккаунту маппить конкретные subjects на конкретно авторизованные аккаунты.
 
 ```bash
 nsc describe account A
@@ -197,6 +197,7 @@ nsc describe account A
 ```text
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │                                   Account Details                                    │
+├───────────────────────────┬──────────────────────────────────────────────────────────┤
 ├───────────────────────────┬──────────────────────────────────────────────────────────┤
 │ Name                      │ A                                                        │
 │ Account ID                │ ADETPT36WBIBUKM3IBCVM4A5YUSDXFEJPW4M6GGVBYCBW7RRNFTV5NGE │
@@ -226,11 +227,11 @@ nsc describe account A
 ╰────────────────┴─────────┴────────────────┴────────┴─────────────┴──────────╯
 ```
 
-### Generating an Activation Token
+### Генерация activation token
 
-For the foreign account to _import_ a private service and be able to send requests, you have to generate an activation token. The activation token in addition to granting permission to the account allows you to subset the service’s subject:
+Чтобы внешний аккаунт мог _импортировать_ приватный сервис и отправлять запросы, нужно сгенерировать activation token. Токен, кроме выдачи прав аккаунту, позволяет ограничить subject сервиса:
 
-To generate a token, you’ll need to know the public key of the account importing the service. We can easily find the public key for account B by running:
+Чтобы сгенерировать токен, нужен публичный ключ аккаунта, импортирующего сервис. Публичный ключ аккаунта B можно узнать так:
 
 ```bash
 nsc list keys --account B
@@ -255,9 +256,9 @@ nsc generate activation --account A --target-account AAM46E3YF5WOZSE5WNYWHN3YYIS
 [ OK ] wrote account description to "/tmp/activation.jwt"
 ```
 
-The command took the account that has the export \('A'\), the public key of account B, the subject where requests from account B will be handled, and an output file where the token can be stored. The subject for the export allows the service to handle all requests coming in on private.help.\*, but account B can only request from a specific subject.
+Команда использовала аккаунт с экспортом ('A'), публичный ключ аккаунта B, subject, на который будут обрабатываться запросы от аккаунта B, и файл для сохранения токена. Subject экспорта позволяет сервису обрабатывать все запросы на private.help.*, но аккаунт B может запрашивать только конкретный subject.
 
-For completeness, the contents of the JWT file looks like this:
+Для полноты, содержимое JWT‑файла:
 
 ```bash
 cat /tmp/activation.jwt
@@ -268,7 +269,7 @@ eyJ0eXAiOiJqd3QiLCJhbGciOiJlZDI1NTE5In0.eyJqdGkiOiJUS01LNEFHT1pOVERDTERGUk9QTllN
 ------END NATS ACTIVATION JWT------
 ```
 
-When decoded it looks like this:
+В декодированном виде:
 
 ```shell
 nsc describe jwt -f /tmp/activation.jwt
@@ -295,13 +296,13 @@ nsc describe jwt -f /tmp/activation.jwt
 ╰─────────────────┴───────────────────────────────────────────────────────────────────────╯
 ```
 
-The token can be shared directly with the client account.
+Токен можно передать напрямую клиентскому аккаунту.
 
-> If you manage many tokens for many accounts, you may want to host activation tokens on a web server and share the URL with the account. The benefit to the hosted approach is that any updates to the token would be available to the importing account whenever their account is updated, provided the URL you host them in is stable. When using a JWT account server, the tokens can be stored right on the server and shared by an URL that is printed when the token is generated.
+> Если вы управляете большим количеством токенов для разных аккаунтов, можно разместить activation tokens на web‑сервере и поделиться URL. Плюс такого подхода — любые обновления токена будут доступны импортирующему аккаунту при обновлении его аккаунта, если URL остается стабильным. При использовании JWT account server токены можно хранить прямо на сервере и делиться URL, который выводится при генерации токена.
 
-## Importing a Private Service
+## Импорт private service
 
-Importing a private service is more natural than a public one because the activation token stores all the necessary details. Again, the token can be an actual file path or a remote URL.
+Импорт private service более естественный, чем public, потому что activation token содержит все необходимые детали. Токен может быть как путем к файлу, так и удаленным URL.
 
 ```shell
 nsc add import --account B -u /tmp/activation.jwt --local-subject private.help --name private.help
@@ -310,7 +311,7 @@ nsc add import --account B -u /tmp/activation.jwt --local-subject private.help -
 [ OK ] added service import "private.help.AAM46E3YF5WOZSE5WNYWHN3YYISVZOSI6XHTF2Q64ECPXSFQZROJMP2H"
 ```
 
-Describe account B
+Описание аккаунта B:
 ```shell
 nsc describe account B
 ```
@@ -346,11 +347,11 @@ nsc describe account B
 ╰──────────────┴─────────┴───────────────────────────────────────────────────────────────────────┴──────────────┴─────────┴──────────────┴────────╯
 ```
 
-When importing a service, you can specify the local subject you want to use to make requests. The local subject in this case is `private.help`. However when the request is forwarded by NATS, the request is sent on the remote subject.
+При импорте сервиса можно указать локальный subject, который вы будете использовать для запросов. В данном случае это `private.help`. Однако при пересылке запроса NATS отправляет его на удаленный subject.
 
-### Testing the Private Service
+### Тестирование private service
 
-Testing a private service is no different than a public one:
+Тестирование private service ничем не отличается от public:
 
 ```bash
 nsc reply --account A --user U "private.help.*" "help is here"
@@ -360,4 +361,3 @@ nsc req --account B --user b private.help help_me
 published request: [private.help] : 'help_me'
 received reply: [_INBOX.3MhS0iCHfqO8wUl1x59bHB.jpE2jvEj] : 'help is here'
 ```
-

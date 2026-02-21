@@ -1,13 +1,12 @@
-# NATS JetStream Walkthrough
+# Пошаговое руководство по NATS JetStream
 
-The following is a small walkthrough on creating a stream and a consumer and interacting with the stream using the [nats cli](https://github.com/nats-io/natscli).
+Ниже — небольшой walkthrough по созданию потока и consumer и взаимодействию с потоком через [nats cli](https://github.com/nats-io/natscli).
 
+## Предусловие: включение JetStream
 
-## Prerequisite: enabling JetStream
+Если вы запускаете локальный `nats-server`, остановите его и перезапустите с включенным JetStream, используя `nats-server -js` (если это еще не сделано).
 
-If you are running a local `nats-server` stop it and restart it with JetStream enabled using `nats-server -js` (if that's not already done)
-
-You can then check that JetStream is enabled by using
+Затем проверьте, что JetStream включен:
 
 ```shell
 nats account info
@@ -59,7 +58,7 @@ Account Limits:
                             Consumers: 0 of Unlimited
 ```
 
-If you see the below then JetStream is _not_ enabled
+Если вы видите следующее, то JetStream _не_ включен:
 
 ```text
 JetStream Account Information:
@@ -67,11 +66,11 @@ JetStream Account Information:
    JetStream is not supported in this account
 ```
 
-## 1. Creating a stream
+## 1. Создание потока
 
-Let's start by creating a stream to capture and store the messages published on the subject "foo".
+Начнем с создания потока, который будет захватывать и хранить сообщения, опубликованные на subject "foo".
 
-Enter `nats stream add <Stream name>` (in the examples below we will name the stream "my_stream"), then enter "foo" as the subject name and hit return to use the defaults for all the other stream attributes:
+Введите `nats stream add <Stream name>` (в примерах ниже назовем поток "my_stream"), затем введите "foo" как имя subject и нажмите Enter, чтобы использовать значения по умолчанию для остальных атрибутов потока:
 
 ```shell
 nats stream add my_stream
@@ -128,7 +127,7 @@ State:
       Active Consumers: 0
 ```
 
-You can then check the information about the stream you just created:
+Затем можно посмотреть информацию о только что созданном потоке:
 
 ```shell
 nats stream info my_stream
@@ -169,21 +168,21 @@ State:
       Active Consumers: 0
 ```
 
-## 2. Publish some messages into the stream
+## 2. Публикация сообщений в поток
 
-Let's now start a publisher
+Теперь запустим издателя:
 
 ```shell
 nats pub foo --count=1000 --sleep 1s "publication #{{.Count}} @ {{.TimeStamp}}"
 ```
 
-As messages are being published on the subject "foo" they are also captured and stored in the stream, you can check that by using `nats stream info my_stream` and even look at the messages themselves using `nats stream view my_stream` or `nats stream get my_stream`
+Поскольку сообщения публикуются на subject "foo", они также захватываются и сохраняются в потоке. Это можно проверить через `nats stream info my_stream` и даже посмотреть сами сообщения с помощью `nats stream view my_stream` или `nats stream get my_stream`.
 
-## 3. Creating a consumer
+## 3. Создание consumer
 
-Now at this point if you create a 'Core NATS' (i.e. non-streaming) subscriber to listen for messages on the subject 'foo', you will _only_ receive the messages being published after the subscriber was started, this is normal and expected for the basic 'Core NATS' messaging. In order to receive a 'replay' of all the messages contained in the stream (including those that were published in the past) we will now create a 'consumer'
+На этом этапе, если вы создадите подписчика Core NATS (то есть non‑streaming) для subject `foo`, вы получите _только_ сообщения, опубликованные после запуска подписчика — это нормальное поведение для Core NATS. Чтобы получить replay всех сообщений, содержащихся в потоке (включая опубликованные ранее), мы создадим consumer.
 
-We can administratively create a consumer using the 'nats consumer add <Consumer name>' command, in this example we will name the consumer "pull_consumer", and we will leave the delivery subject to 'nothing' (i.e. just hit return at the prompt) because we are creating a 'pull consumer' and select `all` for the start policy, you can then just use the defaults and hit return for all the other prompts. The stream the consumer is created on should be the stream 'my_stream' we just created above.
+Мы можем административно создать consumer командой `nats consumer add <Consumer name>`. В этом примере назовем consumer `pull_consumer`, оставим subject доставки пустым (то есть просто нажмем Enter), потому что создаем pull consumer, и выберем `all` для стартовой политики. Далее оставляем значения по умолчанию и подтверждаем Enter. Поток, в котором создается consumer, — это `my_stream`, созданный выше.
 
 ```shell
 nats consumer add
@@ -223,26 +222,26 @@ State:
            Waiting Pulls: 0 of maximum 512
 ```
 
-You can check on the status of any consumer at any time using `nats consumer info` or view the messages in the stream using `nats stream view my_stream` or `nats stream get my_stream`, or even remove individual messages from the stream using `nats stream rmm`
+Вы можете в любой момент проверить статус consumer через `nats consumer info`, посмотреть сообщения в потоке через `nats stream view my_stream` или `nats stream get my_stream`, или даже удалить отдельные сообщения из потока командой `nats stream rmm`.
 
-## 3. Subscribing from the consumer
+## 3. Подписка через consumer
 
-Now that the consumer has been created and since there are messages in the stream we can now start subscribing to the consumer:
+Теперь, когда consumer создан и в потоке есть сообщения, можно начать подписку на consumer:
 
 ```shell
 nats consumer next my_stream pull_consumer --count 1000
 ```
 
-This will print out all the messages in the stream starting with the first message (which was published in the past) and continuing with new messages as they are published until the count is reached.
+Это выведет все сообщения в потоке, начиная с первого (опубликованного ранее), и продолжит выводить новые сообщения по мере публикации, пока не будет достигнут лимит `count`.
 
-Note that in this example we are creating a pull consumer with a 'durable' name, this means that the consumer can be shared between as many consuming processes as you want. For example instead of running a single `nats consumer next` with a count of 1000 messages you could have started two instances of `nats consumer` each with a message count of 500 and you would see the consumption of the messages from the consumer distributed between those instances of `nats`
+Обратите внимание: в этом примере мы создаем pull consumer с «durable» именем, а значит, consumer может быть разделен между любым количеством процессов потребления. Например, вместо одного `nats consumer next` с `count` 1000, можно запустить два экземпляра `nats consumer` с `count` 500 и увидеть распределение потребления сообщений между этими экземплярами `nats`.
 
-#### Replaying the messages again
+#### Повторное воспроизведение сообщений
 
-Once you have iterated over all the messages in the stream with the consumer, you can get them again by simply creating a new consumer or by deleting that consumer (`nats consumer rm`) and re-creating it (`nats consumer add`).
+После того как вы прошли все сообщения в потоке с помощью consumer, вы можете получить их снова, просто создав нового consumer или удалив текущего (`nats consumer rm`) и создав его заново (`nats consumer add`).
 
-## 4. Cleaning up
+## 4. Очистка
 
-You can clean up a stream (and release the resources associated with it (e.g. the messages stored in the stream)) using `nats stream purge`
+Вы можете очистить поток (и освободить связанные с ним ресурсы, например сообщения в потоке) командой `nats stream purge`.
 
-You can also delete a stream (which will also automatically delete all of the consumers that may be defined on that stream) using `nats stream rm`
+Вы также можете удалить поток (что автоматически удалит всех consumers, определенных для этого потока) командой `nats stream rm`.

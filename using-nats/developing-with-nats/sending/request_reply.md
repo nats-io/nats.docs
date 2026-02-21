@@ -1,12 +1,12 @@
-# Request-Reply Semantics
+# Семантика Request-Reply
 
-The pattern of sending a message and receiving a response is encapsulated in most client libraries into a request method. Under the covers this method will publish a message with a unique reply-to subject and wait for the response before returning.
+Шаблон отправки сообщения и получения ответа в большинстве клиентских библиотек инкапсулирован в метод request. Под капотом этот метод публикует сообщение с уникальным reply-to subject и ждёт ответ перед возвратом.
 
-In the older versions of some libraries a completely new reply-to subject is created each time. In newer versions, a subject hierarchy is used so that a single subscriber in the client library listens for a wildcard, and requests are sent with a unique child subject of a single subject.
+В более старых версиях некоторых библиотек каждый раз создавался полностью новый reply-to subject. В новых версиях используется иерархия subject, чтобы один подписчик в клиентской библиотеке слушал wildcard, а запросы отправлялись с уникальным дочерним subject одного subject.
 
-The primary difference between the request method and publishing with a reply-to is that the library is only going to accept one response, and in most libraries the request will be treated as a synchronous action. The library may even provide a way to set the timeout.
+Основное отличие между методом request и публикацией с reply-to в том, что библиотека принимает только один ответ, и в большинстве библиотек request рассматривается как синхронное действие. Библиотека может также предоставлять способ задать таймаут.
 
-For example, updating the previous publish example we may request `time` with a one second timeout:
+Например, обновляя предыдущий пример публикации, можно запросить `time` с таймаутом в одну секунду:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -171,7 +171,7 @@ natsConnection_Destroy(conn);
 {% endtab %}
 {% endtabs %}
 
-You can think of request-reply in the library as a subscribe, get one message, unsubscribe pattern. In Go this might look something like:
+Request-reply в библиотеке можно представить как паттерн subscribe, получить одно сообщение, unsubscribe. В Go это может выглядеть примерно так:
 
 ```go
 sub, err := nc.SubscribeSync(replyTo)
@@ -198,7 +198,7 @@ sub.Unsubscribe()
 
 ## Scatter-Gather
 
-You can expand the request-reply pattern into something often called scatter-gather. To receive multiple messages, with a timeout, you could do something like the following, where the loop getting messages is using time as the limitation, not the receipt of a single message:
+Можно расширить паттерн request-reply до того, что часто называют scatter-gather. Чтобы получить несколько сообщений с таймаутом, можно сделать что‑то подобное, где цикл получения сообщений ограничивается временем, а не получением одного сообщения:
 
 ```go
 sub, err := nc.SubscribeSync(replyTo)
@@ -224,7 +224,7 @@ for time.Now().Sub(start) < max {
 sub.Unsubscribe()
 ```
 
-Or, you can loop on a counter and a timeout to try to get _at least N_ responses:
+Или можно использовать цикл по счётчику и таймауту, чтобы попытаться получить _как минимум N_ ответов:
 
 ```go
 sub, err := nc.SubscribeSync(replyTo)
@@ -253,4 +253,3 @@ for time.Now().Sub(start) < max {
 }
 sub.Unsubscribe()
 ```
-

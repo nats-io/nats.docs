@@ -1,83 +1,83 @@
-# Source and Mirror Streams
+# Потоки Source и Mirror
 
-When a stream is configured with a `source` or `mirror`, it will automatically and asynchronously replicate messages from the origin stream.
+Когда поток настроен с `source` или `mirror`, он автоматически и асинхронно реплицирует сообщения из исходного потока.
 
-`source` or `mirror` are designed to be robust and will recover from a loss of connection. They are suitable for geographic distribution over high latency and unreliable connections. E.g. even a leaf node starting and connecting intermittently every few days will still receive or send messages over the source/mirror link.\
-Another use case is when [connecting streams cross-account](../../running-a-nats-service/configuration/securing_nats/accounts.md#exporting-and-importing).
+`source` и `mirror` спроектированы как надежные и восстанавливаются после потери соединения. Они подходят для геораспределения в условиях высокой задержки и нестабильных соединений. Например, даже leaf node, который запускается и подключается раз в несколько дней, будет получать или отправлять сообщения через связь source/mirror.\
+Еще один сценарий — [соединение потоков между аккаунтами](../../running-a-nats-service/configuration/securing_nats/accounts.md#exporting-and-importing).
 
-There are several options available when declaring the configuration.
+При объявлении конфигурации доступны следующие параметры:
 
-* `Name` - Name of the origin stream to source messages from.
-* `StartSeq` - An optional start sequence of the origin stream to start mirroring from.
-* `StartTime` - An optional message start time to start mirroring from. Any messages that are equal to or greater than the start time will be included.
-* `FilterSubject` - An optional filter subject which will include only messages that match the subject, typically including a wildcard. Note, this cannot be used with `SubjectTransforms`.
-* `SubjectTransforms` - An optional set of [subject transforms](../../running-a-nats-service/configuration/configuring_subject_mapping.md) to apply when sourcing messages from the origin stream. Note, in this context, the `Source` will act as a filter on the origin stream and the `Destination` can optionally be provided to apply a transform. Since multiple subject transforms can be used, disjoint subjects can be sourced from the origin stream while maintaining the order of the messages. Note, this cannot be used with `FilterSubject`.
-* `Domain` - An optional JetStream domain of where the origin stream exists. This is commonly used in a hub cluster and leafnode topology.
+* `Name` — имя исходного потока, из которого брать сообщения.
+* `StartSeq` — необязательная стартовая последовательность исходного потока, с которой начинать зеркалирование.
+* `StartTime` — необязательное время начала, с которого начинать зеркалирование. Любые сообщения, равные или позже этого времени, будут включены.
+* `FilterSubject` — необязательный фильтр subject, который включает только совпадающие сообщения, обычно с wildcard. Обратите внимание: нельзя использовать вместе с `SubjectTransforms`.
+* `SubjectTransforms` — необязательный набор [преобразований subjects](../../running-a-nats-service/configuration/configuring_subject_mapping.md), применяемых при источнике сообщений из исходного потока. В этом контексте `Source` действует как фильтр исходного потока, а `Destination` может быть задан для преобразования. Так как можно использовать несколько преобразований, можно забирать непересекающиеся subjects из исходного потока, сохраняя порядок сообщений. Обратите внимание: нельзя использовать вместе с `FilterSubject`.
+* `Domain` — необязательный домен JetStream, в котором находится исходный поток. Обычно используется в топологиях hub‑cluster и leafnode.
 
-The stream using a source or mirror configuration can have its own retention policy, replication, and storage type.
+Поток, использующий source или mirror, может иметь собственную политику хранения, репликацию и тип хранения.
 
 {% hint style="info" %}
-* Changes to the stream using source or mirror, e.g. deleting messages or publishing, do not reflect back on the origin stream from which the data was received.
-* Deletes in the origin stream are NOT replicated through a `source` or `mirror` agreement.
+* Изменения потока с source или mirror (например, удаление сообщений или публикации) не отражаются обратно на исходном потоке, из которого получены данные.
+* Удаления в исходном потоке НЕ реплицируются через соглашение `source` или `mirror`.
 {% endhint %}
 
 {% hint style="info" %}
-`Sources` is a generalization of the `Mirror` and allows for sourcing data from one or more streams concurrently.\
-If you require the target stream to act as a read-only replica:
+`Sources` — это обобщение `Mirror` и позволяет одновременно получать данные из одного или нескольких потоков.\
+Если вам нужно, чтобы целевой поток работал как реплика только для чтения:
 
-* Configure the stream without listen subjects **or**
-* Temporarily disable the listen subjects through client authorizations.
+* Настройте поток без listen subjects **или**
+* Временно отключите listen subjects через авторизации клиента.
 {% endhint %}
 
-## General behavior
+## Общие особенности
 
-* All configurations are made on the receiving side. The stream from which data is sourced and mirrored does not need to be configured. No cleanup is required on the origin side if the receiver disappears.
-* A stream can be the origin (source) for multiple streams. This is useful for geographic distribution or for designing "fan out" topologies where data needs to be distributed reliable to a large number (up to millions) of client connections.
-* Leaf nodes and leaf node domains are explicitly supported through the `API prefix`
+* Все конфигурации задаются на принимающей стороне. Поток, из которого берутся и зеркалируются данные, не требует настройки. Если приемник исчезает, на стороне источника ничего чистить не нужно.
+* Один поток может быть источником для нескольких потоков. Это полезно для геораспределения или для построения топологий "fan out", где данные нужно надежно распределять на большое число (до миллионов) клиентских соединений.
+* Leaf nodes и домены leaf node явно поддерживаются через `API prefix`.
 
-## Source specific
+## Специфика Source
 
-A stream defining `Sources` is a generalized replication mechanism and allows for sourcing data from **one or more streams** concurrently. A stream with sources can still act as a regular stream allowing direct write/publish by local clients to the stream. Essentially the source streams and local client writes are aggregated into a single interleaved stream.\
-Combined with subject transformation and filtering sourcing allows to design sophisticated data distribution architectures.
+Поток с `Sources` — это обобщенный механизм репликации, который позволяет одновременно получать данные из **одного или нескольких потоков**. Поток с sources может оставаться обычным потоком и позволять прямую запись/публикацию локальными клиентами. По сути, исходные потоки и записи локальных клиентов агрегируются в один перемешанный поток.\
+В сочетании с преобразованием и фильтрацией subjects это позволяет строить сложные архитектуры распределения данных.
 
 {% hint style="info" %}
-Sourcing messages does not retain sequence numbers. But it retain the in stream sequence of messages . Between streams sourced to the same target, the sequence of messages is undefined.
+При источнике сообщений номера последовательности не сохраняются. Однако сохраняется порядок сообщений внутри потока. Между потоками, которые источаются в один и тот же целевой поток, порядок сообщений не определен.
 {% endhint %}
 
-## Mirror specific
+## Специфика Mirror
 
-A mirror can source its messages from **exactly one stream** and a clients can not directly write to the mirror. Although messages cannot be published to a mirror directly by clients, messages can be deleted on-demand (beyond the retention policy), and consumers have all capabilities available on regular streams.
+Зеркало может получать сообщения **ровно из одного потока**, и клиенты не могут напрямую писать в зеркало. Хотя публиковать сообщения в зеркало напрямую нельзя, сообщения можно удалять по запросу (за пределами политики хранения), и consumers имеют все возможности, доступные в обычных потоках.
 
 {% hint style="info" %}
-* Mirrored messages retains the sequence numbers and timestamps of the origin stream.
-* Mirrors can be used for for (geographic) load distribution with the `MirrorDirect` stream attribute. See: [https://docs.nats.io/nats-concepts/jetstream/streams#configuration](https://docs.nats.io/nats-concepts/jetstream/streams#configuration)
+* Зеркальные сообщения сохраняют номера последовательности и временные метки исходного потока.
+* Зеркала можно использовать для (географического) распределения нагрузки с атрибутом потока `MirrorDirect`. См.: [https://docs.nats.io/nats-concepts/jetstream/streams#configuration](https://docs.nats.io/nats-concepts/jetstream/streams#configuration)
 {% endhint %}
 
-## Expected behavior in edge conditions
+## Ожидаемое поведение в граничных условиях
 
-* Source and mirror contracts are designed with one-way (geographic) data replication in mind. Neither configuration provides a full synchronization between streams, which would include deletes or replication of other stream attributes.
-* The content of the stream from which a source or mirror is drawn needs to be reasonable stable. Quickly deleting messages after publishing them may result in inconsistent replication due to the asynchronous nature of the replication process.
-* Sources and Mirror try to be be efficient in replicating messages and are lenient towards the source/mirror origin being unreachable (event for extended periods of time), e.g. when using leaf nodes, which are connected intermittently. For sake of efficiency the recovery interval in case of a disconnect is 10-20s.
-* Mirror and source agreements do not create a visible consumer in the origin stream.
+* Контракты source и mirror рассчитаны на одностороннюю (географическую) репликацию данных. Ни одна конфигурация не обеспечивает полную синхронизацию между потоками, которая включала бы удаления или репликацию других атрибутов потока.
+* Содержимое исходного потока для source/mirror должно быть достаточно стабильным. Быстрое удаление сообщений после публикации может привести к неконсистентной репликации из‑за асинхронной природы процесса.
+* Source и Mirror стремятся эффективно реплицировать сообщения и терпимо относятся к недоступности источника (даже на продолжительное время), например при использовании leaf nodes с периодическими подключениями. Ради эффективности интервал восстановления после разрыва составляет 10–20 секунд.
+* Соглашения mirror и source не создают видимого consumer в исходном потоке.
 
 ### WorkQueue retention
 
-Source and mirror works with origin stream with workqueue retention in a limited context. The source/mirror will act as a consumer removing messages from the origin stream.
+Source и Mirror работают с исходным потоком с workqueue‑хранением в ограниченном контексте. Source/mirror будет выступать потребителем, удаляющим сообщения из исходного потока.
 
-The implementation is not resilient when connecting over intermittent leaf node connections though. Within a cluster where the target stream (with the source/mirror agreement) it will generally work well.
+Однако реализация неустойчива при подключениях через периодически доступные leaf nodes. Внутри кластера, где расположен целевой поток (с соглашением source/mirror), это обычно работает хорошо.
 
 {% hint style="warning" %}
-Source and mirror for workqueue based streams is only partially supported. It is not resilient against connection loss over leaf nodes.
+Source и mirror для потоков с workqueue‑хранением поддерживаются лишь частично. Они неустойчивы к потерям соединения через leaf nodes.
 
-The consumer pulling message from a remote stream is not durable and other clients may be able to consume and remove messages from the workqueue while leaf connection is down.
+Consumer, вытягивающий сообщения из удаленного потока, не является durable, и другие клиенты могут потреблять и удалять сообщения из workqueue, пока соединение leaf недоступно.
 {% endhint %}
 
 {% hint style="warning" %}
-If you try to create additional (conflicting) consumers on the origin workqueue stream the behavior becomes undefined. A workqueue allows only one consumer per subject. If the source/mirror connection is active local clients trying to create additional consumers will fail. In reverse a source/mirror cannot be created when there is already a local consumer for the same subjects.
+Если вы попытаетесь создать дополнительные (конфликтующие) consumers в исходном workqueue‑потоке, поведение будет неопределенным. Workqueue допускает только одного consumer на subject. Если соединение source/mirror активно, локальные клиенты, пытающиеся создать дополнительные consumers, получат ошибку. И наоборот, source/mirror нельзя создать, если уже есть локальный consumer для тех же subjects.
 {% endhint %}
 
 ### Interest base retention
 
 {% hint style="warning" %}
-Source and mirror for interest based streams is not supported. Jetstream does not forbid this configuration but the behavior is undefined and may change in the future.
+Source и mirror для потоков с interest‑хранением не поддерживаются. JetStream не запрещает эту конфигурацию, но поведение неопределено и может измениться в будущем.
 {% endhint %}

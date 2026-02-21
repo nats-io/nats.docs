@@ -1,50 +1,53 @@
-# JetStream Consumers
+# Consumers JetStream
 
-Consumers are how client applications get the messages stored in the streams. You can have many consumers on a single stream. Consumers are like a view on a stream, can filter messages and have some state (maintained by the servers) associated with them.
+Consumers — это способ, которым клиентские приложения получают сообщения, сохранённые в streams. На одном stream может быть много consumers. Consumers похожи на представления (views) над stream, могут фильтровать сообщения и имеют некоторое состояние (поддерживается серверами).
 
-Consumers can be 'durable' or 'ephemeral'.
+Consumers могут быть «durable» или «ephemeral».
 
-## Durable versus ephemeral consumers
-Durable consumer persist message delivery progress on the server side. A durable consumer can be retrieved by name and shared between client instance for load balancing. It can be made highly available through replicas.
+## Durable и ephemeral consumers
 
-An ephemeral consumer does not persist delivery progress and will automatically be deleted when there are no more client instances connected.
+Durable consumer сохраняет прогресс доставки сообщений на стороне сервера. Durable consumer можно получить по имени и разделять между экземплярами клиента для балансировки нагрузки. Его можно сделать высокодоступным через реплики.
+
+Ephemeral consumer не сохраняет прогресс доставки и автоматически удаляется, когда больше нет подключённых экземпляров клиента.
 
 ### Durable consumers
 
-Durable consumers are meant to be used by multiple instances of an application, either to distribute and scale out the processing, or to persist the position of the consumer over the stream between runs of an application.
+Durable consumers предназначены для использования несколькими экземплярами приложения: для распределения и масштабирования обработки или для сохранения позиции consumer по stream между запусками приложения.
 
-Durable consumers as the name implies are meant to last 'forever' and are typically created and deleted administratively rather than by the application code which only needs to specify the durable's well known name to use it.
+Durable consumers, как следует из названия, рассчитаны «на долго» и обычно создаются и удаляются административно, а не кодом приложения, которому достаточно указать известное имя durable consumer.
 
-You create a durable consumer using the `nats consumer add` CLI tool command, or programmatically by passing a durable name option to the subscription creation call.
+Создать durable consumer можно командой CLI `nats consumer add` или программно, передав опцию имени durable при создании подписки.
 
 ### Ephemeral consumers
 
-Ephemeral consumers are meant to be used by a single instance of an application (e.g. to get its own replay of the messages in the stream).
+Ephemeral consumers предназначены для использования одним экземпляром приложения (например, чтобы получать собственный replay сообщений из stream).
 
-Ephemeral consumers are not meant to last 'forever', they are defined automatically at subscription time by the client library and disappear after the application disconnect.
+Ephemeral consumers не предназначены «навсегда» — они автоматически создаются при подписке клиентской библиотекой и исчезают после отключения приложения.
 
-You (automatically) create an ephemeral consumer when you call the js.Subscribe function without specifying the Durable or Bind subscription options. Calling Drain on that subscription automatically deletes the underlying ephemeral consumer.
-You can also explicitly create an ephemeral consumer by not passing a durable name option to the jsm.AddConsumer call.
+Вы (автоматически) создаёте ephemeral consumer, когда вызываете `js.Subscribe` без указания опций Durable или Bind. Вызов Drain для этой подписки автоматически удаляет базовый ephemeral consumer.
+Также можно явно создать ephemeral consumer, не передавая опцию имени durable при вызове `jsm.AddConsumer`.
 
-Ephemeral consumers otherwise have the same control over message acknowledged and re-delivery as durable consumers.
+В остальном ephemeral consumers имеют такой же контроль над подтверждениями (ack) и повторной доставкой, как и durable consumers.
 
-## Push and Pull consumers
+## Push и Pull consumers
 
-Clients implement two implementations of consumers identified as 'push' or 'pull'. 
+Клиенты реализуют два варианта consumers: «push» и «pull».
 
 ### Push consumers
-Push consumers receive messages on a specific subject where message flow is controlled by the server. Load balancing is supported through NATS core queue groups. The messages from the stream are distributed automatically between the subscribing clients to the push consumers.
+
+Push consumers получают сообщения на конкретный subject, при этом поток сообщений контролируется сервером. Балансировка нагрузки поддерживается через queue groups Core NATS. Сообщения из stream автоматически распределяются между клиентами, подписанными на push consumer.
 
 ### Pull consumers
-Pull consumers request messages explicitly from the server in batches, giving the client full control over dispatching, flow control, pending (unacknowledged) messages and load balancing. Pull consuming client make `fetch()` calls in a dispatch loop.
 
-{% hint style="info" %}We recommend using pull consumers for new projects. In particular when scalability, detailed flow control or error handling are a design focus.
-Most client API have been updated to provide convenient interfaces for consuming messages through callback handler or iterators without the need to manage message retrieval.
+Pull consumers явно запрашивают сообщения у сервера пачками, что даёт клиенту полный контроль над диспетчеризацией, управлением потоком, ожидающими (неподтверждёнными) сообщениями и балансировкой нагрузки. Клиент, потребляющий pull, делает вызовы `fetch()` в цикле диспетчеризации.
+
+{% hint style="info" %}Мы рекомендуем использовать pull consumers для новых проектов, особенно когда в фокусе масштабируемость, детальный контроль потока или обработка ошибок.
+Большинство клиентских API обновлены и предоставляют удобные интерфейсы для потребления сообщений через callback‑обработчики или итераторы без необходимости управлять получением сообщений вручную.
 {% endhint %}
 
-`fetch()` calls can be immediate or have a defined timeout, allowing for either controlled (1 by 1) consumption or `realtime` delivery with minimal polling overhead.  
+Вызовы `fetch()` могут быть немедленными или с заданным таймаутом, позволяя либо контролируемое (по одному) потребление, либо `realtime`‑доставку с минимальными накладными расходами на опрос.  
 
-Pull consumers create less CPU load on the NATS servers and therefore scale better (note that the push consumers are still quite fast and scalable, you may only notice the difference between the two if you have sustained high message rates).
+Pull consumers создают меньшую нагрузку на CPU серверов NATS и поэтому масштабируются лучше (при этом push consumers тоже достаточно быстрые и масштабируемые; разницу обычно заметно лишь при устойчиво высоких скоростях сообщений).
 
 #### Pull
 
@@ -590,7 +593,7 @@ int main(int argc, char **argv)
 {% endtab %}
 {% endtabs %}
 
-A push consumer can also be used in some other use cases such as without a queue group, or with no acknowledgement or cumulative acknowledgements.
+Push consumer также может использоваться в других сценариях, например без queue group, без подтверждений или с кумулятивными подтверждениями.
 
 #### Push
 
@@ -1200,15 +1203,15 @@ int main(int argc, char **argv)
 
 
 
-## Ordered Consumers
-Ordered consumers are a convenient form of ephemeral push consumer for applications, that want to efficiently consume a stream for data inspection or analysis.
+## Упорядоченные consumers
+Ordered consumers — удобная форма ephemeral push consumer для приложений, которым нужно эффективно потреблять stream для инспекции или анализа данных.
 
-The API consumer is guaranteed delivery of messages in sequence and without gaps. 
-* Always ephemeral - minimal overhead for the server
-* Single threaded in sequence dispatching 
-* Client checks message sequence and will prevent gaps in the delivery
-* Can recover from server node failure and reconnect
-* Does not recover from client failure as it is ephemeral
+API consumer гарантирует доставку сообщений по порядку и без пропусков.
+* Всегда ephemeral — минимальная нагрузка на сервер
+* Однопоточная доставка в порядке
+* Клиент проверяет последовательность сообщений и предотвращает разрывы в доставке
+* Может восстанавливаться после падения узла сервера и переподключаться
+* Не восстанавливается после сбоя клиента, так как является ephemeral
 
 {% tabs %}
 {% tab title="Go" %}
@@ -1408,39 +1411,39 @@ await foreach (NatsJSMsg<string> msg in orderedConsumer.ConsumeAsync<string>(can
 
 
 
-## Delivery reliability
+## Надёжность доставки
 
-JetStream consumers can ensure not just the reliability of message delivery but also the reliability of the processing of the messages, even in the face of client application or downstream failures. It does so by using message level acknowledgements and message re-deliveries.
+JetStream consumers обеспечивают не только надёжную доставку сообщений, но и надёжность обработки сообщений, даже при сбоях клиентского приложения или downstream‑систем. Это достигается за счёт подтверждений на уровне сообщений и повторной доставки.
 
-Consumers have an [Acknowledgement Policy](/nats-concepts/jetstream/consumers.md#ackpolicy) specifying the level of reliability required. In increasing order of reliability the available policies are: 'none' for no application level acknowledgements, 'all' where acknowledging a specific message also implicitly acknowledges all previous messages in the stream, and 'explicit' where each message must be individually acknowledged.
+Consumers имеют [Acknowledgement Policy](/nats-concepts/jetstream/consumers.md#ackpolicy), определяющую требуемый уровень надёжности. По возрастанию надёжности доступны политики: `none` (нет подтверждений на уровне приложения), `all` (подтверждение конкретного сообщения также неявно подтверждает все предыдущие сообщения в stream) и `explicit` (каждое сообщение подтверждается отдельно).
 
-When the consumer is set to require explicit acknowledgements the client applications are able to use more than one kind of [acknowledgement](/using-nats/developing-with-nats/anatomy.md#consumer-acknowledgements) to indicate successful (or not) reception and processing of the messages being received from the consumer.
+Когда consumer настроен на явные подтверждения, клиентские приложения могут использовать более одного типа [acknowledgement](/using-nats/developing-with-nats/anatomy.md#consumer-acknowledgements), чтобы указать успешное (или нет) получение и обработку сообщений от consumer.
 
-Applications can:
+Приложения могут:
 
-- Acknowledge the successfull processing of a message (`Ack()`).
-- Acknowledge the successfull processing of a message and request an acknowledgement of the reception of the acknowledgement by the consumer (`AckSync()`).
-- Indicate that the processing is still in progress and more time is needed (`inProgress()`).
-- Negatively acknowledge a message, indicating that the client application is currently (temporarily) unable to process the message and that the consumer should attempt to re-deliver it (`Nak()`).
-- Terminate a message (typically, because there is a problem with the data inside the message such that the client application is never going to be able to process it), indicating that the consumer should not attempt to re-deliver the message (`Term()`).
+- Подтвердить успешную обработку сообщения (`Ack()`).
+- Подтвердить успешную обработку и запросить подтверждение получения подтверждения consumer'ом (`AckSync()`).
+- Указать, что обработка ещё идёт и нужно больше времени (`inProgress()`).
+- Негативно подтвердить сообщение, указав, что приложение сейчас (временно) не может обработать сообщение и consumer должен попытаться доставить его повторно (`Nak()`).
+- Завершить сообщение (обычно потому, что в данных есть проблема и приложение никогда не сможет его обработать), указав, что consumer не должен пытаться доставить его повторно (`Term()`).
 
-After a message is sent from the consumer to a subscribing client application by the server an 'AckWait' timer is started. This timer is deleted when either a positive (`Ack()`) or a termination (`Term()`) acknowledgement is received from the client application. The timer gets reset upon reception of an in-progress (`inProgress()`) acknowledgement.
+После того как сервер отправляет сообщение от consumer подписанному клиентскому приложению, запускается таймер `AckWait`. Этот таймер удаляется при получении либо положительного подтверждения (`Ack()`), либо подтверждения завершения (`Term()`) от клиента. Таймер сбрасывается при получении подтверждения «в процессе» (`inProgress()`).
 
-If at the end of a period of time no acknowledgement has been received from the client application, the server will attempt to re-deliver the message. If there is more than one client application instance subscribing to the consumer, there is no guarantee that the re-delivery would be to any particular client instance.
+Если по истечении времени подтверждение от клиента не получено, сервер попытается повторно доставить сообщение. Если на consumer подписано более одного экземпляра приложения, нет гарантии, что повторная доставка придёт в конкретный экземпляр.
 
-You can control the timing of re-deliveries using either the single `AckWait` duration attribute of the consumer, or as a sequence of durations in the `BackOff` attribute (which overrides `AckWait`).
+Вы можете управлять временем повторной доставки, используя либо единичный атрибут длительности `AckWait` consumer'а, либо последовательность длительностей в атрибуте `BackOff` (который переопределяет `AckWait`).
 
-You can also control the timing of re-deliveries when messages are negatively acknowledged with `Nak()`, by passing a `nakDelay()` option (or using `NakWithDelay()`), otherwise the re-delivery attempt will happen right after the reception of the Nak by the server.
+Также можно управлять временем повторной доставки, когда сообщение получило `Nak()`, передавая опцию `nakDelay()` (или используя `NakWithDelay()`), иначе попытка повторной доставки произойдёт сразу после получения `Nak` сервером.
 
-### "Dead Letter Queues" type functionality
+### Функциональность «Dead Letter Queues»
 
-You can set a maximum number of delivery attempts using the consumer's `MaxDeliver` setting.
+Вы можете задать максимальное число попыток доставки с помощью настройки `MaxDeliver` consumer'а.
 
-Whenever a message reaches its maximum number of delivery attempts an advisory message is published on the `$JS.EVENT.ADVISORY.CONSUMER.MAX_DELIVERIES.<STREAM>.<CONSUMER>` subject. The advisory message's payload (use `nats schema info io.nats.jetstream.advisory.v1.max_deliver` for specific information) contains a `stream_seq` field that contains the sequence number of the message in the stream.
+Когда сообщение достигает максимального числа попыток доставки, публикуется advisory‑сообщение на subject `$JS.EVENT.ADVISORY.CONSUMER.MAX_DELIVERIES.<STREAM>.<CONSUMER>`. В payload advisory‑сообщения (используйте `nats schema info io.nats.jetstream.advisory.v1.max_deliver` для деталей) есть поле `stream_seq`, содержащее номер последовательности сообщения в stream.
 
-Similarly, whenever a client application terminates delivery attempts for the message using `AckTerm` an advisory message is published on the `$JS.EVENT.ADVISORY.CONSUMER.MSG_TERMINATED.<STREAM>.<CONSUMER>` subject, and its payload (see `nats schema info io.nats.jetstream.advisory.v1.terminated`) contains a `stream_seq` field.
+Аналогично, когда клиентское приложение прекращает попытки доставки сообщения с помощью `AckTerm`, публикуется advisory‑сообщение на subject `$JS.EVENT.ADVISORY.CONSUMER.MSG_TERMINATED.<STREAM>.<CONSUMER>`, и его payload (см. `nats schema info io.nats.jetstream.advisory.v1.terminated`) содержит поле `stream_seq`.
 
-You can leverage those advisory messages to implement "Dead Letter Queue" (DLQ) types of functionalities. For example:
+Эти advisory‑сообщения можно использовать для реализации функциональности типа «Dead Letter Queue» (DLQ). Например:
 
-- If you only need to know about each time a message is 'dead' (considered un-re-deliverable by the consumer), then listening to the advisories is enough.
-- If you also need to have access to the message in question then you can use the message's sequence number included in the advisory to retrieve that specific message by sequence number from the stream. If a message reaches its maximum level of delivery attempts, it will still stay in the stream until it is manually deleted or manually acknowledged.
+- Если вам нужно знать только о каждом «мёртвом» сообщении (когда consumer считает его недоставляемым), достаточно слушать advisories.
+- Если нужен доступ к самому сообщению, можно использовать номер последовательности из advisory, чтобы получить конкретное сообщение по sequence из stream. Если сообщение достигло максимального числа попыток доставки, оно остаётся в stream до ручного удаления или ручного подтверждения.

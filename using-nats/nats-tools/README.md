@@ -1,25 +1,25 @@
-# NATS Command Line Tooling
+# Инструменты командной строки NATS
 
-## Using NATS from client application
+## Использование NATS из клиентского приложения
 
-The most common form of connecting to the NATS messaging system will be through an application built with any of the [40+ client libraries](../developing-with-nats/developer.md) available for NATS.
+Самый распространенный способ подключения к системе обмена сообщениями NATS — через приложение, созданное с использованием любой из [40+ клиентских библиотек](../developing-with-nats/developer.md), доступных для NATS.
 
-The client application will connect to an instance of the NATS server, be it a single server, a cluster of servers or even a global super-cluster such as [Synadia Cloud](https://www.synadia.com/cloud?utm_source=nats_docs&utm_medium=nats), sending and receiving messages via a range of subscribers contracts. If the application is written in GoLang the NATS server can even be [embedded into a Go](https://dev.to/karanpratapsingh/embedding-nats-in-go-19o) application.
+Клиентское приложение подключается к экземпляру сервера NATS — будь то одиночный сервер, кластер серверов или глобальный супер‑кластер, такой как [Synadia Cloud](https://www.synadia.com/cloud?utm_source=nats_docs&utm_medium=nats), — и отправляет/получает сообщения через различные контракты подписчиков. Если приложение написано на GoLang, сервер NATS можно даже [встроить в приложение Go](https://dev.to/karanpratapsingh/embedding-nats-in-go-19o).
 
-Client APIs will also allow access to almost all server configuration tasks when using an account with sufficient permissions.
+Клиентские API также дают доступ почти ко всем задачам конфигурации сервера при использовании аккаунта с достаточными правами.
 
-## Command Line Tooling
+## Инструменты командной строки
 
-Besides using the client API to manage NATS servers, the NATS ecosystem also has many tools to interact with other applications and services over NATS and streams, support server configuration, enhance monitoring or tune performance such as:
+Помимо использования клиентского API для управления серверами NATS, в экосистеме NATS есть множество инструментов для взаимодействия с другими приложениями и сервисами по NATS и потокам, поддержки конфигурации сервера, улучшения мониторинга или настройки производительности, например:
 
-* General interaction and management
-  * [nats](nats_cli/README.md) - The `nats` Command Line Tool is the easiest way to interact with, test and manage NATS and JetStream from a terminal or from scripts. It's list of features are ever growing, so please download the [latest version](https://github.com/nats-io/natscli/releases).
-* Security
-  * [nk](nk.md) - Generate NKeys for use with JSon Web Tokens (JWT) used with nsc
-  * [nsc](nsc/) - Configure Operators, Accounts, Users and permission offline to later push them to a production server. This is the preferred tools to create security configuration unless you are using [Synadia Control Plane](https://www.docs.synadia.com/platform/control-plane?utm_source=nats_docs&utm_medium=nats)
-  * [nats account server](https://nats-io.gitbook.io/legacy-nats-docs/nats-account-server) -  (**legacy, replaced by the built-in NATS resolver**) a custom security server. NAS can still be used as a reference implementation for you tailor-made security integration.
-* Monitoring
-  * [nats top](nats_top/) - Monitor NATS Servers
-  * [prometheus-nats-exporter](https://github.com/nats-io/prometheus-nats-exporter) - Export NATS server metrics to [Prometheus](https://prometheus.io/) and a [Grafana](https://grafana.com) dashboard.
-* Benchmarking
-  * see [nats bench](nats_cli/natsbench.md) subcommand of the [nats](nats_cli/README.md) tool
+* Общее взаимодействие и управление
+  * [nats](nats_cli/README.md) — инструмент командной строки `nats` — самый простой способ взаимодействовать, тестировать и управлять NATS и JetStream из терминала или скриптов. Список возможностей постоянно растет, поэтому скачайте [последнюю версию](https://github.com/nats-io/natscli/releases).
+* Безопасность
+  * [nk](nk.md) — генерация NKeys для использования с JSON Web Tokens (JWT) в nsc
+  * [nsc](nsc/) — конфигурация операторов, аккаунтов, пользователей и прав офлайн, чтобы затем загрузить их на production сервер. Это предпочтительный инструмент для создания конфигурации безопасности, если вы не используете [Synadia Control Plane](https://www.docs.synadia.com/platform/control-plane?utm_source=nats_docs&utm_medium=nats)
+  * [nats account server](https://nats-io.gitbook.io/legacy-nats-docs/nats-account-server) — (**legacy, заменен встроенным resolver NATS**) пользовательский сервер безопасности. NAS может служить эталонной реализацией для интеграции безопасности под ваши нужды.
+* Мониторинг
+  * [nats top](nats_top/) — мониторинг серверов NATS
+  * [prometheus-nats-exporter](https://github.com/nats-io/prometheus-nats-exporter) — экспорт метрик сервера NATS в [Prometheus](https://prometheus.io/) и [Grafana](https://grafana.com) дашборд.
+* Бенчмаркинг
+  * см. подкоманду [nats bench](nats_cli/natsbench.md) инструмента [nats](nats_cli/README.md)

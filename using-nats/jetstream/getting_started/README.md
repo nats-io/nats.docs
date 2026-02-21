@@ -1,16 +1,16 @@
-# Getting Started
+# Быстрый старт
 
-Getting started with JetStream is straightforward. While we speak of JetStream as if it is a separate component, it's actually a subsystem built into the NATS server that needs to be enabled.
+Начать работу с JetStream просто. Хотя мы говорим о JetStream как о отдельном компоненте, на самом деле это подсистема, встроенная в сервер NATS, которую нужно включить.
 
-## Command Line
+## Командная строка
 
-Enable JetStream by specifying the `-js` flag when starting the NATS server.
+Включите JetStream, указав флаг `-js` при запуске сервера NATS.
 
 `$ nats-server -js`
 
-## Configuration File
+## Конфигурационный файл
 
-You can also enable JetStream through a configuration file. By default, the JetStream subsytem will store data in the /tmp directory. Here's a minimal file that will store data in a local "nats" directory, suitable for development and local testing.
+Вы также можете включить JetStream через конфигурационный файл. По умолчанию подсистема JetStream хранит данные в каталоге `/tmp`. Ниже — минимальный файл, который будет хранить данные в локальном каталоге "nats", подходящем для разработки и локального тестирования.
 
 `$ nats-server -c js.conf`
 
@@ -21,7 +21,6 @@ jetstream {
 }
 ```
 
-Normally JetStream will be run in clustered mode and will replicate data, so the best place to store JetStream data would be locally on a fast SSD. One should specifically avoid NAS or NFS storage for JetStream.
+Обычно JetStream запускается в кластерном режиме и реплицирует данные, поэтому лучшее место для хранения данных JetStream — локальный быстрый SSD. Следует избегать NAS или NFS‑хранилищ для JetStream.
 
-See [Using Docker](../../../running-a-nats-service/running/nats_docker/jetstream_docker.md) and [Using Source](using_source.md) for more information.
-
+См. [Using Docker](../../../running-a-nats-service/running/nats_docker/jetstream_docker.md) и [Using Source](using_source.md) для дополнительной информации.

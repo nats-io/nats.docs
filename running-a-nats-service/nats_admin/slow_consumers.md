@@ -1,22 +1,22 @@
-# Slow Consumers
+# Медленные потребители
 
-To support resiliency and high availability, NATS provides built-in mechanisms to automatically prune the registered listener interest graph that is used to keep track of subscribers, including slow consumers and lazy listeners. NATS automatically handles a slow consumer. If a client is not processing messages quick enough, the NATS server cuts it off. To support scaling, NATS provides for auto-pruning of client connections. If a subscriber does not respond to ping requests from the server within the [ping-pong interval](../../reference/nats-protocol/nats-protocol/#PINGPONG), the client is cut off (disconnected). The client will need to have reconnect logic to reconnect with the server.
+Для устойчивости и высокой доступности NATS предоставляет встроенные механизмы, автоматически «подрезающие» зарегистрированный граф интереса подписчиков, включая медленных потребителей и ленивых слушателей. NATS автоматически обрабатывает медленного потребителя. Если клиент не обрабатывает сообщения достаточно быстро, сервер NATS отключает его. Для масштабирования NATS обеспечивает авто‑прореживание клиентских соединений. Если подписчик не отвечает на ping‑запросы сервера в пределах [ping‑pong интервала](../../reference/nats-protocol/nats-protocol/#PINGPONG), клиент отключается. Клиент должен иметь логику переподключения к серверу.
 
-In core NATS, consumers that cannot keep up are handled differently from many other messaging systems: NATS favors the approach of protecting the system as a whole over accommodating a particular consumer to ensure message delivery.
+В core NATS потребители, которые не успевают, обрабатываются иначе, чем во многих других системах сообщений: NATS предпочитает защищать систему в целом, а не подстраиваться под конкретного потребителя ради гарантии доставки.
 
-**What is a slow consumer?**
+**Что такое медленный потребитель?**
 
-A slow consumer is a subscriber that cannot keep up with the message flow delivered from the NATS server. This is a common case in distributed systems because it is often easier to generate data than it is to process it. When consumers cannot process data fast enough, back pressure is applied to the rest of the system. NATS has mechanisms to reduce this back pressure.
+Медленный потребитель — это подписчик, который не успевает за потоком сообщений, доставляемых сервером NATS. Это распространенный случай в распределенных системах, потому что генерировать данные часто проще, чем обрабатывать. Когда потребители не успевают, на остальную систему возникает back pressure. У NATS есть механизмы для уменьшения этого давления.
 
-NATS identifies slow consumers in the client or the server, providing notification through registered callbacks, log messages, and statistics in the server's monitoring endpoints.
+NATS выявляет медленных потребителей на стороне клиента или сервера и уведомляет через зарегистрированные callbacks, сообщения в логах и статистику в мониторинговых endpoint сервера.
 
-**What happens to slow consumers?**
+**Что происходит с медленными потребителями?**
 
-When detected at the client, the application is notified and messages are dropped to allow the consumer to continue and reduce potential back pressure. When detected in the server, the server will disconnect the connection with the slow consumer to protect itself and the integrity of the messaging system.
+Когда это обнаруживается на стороне клиента, приложение уведомляется, а сообщения отбрасываются, чтобы потребитель мог продолжить работу и снизить потенциальное давление. Когда это обнаруживается на стороне сервера, сервер отключает соединение с медленным потребителем, защищая себя и целостность системы сообщений.
 
-## Slow consumers identified in the client
+## Медленные потребители, выявленные на стороне клиента
 
-A [client can detect it is a slow consumer ](../../using-nats/developing-with-nats/events/slow.md#detect-a-slow-consumer-and-check-for-dropped-messages)on a local connection and notify the application through use of the asynchronous error callback. It is better to catch a slow consumer locally in the client rather than to allow the server to detect this condition. This example demonstrates how to define and register an asynchronous error handler that will handle slow consumer errors.
+[Клиент может определить, что он медленный потребитель](../../using-nats/developing-with-nats/events/slow.md#detect-a-slow-consumer-and-check-for-dropped-messages) на локальном соединении и уведомить приложение через асинхронный callback ошибок. Лучше поймать медленного потребителя локально на клиенте, чем позволить серверу обнаружить это состояние. Этот пример показывает, как определить и зарегистрировать асинхронный обработчик ошибок, который будет обрабатывать ошибки медленного потребителя.
 
 ```go
 func natsErrHandler(nc *nats.Conn, sub *nats.Subscription, natsErr error) {
@@ -39,66 +39,66 @@ nc, err := nats.Connect("nats://localhost:4222",
   nats.ErrorHandler(natsErrHandler))
 ```
 
-With this example code and default settings, a slow consumer error would generate output something like this:
+При таком коде и настройках по умолчанию ошибка медленного потребителя даст вывод примерно такого вида:
 
 ```
 error: nats: slow consumer, messages dropped
 Falling behind with 65536 pending messages on subject "foo".
 ```
 
-Note that if you are using a synchronous subscriber, `Subscription.NextMsg(timeout time.Duration)` will also return an error indicating there was a slow consumer and messages have been dropped.
+Обратите внимание: если вы используете синхронного подписчика, `Subscription.NextMsg(timeout time.Duration)` тоже вернет ошибку, указывающую на медленного потребителя и сброшенные сообщения.
 
-## Slow consumers identified by the server
+## Медленные потребители, выявленные сервером
 
-When a client does not process messages fast enough, the server will buffer messages in the outbound connection to the client. When this happens and the server cannot write data fast enough to the client, in order to protect itself, it will designate a subscriber as a "slow consumer" and may drop the associated connection.
+Если клиент не обрабатывает сообщения достаточно быстро, сервер буферизует сообщения в исходящем соединении к клиенту. Когда сервер не может записывать данные клиенту достаточно быстро, он, чтобы защитить себя, помечает подписчика как «медленного потребителя» и может разорвать соответствующее соединение.
 
-When the server initiates a slow consumer error, you'll see the following in the server output:
+Когда сервер инициирует ошибку медленного потребителя, в его выводе будет следующее:
 
 ```
 [54083] 2017/09/28 14:45:18.001357 [INF] ::1:63283 - cid:7 - Slow Consumer Detected
 ```
 
-The server will also keep count of the number of slow consumer errors encountered, available through the monitoring `varz` endpoint in the `slow_consumers` field.
+Сервер также ведет счетчик ошибок медленного потребителя, доступный через мониторинговый endpoint `varz` в поле `slow_consumers`.
 
-## Handling slow consumers
+## Обработка медленных потребителей
 
-Apart from using [JetStream](../../nats-concepts/jetstream/) or optimizing your consuming application, there are a few options available: scale, meter, or tune NATS to your environment.
+Помимо использования [JetStream](../../nats-concepts/jetstream/) или оптимизации приложения‑потребителя, доступны несколько вариантов: масштабировать, ограничивать или настраивать NATS под вашу среду.
 
-**Scaling with queue subscribers**
+**Масштабирование через подписчиков очередей**
 
-This is ideal if you do not rely on message order. Ensure your NATS subscription belongs to a [queue group](../../nats-concepts/core-nats/queue-groups/queue.md), then scale as required by creating more instances of your service or application. This is a great approach for microservices - each instance of your microservice will receive a portion of the messages to process, and simply add more instances of your service to scale. No code changes, configuration changes, or downtime whatsoever.
+Идеально, если вы не полагаетесь на порядок сообщений. Убедитесь, что подписка NATS входит в [queue group](../../nats-concepts/core-nats/queue-groups/queue.md), затем масштабируйтесь, создавая больше экземпляров сервиса или приложения. Это отличный подход для микросервисов — каждый экземпляр будет получать часть сообщений для обработки, и вы просто добавляете экземпляры сервиса для масштабирования. Никаких изменений кода, конфигурации или простоя.
 
-**Create a subject namespace that can scale**
+**Создание масштабируемого пространства имен subject**
 
-You can distribute work further through the subject namespace, with some forethought in design. This approach is useful if you need to preserve message order. The general idea is to publish to a deep subject namespace, and consume with wildcard subscriptions while giving yourself room to expand and distribute work in the future.
+Можно дальше распределить работу через пространство имен subject, заранее продумав дизайн. Это полезно, если нужно сохранить порядок сообщений. Общая идея — публиковать в глубокое пространство имен subject и потреблять через wildcard‑подписки, оставляя себе запас для расширения и распределения работы в будущем.
 
-For a simple example, if you have a service that receives telemetry data from IoT devices located throughout a city, you can publish to a subject namespace like `Sensors.North`, `Sensors.South`, `Sensors.East` and `Sensors.West`. Initially, you'll subscribe to `Sensors.>` to process everything in one consumer. As your enterprise grows and data rates exceed what one consumer can handle, you can replace your single consumer with four consuming applications to subscribe to each subject representing a smaller segment of your data. Note that your publishing applications remain untouched.
+Например, если сервис получает телеметрию от IoT‑устройств, расположенных по городу, можно публиковать в namespace `Sensors.North`, `Sensors.South`, `Sensors.East`, `Sensors.West`. Изначально вы подписываетесь на `Sensors.>`, чтобы обрабатывать все в одном потребителе. По мере роста и превышения скорости данных возможности одного потребителя можно заменить его четырьмя приложениями‑потребителями, подписанными на каждый subject, представляющий меньший сегмент данных. При этом приложения‑публикаторы остаются без изменений.
 
-**Meter the publisher**
+**Ограничение (meter) издателя**
 
-A less favorable option may be to meter the publisher. There are several ways to do this varying from simply slowing down your publisher to a more complex approach periodically issuing a blocking request-reply to match subscriber rates.
+Менее желательный вариант — ограничивать издателя. Есть несколько способов: от простого замедления издателя до более сложного подхода с периодическим блокирующим запрос‑ответом, чтобы подстроиться под скорость подписчиков.
 
-**Tune NATS through configuration**
+**Настройка NATS через конфигурацию**
 
-The NATS server can be tuned to determine how much data can be buffered before a consumer is considered slow, and some officially supported clients allow buffer sizes to be adjusted. Decreasing buffer sizes will let you identify slow consumers more quickly. Increasing buffer sizes is not typically recommended unless you are handling temporary bursts of data. Often, increasing buffer capacity will only _postpone_ slow consumer problems.
+Сервер NATS можно настроить, чтобы определить, сколько данных может быть буферизовано до признания потребителя медленным, и некоторые официально поддерживаемые клиенты позволяют настраивать размеры буферов. Уменьшение буферов позволит быстрее выявлять медленных потребителей. Увеличение буферов обычно не рекомендуется, если только вы не обрабатываете временные всплески данных. Часто увеличение буферной емкости лишь _откладывает_ проблемы медленных потребителей.
 
-### Server Configuration
+### Конфигурация сервера
 
-The NATS server has a write deadline it uses to write to a connection. When this write deadline is exceeded, a client is considered to have a slow consumer. If you are encountering slow consumer errors in the server, you can increase the write deadline to buffer more data.
+У NATS server есть дедлайн записи, который он использует при записи в соединение. Когда этот дедлайн превышен, клиент считается медленным потребителем. Если вы сталкиваетесь с ошибками медленных потребителей на сервере, можно увеличить дедлайн записи, чтобы буферизовать больше данных.
 
-The `write_deadline` configuration option in the NATS server configuration file will tune this:
+Опция `write_deadline` в конфигурационном файле сервера позволяет это настроить:
 
 ```
 write_deadline: 2s
 ```
 
-Tuning this parameter is ideal when you have bursts of data to accommodate. _**Be sure you are not just postponing a slow consumer error.**_
+Настройка этого параметра уместна, когда нужно принять всплески данных. _**Убедитесь, что вы не просто откладываете ошибку медленного потребителя.**_
 
-### Client Configuration
+### Конфигурация клиента
 
-Most officially supported clients have an internal buffer of pending messages and will notify your application through an asynchronous error callback if a local subscription is not catching up. Receiving an error locally does not necessarily mean that the server will have identified a subscription as a slow consumer.
+Большинство официально поддерживаемых клиентов имеют внутренний буфер ожидающих сообщений и уведомляют приложение через асинхронный callback ошибок, если локальная подписка не успевает. Получение ошибки локально не обязательно означает, что сервер уже идентифицировал подписку как медленного потребителя.
 
-This buffer can be configured through setting the pending limits after a subscription has been created:
+Этот буфер можно настроить, установив лимиты pending после создания подписки:
 
 ```go
 if err := sub.SetPendingLimits(1024*500, 1024*5000); err != nil {
@@ -106,6 +106,6 @@ if err := sub.SetPendingLimits(1024*500, 1024*5000); err != nil {
 }
 ```
 
-The default subscriber pending message limit is `65536`, and the default subscriber pending byte limit is `65536*1024`
+Лимит pending‑сообщений подписчика по умолчанию — `65536`, а лимит pending‑байт по умолчанию — `65536*1024`.
 
-If the client reaches this internal limit, it will drop messages and continue to process new messages. This is aligned with NATS at most once delivery. It is up to your application to detect the missing messages and recover from this condition.
+Если клиент достигает этого внутреннего лимита, он будет отбрасывать сообщения и продолжать обрабатывать новые. Это соответствует доставке NATS «at most once». Приложение само должно обнаруживать пропущенные сообщения и восстанавливаться после этого состояния.

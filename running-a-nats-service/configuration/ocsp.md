@@ -1,10 +1,10 @@
 # OCSP Stapling
 
-_Supported since NATS Server version 2.3_
+_Поддерживается начиная с NATS Server версии 2.3_
 
-[OCSP Stapling](https://en.wikipedia.org/wiki/OCSP_stapling) is honored by default for certificates that have the [status_request Must-Staple flag](https://datatracker.ietf.org/doc/html/rfc6961).
+[OCSP Stapling](https://en.wikipedia.org/wiki/OCSP_stapling) поддерживается по умолчанию для сертификатов, у которых установлен флаг [status_request Must‑Staple](https://datatracker.ietf.org/doc/html/rfc6961).
 
-When a certificate is configured with OCSP Must-Staple, the NATS Server will fetch staples from the configured OCSP responder URL that is present in a certificate. For example, given a certificate with the following configuration:
+Когда сертификат настроен с OCSP Must‑Staple, сервер NATS будет получать stapled‑ответы от настроенного OCSP‑ресponder URL, указанного в сертификате. Например, сертификат со следующей конфигурацией:
 
 ```text
 [ ext_ca ]
@@ -14,31 +14,31 @@ tlsfeature = status_request
 ...
 ```
 
-The NATS server will make a request to the OCSP responder to fetch a new staple which will then be presented to any TLS connection that is accepted by the server during the TLS handshake.
+Сервер NATS отправит запрос OCSP‑responder, чтобы получить новый staple, который затем будет предоставлен всем TLS‑соединениям, принимаемым сервером во время TLS‑рукопожатия.
 
-OCSP Stapling can be explicitly enabled or disabled in the NATS Server by setting the following flag in the NATS configuration file at the top-level:
+OCSP Stapling можно явно включить или выключить в NATS Server, задав следующий флаг в конфигурационном файле на верхнем уровне:
 
 ```text
 ocsp: false
 ```
 
-**Note**: When OCSP Stapling is disabled, the NATS Server will not request staples even if the certificate has the Must-Staple flag.
+**Примечание:** Когда OCSP Stapling отключен, сервер NATS не будет запрашивать stapled‑ответы даже если в сертификате есть флаг Must‑Staple.
 
-## Advanced Configuration
+## Расширенная конфигурация
 
-By default, the NATS Server will be running in OCSP `auto` mode. In this mode the server will only fetch staples when the Must-Staple flag is configured in the certificate.
+По умолчанию NATS Server работает в режиме OCSP `auto`. В этом режиме сервер будет получать stapled‑ответы только когда в сертификате настроен флаг Must‑Staple.
 
-There are other OCSP modes that control the behavior as to whether OCSP should be enforced and the server should shutdown if the certificate runs with a revoked staple:
+Есть и другие режимы OCSP, которые управляют тем, должен ли OCSP быть обязательным и должен ли сервер завершаться, если сертификат работает с отозванным staple:
 
-| Mode | Description | Server shutdowns when revoked |
+| Режим | Описание | Сервер завершается при отзыве |
 | :--- | :--- | :--- |
-| auto | Enables OCSP Stapling when the certificate has the must staple/status_request flag | No |
-| must | Enables OCSP Staping when the certificate has the must staple/status_request flag | Yes |
-| always | Enables OCSP Stapling for all certificates | Yes |
-| never | Disables OCSP Stapling even if must staple flag is present \(same as `ocsp: false`\) | No |
+| auto | Включает OCSP Stapling, когда у сертификата есть флаг must staple/status_request | Нет |
+| must | Включает OCSP Stapling, когда у сертификата есть флаг must staple/status_request | Да |
+| always | Включает OCSP Stapling для всех сертификатов | Да |
+| never | Отключает OCSP Stapling даже если есть must staple (то же, что `ocsp: false`) | Нет |
 
-For example, in the following OCSP configuration, the mode is set to `must`. This means that staples will be fetched only for certificates that have the Must-Staple flag enabled as well, but in case of revocation the server will shutdown rather than run with a revoked staple.  
-In this configuration, the `url` will also override the OCSP responder URL that may have been configured in the certificate.
+Например, в следующей OCSP‑конфигурации режим установлен в `must`. Это означает, что stapled‑ответы будут запрашиваться только для сертификатов с флагом Must‑Staple, но в случае отзыва сервер завершится, а не будет работать с отозванным staple.  
+В этой конфигурации `url` также переопределит OCSP responder URL, который мог быть указан в сертификате.
 
 ```text
 ocsp {
@@ -47,7 +47,7 @@ ocsp {
 }
 ```
 
-If staples are always required, regardless of the configuration of the certificate, you can enforce the behavior as follows:
+Если stapled‑ответы требуются всегда, независимо от конфигурации сертификата, можно принудительно включить поведение так:
 
 ```text
 ocsp {
@@ -56,9 +56,9 @@ ocsp {
 }
 ```
 
-## Caching of Staples
+## Кэширование stapled‑ответов
 
-When a `store_dir` is configured in the NATS Server, the directory will be used to cache staples on disk to allow the server to resume in case of restarts without having to make another request to the OCSP responder if the staple is still valid.
+Когда в NATS Server задан `store_dir`, этот каталог будет использоваться для кэширования stapled‑ответов на диск, чтобы сервер мог восстановиться после перезапуска без повторного запроса к OCSP responder, если staple еще действителен.
 
 ```text
 ocsp: true
@@ -73,5 +73,4 @@ tls {
 }
 ```
 
-If JetStream is enabled, then the same `store_dir` will be reused and disk caching will be automatically enabled.
-
+Если JetStream включен, то тот же `store_dir` будет переиспользован, и кэширование на диск будет включено автоматически.

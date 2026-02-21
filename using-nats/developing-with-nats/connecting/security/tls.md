@@ -1,12 +1,12 @@
-# Encrypting Connections with TLS
+# Шифрование соединений с TLS
 
-While authentication limits which clients can connect, TLS can be used to encrypt traffic between client/server and check the server’s identity. Additionally - in the most secure version of TLS with NATS - the server can be configured to verify the client's identity, thus authenticating it. When started in [TLS mode](../../../../running-a-nats-service/configuration/securing_nats/tls.md), a `nats-server` will require all clients to connect with TLS. Moreover, if configured to connect with TLS, client libraries will fail to connect to a server without TLS.
+Хотя аутентификация ограничивает, какие клиенты могут подключаться, TLS можно использовать для шифрования трафика между клиентом и сервером и проверки личности сервера. Кроме того, в наиболее безопасной версии TLS с NATS сервер может быть настроен на проверку личности клиента, то есть на его аутентификацию. При запуске в [TLS режиме](../../../../running-a-nats-service/configuration/securing_nats/tls.md) `nats-server` потребует, чтобы все клиенты подключались по TLS. Более того, если клиентская библиотека настроена на TLS, она не сможет подключиться к серверу без TLS.
 
-## Connecting with TLS and verify client identity
+## Подключение с TLS и проверкой личности клиента
 
-Using TLS to connect to a server that verifies the client's identity is straightforward. The client has to provide a certificate and private key. The NATS client will use these to prove it's identity to the server. For the client to verify the server's identity, the CA certificate is provided as well.
+Использование TLS для подключения к серверу, который проверяет личность клиента, достаточно прямолинейно. Клиент должен предоставить сертификат и приватный ключ. Клиент NATS использует их, чтобы доказать свою личность серверу. Для проверки личности сервера клиентом также предоставляется сертификат CA.
 
-Use example certificates created in [self signed certificates for testing](../../../../running-a-nats-service/configuration/securing_nats/tls.md#creating-self-signed-certificates-for-testing).
+Используйте пример сертификатов, созданных в разделе [self signed certificates for testing](../../../../running-a-nats-service/configuration/securing_nats/tls.md#creating-self-signed-certificates-for-testing).
 
 ```bash
 nats-server --tls --tlscert=server-cert.pem --tlskey=server-key.pem --tlscacert rootCA.pem --tlsverify
@@ -228,9 +228,9 @@ natsOptions_Destroy(opts);
 {% endtab %}
 {% endtabs %}
 
-## Connecting with the TLS Protocol
+## Подключение с протоколом TLS
 
-Clients \(such as Go, Java, Javascript, Ruby and Type Script\) support providing a URL containing the `tls` protocol to the NATS connect call. This will turn on TLS without the need for further code changes. However, in that case there is likely some form of default or environmental settings to allow the TLS libraries of your programming language to find certificate and trusted CAs. Unless these settings are taken into accounts or otherwise modified, this way of connecting is very likely to fail.
+Клиенты (например Go, Java, JavaScript, Ruby и TypeScript) поддерживают передачу URL с протоколом `tls` в вызове подключения NATS. Это включает TLS без дополнительных изменений кода. Однако в таком случае, вероятно, нужны настройки по умолчанию или переменные окружения, чтобы TLS‑библиотеки вашего языка нашли сертификаты и доверенные CA. Если эти настройки не учтены или не изменены, такой способ подключения, скорее всего, не сработает.
 
-# See Also
-* [OSCP Stapling in Java](https://nats.io/blog/java-ocsp-stapling/)
+# См. также
+* [OSCP Stapling в Java](https://nats.io/blog/java-ocsp-stapling/)

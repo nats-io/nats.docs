@@ -1,8 +1,8 @@
-# Replying to a Message
+# Ответ на сообщение
 
-Incoming messages have an optional reply-to field. If that field is set, it will contain a subject to which a reply is expected.
+Входящие сообщения имеют необязательное поле reply-to. Если оно задано, в нём содержится subject, на который ожидается ответ.
 
-For example, the following code will listen for that request and respond with the time.
+Например, следующий код будет слушать такой запрос и отвечать текущим временем.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -171,4 +171,3 @@ natsConnection_Destroy(conn);
 ```
 {% endtab %}
 {% endtabs %}
-

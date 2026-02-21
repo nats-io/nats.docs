@@ -1,24 +1,24 @@
-# Docker Swarm
+# Оркестрация Docker Swarm
 
-### Step 1:
+### Шаг 1
 
-Create an overlay network for the cluster \(in this example, `nats-cluster-example`\), and instantiate an initial NATS server.
+Создайте overlay‑сеть для кластера (в этом примере `nats-cluster-example`) и запустите начальный сервер NATS.
 
-First create an overlay network:
+Сначала создайте overlay‑сеть:
 
 ```bash
 docker network create --driver overlay nats-cluster-example
 ```
 
-Next instantiate an initial "seed" server for a NATS cluster listening for other servers to join route to it on port 6222:
+Затем запустите начальный «seed»‑сервер кластера NATS, который будет слушать подключения других серверов по маршрутам на порту 6222:
 
 ```bash
 docker service create --network nats-cluster-example --name nats-cluster-node-1 nats:1.0.0 -cluster nats://0.0.0.0:6222 -DV
 ```
 
-### Step 2:
+### Шаг 2
 
-The 2nd step is to create another service which connects to the NATS server within the overlay network. Note that we connect to to the server at `nats-cluster-node-1`:
+Второй шаг — создать еще один сервис, который подключается к NATS‑серверу внутри overlay‑сети. Обратите внимание: подключаемся к серверу `nats-cluster-node-1`:
 
 ```bash
 docker service create --name ruby-nats --network nats-cluster-example wallyqs/ruby-nats:ruby-2.3.1-nats-v0.8.0 -e '
@@ -46,23 +46,23 @@ docker service create --name ruby-nats --network nats-cluster-example wallyqs/ru
   end'
 ```
 
-### Step 3:
+### Шаг 3
 
-Now you can add more nodes to the Swarm cluster via more docker services, referencing the seed server in the `-routes` parameter:
+Теперь можно добавлять новые узлы в Swarm‑кластер через дополнительные docker‑сервисы, указывая seed‑сервер в параметре `-routes`:
 
 ```bash
 docker service create --network nats-cluster-example --name nats-cluster-node-2 nats:1.0.0 -cluster nats://0.0.0.0:6222 -routes nats://nats-cluster-node-1:6222 -DV
 ```
 
-In this case, `nats-cluster-node-1` is seeding the rest of the cluster through the autodiscovery feature. Now NATS servers `nats-cluster-node-1` and `nats-cluster-node-2` are clustered together.
+В этом случае `nats-cluster-node-1` «засеивает» остальную часть кластера через функцию автообнаружения. Теперь серверы NATS `nats-cluster-node-1` и `nats-cluster-node-2` объединены в кластер.
 
-Add in more replicas of the subscriber:
+Добавьте больше реплик подписчика:
 
 ```bash
 docker service scale ruby-nats=3
 ```
 
-Then confirm the distribution on the Docker Swarm cluster:
+Затем подтвердите распределение в Docker Swarm‑кластере:
 
 ```bash
 docker service ps ruby-nats
@@ -74,7 +74,7 @@ ID                         NAME         IMAGE                                   
 2sxl8rw6vm99x622efbdmkb96  ruby-nats.3  wallyqs/ruby-nats:ruby-2.3.1-nats-v0.8.0  node-2  Running        Running 2 minutes ago
 ```
 
-The sample output after adding more NATS server nodes to the cluster, is below - and notice that the client is _dynamically_ aware of more nodes being part of the cluster via auto discovery!
+Пример вывода после добавления дополнительных узлов сервера NATS в кластер приведен ниже — обратите внимание, что клиент _динамически_ узнает о новых узлах кластера через автообнаружение!
 
 ```text
 [2016-08-15 12:51:52 +0000] Saying hi (servers in pool: [{:uri=>#<URI::Generic nats://10.0.1.3:4222>, :was_connected=>true, :reconnect_attempts=>0}]
@@ -83,7 +83,7 @@ The sample output after adding more NATS server nodes to the cluster, is below -
 [2016-08-15 12:51:55 +0000] Saying hi (servers in pool: [{:uri=>#<URI::Generic nats://10.0.1.3:4222>, :was_connected=>true, :reconnect_attempts=>0}, {:uri=>#<URI::Generic nats://10.0.1.7:4222>, :reconnect_attempts=>0}, {:uri=>#<URI::Generic nats://10.0.1.6:4222>, :reconnect_attempts=>0}]
 ```
 
-Sample output after adding more workers which can reply back \(since ignoring own responses\):
+Пример вывода после добавления дополнительных воркеров, которые могут отвечать (так как игнорируют собственные ответы):
 
 ```text
 [2016-08-15 16:06:26 +0000] Received reply - world
@@ -92,11 +92,10 @@ Sample output after adding more workers which can reply back \(since ignoring ow
 [2016-08-15 16:06:27 +0000] Received greeting - hi - _INBOX.4c35d18701979f8c8ed7e5f6ea
 ```
 
-## And so forth...
+## И так далее…
 
-From here you can experiment adding to the NATS cluster by simply adding servers with new service names, that route to the seed server `nats-cluster-node-1`. As you've seen above, clients will automatically be updated to know that new servers are available in the cluster.
+Далее можно экспериментировать, добавляя серверы в кластер NATS, просто создавая новые сервисы и направляя их маршруты на seed‑сервер `nats-cluster-node-1`. Как видно выше, клиенты автоматически узнают о новых серверах в кластере.
 
 ```bash
 docker service create --network nats-cluster-example --name nats-cluster-node-3 nats:1.0.0 -cluster nats://0.0.0.0:6222 -routes nats://nats-cluster-node-1:6222 -DV
 ```
-

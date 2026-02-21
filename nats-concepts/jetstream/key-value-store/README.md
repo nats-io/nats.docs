@@ -1,46 +1,50 @@
-# Key/Value store
+# Хранилище Key/Value
 
-JetStream, the persistence layer of NATS, not only allows for the higher qualities of service and features associated with 'streaming', but it also enables some functionalities not found in messaging systems.
+JetStream — слой персистентности NATS — обеспечивает не только более высокие уровни качества обслуживания и функции, связанные со «streaming», но и некоторые возможности, не характерные для систем обмена сообщениями.
 
-One such feature is the Key/Value store functionality, which allows client applications to create `buckets` and use them as immediately (as opposed to eventually) consistent, persistent [associative arrays](https://en.wikipedia.org/wiki/Associative_array) (or maps). Note that this is an abstraction on top of the Stream functionality. Buckets are materialized as Streams (with a name starting with `KV_`), everything you can do with a bucket you can do with a Stream, but you ultimately have more functionality and flexibility and control when using the Stream functionality directly.
+Одна из таких возможностей — Key/Value store, позволяющая клиентским приложениям создавать `buckets` и использовать их как немедленно (а не eventually) консистентные, персистентные [ассоциативные массивы](https://en.wikipedia.org/wiki/Associative_array) (map). Обратите внимание, что это абстракция поверх функциональности Stream. Buckets материализуются как Streams (с именем, начинающимся на `KV_`). Всё, что можно сделать с bucket, можно сделать и со Stream, но при прямом использовании Stream вы получите больше функциональности, гибкости и контроля.
 
-Do note, while we do guarantee immediate consistency when it comes to [monotonic writes](https://jepsen.io/consistency/models/monotonic-writes) and [monotonic reads](https://jepsen.io/consistency/models/monotonic-reads). We don't guarantee [read your writes](https://jepsen.io/consistency/models/read-your-writes) at this time, as reads through _direct get_ requests may be served by followers or mirrors. More consistent results can be achieved by sending get requests to the underlying stream leader of the Key/Value store.
+Обратите внимание: мы гарантируем немедленную консистентность для [monotonic writes](https://jepsen.io/consistency/models/monotonic-writes) и [monotonic reads](https://jepsen.io/consistency/models/monotonic-reads), но пока не гарантируем [read your writes](https://jepsen.io/consistency/models/read-your-writes), так как чтения через _direct get_ запросы могут обслуживаться followers или mirrors. Более согласованные результаты можно получить, отправляя get‑запросы лидеру потока, лежащего в основе Key/Value store.
 
 * [Walkthrough](kv_walkthrough.md)
-* [Details](../../../using-nats/developing-with-nats/js/kv.md)
+* [Подробности](../../../using-nats/developing-with-nats/js/kv.md)
 
-## Managing a Key Value store
-1. Create a bucket, which corresponds to a stream in the underlying storage. Define KV/Stream limits as appropriate
-2. Use the operation below.
+## Управление Key/Value store
 
-## Map style operations
-You can use KV buckets to perform the typical operations you would expect from an immediately consistent key/value store:
+1. Создайте bucket, который соответствует потоку в базовом хранилище. Задайте лимиты KV/Stream по необходимости.
+2. Используйте операции ниже.
 
-* put: associate a value with a key
-* get: retrieve the value associated with a key
-* delete: clear any value associated with a key
-* purge: clear all the values associated with all keys
-* keys: get a copy of all of the keys (with a value or operation associated with it)
+## Операции в стиле map
 
-## Atomic operations used for locking and concurrency control
-* create: associate the value with a key only if there is currently no value associated with that key (i.e. compare to null and set)
-* update: compare and set (aka compare and swap) the value for a key
+KV buckets поддерживают типичные операции, которые ожидаются от немедленно консистентного key/value store:
 
-## Limiting size, TTL etc.
-You can set limits for your buckets, such as:
+* put: связать значение с ключом
+* get: получить значение, связанное с ключом
+* delete: очистить значение, связанное с ключом
+* purge: очистить все значения, связанные со всеми ключами
+* keys: получить копию всех ключей (с соответствующим значением или операцией)
 
-* the maximum size of the bucket
-* the maximum size for any single value
-* a TTL: how long the store will keep values for
+## Атомарные операции для блокировок и контроля конкурентности
 
-## Treating the Key Value store as a message stream
+* create: связать значение с ключом только если по этому ключу сейчас нет значения (то есть compare‑to‑null и set)
+* update: compare‑and‑set (aka compare‑and‑swap) значения по ключу
 
-Finally, you can even do things that typically can not be done with a Key/Value Store:
+## Лимиты размера, TTL и т. д.
 
-* watch: watch for changes happening for a key, which is similar to subscribing (in the publish/subscribe sense) to the key: the watcher receives updates due to put or delete operations on the key pushed to it in real-time as they happen
-* watch all: watch for all the changes happening on all the keys in the bucket
-* history: retrieve a history of the values (and delete operations) associated with each key over time (by default the history of buckets is set to 1, meaning that only the latest value/operation is stored)
+Можно задавать лимиты для buckets, например:
 
-## Notes
+* максимальный размер bucket
+* максимальный размер отдельного значения
+* TTL: как долго store хранит значения
 
-A valid key can contain the following characters: `a-z`, `A-Z`, `0-9`, `_`, `-`, `.`, `=` and `/`, i.e. it can be a dot-separated list of tokens (which means that you can then use wildcards to match hierarchies of keys when watching a bucket). The value can be any byte array.
+## Использование Key/Value store как потока сообщений
+
+Наконец, можно делать вещи, которые обычно недоступны в Key/Value Store:
+
+* watch: отслеживать изменения по ключу, что похоже на подписку (в смысле publish/subscribe) на ключ: watcher получает обновления от операций put или delete в реальном времени
+* watch all: отслеживать все изменения по всем ключам bucket
+* history: получать историю значений (и операций удаления) для каждого ключа во времени (по умолчанию история buckets равна 1, то есть хранится только последнее значение/операция)
+
+## Примечания
+
+Допустимый ключ может содержать следующие символы: `a-z`, `A-Z`, `0-9`, `_`, `-`, `.`, `=` и `/`, то есть это может быть список токенов, разделенных точками (значит, можно использовать wildcards для сопоставления иерархий ключей при наблюдении за bucket). Значение может быть любым массивом байт.

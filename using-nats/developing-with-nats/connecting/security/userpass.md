@@ -1,12 +1,12 @@
-# Authenticating with a User and Password
+# Аутентификация по пользователю и паролю
 
-For this example, start the server using:
+Для этого примера запустите сервер так:
 
 ```bash
 nats-server --user myname --pass password
 ```
 
-You can encrypt passwords to pass to `nats-server` using the simple [NATS CLI tool:](../../../nats-tools/nats\_cli/)
+Пароли можно шифровать для передачи в `nats-server` с помощью простого [инструмента NATS CLI:](../../../nats-tools/nats_cli/)
 
 ```bash
 nats server passwd
@@ -19,13 +19,13 @@ nats server passwd
 $2a$11$qbtrnb0mSG2eV55xoyPqHOZx/lLBlryHRhU3LK2oOPFRwGF/5rtGK
 ```
 
-and use the hashed password in the server config. The client still uses the plain text version.
+и использовать хешированный пароль в конфигурации сервера. Клиент по‑прежнему использует пароль в открытом виде.
 
-The code uses localhost:4222 so that you can start the server on your machine to try them out.
+В коде используется localhost:4222, чтобы вы могли запустить сервер на своей машине и попробовать примеры.
 
-## Connecting with a User/Password
+## Подключение с пользователем/паролем
 
-When logging in with a password `nats-server` will take either a plain text password or an encrypted password.
+При входе по паролю `nats-server` принимает либо пароль в открытом виде, либо зашифрованный пароль.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -136,13 +136,13 @@ natsOptions_Destroy(opts);
 {% endtab %}
 {% endtabs %}
 
-## Connecting with a User/Password in the URL
+## Подключение с пользователем/паролем в URL
 
-Most clients make it easy to pass the user name and password by accepting them in the URL for the server. This standard format is:
+Большинство клиентов позволяет передать имя пользователя и пароль прямо в URL сервера. Стандартный формат:
 
 > nats://_user_:_password_@server:port
 
-Using this format, you can connect to a server using authentication as easily as you connected with a URL:
+Используя этот формат, вы можете подключиться к серверу с аутентификацией так же просто, как и обычным URL:
 
 {% tabs %}
 {% tab title="Go" %}

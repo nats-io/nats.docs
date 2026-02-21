@@ -1,13 +1,12 @@
-# Sequence Numbers
+# Номера последовательности
 
-A common problem for one-to-many messages is that a message can get lost or dropped due to a network failure. A simple pattern for resolving this situation is to include a sequence id with the message. Receivers can check the sequence id to see if they have missed anything. Sequence numbers combined with heartbeats, in the absence of new data, form a powerful and resilient pattern to detect loss. Systems that store and persist messages can also solve this problem, but sometimes are overkill for the problem at hand and usually cause additional management and operational cost.
+Частая проблема в сообщениях one‑to‑many — сообщение может быть потеряно из‑за сбоя сети. Простой паттерн для решения — включать в сообщение идентификатор последовательности. Получатели могут проверять sequence id, чтобы понять, не пропущено ли что‑то. Номера последовательности в сочетании с heartbeat‑ами, когда нет новых данных, образуют мощный и устойчивый паттерн для обнаружения потерь. Системы, которые хранят и персистентят сообщения, тоже решают эту проблему, но иногда это избыточно и обычно приводит к дополнительным затратам на управление и эксплуатацию.
 
 ![](../.gitbook/assets/seqno.svg)
 
-In order to really leverage sequence ids there are a few things to keep in mind:
+Чтобы действительно использовать sequence id, важно помнить следующее:
 
-* Each sender will have to use their own sequence
-* If possible, receivers should be able to ask for missing messages by id
+* Каждый отправитель должен использовать свою собственную последовательность
+* По возможности получатели должны иметь возможность запрашивать недостающие сообщения по id
 
-With NATS you can embed sequence ids in the message or include them as a token in the subject. For example, a sender can send messages to `updates.1`, `updates.2`, etc... and the subscribers can listen to `updates.*` and parse the subject to determine the sequence id. Placing a sequence token into the subject may be desireable if the payload is unknown or embedding additional data such as a sequence number in the payload is not possible.
-
+В NATS можно встраивать sequence id в сообщение или включать их как токен в subject. Например, отправитель может отправлять сообщения на `updates.1`, `updates.2` и т. д., а подписчики могут слушать `updates.*` и парсить subject, чтобы определить sequence id. Размещение sequence‑токена в subject может быть предпочтительным, если payload неизвестен или невозможно встроить дополнительные данные (например, номер последовательности) в payload.

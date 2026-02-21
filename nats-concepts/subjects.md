@@ -1,30 +1,30 @@
-# Subject-Based Messaging
+# Обмен сообщениями на основе тем
 
-NATS is a system for publishing and listening for messages on named communication channels we call `Subjects`. Fundamentally, NATS is an `interest-based` messaging system, where the listener has to `subscribe` to a subset of `subjects`.
+NATS — это система для публикации и получения сообщений в именованных каналах связи, которые мы называем `Subjects`. По своей сути NATS — это `interest-based` система обмена сообщениями, где получатель должен `subscribe` на подмножество `subjects`.
 
-In other middleware systems subjects may be called `topics`, `channels`, `streams` (Note that in NATS the term `stream` is used for a [JetStream](jetstream/README.md) message storage).
+В других middleware‑системах subjects могут называться `topics`, `channels`, `streams` (обратите внимание, что в NATS термин `stream` используется для хранилища сообщений [JetStream](jetstream/README.md)).
 
-**What is a subject?**
-At its simplest, a subject is just a string of characters that form a name the publisher and subscriber can use to find each other. More commonly [subject hierarchies](#subject-hierarchies) are used to scope messages into semantic namespaces.
+**Что такое subject?**  
+В самом простом виде subject — это строка символов, образующая имя, по которому издатель и подписчик находят друг друга. Чаще используются [иерархии subjects](#subject-hierarchies), чтобы группировать сообщения в семантические пространства имен.
 
 {% hint style="info" %}
-Please check the [constraint and conventions](#characters-allowed-and-recommended-for-subject-names) on naming for subjects here.
+Пожалуйста, ознакомьтесь с [ограничениями и соглашениями](#characters-allowed-and-recommended-for-subject-names) по именованию subjects.
 {% endhint %}
 
-**Location transparency**
-Through subject-based addressing, NATS provides location transparency across a (large) cloud of routed NATS servers.
+**Прозрачность расположения**  
+Благодаря адресации на основе subjects NATS обеспечивает прозрачность расположения в (большом) облаке маршрутизируемых серверов NATS.
 
-* Subject subscriptions are automatically propagated within the server cloud.
-* Messages will be automatically routed to all interested subscribers, independent of location.
-* Messages with no subscribers to their subject are automatically discarded (Please see the [JetStream](jetstream/README.md) feature for message persistence).
+* Подписки на subjects автоматически распространяются внутри облака серверов.
+* Сообщения автоматически маршрутизируются ко всем заинтересованным подписчикам независимо от местоположения.
+* Сообщения без подписчиков на их subject автоматически отбрасываются (см. функцию персистентности сообщений в [JetStream](jetstream/README.md)).
 
 ![](../.gitbook/assets/subjects1.svg)
 
 ## Wildcards
 
-NATS provides two _wildcards_ that can take the place of one or more elements in a dot-separated subject.  Publishers will always send a message to a fully specified subject, without the wildcard. While subscribers can use these wildcards to listen to multiple subjects with a single subscription.
+NATS предоставляет два _wildcards_, которые могут заменять один или несколько элементов в subject, разделенном точками. Издатели всегда отправляют сообщение на полностью указанный subject без wildcard. Подписчики же могут использовать wildcard, чтобы слушать несколько subjects одной подпиской.
 
-## Subject hierarchies
+## Иерархии subjects
 
 The `.` character is used to create a subject hierarchy. For example, a world clock application might define the following to logically group related subjects:
 
@@ -36,112 +36,112 @@ time.eu.east
 time.eu.east.warsaw
 ```
 
-## Subject usage best practices
+## Рекомендации по использованию subjects
 
-There is no hard limit to subject size, but it is recommended to keep the maximum number of tokens in your subjects to a reasonable value. E.g. a maximum of 16 tokens and the subject length to less than 256 characters.
+Жесткого ограничения на размер subject нет, но рекомендуется держать число токенов в разумных пределах, например не более 16 токенов и длину subject менее 256 символов.
 
-### Number of subjects
+### Количество subjects
 
-NATS can manage 10s of millions of subjects efficiently, therefore, you can use fine-grained addressing for your business entities. Subjects are ephemeral resources, which will disappear when no longer subscribed to.
+NATS может эффективно управлять десятками миллионов subjects, поэтому вы можете использовать детальную адресацию для своих бизнес‑сущностей. Subjects — это эфемерные ресурсы, которые исчезают, когда на них больше никто не подписан.
 
-Still, subject subscriptions need to be cached by the server in memory. Consider when increasing your subscribed subject count to more than one million you will need more than 1GB of server memory and it will grow linearly from there.
+При этом подписки на subjects должны кэшироваться сервером в памяти. Учтите, что при увеличении количества подписанных subjects более чем до одного миллиона вам потребуется более 1 ГБ памяти сервера, и дальше рост будет линейным.
 
-### Subject-based filtering and security
+### Фильтрация и безопасность на основе subjects
 
-The message subject can be filtered with various means and through various configuration elements in your NATS server cluster. For example, but not limited to:
+Subject сообщения можно фильтровать разными способами и через разные элементы конфигурации кластера NATS. Например, но не ограничиваясь:
 
-* Security - allow/deny per user
-* Import/export between accounts
-* Automatic transformations
-* When inserting messages into JetStream streams
-* When sourcing/mirroring JetStream streams
-* When connecting leaf nodes (NATS edge servers)
+* Безопасность — allow/deny на пользователя
+* Импорт/экспорт между аккаунтами
+* Автоматические преобразования
+* При вставке сообщений в потоки JetStream
+* При источниках/зеркалах потоков JetStream
+* При подключении leaf nodes (edge‑серверы NATS)
 * ...
 
-A well-designed subject hierarchy will make the job a lot easier for those tasks.
+Хорошо спроектированная иерархия subjects значительно упрощает эти задачи.
 
-### Naming things
+### Именование
 
 {% hint style="info" %}
-There are only two hard problems in computer science: cache invalidation, naming things, and off-by-one errors. -- Unknown author
+В информатике есть всего две сложные задачи: инвалидация кэша, именование вещей и ошибки на единицу. — неизвестный автор
 {% endhint %}
 
-A subject hierarchy is a powerful tool for addressing your application resources. Most NATS users therefore encode business semantics into the subject name. You are free to choose a structure fit for your purpose, but you should refrain from over-complicating your subject design at the start of the project.
+Иерархия subjects — мощный инструмент адресации ресурсов приложения. Поэтому большинство пользователей NATS кодируют бизнес‑семантику в имени subject. Вы свободны выбрать подходящую вам структуру, но в начале проекта стоит избегать излишнего усложнения дизайна subjects.
 
-**Some guidelines:**
+**Несколько рекомендаций:**
 
-* Use the first token(s) to establish a general namespace.
+* Используйте первый(ые) токен(ы) для определения общего пространства имен.
 
 ````shell
 factory1.tools.group42.unit17
 ````
 
-* Use the final token(s)for identifiers
+* Используйте последний(ие) токен(ы) как идентификаторы
 
 ````shell
 service.deploy.server-acme.app123
 ````
 
-* A subject _should_ be used for more than one message.
-* Subscriptions _should_ be stable (exist for receiving more than one message).
-* Use wildcard subscriptions over subscribing to individual subjects whenever feasible.
-* Name business or physical entities. Refrain from encoding too much data into the subject.
-* Encode (business) intent into the subject, not technical details.
+* Subject _должен_ использоваться более чем для одного сообщения.
+* Подписки _должны_ быть стабильными (существовать для получения более одного сообщения).
+* По возможности используйте подписки с wildcard вместо подписок на отдельные subjects.
+* Именуйте бизнес‑ или физические сущности. Не кодируйте слишком много данных в subject.
+* Кодируйте (бизнес)‑намерение в subject, а не технические детали.
 
-Pragmatic:
+Практично:
 
 ````shell
 orders.online.store123.order171711
 ````
 
-Maybe not so useful:
+Возможно, не так полезно:
 
 ````shell
 orders.online.us.server42.ccpayment.premium.store123.electronics.deliver-dhl.order171711.create
 ````
 
-* NATS messages support headers. These can be used for additional metadata. There are subscription modes, which deliver headers only, allowing for efficient scanning of metadata in the message flow.
+* Сообщения NATS поддерживают заголовки. Их можно использовать для дополнительной метадаты. Есть режимы подписки, которые доставляют только заголовки, позволяя эффективно сканировать метаданные в потоке сообщений.
 
-### Matching a single token
+### Соответствие одному токену
 
-The first wildcard is `*` which will match a single token. For example, if an application wanted to listen for eastern time zones, they could subscribe to `time.*.east`, which would match `time.us.east` and `time.eu.east`.
-Note that `*` can not match a substring within a token `time.New*.east`.
+Первый wildcard — `*`, он соответствует одному токену. Например, если приложение хочет слушать восточные часовые пояса, оно может подписаться на `time.*.east`, что будет соответствовать `time.us.east` и `time.eu.east`.
+Обратите внимание, что `*` не может соответствовать подстроке внутри токена `time.New*.east`.
 
 ![](../.gitbook/assets/subjects2.svg)
 
-### Matching multiple tokens
+### Соответствие нескольким токенам
 
-The second wildcard is `>` which will match one or more tokens, and can only appear at the end of the subject. For example, `time.us.>` will match `time.us.east` and `time.us.east.atlanta`, while `time.us.*` would only match `time.us.east` since it can't match more than one token.
+Второй wildcard — `>`, он соответствует одному или нескольким токенам и может появляться только в конце subject. Например, `time.us.>` будет соответствовать `time.us.east` и `time.us.east.atlanta`, тогда как `time.us.*` будет соответствовать только `time.us.east`, поскольку не может соответствовать более чем одному токену.
 
 ![](../.gitbook/assets/subjects3.svg)
 
-### Monitoring and wire taps
+### Мониторинг и wire taps
 
-Subject to your security configuration, wildcards can be used for monitoring by creating something called a _wire tap_. In the simplest case, you can create a subscriber for `>`. This application will receive all messages -- again, subject to security settings -- sent on your NATS cluster.
+В зависимости от настроек безопасности wildcard можно использовать для мониторинга, создавая так называемый _wire tap_. В простейшем случае можно создать подписчика на `>`. Это приложение будет получать все сообщения, отправленные в вашем кластере NATS — разумеется, в пределах настроек безопасности.
 
-### Mixing wildcards
+### Комбинирование wildcards
 
-The wildcard `*` can appear multiple times in the same subject. Both types can be used as well. For example, `*.*.east.>` will receive `time.us.east.atlanta`.
+Wildcard `*` может встречаться несколько раз в одном subject. Можно использовать оба типа. Например, `*.*.east.>` получит `time.us.east.atlanta`.
 
-## Characters allowed and recommended for subject names
+## Разрешенные и рекомендуемые символы в именах subjects
 
-For compatibility across clients and ease of maintaining configuration files, we recommend using alphanumeric characters, `-` (dash) and `_` (underscore) ASCII characters for subject and other entity names created by the user.
+Для совместимости между клиентами и удобства поддержки конфигурационных файлов рекомендуется использовать буквенно‑цифровые символы и ASCII‑символы `-` (дефис) и `_` (подчеркивание) в именах subjects и других пользовательских сущностей.
 
-UTF-8 (UTF8) characters are supported in subjects. Please use UTF-8 characters at your own risk. Using multilingual names for technical entities can create many issues for editing, configuration files, display, and cross-border collaboration.
+Символы UTF‑8 (UTF8) поддерживаются в subjects. Используйте UTF‑8 на свой риск. Многоязычные имена технических сущностей могут создавать проблемы при редактировании, в конфигурационных файлах, отображении и в международной совместной работе.
 
-The rules and recommendations here apply to ALL system names, subjects, streams, durables, buckets, keys (in key-value stores), as NATS will create API subjects that contain those names. NATS will enforce these constraints in most cases, but we recommend not relying on this.
+Эти правила и рекомендации применяются ко ВСЕМ системным именам: subjects, streams, durables, buckets, keys (в key‑value store), поскольку NATS создаст API‑subjects, содержащие эти имена. NATS будет применять эти ограничения в большинстве случаев, но мы рекомендуем не полагаться на это.
 
-* **Allowed characters**: Any Unicode character except `null`, space,  `.`, `*` and `>`
+* **Разрешенные символы:** любые Unicode‑символы, кроме `null`, пробела, `.`, `*` и `>`.
 
-* **Recommended characters:** (`a` - `z`), (`A` - `Z`), (`0` - `9`), `-` and `_` (names are case sensitive, and cannot contain whitespace).
+* **Рекомендуемые символы:** (`a` - `z`), (`A` - `Z`), (`0` - `9`), `-` и `_` (имена чувствительны к регистру и не могут содержать пробелы).
 
-* **Naming Conventions** If you want to delimit words, use either PascalCase as in `MyServiceOrderCreate` or `-` and `_` as in `my-service-order-create`
+* **Соглашения об именовании:** если нужно разделять слова, используйте PascalCase, как `MyServiceOrderCreate`, или `-` и `_`, как `my-service-order-create`.
 
-* **Special characters:** The period `.` (which is used to separate the tokens in the subject) and `*` and also `>` (the `*` and `>` are used as wildcards) are reserved and cannot be used.
+* **Специальные символы:** точка `.` (используется для разделения токенов subject), а также `*` и `>` (используются как wildcards) зарезервированы и не могут использоваться в имени.
 
-* **Reserved names:** By convention subject names starting with a `$` are reserved for system use (e.g. subject names starting with `$SYS` or `$JS` or `$KV`, etc...). Many system subjects also use `_` (underscore) (e.g. _INBOX , KV_ABC, OBJ_XYZ etc.)
+* **Зарезервированные имена:** по соглашению subjects, начинающиеся с `$`, зарезервированы для системного использования (например, `$SYS`, `$JS`, `$KV` и т. п.). Многие системные subjects также используют `_` (подчеркивание) (например, _INBOX, KV_ABC, OBJ_XYZ и т. п.).
 
-Good names
+Хорошие имена
 
 ```markup
 time.us
@@ -150,7 +150,7 @@ time.new-york
 time.SanFrancisco
 ```
 
-Deprecated subject names
+Устаревшие имена subjects
 
 ```markup
 location.Malmö
@@ -158,7 +158,7 @@ $location.Stockholm
 _Subjects_.mysubject
 ```
 
-Forbidden stream names
+Запрещенные имена потоков
 
 ```markup
 all*data
@@ -166,11 +166,11 @@ all*data
 service.stream.1
 ```
 
-### Pedantic mode
+### Режим pedantic
 
-By default, for the sake of efficiency, subject names are not verified during message publishing. In particular, when generating subjects programmatically, this will result in illegal subjects which cannot be subscribed to. E.g. subjects containing wildcards may be ignored.
+По умолчанию, ради эффективности, имена subjects не проверяются при публикации сообщений. В частности, при программной генерации subjects это может приводить к некорректным именам, на которые нельзя подписаться. Например, subjects с wildcards могут быть проигнорированы.
 
-To enable subject name verification, activate `pedantic` mode in the client connection options.
+Чтобы включить проверку имен subjects, активируйте режим `pedantic` в параметрах подключения клиента.
 
 ```markup
 //Java

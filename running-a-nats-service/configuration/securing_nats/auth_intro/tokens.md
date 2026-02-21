@@ -1,8 +1,8 @@
 # Tokens
 
-Token authentication is a string that if provided by a client, allows it to connect. It is the most straightforward authentication provided by the NATS server.
+Токен‑аутентификация — это строка, которая при передаче клиентом позволяет подключиться. Это самый простой способ аутентификации, предоставляемый сервером NATS.
 
-To use token authentication, you can specify an `authorization` section with the `token` property set:
+Чтобы использовать токен‑аутентификацию, укажите раздел `authorization` со свойством `token`:
 
 ```text
 authorization {
@@ -10,15 +10,15 @@ authorization {
 }
 ```
 
-Token authentication can be used in the authorization section for clients and clusters.
+Токен‑аутентификацию можно использовать в разделе authorization для клиентов и кластеров.
 
-Or start the server with the `--auth` flag:
+Или запустите сервер с флагом `--auth`:
 
 ```shell
 nats-server --auth s3cr3t
 ```
 
-A client can easily connect by specifying the server URL:
+Клиент может подключиться, указав URL сервера:
 
 ```shell
 nats sub -s nats://s3cr3t@localhost:4222 ">"
@@ -26,9 +26,9 @@ nats sub -s nats://s3cr3t@localhost:4222 ">"
 
 ## Bcrypted Tokens
 
-Tokens can be bcrypted enabling an additional layer of security, as the clear-text version of the token would not be persisted on the server configuration file.
+Токены можно bcrypt‑ить, добавляя дополнительный уровень безопасности, так как открытая версия токена не будет храниться в конфигурационном файле сервера.
 
-You can generate bcrypted tokens and passwords using the [`nats`](../../../../using-nats/nats-tools/nats_cli/) tool:
+Bcrypted токены и пароли можно генерировать с помощью инструмента [`nats`](../../../../using-nats/nats-tools/nats_cli/):
 
 ```shell
 nats server passwd
@@ -40,7 +40,7 @@ nats server passwd
 $2a$11$PWIFAL8RsWyGI3jVZtO9Nu8.6jOxzxfZo7c/W0eLk017hjgUKWrhy
 ```
 
-Here's a simple configuration file:
+Простой конфигурационный файл:
 
 ```text
 authorization {
@@ -48,9 +48,8 @@ authorization {
 }
 ```
 
-The client will still require the clear-text token to connect:
+Клиенту все равно нужен токен в открытом виде для подключения:
 
 ```shell
 nats sub -s nats://dag0HTXl4RGg7dXdaJwbC8@localhost:4222 ">"
 ```
-

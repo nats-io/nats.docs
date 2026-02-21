@@ -1,137 +1,127 @@
-# Consumers
+# Потребители
 
-A consumer is a stateful **view** of a stream. It acts as an interface for clients to _consume_ a subset of messages stored in a stream and will keep
-track of which messages were delivered and acknowledged by clients. 
+Consumer — это состояние **view** потока. Он служит интерфейсом для клиентов, чтобы _потреблять_ подмножество сообщений, хранящихся в потоке, и отслеживает, какие сообщения были доставлены и подтверждены клиентами.
 
-Unlike [Core NATS](https://docs.nats.io/nats-concepts/core-nats), which provides an at most once delivery guarantee, a consumer in JetStream can provide an at least **once delivery** guarantee.
+В отличие от [Core NATS](https://docs.nats.io/nats-concepts/core-nats), где гарантия доставки «не более одного раза», consumer в JetStream может обеспечивать доставку **как минимум один раз**.
 
-While **Streams** are responsible for storing the published messages, the consumer is responsible for tracking the delivery and acknowledgments.
-This tracking ensures that if a message is not acknowledged (un-acked or 'nacked'), the consumer will automatically attempt to re-deliver it. JetStream consumers support various acknowledgment types and policies. If a message is not
-acknowledged within a user-specified number of delivery attempts, an advisory notification is emitted.
+Пока **Streams** отвечают за хранение опубликованных сообщений, consumer отвечает за отслеживание доставки и подтверждений. Это отслеживание гарантирует, что если сообщение не подтверждено (un‑acked или 'nacked'), consumer автоматически попробует доставить его повторно. Consumers JetStream поддерживают различные типы и политики подтверждений. Если сообщение не подтверждено в пределах заданного пользователем числа попыток доставки, генерируется advisory‑уведомление.
 
- ## Dispatch type - Pull / Push
-Consumers can be **push**-based where messages will be delivered to a specified subject or **pull**-based which allows clients to request batches of messages on
-demand. The choice of what kind of consumer to use depends on the use-case.
+## Тип доставки — Pull / Push
 
-If there is a need to process messages in an application controlled manner and easily scale horizontally, you would use a 'pull consumer'. A simple
-client application that wants a replay of messages from a stream sequentially you would use an 'ordered push consumer'. An application that wants to
-benefit from load balancing or acknowledge messages individually will use a regular push consumer.
+Consumers могут быть **push**‑типа, когда сообщения доставляются на заданный subject, или **pull**‑типа, когда клиенты запрашивают пакеты сообщений по требованию. Выбор типа consumer зависит от сценария.
 
-{% hint style="info" %}We recommend pull consumers for new projects. In particular when scalability, detailed flow control or error handling are a
-concern. {% endhint %}
+Если нужно обрабатывать сообщения под контролем приложения и легко масштабироваться горизонтально, используйте pull consumer. Если простому приложению нужен последовательный replay сообщений потока, используйте ordered push consumer. Если приложению нужна балансировка нагрузки или индивидуальные подтверждения сообщений, используйте обычный push consumer.
+
+{% hint style="info" %}Рекомендуем pull consumers для новых проектов, особенно когда важны масштабируемость, детальный контроль потока или обработка ошибок.{% endhint %}
 
 ### Ordered Consumers
-Ordered consumers are the convenient default type of push & pull consumers designed for applications that want to efficiently consume a
-stream for data inspection or analysis.
-* Always ephemeral
-* No acknowledgements (if gap is detected, consumer is recreated)
-* Automatic flow control/pull processing
-* Single-threaded dispatching
-* No load balancing
 
+Ordered consumers — удобный тип по умолчанию для push и pull consumers, предназначенный для приложений, которые хотят эффективно потреблять поток для инспекции данных или анализа.
+* Всегда ephemeral
+* Без подтверждений (при обнаружении разрыва consumer пересоздается)
+* Автоматический контроль потока / обработка pull
+* Однопоточная доставка
+* Без балансировки нагрузки
 
-## Persistence - Durable / Ephemeral
-In addition to the choice of being push or pull, a consumer can also be **ephemeral** or **durable**. A consumer
-is considered _durable_ when an explicit name is set on the `Durable` field when creating the consumer, or when `InactiveThreshold` is set.
+## Персистентность — Durable / Ephemeral
 
-Durables and ephemeral have the same message delivery semantics but an ephemeral consumer will not have persisted state or fault tolerance (server
-memory only) and will be automatically _cleaned up_ (deleted) after a period of inactivity, when no subscriptions are bound to the consumer.
+Помимо выбора push или pull, consumer может быть **ephemeral** или **durable**. Consumer считается _durable_, когда задано явное имя в поле `Durable` при создании consumer, или когда задан `InactiveThreshold`.
 
-By default, consumers will have the same replication factor as the stream they consume, and will remain even when there are periods of inactivity (unless
-`InactiveThreshold` is set explicitly). Consumers can recover from server and client failure.
+Durable и ephemeral имеют одинаковую семантику доставки сообщений, но ephemeral consumer не имеет персистентного состояния или отказоустойчивости (только память сервера) и автоматически _очищается_ (удаляется) после периода неактивности, когда к consumer не привязаны подписки.
+
+По умолчанию consumers имеют такой же коэффициент репликации, как поток, который они потребляют, и сохраняются даже при периодах неактивности (если `InactiveThreshold` не задан явно). Consumers могут восстанавливаться после сбоев сервера и клиента.
 
 {% embed url="https://youtu.be/334XuMma1fk" %} NATS JS Consumers - The ONE feature that makes NATS more powerful than Kafka, Pulsar, RabbitMQ, & redis
 {% endembed %}
 
-## Configuration
+## Конфигурация
 
-Below are the set of consumer configuration options that can be defined. The `Version` column indicates the version of nats-server in which the option
-was introduced. The `Editable` column indicates the option can be edited after the consumer is created.
+Ниже приведен набор параметров конфигурации consumer. Колонка `Version` указывает версию nats-server, в которой опция была введена. Колонка `Editable` указывает, можно ли изменить опцию после создания consumer.
 
 ### General
 
 | Field             | Description                                                                                                                                                                                                                                                                                                                                 | Version | Editable |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | -------- |
-| Durable           | If set, clients can have subscriptions bind to the consumer and _resume_ until the consumer is explicitly deleted. A durable name cannot contain whitespace, `.`, `*`, `>`, path separators (forward or backward slash), or non-printable characters.                                                                                          | 2.2.0   | No       |
-| [FilterSubject](#filtersubjects)  | A subject that overlaps with the subjects bound to the stream to filter delivery to subscribers. Note: This cannot be used with the `FilterSubjects` field.                                                                                                                                                                                                                  | 2.2.0   | Yes      |
-| [AckPolicy](#ackpolicy) | The requirement of client acknowledgments, either `AckExplicit`, `AckNone`, or `AckAll`.                                                                                                                                                                                                                                                                                          | 2.2.0   | No       |
-| AckWait           | The duration that the server will wait for an acknowledgment for any individual message _once it has been delivered to a consumer_. If an acknowledgment is not received in time, the message will be redelivered. This setting is only effective when `BackOff` is **not configured**.  | 2.2.0   | Yes      |
-| [DeliverPolicy](#deliverpolicy) | The point in the stream from which to receive messages: `DeliverAll`, `DeliverLast`, `DeliverNew`, `DeliverByStartSequence`, `DeliverByStartTime`, or `DeliverLastPerSubject`.                                                                                                                                                                                                                       | 2.2.0   | No       |
-| OptStartSeq       | Used with the `DeliverByStartSequence` deliver policy.                                                                                                                                                                                                                                                                                                                               | 2.2.0   | No       |
-| OptStartTime      | Used with the `DeliverByStartTime` deliver policy.                                                                                                                                                                                                                                                                                                                                  | 2.2.0   | No       |
-| Description       | A description of the consumer. This can be particularly useful for ephemeral consumers to indicate their purpose since a durable name cannot be provided.                                                                                                                                                                                      | 2.3.3   | Yes      |
-| InactiveThreshold | Duration that instructs the server to clean up consumers inactive for that long. Prior to 2.9, this only applied to ephemeral consumers.                                                                                                                                                                                                      | 2.2.0   | Yes      |
-| [MaxAckPending](#maxackpending) | Defines the maximum number of messages, without acknowledgment, that can be outstanding. Once this limit is reached, message delivery will be suspended. This limit applies across _all_ of the consumer's bound subscriptions. A value of -1 means there can be any number of pending acknowledgments (i.e., no flow control). The default is 1000.                          | 2.2.0   | Yes      |
-| MaxDeliver        | The maximum number of times a specific message delivery will be attempted. Applies to any message that is re-sent due to acknowledgment policy (i.e., due to a negative acknowledgment or no acknowledgment sent by the client). The default is -1 (redeliver until acknowledged). Messages that have reached the maximum delivery count will stay in the stream.                                                                                                                                                                                                          | 2.2.0   | Yes      |
-| Backoff           | A sequence of delays controlling the re-delivery of messages on acknowledgment timeout (but not on `nak`). The sequence length must be less than or equal to `MaxDeliver`. If backoff is not set, a timeout will result in immediate re-delivery. E.g., `MaxDeliver=5` `backoff=[5s, 30s, 300s, 3600s, 84000s]` will re-deliver a message 5 times over one day. When `MaxDeliver` is larger than the backoff list, the last delay in the list will apply for the remaining deliveries. Note that backoff is NOT applied to `nak`ed messages. A `nak` will result in immediate re-delivery unless `nakWithDelay` is used to set the re-delivery delay explicitly. When `BackOff` is set, it **overrides `AckWait` entirely**. The first value in the BackOff determines the `AckWait` value. | 2.7.1   | Yes      |
-| ReplayPolicy      | If the policy is `ReplayOriginal`, the messages in the stream will be pushed to the client at the same rate they were originally received, simulating the original timing. If the policy is `ReplayInstant` (default), the messages will be pushed to the client as fast as possible while adhering to the acknowledgment policy, Max Ack Pending, and the client's ability to consume those messages. | 2.2.0   | No       |
-| Replicas          | Sets the number of replicas for the consumer's state. By default, when the value is set to zero, consumers inherit the number of replicas from the stream.                                                                                                                                                                                      | 2.8.3   | Yes      |
-| MemoryStorage     | If set, forces the consumer state to be kept in memory rather than inherit the storage type of the stream (default is file storage). This reduces I/O from acknowledgments, useful for ephemeral consumers.                                                                                                                                   | 2.8.3   | No       |
-| SampleFrequency   | Sets the percentage of acknowledgments that should be sampled for observability, 0-100. This value is a string and allows both `30` and `30%` as valid values.                                                                                                                                                                                 | 2.2.0   | Yes      |
-| Metadata          | A set of application-defined key-value pairs for associating metadata with the consumer.                                                                                                                                                                                                                                                       | 2.10.0  | Yes      |
-| [FilterSubjects](consumers.md#filtersubjects) | A set of subjects that overlap with the subjects bound to the stream to filter delivery to subscribers. Note: This cannot be used with the `FilterSubject` field.                                                                                                                                                                                                  | 2.10.0  | Yes      |
-| HeadersOnly       | Delivers only the headers of messages in the stream, adding a `Nats-Msg-Size` header indicating the size of the removed payload.                                                                                                                                                                                                                                          | 2.6.2   | Yes      |
+| Durable           | Если задано, клиенты могут привязывать подписки к consumer и _возобновлять_ работу до тех пор, пока consumer явно не удален. Имя durable не может содержать пробелы, `.`, `*`, `>`, разделители пути (прямой или обратный слэш) и непечатаемые символы.                                                                                | 2.2.0   | No       |
+| [FilterSubject](#filtersubjects)  | Subject, пересекающийся с subjects потока, для фильтрации доставки подписчикам. Примечание: нельзя использовать вместе с `FilterSubjects`.                                                                                                                                                                                                       | 2.2.0   | Yes      |
+| [AckPolicy](#ackpolicy) | Требования к подтверждениям клиента: `AckExplicit`, `AckNone` или `AckAll`.                                                                                                                                                                                                                                                                   | 2.2.0   | No       |
+| AckWait           | Время ожидания подтверждения для отдельного сообщения _после его доставки consumer_. Если подтверждение не получено вовремя, сообщение будет переотправлено. Эта настройка действует только если `BackOff` **не задан**.                                                                                                                     | 2.2.0   | Yes      |
+| [DeliverPolicy](#deliverpolicy) | Точка в потоке, с которой получать сообщения: `DeliverAll`, `DeliverLast`, `DeliverNew`, `DeliverByStartSequence`, `DeliverByStartTime` или `DeliverLastPerSubject`.                                                                                                                                                                              | 2.2.0   | No       |
+| OptStartSeq       | Используется с политикой `DeliverByStartSequence`.                                                                                                                                                                                                                                                                                            | 2.2.0   | No       |
+| OptStartTime      | Используется с политикой `DeliverByStartTime`.                                                                                                                                                                                                                                                                                                | 2.2.0   | No       |
+| Description       | Описание consumer. Это особенно полезно для ephemeral consumers, чтобы указать их назначение, поскольку имя durable задать нельзя.                                                                                                                                                                                                             | 2.3.3   | Yes      |
+| InactiveThreshold | Длительность, по истечении которой сервер удаляет неактивные consumers. До версии 2.9 это применялось только к ephemeral consumers.                                                                                                                                                                                                           | 2.2.0   | Yes      |
+| [MaxAckPending](#maxackpending) | Определяет максимальное число сообщений без подтверждения, которые могут быть «в ожидании». При достижении лимита доставка сообщений приостанавливается. Лимит применяется ко _всем_ подпискам, привязанным к consumer. Значение -1 означает отсутствие лимита. По умолчанию 1000.                                                            | 2.2.0   | Yes      |
+| MaxDeliver        | Максимальное число попыток доставки конкретного сообщения. Применяется к сообщениям, переотправленным из‑за политики подтверждений (например, при отрицательном подтверждении или отсутствии подтверждения). По умолчанию -1 (переотправлять до подтверждения). Сообщения, достигшие максимума, остаются в потоке.                         | 2.2.0   | Yes      |
+| Backoff           | Последовательность задержек, управляющих переотправкой при тайм‑ауте подтверждения (но не при `nak`). Длина списка должна быть меньше или равна `MaxDeliver`. Если backoff не задан, тайм‑аут приводит к немедленной переотправке. Например, `MaxDeliver=5` `backoff=[5s, 30s, 300s, 3600s, 84000s]` переотправит сообщение 5 раз за день. Когда `MaxDeliver` больше длины списка, последняя задержка применяется к оставшимся доставкам. Backoff НЕ применяется к `nak`‑сообщениям. `nak` приводит к немедленной переотправке, если не используется `nakWithDelay` для явной задержки. Когда задан `BackOff`, он **полностью переопределяет `AckWait`**. Первое значение BackOff определяет `AckWait`. | 2.7.1   | Yes      |
+| ReplayPolicy      | Если политика `ReplayOriginal`, сообщения в потоке будут отправлены клиенту с той же скоростью, с какой они были получены изначально, имитируя исходное время. Если `ReplayInstant` (по умолчанию), сообщения отправляются как можно быстрее с учетом политики подтверждений, Max Ack Pending и способности клиента потреблять сообщения. | 2.2.0   | No       |
+| Replicas          | Задает число реплик состояния consumer. По умолчанию при значении 0 consumers наследуют число реплик от потока.                                                                                                                                                                                                                                   | 2.8.3   | Yes      |
+| MemoryStorage     | Если задано, состояние consumer хранится в памяти вместо наследования типа хранения потока (по умолчанию хранение на диске). Это снижает I/O от подтверждений, полезно для ephemeral consumers.                                                                                                                                                    | 2.8.3   | No       |
+| SampleFrequency   | Задает процент подтверждений, которые следует семплировать для наблюдаемости, 0–100. Значение строковое и допускает `30` и `30%`.                                                                                                                                                                                                               | 2.2.0   | Yes      |
+| Metadata          | Набор пар ключ‑значение, определенных приложением, для метаданных consumer.                                                                                                                                                                                                                                                                    | 2.10.0  | Yes      |
+| [FilterSubjects](consumers.md#filtersubjects) | Набор subjects, пересекающихся с subjects потока, для фильтрации доставки подписчикам. Примечание: нельзя использовать вместе с `FilterSubject`.                                                                                                                                                                                                    | 2.10.0  | Yes      |
+| HeadersOnly       | Доставляет только заголовки сообщений потока, добавляя заголовок `Nats-Msg-Size`, указывающий размер удаленного payload в байтах.                                                                                                                                                                                                                | 2.6.2   | Yes      |
 
 #### AckPolicy
 
-The policy choices include:
+Варианты политики:
 
-* `AckExplicit`: The default policy. Each individual message must be acknowledged. Recommended for most reliability and functionality.
-* `AckNone`: No acknowledgment needed; the server assumes acknowledgment on delivery.
-* `AckAll`: Acknowledge only the last message received in a series; all previous messages are automatically acknowledged. Will acknowledge all pending
-  messages for all subscribers for Pull Consumer.
+* `AckExplicit`: политика по умолчанию. Каждое сообщение должно быть подтверждено. Рекомендуется для максимальной надежности и функциональности.
+* `AckNone`: подтверждения не требуются; сервер считает сообщение подтвержденным при доставке.
+* `AckAll`: подтверждается только последнее сообщение в серии; все предыдущие сообщения автоматически подтверждаются. Для pull consumer подтверждаются все ожидающие сообщения для всех подписчиков.
 
-If an acknowledgment is required but not received within the `AckWait` window, the message will be redelivered.
+Если подтверждение требуется, но не получено в пределах `AckWait`, сообщение будет переотправлено.
 
-> **Warning**: The server may consider an acknowledgment arriving out of the window. For instance, in a queue situation, if a first process fails to acknowledge within the window and the message has been redelivered to another consumer, the acknowledgment from the first consumer will be considered.
+> **Warning**: сервер может считать подтверждение пришедшим вне окна. Например, в ситуации с очередью, если первый процесс не подтвердил сообщение вовремя и оно было переотправлено другому consumer, подтверждение от первого consumer будет считаться некорректным.
 
 #### DeliverPolicy
 
-The policy choices include:
+Варианты политики:
 
-* `DeliverAll`: Default policy. Start receiving from the earliest available message in the stream.
-* `DeliverLast`: Start with the last message added to the stream, or the last message matching the consumer's filter subject if defined.
-* `DeliverLastPerSubject`: Start with the latest message for each filtered subject currently in the stream.
-* `DeliverNew`: Start receiving messages created after the consumer was created.
-* `DeliverByStartSequence`: Start at the first message with the specified sequence number. The consumer must specify `OptStartSeq` defining the sequence number.
-* `DeliverByStartTime`: Start with messages on or after the specified time. The consumer must specify `OptStartTime` defining the start time.
+* `DeliverAll`: политика по умолчанию. Начать с самого раннего доступного сообщения в потоке.
+* `DeliverLast`: начать с последнего сообщения в потоке или последнего сообщения, совпадающего с фильтром consumer, если он задан.
+* `DeliverLastPerSubject`: начать с последнего сообщения для каждого фильтруемого subject, находящегося в потоке.
+* `DeliverNew`: начать получать сообщения, созданные после создания consumer.
+* `DeliverByStartSequence`: начать с первого сообщения с указанным номером последовательности. Consumer должен задать `OptStartSeq`.
+* `DeliverByStartTime`: начать с сообщений в заданное время или позже. Consumer должен задать `OptStartTime`.
 
 #### MaxAckPending
 
-The `MaxAckPending` capability provides flow control and applies to both push and pull consumers. For push consumers, `MaxAckPending` is the only form of flow control. For pull consumers, client-driven message delivery creates implicit one-to-one flow control with subscribers.
+`MaxAckPending` обеспечивает контроль потока и применяется как к push, так и к pull consumers. Для push consumers `MaxAckPending` — единственная форма контроля потока. Для pull consumers доставка сообщений по запросу клиента создает неявный контроль потока один‑к‑одному с подписчиками.
 
-For high throughput, set `MaxAckPending` to a high value. For applications with high latency due to external services, use a lower value and adjust `AckWait` to avoid re-deliveries.
+Для высокой пропускной способности задайте `MaxAckPending` большим. Для приложений с высокой латентностью из‑за внешних сервисов используйте меньшее значение и настройте `AckWait`, чтобы избежать повторных доставок.
 
 #### FilterSubjects
 
-A filter subject provides server-side filtering of messages before delivery to clients.
+Filter subject обеспечивает серверную фильтрацию сообщений до доставки клиентам.
 
-For example, a stream `factory-events` with subject `factory-events.*.*` can have a consumer `factory-A` with a filter `factory-events.A.*` to deliver only events for factory `A`.
+Например, поток `factory-events` с subject `factory-events.*.*` может иметь consumer `factory-A` с фильтром `factory-events.A.*`, чтобы доставлять только события фабрики `A`.
 
-A consumer can have a singular `FilterSubject` or plural `FilterSubjects`. Multiple filters can be applied, such as `[factory-events.A.*, factory-events.B.*]` or specific event types `[factory-events.*.item_produced, factory-events.*.item_packaged]`.
+Consumer может иметь один `FilterSubject` или несколько `FilterSubjects`. Можно применять несколько фильтров, например `[factory-events.A.*, factory-events.B.*]` или конкретные типы событий `[factory-events.*.item_produced, factory-events.*.item_packaged]`.
 
-> **Warning**: For granular consumer permissions, a single filter uses `$JS.API.CONSUMER.CREATE.{stream}.{consumer}.{filter}` to restrict users to specific filters. Multiple filters use the general `$JS.API.CONSUMER.DURABLE.CREATE.{stream}.{consumer}`, which does not include the `{filter}` token. Use a different strategy for granular permissions.
+> **Warning**: Для точных прав consumers один фильтр использует `$JS.API.CONSUMER.CREATE.{stream}.{consumer}.{filter}` для ограничения пользователей определенными фильтрами. Несколько фильтров используют общий `$JS.API.CONSUMER.DURABLE.CREATE.{stream}.{consumer}`, где отсутствует токен `{filter}`. Для детальных прав используйте другую стратегию.
 
-### Pull-specific
-These options apply only to pull consumers. For configuration examples, see [NATS by Example](https://natsbyexample.com/examples/jetstream/pull-consumer/go).
+### Pull‑specific
+
+Эти опции применимы только к pull consumers. Примеры конфигурации см. в [NATS by Example](https://natsbyexample.com/examples/jetstream/pull-consumer/go).
 
 | Field              | Description                                                                                                                                                          | Version | Editable |
 | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | -------- |
-| MaxWaiting         | The maximum number of waiting pull requests.                                                                                                                         | 2.2.0   | No       |
-| MaxRequestExpires  | The maximum duration a single pull request will wait for messages to be available to pull.                                                                           | 2.7.0   | Yes      |
-| MaxRequestBatch    | The maximum batch size a single pull request can make. When set with `MaxRequestMaxBytes`, the batch size will be constrained by whichever limit is hit first.       | 2.7.0   | Yes      |
-| MaxRequestMaxBytes | The maximum total bytes that can be requested in a given batch. When set with `MaxRequestBatch`, the batch size will be constrained by whichever limit is hit first. | 2.8.3   | Yes      |
+| MaxWaiting         | Максимальное число ожидающих pull‑запросов.                                                                                                                           | 2.2.0   | No       |
+| MaxRequestExpires  | Максимальная длительность, в течение которой один pull‑запрос будет ждать доступных сообщений.                                                                          | 2.7.0   | Yes      |
+| MaxRequestBatch    | Максимальный размер batch для одного pull‑запроса. Если задано вместе с `MaxRequestMaxBytes`, размер будет ограничен тем лимитом, который достигнут первым.            | 2.7.0   | Yes      |
+| MaxRequestMaxBytes | Максимальное количество байтов, которое может быть запрошено в batch. Если задано вместе с `MaxRequestBatch`, размер будет ограничен тем лимитом, который достигнут первым. | 2.8.3   | Yes      |
 
-### Push-specific
+### Push‑specific
 
-These options apply only to push consumers. For configuration examples, see [NATS by Example](https://natsbyexample.com/examples/jetstream/push-consumer/go).
+Эти опции применимы только к push consumers. Примеры конфигурации см. в [NATS by Example](https://natsbyexample.com/examples/jetstream/push-consumer/go).
 
 | Field          | Description                                                                                                                                                                                                                                                                                                                                                               | Version | Editable |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | -------- |
-| DeliverSubject | The subject to deliver messages to. Setting this field decides whether the consumer is push or pull-based. With a deliver subject, the server will _push_ messages to clients subscribed to this subject.                                                                                                                                                                | 2.2.0   | No       |
-| DeliverGroup   | The queue group name used to distribute messages among subscribers. Analogous to a [queue group](https://docs.nats.io/nats-concepts/core-nats/queue) in core NATS.                                                                                                                                                                                                       | 2.2.0   | Yes      |
-| FlowControl    | Enables per-subscription flow control using a sliding-window protocol. This protocol relies on the server and client exchanging messages to regulate when and how many messages are pushed to the client. This one-to-one flow control mechanism works in tandem with the one-to-many flow control imposed by `MaxAckPending` across all subscriptions bound to a consumer. | 2.2.0   | Yes      |
-| IdleHeartbeat  | If set, the server will regularly send a status message to the client during inactivity, indicating that the JetStream service is up and running. The status message will have a code of 100 and no reply address. Note: This mechanism is handled transparently by supported clients.                                                                                      | 2.2.0   | Yes      |
-| RateLimit      | Throttles the delivery of messages to the consumer, in bits per second.                                                                                                                                                                                                                                                                                                  | 2.2.0   | Yes      |
+| DeliverSubject | Subject, на который доставляются сообщения. Установка этого поля определяет, является consumer push или pull. При заданном deliver subject сервер будет _push_‑ить сообщения клиентам, подписанным на этот subject.                                                                                                                                                        | 2.2.0   | No       |
+| DeliverGroup   | Имя группы очереди для распределения сообщений между подписчиками. Аналог [queue group](https://docs.nats.io/nats-concepts/core-nats/queue) в Core NATS.                                                                                                                                                                                                                  | 2.2.0   | Yes      |
+| FlowControl    | Включает контроль потока на подписку с использованием протокола скользящего окна. Этот протокол опирается на обмен сообщениями между сервером и клиентом, чтобы регулировать, когда и сколько сообщений отправлять клиенту. Этот механизм контроля потока один‑к‑одному работает совместно с контролем one‑to‑many через `MaxAckPending` для всех подписок, привязанных к consumer. | 2.2.0   | Yes      |
+| IdleHeartbeat  | Если задано, сервер регулярно отправляет статус‑сообщение клиенту в периоды бездействия, показывая, что сервис JetStream доступен. Статус‑сообщение имеет код 100 и не содержит адреса ответа. Примечание: механизм прозрачно обрабатывается поддерживаемыми клиентами.                                                                                                        | 2.2.0   | Yes      |
+| RateLimit      | Ограничивает скорость доставки сообщений consumer, в битах в секунду.                                                                                                                                                                                                                                                                                                    | 2.2.0   | Yes      |
 
 ---

@@ -1,42 +1,43 @@
-# Authentication
+# Аутентификация
 
-NATS authentication is multi-level. All of the security modes have an [_accounts_](../../../../running-a-nats-service/configuration/securing_nats/auth_intro) level with [_users_](./#user-configuration-map) belonging to those accounts. The decentralized JWT Authentication also has an _operator_ to which the accounts belong.
+Аутентификация NATS многоуровневая. Все режимы безопасности имеют уровень [_accounts_](../../../../running-a-nats-service/configuration/securing_nats/auth_intro) с [_users_](./#user-configuration-map), принадлежащими этим аккаунтам. Децентрализованная JWT‑аутентификация также имеет _operator_, которому принадлежат аккаунты.
 
-Each account has its own independent subject namespace: a message published on subject 'foo' in one account will not be seen by subscribers to 'foo' in other accounts. Accounts can however define exports and imports of subject(s) streams as well as expose request-reply services between accounts. Users within an account will share the same subject namespace but can be restricted to only be able to publish-subscribe to specific subjects.
+У каждого аккаунта есть собственное независимое пространство имен subject: сообщение, опубликованное на subject `foo` в одном аккаунте, не будет видно подписчикам `foo` в других аккаунтах. Однако аккаунты могут определять exports и imports потоков subject, а также предоставлять request‑reply сервисы между аккаунтами. Пользователи внутри аккаунта разделяют одно пространство имен subject, но могут быть ограничены в публикации/подписке на конкретные subject.
 
-## Authentication Methods
+## Методы аутентификации
 
-The NATS server provides various ways of authenticating clients:
+Сервер NATS предоставляет несколько способов аутентифицировать клиентов:
 
 - [Token Authentication](tokens.md)
 - [Plain Text Username/Password credentials](username_password.md#plain-text-passwords)
 - [Bcrypted Username/Password credentials](username_password.md#bcrypted-passwords)
 - [TLS Certificate](tls_mutual_auth.md)
-- [NKEY with Challenge](nkey_auth.md)
-- [Decentralized JWT Authentication/Authorization](../jwt/)
+- [NKEY с challenge](nkey_auth.md)
+- [Децентрализованная JWT‑аутентификация/авторизация](../jwt/)
 
-Authentication deals with allowing a NATS client to connect to the server. Except for JWT authentication, authentication and authorization are configured in the `authorization` section of the configuration. With JWT authentication the account and user information are stored in the [resolver](../jwt/resolver.md) rather than in the server configuration file.
+Аутентификация отвечает за возможность клиенту NATS подключиться к серверу. За исключением JWT‑аутентификации, аутентификация и авторизация настраиваются в разделе `authorization` конфигурации. При JWT‑аутентификации информация об аккаунте и пользователе хранится в [resolver](../jwt/resolver.md), а не в конфигурационном файле сервера.
 
-## Authorization Map
+## Карта Authorization
 
-The `authorization` block provides _authentication_ configuration as well as [_authorization_](../authorization.md):
+Блок `authorization` предоставляет конфигурацию _аутентификации_ и [_авторизации_](../authorization.md):
 
-| Property                                       | Description                                                                                                                           |
+| Свойство                                       | Описание                                                                                                                           |
 | :--------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------ |
-| [`token`](tokens.md)                           | Specifies a global token that can be used to authenticate to the server \(exclusive of user and password\)                            |
-| [`user`](username_password.md#single-user)     | Specifies a single _global_ user name for clients to the server \(exclusive of token\)                                                |
-| [`password`](username_password.md)             | Specifies a single _global_ password for clients to the server \(exclusive of `token`\)                                               |
-| [`users`](username_password.md#multiple-users) | A list of [user configuration](#user-configuration-map) maps. For multiple username and password credentials, specify a `users` list. |
-| [`timeout`](auth_timeout.md)                   | Maximum number of seconds to wait for client authentication                                                                           |
-| [`auth_callout`](../auth_callout.md)           | Enables the auth callout extension                                                                                                    |
+| [`token`](tokens.md)                           | Задает глобальный токен, который можно использовать для аутентификации на сервере (взаимоисключается с user и password)              |
+| [`user`](username_password.md#single-user)     | Задает единое _глобальное_ имя пользователя для клиентов сервера (взаимоисключается с token)                                         |
+| [`password`](username_password.md)             | Задает единый _глобальный_ пароль для клиентов сервера (взаимоисключается с `token`)                                                 |
+| [`users`](username_password.md#multiple-users) | Список [карт конфигурации пользователя](#user-configuration-map). Для нескольких учетных данных username/password задайте список `users`. |
+| [`timeout`](auth_timeout.md)                   | Максимальное число секунд ожидания аутентификации клиента                                                                           |
+| [`auth_callout`](../auth_callout.md)           | Включает расширение auth callout                                                                                                    |
 
-## User Configuration Map
+<a id="user-configuration-map"></a>
+## Карта конфигурации пользователя
 
-A `user` configuration map specifies credentials and permissions options for a single user:
+Карта `user` задает учетные данные и параметры прав для одного пользователя:
 
-| Property                             | Description                                                                                                                                   |
-| :----------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`user`](username_password.md)       | username for client authentication. \(Can also be a user for [tls authentication](tls_mutual_auth.md#mapping-client-certificates-to-a-user)\) |
-| [`password`](username_password.md)   | password for the user entry                                                                                                                   |
-| [`nkey`](nkey_auth.md)               | public nkey identifying an user                                                                                                               |
-| [`permissions`](../authorization.md) | permissions map configuring subjects accessible to the user                                                                                   |
+| Свойство                             | Описание                                                                                                                                   |
+| :----------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------- |
+| [`user`](username_password.md)       | username для аутентификации клиента. (Также может быть пользователем для [tls authentication](tls_mutual_auth.md#mapping-client-certificates-to-a-user)) |
+| [`password`](username_password.md)   | пароль для записи пользователя                                                                                                             |
+| [`nkey`](nkey_auth.md)               | публичный nkey, идентифицирующий пользователя                                                                                              |
+| [`permissions`](../authorization.md) | карта прав, настраивающая доступные пользователю subject                                                                                   |

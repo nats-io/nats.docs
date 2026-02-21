@@ -1,6 +1,6 @@
-# Authenticating with a Credentials File
+# Аутентификация с файлом учетных данных
 
-The 2.0 version of NATS server introduced the idea of decentralized authentication based on [JSON Web Tokens \(JWT\)](https://jwt.io/). Clients interact with this new scheme using a [user JWT](/running-a-nats-service/nats_admin/security.md) and corresponding [NKey](/running-a-nats-service/configuration/securing_nats/auth_intro/nkey_auth.md) private key. To help make connecting with a JWT easier, the client libraries support the concept of a credentials file. This file contains both the private key and the JWT and can be generated with the `nsc` [tool](../../../nats-tools/nsc/). The contents will look like the following and should be protected because it contains a private key. This credentials file is unused and only for example purposes.
+Версия 2.0 сервера NATS представила идею децентрализованной аутентификации на основе [JSON Web Tokens (JWT)](https://jwt.io/). Клиенты взаимодействуют с этой схемой, используя [user JWT](/running-a-nats-service/nats_admin/security.md) и соответствующий приватный ключ [NKey](/running-a-nats-service/configuration/securing_nats/auth_intro/nkey_auth.md). Чтобы упростить подключение с JWT, клиентские библиотеки поддерживают концепцию файла учетных данных. Этот файл содержит приватный ключ и JWT и может быть сгенерирован инструментом `nsc` [tool](../../../nats-tools/nsc/). Содержимое выглядит примерно так и должно быть защищено, поскольку содержит приватный ключ. Этот файл учетных данных не используется и приведён только для примера.
 
 ```text
 -----BEGIN NATS USER JWT-----
@@ -18,7 +18,7 @@ SUAOY5JZ2WJKVR4UO2KJ2P3SW6FZFNWEOIMAXF4WZEUNVQXXUOKGM55CYE
 *************************************************************
 ```
 
-Given a creds file, a client can authenticate as a specific user belonging to a specific account:
+Имея файл creds, клиент может аутентифицироваться как конкретный пользователь, принадлежащий конкретному аккаунту:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -108,4 +108,3 @@ natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
-

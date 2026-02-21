@@ -1,8 +1,8 @@
-# Pausing Between Reconnect Attempts
+# Пауза между попытками переподключения
 
-It doesn’t make much sense to try to connect to the same server over and over. To prevent this sort of thrashing, and wasted reconnect attempts, especially when using TLS, libraries provide a wait setting. Generally clients make sure that between two reconnect attempts to the **same** server at least a certain amount of time has passed. The concrete implementation depends on the library used.
+Нет смысла пытаться подключаться к одному и тому же серверу снова и снова. Чтобы избежать такого «дребезга» и лишних попыток переподключения, особенно при использовании TLS, библиотеки предоставляют настройку ожидания. Обычно клиенты гарантируют, что между двумя попытками переподключения к **тому же** серверу проходит как минимум заданное время. Конкретная реализация зависит от используемой библиотеки.
 
-This setting not only prevents wasting client resources, it also alleviates a [_thundering herd_](random.md) situation when additional servers are not available.
+Эта настройка не только предотвращает расход ресурсов клиента, но и снижает эффект [_thundering herd_](random.md), когда дополнительные серверы недоступны.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -106,4 +106,3 @@ natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
-

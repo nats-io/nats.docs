@@ -1,8 +1,8 @@
-# Monitoring the Connection
+# Мониторинг подключения
 
-Managing the interaction with the server is primarily the job of the client library but most of the libraries also provide some insight into what is happening under the covers.
+Управление взаимодействием с сервером — в первую очередь задача клиентской библиотеки, но большинство библиотек также предоставляет некоторую информацию о том, что происходит «под капотом».
 
-For example, the client library may provide a mechanism to get the connection's current status:
+Например, клиентская библиотека может предоставить механизм для получения текущего статуса соединения:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -114,4 +114,3 @@ end
 ```
 {% endtab %}
 {% endtabs %}
-

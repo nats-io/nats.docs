@@ -1,16 +1,16 @@
-# Memory Resolver Tutorial
+# Руководство по Memory Resolver
 
-The `MEMORY` resolver is a server built-in resolver for account JWTs. If there are a small number of accounts, or they do not change too often this can be a simpler configuration that does not require an external account resolver. Server configuration reload is supported, meaning the preloads can be updated in the server configuration and reloaded without a server restart.
+Resolver `MEMORY` — встроенный в сервер resolver для JWT аккаунтов. Если аккаунтов немного или они меняются нечасто, это может быть более простой вариант, не требующий внешнего account resolver. Поддерживается перезагрузка конфигурации сервера, то есть preloads можно обновлять в конфигурации и перезагружать без рестарта сервера.
 
-The basic configuration for the server requires:
+Базовая конфигурация сервера требует:
 
-* The operator JWT
-* `resolver` set to `MEMORY`
-* `resolver_preload` set to an object where account public keys are mapped to account JWTs.
+* operator JWT
+* `resolver`, установленный в `MEMORY`
+* `resolver_preload`, заданный объектом, где публичные ключи аккаунтов сопоставляются с JWT аккаунтов.
 
-## Create Required Entities
+## Создание необходимых сущностей
 
-Let's create the setup:
+Создадим подготовку:
 
 ```shell
 nsc add operator -n memory
@@ -20,7 +20,7 @@ Generated operator key - private key stored "~/.nkeys/memory/memory.nk"
 Success! - added operator "memory"
 ```
 
-Add an account 'A'
+Добавим аккаунт 'A'
 
 ```shell
 nsc add account --name A
@@ -30,7 +30,7 @@ Generated account key - private key stored "~/.nkeys/memory/accounts/A/A.nk"
 Success! - added account "A"
 ```
 
-Describe the account
+Опишем аккаунт
 
 ```shell
 nsc describe account -W
@@ -59,7 +59,7 @@ nsc describe account -W
 ╰───────────────────────────┴──────────────────────────────────────────────────────────╯
 ```
 
-Create a new user 'TA'
+Создадим нового пользователя 'TA'
 
 ```shell
 nsc add user --name TA
@@ -70,32 +70,32 @@ Generated user creds file "~/.nkeys/memory/accounts/A/users/TA.creds"
 Success! - added user "TA" to "A"
 ```
 
-## Create the Server Config
+## Создание конфигурации сервера
 
-The `nsc` tool can generate a configuration file automatically. You provide a path to the server configuration. The `nsc` tool will generate the server config for you:
+Инструмент `nsc` может автоматически сгенерировать конфигурационный файл. Вы задаете путь к конфигу сервера, а `nsc` генерирует конфиг за вас:
 
 ```shell
-nsc generate config --mem-resolver --config-file /tmp/server.conf 
+nsc generate config --mem-resolver --config-file /tmp/server.conf
 ```
 
-If you require additional settings, you may want to consider using [`include`](/running-a-nats-service/configuration/README.md#include-directive) in your main configuration, to reference the generated files. Otherwise, you can start a server and reference the generated configuration:
+Если нужны дополнительные настройки, можно использовать [`include`](/running-a-nats-service/configuration/README.md#include-directive) в основной конфигурации, чтобы ссылаться на сгенерированные файлы. Иначе можно запустить сервер и сослаться на сгенерированную конфигурацию:
 
 ```shell
 nats-server -c /tmp/server.conf
 ```
 
-You can then [test it](mem_resolver.md#testing-the-configuration).
+Далее можно [протестировать](mem_resolver.md#testing-the-configuration).
 
-## Manual Server Config
+## Ручная конфигурация сервера
 
-While generating a configuration file is easy, you may want to craft one by hand to know the details. With the entities created, and a standard location for the `.nsc` directory. You can reference the operator JWT and the account JWT in a server configuration or the JWT string directly. Remember that your configuration will be in `$NSC_HOME/nats/<operator_name>/<operator_name>.jwt` for the operator. The account JWT will be in `$NSC_HOME/nats/<operator_name>/accounts/<account_name>/<account_name>.jwt`
+Хотя генерировать конфигурационный файл просто, вы можете захотеть собрать его вручную, чтобы понимать детали. При созданных сущностях и стандартном расположении каталога `.nsc` можно ссылаться на operator JWT и account JWT в конфигурации сервера или использовать строку JWT напрямую. Помните, что ваша конфигурация будет в `$NSC_HOME/nats/<operator_name>/<operator_name>.jwt` для оператора. JWT аккаунта будет в `$NSC_HOME/nats/<operator_name>/accounts/<account_name>/<account_name>.jwt`.
 
-For the configuration you'll need:
+Для конфигурации потребуется:
 
-* The path to the operator JWT
-* A copy of the contents of the account JWT file
+* путь к operator JWT
+* копия содержимого файла account JWT
 
-The format of the file is:
+Формат файла:
 
 ```
 operator: <path to the operator jwt or jwt itself>
@@ -107,7 +107,7 @@ resolver_preload: {
 }
 ```
 
-In this example this translates to:
+В этом примере это выглядит так:
 
 ```
 operator: /Users/synadia/.nsc/nats/memory/memory.jwt
@@ -117,17 +117,18 @@ ACSU3Q6LTLBVLGAQUONAGXJHVNWGSKKAUA7IY5TB4Z7PLEKSR5O6JTGR: eyJ0eXAiOiJqd3QiLCJhbG
 }
 ```
 
-Save the config at server.conf and start the server:
+Сохраните конфиг в server.conf и запустите сервер:
 
 ```shell
 nats-server -c server.conf
 ```
 
-You can then [test it](mem_resolver.md#testing-the-configuration).
+Далее можно [протестировать](mem_resolver.md#testing-the-configuration).
 
-## Testing the Configuration
+<a id="testing-the-configuration"></a>
+## Проверка конфигурации
 
-To test the configuration, simply use one of the standard tools:
+Чтобы проверить конфигурацию, просто используйте один из стандартных инструментов:
 
 ```shell
 nats pub --creds ~/.nkeys/creds/memory/A/TA.creds hello world

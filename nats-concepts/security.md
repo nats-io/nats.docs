@@ -1,19 +1,19 @@
-# Security
+# Безопасность
 
-NATS has a lot of security features:
+В NATS есть множество функций безопасности:
 
-* Connections can be [_encrypted_ with TLS](/running-a-nats-service/configuration/securing_nats/tls.md)
-* Client connections can be [_authenticated_](../running-a-nats-service/configuration/securing_nats/auth_intro/) in many ways:
-  * [Token Authentication](../running-a-nats-service/configuration/securing_nats/auth_intro/tokens.md)
-  * [Username/Password credentials](../running-a-nats-service/configuration/securing_nats/auth_intro/username_password.md)
-  * [TLS Certificate](../running-a-nats-service/configuration/securing_nats/auth_intro/tls_mutual_auth.md)
-  * [NKEY with Challenge](../running-a-nats-service/configuration/securing_nats/auth_intro/nkey_auth.md)
-  * [Decentralized JWT Authentication/Authorization](../running-a-nats-service/configuration/securing_nats/jwt/)
-  * You can also integrate NATS with your existing authentication/authorization system or create your own custom authentication using the [Auth callout](../running-a-nats-service/configuration/securing_nats/auth_callout.md)
-* Authenticated clients are identified as users and have a set of [_authorizations_](../running-a-nats-service/configuration/securing_nats/authorization.md)
+* Соединения могут быть [_зашифрованы_ с TLS](/running-a-nats-service/configuration/securing_nats/tls.md)
+* Клиентские подключения могут быть [_аутентифицированы_](../running-a-nats-service/configuration/securing_nats/auth_intro/) разными способами:
+  * [Аутентификация по токену](../running-a-nats-service/configuration/securing_nats/auth_intro/tokens.md)
+  * [Учетные данные имя пользователя/пароль](../running-a-nats-service/configuration/securing_nats/auth_intro/username_password.md)
+  * [TLS‑сертификат](../running-a-nats-service/configuration/securing_nats/auth_intro/tls_mutual_auth.md)
+  * [NKEY с challenge](../running-a-nats-service/configuration/securing_nats/auth_intro/nkey_auth.md)
+  * [Децентрализованная аутентификация/авторизация JWT](../running-a-nats-service/configuration/securing_nats/jwt/)
+  * Вы также можете интегрировать NATS с вашей существующей системой аутентификации/авторизации или создать собственную аутентификацию с помощью [Auth callout](../running-a-nats-service/configuration/securing_nats/auth_callout.md)
+* Аутентифицированные клиенты идентифицируются как пользователи и имеют набор [_прав_](../running-a-nats-service/configuration/securing_nats/authorization.md)
 
-You can use [accounts](../running-a-nats-service/configuration/securing_nats/accounts.md) for multi-tenancy: each account has its own independent 'subject namespace' and you control the import/export of both streams of messages and services between accounts, and any number of users that client applications can be authenticated as. The subjects or subject wildcards that a user is allowed to publish and/or subscribe to can be controlled either through server configuration or as part of signed JWTs.
+Вы можете использовать [accounts](../running-a-nats-service/configuration/securing_nats/accounts.md) для мультиарендности: каждый аккаунт имеет собственное независимое «пространство имен subjects», и вы контролируете импорт/экспорт как потоков сообщений, так и сервисов между аккаунтами, а также любое количество пользователей, под которыми могут аутентифицироваться клиентские приложения. Subjects или wildcard‑subjects, на которые пользователь может публиковать и/или подписываться, можно контролировать либо через конфигурацию сервера, либо как часть подписанных JWT.
 
-JWT authentication/authorization administration is decentralized because each account private key holder can manage their users and their authorizations on their own, without the need for any configuration change on the NATS servers by minting their own JWTs and distributing them to the users. There is no need for the NATS server to ever store any user private keys as they only need to validate the signature chain of trust contained in the user JWT presented by the client application to validate that they have the proper public key for that user.
+Администрирование JWT‑аутентификации/авторизации децентрализовано: каждый владелец приватного ключа аккаунта может управлять своими пользователями и их правами самостоятельно, без необходимости менять конфигурацию серверов NATS, выпуская собственные JWT и распределяя их пользователям. Серверу NATS не нужно хранить приватные ключи пользователей, так как ему достаточно проверять цепочку доверия подписей, содержащуюся в JWT пользователя, который предъявляет клиентское приложение, чтобы убедиться в наличии корректного публичного ключа пользователя.
 
-The JetStream persistence layer of NATS also provides [encryption at rest](../running-a-nats-service/nats_admin/jetstream_admin/encryption_at_rest.md).
+Слой персистентности JetStream также предоставляет [шифрование данных на диске](../running-a-nats-service/nats_admin/jetstream_admin/encryption_at_rest.md).

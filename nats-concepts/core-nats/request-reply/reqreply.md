@@ -1,28 +1,28 @@
-# Request-Reply
+# Запрос‑ответ
 
-Request-Reply is a common pattern in modern distributed systems. A request is sent, and the application either waits on the response with a certain timeout, or receives a response asynchronously.
+Request‑Reply — распространенный паттерн в современных распределенных системах. Запрос отправляется, и приложение либо ждет ответ с тайм‑аутом, либо получает ответ асинхронно.
 
-The increased complexity of modern systems necessitates features like [location transparency](https://en.wikipedia.org/wiki/Location\_transparency), scale-up and scale-down, observability (measuring a system's state based on the data it generates) and more. In order to implement this feature-set, various other technologies needed to incorporate additional components, sidecars (processes or services that support the primary application) and proxies. NATS on the other hand, implemented Request-Reply much more easily.
+Рост сложности современных систем требует таких возможностей, как [прозрачность расположения](https://en.wikipedia.org/wiki/Location\_transparency), масштабирование вверх и вниз, наблюдаемость (измерение состояния системы по данным, которые она генерирует), и многое другое. Чтобы реализовать этот набор возможностей, многие технологии вынуждены добавлять дополнительные компоненты, сайдкары (процессы или сервисы, поддерживающие основное приложение) и прокси. NATS, напротив, реализует Request‑Reply гораздо проще.
 
-### NATS makes Request-Reply simple and powerful
+### NATS делает Request‑Reply простым и мощным
 
-* NATS supports the Request-Reply pattern using its core communication mechanism — publish and subscribe. A request is published on a given subject using a reply subject. Responders listen on that subject and send responses to the reply subject. Reply subjects are called "**inbox**". These are unique subjects that are dynamically directed back to the requester, regardless of the location of either party.
-* Multiple NATS responders can form dynamic queue groups. Therefore, it's not necessary to manually add or remove subscribers from the group for them to start or stop being distributed messages. It’s done automatically. This allows responders to scale up or down as per demand.
-* NATS applications "drain before exiting" (processing buffered messages before closing the connection). This allows the applications to scale down without dropping requests.
-* Since NATS is based on publish-subscribe, observability is as simple as running another application that can view requests and responses to measure latency, watch for anomalies, direct scalability and more.
-* The power of NATS even allows multiple responses, where the first response is utilized and the system efficiently discards the additional ones. This allows for a sophisticated pattern to have multiple responders, reduce response latency and jitter.
+* NATS поддерживает паттерн Request‑Reply через свой базовый механизм коммуникации — publish и subscribe. Запрос публикуется в заданный subject с использованием subject для ответа. Обработчики слушают этот subject и отправляют ответы на subject ответа. Subjects для ответа называются "**inbox**". Это уникальные subjects, которые динамически направляются обратно инициатору запроса, независимо от расположения сторон.
+* Несколько обработчиков NATS могут образовывать динамические queue groups. Поэтому не нужно вручную добавлять или удалять подписчиков из группы, чтобы начать или прекратить распределение сообщений — это делается автоматически. Это позволяет обработчикам масштабироваться вверх и вниз по мере необходимости.
+* Приложения NATS «drain before exiting» (обрабатывают буферизованные сообщения перед закрытием соединения). Это позволяет масштабироваться вниз, не теряя запросы.
+* Поскольку NATS основан на publish‑subscribe, наблюдаемость достигается просто запуском еще одного приложения, которое может видеть запросы и ответы, измерять задержки, отслеживать аномалии, управлять масштабированием и т. д.
+* Мощь NATS позволяет получать даже несколько ответов: используется первый, а остальные эффективно отбрасываются. Это дает возможность использовать несколько обработчиков, снижать задержку ответа и джиттер.
 
-### The pattern
+### Паттерн
 
 ![](../../../.gitbook/assets/reqrepl.svg)
 
-Try NATS request-reply on your own, using a live server by walking through the [request-reply walkthrough.](reqreply\_walkthrough.md)
+Попробуйте NATS request‑reply самостоятельно, используя живой сервер, пройдя [пошаговое руководство по request‑reply.](reqreply\_walkthrough.md)
 
-### No responders
+### Нет обработчиков
 
-When a request is sent to a subject that has no subscribers, it can be convenient to know about it right away. For this use-case, a NATS client can [opt-into no\_responder messages](../../../reference/nats-protocol/nats-protocol/#syntax-1). This requires a server and client that support headers. When enabled, a request sent to a subject with no subscribers will immediately receive a reply that has no body, and a `503` status.
+Когда запрос отправляется в subject без подписчиков, удобно узнать об этом сразу. Для этого клиент NATS может [включить сообщения no\_responder](../../../reference/nats-protocol/nats-protocol/#syntax-1). Это требует сервер и клиента с поддержкой заголовков. Если включено, запрос, отправленный в subject без подписчиков, немедленно получает ответ без тела и со статусом `503`.
 
-Most clients will represent this case by raising or returning an error. For example:
+Большинство клиентов отображают этот случай как ошибку. Например:
 
 ```go
 m, err := nc.Request("foo", nil, time.Second);

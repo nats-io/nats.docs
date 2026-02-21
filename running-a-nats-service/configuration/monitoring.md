@@ -1,23 +1,23 @@
-# Enabling Monitoring
+# Включение мониторинга
 
-## NATS Server Monitoring
+## Мониторинг сервера NATS
 
-To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP server on a dedicated monitoring port. The monitoring server provides several endpoints, providing statistics and other information.
+Для мониторинга системы обмена сообщениями NATS `nats-server` предоставляет легковесный HTTP‑сервер на отдельном порту мониторинга. Сервер мониторинга предоставляет несколько endpoint’ов со статистикой и прочей информацией.
 
-The [NATS monitoring endpoints](../nats\_admin/monitoring/) support [JSONP](https://en.wikipedia.org/wiki/JSONP) and [CORS](https://en.wikipedia.org/wiki/Cross-origin\_resource\_sharing#How\_CORS\_works), making it easy to create single page monitoring web applications.
+[Эндпоинты мониторинга NATS](../nats_admin/monitoring/) поддерживают [JSONP](https://en.wikipedia.org/wiki/JSONP) и [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing#How_CORS_works), что упрощает создание одностраничных web‑приложений для мониторинга.
 
-> Warning: `nats-server` does not have authentication/authorization for the monitoring endpoint. When you plan to open your `nats-server` to the internet make sure to not expose the monitoring port as well. By default monitoring binds to every interface `0.0.0.0` so consider setting monitoring to `localhost` or have appropriate firewall rules.
+> Предупреждение: у `nats-server` нет аутентификации/авторизации для endpoint’ов мониторинга. Если вы планируете открыть `nats-server` в интернет, убедитесь, что не выставляете наружу порт мониторинга. По умолчанию мониторинг привязан ко всем интерфейсам `0.0.0.0`, поэтому рассмотрите привязку к `localhost` или настройте соответствующие правила firewall.
 
-### Enabling monitoring from the command line
+### Включение мониторинга из командной строки
 
-To enable the monitoring server, start the NATS server with the monitoring flag `-m` and the monitoring port, or turn it on in the [configuration file](monitoring.md#enable-monitoring-from-the-configuration-file).
+Чтобы включить сервер мониторинга, запустите NATS‑сервер с флагом мониторинга `-m` и портом мониторинга или включите его в [конфигурационном файле](monitoring.md#enable-monitoring-from-the-configuration-file).
 
 ```
--m, --http_port PORT             HTTP PORT for monitoring
--ms,--https_port PORT            Use HTTPS PORT for monitoring
+-m, --http_port PORT             HTTP‑порт мониторинга
+-ms,--https_port PORT            Использовать HTTPS‑порт для мониторинга
 ```
 
-Example:
+Пример:
 
 ```bash
 nats-server -m 8222
@@ -30,24 +30,24 @@ nats-server -m 8222
 [4528] 2019/06/01 20:09:58.573090 [INF] nats-server is ready
 ```
 
-To test, run `nats-server -m 8222`, then go to [http://localhost:8222/](http://localhost:8222/)
+Для проверки запустите `nats-server -m 8222`, затем перейдите на [http://localhost:8222/](http://localhost:8222/)
 
-### Enable monitoring from the configuration file
+### Включение мониторинга из конфигурационного файла
 
-You can also enable monitoring using the configuration file as follows:
+Также можно включить мониторинг через конфигурационный файл:
 
 ```yaml
 http_port: 8222
 ```
 
-Binding to `localhost` as well:
+С привязкой к `localhost`:
 
 ```yaml
 http: localhost:8222
 ```
 
-For example, to monitor this server locally, the endpoint would be [http://localhost:8222/varz](http://localhost:8222/varz). It reports various general statistics.
+Например, чтобы мониторить сервер локально, endpoint будет [http://localhost:8222/varz](http://localhost:8222/varz). Он показывает различные общие статистики.
 
-## Monitoring Tools
+## Инструменты мониторинга
 
-In addition to writing custom monitoring tools, you can monitor nats-server in Prometheus. The [Prometheus NATS Exporter](https://github.com/nats-io/prometheus-nats-exporter) allows you to configure the metrics you want to observe and store in Prometheus. There's a sample [Grafana](https://grafana.com) dashboard that you can use to visualize the server metrics.
+Помимо написания собственных инструментов мониторинга, можно мониторить nats-server через Prometheus. [Prometheus NATS Exporter](https://github.com/nats-io/prometheus-nats-exporter) позволяет настраивать метрики и сохранять их в Prometheus. Есть пример дашборда [Grafana](https://grafana.com), который можно использовать для визуализации метрик сервера.

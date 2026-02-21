@@ -1,44 +1,43 @@
-# Disaster Recovery
+# Восстановление после аварий
 
-In the event of unrecoverable JetStream message persistence on one (or more) server nodes, there are two recovery scenarios:
+В случае необратимой потери персистентности сообщений JetStream на одном или нескольких узлах сервера есть два сценария восстановления:
 
-* Automatic recovery from intact quorum nodes
-* Manual recovery from existing stream snapshots (backups)
+* Автоматическое восстановление с целых узлов кворума
+* Ручное восстановление из существующих snapshots stream (бэкапов)
 
 {% hint style="danger" %}
-For R1 streams, data is persisted on one server node only. If that server node is unrecoverable then recovery from
-backup is the sole option.
+Для stream с репликацией R1 данные сохраняются только на одном узле. Если этот узел не подлежит восстановлению, единственный вариант — восстановление из бэкапа.
 {% endhint %}
 
-## Automatic Recovery
+## Автоматическое восстановление
 
-NATS will create replacement stream replicas automatically under the following conditions:
+NATS автоматически создаст замещающие реплики stream при следующих условиях:
 
-* Impacted stream is of replica configuration R3 (or greater)
-* Remaining intact nodes (stream replicas) meet minimum RAFT quorum: floor(R/2) + 1
-* Available node(s) in the stream's cluster for new replica(s)
-* Impacted node(s) removed from the stream's domain RAFT Meta group (e.g. `nats server cluster peer-remove`)
+* затронутый stream имеет конфигурацию репликации R3 (или выше)
+* оставшиеся целые узлы (реплики stream) обеспечивают минимальный RAFT‑кворум: floor(R/2) + 1
+* доступны узлы в кластере stream для новых реплик
+* затронутые узлы удалены из RAFT Meta‑группы домена stream (например, `nats server cluster peer-remove`)
 
-## Manual Recovery
+## Ручное восстановление
 
-Snapshots (also known as backups) can pro-actively be made of any stream regardless of replication configuration.
+Snapshots (они же бэкапы) можно заранее создавать для любого stream независимо от конфигурации репликации.
 
-The backup includes (by default):
+Бэкап включает (по умолчанию):
 
-* Stream configuration and state
-* Stream durable consumer configuration and state
-* All message payload data including metadata like timestamps and headers
+* конфигурацию и состояние stream
+* конфигурацию и состояние durable consumer stream
+* все payload‑данные сообщений, включая метаданные (timestamps, headers)
 
-### Backup
+### Бэкап
 
-The `nats stream backup` CLI command is used to create snapshots of a stream and its durable consumers.
+CLI‑команда `nats stream backup` используется для создания snapshots stream и его durable consumers.
 
 {% hint style="info" %}
-As an account owner, if you wish to make a backup of ALL streams in your account, you may use `nats account backup` instead.
+Если вы владелец аккаунта и хотите сделать бэкап ВСЕХ streams аккаунта, используйте `nats account backup`.
 {% endhint %}
 
 {% hint style="warning" %}
-Memory storage streams do not support snapshots. Only file-based storage streams can be backed up.
+Streams, хранящиеся в памяти, не поддерживают snapshots. Бэкап возможен только для streams с файловым хранением.
 {% endhint %}
 
 ```shell
@@ -53,19 +52,18 @@ Starting backup of Stream "ORDERS" with 13 data blocks
 Received 13 MiB bytes of compressed data in 3368 chunks for stream "ORDERS" in 1.223428188s, 813 MiB uncompressed
 ```
 
-During a backup operation, the stream is placed in a status where it's configuration cannot change and no data will be
-evicted based on stream retention policies.
+Во время операции бэкапа stream переводится в состояние, при котором конфигурация не может изменяться и данные не будут выталкиваться политиками retention.
 
 {% hint style="info" %}
-Progress using the terminal bar can be disabled using `--no-progress`, it will then issue log lines instead.
+Прогресс с использованием полосы в терминале можно отключить через `--no-progress`, тогда будут выводиться строки логов.
 {% endhint %}
 
-### Restore
+### Восстановление
 
-An existing backup (as above) can be restored to the same or a new NATS server (or cluster) using the `nats stream restore` command.
+Существующий бэкап (как выше) можно восстановить на тот же или новый NATS server (или кластер) с помощью команды `nats stream restore`.
 
 {% hint style="info" %}
-`nats stream restore` restores a single stream from one backup directory. To restore all streams at once, use `nats account restore` as described below.
+`nats stream restore` восстанавливает один stream из одного каталога бэкапа. Чтобы восстановить все streams сразу, используйте `nats account restore`, как описано ниже.
 {% endhint %}
 
 ```shell
@@ -87,15 +85,15 @@ Configuration:
 ...
 ```
 
-Progress using the terminal bar can be disabled using `--no-progress`, it will then issue log lines instead.
+Прогресс с использованием полосы в терминале можно отключить через `--no-progress`, тогда будут выводиться строки логов.
 
-## Account-Level Backup and Restore
+## Бэкап и восстановление на уровне аккаунта
 
-In environments where the `nats` CLI is used interactively to configure the server you do not have a desired state to recreate the server from. This is not the ideal way to administer the server, we recommend Configuration Management, but many will use this approach.
+В средах, где CLI `nats` используется интерактивно для конфигурации сервера, у вас нет желаемого состояния, из которого можно воссоздать сервер. Это не лучший способ администрирования; мы рекомендуем управление конфигурациями, но многие используют этот подход.
 
-The `nats account backup` and `nats account restore` commands allow you to back up and restore all streams in an account at once, including their configuration, consumer state, and all message data.
+Команды `nats account backup` и `nats account restore` позволяют забэкапить и восстановить все streams аккаунта сразу, включая их конфигурацию, состояние consumer и все данные сообщений.
 
-### Account Backup
+### Бэкап аккаунта
 
 ```shell
 nats account backup /data/js-backup
@@ -118,18 +116,18 @@ Starting backup of Stream "WORK" with 7.3 KiB
 Received 7.3 KiB compressed data in 2 chunks for stream "WORK" in 0s, 30 KiB uncompressed
 ```
 
-This creates a subdirectory per stream inside `/data/js-backup`, each containing the full stream snapshot (configuration, consumer state, and message data) in the same format as `nats stream backup`.
+Это создаст подкаталог для каждого stream внутри `/data/js-backup`, каждый содержит полный snapshot stream (конфигурацию, состояние consumer и данные сообщений) в том же формате, что и `nats stream backup`.
 
-Available flags for `nats account backup`:
+Доступные флаги для `nats account backup`:
 
-| Flag | Description |
+| Флаг | Описание |
 | :--- | :--- |
-| `--consumers` | Include consumer configuration and state |
-| `--check` | Check backup integrity |
-| `--force` | Force overwrite of existing backup directory |
-| `--critical-warnings` | Treat warnings as critical errors |
+| `--consumers` | Включить конфигурацию и состояние consumer |
+| `--check` | Проверить целостность бэкапа |
+| `--force` | Принудительно перезаписать существующий каталог бэкапа |
+| `--critical-warnings` | Считать предупреждения критическими ошибками |
 
-### Account Restore
+### Восстановление аккаунта
 
 ```shell
 nats account restore /data/js-backup
@@ -151,15 +149,15 @@ Restored stream "WORK" in 0s
 ...
 ```
 
-This restores all stream subdirectories found in `/data/js-backup`, including their full message data and consumer state.
+Это восстановит все подкаталоги stream, найденные в `/data/js-backup`, включая все данные сообщений и состояние consumer.
 
-Available flags for `nats account restore`:
+Доступные флаги для `nats account restore`:
 
-| Flag | Description |
+| Флаг | Описание |
 | :--- | :--- |
-| `--cluster` | Target cluster for restored streams |
-| `--tag` | Placement tag for restored streams |
+| `--cluster` | Целевой кластер для восстановленных streams |
+| `--tag` | Тег размещения для восстановленных streams |
 
 {% hint style="warning" %}
-`nats account restore` will fail if a stream with the same name already exists. You must remove the existing stream before restoring from backup.
+`nats account restore` завершится с ошибкой, если stream с таким же именем уже существует. Перед восстановлением из бэкапа нужно удалить существующий stream.
 {% endhint %}

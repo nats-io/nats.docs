@@ -1,11 +1,11 @@
 # WebSocket
 
-_Supported since NATS Server version 2.2_
+_Поддерживается начиная с NATS Server версии 2.2_
 
-WebSocket support can be enabled in the server and may be used alongside the traditional TCP socket connections. TLS, compression and Origin Header checking are supported.
+Поддержка WebSocket может быть включена на сервере и использоваться параллельно с традиционными TCP‑соединениями. Поддерживаются TLS, сжатие и проверка заголовка Origin.
 
-**Important**
+**Важно**
 
-* NATS Supports only WebSocket data frames in Binary, not Text format \([https://tools.ietf.org/html/rfc6455\#section-5.6](https://tools.ietf.org/html/rfc6455#section-5.6)\). The server will always send in Binary and your clients MUST send in Binary too.
-* For writers of client libraries: a WebSocket frame is not guaranteed to contain a full NATS protocol \(actually will generally not\). Any data from a frame must be going through a parser that can handle partial protocols. See the protocol description [here](../../reference/nats-protocol/nats-protocol/).
-
+* NATS поддерживает только WebSocket data frames в бинарном формате, а не в текстовом 
+([https://tools.ietf.org/html/rfc6455#section-5.6](https://tools.ietf.org/html/rfc6455#section-5.6)). Сервер всегда отправляет в Binary, и ваши клиенты тоже ДОЛЖНЫ отправлять в Binary.
+* Для авторов клиентских библиотек: WebSocket‑фрейм не гарантирует, что содержит полный протокол NATS (чаще всего — нет). Любые данные из фрейма должны проходить через парсер, который умеет обрабатывать частичные протоколы. Описание протокола см. [здесь](../../reference/nats-protocol/nats-protocol/).

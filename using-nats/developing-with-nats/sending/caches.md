@@ -1,10 +1,10 @@
-# Caches, Flush and Ping
+# Кэши, Flush и Ping
 
-For performance reasons, most if not all, of the client libraries will buffer outgoing data so that bigger chunks can be written to the network at one time. This may be as simple as a byte buffer that stores a few messages before being pushed to the network.
+По соображениям производительности большинство (если не все) клиентских библиотек буферизуют исходящие данные, чтобы большие порции можно было записывать в сеть за один раз. Это может быть простым буфером байтов, который хранит несколько сообщений до отправки в сеть.
 
-These buffers do not hold messages forever, generally they are designed to hold messages in high throughput scenarios, while still providing good latency in low throughput situations.
+Эти буферы не хранят сообщения вечно; обычно они рассчитаны на высокую пропускную способность при сохранении хорошей задержки в ситуациях с низкой нагрузкой.
 
-It is the libraries job to make sure messages flow in a high performance manner. But there may be times when an application needs to know that a message has "hit the wire." In this case, applications can use a flush call to tell the library to move data through the system.
+Задача библиотеки — обеспечивать высокопроизводительный поток сообщений. Но иногда приложению нужно знать, что сообщение «вышло в сеть». В этом случае приложения могут использовать вызов flush, чтобы заставить библиотеку протолкнуть данные через систему.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -123,9 +123,8 @@ natsConnection_Destroy(conn);
 {% endtab %}
 {% endtabs %}
 
-## Flush and Ping/Pong
+## Flush и Ping/Pong
 
-Many of the client libraries use the [PING/PONG interaction](../connecting/pingpong.md) built into the NATS protocol to ensure that flush pushed all of the buffered messages to the server. When an application calls flush, most libraries will put a PING on the outgoing queue of messages, and wait for the server to respond with a PONG before saying that the flush was successful.
+Многие клиентские библиотеки используют взаимодействие [PING/PONG](../connecting/pingpong.md), встроенное в протокол NATS, чтобы убедиться, что flush отправил все буферизованные сообщения на сервер. Когда приложение вызывает flush, большинство библиотек помещает PING в исходящую очередь сообщений и ждёт ответа PONG от сервера, прежде чем считать flush успешным.
 
-Even though the client may use PING/PONG for flush, pings sent this way do not count towards [max outgoing pings](../connecting/pingpong.md).
-
+Хотя клиент может использовать PING/PONG для flush, такие ping'и не учитываются в лимите [max outgoing pings](../connecting/pingpong.md).

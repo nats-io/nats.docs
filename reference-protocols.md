@@ -1,3 +1,3 @@
-# NATS Reference documentation
+# Справочная документация NATS
 
-This section of the documentation contains the reference documentation for the NATS network protocols used between clients applications and server and between nats servers interconnected in a cluster.
+Этот раздел документации содержит справочные материалы по сетевым протоколам NATS, используемым между клиентскими приложениями и сервером, а также между серверами NATS, соединенными в кластере.

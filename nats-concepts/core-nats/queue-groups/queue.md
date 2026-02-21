@@ -1,37 +1,37 @@
-# Queue Groups
+# Группы очередей
 
-When subscribers register themselves to receive messages from a publisher, the 1:N fan-out pattern of messaging ensures that any message sent by a publisher, reaches all subscribers that have registered. NATS provides an additional feature named "queue", which allows subscribers to register themselves as part of a queue. Subscribers that are part of a queue, form the "queue group".
+Когда подписчики регистрируются для получения сообщений от издателя, паттерн 1:N (fan‑out) гарантирует, что любое сообщение издателя достигнет всех зарегистрированных подписчиков. NATS предоставляет дополнительную возможность под названием "queue", которая позволяет подписчикам регистрироваться как часть очереди. Подписчики, входящие в очередь, образуют "queue group".
 
-## How queue groups function
+## Как работают группы очередей
 
-As an example, consider message delivery occurring in the 1:N pattern to all subscribers based on the subject name (delivery happens even to subscribers that are not part of a queue group). If a subscriber is registered based on a queue name, it will always receive messages it is subscribed to, based on the subject name. However, if more subscribers are added to the same queue name, they become a queue group, and only one randomly chosen subscriber of the queue group will consume a message each time a message is received by the queue group. Such distributed queues are a built-in load balancing feature that NATS provides.
+Для примера рассмотрим доставку сообщений по паттерну 1:N всем подписчикам на основе имени subject (доставка происходит даже для подписчиков, которые не входят в группу очереди). Если подписчик зарегистрирован с именем очереди, он будет получать сообщения по своему subject. Однако если к тому же имени очереди добавляются другие подписчики, они образуют группу очереди, и при каждом получении сообщения группой очереди его обработает только один случайно выбранный подписчик. Такие распределенные очереди — это встроенная функция балансировки нагрузки в NATS.
 
-**Advantages**
+**Преимущества**
 
-* Ensures application fault tolerance
-* Workload processing can be scaled up or down
-* Scale your consumers up or down without duplicate messages
-* No extra configuration required
-* Queue groups are defined by the application and their queue subscribers, rather than the server configuration
+* Обеспечивает отказоустойчивость приложений
+* Обработку нагрузки можно масштабировать вверх или вниз
+* Масштабируйте потребителей без дубликатов сообщений
+* Не требуется дополнительная конфигурация
+* Группы очередей определяются приложением и его подписчиками, а не конфигурацией сервера
 
-Queue group names follow the same naming rules as [subjects](../../subjects.md). Foremost, they are case sensitive and cannot contain whitespace. Consider structuring queue groups hierarchically using a period `.`. Some server functionalities like [queue permissions](../../../running-a-nats-service/configuration/securing_nats/authorization.md#queue-permissions) can use [wildcard matching](../../subjects.md#wildcards) on them.
+Имена групп очередей подчиняются тем же правилам, что и [subjects](../../subjects.md). В первую очередь они чувствительны к регистру и не могут содержать пробелы. Рассмотрите возможность иерархического именования групп очередей с использованием точки `.`. Некоторые функции сервера, такие как [queue permissions](../../../running-a-nats-service/configuration/securing_nats/authorization.md#queue-permissions), могут использовать [wildcard‑сопоставление](../../subjects.md#wildcards) для них.
 
-Queue subscribers are ideal for scaling services. Scale up is as simple as running another application, scale down is terminating the application with a signal that drains the in flight requests. This flexibility and lack of any configuration changes makes NATS an excellent service communication technology that can work with all platform technologies.
+Подписчики очереди идеально подходят для масштабирования сервисов. Масштабирование вверх — это просто запуск еще одного приложения, а масштабирование вниз — завершение приложения с сигналом, который «осушит» in‑flight запросы. Эта гибкость и отсутствие необходимости менять конфигурацию делают NATS отличной технологией коммуникации сервисов, совместимой с любыми платформами.
 
-### No responder
+### Нет обработчиков
 
-When a request is made to a service (request/reply) and the NATS Server knows there are no services available (since there are no client applications currently subscribing to the subject in a queue-group) the server will send a “no-responders” protocol message back to the requesting client which will break from blocking API calls. This allows applications to react immediately. This further enables building a highly responsive system at scale, even in the face of application failures and network partitions.
+Когда запрос отправляется сервису (request/reply) и сервер NATS знает, что нет доступных сервисов (поскольку нет клиентских приложений, подписанных на subject в группе очереди), сервер отправит запрашивающему клиенту протокольное сообщение “no-responders”, которое прервет блокирующий вызов API. Это позволяет приложениям реагировать мгновенно и помогает строить высокоотзывчивые системы в масштабе даже при сбоях приложений и сетевых разделениях.
 
-## Stream as a queue
+## Stream как очередь
 
-With [JetStream](../../jetstream/) a stream can also be used as a queue by setting the retention policy to `WorkQueuePolicy` and leveraging [`pull` consumers](../../jetstream/consumers.md) to get easy horizontal scalability of the processing (or using an explicit ack push consumer with a queue group of subscribers).
+С [JetStream](../../jetstream/) поток можно использовать как очередь, установив политику хранения `WorkQueuePolicy` и используя [`pull` consumers](../../jetstream/consumers.md) для простой горизонтальной масштабируемости обработки (или используя явный ack push consumer с группой очереди подписчиков).
 
 ![](../../../.gitbook/assets/queue.svg)
 
-### Queuing geo-affinity
+### Гео‑аффинность очередей
 
-When connecting to a globally distributed NATS super-cluster, there is an automatic service geo-affinity due to the fact that a service request message will only be routed to another cluster (i.e. another region) if there are no listeners on the cluster available to handle the request locally.
+При подключении к глобально распределенному супер‑кластеру NATS возникает автоматическая гео‑аффинность сервисов: сообщение запроса будет маршрутизировано в другой кластер (то есть другой регион) только если в локальном кластере нет слушателей, способных обработать запрос.
 
-### Tutorial
+### Руководство
 
-Try NATS queue subscriptions on your own, using a live server by walking through the [queueing walkthrough](queues\_walkthrough.md).
+Попробуйте подписки с очередями в NATS самостоятельно, используя живой сервер, пройдя [пошаговое руководство по очередям](queues\_walkthrough.md).

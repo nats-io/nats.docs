@@ -1,70 +1,71 @@
-# Monitoring
+# Мониторинг
 
-## Monitoring NATS
+## Мониторинг NATS
 
-To monitor the NATS messaging system, `nats-server` provides a lightweight HTTP server on a dedicated monitoring port. The monitoring server provides several endpoints, providing statistics and other information about the following:
+Для мониторинга системы сообщений NATS `nats-server` предоставляет легковесный HTTP‑сервер на выделенном порту мониторинга. Сервер мониторинга предоставляет несколько endpoint, возвращающих статистику и другую информацию о следующем:
 
-* [General Server Information (`/varz`)](#general-information-varz)
-* [Connections (`/connz`)](#connection-information-connz)
-* [Routing (`/routez`)](#route-information-routez)
+* [Общая информация о сервере (`/varz`)](#general-information-varz)
+* [Соединения (`/connz`)](#connection-information-connz)
+* [Маршрутизация (`/routez`)](#route-information-routez)
 * [Gateway (`/gatewayz`)](#gateway-information-gatewayz)
 * [Leaf Nodes (`/leafz`)](#leaf-node-information-leafz)
-* [Subscription Routing (`/subsz`)](#subscription-routing-information-subsz)
-* [Account Information (`/accountz`)](#account-information-accountz)
-* [Account Stats (`/accstatz`)](#account-statistics-accstatz)
-* [JetStream Information (`/jsz`)](#jetstream-information-jsz)
+* [Маршрутизация подписок (`/subsz`)](#subscription-routing-information-subsz)
+* [Информация об аккаунтах (`/accountz`)](#account-information-accountz)
+* [Статистика аккаунтов (`/accstatz`)](#account-statistics-accstatz)
+* [Информация JetStream (`/jsz`)](#jetstream-information-jsz)
 * [Health (`/healthz`)](#health-healthz)
 
-All endpoints return a JSON object.
+Все endpoint возвращают JSON‑объект.
 
-Note that info from these monitoring endpoints is also available through [System services](../../configuration/sys_accounts#system-account)
+Обратите внимание: информация из этих endpoint также доступна через [System services](../../configuration/sys_accounts#system-account)
 
-The NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSONP) and [CORS](https://en.wikipedia.org/wiki/Cross-origin\_resource\_sharing#How\_CORS\_works), making it easy to create single page monitoring web applications. Part of the NATS ecosystem is a tool called [nats-top](../../../using-nats/nats-tools/nats\_top/) that visualizes data from these endpoints on the command line.
+Endpoint мониторинга NATS поддерживают [JSONP](https://en.wikipedia.org/wiki/JSONP) и [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing#How_CORS_works), что упрощает создание одностраничных веб‑приложений мониторинга. В экосистеме NATS есть инструмент [nats-top](../../../using-nats/nats-tools/nats_top/), который визуализирует данные из этих endpoint в командной строке.
 
 {% hint style="warning" %}
-`nats-server` does not have authentication/authorization for the monitoring endpoint. When you plan to open your `nats-server` to the internet make sure to not expose the monitoring port as well. By default, monitoring binds to every interface `0.0.0.0` so consider setting monitoring to `localhost` or have appropriate firewall rules.
+`nats-server` не имеет аутентификации/авторизации для endpoint мониторинга. Если вы планируете открыть `nats-server` в интернет, убедитесь, что порт мониторинга также не экспонируется. По умолчанию мониторинг привязывается ко всем интерфейсам `0.0.0.0`, поэтому рассмотрите настройку мониторинга на `localhost` или соответствующие правила firewall.
 {% endhint %}
 
-### Enabling monitoring
+### Включение мониторинга
 
-Monitoring can be enabled in [server configuration](../../configuration/#monitoring-and-tracing) or as a server [command-line option](../../running/flags.md#server-options). The conventional port is `8222`.
+Мониторинг можно включить в [конфигурации сервера](../../configuration/#monitoring-and-tracing) или как [опцию командной строки](../../running/flags.md#server-options). Стандартный порт — `8222`.
 
-As server configuration:
+В конфигурации сервера:
 
 ```yaml
 http_port: 8222
 ```
 
-As a command-line option:
+Как опция командной строки:
 
 ```bash
 nats-server -m 8222
 ```
 
-Once the server is running using one of the two methods, go to <http://localhost:8222> to browse the available endpoints detailed below.
+После запуска сервера одним из двух способов перейдите на <http://localhost:8222>, чтобы просмотреть доступные endpoint, описанные ниже.
 
-Alternatively, if you have System account enabled, monitoring endpoints available as ["System services"](https://docs.nats.io/running-a-nats-service/configuration/sys_accounts#system-account)
+Или, если включен System account, endpoint мониторинга доступны как ["System services"](https://docs.nats.io/running-a-nats-service/configuration/sys_accounts#system-account)
 
-## Monitoring Endpoints
+## Точки мониторинга
 
-### General Information `(/varz)`
+<a id="general-information-varz"></a>
+### Общая информация `(/varz)`
 
-The `/varz` endpoint returns general information about the server state and configuration.
+Endpoint `/varz` возвращает общую информацию о состоянии и конфигурации сервера.
 
 | Result  | Return Code       |
 | ------- | ----------------- |
 | Success | 200 (OK)          |
 | Error   | 400 (Bad Request) |
 
-#### Arguments
+#### Аргументы
 
 N/A
 
-#### Example
+#### Пример
 
 [https://demo.nats.io:8222/varz](https://demo.nats.io:8222/varz)
 
-#### Response
+#### Ответ
 
 ```json
 {
@@ -125,60 +126,61 @@ N/A
 }
 ```
 
-### Connection Information (`/connz`)
+<a id="connection-information-connz"></a>
+### Информация о соединениях (`/connz`)
 
-The `/connz` endpoint reports more detailed information on current and recently closed connections. It uses a paging mechanism which defaults to 1024 connections.
+Endpoint `/connz` сообщает более подробную информацию о текущих и недавно закрытых соединениях. Он использует paging‑механизм, по умолчанию на 1024 соединения.
 
 | Result  | Return Code       |
 | ------- | ----------------- |
 | Success | 200 (OK)          |
 | Error   | 400 (Bad Request) |
 
-#### Arguments
+#### Аргументы
 
-| Argument     | Values                        | Description                                                                                                                        |
+| Аргумент     | Значения                      | Описание                                                                                                                           |
 | ------------ | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| sort         | (_see sort options_)          | Sorts the results. Default is connection ID.                                                                                       |
-| auth         | true, 1, false, 0             | Include username. Default is false.                                                                                                |
-| subs         | true, 1, false, 0 or `detail` | Include subscriptions. Default is false. When set to `detail` a list with more detailed subscription information will be returned. |
-| offset       | number > 0                    | Pagination offset. Default is 0.                                                                                                   |
-| limit        | number > 0                    | Number of results to return. Default is 1024.                                                                                      |
-| cid          | number, valid id              | Return a connection by its id                                                                                                     |
-| state        | open, \*closed, any           | Return connections of particular state. Default is open.                                                                           |
-| mqtt\_client | string                        | Filter the connection with this MQTT client ID.                                                                                    |
+| sort         | (_см. опции сортировки_)      | Сортирует результаты. По умолчанию — connection ID.                                                                               |
+| auth         | true, 1, false, 0             | Включить имя пользователя. По умолчанию — false.                                                                                  |
+| subs         | true, 1, false, 0 или `detail` | Включить подписки. По умолчанию — false. При `detail` вернется список с более подробной информацией о подписках.                  |
+| offset       | number > 0                    | Смещение пагинации. По умолчанию — 0.                                                                                             |
+| limit        | number > 0                    | Количество результатов. По умолчанию — 1024.                                                                                      |
+| cid          | number, valid id              | Вернуть соединение по его id                                                                                                      |
+| state        | open, \*closed, any           | Вернуть соединения заданного состояния. По умолчанию — open.                                                                     |
+| mqtt_client  | string                        | Фильтровать соединение по этому MQTT client ID.                                                                                   |
 
-_The server will default to holding the last 10,000 closed connections._
+_Сервер по умолчанию хранит последние 10 000 закрытых соединений._
 
-**Sort Options**
+**Опции сортировки**
 
-| Option      | Sort by                                              |
-| ----------- | ---------------------------------------------------- |
-| cid         | Connection ID                                        |
-| start       | Connection start time, same as CID                   |
-| subs        | Number of subscriptions                              |
-| pending     | Amount of data in bytes waiting to be sent to client |
-| msgs\_to    | Number of messages sent                              |
-| msgs\_from  | Number of messages received                          |
-| bytes\_to   | Number of bytes sent                                 |
-| bytes\_from | Number of bytes received                             |
-| last        | Last activity                                        |
-| idle        | Amount of inactivity                                 |
-| uptime      | Lifetime of the connection                           |
-| stop        | Stop time for a closed connection                    |
-| reason      | Reason for a closed connection                       |
-| rtt         | Round trip time                                      |
+| Опция       | Сортировка по                                      |
+| ----------- | -------------------------------------------------- |
+| cid         | ID соединения                                      |
+| start       | Время начала соединения, как CID                   |
+| subs        | Число подписок                                     |
+| pending     | Объем данных (байт), ожидающих отправки клиенту    |
+| msgs_to     | Число отправленных сообщений                       |
+| msgs_from   | Число полученных сообщений                         |
+| bytes_to    | Число отправленных байт                            |
+| bytes_from  | Число полученных байт                              |
+| last        | Последняя активность                               |
+| idle        | Время бездействия                                  |
+| uptime      | Время жизни соединения                             |
+| stop        | Время остановки закрытого соединения               |
+| reason      | Причина закрытия соединения                        |
+| rtt         | Round trip time                                    |
 
-#### Examples
+#### Примеры
 
-Get up to 1024 connections: [https://demo.nats.io:8222/connz](https://demo.nats.io:8222/connz)
+Получить до 1024 соединений: [https://demo.nats.io:8222/connz](https://demo.nats.io:8222/connz)
 
-Control limit and offset: [https://demo.nats.io:8222/connz?limit=16\&offset=128](https://demo.nats.io:8222/connz?limit=16\&offset=128).
+Управление limit и offset: [https://demo.nats.io:8222/connz?limit=16&offset=128](https://demo.nats.io:8222/connz?limit=16&offset=128).
 
-Get closed connection information: [https://demo.nats.io:8222/connz?state=closed](https://demo.nats.io:8222/connz?state=closed).
+Получить информацию о закрытых соединениях: [https://demo.nats.io:8222/connz?state=closed](https://demo.nats.io:8222/connz?state=closed).
 
-You can also report detailed subscription information on a per connection basis using subs=1. For example: [https://demo.nats.io:8222/connz?limit=1\&offset=1\&subs=1](https://demo.nats.io:8222/connz?limit=1\&offset=1\&subs=1).
+Также можно получить подробную информацию о подписках для каждого соединения с subs=1. Например: [https://demo.nats.io:8222/connz?limit=1&offset=1&subs=1](https://demo.nats.io:8222/connz?limit=1&offset=1&subs=1).
 
-#### Response
+#### Ответ
 
 ```json
 {
@@ -254,28 +256,29 @@ You can also report detailed subscription information on a per connection basis 
 }
 ```
 
-### Route Information  (`/routez`)
+<a id="route-information-routez"></a>
+### Информация о маршрутах (`/routez`)
 
-The `/routez` endpoint reports information on active routes for a cluster. Routes are expected to be low, so there is no paging mechanism with this endpoint.
+Endpoint `/routez` сообщает информацию об активных маршрутах кластера. Маршрутов обычно немного, поэтому этот endpoint не использует пагинацию.
 
 | Result  | Return Code       |
 | ------- | ----------------- |
 | Success | 200 (OK)          |
 | Error   | 400 (Bad Request) |
 
-#### Arguments
+#### Аргументы
 
-| Argument | Values                        | Description                                                                                                                        |
+| Аргумент | Значения                      | Описание                                                                                                                           |
 | -------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| subs     | true, 1, false, 0 or `detail` | Include subscriptions. Default is false. When set to `detail` a list with more detailed subscription information will be returned. |
+| subs     | true, 1, false, 0 или `detail` | Включить подписки. По умолчанию — false. При `detail` вернется список с более подробной информацией о подписках.                  |
 
-As noted above, the `routez` endpoint does support the `subs` argument from the `/connz` endpoint. For example: [https://demo.nats.io:8222/routez?subs=1](https://demo.nats.io:8222/routez?subs=1)
+Как отмечено выше, endpoint `routez` поддерживает аргумент `subs` из endpoint `/connz`. Например: [https://demo.nats.io:8222/routez?subs=1](https://demo.nats.io:8222/routez?subs=1)
 
-#### Example
+#### Пример
 
-* Get route information: [https://demo.nats.io:8222/routez?subs=1](https://demo.nats.io:8222/routez?subs=1)
+* Получить информацию о маршрутах: [https://demo.nats.io:8222/routez?subs=1](https://demo.nats.io:8222/routez?subs=1)
 
-#### Response
+#### Ответ
 
 ```json
 {
@@ -300,28 +303,29 @@ As noted above, the `routez` endpoint does support the `subs` argument from the 
 }
 ```
 
-### Gateway Information (`/gatewayz`)
+<a id="gateway-information-gatewayz"></a>
+### Информация о Gateway (`/gatewayz`)
 
-The `/gatewayz` endpoint reports information about gateways used to create a NATS supercluster. Like routes, the number of gateways are expected to be low, so there is no paging mechanism with this endpoint.
+Endpoint `/gatewayz` сообщает информацию о gateways, используемых для создания NATS supercluster. Как и маршрутов, gateways обычно немного, поэтому этот endpoint не использует пагинацию.
 
 | Result  | Return Code       |
 | ------- | ----------------- |
 | Success | 200 (OK)          |
 | Error   | 400 (Bad Request) |
 
-#### Arguments
+#### Аргументы
 
-| Argument  | Values            | Description                                      |
+| Аргумент  | Значения          | Описание                                         |
 | --------- | ----------------- | ------------------------------------------------ |
-| accs      | true, 1, false, 0 | Include account information. Default is false.   |
-| gw\_name  | string            | Return only remote gateways with this name.      |
-| acc\_name | string            | Limit the list of accounts to this account name. |
+| accs      | true, 1, false, 0 | Включить информацию об аккаунтах. По умолчанию — false. |
+| gw_name   | string            | Вернуть только удаленные gateways с этим именем. |
+| acc_name  | string            | Ограничить список аккаунтов этим именем.         |
 
-#### Examples
+#### Примеры
 
-* Retrieve Gateway Information: [https://demo.nats.io:8222/gatewayz](https://demo.nats.io:8222/gatewayz)
+* Получить информацию о Gateway: [https://demo.nats.io:8222/gatewayz](https://demo.nats.io:8222/gatewayz)
 
-#### Response
+#### Ответ
 
 ```json
 {
@@ -436,28 +440,29 @@ The `/gatewayz` endpoint reports information about gateways used to create a NAT
 }
 ```
 
-### Leaf Node Information (`/leafz`)
+<a id="leaf-node-information-leafz"></a>
+### Информация о Leaf Nodes (`/leafz`)
 
-The `/leafz` endpoint reports detailed information about the leaf node connections.
+Endpoint `/leafz` сообщает подробную информацию о соединениях leaf node.
 
 | Result  | Return Code       |
 | ------- | ----------------- |
 | Success | 200 (OK)          |
 | Error   | 400 (Bad Request) |
 
-#### Arguments
+#### Аргументы
 
-| Argument | Values            | Description                                       |
-| -------- | ----------------- | ------------------------------------------------- |
-| subs     | true, 1, false, 0 | Include internal subscriptions. Default is false. |
+| Аргумент | Значения          | Описание                                       |
+| -------- | ----------------- | --------------------------------------------- |
+| subs     | true, 1, false, 0 | Включить внутренние подписки. По умолчанию — false. |
 
-As noted above, the `leafz` endpoint does support the `subs` argument from the `/connz` endpoint. For example: [https://demo.nats.io:8222/leafz?subs=1](https://demo.nats.io:8222/leafz?subs=1)
+Как отмечено выше, endpoint `leafz` поддерживает аргумент `subs` из endpoint `/connz`. Например: [https://demo.nats.io:8222/leafz?subs=1](https://demo.nats.io:8222/leafz?subs=1)
 
-#### Example
+#### Пример
 
-* Get leaf nodes information: [https://demo.nats.io:8222/leafz?subs=1](https://demo.nats.io:8222/leafz?subs=1)
+* Получить информацию о leaf nodes: [https://demo.nats.io:8222/leafz?subs=1](https://demo.nats.io:8222/leafz?subs=1)
 
-#### Response
+#### Ответ
 
 ```json
 {
@@ -481,29 +486,30 @@ As noted above, the `leafz` endpoint does support the `subs` argument from the `
 }
 ```
 
-### Subscription Routing Information (`/subsz`)
+<a id="subscription-routing-information-subsz"></a>
+### Информация о маршрутизации подписок (`/subsz`)
 
-The `/subsz` endpoint reports detailed information about the current subscriptions and the routing data structure. It is not normally used.
+Endpoint `/subsz` сообщает подробную информацию о текущих подписках и структуре маршрутизации. Обычно не используется.
 
 | Result  | Return Code       |
 | ------- | ----------------- |
 | Success | 200 (OK)          |
 | Error   | 400 (Bad Request) |
 
-#### Arguments
+#### Аргументы
 
-| Argument | Values            | Description                                   |
-| -------- | ----------------- | --------------------------------------------- |
-| subs     | true, 1, false, 0 | Include subscriptions. Default is false.      |
-| offset   | integer > 0       | Pagination offset. Default is 0.              |
-| limit    | integer > 0       | Number of results to return. Default is 1024. |
-| test     | subject           | Test whether a subsciption exists.            |
+| Аргумент | Значения          | Описание                                   |
+| -------- | ----------------- | ------------------------------------------- |
+| subs     | true, 1, false, 0 | Включить подписки. По умолчанию — false.     |
+| offset   | integer > 0       | Смещение пагинации. По умолчанию — 0.        |
+| limit    | integer > 0       | Количество результатов. По умолчанию — 1024. |
+| test     | subject           | Проверить, существует ли подписка.           |
 
-#### Example
+#### Пример
 
-* Get subscription routing information: [https://demo.nats.io:8222/subsz](https://demo.nats.io:8222/subsz)
+* Получить информацию о маршрутизации подписок: [https://demo.nats.io:8222/subsz](https://demo.nats.io:8222/subsz)
 
-#### Response
+#### Ответ
 
 ```json
 {
@@ -518,27 +524,28 @@ The `/subsz` endpoint reports detailed information about the current subscriptio
 }
 ```
 
-### Account Information (`/accountz`)
+<a id="account-information-accountz"></a>
+### Информация об аккаунтах (`/accountz`)
 
-The `/accountz` endpoint reports information on a server's active accounts. The default behavior is to return a list of all accounts known to the server.
+Endpoint `/accountz` сообщает информацию об активных аккаунтах сервера. По умолчанию возвращает список всех аккаунтов, известных серверу.
 
 | Result  | Return Code       |
 | ------- | ----------------- |
 | Success | 200 (OK)          |
 | Error   | 400 (Bad Request) |
 
-| Argument | Value        | Description                                                                                                    |
-| -------- | ------------ | -------------------------------------------------------------------------------------------------------------- |
-| acc      | account name | Include metrics for the specified account. Default is empty. When not set, a list of all accounts is included. |
+| Аргумент | Значение     | Описание                                                                                                     |
+| -------- | ------------ | ------------------------------------------------------------------------------------------------------------ |
+| acc      | имя аккаунта | Включить метрики для указанного аккаунта. По умолчанию пусто. Если не задано, включается список всех аккаунтов. |
 
-#### Example
+#### Пример
 
-* Get list of all accounts: [https://demo.nats.io:8222/accountz](https://demo.nats.io:8222/accountz)
-* Get details for specific account `$G`: [https://demo.nats.io:8222/accountz?acc=$G](https://demo.nats.io:8222/accountz?acc=$G)
+* Получить список всех аккаунтов: [https://demo.nats.io:8222/accountz](https://demo.nats.io:8222/accountz)
+* Получить детали для конкретного аккаунта `$G`: [https://demo.nats.io:8222/accountz?acc=$G](https://demo.nats.io:8222/accountz?acc=$G)
 
-#### Response
+#### Ответ
 
-Default behavior:
+Поведение по умолчанию:
 
 ```json
 {
@@ -549,7 +556,7 @@ Default behavior:
 }
 ```
 
-Retrieve specific account:
+Получение конкретного аккаунта:
 
 ```json
 {
@@ -615,27 +622,28 @@ Retrieve specific account:
 }
 ```
 
-### Account Statistics (`/accstatz`)
+<a id="account-statistics-accstatz"></a>
+### Статистика аккаунтов (`/accstatz`)
 
-The `/accstatz` endpoint reports per-account statistics such as the number of connections, messages/bytes in/out, etc.
+Endpoint `/accstatz` возвращает статистику по аккаунтам: число соединений, сообщения/байты in/out и т. п.
 
 | Result  | Return Code       |
 | ------- | ----------------- |
 | Success | 200 (OK)          |
 | Error   | 400 (Bad Request) |
 
-#### Arguments
+#### Аргументы
 
-| Argument | Values            | Description                                                                           |
-| -------- | ----------------- | ------------------------------------------------------------------------------------- |
-| unused   | true, 1, false, 0 | If true, include accounts that do not have any current connections. Default is false. |
+| Аргумент | Значения          | Описание                                                                                 |
+| -------- | ----------------- | ---------------------------------------------------------------------------------------- |
+| unused   | true, 1, false, 0 | Если true, включать аккаунты без текущих соединений. По умолчанию — false.              |
 
-#### Examples
+#### Примеры
 
-* Accounts with active connections - <https://demo.nats.io:8222/accstatz>
-* Include ones without any connections (in this case `$SYS`)- <https://demo.nats.io:8222/accstatz?unused=1>
+* Аккаунты с активными соединениями — <https://demo.nats.io:8222/accstatz>
+* Включить аккаунты без соединений (в этом примере `$SYS`) — <https://demo.nats.io:8222/accstatz?unused=1>
 
-#### Response
+#### Ответ
 
 ```json
 {
@@ -678,40 +686,41 @@ The `/accstatz` endpoint reports per-account statistics such as the number of co
 }
 ```
 
-### JetStream Information (`/jsz`)
+<a id="jetstream-information-jsz"></a>
+### Информация JetStream (`/jsz`)
 
-The `/jsz` endpoint reports more detailed information on JetStream. For accounts, it uses a paging mechanism that defaults to 1024 connections.
+Endpoint `/jsz` возвращает более подробную информацию о JetStream. Для аккаунтов используется paging‑механизм, по умолчанию на 1024 соединения.
 
-> **Note:** If you're in a clustered environment, it is recommended to retrieve the information from the stream's leader in order to get the most accurate and up-to-date data.
+> **Примечание:** если вы в кластерной среде, рекомендуется получать информацию от лидера stream, чтобы данные были наиболее точными и актуальными.
 
 | Result  | Return Code       |
 | ------- | ----------------- |
 | Success | 200 (OK)          |
 | Error   | 400 (Bad Request) |
 
-#### Arguments
+#### Аргументы
 
-| Argument    | Values            | Description                                                                                      |
-| ----------- | ----------------- | ------------------------------------------------------------------------------------------------ |
-| acc         | account name      | Include metrics for the specified account. Default is unset.                                     |
-| accounts    | true, 1, false, 0 | Include account specific JetStream information. Default is false.                                |
-| streams     | true, 1, false, 0 | Include streams. When set, implies `accounts=true`. Default is false.                            |
-| consumers   | true, 1, false, 0 | Include consumer. When set, implies `streams=true`. Default is false.                            |
-| config      | true, 1, false, 0 | When stream or consumer are requested, include their respective configuration. Default is false. |
-| leader-only | true, 1, false, 0 | Only the leader responds. Default is false.                                                      |
-| offset      | number > 0        | Pagination offset. Default is 0.                                                                 |
-| limit       | number > 0        | Number of results to return. Default is 1024.                                                    |
-| raft        | true, 1, false, 0 | Include information details about the Raft group. Default is false.                              |
+| Аргумент    | Значения          | Описание                                                                                      |
+| ----------- | ----------------- | ---------------------------------------------------------------------------------------------- |
+| acc         | имя аккаунта      | Включить метрики для указанного аккаунта. По умолчанию не задан.                              |
+| accounts    | true, 1, false, 0 | Включить специфичную для аккаунтов информацию JetStream. По умолчанию — false.                 |
+| streams     | true, 1, false, 0 | Включить streams. При true подразумевается `accounts=true`. По умолчанию — false.             |
+| consumers   | true, 1, false, 0 | Включить consumers. При true подразумевается `streams=true`. По умолчанию — false.            |
+| config      | true, 1, false, 0 | При запросе stream или consumer включать их конфигурацию. По умолчанию — false.               |
+| leader-only | true, 1, false, 0 | Отвечает только лидер. По умолчанию — false.                                                   |
+| offset      | number > 0        | Смещение пагинации. По умолчанию — 0.                                                          |
+| limit       | number > 0        | Количество результатов. По умолчанию — 1024.                                                   |
+| raft        | true, 1, false, 0 | Включить детали о группе Raft. По умолчанию — false.                                           |
 
-#### Examples
+#### Примеры
 
-Get basic JetStream information: [https://demo.nats.io:8222/jsz](https://demo.nats.io:8222/jsz)
+Получить базовую информацию JetStream: [https://demo.nats.io:8222/jsz](https://demo.nats.io:8222/jsz)
 
-Request accounts and control limit and offset: [https://demo.nats.io:8222/jsz?accounts=true\&limit=16\&offset=128](https://demo.nats.io:8222/jsz?accounts=true\&limit=16\&offset=128).
+Запросить аккаунты и управлять limit/offset: [https://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128](https://demo.nats.io:8222/jsz?accounts=true&limit=16&offset=128).
 
-You can also report detailed consumer information on a per connection basis using consumer=true. For example: [https://demo.nats.io:8222/jsz?consumers=true](https://demo.nats.io:8222/jsz?consumers=true).
+Также можно получать подробную информацию о consumer для каждого соединения с consumers=true. Например: [https://demo.nats.io:8222/jsz?consumers=true](https://demo.nats.io:8222/jsz?consumers=true).
 
-#### Response
+#### Ответ
 
 ```json
 {
@@ -821,45 +830,46 @@ You can also report detailed consumer information on a per connection basis usin
 }
 ```
 
-### Health (`/healthz`)
+<a id="health-healthz"></a>
+### Состояние (`/healthz`)
 
-The `/healthz` endpoint returns OK if the server is able to accept connections.
+Endpoint `/healthz` возвращает OK, если сервер способен принимать соединения.
 
 | Result  | Return Code       |
 | ------- | ----------------- |
 | Success | 200 (OK)          |
 | Error   | 400 (Bad Request) |
 
-#### Arguments
+#### Аргументы
 
-| Argument        | Values  | Description                                                                                 |
-| --------------- | ------- | ------------------------------------------------------------------------------------------- |
-| js-enabled-only | true, 1 | Returns an error if JetStream is disabled.                                                  |
-| js-server-only  | true, 1 | Skip health check of accounts, streams, and consumers.                                      |
-| js-enabled      | true, 1 | Returns an error if JetStream is disabled. (**Deprecated**: use `js-enabled-only` instead). |
+| Аргумент        | Значения | Описание                                                                                      |
+| --------------- | ------- | --------------------------------------------------------------------------------------------- |
+| js-enabled-only | true, 1 | Возвращает ошибку, если JetStream выключен.                                                    |
+| js-server-only  | true, 1 | Пропустить проверку здоровья аккаунтов, streams и consumers.                                   |
+| js-enabled      | true, 1 | Возвращает ошибку, если JetStream выключен. (**Deprecated**: используйте `js-enabled-only`).  |
 
-#### Example
+#### Пример
 
-* Default - <https://demo.nats.io:8222/healthz>
-* Expect JetStream - <https://demo.nats.io:8222/healthz?js-enabled-only=true>
+* По умолчанию — <https://demo.nats.io:8222/healthz>
+* Ожидать JetStream — <https://demo.nats.io:8222/healthz?js-enabled-only=true>
 
-#### Response
+#### Ответ
 
 ```json
 { "status": "ok" }
 ```
 
-## Creating Monitoring Applications
+## Создание приложений мониторинга
 
-NATS monitoring endpoints support [JSONP](https://en.wikipedia.org/wiki/JSONP) and [CORS](https://en.wikipedia.org/wiki/Cross-origin\_resource\_sharing#How\_CORS\_works). You can easily create single page web applications for monitoring. To do this you simply pass the `callback` query parameter to any endpoint.
+Endpoint мониторинга NATS поддерживают [JSONP](https://en.wikipedia.org/wiki/JSONP) и [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing#How_CORS_works). Можно легко создать одностраничные веб‑приложения мониторинга. Для этого достаточно передать query‑параметр `callback` в любой endpoint.
 
-For example:
+Например:
 
 ```
 https://demo.nats.io:8222/connz?callback=cb
 ```
 
-Here is a JQuery example implementation:
+Вот пример реализации на JQuery:
 
 ```javascript
 $.getJSON("https://demo.nats.io:8222/connz?callback=?", function (data) {
@@ -867,8 +877,8 @@ $.getJSON("https://demo.nats.io:8222/connz?callback=?", function (data) {
 });
 ```
 
-## Monitoring Tools
+## Инструменты мониторинга
 
-In addition to writing custom monitoring tools, you can monitor nats-server in Prometheus. The [Prometheus NATS Exporter](https://github.com/nats-io/prometheus-nats-exporter) allows you to configure the metrics you want to observe and store in Prometheus, and there are Grafana dashboards available for you to visualize the server metrics.
+Помимо написания собственных инструментов, вы можете мониторить nats-server в Prometheus. [Prometheus NATS Exporter](https://github.com/nats-io/prometheus-nats-exporter) позволяет настроить метрики, которые нужно наблюдать и сохранять в Prometheus, а для визуализации метрик сервера доступны дашборды Grafana.
 
-See the [Walkthrough of Monitoring NATS with Prometheus and Grafana](https://github.com/nats-io/prometheus-nats-exporter/tree/main/walkthrough) for more details.
+Подробнее см. [Walkthrough of Monitoring NATS with Prometheus and Grafana](https://github.com/nats-io/prometheus-nats-exporter/tree/main/walkthrough).

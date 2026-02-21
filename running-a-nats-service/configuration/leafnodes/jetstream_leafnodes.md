@@ -2,41 +2,41 @@
 description: Using JetStream on Leaf Nodes
 ---
 
-# Leaf Nodes
+# Leaf Nodes (листовые узлы)
 
-If you want to see a demonstration of the full range of this functionality, check out our [video](https://youtu.be/0MkS_S7lyHk)
+Если хотите увидеть демонстрацию полного спектра возможностей, посмотрите наше [видео](https://youtu.be/0MkS_S7lyHk)
 
-One of the use cases for a NATS server configured as a [leaf node](../leafnodes) is to provide a local NATS network even when the connection to a hub or the cloud is down. To support such a disconnected use case with JetStream, independent JetStream islands are also supported and available through the same NATS network.
+Один из сценариев использования сервера NATS, настроенного как [leaf node](../leafnodes), — обеспечить локальную сеть NATS даже при отсутствии связи с hub или облаком. Для поддержки такого «отключенного» сценария с JetStream также поддерживаются независимые острова JetStream, доступные через ту же сеть NATS.
 
-The general issue with multiple, independent JetStreams, accessible from the same client is that you need to be able to tell them apart. As an example, consider a leaf node with a non-clustered JetStream in each server. You connect to one of them, but which JetStream responds when you use the JetStream API `$JS.API.>` ?
+Общая проблема нескольких независимых JetStream, доступных одному клиенту, — необходимость различать их. Например, возьмем leaf‑node с не‑кластеризованным JetStream на каждом сервере. Вы подключаетесь к одному из них, но какой JetStream ответит, когда вы используете JetStream API `$JS.API.>`?
 
-To disambiguate between servers, the option `domain` was added to the JetStream configuration block. When using it, follow these rules: Every server in a cluster and super cluster needs to have the same domain name. This means that domain names can only change between two servers if they are connected via a leaf node connection. As a result of this the JetStream API `$JS.API.>` will also be available under a disambiguated name `$JS.<domain>.API.>`. Needless to say, domain names need to be unique.
+Чтобы различать серверы, в блок конфигурации JetStream добавлена опция `domain`. При использовании следуйте правилам: каждый сервер в кластере и супер‑кластере должен иметь одинаковое имя домена. Это означает, что имена доменов могут различаться только между двумя серверами, если они соединены через leaf‑подключение. В результате JetStream API `$JS.API.>` также будет доступен под доменно‑уточненным именем `$JS.<domain>.API.>`. Разумеется, имена доменов должны быть уникальными.
 
-There are reasons to connect system accounts on either end of your leaf node connection. You probably don't want to connect your cloud and edge device system accounts, but you might connect them when the only reason keeping you from using a super cluster are firewall rules.
+Есть причины подключать системные аккаунты по обе стороны leaf‑подключения. Вероятно, вы не хотите соединять системные аккаунты облака и edge‑устройств, но можете сделать это, когда единственное препятствие для super‑cluster — правила firewall.
 
-The benefits are:
+Преимущества:
 
-* Monitoring of all connected nats-servers 
-* nats-account-resolver working on the entire network
-* extended JetStream cluster 
+* мониторинг всех подключенных nats‑server
+* nats‑account‑resolver работает по всей сети
+* расширенный кластер JetStream
 
-When `domain` is set, JetStream-related traffic on the system account is suppressed. This is what causes JetStream not to be extended.
+Когда `domain` задан, JetStream‑трафик на системном аккаунте подавляется. Именно поэтому JetStream не расширяется.
 
-In addition, traffic on `$JS.API.>` is also suppressed. This causes clients to use the local JetStream that is available in the nats-servers they are connected to. To communicate with another JetStream, that JetStream's unique domain specific prefix `$JS.<domain>.API` needs to be specified.
+Кроме того, подавляется трафик на `$JS.API.>`. Это заставляет клиентов использовать локальный JetStream, доступный на серверах NATS, к которым они подключены. Чтобы обратиться к другому JetStream, нужно указать доменно‑специфичный префикс `$JS.<domain>.API`.
 
-Please be aware that each domain is an independent name space. Meaning, inside the same account it is legal to use the same stream name in different domains.
+Учтите, что каждый домен — независимое пространство имен. Это означает, что внутри одного аккаунта допустимо использовать одинаковые имена потоков в разных доменах.
 
-Furthermore, regular message flow is not restricted. Thus, if the same subject is subscribed to by different streams in the same account in different domains, as long as the underlying leaf node was connected at the time, each stream will store the message. This can be resolved by using the same account but use different subjects in each domain or use different accounts in each domain or [isolate accounts](https://youtu.be/0MkS_S7lyHk?t=1151) used in leaf nodes.
+Также обычный поток сообщений не ограничивается. Поэтому, если один и тот же subject подписан разными потоками в одном аккаунте в разных доменах, при условии, что leaf‑подключение было активно, каждый поток сохранит сообщение. Это можно решить, используя в каждом домене разные subject, или разные аккаунты в каждом домене, или [изоляцию аккаунтов](https://youtu.be/0MkS_S7lyHk?t=1151) для leaf‑nodes.
 
-> _Known issue_: if you have more than one JetStream enabled leaf node in a different cluster, the cluster you connect to also needs JetStream enabled and a domain set.
+> _Известная проблема_: если у вас больше одного leaf‑node с включенным JetStream в другом кластере, кластер, к которому вы подключаетесь, также должен иметь включенный JetStream и заданный домен.
 >
-> _Known issue_: when you intend to extend a central JetStream, by not supplying a domain name in leaf nodes, that central JetStream needs to be in clustered mode.
+> _Известная проблема_: если вы хотите расширять центральный JetStream, не задавая домен в leaf‑nodes, этот центральный JetStream должен быть в кластерном режиме.
 
-## Configuration
+## Конфигурация
 
-Below is the config needed to connect two JetStream enabled servers via a leaf node connection. In the example, the system accounts are connected for demonstration purposes \(you do not have to do that\).
+Ниже приведена конфигурация для соединения двух серверов с включенным JetStream через leaf‑подключение. В примере системные аккаунты соединены для демонстрации (это не обязательно).
 
-### `accounts.conf` Imported by Both Servers
+### `accounts.conf`, импортируемый обоими серверами
 
 ```text
 accounts {
@@ -53,7 +53,7 @@ system_account: SYS
 
 ### `hub.conf`
 
-To be started with `nats-server -c hub.conf`:
+Запускать с `nats-server -c hub.conf`:
 
 ```text
 port: 4222
@@ -70,7 +70,7 @@ include ./accounts.conf
 
 ### `leaf.conf`
 
-To be started with `nats-server -c leaf.conf`:
+Запускать с `nats-server -c leaf.conf`:
 
 ```text
 port: 4111
@@ -94,9 +94,9 @@ leafnodes {
 include ./accounts.conf
 ```
 
-## Usage
+## Использование
 
-Because the system account is connected, you can obtain the JetStream server report from both servers.
+Так как системный аккаунт подключен, можно получить отчет JetStream с обоих серверов.
 
 ```bash
 nats  --server nats://admin:admin@localhost:4222 server report jetstream
@@ -114,7 +114,7 @@ nats  --server nats://admin:admin@localhost:4222 server report jetstream
 ╰─────────────┴─────────────┴────────┴─────────┴───────────┴──────────┴───────┴────────┴──────┴─────────┴─────────╯
 ```
 
-Create a stream named `test` subscribing to subject `test` in the JetStream domain, the program is connected to. As a result, this stream will be created in the domain hub which is the domain of the server listening on `localhost:4222`.
+Создайте поток с именем `test`, подписанный на subject `test` в JetStream‑домене, к которому подключена программа. В результате поток будет создан в домене hub — домене сервера, слушающего `localhost:4222`.
 
 ```bash
 nats  --server nats://acc:acc@localhost:4222 stream add
@@ -160,7 +160,7 @@ State:
      Active Consumers: 0
 ```
 
-To create a stream in a different domain while connected somewhere else, just provide the `js-domain` argument. While connected to the same server as before, now the stream is created in `leaf`.
+Чтобы создать поток в другом домене, оставаясь подключенным к тому же серверу, просто укажите аргумент `js-domain`. Теперь поток создается в `leaf`.
 
 ```bash
 nats  --server nats://acc:acc@localhost:4222 stream add --js-domain leaf
@@ -206,13 +206,13 @@ State:
      Active Consumers: 0
 ```
 
-Publish a message so there is something to retrieve.
+Опубликуйте сообщение, чтобы было что получать.
 
 ```shell
 nats  --server nats://acc:acc@localhost:4222 pub test "hello world"
 ```
 
-Because both streams subscribe to the same subject, each one now reports one message. This is done to demonstrate the issue. If you want to avoid that, you need to either use different subjects, different accounts, or one isolated account.
+Так как оба потока подписаны на один subject, каждый из них теперь сообщает об одном сообщении. Это сделано для демонстрации проблемы. Если хотите этого избежать, используйте разные subject, разные аккаунты или изолируйте аккаунт.
 
 ```bash
 nats  --server nats://acc:acc@localhost:4222 stream report --js-domain leaf
@@ -232,7 +232,7 @@ Obtaining Stream stats
 ```bash
 nats  --server nats://acc:acc@localhost:4222 stream report --js-domain hub
 ```
-Output
+Вывод
 ```text
 Obtaining Stream stats
 
@@ -245,9 +245,9 @@ Obtaining Stream stats
 ╰────────┴─────────┴───────────┴──────────┴───────┴──────┴─────────┴──────────╯
 ```
 
-### Copying across domains via `source` or `mirror`
+### Копирование между доменами через `source` или `mirror`
 
-In order to copy a stream from one domain into another, specify the JetStream domain when creating a `mirror`. If you want to connect a leaf to the hub and get commands, even when the leaf node connection is offline, mirroring a stream located in the hub is the way to go.
+Чтобы скопировать поток из одного домена в другой, укажите домен JetStream при создании `mirror`. Если вы хотите подключить leaf к hub и получать команды даже при офлайн‑состоянии leaf‑подключения, правильный путь — зеркалирование потока, расположенного в hub.
 
 ```bash
 nats  --server nats://acc:acc@localhost:4222 stream add --js-domain hub --mirror test
@@ -294,7 +294,7 @@ State:
      Active Consumers: 0
 ```
 
-Similarly, if you want to aggregate streams located in any number of leaf nodes use `source`. If the streams located in each leaf are used for the same reasons, it is recommended to aggregate them in the hub for processing via `source`.
+Аналогично, если хотите агрегировать потоки, расположенные в любом количестве leaf‑nodes, используйте `source`. Если потоки на каждом leaf используются для одних и тех же целей, рекомендуется агрегировать их в hub для обработки через `source`.
 
 ```bash
 nats  --server nats://acc:acc@localhost:4222 stream add --js-domain hub --source test
@@ -342,7 +342,7 @@ State:
      Active Consumers: 0
 ```
 
-`source` as well as `mirror` take a copy of the messages. Once copied, accessing the data is independent of the leaf node connection being online. Copying this way also avoids having to run a dedicated program of your own. This is the recommended way to exchange persistent data across domains.
+`source`, как и `mirror`, делают копию сообщений. После копирования доступ к данным не зависит от того, онлайн ли leaf‑подключение. Такой способ копирования также избавляет от необходимости писать собственную программу. Это рекомендуемый способ обмена персистентными данными между доменами.
 
 ```bash
 nats  --server nats://acc:acc@localhost:4222 stream report --js-domain hub
@@ -370,19 +370,19 @@ Obtaining Stream stats
 ╰─────────────────────┴────────┴──────────────┴───────────────┴────────┴─────┴───────╯
 ```
 
-### Cross account & domain import
+### Кросс‑аккаунтный и кросс‑доменный импорт
 
-All of the above happened in the same account. To share domain access across accounts the `account.conf` from above needs to be modified and the server restarted or reloaded. This example exports the consumer and `FC` API as well as a delivery subject which is used by the internal push consumer created by `source` and `mirror`.
+Все выше происходило в одном аккаунте. Чтобы разделить доступ к доменам между аккаунтами, `account.conf` из примера выше нужно изменить и перезапустить или перезагрузить сервер. В этом примере экспортируются consumer и API `FC`, а также subject доставки, который используется внутренним push‑consumer, создаваемым `source` и `mirror`.
 
-In support of another example on how to share a durable pull consumer for client access across domains and accounts, the `NEXT` and `ACK` API are exported as well. 
+Для поддержки другого примера — совместного использования durable pull consumer для клиентского доступа между доменами и аккаунтами — также экспортируются API `NEXT` и `ACK`.
 
-> _Known issue_: Currently, across accounts, push consumer are not supported. 
+> _Известная проблема_: сейчас push‑consumer между аккаунтами не поддерживаются.
 
-On import, the JetStream API prefix `$JS.hub.API` is renamed to `JS.test@hub.API`. This is to, once more, disambiguate which JetStream a client in the importing account might want to interact with. When using domains, the general recommendation is to export the domain specific API `$JS.<domain>.API` as this allows you to pin the export to a particular domain.
+При импорте префикс JetStream API `$JS.hub.API` переименовывается в `JS.test@hub.API`. Это нужно, чтобы снова различать, с каким JetStream хочет работать клиент в импортирующем аккаунте. При использовании доменов общая рекомендация — экспортировать доменно‑специфичный API `$JS.<domain>.API`, так как это позволяет привязать экспорт к конкретному домену.
 
-Furthermore, the delivery subject is extended on import. This is to allow for easier export into multiple accounts.
+Кроме того, subject доставки расширяется при импорте. Это облегчает экспорт в несколько аккаунтов.
 
-This example also exports the absolute minimum necessary. It is possible to give access to the entire consumer API `$JS.hub.API.CONSUMER.>` or the entire API in a domain `$JS.hub.API.>` or the entire API `$JS.API.>` wherever the importing client connects.
+Этот пример также экспортирует абсолютный минимум необходимого. Можно дать доступ ко всему consumer API `$JS.hub.API.CONSUMER.>` или ко всему API домена `$JS.hub.API.>` или всему API `$JS.API.>` независимо от того, куда подключается импортирующий клиент.
 
 ```text
 accounts {
@@ -393,15 +393,15 @@ accounts {
         users: [{user: acc, password: acc}],
         jetstream: enabled
         exports: [
-            # minimum export needed to allow source/mirror to create a consumer on the fly
+            # минимум экспорта, чтобы source/mirror могли создавать consumer «на лету»
             {service: "$JS.hub.API.CONSUMER.CREATE.*", response_type: "stream"}
-            # minimum export needed for push consumer. This includes source and mirror!
+            # минимум экспорта для push‑consumer. Сюда входят source и mirror!
             {stream: "deliver.acc.hub.>"}
-            # minimum export needed for durable pull consumer `dur` in stream `aggregate-test-leaf`. (clients only - source and mirror do not use this)
+            # минимум экспорта для durable pull consumer `dur` в потоке `aggregate-test-leaf`. (только клиенты — source/mirror не используют)
             {service: "$JS.hub.API.CONSUMER.MSG.NEXT.aggregate-test-leaf.dur", response_type: "stream"}
-            # minimum export needed to ack messages for durable consumer `dur` in stream `aggregate-test-leaf`. (clients only - source and mirror do not use this)
+            # минимум экспорта для ack сообщений для durable consumer `dur` в потоке `aggregate-test-leaf`. (только клиенты — source/mirror не используют)
             {service: "$JS.ACK.aggregate-test-leaf.dur.>"}
-            # minimum export needed for flow control of source/mirror
+            # минимум экспорта для flow control source/mirror
             {service: "$JS.FC.aggregate-test-leaf.dur.>"}
         ]
     }
@@ -414,7 +414,7 @@ accounts {
             {stream: {account: ACC, subject: deliver.acc.hub.import_mirror.>}}
         ]
     }
-    # As of now, cross account, only pull consumer are supported.
+    # На данный момент между аккаунтами поддерживаются только pull‑consumer.
     IMPORT_CLIENT: {
         users: [{user: import_client, password: import_client}],
         jetstream: enabled
@@ -427,9 +427,9 @@ accounts {
 system_account: SYS
 ```
 
-#### Copying via `source` and `mirror`
+#### Копирование через `source` и `mirror`
 
-Once the servers have been restarted or reloaded, a `mirror` can be created as follows \(same applies to `source`\): On import from a different account the renamed prefix `JS.acc@hub.API` is provided. In addition, the delivery subject name is extended to also include the importing domain and stream. This makes it unique to that particular import. If every delivery prefix follows the pattern `<static type>.<exporting account>.<exporting domain>.<importing account>.<importing domain>.<importing stream name>` overlaps caused by multiple imports are avoided.
+После перезапуска или перезагрузки серверов можно создать `mirror` следующим образом (то же относится к `source`): при импорте из другого аккаунта используется переименованный префикс `JS.acc@hub.API`. Кроме того, имя subject доставки расширяется так, чтобы включать импортирующий домен и поток. Это делает его уникальным для конкретного импорта. Если каждый delivery prefix следует шаблону `<static type>.<exporting account>.<exporting domain>.<importing account>.<importing domain>.<importing stream name>`, пересечения от множественных импортов исключаются.
 
 ```bash
 nats  --server nats://import_mirror:import_mirror@localhost:4222 stream add --js-domain hub --mirror aggregate-test-leaf
@@ -477,7 +477,7 @@ State:
      Active Consumers: 0
 ```
 
-A subsequent check shows that the one message stored in the stream aggregate in account `ACC` got copied to the new stream in the account `IMPORTER`.
+Последующая проверка показывает, что одно сообщение, сохраненное в агрегирующем потоке в аккаунте `ACC`, было скопировано в новый поток аккаунта `IMPORTER`.
 
 ```bash
 nats  --server nats://import_mirror:import_mirror@localhost:4222 stream report --js-domain hub
@@ -502,9 +502,9 @@ Obtaining Stream stats
 ╰──────────────────────────────┴────────┴────────────────┴─────────────────────┴────────┴─────┴───────╯
 ```
 
-#### Direct access of a durable pull consumer
+#### Прямой доступ к durable pull consumer
 
-The modified `accounts.conf` also includes a separate import for an existing pull consumer. Let's create a consumer by the name `dur` in the stream `aggregate-test-leaf` in the account `acc`.
+Измененный `accounts.conf` также включает отдельный импорт для существующего pull consumer. Создадим consumer с именем `dur` в потоке `aggregate-test-leaf` в аккаунте `acc`.
 
 ```bash
 nats  --server nats://acc:acc@localhost:4222 consumer add  --js-domain hub
@@ -569,7 +569,7 @@ Obtaining Stream stats
 ```bash
 nats  --server nats://acc:acc@localhost:4222 consumer report --js-domain hub
 ```
-Output
+Вывод
 ```text
 ? Select a Stream aggregate-test-leaf
 ╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
@@ -581,7 +581,7 @@ Output
 ╰──────────┴──────┴────────────┴──────────┴─────────────┴─────────────┴─────────────┴───────────┴─────────────╯
 ```
 
-To retrieve the messages stored in the domain `hub` using `nats` while connected to the leaf node, provide the correct stream and durable name as well as the API prefix `JS.acc@hub.API`
+Чтобы получить сообщения, сохраненные в домене `hub`, используя `nats` и будучи подключенным к leaf‑node, укажите правильные имена потока и durable, а также API‑префикс `JS.acc@hub.API`.
 
 ```shell
 nats --server nats://import_client:import_client@localhost:4111 consumer next aggregate-test-leaf dur --js-api-prefix JS.acc@hub.API
@@ -615,13 +615,13 @@ nats  --server nats://acc:acc@localhost:4222 consumer report --js-domain hub
 ╰──────────┴──────┴────────────┴──────────┴─────────────┴─────────────┴─────────────┴───────────┴─────────────╯
 ```
 
-This works similarly when writing your own client. To avoid waiting for the ack timeout, a new message is sent on `test` from where it is copied into `aggregate-test-leaf`.
+Это работает аналогично при написании собственного клиента. Чтобы не ждать таймаут ack, отправьте новое сообщение на `test`, откуда оно копируется в `aggregate-test-leaf`.
 
 ```bash
 nats  --server nats://acc:acc@localhost:4222 pub test "hello world 2"
 ```
 
-The client is connected to the leaf node and receives the message just sent.
+Клиент подключен к leaf‑node и получает только что отправленное сообщение.
 
 ```shell
 ./main nats://import_client:import_client@localhost:4111
@@ -634,7 +634,7 @@ nats: timeout
 ^Cnats: timeout
 ```
 
-There the API prefix is communicated with setting the option `nats.APIPrefix("JS.acc@hub.API")` when obtaining the JetStream object. Because the API access is limited, the subscribe call provides the option `nats.Bind("aggregate-test-leaf", "dur")` which prevents calls to infer the stream and durable name.
+Здесь API‑префикс задается опцией `nats.APIPrefix("JS.acc@hub.API")` при получении объекта JetStream. Так как доступ к API ограничен, вызов subscribe использует опцию `nats.Bind("aggregate-test-leaf", "dur")`, которая предотвращает вызовы для вывода имени потока и durable.
 
 ```go
 package main
@@ -696,8 +696,8 @@ func main() {
 }
 ```
 
-A push subscriber will need a similar setup. It will require the `ACK` subject. However, instead of exporting/importing the `NEXT` subject, the delivery subject shown for source/mirror needs to be used.
+Push‑подписчику потребуется похожая настройка. Ему потребуется subject `ACK`. Однако вместо экспорта/импорта subject `NEXT` нужно использовать subject доставки, показанный для source/mirror.
 
-# See Also
+# См. также
 
-[JetStream Leaf Nodes demo](https://github.com/nats-io/jetstream-leaf-nodes-demo) and its companion [video recording](https://www.youtube.com/watch?v=0MkS_S7lyHk).
+[JetStream Leaf Nodes demo](https://github.com/nats-io/jetstream-leaf-nodes-demo) и его [видео‑запись](https://www.youtube.com/watch?v=0MkS_S7lyHk).

@@ -1,35 +1,35 @@
-# Run JetStream in Docker
+# Запуск JetStream в Docker
 
-This mini-tutorial shows how to run a NATS server with JetStream enabled in a local Docker container.
-This enables quick and consequence-free experimentation with the many features of JetStream.
+Этот мини‑туториал показывает, как запустить сервер NATS с включенным JetStream в локальном контейнере Docker.
+Это позволяет быстро и без последствий экспериментировать с множеством возможностей JetStream.
 
-Using the official `nats` image, start a server.
-The `-js` option is passed to the server to enable JetStream. The `-p` option forwards your local 4222 port to the server inside the container, 4222 is the default client connection port.
+Используя официальный образ `nats`, запустите сервер.
+Опция `-js` передается серверу для включения JetStream. Опция `-p` пробрасывает ваш локальный порт 4222 на сервер внутри контейнера; 4222 — порт клиентских подключений по умолчанию.
 
 ```shell
 docker run -p 4222:4222 nats -js
 ```
 
-To persist JetStream data to a volume, you can use the `-v` option in combination with `-sd`:
+Чтобы сохранять данные JetStream на volume, используйте опцию `-v` вместе с `-sd`:
 
 ```shell
 docker run -p 4222:4222 -v nats:/data nats -js -sd /data
 ```
 
-With the server running, use `nats bench` to create a stream and publish some messages to it.
+Когда сервер запущен, используйте `nats bench`, чтобы создать поток и опубликовать в него сообщения.
 
 ```shell
 nats bench -s localhost:4222 benchsubject --js --pub 1 --msgs=100000
 ```
 
-JetStream persists the messages (on disk by default).
-Now consume them with:
+JetStream сохраняет сообщения (по умолчанию на диск).
+Теперь потребляйте их:
 
 ```shell
 nats bench -s localhost:4222 benchsubject --js --sub 3 --msgs=100000
 ```
 
-You can use `nats` to inspect various aspects of the stream, for example:
+Вы можете использовать `nats`, чтобы посмотреть различные аспекты потока, например:
 
 ```shell
 nats -s localhost:4222 stream list
@@ -42,8 +42,8 @@ nats -s localhost:4222 stream list
 ╰─────────────┴─────────────┴─────────────────────┴──────────┴────────┴──────────────╯
 ```
 
-### Related and useful:
- * Official [Docker image for the NATS server on GitHub](https://github.com/nats-io/nats-docker) and [issues](https://github.com/nats-io/nats-docker/issues)
- * [`nats` images on DockerHub](https://hub.docker.com/_/nats)
- * [`nats` CLI tool](/using-nats/nats-tools/nats\_cli/) and [`nats bench`](/using-nats/nats-tools/nats\_cli/natsbench)
- * [`Administer JetStream`](/nats\_admin/jetstream\_admin/)
+### Связанное и полезное:
+ * Официальный [Docker‑образ сервера NATS на GitHub](https://github.com/nats-io/nats-docker) и [issues](https://github.com/nats-io/nats-docker/issues)
+ * [`nats` образы на DockerHub](https://hub.docker.com/_/nats)
+ * [CLI‑инструмент `nats`](/using-nats/nats-tools/nats_cli/) и [`nats bench`](/using-nats/nats-tools/nats_cli/natsbench)
+ * [Администрирование JetStream](/nats_admin/jetstream_admin/)

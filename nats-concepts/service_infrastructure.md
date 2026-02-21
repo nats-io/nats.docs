@@ -1,27 +1,27 @@
-# NATS Service Infrastructure
+# Инфраструктура сервисов NATS
 
-NATS is a client/server system in the fact that you have 'NATS client applications' (applications using one of the NATS client libraries) that connect to 'NATS servers' that provide the NATS service. The NATS servers work together to provide a NATS service infrastructure to their client applications.
+NATS — это система клиент/сервер в том смысле, что у вас есть «клиентские приложения NATS» (приложения, использующие одну из клиентских библиотек NATS), которые подключаются к «серверам NATS», предоставляющим сервис NATS. Серверы NATS работают совместно, чтобы предоставить инфраструктуру сервиса NATS для своих клиентских приложений.
 
-NATS is extremely flexible and scalable and allows the service infrastructure to be as small as a single process running locally on your local machine and as large as an 'Internet of NATS' of Leaf Nodes, and Leaf Node clusters all interconnected in a secure way over a global shared NATS super-cluster.  
+NATS чрезвычайно гибок и масштабируем и позволяет строить инфраструктуру сервиса от одного процесса, работающего локально на вашей машине, до «Интернета NATS» из Leaf Nodes и кластеров Leaf Nodes, безопасно взаимосвязанных через общий глобальный супер‑кластер NATS.
 
-Regardless of the size and complexity of the NATS service infrastructure being used, the only configuration needed by the client applications being the location (NATS URLs) of one or more NATS servers and depending on the required security, their credentials.
+Независимо от размера и сложности используемой инфраструктуры, для клиентских приложений требуется лишь конфигурация местоположения (NATS URL) одного или нескольких серверов NATS и, в зависимости от требований безопасности, их учетные данные.
 
-Note that if your application is written in Golang then you even have the option of embedding the NATS server functionality into the application itself (however you need to then configure your application instances with nats-server configuration information).
+Обратите внимание: если ваше приложение написано на Golang, вы можете встроить функциональность NATS‑сервера прямо в приложение (однако тогда вам нужно будет конфигурировать экземпляры приложения параметрами nats-server).
 
-You do not actually need to run your NATS service infrastructure, instead you can instead make use of a public NATS infrastructure offered by a NATS Service Provider such as [Synadia Cloud](https://www.synadia.com/cloud?utm_source=nats_docs&utm_medium=nats), think of Synadia Cloud as being an 'Internet of NATS' (literally an "InterNATS") and of Synadia as being an "InterNATS Service Provider".
+Вы не обязаны запускать свою инфраструктуру NATS самостоятельно — можно использовать публичную инфраструктуру NATS, предоставляемую провайдером, например [Synadia Cloud](https://www.synadia.com/cloud?utm_source=nats_docs&utm_medium=nats). Рассматривайте Synadia Cloud как «Интернет NATS» (буквально «InterNATS») и Synadia как «провайдера InterNATS».
 
-## The Evolution of your NATS service infrastructure
+## Эволюция инфраструктуры NATS
 
-You will typically start by running a single instance of nats-server on your local development machine, and have your applications connect to it while you do your application development and local testing.
+Обычно вы начинаете с одного экземпляра nats-server на локальной машине разработки и подключаете к нему приложения во время разработки и локального тестирования.
 
-Next you will probably want to start testing and running those applications and servers in a VPC, or a region or in some on-prem location, so you will deploy either single NATS server or clusters of NATS servers in your VPCs/regions/on-prem/etc... locations and in each location have the applications connect their local nats-server or nats-server cluster. You can then connect those local nats-servers or local nats-server clusters together by making them leaf nodes connecting to a 'backbone' cluster or super-cluster, or by connecting them directly together via gateway connections.
+Далее вы, вероятно, захотите тестировать и запускать приложения и серверы в VPC, регионе или on‑prem среде. Тогда вы развернете либо одиночный сервер NATS, либо кластеры серверов NATS в своих VPC/регионах/on‑prem локациях, и в каждой локации приложения будут подключаться к локальному nats-server или кластеру. Затем вы можете соединить эти локальные nats-server или кластеры, сделав их leaf nodes, подключенными к «backbone» кластеру или супер‑кластеру, либо соединяя их напрямую через gateway‑подключения.
 
-If you have many client applications (e.g., applications deployed on end-user devices all over the Internet, or for example many IoT devices) or many servers in a lot of locations you will then scale your NATS service infrastructure by deploying clusters of NATS servers in multiple locations and multiple cloud providers and VPCs. You will then need to connect those clusters into a global super-cluster and then devise a scheme to intelligently direct your client applications to the right 'closest' NATS server cluster.
- 
-## Running your own NATS service infrastructure
+Если у вас много клиентских приложений (например, приложения на пользовательских устройствах по всему Интернету или множество IoT‑устройств) или много серверов в разных локациях, вы масштабируете инфраструктуру NATS, развертывая кластеры NATS в нескольких локациях и у разных облачных провайдеров и VPC. Затем нужно соединить эти кластеры в глобальный супер‑кластер и разработать схему, чтобы направлять клиентские приложения к «ближайшему» кластеру NATS.
 
-You can deploy and run your own NATS service infrastructure of nats-server instances, composed of servers, clusters of servers, super-cluster and leaf node NATS servers.
+## Запуск собственной инфраструктуры NATS
 
-### Virtualization and containerization considerations
+Вы можете развернуть и запускать собственную инфраструктуру NATS из экземпляров nats-server, включающую серверы, кластеры серверов, супер‑кластер и leaf node серверы NATS.
 
-If using Kubernetes we recommend you use the [Helm charts](https://github.com/nats-io/k8s/tree/main/helm/charts/nats).
+### Соображения по виртуализации и контейнеризации
+
+При использовании Kubernetes рекомендуем использовать [Helm charts](https://github.com/nats-io/k8s/tree/main/helm/charts/nats).

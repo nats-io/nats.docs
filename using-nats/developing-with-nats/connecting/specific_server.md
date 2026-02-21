@@ -1,10 +1,10 @@
-# Connecting to a Specific Server
+# Подключение к конкретному серверу
 
-The NATS client libraries can take a full URL, `nats://demo.nats.io:4222`, to specify a specific server host and port to connect to.
+Клиентские библиотеки NATS могут принимать полный URL, например `nats://demo.nats.io:4222`, чтобы указать конкретный хост и порт сервера для подключения.
 
-Libraries are removing the requirement for an explicit protocol and may allow `demo.nats.io:4222` or just `demo.nats.io`. In the later example the default port 4222 will be used. Check with your specific client library's documentation to see what URL formats are supported.
+Библиотеки убирают требование явного протокола и могут позволять `demo.nats.io:4222` или просто `demo.nats.io`. В последнем случае используется порт по умолчанию 4222. Проверьте документацию вашей клиентской библиотеки, чтобы узнать, какие форматы URL поддерживаются.
 
-For example, to connect to the demo server with a URL you can use:
+Например, для подключения к демонстрационному серверу с URL можно использовать:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -97,4 +97,3 @@ natsConnection_Destroy(conn);
 {% endtab %}
 
 {% endtabs %}
-

@@ -1,14 +1,14 @@
-# Source and Mirror configuration example
+# Пример конфигурации Source и Mirror
 
-Streams with source and mirror configurations are best managed through a client API. If you intend to create such a configuration from command line with NATS CLI you should use a JSON configuration. 
+Потоки с конфигурациями source и mirror лучше всего управляются через клиентский API. Если вы собираетесь создавать такую конфигурацию из командной строки с NATS CLI, следует использовать JSON‑конфигурацию. 
 
 ````
 nats stream add --config stream_with_sources.json
 ````
 
-## Example stream configuration with two sources
+## Пример конфигурации потока с двумя источниками
 
-**Minimal example**
+**Минимальный пример**
 ````
 {
   "name": "SOURCE_TARGET",
@@ -43,7 +43,7 @@ nats stream add --config stream_with_sources.json
 }
 ````
 
-**With additional options**
+**С дополнительными опциями**
 
 ````
 {
@@ -92,10 +92,10 @@ nats stream add --config stream_with_sources.json
 }
 ````
 
-## Example stream configuration with mirror
+## Пример конфигурации потока с mirror
 
 
-**Minimal example**
+**Минимальный пример**
 
 ````
 {
@@ -125,7 +125,7 @@ nats stream add --config stream_with_sources.json
 ````
 
 
-**With additional options**
+**С дополнительными опциями**
 
 ````
 {

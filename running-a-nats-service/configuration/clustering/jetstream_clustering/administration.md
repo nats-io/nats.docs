@@ -1,19 +1,19 @@
-# Administration
+# Администрирование
 
-Once a JetStream cluster is operating interactions with the CLI and with `nats` CLI is the same as before. For these examples, lets assume we have a 5 server cluster, n1-n5 in a cluster named C1.
+Когда кластер JetStream работает, взаимодействие с CLI и с `nats` CLI такое же, как и раньше. Для примеров предположим, что у нас есть кластер из 5 серверов, n1‑n5, в кластере с именем C1.
 
-## Account Level
+## Уровень аккаунта
 
-Within an account there are operations and reports that show where users data is placed and which allow them some basic interactions with the RAFT system.
+Внутри аккаунта есть операции и отчеты, показывающие, где размещаются данные пользователей, и позволяющие базовое взаимодействие с системой RAFT.
 
-## Creating clustered streams
+## Создание кластеризованных стримов
 
-When adding a stream using the `nats` CLI the number of replicas will be asked, when you choose a number more than 1, \(we suggest 1, 3 or 5\), the data will be stored on multiple nodes in your cluster using the RAFT protocol as above.
+При добавлении стрима через `nats` CLI спрашивается число реплик. Если выбрать больше 1 (мы рекомендуем 1, 3 или 5), данные будут храниться на нескольких узлах кластера с использованием RAFT.
 
 ```shell
 nats stream add ORDERS --replicas 3
 ```
-Example output extract:
+Пример фрагмента вывода:
 ```text
 ....
 Information for Stream ORDERS created 2021-02-05T12:07:34+01:00
@@ -30,17 +30,17 @@ Cluster Information:
               Replica: n3-c1, current, seen 0.07s ago
 ```
 
-Above you can see that the cluster information will be reported in all cases where Stream info is shown such as after add or using `nats stream info`.
+Выше видно, что информация о кластере показывается во всех случаях, когда выводится информация о Stream, например после добавления или при `nats stream info`.
 
-Here we have a stream in the NATS cluster `C1`, its current leader is a node `n1-c1` and it has 2 followers - `n4-c1` and `n3-c1`.
+Здесь у нас стрим в кластере NATS `C1`, его текущий лидер — `n1-c1`, и у него два follower’а — `n4-c1` и `n3-c1`.
 
-The `current` indicates that followers are up to date and have all the messages, here both cluster peers were seen very recently.
+`current` означает, что followers актуальны и имеют все сообщения. Здесь оба peer’а были замечены совсем недавно.
 
-The replica count can be edited once configured.
+Количество реплик можно редактировать после настройки.
 
-### Viewing Stream Placement and Stats
+### Просмотр размещения и статистики стримов
 
-Users can get overall statistics about their streams and also where these streams are placed:
+Пользователи могут получать общую статистику по стримам и видеть, где эти стримы размещены:
 
 ```shell
 nats stream report
@@ -59,11 +59,11 @@ Obtaining Stream stats
 +----------+-----------+----------+--------+---------+------+---------+----------------------+
 ```
 
-#### Forcing Stream and Consumer leader election
+#### Принудительная смена лидера Stream и Consumer
 
-Every RAFT group has a leader that's elected by the group when needed. Generally there is no reason to interfere with this process, but you might want to trigger a leader change at a convenient time. Leader elections will represent short interruptions to the stream so if you know you will work on a node later it might be worth moving leadership away from it ahead of time.
+У каждой RAFT‑группы есть лидер, избираемый группой при необходимости. Обычно вмешиваться в этот процесс не нужно, но вы можете захотеть инициировать смену лидера в удобное время. Выборы лидера сопровождаются краткими прерываниями потока, поэтому если вы знаете, что будете работать с узлом позже, имеет смысл заранее снять с него лидерство.
 
-Moving leadership away from a node does not remove it from the cluster and does not prevent it from becoming a leader again, this is merely a triggered leader election.
+Перемещение лидерства с узла не удаляет его из кластера и не препятствует тому, чтобы он снова стал лидером — это лишь инициированные выборы.
 
 ```shell
 nats stream cluster step-down ORDERS
@@ -82,15 +82,15 @@ Cluster Information:
               Replica: n3-c1, current, seen 0.12s ago
 ```
 
-The same is true for consumers, `nats consumer cluster step-down ORDERS NEW`.
+Аналогично для consumers: `nats consumer cluster step-down ORDERS NEW`.
 
-## System Level
+## Уровень системы
 
-Systems users can view state of the Meta Group - but not individual Stream or Consumers.
+Системные пользователи могут просматривать состояние Meta Group, но не отдельных Stream или Consumer.
 
-### Viewing the cluster state
+### Просмотр состояния кластера
 
-We have a high level report of cluster state:
+Есть высокоуровневый отчет по состоянию кластера:
 
 ```shell
 nats server report jetstream --user admin --password s3cr3t!
@@ -124,13 +124,13 @@ nats server report jetstream --user admin --password s3cr3t!
 +-------+--------+---------+---------+--------+-----+
 ```
 
-This is a full cluster wide report, the report can be limited to a specific account using `--account`.
+Это полный отчет по всему кластеру. Отчет можно ограничить конкретным аккаунтом через `--account`.
 
-Here we see the distribution of streams, messages, api calls etc by across 2 super clusters and an overview of the RAFT meta group.
+Здесь видно распределение стримов, сообщений, API‑вызовов и т. д. между 2 супер‑кластерами и обзор RAFT Meta Group.
 
-In the Meta Group report the server `n2-c1` is not current and has not been seen for 9 seconds, it's also behind by 2 raft operations.
+В отчете Meta Group сервер `n2-c1` не является current и не наблюдался 9 секунд, он также отстает на 2 операции RAFT.
 
-This report is built using raw data that can be obtained from the monitor port on the `/jsz` url, or over nats using:
+Этот отчет строится на сыром наборе данных, который можно получить с порта мониторинга по `/jsz`, или через NATS:
 
 ```shell
 nats server req jetstream --user admin --password s3cr3t! --help
@@ -179,11 +179,11 @@ Args:
 nats server req jetstream --user admin --password s3cr3t! --leader
 ```
 
-This will produce a wealth of raw information about the current state of your cluster - here requesting it from the leader only.
+Это даст большой объем сырой информации о текущем состоянии кластера — здесь запрос только к лидеру.
 
-#### Forcing Meta Group leader election
+#### Принудительная смена лидера Meta Group
 
-Similar to Streams and Consumers above the Meta Group allows leader stand down. The Meta Group is cluster wide and spans all accounts, therefore to manage the meta group you have to use a `SYSTEM` user.
+Как и для Stream и Consumer выше, Meta Group допускает принудительный leader step‑down. Meta Group работает на уровне кластера и охватывает все аккаунты, поэтому для управления meta group нужно использовать пользователя `SYSTEM`.
 
 ```shell
 nats server cluster step-down --user admin --password s3cr3t!
@@ -193,13 +193,13 @@ nats server cluster step-down --user admin --password s3cr3t!
 17:44:24 New leader: n1-c2
 ```
 
-### Evicting a peer
+### Исключение peer из кластера
 
-Generally when shutting down NATS, including using Lame Duck Mode, the cluster will notice this and continue to function.
+Обычно при остановке NATS, включая Lame Duck Mode, кластер замечает это и продолжает работать.
 
-There might be a case though where you know a node will never return, and you want to signal to JetStream that the node will not return. A peer-remove will remove that node from the Stream in question and all its Consumers.
+Однако может быть случай, когда вы знаете, что узел никогда не вернется, и хотите сообщить JetStream, что узел не вернется. `peer-remove` удалит этот узел из соответствующего Stream и всех его Consumers.
 
-After the node is removed the cluster will notice that the replica count of a stream is not honored anymore and will immediately pick a new node and start replicating data to it. The new node will be selected using the same placement rules as the existing stream.
+После удаления узла кластер заметит, что коэффициент репликации стрима больше не соблюдается, и немедленно выберет новый узел и начнет репликацию данных на него. Новый узел будет выбран по тем же правилам размещения, что и существующий стрим.
 
 ```shell
 nats server cluster peer-remove n4-c1 --user admin --password s3cr3t!
@@ -209,12 +209,12 @@ nats server cluster peer-remove n4-c1 --user admin --password s3cr3t!
 ```
 
 {% hint style="danger" %}
-Peer-removing nodes from the cluster is a destructive operation, and decreases the size of the cluster.
-A server that is to be peer-removed should ideally already be offline. It can be performed with nodes that are still online, but in this case, JetStream will be disabled on those nodes. The server should be shut down and not restarted, or if it is, JetStream should be disabled.
-The server may not come back under the same `server_name` if it was peer-removed and its disk wiped. This means the configured `server_name` will need to be changed to a new value before restarting.
+Peer‑remove — разрушительная операция, уменьшающая размер кластера.
+Сервер, который удаляется, в идеале должен уже быть офлайн. Операцию можно выполнить и для онлайн‑узлов, но в этом случае JetStream будет отключен на этих узлах. Сервер следует остановить и не перезапускать, либо если перезапускать — JetStream должен быть отключен.
+Сервер не сможет вернуться под тем же `server_name`, если он был peer‑removed и его диск очищен. Это означает, что настроенный `server_name` нужно изменить на новый перед перезапуском.
 {% endhint %}
 
-Alternatively, if you're intending for the node to remain and only move a stream off of a specific node, you can peer-remove a node on the stream-level.
+В качестве альтернативы, если вы хотите оставить узел и лишь перенести стрим с конкретного узла, можно выполнить peer‑remove на уровне стрима.
 
 ```shell
 nats stream cluster peer-remove ORDERS
@@ -225,7 +225,7 @@ nats stream cluster peer-remove ORDERS
 14:38:50 Requested removal of peer "n4-c1"
 ```
 
-At this point the stream and all consumers will have removed `n4-c1` from the group. A new node will be selected, and data will be replicated to it. In this case `n2-c1` is selected as a new peer.
+На этом этапе стрим и все consumers удалят `n4-c1` из группы. Будет выбран новый узел и данные будут реплицированы на него. В этом случае в качестве нового peer выбран `n2-c1`.
 
 ```shell
 $ nats stream info ORDERS
@@ -240,5 +240,4 @@ Cluster Information:
               Replica: n2-c1, outdated, seen 0.42s ago
 ```
 
-We can see a new replica was picked, the stream is back to replication level of 3 and `n4-c1` is not active any more in this Stream or any of its Consumers.
-
+Мы видим, что выбрана новая реплика, стрим вернулся к уровню репликации 3, и `n4-c1` больше не активен ни в этом Stream, ни в его Consumers.

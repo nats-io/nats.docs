@@ -1,14 +1,14 @@
-## NATS Feature Comparison
-This feature comparison is a summary of a few of the major components in several of the popular messaging technologies of today. This is by no means an exhaustive list and each technology should be investigated thoroughly to decide which will work best for your implementation.
+## Сравнение возможностей NATS
+Это сравнение — краткое резюме основных компонентов нескольких популярных сегодня технологий обмена сообщениями. Это не исчерпывающий список, и каждую технологию следует изучить подробно, чтобы выбрать оптимальную для вашей реализации.
 
-This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
+В сравнении участвуют NATS, Apache Kafka, RabbitMQ, Apache Pulsar и gRPC.
 
 <html>
 <body>
 <table>
     <tr>
         <td rowspan="5" valign="top"><b>
-            Language and Platform Coverage
+            Поддержка языков и платформ
             </b>
         </td>
         <td><b>
@@ -16,7 +16,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Core NATS: 48 known client types, 11 supported by maintainers, 18 contributed by the community. NATS Streaming: 7 client types supported by maintainers, 4 contributed by the community. NATS servers can be compiled on architectures supported by Golang. NATS provides binary distributions.
+            Core NATS: 48 известных типов клиентов, 11 поддерживаются мейнтейнерами, 18 предоставлены сообществом. NATS Streaming: 7 типов клиентов поддерживаются мейнтейнерами, 4 — сообществом. Серверы NATS можно собирать под архитектуры, поддерживаемые Golang. NATS предоставляет бинарные дистрибутивы.
         </td>
     </tr>
     <tr>
@@ -25,7 +25,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            18 client types supported across the community and by Confluent. Kafka servers can run on platforms supporting java; very wide support.
+            18 типов клиентов поддерживаются сообществом и Confluent. Серверы Kafka работают на платформах с поддержкой Java; поддержка очень широкая.
         </td>
     </tr>
     <tr>
@@ -34,7 +34,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            At least 10 client platforms that are maintainer-supported with over 50 community supported client types. Servers are supported on the following platforms: Linux Windows, NT.
+            Не менее 10 клиентских платформ поддерживаются мейнтейнерами, более 50 типов клиентов поддерживаются сообществом. Серверы поддерживаются на следующих платформах: Linux, Windows, NT.
         </td>
     </tr>
     <tr>
@@ -43,7 +43,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            7 client languages, 5 third-party clients - tested on macOS and Linux.
+            7 языков клиентов, 5 клиентов от сторонних разработчиков — тестируется на macOS и Linux.
         </td>
     </tr>
     <tr>
@@ -52,12 +52,12 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            13 client languages.
+            13 языков клиентов.
         </td>
     </tr>
     <tr>
         <td rowspan="5" valign="top"><b>
-            Built-in Patterns
+            Встроенные паттерны
             </b>
         </td>
         <td><b>
@@ -65,7 +65,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Streams and Services through built in publish/subscribe, request-reply, and load balanced queue subscriber patterns. Dynamic request permissioning and request subject obfuscation is supported.
+            Стримы и сервисы через встроенные паттерны publish/subscribe, request-reply и балансируемые очереди подписчиков. Поддерживаются динамические права на запросы и обфускация subject для запросов.
         </td>
     </tr>
     <tr>
@@ -74,7 +74,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Streams through publish/subscribe.  Load balancing can be achieved with consumer groups.  Application code must correlate requests with replies over multiple topics for a service (request-reply) pattern.
+            Стримы через publish/subscribe. Балансировку нагрузки можно получить через consumer groups. Код приложения должен сопоставлять запросы с ответами по нескольким топикам для паттерна сервиса (request-reply).
         </td>
     </tr>
     <tr>
@@ -83,7 +83,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Streams through publish/subscribe, and services with a direct reply-to feature.  Load balancing can be achieved with a Work Queue.  Applications must correlate requests with replies over multiple topics for a  service (request-reply) pattern.
+            Стримы через publish/subscribe, сервисы — с direct reply-to. Балансировка нагрузки достигается через Work Queue. Приложения должны сопоставлять запросы с ответами по нескольким топикам для паттерна сервиса (request-reply).
         </td>
     </tr>
     <tr>
@@ -92,7 +92,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Streams through publish/subscribe.  Multiple competing consumer patterns support load balancing.  Application code must correlate requests with replies over multiple topics for a  service (request-reply) pattern.  
+            Стримы через publish/subscribe. Несколько паттернов конкурирующих потребителей поддерживают балансировку нагрузки. Код приложения должен сопоставлять запросы с ответами по нескольким топикам для паттерна сервиса (request-reply).  
         </td>
     </tr>
     <tr>
@@ -101,12 +101,12 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            One service, which may have streaming semantics, per channel. Load Balancing for a service can be done either client-side or by using a proxy.
+            Один сервис (возможно со streaming‑семантикой) на канал. Балансировку нагрузки для сервиса можно делать либо на стороне клиента, либо через прокси.
         </td>
     </tr>
     <tr>
         <td rowspan="5" valign="top"><b>
-            Delivery Guarantees
+            Гарантии доставки
             </b>
         </td>
         <td><b>
@@ -114,7 +114,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            At most once, at least once, and exactly once is available in Jetstream.
+            В JetStream доступны «не более одного», «как минимум один» и «ровно один».
         </td>
     </tr>
     <tr>
@@ -123,7 +123,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            At least once, exactly once.
+            «Как минимум один», «ровно один».
         </td>
     </tr>
     <tr>
@@ -132,7 +132,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            At most once, at least once.
+            «Не более одного», «как минимум один».
         </td>
     </tr>
     <tr>
@@ -141,7 +141,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            At most once, at least once, and exactly once.  
+            «Не более одного», «как минимум один» и «ровно один».  
         </td>
     </tr>
     <tr>
@@ -150,12 +150,12 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            At most once.
+            «Не более одного».
         </td>
     </tr>
     <tr>
         <td rowspan="5" valign="top"><b>
-            Multi-tenancy and Sharing
+            Мульти‑тенантность и совместное использование
             </b>
         </td>
         <td><b>
@@ -163,7 +163,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            NATS supports true multi-tenancy and decentralized security through accounts and defining shared streams and services.
+            NATS поддерживает истинную мульти‑тенантность и децентрализованную безопасность через аккаунты, а также определение общих стримов и сервисов.
         </td>
     </tr>
     <tr>
@@ -172,7 +172,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Multi-tenancy is not supported.
+            Мульти‑тенантность не поддерживается.
         </td>
     </tr>
     <tr>
@@ -181,7 +181,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Multi-tenancy is supported with vhosts; data sharing is not supported.
+            Мульти‑тенантность поддерживается через vhost, но совместное использование данных не поддерживается.
         </td>
     </tr>
     <tr>
@@ -190,7 +190,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Multi-tenancy is implemented through tenants; built-in data sharing across tenants is not supported.  Each tenant can have it’s own authentication and authorization scheme.  
+            Мульти‑тенантность реализована через tenants; встроенное совместное использование данных между tenants не поддерживается. Каждый tenant может иметь собственную схему аутентификации и авторизации.  
         </td>
     </tr>
     <tr>
@@ -199,7 +199,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            N/A
+            Н/Д
         </td>
     </tr>
     <tr>
@@ -212,7 +212,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            NATS supports TLS, NATS credentials, NKEYS (NATS ED25519 keys), username and password, or simple token.
+            NATS поддерживает TLS, учетные данные NATS, NKEYS (ключи NATS ED25519), имя пользователя и пароль или простой токен.
         </td>
     </tr>
     <tr>
@@ -221,7 +221,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Supports Kerberos and TLS. Supports JAAS and an out-of-box authorizer implementation that uses ZooKeeper to store connection and subject.
+            Поддерживает Kerberos и TLS. Поддерживает JAAS и встроенную реализацию авторизатора, которая использует ZooKeeper для хранения соединений и subject.
         </td>
     </tr>
     <tr>
@@ -230,7 +230,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            TLS, SASL, username and password, and pluggable authorization.
+            TLS, SASL, имя пользователя и пароль, а также подключаемая авторизация.
         </td>
     </tr>
     <tr>
@@ -239,7 +239,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            TLS Authentication, Athenz, Kerberos, JSON Web Token Authentication.  
+            TLS‑аутентификация, Athenz, Kerberos, аутентификация JSON Web Token.  
         </td>
     </tr>
     <tr>
@@ -248,7 +248,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            TLS, ALT, Token, channel and call credentials, and a plug-in mechanism.
+            TLS, ALT, токен, учетные данные канала и вызова, а также механизм плагинов.
         </td>
     </tr>
     <tr>
@@ -261,7 +261,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Account limits including # of connections, message size, # of imports and exports.  User level publish and subscribe permissions, connection restrictions, CIDR address restrictions, and time of day restrictions.
+            Лимиты аккаунта, включая количество соединений, размер сообщения, количество импортов и экспортов. Разрешения publish и subscribe на уровне пользователя, ограничения соединений, ограничения по CIDR‑адресам и по времени суток.
         </td>
     </tr>
     <tr>
@@ -270,7 +270,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Supports JAAS, ACLs for a rich set of Kafka resources including topics, clusters, groups and others.
+            Поддерживает JAAS, ACL для широкого набора ресурсов Kafka, включая topics, clusters, groups и другие.
         </td>
     </tr>
     <tr>
@@ -279,7 +279,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            ACLs dictate permissions for configure, write and read operations on resources like exchanges, queues, transactions, and others.  Authentication is pluggable.
+            ACL задают права на configure, write и read операции над ресурсами вроде exchanges, queues, transactions и т. п. Аутентификация подключаемая.
         </td>
     </tr>
     <tr>
@@ -288,7 +288,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Permissions may be granted to specific roles for lists of operations such as produce and consume.  
+            Разрешения могут выдаваться конкретным ролям на наборы операций, таких как produce и consume.  
         </td>
     </tr>
     <tr>
@@ -297,12 +297,12 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Users can configure call credentials to authorize fine grained individual calls on a service.
+            Пользователи могут настраивать call credentials для авторизации отдельных вызовов сервиса с высокой детализацией.
         </td>
     </tr>
     <tr>
         <td rowspan="5" valign="top"><b>
-            Message Retention and Persistence
+            Хранение и устойчивость сообщений
             </b>
         </td>
         <td><b>
@@ -310,7 +310,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Supports memory, file, and database persistence.  Messages can be replayed by time, count, or sequence number, and durable subscriptions are supported.  With NATS streaming, scripts can archive old log segments to cold storage.
+            Поддерживает хранение в памяти, файле и базе данных. Сообщения можно воспроизводить по времени, количеству или номеру последовательности; поддерживаются durable‑подписки. В NATS Streaming скрипты могут архивировать старые сегменты лога в холодное хранилище.
         </td>
     </tr>
     <tr>
@@ -319,7 +319,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Supports file based persistence.  Messages can be replayed by specifying an offset, and durable subscriptions are supported.  Log compaction is supported as well as KSQL.
+            Поддерживает файловое хранение. Сообщения можно воспроизводить, задав offset; поддерживаются durable‑подписки. Также поддерживается лог‑компакция и KSQL.
         </td>
     </tr>
     <tr>
@@ -328,7 +328,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Supports file based persistence.  Rabbit supported queue based semantics (vs log), so no message replay is available.
+            Поддерживает файловое хранение. Rabbit использует семантику очередей (а не лога), поэтому повторное воспроизведение сообщений недоступно.
         </td>
     </tr>
     <tr>
@@ -337,7 +337,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Supports tiered storage including file, Amazon S3 or Google Cloud Storage (GCS).  Pulsar can replay messages from a specific position and supports durable subscriptions.  Pulsar SQL and topic compaction is supported, as well as Pulsar functions. 
+            Поддерживает многоуровневое хранение, включая файл, Amazon S3 или Google Cloud Storage (GCS). Pulsar может воспроизводить сообщения с заданной позиции и поддерживает durable‑подписки. Поддерживаются Pulsar SQL и topic compaction, а также Pulsar functions. 
         </td>
     </tr>
     <tr>
@@ -346,12 +346,12 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            N/A
+            Н/Д
         </td>
     </tr>
     <tr>
         <td rowspan="5" valign="top"><b>
-            High Availability/Fault Tolerance
+            Высокая доступность/отказоустойчивость
             </b>
         </td>
         <td><b>
@@ -359,7 +359,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Core NATS supports full mesh clustering with self-healing features to provide high availability to clients. NATS streaming has warm failover backup servers with two modes (FT and full clustering). Jetstream will support horizontal scalability with built-in mirroring.
+            Core NATS поддерживает полносвязную кластеризацию с самоисцелением для обеспечения высокой доступности клиентам. NATS Streaming имеет резервные серверы warm failover с двумя режимами (FT и полная кластеризация). JetStream поддерживает горизонтальное масштабирование со встроенным зеркалированием.
         </td>
     </tr>
     <tr>
@@ -368,7 +368,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Fully replicated cluster members are coordinated via Zookeeper.
+            Полностью реплицированные участники кластера координируются через Zookeeper.
         </td>
     </tr>
     <tr>
@@ -377,7 +377,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Clustering Support with full data replication via federation plugins.  Clusters require low-latency networks where network partitions are rare.
+            Поддержка кластеров с полной репликацией данных через плагины federation. Кластеры требуют низкой латентности сетей, где разделение сети случается редко.
         </td>
     </tr>
     <tr>
@@ -386,7 +386,7 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            Pulsar supports clustered brokers with geo-replication.
+            Pulsar поддерживает кластерные брокеры с гео‑репликацией.
         </td>
     </tr>
     <tr>
@@ -395,211 +395,9 @@ This comparison features NATS, Apache Kafka, RabbitMQ, Apache Pulsar, and gRPC.
             </b>
         </td>
         <td>
-            N/A.  gRPC relies on external resources for HA/FT.
+            Н/Д. gRPC опирается на внешние ресурсы для HA/FT.
         </td>
     </tr>
-    <tr>
-        <td rowspan="5" valign="top"><b>
-            Deployment
-            </b>
-        </td>
-        <td><b>
-            NATS
-            </b>
-        </td>
-        <td>
-            The NATS network element (server) is a small static binary that can be deployed anywhere from large instances in the cloud to resource constrained devices like a Raspberry PI.
-NATS supports the Adaptive Edge architecture which allows for large, flexible deployments.  Single servers, leaf nodes, clusters, and superclusters (cluster of clusters) can be combined in any fashion for an extremely flexible deployment amenable to cloud, on-premise, edge and IoT.  Clients are unaware of topology and can connect to any NATS server in a deployment.
-        </td>
-    </tr>
-    <tr>
-        <td><b>
-            Kafka
-            </b>
-        </td>
-        <td>
-            Kafka supports clustering with mirroring to loosely coupled remote clusters.  Clients are tied to partitions defined within clusters.  Kafka servers require a JVM, eight cores, 64 GB to128 GB of RAM, two or more 8-TB SAS/SSD disks, and a 10-Gig NIC.<sup>1</sup>
-        </td>
-    </tr>
-    <tr>
-        <td><b>
-            Rabbit
-            </b>
-        </td>
-        <td>
-            Rabbit supports clusters and cross cluster message propagation through a federation plugin. Clients are unaware of topology and may connect to any cluster.  The server requires the Erlang VM and dependencies.
-        </td>
-    </tr>
-    <tr>
-        <td><b>
-            Pulsar
-            </b>
-        </td>
-        <td>
-            Pulsar supports clustering and built-in geo-replication between clusters.  Clients may connect to any cluster with an appropriately configured tenant and namespace.  Pulsar requires a JVM and requires at least 6 Linux machines or VMs. 3 running ZooKeeper. 3 running a Pulsar broker and a BookKeeper bookie.<sup>2</sup>
-        </td>
-    </tr>
-    <tr>
-        <td><b>
-            gRPC
-            </b>
-        </td>
-        <td>
-            gRPC is point to point and does not have a server or broker to deploy or manage, but always requires additional pieces for production deployments.
-        </td>
-    </tr>
-    <tr>
-        <td rowspan="5" valign="top"><b>
-            Monitoring
-            </b>
-        </td>
-        <td><b>
-            NATS
-            </b>
-        </td>
-        <td>
-            NATS supports exporting monitoring data to Prometheus and has Grafana dashboards to monitor and configure alerts.  There are also development monitoring tools such as nats-top.  Robust side car deployment or a simple connect-and-view model with NATS surveyor is supported.
-        </td>
-    </tr>
-    <tr>
-        <td><b>
-            Kafka
-            </b>
-        </td>
-        <td>
-            Kafka has a number of management tools and consoles including Confluent Control Center, Kafka, Kafka Web Console, Kafka Offset Monitor.
-        </td>
-    </tr>
-    <tr>
-        <td><b>
-            Rabbit
-            </b>
-        </td>
-        <td>
-            CLI tools, a plugin-based management system with dashboards and third-party tools.
-        </td>
-    </tr>
-    <tr>
-        <td><b>
-            Pulsar
-            </b>
-        </td>
-        <td>
-            CLI tools, per-topic dashboards, and third-party tools.
-        </td>
-    </tr>
-    <tr>
-        <td><b>
-            gRPC
-            </b>
-        </td>
-        <td>
-            External components such as a service mesh are required to monitor gRPC.
-        </td>
-    </tr>
-    <tr>
-        <td rowspan="5" valign="top"><b>
-            Management
-            </b>
-        </td>
-        <td><b>
-            NATS
-            </b>
-        </td>
-        <td>
-            NATS separates operations from security.  User and Account management in a deployment may be decentralized and managed through a CLI.  Server (network element) configuration is separated from security with a command line and configuration file which can be reloaded with changes at runtime.
-        </td>
-    </tr>
-    <tr>
-        <td><b>
-            Kafka
-            </b>
-        </td>
-        <td>
-            Kafka has a number of management tools and consoles including Confluent Control Center, Kafka, Kafka Web Console, Kafka Offset Monitor.
-        </td>
-    </tr>
-    <tr>
-        <td><b>
-            Rabbit
-            </b>
-        </td>
-        <td>
-            CLI tools, a plugin-based management system with dashboards and third-party tools.
-        </td>
-    </tr>
-    <tr>
-        <td><b>
-            Pulsar
-            </b>
-        </td>
-        <td>
-            CLI tools, per-topic dashboards, and third-party tools.
-        </td>
-    </tr>
-    <tr>
-        <td><b>
-            gRPC
-            </b>
-        </td>
-        <td>
-            External components such as a service mesh are required to manage gRPC.
-        </td>
-    </tr>
-    <tr>
-        <td rowspan="5" valign="top"><b>
-            Integrations
-            </b>
-        </td>
-        <td><b>
-            NATS
-            </b>
-        </td>
-        <td>
-            NATS supports WebSockets, a Kafka bridge, an IBM MQ Bridge, a Redis Connector, Apache Spark, Apache Flink, CoreOS, Elastic, Elasticsearch, Prometheus, Telegraf, Logrus, Fluent Bit, Fluentd, OpenFAAS, HTTP, and MQTT (coming soon).
-        </td>
-    </tr>
-    <tr>
-        <td><b>
-            Kafka
-            </b>
-        </td>
-        <td>
-            Kafka has a large number of integrations in its ecosystem, including stream processing (Storm, Samza, Flink), Hadoop, database (JDBC, Oracle Golden Gate), Search and Query (ElasticSearch, Hive), and a variety of logging and other integrations.
-        </td>
-    </tr>
-    <tr>
-        <td><b>
-            Rabbit
-            </b>
-        </td>
-        <td>
-            RabbitMQ has many plugins, including protocols (MQTT, STOMP), WebSockets, and various authorization and authentication plugins.
-        </td>
-    </tr>
-    <tr>
-        <td><b>
-            Pulsar
-            </b>
-        </td>
-        <td>
-            Pulsar has many integrations, including ActiveMQ, Cassandra, Debezium, Flume, Elasticsearch, Kafka, Redis, and others.
-        </td>
-    </tr>
-    <tr>
-        <td><b>
-            gRPC
-            </b>
-        </td>
-        <td>
-            There are a number of third party integrations including HTTP, JSON, Prometheus, Grift and others.<sup>3</sup>
-        </td>
-    </tr>
-    
 </table>
-<h3>References</h3>
-<p><sup>1</sup> https://docs.cloudera.com/HDPDocuments/HDF3/HDF-3.1.0/bk_planning-your-deployment/content/ch_hardware-sizing.html#:~:text=Kafka%20Broker%20Node%3A%20eight%20cores,and%20a%2010%2D%20Gige%20Nic%20.&text=75%20MB%2Fsec%20per%20node,therefore%2010GB%20Nic%20is%20required%20</p>
-<p><sup>2</sup> https://pulsar.apache.org/docs/v1.21.0-incubating/deployment/cluster/ </p>
-<p><sup>3</sup> https://github.com/grpc-ecosystem</p>
 </body>
 </html>

@@ -1,8 +1,8 @@
-# Account Information
+# Информация об аккаунте
 
-## Account Information
+## Информация об аккаунте
 
-JetStream is multi-tenant so you will need to check that your account is enabled for JetStream and is not limited. You can view your limits as follows:
+JetStream — мультитенантный сервис, поэтому нужно проверить, что ваш аккаунт включен для JetStream и не ограничен. Посмотреть лимиты можно так:
 
 ```shell
 nats account info
@@ -23,4 +23,3 @@ JetStream Account Information:
           Streams: 0 of Unlimited
    Max Consumers: unlimited
 ```
-

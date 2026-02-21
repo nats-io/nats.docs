@@ -1,22 +1,23 @@
-# Multi Tenancy using Accounts
+# Мульти‑тенантность с помощью Accounts
 
-In modern microservice architecture it is common to share infrastructure - such as NATS - between services. [Accounts](accounts.md#accounts) are securely isolated communication contexts that allow multi-tenancy in a NATS deployment. They allow users to bifurcate technology from business driven use cases, where data silos are created by design, not software limitations. Furthermore, they facilitate the [controlled exchange](accounts.md#exporting-and-importing) of information between those data silos/Tenants/Accounts.
+В современной архитектуре микросервисов часто используют общую инфраструктуру — такую как NATS — между сервисами. [Accounts](accounts.md#accounts) — это безопасно изолированные контексты коммуникации, которые позволяют реализовать мульти‑тенантность в развертывании NATS. Они позволяют разделять технологию и бизнес‑сценарии, где данные изолируются по дизайну, а не из‑за ограничений ПО. Кроме того, они обеспечивают [контролируемый обмен](accounts.md#exporting-and-importing) информацией между такими «силосами»/тенантами/аккаунтами.
 
+<a id="accounts"></a>
 ## Accounts
 
-_Accounts_ expand on the authorization foundation. With traditional authorization, all clients can publish and subscribe to anything unless explicitly configured otherwise. To protect clients and information, you have to carve the subject space and permission clients carefully.
+_Accounts_ расширяют основу авторизации. При традиционной авторизации все клиенты могут публиковать и подписываться на что угодно, если это явно не ограничено. Чтобы защитить клиентов и информацию, нужно аккуратно «резать» пространство subject и права клиентов.
 
-_Accounts_ allow the grouping of clients, _isolating_ them from clients in other accounts, thus enabling _multi-tenancy_ in the server. With accounts, the subject space is not globally shared, greatly simplifying the messaging environment. Instead of devising complicated subject name carving patterns, clients can use short subjects without explicit authorization rules. [System Events](../sys_accounts/) are an example of this isolation at work.
+_Accounts_ позволяют группировать клиентов, _изолируя_ их от клиентов других аккаунтов, тем самым обеспечивая _мульти‑тенантность_ на сервере. При использовании accounts пространство subject не является общим, что значительно упрощает среду обмена сообщениями. Вместо сложных схем «нарезки» имен subject, клиенты могут использовать короткие subject без явных правил авторизации. [System Events](../sys_accounts/) — пример такой изоляции в действии.
 
-Accounts configuration is done in `accounts` map. The contents of an account entry includes:
+Конфигурация accounts задается в карте `accounts`. Содержимое записи аккаунта включает:
 
-| Property | Description |
+| Свойство | Описание |
 | :--- | :--- |
-| `users` | a list of [user configuration maps](auth_intro/#user-configuration-map) |
-| `exports` | a list of [export maps](accounts.md#export-configuration-map) |
-| `imports` | a list of [import maps](accounts.md#import-configuration-map) |
+| `users` | список [карт конфигурации пользователя](auth_intro/#user-configuration-map) |
+| `exports` | список [карт экспорта](accounts.md#export-configuration-map) |
+| `imports` | список [карт импорта](accounts.md#import-configuration-map) |
 
-The `accounts` list is a map, where the keys on the map are an account name.
+Список `accounts` — это map, где ключи — имена аккаунтов.
 
 ```text
 accounts: {
@@ -33,43 +34,45 @@ accounts: {
 }
 ```
 
-> In the most straightforward configuration above you have an account named `A` which has a single user identified by the username `a` and the password `a`, and an account named `B` with a user identified by the username `b` and the password `b`.
+> В самой простой конфигурации выше есть аккаунт `A` с одним пользователем (username `a`, password `a`) и аккаунт `B` с пользователем (username `b`, password `b`).
 >
-> These two accounts are isolated from each other. Messages published by users in `A` are not visible to users in `B`.
+> Эти два аккаунта изолированы друг от друга. Сообщения, опубликованные пользователями из `A`, не видны пользователям `B`.
 >
-> The user configuration map is the same as any other NATS [user configuration map](auth_intro/#user-configuration-map) . You can use:
+> Карта конфигурации пользователя — такая же, как любая другая карта пользователя NATS [user configuration map](auth_intro/#user-configuration-map). Можно использовать:
 >
 > * username/password
 > * nkeys
-> * and add permissions
+> * и добавлять permissions
 >
-> While the name _account_ implies one or more users, it is much simpler and enlightening to think of one account as a messaging container for one application. Users in the account are simply the minimum number of services that must work together to provide some functionality. In simpler terms, more accounts with few \(even one\) clients is a better design topology than a large account with many users with complex authorization configuration.
+> Хотя название _account_ подразумевает одного или нескольких пользователей, гораздо проще и полезнее думать об аккаунте как о контейнере сообщений для одного приложения. Пользователи в аккаунте — это минимальный набор сервисов, которые должны работать вместе, чтобы обеспечить некоторую функциональность. Проще говоря, больше аккаунтов с малым числом клиентов (даже один) — это лучшая топология, чем один большой аккаунт с множеством пользователей и сложной конфигурацией авторизации.
 
-## Exporting and Importing
+<a id="exporting-and-importing"></a>
+## Экспорт и импорт
 
-Messaging exchange between different accounts is enabled by _exporting_ streams and services from one account and _importing_ them into another. Each account controls what is exported and imported.
+Обмен сообщениями между разными аккаунтами включается путем _экспорта_ стримов и сервисов из одного аккаунта и _импорта_ их в другой. Каждый аккаунт контролирует, что экспортируется и что импортируется.
 
-* **Streams** are messages your application publishes. Importing applications won't be able to make requests from your applications but will be able to consume messages you generate.
-* **Services** are messages your application can consume and act on, enabling other accounts to make requests that are fulfilled by your account.
+* **Streams** — сообщения, которые публикует ваше приложение. Импортирующие приложения не смогут делать запросы к вашим приложениям, но смогут потреблять сообщения, которые вы генерируете.
+* **Services** — сообщения, которые ваше приложение может потреблять и обрабатывать, позволяя другим аккаунтам делать запросы, которые будут удовлетворены вашим аккаунтом.
 
 {% hint style="info" %}
-The term `stream` in the context of import and export account configuration does *not* refer to and should not be confused with a JetStream stream (unfortunate collision of terms as the import/export between accounts predates JetStream), it is just a 'stream of (Core NATS) messages'
+Термин `stream` в контексте импорта/экспорта аккаунтов *не* относится к JetStream stream (неудачное совпадение терминов, так как import/export между аккаунтами появился раньше JetStream). Это просто «поток (Core NATS) сообщений».
 {% endhint %}
 
-The `exports` configuration list enable you to define the services and streams that others can import. Exported services and streams are expressed as an [Export configuration map](accounts.md#export-configuration-map). The `imports` configuration lists the services and streams that an Account imports. Imported services and streams are expressed as an [Import configuration map](accounts.md#import-configuration-map).
+Список конфигурации `exports` позволяет определить сервисы и стримы, которые другие могут импортировать. Экспортируемые сервисы и стримы описываются [картой конфигурации Export](accounts.md#export-configuration-map). Список `imports` определяет сервисы и стримы, которые аккаунт импортирует. Импортируемые сервисы и стримы описываются [картой конфигурации Import](accounts.md#import-configuration-map).
 
-### Export Configuration Map
+<a id="export-configuration-map"></a>
+### Карта конфигурации Export
 
-The export configuration map binds a subject for use as a `service` or `stream` and optionally defines specific accounts that can import the stream or service. Here are the supported configuration properties:
+Карта конфигурации Export привязывает subject для использования как `service` или `stream` и опционально определяет конкретные аккаунты, которые могут импортировать стрим или сервис. Поддерживаемые свойства:
 
-| Property | Description |
+| Свойство | Описание |
 | :--- | :--- |
-| `stream` | A subject or subject with wildcards that the account will publish. \(exclusive of `service`\) |
-| `service` | A subject or subject with wildcards that the account will subscribe to. \(exclusive of `stream`\) |
-| `accounts` | A list of account names that can import the stream or service. If not specified, the service or stream is public and any account can import it. |
-| `response_type` | Indicates if a response to a `service` request consists of a `single` or a `stream` of messages. Possible values are: `single` or `stream`. \(Default value is `singleton`\) |
+| `stream` | subject или subject с wildcard, который аккаунт будет публиковать. (взаимоисключается с `service`) |
+| `service` | subject или subject с wildcard, на который аккаунт будет подписываться. (взаимоисключается с `stream`) |
+| `accounts` | Список имен аккаунтов, которые могут импортировать стрим или сервис. Если не задано, сервис или стрим публичный, и любой аккаунт может его импортировать. |
+| `response_type` | Указывает, состоит ли ответ на запрос `service` из `single` или `stream` сообщений. Возможные значения: `single` или `stream`. (Значение по умолчанию `singleton`) |
 
-Here are some example exports:
+Примеры экспортов:
 
 ```text
 accounts: {
@@ -88,36 +91,38 @@ accounts: {
 }
 ```
 
-Here's what `A` is exporting:
+Что экспортирует `A`:
 
-* a public stream on the wildcard subject `puba.>`
-* a public service on the wildcard subject `pubq.>`
-* a stream to account `B` on the wildcard subject `b.>`
-* a service to account `B` on the subject `q.b`
+* публичный stream на wildcard‑subject `puba.>`
+* публичный service на wildcard‑subject `pubq.>`
+* stream для аккаунта `B` на wildcard‑subject `b.>`
+* service для аккаунта `B` на subject `q.b`
 
-### Import Configuration Map
+<a id="import-configuration-map"></a>
+### Карта конфигурации Import
 
-An import enables an account to consume streams published by another account or make requests to services implemented by another account. All imports require a corresponding export on the exporting account. Accounts cannot do self-imports.
+Import позволяет аккаунту потреблять стримы, публикуемые другим аккаунтом, или делать запросы к сервисам, реализованным другим аккаунтом. Все импорты требуют соответствующего экспорта в аккаунте‑источнике. Аккаунты не могут импортировать сами у себя.
 
-| Property | Description |
+| Свойство | Описание |
 | :--- | :--- |
-| `stream` | Stream import [source configuration](accounts.md#source-configuration-map). \(exclusive of `service`\) |
-| `service` | Service import [source configuration](accounts.md#source-configuration-map) \(exclusive of `stream`\) |
-| `prefix` | A local subject prefix mapping for the imported stream. \(applicable to `stream`\) |
-| `to` | A local subject mapping for imported service. \(applicable to `service`\) |
+| `stream` | Источник импорта stream [source configuration](accounts.md#source-configuration-map). (взаимоисключается с `service`) |
+| `service` | Источник импорта service [source configuration](accounts.md#source-configuration-map) (взаимоисключается с `stream`) |
+| `prefix` | Локальный префикс subject для импортируемого stream. (применимо к `stream`) |
+| `to` | Локальное отображение subject для импортируемого service. (применимо к `service`) |
 
-The `prefix` and `to` options are optional and allow you to remap the subject that is used locally to receive stream messages from or publish service requests to. This way the importing account does not depend on naming conventions picked by another. Currently, a service import can not make use of wildcards, which is why the import subject can be rewritten. A stream import may make use of wildcards. To retain information contained in the subject, it can thus only be prefixed with `prefix`...
+Опции `prefix` и `to` необязательны и позволяют перемаппить subject, который используется локально для получения сообщений из stream или отправки запросов к service. Так импортирующий аккаунт не зависит от соглашений именования другого аккаунта. Сейчас импорт service не может использовать wildcard, поэтому subject импорта может быть переписан. Импорт stream может использовать wildcard. Чтобы сохранить информацию, содержащуюся в subject, его можно только префиксировать `prefix`...
 
-#### Source Configuration Map
+<a id="source-configuration-map"></a>
+#### Карта конфигурации Source
 
-The _source configuration map_ describes an export from a remote account by specifying the `account` and `subject` of the export being imported. This map is embedded in the [import configuration map](accounts.md#import-configuration-map):
+_Карта конфигурации source_ описывает экспорт из удаленного аккаунта, указывая `account` и `subject` экспорта, который импортируется. Эта карта встраивается в [карту конфигурации import](accounts.md#import-configuration-map):
 
-| Property | Description |
+| Свойство | Описание |
 | :--- | :--- |
-| `account` | Account name owning the export. |
-| `subject` | The subject under which the stream or service is made accessible to the importing account |
+| `account` | Имя аккаунта‑владельца экспорта. |
+| `subject` | Subject, под которым stream или service доступен импортирующему аккаунту |
 
-### Import/Export Example
+### Пример Import/Export
 
 ```text
 accounts: {
@@ -153,27 +158,27 @@ accounts: {
 }
 ```
 
-Account `B` imports:
+Аккаунт `B` импортирует:
 
-* the private stream from `A` that only `B` can receive on `b.>`
-* the private service from `A` that only `B` can send requests on `q.b`
+* приватный stream из `A`, который может получать только `B` на `b.>`
+* приватный service из `A`, на который только `B` может отправлять запросы на `q.b`
 
-Account `C` imports the public service and stream from `A`, but also:
+Аккаунт `C` импортирует публичные service и stream из `A`, а также:
 
-* remaps the `puba.>` stream to be locally available under `from_a.puba.>`. The messages will have their original subjects prefixed by `from_a`.
-* remaps the `pubq.C` service to be locally available under `Q`. Account `C` only needs to publish to `Q` locally.
+* перемаппит stream `puba.>` так, чтобы он был локально доступен как `from_a.puba.>`. Сообщения сохраняют оригинальные subject с префиксом `from_a`.
+* перемаппит service `pubq.C`, чтобы он был локально доступен как `Q`. Аккаунту `C` нужно публиковать локально в `Q`.
 
-It is important to reiterate that:
+Важно подчеркнуть:
 
-* stream `puba.>` from `A` is visible to all external accounts that imports the stream.
-* service `pubq.>` from `A` is available to all external accounts so long as they know the full subject of where to send the request. Typically an account will export a wildcard service but then coordinate with a client account on specific subjects where requests will be answered. On our example, account `C` access the service on `pubq.C` \(but has mapped it for simplicity to `Q`\).
-* stream `b.>` is private, only account `B` can receive messages from the stream.
-* service `q.b` is private; only account `B` can send requests to the service.
-* When `C` publishes a request to `Q`, local `C` clients will see `Q` messages. However, the server will remap `Q` to `pubq.C` and forward the requests to account `A`.
+* stream `puba.>` из `A` виден всем внешним аккаунтам, которые импортируют этот stream.
+* service `pubq.>` из `A` доступен всем внешним аккаунтам, если они знают полный subject, куда отправлять запрос. Обычно аккаунт экспортирует wildcard‑service и согласует с клиентским аккаунтом конкретные subject, на которые будут отвечать. В нашем примере аккаунт `C` обращается к сервису на `pubq.C` (но для удобства перемаппил в `Q`).
+* stream `b.>` — приватный, только аккаунт `B` может получать сообщения из этого stream.
+* service `q.b` — приватный; только аккаунт `B` может отправлять запросы к этому service.
+* Когда `C` публикует запрос в `Q`, локальные клиенты `C` видят сообщения `Q`. Однако сервер перемаппит `Q` в `pubq.C` и переадресует запросы аккаунту `A`.
 
 ## No Auth User
 
-Clients connecting without authentication can be associated with a particular user within an account.
+Клиенты, подключающиеся без аутентификации, могут быть связаны с конкретным пользователем в аккаунте.
 
 ```text
 accounts: {
@@ -191,20 +196,20 @@ accounts: {
 no_auth_user: a
 ```
 
-The above example shows how clients without authentication can be associated with the user `a` within account `A`.
+Пример выше показывает, как клиенты без аутентификации могут быть связаны с пользователем `a` в аккаунте `A`.
 
-> Please note that the `no_auth_user` will not work with nkeys or bcrypted passwords. The user referenced can also be part of the [authorization](authorization.md) block.
+> Обратите внимание: `no_auth_user` не работает с nkeys или bcrypted‑паролями. Указанный пользователь также может быть частью блока [authorization](authorization.md).
 >
-> Despite `no_auth_user` being set, clients still need to communicate that they will not be using credentials. The [authentication timeout](auth_intro/auth_timeout.md) applies to this process as well. When your connection is slow, you may run into this timeout and the resulting `Authentication Timeout` error, despite not providing credentials.
+> Несмотря на то, что `no_auth_user` задан, клиенты все равно должны сообщить, что они не будут использовать учетные данные. К этому процессу применяется [таймаут аутентификации](auth_intro/auth_timeout.md). При медленном соединении вы можете попасть на этот таймаут и получить ошибку `Authentication Timeout`, хотя учетные данные не предоставлялись.
 
-### Exporting and importing JetStream streams between accounts
+### Экспорт и импорт JetStream‑потоков между аккаунтами
 
-It is possible to import/export messages stored in JetStream streams between accounts. While it is possible to allow a client application in one account to access a stream located in another account, in most use cases people want a setup where a stream in one account is mirrored or sourced in another account (and the applications in that other account simply use that mirrored/sourced stream in their account), as this is a more 'locked-down' way to share messages in streams between accounts, compared to letting the client applications directly use a stream in another account.
+Можно импортировать/экспортировать сообщения, хранящиеся в JetStream‑потоках, между аккаунтами. Хотя можно разрешить клиентскому приложению в одном аккаунте доступ к потоку, расположенному в другом аккаунте, в большинстве случаев хотят конфигурацию, где поток в одном аккаунте зеркалируется или источником включается в другом аккаунте (и приложения в этом другом аккаунте используют этот зеркальный/источник‑поток в своем аккаунте). Это более «закрытый» способ делиться сообщениями между аккаунтами по сравнению с тем, чтобы дать клиентским приложениям прямой доступ к потоку в другом аккаунте.
 
-There are two resources documenting and giving examples of how to do this:
-* [Cross account JetStream sourcing](https://github.com/synadia-labs/cross-account-jetstream-sourcing) explains and has a walkthrough example of how to do this using simple static security (as is probably the best one to start with) and
-* [Connect Streams Cross Accounts](https://github.com/nats-io/jetstream-leaf-nodes-demo#connect-streams-cross-accounts) explains how to do the same thing but when using the 'operator' JWT-based security mode of operation.
+Есть два ресурса с примерами того, как это сделать:
+* [Cross account JetStream sourcing](https://github.com/synadia-labs/cross-account-jetstream-sourcing) — объясняет и содержит walkthrough‑пример с использованием простой статической безопасности (вероятно, лучший вариант для старта)
+* [Connect Streams Cross Accounts](https://github.com/nats-io/jetstream-leaf-nodes-demo#connect-streams-cross-accounts) — объясняет то же самое, но при использовании JWT‑безопасности в режиме operator
 
-# See Also
+# См. также
 
- * [Multi-tenancy and resource management](https://docs.nats.io/running-a-nats-service/configuration/resource_management#multi-tenancy-and-resource-mgmt)
+ * [Мульти‑тенантность и управление ресурсами](https://docs.nats.io/running-a-nats-service/configuration/resource_management#multi-tenancy-and-resource-mgmt)

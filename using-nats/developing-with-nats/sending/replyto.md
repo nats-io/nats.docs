@@ -1,6 +1,6 @@
-# Including a Reply Subject
+# Указание reply subject
 
-The optional reply-to field when publishing a message can be used on the receiving side to respond. The reply-to subject is often called an _inbox_, and most libraries may provide a method for generating unique inbox subjects. Most libraries also provide for the request-reply pattern with a single call. For example to send a request to the subject `time`, with no content for the messages, you might:
+Необязательное поле reply-to при публикации сообщения может использоваться на стороне получателя для ответа. Reply-to subject часто называют _inbox_, и большинство библиотек предоставляют метод для генерации уникальных inbox subject. Большинство библиотек также поддерживает шаблон request-reply одним вызовом. Например, чтобы отправить запрос на subject `time` без содержимого сообщений, можно сделать так:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -206,4 +206,3 @@ natsConnection_Destroy(conn);
 ```
 {% endtab %}
 {% endtabs %}
-

@@ -1,6 +1,6 @@
-# Listening for Reconnect Events
+# Отслеживание событий переподключения
 
-Because reconnect is primarily under the covers, many libraries provide an event listener you can use to be notified of reconnect events. This event can be especially important for applications sending a lot of messages.
+Поскольку переподключение в основном происходит «под капотом», многие библиотеки предоставляют слушатель событий, чтобы уведомлять о событиях переподключения. Это особенно важно для приложений, отправляющих много сообщений.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -195,4 +195,3 @@ natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
-

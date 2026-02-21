@@ -1,12 +1,12 @@
 # nats-top
 
-[nats-top](https://github.com/nats-io/nats-top) is a [top](http://man7.org/linux/man-pages/man1/top.1.html)-like tool for monitoring nats-server servers.
+[nats-top](https://github.com/nats-io/nats-top) — инструмент в стиле [top](http://man7.org/linux/man-pages/man1/top.1.html) для мониторинга серверов nats-server.
 
 {% hint style="info" %}
-The `nats-top` functionality is now available in the [`nats`](../using-nats/nats-tools/nats\_cli/) CLI tool using the `nats top` command.
+Функциональность `nats-top` теперь доступна в CLI‑инструменте [`nats`](../using-nats/nats-tools/nats\_cli/) через команду `nats top`.
 {% endhint %}
 
-The nats-top tool provides a dynamic real-time view of a NATS server. nats-top can display a variety of system summary information about the NATS server, such as subscription, pending bytes, number of messages, and more, in real time. For example:
+nats-top предоставляет динамический просмотр состояния NATS сервера в реальном времени. Он может показывать различную сводную информацию о сервере NATS — количество подписок, ожидающие байты, число сообщений и другое — в реальном времени. Например:
 
 ```bash
 nats-top
@@ -26,64 +26,63 @@ Connections: 4
   127.0.0.1:56151      5        8       0           11.4K       11.5K       1014.6K     1.0M        go       1.1.0   foo, hello
 ```
 
-## Installation
+## Установка
 
-nats-top can be installed using `go install`. For example:
+nats-top можно установить через `go install`. Например:
 
 ```bash
 go install github.com/nats-io/nats-top
 ```
 
-With newer versions of Go, you will be required to use `go install github.com/nats-io/nats-top@latest`.
+В новых версиях Go нужно использовать `go install github.com/nats-io/nats-top@latest`.
 
-NOTE: You may have to run the above command as user `sudo` depending on your setup. If you receive an error that you cannot install nats-top because your $GOPATH is not set, when in fact it is set, use command `sudo -E go get github.com/nats-io/nats-top` to install nats-top. The `-E` flag tells sudo to preserve the current user's environment.
+ПРИМЕЧАНИЕ: возможно, вам придется запускать команду от `sudo` в зависимости от вашей конфигурации. Если вы получаете ошибку, что нельзя установить nats-top из‑за неустановленного $GOPATH, хотя он задан, используйте `sudo -E go get github.com/nats-io/nats-top` для установки. Флаг `-E` указывает sudo сохранить текущие переменные окружения пользователя.
 
-## Usage
+## Использование
 
-Once installed, nats-top can be run with the command `nats-top` and optional arguments.
+После установки nats-top запускается командой `nats-top` с опциональными аргументами.
 
 ```bash
 nats-top [-s server] [-m monitor] [-n num_connections] [-d delay_in_secs] [-sort by]
 ```
 
-## Options
+## Параметры
 
-Optional arguments inclde the following:
+Опциональные аргументы включают:
 
 | Option | Description |
 | :--- | :--- |
-| `-m monitor` | Monitoring http port from nats-server. |
-| `-n num_connections` | Limit the connections requested to the server \(default 1024\). |
-| `-d delay_in_secs` | Screen refresh interval \(default 1 second\). |
-| `-sort by` | Field to use for sorting the connections \(see below\). |
+| `-m monitor` | HTTP‑порт мониторинга nats-server. |
+| `-n num_connections` | Ограничить число соединений, запрашиваемых у сервера (по умолчанию 1024). |
+| `-d delay_in_secs` | Интервал обновления экрана (по умолчанию 1 секунда). |
+| `-sort by` | Поле для сортировки соединений (см. ниже). |
 
-## Commands
+## Команды
 
-While in nats-top view, you can use the following commands.
+В режиме nats-top доступны следующие команды.
 
 ### option
 
-Use the `o<option>` command to set the primary sort key to the `<option>` value. The option value can be one of the following: `cid`, `subs`, `pending`, `msgs_to`, `msgs_from`, `bytes_to`, `bytes_from`, `lang`, `version`.
+Команда `o<option>` задает ключ сортировки по `<option>`. Возможные значения: `cid`, `subs`, `pending`, `msgs_to`, `msgs_from`, `bytes_to`, `bytes_from`, `lang`, `version`.
 
-You can also set the sort option on the command line using the `-sort` flag. For example: `nats-top -sort bytes_to`.
+Сортировку также можно задать в командной строке через флаг `-sort`. Например: `nats-top -sort bytes_to`.
 
 ### limit
 
-Use the `n<limit>` command to set the sample size of connections to request from the server.
+Команда `n<limit>` задает выборку количества соединений, запрашиваемых у сервера.
 
-You can also set this on the command line using the `-n num_connections` flag. For example: `nats-top -n 1`.
+Это также можно указать в командной строке через `-n num_connections`. Например: `nats-top -n 1`.
 
-Note that if `n<limit>` is used in conjunction with `-sort`, the server will respect both options allowing queries such as the following: Query for the connection with largest number of subscriptions: `nats-top -n 1 -sort subs`.
+Обратите внимание: если `n<limit>` используется вместе с `-sort`, сервер учитывает обе опции, позволяя делать запросы вида: выбрать соединение с наибольшим числом подписок: `nats-top -n 1 -sort subs`.
 
-### s, ? and q Commands
+### Команды s, ? и q
 
-Use the `s` command to toggle displaying connection subscriptions.
+Команда `s` переключает отображение подписок соединения.
 
-Use the `?` command to show help message with options.
+Команда `?` показывает справку с опциями.
 
-Use the `q` command to quit nats-top.
+Команда `q` выходит из nats-top.
 
-### Tutorial
+### Руководство
 
-For a walkthrough with `nats-top` check out the [tutorial](nats-top-tutorial.md).
-
+Пошаговое руководство по `nats-top` см. в [tutorial](nats-top-tutorial.md).

@@ -2,29 +2,28 @@
 
 ## nats Admin CLI
 
-The [`nats` CLI](https://github.com/nats-io/natscli?tab=readme-ov-file#installation) can be used to manage Streams and Consumers easily using it's `--config` flag, for example:
+[`nats` CLI](https://github.com/nats-io/natscli?tab=readme-ov-file#installation) можно использовать для управления Streams и Consumers с помощью флага `--config`, например:
 
-## Add a new Stream
+## Добавить новый Stream
 
-This creates a new Stream based on `orders.json`. The `orders.json` file can be extracted from an existing stream using `nats stream info ORDERS -j | jq .config`
+Создает новый Stream на основе `orders.json`. Файл `orders.json` можно извлечь из существующего стрима с помощью `nats stream info ORDERS -j | jq .config`
 
 ```shell
 nats str add ORDERS --config orders.json
 ```
 
-## Edit an existing Stream
+## Редактировать существующий Stream
 
-This edits an existing stream ensuring it complies with the configuration in `orders.json`
+Редактирует существующий stream, приводя его в соответствие конфигурации `orders.json`
 
 ```shell
 nats str edit ORDERS --config orders.json
 ```
 
-## Add a New Consumer
+## Добавить нового Consumer
 
-This creates a new Consumer based on `orders_new.json`. The `orders_new.json` file can be extracted from an existing stream using `nats con info ORDERS NEW -j | jq .config`
+Создает нового Consumer на основе `orders_new.json`. Файл `orders_new.json` можно извлечь из существующего consumer с помощью `nats con info ORDERS NEW -j | jq .config`
 
 ```shell
 nats con add ORDERS NEW --config orders_new.json
 ```
-

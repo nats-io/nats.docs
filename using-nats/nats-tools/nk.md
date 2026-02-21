@@ -1,22 +1,22 @@
 # nk
 
-`nk` is a command line tool that generates `nkeys`. NKeys are a highly secure public-key signature system based on [Ed25519](https://ed25519.cr.yp.to/).
+`nk` — утилита командной строки для генерации `nkeys`. NKeys — это высокозащищенная система подписи на публичных ключах, основанная на [Ed25519](https://ed25519.cr.yp.to/).
 
-With NKeys the server can verify identity without ever storing secrets on the server. The authentication system works by requiring a connecting client to provide its public key and digitally sign a challenge with its private key. The server generates a random challenge with every connection request, making it immune to playback attacks. The generated signature is validated a public key, thus proving the identity of the client. If the public key validation succeeds, authentication succeeds.
+С NKeys сервер может проверять идентичность, никогда не храня секреты на сервере. Система аутентификации требует, чтобы подключающийся клиент предоставил публичный ключ и подписал challenge своим приватным ключом. Сервер генерирует случайный challenge при каждом запросе соединения, что защищает от атак повторного воспроизведения. Сгенерированная подпись проверяется публичным ключом, тем самым подтверждая личность клиента. Если проверка публичного ключа успешна — аутентификация успешна.
 
-> NKey is an awesome replacement for token authentication, because a connecting client will have to prove it controls the private key for the authorized public key.
+> NKey — отличная замена токенной аутентификации, потому что подключающийся клиент должен доказать, что контролирует приватный ключ для авторизованного публичного ключа.
 
-## Installing nk
+## Установка nk
 
-To get started with NKeys, you’ll need the `nk` tool from [https://github.com/nats-io/nkeys/tree/master/nk](https://github.com/nats-io/nkeys/tree/master/nk) repository. If you have _go_ installed, enter the following at a command prompt:
+Чтобы начать работать с NKeys, вам нужен инструмент `nk` из репозитория [https://github.com/nats-io/nkeys/tree/master/nk](https://github.com/nats-io/nkeys/tree/master/nk). Если у вас установлен _go_, выполните в командной строке:
 
 ```bash
 go install github.com/nats-io/nkeys/nk@latest
 ```
 
-## Generating NKeys and Configuring the Server
+## Генерация NKeys и настройка сервера
 
-To generate a _User_ NKEY:
+Чтобы сгенерировать _User_ NKEY:
 
 ```shell
 nk -gen user -pubout
@@ -26,11 +26,11 @@ SUACSSL3UAHUDXKFSNVUZRF5UHPMWZ6BFDTJ7M6USDXIEDNPPQYYYCU3VY
 UDXU4RCSJNZOIQHZNWXHXORDPRTGNJAHAHFRGZNEEJCPQTT2M7NLCNF4
 ```
 
-The first output line starts with the letter `S` for _Seed_. The second letter `U` stands for _User_. Seeds are private keys; you should treat them as secrets and guard them with care.
+Первая строка начинается с буквы `S` — _Seed_. Вторая буква `U` означает _User_. Seeds — это приватные ключи; относитесь к ним как к секретам и храните осторожно.
 
-The second line starts with the letter `U` for _User_, and is a public key which can be safely shared.
+Вторая строка начинается с `U` — _User_ — это публичный ключ, который можно безопасно распространять.
 
-To use `nkey` authentication, add a user, and set the `nkey` property to the public key of the user you want to authenticate. You are only required to use the public key and no other properties are required. Here is a snippet of configuration for the `nats-server`:
+Чтобы использовать аутентификацию `nkey`, добавьте пользователя и задайте свойство `nkey` равным публичному ключу пользователя, которого хотите аутентифицировать. Требуется только публичный ключ, другие свойства не обязательны. Пример конфигурации `nats-server`:
 
 ```
 authorization: {
@@ -40,5 +40,4 @@ authorization: {
 }
 ```
 
-To complete the end-to-end configuration and use an `nkey`, the [client is configured](https://docs.nats.io/running-a-nats-service/configuration/securing\_nats/auth\_intro/nkey\_auth#client-configuration) to use the seed, which is the private key.
-
+Для завершения end‑to‑end конфигурации и использования `nkey` [клиент настраивается](https://docs.nats.io/running-a-nats-service/configuration/securing\_nats/auth\_intro/nkey\_auth#client-configuration) на использование seed — приватного ключа.

@@ -1,14 +1,14 @@
-# Publish-Subscribe
+# Публикация‑подписка
 
-NATS implements a publish-subscribe message distribution model for one-to-many communication. A publisher sends a message on a subject and any active subscriber listening on that subject receives the message. Subscribers can also register interest in wildcard subjects that work a bit like a regular expression \(but only a bit\). This one-to-many pattern is sometimes called a fan-out.
+NATS реализует модель распределения сообщений publish‑subscribe для коммуникаций one‑to‑many. Издатель отправляет сообщение в subject, и любой активный подписчик, слушающий этот subject, получает сообщение. Подписчики также могут регистрировать интерес к subjects с wildcard, которые немного похожи на регулярные выражения \(но лишь отчасти\). Такой паттерн one‑to‑many иногда называют fan‑out.
 
 ![](../../../.gitbook/assets/pubsub.svg)
 
-# Messages
-Messages are composed of:  
-1. A subject.  
-2. A payload in the form of a byte array.  
-3. Any number of header fields.  
-4. An optional 'reply' address field.  
+# Сообщения
+Сообщения состоят из:  
+1. Subject.  
+2. Payload в виде массива байт.  
+3. Любого числа полей заголовков.  
+4. Необязательного поля адреса ответа `reply`.  
   
-Messages have a maximum size (which is set in the server configuration with `max_payload`). The size is set to 1 MB by default, but can be increased up to 64 MB if needed (though we recommend keeping the max message size to something more reasonable like 8 MB).
+У сообщений есть максимальный размер (он задается в конфигурации сервера через `max_payload`). По умолчанию это 1 МБ, но при необходимости можно увеличить до 64 МБ (хотя мы рекомендуем держать максимальный размер сообщения на более разумном уровне, например 8 МБ).

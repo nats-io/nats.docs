@@ -1,51 +1,51 @@
-# Configuration
+# Конфигурация
 
-## `leafnodes` Configuration Block
+## Блок конфигурации `leafnodes`
 
-The leaf node configuration block is used to configure incoming as well as outgoing leaf node connections. Most properties are for the configuration of incoming connections. The properties `remotes` and `reconnect` are for outgoing connections.
+Блок конфигурации leaf‑node используется для настройки входящих и исходящих leaf‑подключений. Большинство свойств относится к входящим подключениям. Свойства `remotes` и `reconnect` — для исходящих подключений.
 
-| Property        | Description                                                                                                                                                                                |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `host`          | Interface where the server will listen for incoming leafnode connections.                                                                                                                  |
-| `port`          | Port where the server will listen for incoming leafnode connections (default is 7422).                                                                                                     |
-| `listen`        | Combines `host` and `port` as `<host>:<port>`                                                                                                                                              |
-| `tls`           | TLS configuration block (same as other nats-server [`tls` configuration](/running-a-nats-service/configuration/securing_nats/tls.md)).                                                     |
-| `advertise`     | Hostport `<host>:<port>` to advertise how this server can be contacted by leaf nodes. This is useful in cluster setups with NAT.                                                           |
-| `no_advertise`  | if `true` the server shouldn't be advertised to leaf nodes.                                                                                                                                |
-| `authorization` | Authorization block. [**See Authorization Block section below**](leafnode_conf.md#authorization-block).                                                                                    |
-| `remotes`       | List of [`remote`](leafnode_conf.md#leafnode-remotes-entry-block) entries specifying servers where leafnode client connection can be made.                                                 |
-| `reconnect`     | Interval in seconds at which reconnect attempts to a remote server are made.                                                                                                               |
-| `compression`   | Configures compression of leafnode connections similar to [cluster routes](../clustering/v2_routes.md). Defaults to `s2_auto`. See details [here](../clustering/v2_routes.md#compression). |
+| Свойство        | Описание                                                                                                                                                                                |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `host`          | Интерфейс, на котором сервер будет слушать входящие leaf‑подключения.                                                                                                                    |
+| `port`          | Порт, на котором сервер будет слушать входящие leaf‑подключения (по умолчанию 7422).                                                                                                     |
+| `listen`        | Объединяет `host` и `port` как `<host>:<port>`                                                                                                                                           |
+| `tls`           | Блок конфигурации TLS (такой же, как в других настройках [`tls` nats-server](/running-a-nats-service/configuration/securing_nats/tls.md)).                                               |
+| `advertise`     | Hostport `<host>:<port>`, который будет объявлен leaf‑nodes. Полезно в кластерных настройках с NAT.                                                                                       |
+| `no_advertise`  | Если `true`, сервер не должен объявляться leaf‑nodes.                                                                                                                                    |
+| `authorization` | Блок авторизации. [**См. раздел Authorization Block ниже**](leafnode_conf.md#authorization-block).                                                                                       |
+| `remotes`       | Список записей [`remote`](leafnode_conf.md#leafnode-remotes-entry-block), задающих серверы, к которым можно подключаться как leaf‑client.                                                |
+| `reconnect`     | Интервал в секундах между попытками переподключения к удаленному серверу.                                                                                                                |
+| `compression`   | Настройка сжатия leaf‑подключений, аналогично [кластерным маршрутам](../clustering/v2_routes.md). По умолчанию `s2_auto`. Подробнее [здесь](../clustering/v2_routes.md#compression).     |
 
 ## TLS Block
 
-_As of NATS v2.10.0_
+_Начиная с NATS v2.10.0_
 
-The `tls` block for `leafnodes` configuration has an additional field enabling a _TLS-first handshake_ between the remote and the accepting server.
+Блок `tls` для конфигурации `leafnodes` имеет дополнительное поле, включающее _TLS‑first handshake_ между удаленным и принимающим сервером.
 
-| Property          | Description                                                                                                                   |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `handshake_first` | If `true` on the accepting side, remote leafnodes are required to also have this setting configured in the `remotes` section. |
+| Свойство          | Описание                                                                                                                   |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `handshake_first` | Если `true` на стороне приема, удаленные leaf‑nodes также должны иметь эту настройку в секции `remotes`.                   |
 
-### Accepting side
+### Сторона приема
 
-Since Leafnodes can connect to a variety of servers, the ability to indicate if the TLS handshake should be done first is configured in 2 places. The _accepting_ side is in the `tls` block of the `leafnodes` block.
+Так как leaf‑nodes могут подключаться к разным серверам, возможность указать, что TLS‑рукопожатие должно выполняться первым, настраивается в двух местах. Сторона _приема_ задается в блоке `tls` внутри блока `leafnodes`.
 
 ```
 leafnodes {
   port: 7422
   tls {
     handshake_first: true
-    # other TLS fields...
+    # другие поля TLS...
   }
 }
 ```
 
-With the above configuration, an older server, or a server that does not have the remote configuration also configured with `handshake_first: true`, will fail to create a leafnode connection because the accepting-side server will initiate the TLS handshake while the soliciting side will wait for the INFO protocol to be received.
+С этой конфигурацией старый сервер или сервер без `handshake_first: true` в удаленной конфигурации не сможет установить leaf‑подключение, потому что принимающая сторона инициирует TLS‑рукопожатие, а запрашивающая сторона будет ждать INFO‑сообщение протокола.
 
-### Remote side
+### Сторона remote
 
-To indicate that a leafnode connection should perform the TLS handshake first, it needs to be configured in the remote configuration:
+Чтобы указать, что leaf‑подключение должно сначала выполнить TLS‑рукопожатие, это нужно настроить в конфигурации remote:
 
 ```
 leafnodes {
@@ -54,40 +54,40 @@ leafnodes {
       urls: ["tls://example:7422"]
       tls: {
          handshake_first: true
-         # other TLS fields...
+         # другие поля TLS...
       }
     }
   ]
 }
 ```
 
-If the remote is configured as such but the server it is connecting to does not have `handshake_first: true` configured, the connection will fail since the solicit side is performing a TLS handshake but will receive an INFO protocol in clear.
+Если remote настроен так, но сервер, к которому он подключается, не имеет `handshake_first: true`, соединение провалится: запрашивающая сторона выполняет TLS‑рукопожатие, но получит INFO‑сообщение протокола в открытом виде.
 
 ## Authorization Block
 
 {% hint style="info" %}
-A leaf node can authenticate against any user account on the hub (the incoming side of the connection), including those defined in the accounts themselves. This authorization block is therefore optional if appropriate account users already exist.
+Leaf‑node может аутентифицироваться по любому пользователю аккаунта на hub (входящая сторона подключения), включая пользователей, определенных внутри самих аккаунтов. Поэтому этот блок авторизации необязателен, если нужные пользователи аккаунта уже существуют.
 
-Whether configuring users in the account or in this dedicated authorization block is more convenient will depend on your deployment style. 
+Удобнее ли настраивать пользователей в аккаунте или в отдельном блоке авторизации, зависит от вашего стиля развертывания.
 {% endhint %}
 
-| Property   | Description                                                                                                                         |
+| Свойство   | Описание                                                                                                                         |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `user`     | Username for the leaf node connection.                                                                                              |
-| `password` | Password for the user entry.                                                                                                        |
-| `account`  | [Account](../securing_nats/accounts.md) this leaf node connection should be bound to.                                               |
-| `timeout`  | Maximum number of seconds to wait for leaf node authentication.                                                                     |
-| `users`    | List of credentials and account to bind to leaf node connections. [**See User Block section below**](leafnode_conf.md#users-block). |
+| `user`     | Имя пользователя для leaf‑подключения.                                                                                             |
+| `password` | Пароль для записи пользователя.                                                                                                    |
+| `account`  | [Аккаунт](../securing_nats/accounts.md), к которому должно быть привязано это leaf‑подключение.                                    |
+| `timeout`  | Максимальное число секунд ожидания аутентификации leaf‑подключения.                                                                 |
+| `users`    | Список учетных данных и аккаунтов для привязки leaf‑подключений. [**См. раздел Users Block ниже**](leafnode_conf.md#users-block).  |
 
 ### Users Block
 
-| Property   | Description                                                                           |
-| ---------- | ------------------------------------------------------------------------------------- |
-| `user`     | Username for the leaf node connection.                                                |
-| `password` | Password for the user entry.                                                          |
-| `account`  | [Account](../securing_nats/accounts.md) this leaf node connection should be bound to. |
+| Свойство   | Описание                                                                           |
+| ---------- | --------------------------------------------------------------------------------- |
+| `user`     | Имя пользователя для leaf‑подключения.                                            |
+| `password` | Пароль для записи пользователя.                                                   |
+| `account`  | [Аккаунт](../securing_nats/accounts.md), к которому должно быть привязано соединение. |
 
-Here are some examples of using basic user/password authentication for leaf nodes (note while this is using accounts it is not using JWTs)
+Ниже примеры базовой аутентификации user/password для leaf‑nodes (обратите внимание: используется accounts, но не JWT).
 
 Singleton mode:
 
@@ -102,9 +102,9 @@ leafnodes {
 }
 ```
 
-With above configuration, if a soliciting server creates a Leafnode connection with url: `nats://leaf:secret@host:port`, then the accepting server will bind the leafnode connection to the account "TheAccount". This account needs to exist otherwise the connection will be rejected.
+С этой конфигурацией, если запрашивающий сервер создаст leaf‑подключение с URL `nats://leaf:secret@host:port`, принимающий сервер привяжет leaf‑подключение к аккаунту "TheAccount". Этот аккаунт должен существовать, иначе соединение будет отклонено.
 
-Multi-users mode:
+Multi‑users mode:
 
 ```
 leafnodes {
@@ -118,11 +118,11 @@ leafnodes {
 }
 ```
 
-With the above, if a server connects using `leaf1:secret@host:port`, then the accepting server will bind the connection to account `account1`. If using `leaf2` user, then the accepting server will bind to connection to `account2`.
+С этой конфигурацией, если сервер подключается как `leaf1:secret@host:port`, принимающий сервер привяжет соединение к аккаунту `account1`. Если использовать пользователя `leaf2`, соединение будет привязано к `account2`.
 
-If username/password (either singleton or multi-users) is defined, then the connecting server MUST provide the proper credentials otherwise the connection will be rejected.
+Если задано username/password (в режиме singleton или multi‑users), подключающийся сервер ДОЛЖЕН предоставить правильные учетные данные, иначе соединение будет отклонено.
 
-If no username/password is provided, it is still possible to provide the account the connection should be associated with:
+Если username/password не указаны, все равно можно указать аккаунт, с которым должно быть связано соединение:
 
 ```
 leafnodes {
@@ -133,39 +133,39 @@ leafnodes {
 }
 ```
 
-With the above, a connection without credentials will be bound to the account "TheAccount".
+С этой конфигурацией соединение без учетных данных будет привязано к аккаунту "TheAccount".
 
-If other form of credentials are used (jwt, nkey or other), then the server will attempt to authenticate and if successful associate to the account for that specific user. If the user authentication fails (wrong password, no such user, etc..) the connection will be also rejected.
+Если используются другие формы учетных данных (jwt, nkey и т. п.), сервер попытается аутентифицироваться и, при успехе, свяжет соединение с аккаунтом соответствующего пользователя. Если аутентификация пользователя не удалась (неверный пароль, нет такого пользователя и т. п.), соединение также будет отклонено.
 
-## LeafNode `remotes` Entry Block
+## Блок записей LeafNode `remotes`
 
-| Property         | Description                                                                                                                                                                                                                                                               |
+| Свойство         | Описание                                                                                                                                                                                                                                                               |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `url`            | Leafnode URL (URL protocol should be `nats-leaf`).                                                                                                                                                                                                                        |
-| `urls`           | Leafnode URL array. Supports multiple URLs for discovery, e.g., urls: \[ "nats-leaf://host1:7422", "nats-leaf://host2:7422" ]                                                                                                                                             |
-| `no_randomize`   |  IF true, always try connecting in sequence on the URLs in the list. Default behavior if to shuffle the URLs and start connection attempts with a random URL|
-| `account`        | [Account](../securing_nats/accounts.md) name or JWT public key identifying the local account to bind to this remote server. Any traffic locally on this account will be forwarded to the remote server.                                                                   |
-| `deny_imports`    | List of subjects which will not be imported over this leaf node connection. Subscriptions to those subjects will not be propagated to the hub.                                                                                                                           |
-| `deny_exports`    | List of subjects which will not be exported over this leaf node connection. Subscriptions to those subjects will not be propagated into the leaf node.                                                                                      |
-| `credentials`    | Credential file for connecting to the leafnode server.                                                                                                                |
-| `nkey`    | Nkey used for connecting to the leafnode server.                                                                                                                            |
-| `tls`            | A [TLS configuration](leafnode_conf.md#tls-configuration-block) block. Leafnode client will use specified TLS certificates when connecting/authenticating.                                                                                                                |
-| `ws_compression` | If connecting with [Websocket](leafnode_conf.md#connecting-using-websocket-protocol) protocol, this boolean (`true` or `false`) indicates to the remote server that it wishes to use compression. The default is `false`.                                                 |
-| `ws_no_masking`  | If connecting with [Websocket](leafnode_conf.md#connecting-using-websocket-protocol) protocol, this boolean indicates to the remote server that it wishes not to mask outbound WebSocket frames. The default is `false`, which means that outbound frames will be masked. |
-| `compression`   | Configures compression of leafnode connections similar to [cluster routes](../clustering/v2_routes.md). Defaults to `s2_auto`. See details [here](../clustering/v2_routes.md#compression). |
-| `hub`   | Default is false. If set to true the roles of leaf node and hub will be reversed. This allows the hub to initiate a leaf node connection to the leaf. |
-| `first_info_timeout`   | Default `1s`. The first information sent back by the hub (incoming side) will be the server metadata. The client will only wait `first_info_timeout` before giving up. This is useful if there is the change that the port on the other side is not a NATS server or not a port accepting leaf node connection. In this case the client would wait forever for the metadata.  |
+| `url`            | Leafnode URL (протокол URL должен быть `nats-leaf`).                                                                                                                                                                                                                    |
+| `urls`           | Массив URL leafnode. Поддерживаются несколько URL для обнаружения, например `urls: [ "nats-leaf://host1:7422", "nats-leaf://host2:7422" ]`                                                                                                                        |
+| `no_randomize`   | Если true, всегда пытаться подключаться последовательно по списку URL. По умолчанию URL перемешиваются, и попытки начинаются со случайного URL.                                                                                                                        |
+| `account`        | Имя [аккаунта](../securing_nats/accounts.md) или публичный ключ JWT, идентифицирующий локальный аккаунт, который будет связан с этим удаленным сервером. Любой локальный трафик на этом аккаунте будет перенаправляться на удаленный сервер.                              |
+| `deny_imports`   | Список subject, которые не будут импортироваться через это leaf‑подключение. Подписки на эти subject не будут распространяться на hub.                                                                                                                                    |
+| `deny_exports`   | Список subject, которые не будут экспортироваться через это leaf‑подключение. Подписки на эти subject не будут распространяться в leaf‑node.                                                                                                                             |
+| `credentials`    | Файл учетных данных для подключения к leaf‑серверу.                                                                                                                                                                                                                      |
+| `nkey`           | Nkey для подключения к leaf‑серверу.                                                                                                                                                                                                                                    |
+| `tls`            | Блок [TLS‑конфигурации](leafnode_conf.md#tls-configuration-block). Leaf‑клиент будет использовать указанные сертификаты TLS при подключении/аутентификации.                                                                                                               |
+| `ws_compression` | Если подключение идет по протоколу [Websocket](leafnode_conf.md#connecting-using-websocket-protocol), этот boolean (`true` или `false`) указывает удаленному серверу, что клиент хочет использовать сжатие. По умолчанию `false`.                                         |
+| `ws_no_masking`  | Если подключение идет по протоколу [Websocket](leafnode_conf.md#connecting-using-websocket-protocol), этот boolean указывает удаленному серверу, что клиент не хочет маскировать исходящие WebSocket‑фреймы. По умолчанию `false`, что означает, что исходящие фреймы будут маскированы. |
+| `compression`    | Настройка сжатия leaf‑подключений, аналогично [кластерным маршрутам](../clustering/v2_routes.md). По умолчанию `s2_auto`. Подробнее [здесь](../clustering/v2_routes.md#compression).                                                                                    |
+| `hub`            | По умолчанию `false`. Если `true`, роли leaf‑node и hub будут поменяны местами. Это позволяет hub инициировать leaf‑подключение к leaf.                                                                                                                                |
+| `first_info_timeout` | По умолчанию `1s`. Первое, что отправляет hub (входящая сторона), — метаданные сервера. Клиент будет ждать только `first_info_timeout`, прежде чем сдаться. Это полезно, если есть вероятность, что порт на другой стороне не является сервером NATS или не принимает leaf‑подключения. В этом случае клиент иначе бы ждал метаданные бесконечно. |
 
 
 ### Signature Handler
 
-As of NATS Server v.2.9.0, for users embedding the NATS Server, it is possible to replace the use of the credentials file by a signature callback which will sign the `nonce` and provide the JWT in the `CONNECT` protocol. The `RemoteLeafOpts` has a new field:
+Начиная с NATS Server v2.9.0, для пользователей, которые встраивают NATS Server, можно заменить использование файла учетных данных коллбеком подписи, который подпишет `nonce` и предоставит JWT в протоколе `CONNECT`. В `RemoteLeafOpts` появилось новое поле:
 
 ```go
 SignatureCB  SignatureHandler
 ```
 
-The callback definition is:
+Определение коллбека:
 
 ```go
 // SignatureHandler is used to sign a nonce from the server while
@@ -174,11 +174,11 @@ The callback definition is:
 type SignatureHandler func([]byte) (string, []byte, error)
 ```
 
-And example of how to use it can be found [here](https://github.com/nats-io/nats-server/blob/7baf7bd8870a0719e3692e6523b09a14653f717d/server/leafnode_test.go#L4402)
+Пример использования можно найти [здесь](https://github.com/nats-io/nats-server/blob/7baf7bd8870a0719e3692e6523b09a14653f717d/server/leafnode_test.go#L4402)
 
-### Connecting using WebSocket protocol
+### Подключение по протоколу WebSocket
 
-Since NATS 2.2.0, Leaf nodes support outbound WebSocket connections by specifying `ws` as the scheme component of the remote server URLs:
+Начиная с NATS 2.2.0, leaf‑nodes поддерживают исходящие WebSocket‑подключения, если указать `ws` как схему в URL удаленного сервера:
 
 ```
 leafnodes {
@@ -188,29 +188,29 @@ leafnodes {
 }
 ```
 
-Note that if a URL has the `ws` scheme, all URLs the list must be `ws`. You cannot mix and match. Therefore this would be considered an invalid configuration:
+Обратите внимание: если URL имеет схему `ws`, все URL в списке должны быть `ws`. Нельзя смешивать. Поэтому такая конфигурация будет считаться некорректной:
 
 ```
   remotes [
-    # Invalid configuration that will prevent the server from starting
+    # Некорректная конфигурация, которая не даст серверу запуститься
     {urls: ["ws://hostname1:443", "nats://hostname2:7422"]}
   ]
 ```
 
-Note that the decision to make a TLS connection is not based on `wss://` (as opposed to `ws://`) but instead in the presence of a TLS configuration in the `leafnodes{}` or the specific remote configuration block.
+Учтите, что решение о TLS‑подключении не основывается на `wss://` (в отличие от `ws://`), а определяется наличием TLS‑конфигурации в `leafnodes{}` или конкретном блоке конфигурации remote.
 
-To configure Websocket in the remote server, check the [Websocket](../websocket/) section.
+Чтобы настроить Websocket на удаленном сервере, см. раздел [Websocket](../websocket/).
 
-### `tls` Configuration Block
+### Блок конфигурации `tls`
 
-| Property            | Description                                                                                                                |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `cert_file`         | TLS certificate file.                                                                                                      |
-| `key_file`          | TLS certificate key file.                                                                                                  |
-| `ca_file`           | TLS certificate authority file.                                                                                            |
-| `insecure`          | Skip certificate verification.                                                                                             |
-| `verify`            | If `true`, require and verify client certificates.                                                                         |
-| `verify_and_map`    | If `true`, require and verify client certificates and use values map certificate values for authentication purposes.       |
-| `cipher_suites`     | When set, only the specified TLS cipher suites will be allowed. Values must match golang version used to build the server. |
-| `curve_preferences` | List of TLS cypher curves to use in order.                                                                                 |
-| `timeout`           | TLS handshake timeout in fractional seconds.                                                                               |
+| Свойство            | Описание                                                                                                                |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `cert_file`         | Файл TLS‑сертификата.                                                                                                    |
+| `key_file`          | Файл ключа TLS‑сертификата.                                                                                              |
+| `ca_file`           | Файл центра сертификации TLS.                                                                                            |
+| `insecure`          | Пропустить проверку сертификата.                                                                                         |
+| `verify`            | Если `true`, требовать и проверять клиентские сертификаты.                                                               |
+| `verify_and_map`    | Если `true`, требовать и проверять клиентские сертификаты и использовать значения сертификата для целей аутентификации. |
+| `cipher_suites`     | Если задано, разрешены только указанные TLS cipher suites. Значения должны соответствовать версии golang, используемой при сборке сервера. |
+| `curve_preferences` | Список TLS‑кривых шифрования в порядке использования.                                                                    |
+| `timeout`           | Таймаут TLS‑рукопожатия в дробных секундах.                                                                              |

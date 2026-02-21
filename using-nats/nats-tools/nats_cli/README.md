@@ -1,32 +1,32 @@
 # nats
 
-A command line utility to interact with and manage NATS.
+Утилита командной строки для взаимодействия и управления NATS.
 
-This utility replaces various past tools that were named in the form `nats-sub` and `nats-pub`, adds several new capabilities and supports full JetStream management.
+Эта утилита заменяет ряд старых инструментов вида `nats-sub` и `nats-pub`, добавляет новые возможности и поддерживает полноценное управление JetStream.
 
-Check out the repo for all the details: [github.com/nats-io/natscli](https://github.com/nats-io/natscli).
+Подробности в репозитории: [github.com/nats-io/natscli](https://github.com/nats-io/natscli).
 
-## Installing `nats`
+## Установка `nats`
 
-Please refer to the [installation section in the readme](https://github.com/nats-io/natscli?tab=readme-ov-file#installation).
+См. [раздел установки в readme](https://github.com/nats-io/natscli?tab=readme-ov-file#installation).
 
-You can read about execution policies [here](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies).
+О политиках выполнения можно прочитать [здесь](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies).
 
-Binaries are also available as [GitHub Releases](https://github.com/nats-io/natscli/releases).
+Бинарники также доступны в [GitHub Releases](https://github.com/nats-io/natscli/releases).
 
-## Using `nats`
+## Использование `nats`
 
-### Getting help
+### Получение помощи
 
-* [NATS Command Line Interface README](https://github.com/nats-io/natscli#readme)
+* [README по NATS Command Line Interface](https://github.com/nats-io/natscli#readme)
 * `nats help`
-* `nats help [<command>...]` or `nats [<command>...] --help`
-* Remember to look at the cheat sheets!
+* `nats help [<command>...]` или `nats [<command>...] --help`
+* Не забудьте про cheat sheets:
   * `nats cheat`
   * `nats cheat --sections`
   * `nats cheat <section>>`
 
-### Interacting with NATS
+### Взаимодействие с NATS
 
 * `nats context`
 * `nats account`
@@ -36,7 +36,7 @@ Binaries are also available as [GitHub Releases](https://github.com/nats-io/nats
 * `nats reply`
 * `nats bench`
 
-### Monitoring NATS
+### Мониторинг NATS
 
 * `nats events`
 * `nats rtt`
@@ -44,31 +44,31 @@ Binaries are also available as [GitHub Releases](https://github.com/nats-io/nats
 * `nats latency`
 * `nats governor`
 
-### Managing and interacting with streams
+### Управление и взаимодействие с потоками
 
 * `nats stream`
 * `nats consumer`
 * `nats backup`
 * `nats restore`
 
-### Managing and interacting with the K/V Store
+### Управление и взаимодействие с K/V Store
 
 * `nats kv`
 
-### Get reference information
+### Получение справочной информации
 
 * `nats errors`
 * `nats schema`
 
-## Configuration Contexts
+## Контексты конфигурации
 
-The CLI has a number of configuration settings that can be passed either as command line arguments or set in environment variables.
+CLI имеет набор настроек, которые можно передавать как аргументы командной строки или задавать через переменные окружения.
 
 ```shell
 nats --help
 ```
 
-Output extract
+Фрагмент вывода:
 
 ```
 ...
@@ -89,9 +89,9 @@ Output extract
 ...
 ```
 
-The server URL can be set using the `--server` CLI flag, or the `NATS_URL` environment variable, or using [NATS Contexts](./#nats-contexts).
+URL сервера можно задать через флаг CLI `--server`, либо через переменную окружения `NATS_URL`, либо через [NATS Contexts](./#nats-contexts).
 
-The password can be set using the `--password` CLI flag, or the `NATS_PASSWORD` environment variable, or using [NATS Contexts](./#nats-contexts). For example: if you want to create a script that prompts the user for the system user password (so that for example it doesn't appear in `ps` or `history` or maybe you don't want it stored in the profile) and then execute one or more `nats` commands you do something like:
+Пароль можно задать через флаг CLI `--password`, через переменную окружения `NATS_PASSWORD` или через [NATS Contexts](./#nats-contexts). Например, если вы хотите создать скрипт, который попросит у пользователя пароль системного пользователя (чтобы он не попадал в `ps` или `history` или не сохранялся в профиле), и затем выполнить одну или несколько команд `nats`, можно сделать так:
 
 ```shell
 #!/bin/bash
@@ -103,9 +103,9 @@ nats server report jetstream --user system
 
 ### NATS Contexts
 
-A context is a named configuration that stores all of these settings. You can designate a default context and switch between contexts.
+Context — это именованная конфигурация, которая хранит все эти настройки. Можно назначить контекст по умолчанию и переключаться между контекстами.
 
-A context can be created with `nats context create my_context_name` and then modified with`nats context edit my_context_name`:
+Context можно создать командой `nats context create my_context_name` и затем изменить через `nats context edit my_context_name`:
 
 ```json
 {
@@ -128,16 +128,16 @@ A context can be created with `nats context create my_context_name` and then mod
 }
 ```
 
-This context is stored in the file `~/.config/nats/context/my_context_name.json`.
+Этот context хранится в файле `~/.config/nats/context/my_context_name.json`.
 
-A context can also be created by specifying settings with `nats context save`
+Context также можно создать, указав настройки через `nats context save`.
 
 ```shell
 nats context save example --server nats://nats.example.net:4222 --description 'Example.Net Server'
 nats context save local --server nats://localhost:4222 --description 'Local Host' --select 
 ```
 
-List your contexts
+Список контекстов:
 
 ```shell
 nats context ls
@@ -150,15 +150,15 @@ Known contexts:
    local*              Local Host
 ```
 
-We passed `--select` to the `local` one meaning it will be the default when nothing is set.
+Мы передали `--select` для `local`, значит он будет по умолчанию, если ничего не задано.
 
-Select a context
+Выбрать контекст:
 
 ```shell
 nats context select
 ```
 
-Check the round trip time to the server (using the currently selected context)
+Проверить round‑trip time до сервера (используя текущий контекст):
 
 ```shell
 nats rtt
@@ -171,7 +171,7 @@ nats://localhost:4222:
        nats://[::1]:4222: 390.239µs
 ```
 
-You can also specify a context directly
+Можно указать контекст напрямую:
 
 ```shell
 nats rtt --context example
@@ -185,48 +185,16 @@ nats://nats.example.net:4222:
    nats://192.0.2.12:4222: 41.178009ms
 ```
 
-All `nats` commands are context aware and the `nats context` command has various commands to view, edit and remove contexts.
+Все команды `nats` знают о контекстах, а команда `nats context` имеет команды для просмотра, редактирования и удаления контекстов.
 
-Server URLs and Credential paths can be resolved via the `nsc` command by specifying an URL, for example to find user `new` within the `orders` account of the `acme` operator you can use this:
+URL серверов и пути к credentials могут быть получены через `nsc`, указав URL, например чтобы найти пользователя `new` в аккаунте `orders` оператора `acme`, можно использовать:
 
 ```shell
 nats context save example --description 'Example.Net Server' --nsc nsc://acme/orders/new
 ```
 
-The server list and credentials path will now be resolved via `nsc`, if these are specifically set in the context, the specific context configuration will take precedence.
+Теперь список серверов и путь к credentials будут разрешаться через `nsc`. Если они явно заданы в context, конкретная конфигурация контекста имеет приоритет.
 
-## Generating bcrypted passwords
+## Генерация bcrypted паролей
 
-The server supports hashing of passwords and authentication tokens using `bcrypt`. To take advantage of this, simply replace the plaintext password in the configuration with its `bcrypt` hash, and the server will automatically utilize `bcrypt` as needed. See also: [Bcrypted Passwords](../../../running-a-nats-service/configuration/securing\_nats/auth\_intro/username\_password.md#bcrypted-passwords).
-
-The `nats` utility has a command for creating `bcrypt` hashes. This can be used for a password or a token in the configuration.
-
-```shell
-nats server passwd
-```
-
-```
-? Enter password [? for help] **********************
-? Reenter password [? for help] **********************
-
-$2a$11$3kIDaCxw.Glsl1.u5nKa6eUnNDLV5HV9tIuUp7EHhMt6Nm9myW1aS
-```
-
-To use the password on the server, add the hash into the server configuration file's authorization section.
-
-```
-  authorization {
-    user: derek
-    password: $2a$11$3kIDaCxw.Glsl1.u5nKa6eUnNDLV5HV9tIuUp7EHhMt6Nm9myW1aS
-  }
-```
-
-Note the client will still have to provide the plain text version of the password, the server however will only store the hash to verify that the password is correct when supplied.
-
-## See Also
-
-Publish-subscribe pattern using the NATS CLI
-
-{% embed url="https://www.youtube.com/watch?v=jLTVhP08Tq0" %}
-Publish-subscribe Pattern using NATS CLI
-{% endembed %}
+Сервер поддерживает хеширование паролей и токенов аутентификации с помощью `bcrypt`. Чтобы использовать это, замените plaintext‑пароль в конфигурации на его `bcrypt`‑хеш, и сервер автоматически использует `bcrypt` по мере необходимости. См. также: [Bcrypted Passwords](../../../running-a-nats-service/configuration/securing_nats/auth_intro/username\_password.md#bcrypted-passwords).

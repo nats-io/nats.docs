@@ -1,8 +1,8 @@
-# Streams
+# Потоки
 
-The first step is to set up storage for our `ORDERS` related messages, these arrive on a wildcard of subjects all flowing into the same Stream and they are kept for 1 year.
+Первый шаг — настроить хранение для сообщений, связанных с `ORDERS`. Они приходят на wildcard‑subject и попадают в один Stream, где сохраняются в течение 1 года.
 
-## Creating
+## Создание
 
 ```shell
 nats str add ORDERS
@@ -41,21 +41,21 @@ Statistics:
     Active Consumers: 0
 ```
 
-You can get prompted interactively for missing information as above, or do it all on one command. Pressing `?` in the CLI will help you map prompts to CLI options:
+Можно получить недостающую информацию интерактивно, как выше, или сделать все одной командой. Нажатие `?` в CLI поможет сопоставить вопросы с опциями CLI:
 
 ```shell
 nats str add ORDERS --subjects "ORDERS.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size=-1 --discard old --dupe-window="0s" --replicas 1
 ```
 
-Additionally one can store the configuration in a JSON file, the format of this is the same as `$ nats str info ORDERS -j | jq .config`:
+Также можно сохранить конфигурацию в JSON‑файле; формат такой же, как в `$ nats str info ORDERS -j | jq .config`:
 
 ```shell
 nats str add ORDERS --config orders.json
 ```
 
-## Listing
+## Список
 
-We can confirm our Stream was created:
+Проверим, что Stream создан:
 
 ```shell
 nats str ls
@@ -66,9 +66,9 @@ Streams:
     ORDERS
 ```
 
-## Querying
+## Запрос информации
 
-Information about the configuration of the Stream can be seen, and if you did not specify the Stream like below, it will prompt you based on all known ones:
+Информацию о конфигурации Stream можно посмотреть, а если вы не указали Stream явно, как ниже, CLI предложит выбор из известных:
 
 ```shell
 nats str info ORDERS
@@ -99,7 +99,7 @@ State:
      Active Consumers: 0
 ```
 
-Most commands that show data as above support `-j` to show the results as JSON:
+Большинство команд, которые выводят данные как выше, поддерживают `-j` для JSON:
 
 ```shell
 nats str info ORDERS -j
@@ -135,11 +135,11 @@ nats str info ORDERS -j
 }
 ```
 
-This is the general pattern for the entire `nats` utility as it relates to JetStream - prompting for needed information but every action can be run non-interactively making it usable as a CLI API. All information output like seen above can be turned into JSON using `-j`.
+Это общий паттерн для утилиты `nats` в части JetStream: она запрашивает недостающую информацию, но все действия можно выполнять неинтерактивно, используя CLI как API. Любой вывод, подобный выше, можно преобразовать в JSON с помощью `-j`.
 
-## Copying
+## Копирование
 
-A stream can be copied into another, which also allows the configuration of the new one to be adjusted via CLI flags:
+Stream можно скопировать в другой, при этом конфигурацию нового можно скорректировать флагами CLI:
 
 ```shell
 nats str cp ORDERS ARCHIVE --subjects "ORDERS_ARCHIVE.*" --max-age 2y
@@ -172,9 +172,9 @@ State:
      Active Consumers: 0
 ```
 
-## Editing
+## Редактирование
 
-A stream configuration can be edited, which allows the configuration to be adjusted via CLI flags. Here I have an incorrectly created ORDERS stream that I fix:
+Конфигурацию stream можно редактировать, что позволяет менять параметры через флаги CLI. Здесь у меня ошибочно созданный stream ORDERS, который я исправляю:
 
 ```shell
 nats str info ORDERS -j | jq .config.subjects
@@ -185,7 +185,7 @@ nats str info ORDERS -j | jq .config.subjects
 ]
 ```
 
-Change the subjects for the stream
+Изменяем subjects для stream
 ```shell
 nats str edit ORDERS --subjects "ORDERS.*"
 ```
@@ -200,23 +200,23 @@ Configuration:
 ....
 ```
 
-Additionally, one can store the configuration in a JSON file, the format of this is the same as `$ nats str info ORDERS -j | jq .config`:
+Также можно сохранить конфигурацию в JSON‑файле; формат такой же, как в `$ nats str info ORDERS -j | jq .config`:
 
 ```shell
 nats str edit ORDERS --config orders.json
 ```
 
-## Publishing Into a Stream
+## Публикация в Stream
 
-Now let's add some messages to our Stream. You can use `nats pub` to add messages, pass the `--wait` flag to see the publish ack being returned.
+Теперь добавим сообщения в Stream. Можно использовать `nats pub` для отправки сообщений и добавить флаг `--wait`, чтобы увидеть ack публикации.
 
-You can publish without waiting for acknowledgement:
+Можно публиковать без ожидания ack:
 
 ```shell
 nats pub ORDERS.scratch hello
 ```
 
-But if you want to be sure your messages got to JetStream and were persisted you can make a request:
+Но если вы хотите убедиться, что сообщения дошли до JetStream и были сохранены, можно сделать запрос:
 
 ```shell
 nats req ORDERS.scratch hello
@@ -226,7 +226,7 @@ nats req ORDERS.scratch hello
 13:45:03 Received on [_INBOX.M8drJkd8O5otORAo0sMNkg.scHnSafY]: '+OK'
 ```
 
-Keep checking the status of the Stream while doing this and you'll see its stored messages increase.
+Периодически проверяйте статус Stream — вы увидите рост числа сохраненных сообщений.
 
 ```shell
 nats str info ORDERS
@@ -243,11 +243,11 @@ Statistics:
     Active Consumers: 0
 ```
 
-After putting some throwaway data into the Stream, we can purge all the data out - while keeping the Stream active:
+После того как вы положили немного тестовых данных в Stream, можно очистить все данные, сохранив Stream активным:
 
-## Deleting All Data
+## Удаление всех данных
 
-To delete all data in a stream use `purge`:
+Чтобы удалить все данные в stream, используйте `purge`:
 
 ```shell
 nats str purge ORDERS -f
@@ -263,20 +263,19 @@ State:
     Active Consumers: 0
 ```
 
-## Deleting A Message
+## Удаление одного сообщения
 
-A single message can be securely removed from the stream:
+Одно сообщение можно безопасно удалить из stream:
 
 ```shell
 nats str rmm ORDERS 1 -f
 ```
 
-## Deleting Sets
+## Удаление набора
 
-Finally, for demonstration purposes, you can also delete the whole Stream and recreate it. Then we're ready for creating the Consumers:
+Наконец, для демонстрации, можно удалить весь Stream и создать заново. После этого можно переходить к созданию Consumers:
 
 ```shell
 nats str rm ORDERS -f
 nats str add ORDERS --subjects "ORDERS.*" --ack --max-msgs=-1 --max-bytes=-1 --max-age=1y --storage file --retention limits --max-msg-size=-1 --discard old --dupe-window="0s" --replicas 1
 ```
-

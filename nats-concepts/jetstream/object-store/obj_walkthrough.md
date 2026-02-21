@@ -1,14 +1,14 @@
-# Object Store Walkthrough
+# Пошаговое руководство по Object Store
 
-If you are running a local `nats-server` stop it and restart it with JetStream enabled using `nats-server -js` (if that's not already done)
+Если вы запускаете локальный `nats-server`, остановите его и перезапустите с включенным JetStream, используя `nats-server -js` (если это еще не сделано).
 
-You can then check that JetStream is enabled by using
+Затем проверьте, что JetStream включен:
 
 ```shell
 nats account info
 ```
 
-Which should output something like:
+Вы должны увидеть примерно следующее:
 
 ```
 Connection Information:
@@ -30,7 +30,7 @@ JetStream Account Information:
         Consumers: 0 of Unlimited
 ```
 
-If you see the below instead then JetStream is _not_ enabled
+Если вместо этого вы видите следующее, то JetStream _не_ включен:
 
 ```
 JetStream Account Information:
@@ -38,15 +38,15 @@ JetStream Account Information:
    JetStream is not supported in this account
 ```
 
-## Creating an Object Store bucket
+## Создание bucket для Object Store
 
-Just like you need to create streams before you can use them you need to first create an Object Store bucket
+Так же как потоки нужно создать перед использованием, сначала нужно создать Object Store bucket:
 
 ```shell
 nats object add myobjbucket
 ```
 
-which outputs
+что выведет:
 
 ```
 myobjbucket Object Store Status
@@ -60,7 +60,7 @@ myobjbucket Object Store Status
     JetStream Stream: OBJ_myobjbucket
 ```
 
-## Putting a file in the bucket
+## Загрузка файла в bucket
 
 ```shell
 nats object put myobjbucket ~/Movies/NATS-logo.mov
@@ -77,9 +77,9 @@ Object information for myobjbucket > /Users/jnmoyne/Movies/NATS-logo.mov
              Digest: sha-256 8ee0679dd1462de393d81a3032d71f43d2bc89c0c8a557687cfe2787e926
 ```
 
-## Putting a file in the bucket by providing a name
-By default the full file path is used as a key. Provide the key explicitly (e.g. a relative path ) with `--name`
+## Загрузка файла с указанием имени
 
+По умолчанию полный путь файла используется как ключ. Укажите ключ явно (например, относительный путь) с помощью `--name`.
 
 ```shell
 nats object put --name /Movies/NATS-logo.mov myobjbucket ~/Movies/NATS-logo.mov
@@ -96,7 +96,7 @@ Object information for myobjbucket > /Movies/NATS-logo.mov
              Digest: sha-256 8ee0679dd1462de393d81a3032d71f43d2bc89c0c8a557687cfe2787e926
 ```
 
-## Listing the objects in a bucket
+## Список объектов в bucket
 
 ```shell
 nats object ls myobjbucket
@@ -113,8 +113,7 @@ nats object ls myobjbucket
 ╰─────────────────────────────────────┴─────────┴───────────────────────────╯
 ```
 
-
-## Getting an object from the bucket
+## Получение объекта из bucket
 
 ```shell
 nats object get myobjbucket ~/Movies/NATS-logo.mov
@@ -126,8 +125,9 @@ nats object get myobjbucket ~/Movies/NATS-logo.mov
 Wrote: 1.5 GiB to /Users/jnmoyne/NATS-logo.mov in 5.68s average 279 MiB/s
 ```
 
-## Getting an object from the bucket with a specific output path
-By default, the file will be stored relative to the local path under its name (not the full path). To specify an output path use `--output`
+## Получение объекта с указанием пути вывода
+
+По умолчанию файл сохраняется относительно локального пути под своим именем (без полного пути). Чтобы указать путь вывода, используйте `--output`.
 
 ```shell
 nats object get myobjbucket --output /temp/Movies/NATS-logo.mov /Movies/NATS-logo.mov
@@ -139,7 +139,7 @@ nats object get myobjbucket --output /temp/Movies/NATS-logo.mov /Movies/NATS-log
 Wrote: 1.5 GiB to /temp/Movies/NATS-logo.mov in 5.68s average 279 MiB/s
 ```
 
-## Removing an object from the bucket
+## Удаление объекта из bucket
 
 ```shell
 nats object rm myobjbucket ~/Movies/NATS-logo.mov
@@ -159,7 +159,7 @@ myobjbucket Object Store Status
     JetStream Stream: OBJ_myobjbucket
 ```
 
-## Getting information about the bucket
+## Информация о bucket
 
 ```shell
 nats object info myobjbucket
@@ -177,7 +177,7 @@ myobjbucket Object Store Status
     JetStream Stream: OBJ_myobjbucket
 ```
 
-## Watching for changes to a bucket
+## Наблюдение за изменениями bucket
 
 ```shell
 nats object watch myobjbucket
@@ -188,9 +188,9 @@ nats object watch myobjbucket
 [2022-04-13 17:53:27] DEL myobjbucket > /Users/jnmoyne/Movies/NATS-logo.mov
 ```
 
-### Sealing a bucket
+### Запечатывание bucket
 
-You can seal a bucket, meaning that no further changes are allowed on that bucket
+Можно запечатать bucket, то есть запретить любые дальнейшие изменения.
 
 ```shell
 nats object seal myobjbucket
@@ -210,6 +210,6 @@ myobjbucket Object Store Status
     JetStream Stream: OBJ_myobjbucket
 ```
 
-## Deleting a bucket
+## Удаление bucket
 
-Using `nats object rm myobjbucket` will delete the bucket and all the files stored in it.
+Команда `nats object rm myobjbucket` удалит bucket и все файлы, хранящиеся в нем.

@@ -1,54 +1,54 @@
-# Authorization
+# Авторизация
 
-The NATS server supports authorization using subject-level permissions on a per-user basis. Permission-based authorization is available with multi-user authentication via the `users` list.
+Сервер NATS поддерживает авторизацию на основе прав уровня subject для каждого пользователя. Авторизация на основе прав доступна при мульти‑пользовательской аутентификации через список `users`.
 
-Each permission specifies the subjects the user can publish to and subscribe to. The parser is generous at understanding what the intent is, so both arrays and singletons are processed. For more complex configuration, you can specify a `permission` object which explicitly allows or denies subjects. The specified subjects can specify wildcards as well. Permissions can make use of [variables](authorization.md#variables).
+Каждое правило определяет, на какие subjects пользователь может публиковать и подписываться. Парсер достаточно гибок, поэтому обрабатывает как массивы, так и одиночные значения. Для более сложной конфигурации можно задать объект `permission`, который явно разрешает или запрещает subjects. Указанные subjects могут содержать wildcards. Права могут использовать [переменные](authorization.md#variables).
 
-A special field inside the authorization map is `default_permissions`. When present, it contains permissions that apply to users that do not have permissions associated with them.
+Специальное поле внутри карты авторизации — `default_permissions`. Если оно задано, содержит права, которые применяются к пользователям, у которых нет собственных прав.
 
-## Permissions Configuration Map
+## Карта конфигурации прав
 
-The `permissions` map specify subjects that can be subscribed to or published by the specified client.
+Карта `permissions` задает subjects, на которые указанный клиент может подписываться или публиковать.
 
-| Property          | Description                                                                                                                                                                                                                                                                                            |
+| Свойство          | Описание                                                                                                                                                                                                                                                                                            |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `publish`         | subject, list of subjects, or [permission map](authorization.md#permission-map) the client can publish                                                                                                                                                                                                 |
-| `subscribe`       | subject, list of subjects, or [permission map](authorization.md#permission-map) the client can subscribe to. In this context it is possible to provide an optional queue name: `<subject> <queue>` to express queue group permissions. These permissions can also use wildcards such as `v2.*` or `>`. |
-| `allow_responses` | boolean or [responses map](authorization.md#allow-responses-map), default is `false`. Enabling this implicitly denies publish to other subjects, however an explicit `publish` allow on a subject will override this implicit deny for that subject.                                                   |
+| `publish`         | subject, список subjects или [карта прав](authorization.md#permission-map), на которые клиент может публиковать                                                                                                                                                                                       |
+| `subscribe`       | subject, список subjects или [карта прав](authorization.md#permission-map), на которые клиент может подписываться. В этом контексте можно указать необязательное имя очереди: `<subject> <queue>` для выражения прав на queue‑группы. Эти права также могут использовать wildcards, такие как `v2.*` или `>`. |
+| `allow_responses` | boolean или [карта ответов](authorization.md#allow-responses-map), по умолчанию `false`. Включение неявно запрещает публикацию в другие subjects, однако явное `publish`‑разрешение на subject переопределит этот неявный запрет для этого subject.                                                   |
 
-## Permission Map
+## Карта permission
 
-The `permission` map provides additional properties for configuring a `permissions` map. Instead of providing a list of allowable subjects and optional queues, the `permission` map allows you to explicitly list those you want to`allow` or `deny`. Both lists can be provided. In case of overlap `deny` has priority.
+Карта `permission` предоставляет дополнительные свойства для настройки карты `permissions`. Вместо списка разрешенных subjects и необязательных очередей, карта `permission` позволяет явно перечислить, что нужно `allow` или `deny`. Оба списка можно задавать. В случае пересечения приоритет у `deny`.
 
-| Property | Description                                          |
-| -------- | ---------------------------------------------------- |
-| `allow`  | List of subject names that are allowed to the client |
-| `deny`   | List of subjects that are denied to the client       |
+| Свойство | Описание                                               |
+| -------- | ------------------------------------------------------ |
+| `allow`  | Список subject, которые разрешены клиенту              |
+| `deny`   | Список subject, которые запрещены клиенту              |
 
-**Important Note** It is important to not break request-reply patterns. In some cases (as shown [below](authorization.md#variables)) you need to add rules for the `_INBOX.>` pattern. If an unauthorized client publishes or attempts to subscribe to a subject that has not been _allow listed_, the action fails and is logged at the server, and an error message is returned to the client. The [allow responses](authorization.md#allow-responses-map) option can simplify this.
+**Важное примечание** Важно не ломать паттерн request‑reply. В некоторых случаях (как показано [ниже](authorization.md#variables)) нужно добавить правила для `_INBOX.>` паттерна. Если неавторизованный клиент публикует или пытается подписаться на subject, который не находится в списке разрешенных, действие завершается ошибкой, логируется на сервере, и клиенту возвращается сообщение об ошибке. Опция [allow responses](authorization.md#allow-responses-map) может упростить это.
 
-## Allow Responses Map
+## Карта allow responses
 
-The `allow_responses` option dynamically allows publishing to reply subjects and is designed for [service](../../../nats-concepts/core-nats/request-reply/reqreply.md) responders. When set to `true`, an implicit _publish allow_ permission is enforced which enables the service to have temporary permission to publish to the `reply` subject during a request-reply exchange. If `true`, the client supports a one-time `publish`. If `allow_responses` is a map, it allows you to configure a maximum number of responses and how long the permission is valid.
+Опция `allow_responses` динамически разрешает публикацию в reply‑subjects и предназначена для [service](../../../nats-concepts/core-nats/request-reply/reqreply.md) responders. При `true` применяется неявное _разрешение публикации_, которое дает сервису временное право публиковать в subject `reply` во время обмена request‑reply. Если `true`, клиент поддерживает одноразовую публикацию. Если `allow_responses` — это карта, можно настроить максимальное число ответов и срок действия разрешения.
 
 {% hint style="danger" %}
-Note, when `allow_responses` is enabled, the reply subject is not constrained to the `publish` allow or deny list. The implication of this is that a reply subject can be provided by a client to a service (responder) that does not have permission to explicitly publish on that subject, but is temporarily allowed given this option. If explicit control over which subjects a client is allowed to reply to, do not use `allow_responses` and instead define allow/deny lists under the `publish` permission map.
+Обратите внимание: когда `allow_responses` включен, reply‑subject не ограничен списком allow/deny для `publish`. Это означает, что reply‑subject может быть задан клиентом сервису (responder), у которого нет явного права публиковать в этот subject, но временно разрешено благодаря этой опции. Если нужен строгий контроль, на какие subjects клиент может отвечать, не используйте `allow_responses`, а вместо этого задайте allow/deny списки в карте `publish`.
 {% endhint %}
 
-| Property  | Description                                                                                                                                                   |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `max`     | The maximum number of response messages that can be published.                                                                                                |
-| `expires` | The amount of time the permission is valid. Values such as `1s`, `1m`, `1h` (1 second, minute, hour) etc can be specified. Default doesn't have a time limit. |
+| Свойство  | Описание                                                                                                                                                   |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `max`     | Максимальное количество сообщений‑ответов, которые можно опубликовать.                                                                                    |
+| `expires` | Время, в течение которого разрешение действует. Можно задавать `1s`, `1m`, `1h` (1 секунда, минута, час) и т. д. По умолчанию ограничений по времени нет. |
 
-When `allow_responses` is set to `true`, it defaults to the equivalent of `{ max: 1 }` and no time limit.
+Когда `allow_responses` установлено в `true`, по умолчанию это эквивалент `{ max: 1 }` и без ограничения по времени.
 
-**Important Note** When using `nsc` to configure your users, you can specify the `--allow-pub-response` and `--response-ttl` to control these settings.
+**Важное примечание** При использовании `nsc` для настройки пользователей, можно указать `--allow-pub-response` и `--response-ttl` для управления этими настройками.
 
-## Examples
+## Примеры
 
-### Variables
+### Переменные
 
-Here is an example authorization configuration that uses _variables_ which defines four users, three of whom are assigned explicit permissions.
+Ниже пример конфигурации авторизации с _переменными_, которая определяет четырех пользователей, троим из которых назначены явные права.
 
 ```
 authorization {
@@ -77,18 +77,18 @@ authorization {
 }
 ```
 
-> `default_permissions` is a special entry. If defined, it applies to all users that don't have specific permissions set.
+> `default_permissions` — специальная запись. Если определена, применяется ко всем пользователям, у которых нет собственных прав.
 
-* _admin_ has `ADMIN` permissions and can publish/subscribe on any subject. We use the wildcard `>` to match any subject.
-* _client_ is a `REQUESTOR` and can publish requests on subjects `req.a` or `req.b`, and subscribe to anything that is a response (`_INBOX.>`).
-* _service_ is a `RESPONDER` to `req.a` and `req.b` requests, so it needs to be able to subscribe to the request subjects and respond to clients that can publish requests to `req.a` and `req.b`. The reply subject is an inbox. Typically inboxes start with the prefix `_INBOX.` followed by a generated string. The `_INBOX.>` subject matches all subjects that begin with `_INBOX.`.
-* _other_ has no permissions granted and therefore inherits the default permission set.
+* _admin_ имеет права `ADMIN` и может публиковать/подписываться на любой subject. Мы используем wildcard `>`, чтобы соответствовать любому subject.
+* _client_ — это `REQUESTOR`, может публиковать запросы на subjects `req.a` или `req.b` и подписываться на ответы (`_INBOX.>`).
+* _service_ — это `RESPONDER` на запросы `req.a` и `req.b`, поэтому должен подписываться на subjects запросов и отвечать клиентам, которые публикуют запросы на `req.a` и `req.b`. Reply‑subject — это inbox. Обычно inbox’ы начинаются с префикса `_INBOX.` и далее идет сгенерированная строка. Subject `_INBOX.>` соответствует всем subject, начинающимся с `_INBOX.`.
+* _other_ не имеет назначенных прав и наследует права по умолчанию.
 
-> Note that in the above example, any client with permission to subscribe to `_INBOX.>` can receive _all_ responses published. More sensitive installations will want to add or subset the prefix to further limit subjects that a client can subscribe. Alternatively, [_Accounts_](accounts.md) allow complete isolation limiting what members of an account can see.
+> Обратите внимание: в примере выше любой клиент, имеющий право подписываться на `_INBOX.>`, может получать _все_ ответы. Более чувствительные установки захотят добавить или сузить префикс, чтобы дополнительно ограничить subjects, на которые клиент может подписываться. В качестве альтернативы, [_Accounts_](accounts.md) дают полную изоляцию, ограничивая то, что видят участники аккаунта.
 
-### Allow/Deny Specified
+### Явные allow/deny
 
-Here's an example without variables, where the `allow` and `deny` options are specified:
+Ниже пример без переменных, где явно заданы `allow` и `deny`:
 
 ```
 authorization: {
@@ -117,9 +117,9 @@ authorization: {
 }
 ```
 
-### allow\_responses
+### allow_responses
 
-Here's an example with `allow_responses`:
+Пример с `allow_responses`:
 
 ```
 authorization: {
@@ -132,14 +132,14 @@ authorization: {
 }
 ```
 
-* User `a` has no restrictions.
-* User `b` can listen on `q` for requests and can only publish once to reply subjects. _All other publish subjects are denied implicitly when `allow_responses` is set._
-* User `c` can listen on `q` for requests, but is able to return at most 5 reply messages, and the reply subject can be published at most for `1` minute.
-* User `d` has the same behavior as user `b`, except that it can explicitly publish to subject `x` as well, which overrides the implicit deny from `allow_responses`.
+* Пользователь `a` без ограничений.
+* Пользователь `b` слушает `q` на запросы и может публиковать ответ только один раз. _Все остальные subjects для публикации неявно запрещены, когда включен `allow_responses`._
+* Пользователь `c` слушает `q` на запросы, но может вернуть максимум 5 ответных сообщений, и reply‑subject может публиковаться не более `1` минуты.
+* Пользователь `d` ведет себя как пользователь `b`, но также может явно публиковать в subject `x`, что переопределяет неявный запрет от `allow_responses`.
 
-### Queue Permissions
+### Права на очереди
 
-User `a` can only subscribe to `foo` as part of the queue subscriptions `queue`. User `b` has permissions for queue subscriptions as well as plain subscriptions. You can allow plain subscriptions on `foo` but constrain the queues to which a client can join, as well as preventing any service from using a queue subscription with the name `*.prod`:
+Пользователь `a` может подписываться только на `foo` как часть queue‑подписок `queue`. Пользователь `b` имеет права как на queue‑подписки, так и на обычные подписки. Вы можете разрешить обычные подписки на `foo`, но ограничить, в какие очереди клиент может вступать, а также запретить любому сервису использовать queue‑подписку с именем `*.prod`:
 
 ```
 users = [
@@ -152,10 +152,10 @@ users = [
   {
     user: "b", password: "b", permissions: {
       sub: {
-        # Allow plain subscription foo, but only v1 groups or *.dev queue groups
+        # Разрешаем обычную подписку foo, но только v1 группы или *.dev queue‑группы
         allow: ["foo", "foo v1", "foo v1.>", "foo *.dev"]
 
-        # Prevent queue subscriptions on prod groups
+        # Запрещаем queue‑подписки на prod‑группы
         deny: ["> *.prod"]
      }
   }

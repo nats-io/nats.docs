@@ -1,122 +1,122 @@
-NATS is a [publish subscribe](pubsub.md) messaging system [based on subjects](../../subjects.md). Subscribers listening on a subject receive messages published on that subject. If the subscriber is not actively listening on the subject, the message is not received. Subscribers can use the wildcard tokens such as `*` and `>` to match a single token or to match the tail of a subject.
+NATS — это система обмена сообщениями [publish‑subscribe](pubsub.md), [основанная на subjects](../../subjects.md). Подписчики, слушающие subject, получают сообщения, опубликованные на этом subject. Если подписчик не слушает subject активно, сообщение не будет получено. Подписчики могут использовать wildcard‑токены `*` и `>` для сопоставления одного токена или хвоста subject.
 
-# NATS Pub/Sub Walkthrough
+# Пошаговое руководство по NATS Pub/Sub
   
-This simple walkthrough demonstrates some ways in which subscribers listen on subjects, and publishers send messages on specific subjects.  
+Это простое руководство показывает, как подписчики слушают subjects, а издатели отправляют сообщения в конкретные subjects.  
   
 ![](../../../.gitbook/assets/pubsubtut.svg)
 
-## Walkthrough prerequisites
+## Подготовка
 
-If you have not already done so, you need to [install](../../what-is-nats/walkthrough_setup.md) the `nats` CLI Tool and optionally the nats-server on your machine.
+Если вы еще этого не сделали, вам нужно [установить](../../what-is-nats/walkthrough_setup.md) CLI‑инструмент `nats` и при необходимости `nats-server` на вашей машине.
 
-### 1. Create Subscriber 1
+### 1. Создайте подписчика 1
 
-In a shell or command prompt session, start a client subscriber program.  
+В сессии shell или командной строки запустите клиентскую программу‑подписчик.  
 
 ```bash
 nats sub <subject>
 ```
   
-Here, `<subject>` is a subject to listen on. It helps to use unique and well thought-through subject strings because you need to ensure that messages reach the correct subscribers even when wildcards are used.
+Здесь `<subject>` — subject, который нужно слушать. Лучше использовать уникальные и продуманные строки subjects, чтобы сообщения доходили до правильных подписчиков, даже когда используются wildcards.
   
-For example:  
+Например:  
 
 ```bash
 nats sub msg.test
 ```
 
-You should see the message: _Listening on \[msg.test\]_
+Вы должны увидеть сообщение: _Listening on \[msg.test\]_
 
-### 2. Create a Publisher and publish a message
+### 2. Создайте издателя и опубликуйте сообщение
 
-In another shell or command prompt, create a NATS publisher and send a message.  
+В другой сессии shell или командной строки создайте издателя NATS и отправьте сообщение.  
 
 ```bash
 nats pub <subject> <message>
 ```
 
-Where `<subject>` is the subject name and `<message>` is the text to publish.
+Где `<subject>` — имя subject, а `<message>` — публикуемый текст.
 
-For example:
+Например:
 
 ```bash
 nats pub msg.test "NATS MESSAGE"
 ```
 
-### 3. Verify message publication and receipt
+### 3. Проверьте публикацию и получение сообщения
 
-You'll notice that the publisher sends the message and prints: _Published \[msg.test\] : 'NATS MESSAGE'_.
+Вы увидите, что издатель отправляет сообщение и печатает: _Published \[msg.test\] : 'NATS MESSAGE'_.
 
-The subscriber receives the message and prints: _\[\#1\] Received on \[msg.test\]: 'NATS MESSAGE'_.
+Подписчик получает сообщение и печатает: _\[\#1\] Received on \[msg.test\]: 'NATS MESSAGE'_.
 
-If the receiver does not get the message, you'll need to check if you are using the same subject name for the publisher and the subscriber.  
+Если получатель не получает сообщение, проверьте, что вы используете одинаковое имя subject у издателя и у подписчика.  
 
-### 4. Try publishing another message
+### 4. Попробуйте опубликовать еще одно сообщение
 
 ```bash
 nats pub msg.test "NATS MESSAGE 2"
 ```
 
-You'll notice that the subscriber receives the message.   
-Note that a message count is incremented each time your subscribing client receives a message on that subject.  
+Вы заметите, что подписчик получает сообщение.  
+Обратите внимание, что счетчик сообщений увеличивается каждый раз, когда ваш подписчик получает сообщение на этом subject.  
 
-### 5. Create Subscriber 2
+### 5. Создайте подписчика 2
 
-In a new shell or command prompt, start a new NATS subscriber.   
+В новой сессии shell или командной строки запустите нового подписчика NATS.  
 
 ```bash
 nats sub msg.test
 ```
 
-### 6. Publish another message using the publisher client
+### 6. Опубликуйте еще одно сообщение от издателя
 
 ```bash
 nats pub msg.test "NATS MESSAGE 3"
 ```
 
-Verify that both subscribing clients receive the message.
+Убедитесь, что оба подписчика получают сообщение.
 
-### 7. Create Subscriber 3
+### 7. Создайте подписчика 3
 
-In a new shell or command prompt session, create a new subscriber that listens on a different subject.  
+В новой сессии shell или командной строки создайте нового подписчика, который слушает другой subject.  
 
 ```bash
 nats sub msg.test.new
 ```
 
-### 8. Publish another message
+### 8. Опубликуйте еще одно сообщение
 
 ```bash
 nats pub msg.test "NATS MESSAGE 4"
 ```
 
-Subscriber 1 and Subscriber 2 receive the message, but Subscriber 3 does not. Why? Because Subscriber 3 is not listening on the message subject used by the publisher.
+Подписчики 1 и 2 получают сообщение, а подписчик 3 — нет. Почему? Потому что подписчик 3 не слушает subject, на который отправляет издатель.
 
-### 9. Alter Subscriber 3 to use a wildcard
+### 9. Измените подписчика 3, используя wildcard
 
-Change the last subscriber to listen on msg.\* and run it:  
+Измените последнего подписчика так, чтобы он слушал `msg.*`, и запустите его:  
 
 ```bash
 nats sub msg.*
 ```
   
-Note: NATS supports the use of wildcard characters for message subscribers only. You cannot publish a message using a wildcard subject.
+Примечание: NATS поддерживает использование wildcards только для подписчиков. Публиковать сообщения в subject с wildcard нельзя.
 
-### 10. Publish another message
+### 10. Опубликуйте еще одно сообщение
 
 ```bash
 nats pub msg.test "NATS MESSAGE 5"
 ```
   
-This time, all three subscribing clients should receive the message.  
+На этот раз все три подписчика должны получить сообщение.  
   
-Do try out a few more variations of substrings and wildcards to test your understanding.  
+Попробуйте еще несколько вариантов подстрок и wildcards, чтобы проверить понимание.  
 
 
-# See Also
+# См. также
 
-Publish-subscribe pattern with the NATS CLI&#x20;
+Паттерн publish‑subscribe с NATS CLI&#x20;
 
 {% embed url="https://www.youtube.com/watch?v=jLTVhP08Tq0" %}
 Publish-subscribe pattern - NATS CLI

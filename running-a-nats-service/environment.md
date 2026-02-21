@@ -1,40 +1,40 @@
-# Environmental considerations
+# Особенности среды
 
-## Networking
+## Сеть
 
-### Load balancers
-It is possible to deploy a load balancer between the client applications and the cluster servers (or even between servers in a cluster or between clusters in a super-cluster), but you don't need to: NATS already has its own mechanisms to balance the connections between the seeds in the connection URL (including the clients randomizing the returned DNS A records) and to automatically re-establish dropped connections.
-If you have a cluster with 3 seed nodes you often get more network throughput than going through a load balancer (cloud provider load balancers can be woefully under-powered, not to mention it costs you more money as the load balancer is typically billed by the amount of data going through it).
-Finally, if you want to use TLS for authentication you do not want the load balancer to be the TLS termination point.
+### Балансировщики нагрузки
+Развернуть балансировщик между клиентскими приложениями и серверами кластера (или даже между серверами в кластере или между кластерами в супер‑кластере) можно, но в этом нет необходимости: NATS уже имеет собственные механизмы балансировки подключений между seed‑узлами в URL подключения (включая рандомизацию DNS A‑записей клиентами) и автоматического восстановления разорванных соединений.
+Если у вас кластер из 3 seed‑узлов, вы часто получите более высокую сетевую пропускную способность, чем при прохождении через балансировщик (балансировщики облачных провайдеров могут быть заметно недомощными, не говоря уже о том, что они обычно тарифицируются по объему трафика).
+Наконец, если вы хотите использовать TLS для аутентификации, не стоит завершать TLS на балансировщике.
 
 {% hint style="warning" %}
-If you decide to use load balancers with NATS you need to understand the client and cluster connection and auto-discovery behavior.  
+Если вы решили использовать балансировщики с NATS, нужно понимать поведение клиентских и кластерных соединений и авто‑обнаружения.  
 
-Client connections and routes are permanent. Therefore a load balancer will not distribute messages from one client connections between servers, or worse (which is common when deploying on auto-config environments), you end up with redundant, but disconnected (non-clustered) servers to which the clients will randomly connect. [Advertising needs to be switched off](configuration/clustering/cluster_config.md) or configured to point to the load balancer address through the [`advertise` server config](configuration/clustering/cluster_config.md)  option. 
+Клиентские соединения и маршруты постоянны. Поэтому балансировщик не будет распределять сообщения от одного клиентского соединения между серверами, или, что хуже (что часто случается при автоконфигурации), вы можете получить избыточные, но несвязанные (не кластеризованные) серверы, к которым клиенты будут подключаться случайным образом. [Advertising нужно отключить](configuration/clustering/cluster_config.md) или настроить так, чтобы он указывал на адрес балансировщика через опцию [`advertise` в конфигурации сервера](configuration/clustering/cluster_config.md). 
 
-Load balancers can also cause issues through improperly configured idle detection, protocol problems due to packet inspection, and ephemeral port problems at high scale.
+Балансировщики также могут вызывать проблемы из‑за неверной настройки idle‑детекции, проблем протокола из‑за инспекции пакетов и проблем с эфемерными портами при высоких масштабах.
 
-If routes or gateway connections go through load balancers, you could very well have the kind of problems mentioned above, which could results in JetStream lost quorum periods and create undue re-synchronization and protocol overhead traffic.
+Если маршруты или gateway‑подключения проходят через балансировщики, у вас вполне могут возникнуть описанные выше проблемы, что может приводить к периодам потери кворума JetStream и создавать избыточную нагрузку на ресинхронизацию и протокольный трафик.
 {% endhint %}
 
-There are some sensible use cases for running client connections through load balancers.
-If the balanced NATS servers are setup as clusters (or superclusters), which provide transparent message routing, the load balancer can simplify the client config by presenting a single port of entry, or automatically connect to the geographically closed cluster node.
+Есть и здравые сценарии использования балансировщиков для клиентских подключений.
+Если балансируемые серверы NATS настроены как кластеры (или супер‑кластеры) и обеспечивают прозрачную маршрутизацию сообщений, балансировщик может упростить клиентскую конфигурацию, предоставив одну точку входа, или автоматически подключать к географически ближайшему узлу кластера.
 
 
-## Virtualization, Containerization
+## Виртуализация, контейнеризация
 
-NATS is 'cloud native' and expected to be deployed in virtual environments and/or containers.
+NATS «cloud native» и предполагается к разворачиванию в виртуальных средах и/или контейнерах.
 
-However, when it comes to ensuring the highest possible level of performance that NATS can provide it is good to keep a few things in mind.
+Однако, если ваша цель — максимальная производительность, которую может дать NATS, стоит помнить несколько вещей.
 
-Think of Core NATS servers as a software equivalent of network switches. Enable JetStream, and they also become a new kind of DB server as well. 
+Думайте о серверах Core NATS как о программном эквиваленте сетевых коммутаторов. Включите JetStream — и они также становятся новым типом БД‑сервера.
 
-What you need to remember is that when selecting the instance types and storage options for your NATS server host instances that in public clouds: *you get what you pay for*.
+Что нужно помнить при выборе типов инстансов и вариантов хранения для хостов NATS‑серверов в публичных облаках: *вы получаете то, за что платите*.
 
-For example non network optimized instances may give you 10 Gb/s of network bandwidth... but only for some period of time (like 30 minutes), after which the available bandwidth may drop down dramatically (like to 5 Gb/s) for another period of time. So select network optimized instances types instead if you always need the advertised bandwidth.
+Например, не оптимизированные для сети инстансы могут дать вам 10 Гбит/с, но только на некоторый период (например, 30 минут), после чего доступная полоса может значительно упасть (например, до 5 Гбит/с) на еще один период. Поэтому, если вам всегда нужна заявленная пропускная способность, выбирайте инстансы, оптимизированные под сеть.
 
-It's the same when it comes to storage options: local SSDs instance types can provide the best latency, while using a network attached block storage, e.g. Elastic Block Storage from AWS), can provide the highest overall throughput. When using EBS again you get what you pay for: general purpose storage type may give you a certain number of IOPS, but you can sustain those rates only for some period of time after which the number can drop down dramatically. So select IO optimized storage types if you want to continuously sustain the same max number of IOPS (e.g. [AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html)).
+То же самое с вариантами хранения: локальные SSD дают лучшую латентность, а сетевое блочное хранилище (например, Amazon EBS) — наибольшую общую пропускную способность. При использовании EBS опять же действует правило «получаете то, за что платите»: хранилище общего назначения может давать определенное число IOPS, но поддерживать его можно лишь ограниченное время, после чего показатель может резко упасть. Поэтому выбирайте IO‑оптимизированные типы хранения, если хотите постоянно удерживать одно и то же максимальное число IOPS (например, [AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html)).
 
-### Resource Limits
+### Лимиты ресурсов
 
-Be careful when setting resource limits for the nats-server containers. The nats-server processes use resources in proportion to the load traffic generated by all the client applications, if the NATS (and JetStream) usage is high or in bursts (nats-server is very fast and can process sharp bursts in traffic), then you will need to set the container resource limits accordingly, or the container orchestration system will kill the server's container. The nats-server will automatically detect number of available cores, but it will try to use all host memory, not the resource limits set for the container, unless you specify GOMEMLIMIT. GOMEMLIMIT is an available option in official NATS helm charts.
+Будьте осторожны при установке лимитов ресурсов для контейнеров nats-server. Процессы nats-server используют ресурсы пропорционально нагрузке от всех клиентских приложений. Если использование NATS (и JetStream) высокое или всплескообразное (nats-server очень быстрый и может обрабатывать резкие пики трафика), то нужно соответствующе выставить лимиты ресурсов контейнера, иначе система оркестрации контейнеров завершит контейнер сервера. nats-server автоматически определяет количество доступных ядер, но он будет пытаться использовать всю память хоста, а не лимит ресурсов контейнера, если не задан GOMEMLIMIT. GOMEMLIMIT доступен в официальных Helm‑чартах NATS.

@@ -1,8 +1,8 @@
-# Wildcard Subscriptions
+# Подписки с wildcard
 
-There is no special code to subscribe with a [wildcard subject](../../../nats-concepts/subjects.md#wildcards). Wildcards are a normal part of the subject name. However, it is a common technique to use the subject provided with the incoming message to determine what to do with the message.
+Для подписки на [wildcard subject](../../../nats-concepts/subjects.md#wildcards) не нужен специальный код. Wildcard — обычная часть имени subject. Однако часто используется приём: брать subject из входящего сообщения и на его основе решать, что делать.
 
-For example, you can subscribe using `*` and then act based on the actual subject.
+Например, можно подписаться с `*`, а затем действовать в зависимости от фактического subject.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -206,7 +206,7 @@ natsConnection_Destroy(conn);
 {% endtab %}
 {% endtabs %}
 
-or do something similar with `>`:
+или можно сделать аналогично с `>`:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -440,7 +440,7 @@ natsConnection_Destroy(conn);
 {% endtab %}
 {% endtabs %}
 
-The following example can be used to test these two subscribers. The `*` subscriber should receive at most 2 messages, while the `>` subscriber receives 4. More importantly the `time.*.east` subscriber won't receive on `time.us.east.atlanta` because that won't match.
+Следующий пример можно использовать для теста этих двух подписчиков. Подписчик `*` должен получить максимум 2 сообщения, а подписчик `>` — 4. Важнее всего, подписчик `time.*.east` не получит сообщения на `time.us.east.atlanta`, потому что это не соответствует шаблону.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -570,4 +570,3 @@ nc.publish('time.us.west');
 ```
 {% endtab %}
 {% endtabs %}
-

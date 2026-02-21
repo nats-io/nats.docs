@@ -1,17 +1,17 @@
-# TLS Authentication
+# TLS‑аутентификация
 
-The server can require TLS certificates from a client. When needed, you can use the certificates to:
+Сервер может требовать TLS‑сертификаты от клиента. При необходимости сертификаты можно использовать, чтобы:
 
-* Validate the client certificate matches a known or trusted CA
-* Extract information from a trusted certificate to provide authentication
+* Проверить, что клиентский сертификат соответствует известному или доверенному CA
+* Извлечь информацию из доверенного сертификата для аутентификации
 
-> Note: To simplify the common scenario of maintainers looking at the monitoring endpoint, `verify` and `verify_and_map` do not apply to the monitoring port.
+> Примечание: чтобы упростить распространенный сценарий, когда мейнтейнеры смотрят мониторинг, `verify` и `verify_and_map` не применяются к порту мониторинга.
 
-The examples in the following sections make use of the certificates you [generated](/running-a-nats-service/configuration/securing_nats/tls.md#self-signed-certificates-for-testing) locally.
+Примеры в следующих разделах используют сертификаты, которые вы [сгенерировали](/running-a-nats-service/configuration/securing_nats/tls.md#self-signed-certificates-for-testing) локально.
 
-## Validating a Client Certificate
+## Проверка клиентского сертификата
 
-The server can verify a client certificate using a CA certificate. To require verification, add the option `verify` to the TLS configuration section as follows:
+Сервер может проверять клиентский сертификат с помощью CA‑сертификата. Чтобы требовать проверку, добавьте опцию `verify` в раздел TLS‑конфигурации:
 
 ```
 tls {
@@ -22,19 +22,19 @@ tls {
 }
 ```
 
-Or via the command line:
+Или через командную строку:
 
 ```bash
 nats-server --tlsverify --tlscert=server-cert.pem --tlskey=server-key.pem --tlscacert=rootCA.pem
 ```
 
-This option verifies the client's certificate is signed by the CA specified in the `ca_file` option. When `ca_file` is not present it will default to CAs in the system trust store. It also makes sure that the client provides a certificate with the extended key usage `TLS Web Client Authentication`.
+Эта опция проверяет, что сертификат клиента подписан CA, указанным в `ca_file`. Если `ca_file` отсутствует, используется системное хранилище доверия. Также проверяется, что клиент предоставляет сертификат с extended key usage `TLS Web Client Authentication`.
 
-## Mapping Client Certificates To A User
+## Маппинг клиентских сертификатов на пользователя
 
-In addition to verifying that a specified CA issued a client certificate, you can use information encoded in the certificate to authenticate a client. The client wouldn't have to provide or track usernames or passwords.
+Помимо проверки того, что указанный CA выдал сертификат клиента, можно использовать информацию из сертификата для аутентификации клиента. Клиенту не нужно будет предоставлять или хранить username/password.
 
-To have TLS Mutual Authentication map certificate attributes to the user's identity use `verify_and_map` as shown as follows:
+Чтобы TLS Mutual Authentication маппила атрибуты сертификата на идентичность пользователя, используйте `verify_and_map`:
 
 ```
 tls {
@@ -46,11 +46,11 @@ tls {
 }
 ```
 
-> Note that `verify` was changed to `verify_and_map`.
+> Обратите внимание, что `verify` заменяется на `verify_and_map`.
 
-When present, the server will check if a Subject Alternative Name (SAN) maps to a user. It will search all email addresses first, then all DNS names. If no user could be found, it will try the certificate subject.
+Если задано, сервер проверит, соответствует ли Subject Alternative Name (SAN) пользователю. Сначала ищет email‑адреса, затем DNS‑имена. Если пользователь не найден, сервер попробует subject сертификата.
 
-> Note: This mechanism will pick the user it finds first. There is no configuration to restrict this.
+> Примечание: этот механизм выбирает первого найденного пользователя. Нет конфигурации, чтобы это ограничить.
 
 ```shell
 openssl x509 -noout -text -in  client-cert.pem
@@ -66,7 +66,7 @@ Certificate:
 ...
 ```
 
-The configuration to authorize this user would be as follow:
+Конфигурация для авторизации этого пользователя будет такой:
 
 ```
 authorization {
@@ -76,7 +76,7 @@ authorization {
 }
 ```
 
-Use the [RFC 2253 Distinguished Names](https://tools.ietf.org/html/rfc2253) syntax to specify a user corresponding to the certificate subject:
+Используйте синтаксис [RFC 2253 Distinguished Names](https://tools.ietf.org/html/rfc2253), чтобы указать пользователя, соответствующего subject сертификата:
 
 ```shell
 openssl x509 -noout -text -in client-cert.pem
@@ -89,9 +89,9 @@ Certificate:
 ...
 ```
 
-> Note that for this example to work you will have to modify the user to match what is in your certificates subject. In doing so, watch out for the order of attributes!
+> Примечание: чтобы этот пример работал, нужно изменить пользователя так, чтобы он соответствовал subject вашего сертификата. При этом учитывайте порядок атрибутов!
 
-The configuration to authorize this user would be as follows:
+Конфигурация для авторизации этого пользователя будет такой:
 
 ```
 authorization {
@@ -101,6 +101,6 @@ authorization {
 }
 ```
 
-## TLS Timeout
+## Таймаут TLS
 
-[TLS timeout](/running-a-nats-service/configuration/securing_nats/tls.md#tls-timeout) is described here.
+[Таймаут TLS](/running-a-nats-service/configuration/securing_nats/tls.md#tls-timeout) описан здесь.

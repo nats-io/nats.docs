@@ -1,126 +1,126 @@
 # MQTT
 
-_Supported since NATS Server version 2.2_
+_Поддерживается начиная с NATS Server версии 2.2_
 
-NATS follows as closely as possible to the MQTT v3.1.1 [specification](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html). Refer to the [MQTT implementation overview](https://github.com/nats-io/nats-server/blob/main/server/README-MQTT.md) in the nats-server repo.
+NATS максимально следует спецификации MQTT v3.1.1 [specification](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html). См. [обзор реализации MQTT](https://github.com/nats-io/nats-server/blob/main/server/README-MQTT.md) в репозитории nats-server.
 
-NATS supports MQTT QoS: 0, 1 and 2
+NATS поддерживает MQTT QoS: 0, 1 и 2
 
-## When to Use MQTT
+## Когда использовать MQTT
 
-MQTT support in NATS is intended to be an enabling technology allowing users to leverage existing investments in their IoT deployments. Updating software on the edge or endpoints can be onerous and risky, especially when embedded applications are involved.
+Поддержка MQTT в NATS предназначена как «включающая» технология, позволяющая пользователям использовать существующие инвестиции в IoT‑развертываниях. Обновление ПО на edge или endpoints может быть тяжёлым и рискованным, особенно когда речь о встроенных приложениях.
 
-In greenfield IoT deployments, when possible, we prefer NATS extended out to endpoints and devices for a few reasons. There are significant advantages with security and observability when using a single technology end to end. Compared to MQTT, NATS is nearly as lightweight in terms of protocol bandwidth and maintainer supported clients efficiently utilize resources so we consider NATS to be a good choice to use end to end, including use on resource constrained devices.
+В greenfield‑IoT‑развертываниях, когда это возможно, мы предпочитаем NATS, развернутый до конечных устройств, по нескольким причинам. Существенные преимущества в безопасности и наблюдаемости при использовании одной технологии «от края до края». По сравнению с MQTT, NATS почти так же легок по полосе протокола, а поддерживаемые мейнтейнерами клиенты эффективно используют ресурсы, поэтому мы считаем NATS хорошим выбором для использования end‑to‑end, включая устройства с ограниченными ресурсами.
 
-In existing MQTT deployments or in situations when endpoints can only support MQTT, using a NATS server as a drop-in MQTT server replacement to securely connect to a remote NATS cluster or supercluster is compelling. You can keep your existing IoT investment and use NATS for secure, resilient, and scalable access to your streams and services.
+В существующих MQTT‑развертываниях или в ситуациях, когда endpoints могут поддерживать только MQTT, использование сервера NATS как drop‑in замены MQTT‑брокера для безопасного подключения к удаленному кластеру или супер‑кластеру NATS — привлекательный вариант. Вы можете сохранить существующие IoT‑инвестиции и использовать NATS для безопасного, устойчивого и масштабируемого доступа к вашим стримам и сервисам.
 
-## JetStream Requirements
+## Требования JetStream
 
-For an MQTT client to connect to the NATS server, the user's account must be JetStream enabled. This is because persistence is needed for the sessions and retained messages since even retained messages of QoS 0 are persisted.
+Чтобы MQTT‑клиент мог подключиться к серверу NATS, аккаунт пользователя должен быть JetStream‑включенным. Это нужно, потому что для сессий и retained‑сообщений требуется персистентность — retained‑сообщения QoS 0 также сохраняются.
 
-## MQTT Topics and NATS Subjects
+## MQTT topics и NATS subjects
 
-MQTT Topics are similar to NATS Subjects, but have distinctive differences.
+MQTT topics похожи на NATS subjects, но имеют отличия.
 
-MQTT topic uses "`/`" as a level separator. For instance `foo/bar` would translate to NATS subject `foo.bar`. But in MQTT, `/foo/bar/` is a valid subject, which, if simply translated, would become `.foo.bar.`, which is NOT a valid NATS Subject.
+MQTT topic использует `"/"` как разделитель уровней. Например, `foo/bar` соответствует NATS subject `foo.bar`. Но в MQTT допустим subject `/foo/bar/`, который при прямом переводе стал бы `.foo.bar.`, а это НЕ допустимый NATS subject.
 
-NATS Server will convert an MQTT topic following those rules:
+Сервер NATS конвертирует MQTT topic по следующим правилам:
 
-|     MQTT character     |  NATS character\(s\)  | Topic \(MQTT\) | Subject \(NATS\) |
-| :--------------------: | :-------------------: | :------------: | :--------------: |
-| `/` between two levels |          `.`          |   `foo/bar`    |    `foo.bar`     |
-|   `/` as first level   |         `/.`          |   `/foo/bar`   |   `/.foo.bar`    |
-|   `/` as last level    |         `./`          |   `foo/bar/`   |   `foo.bar./`    |
-|  `/` next to another   |         `./`          |   `foo//bar`   |   `foo./.bar`    |
-|  `/` next to another   |         `/.`          |  `//foo/bar`   |  `/./.foo.bar`   |
-|          `.`           | `//` (see note below) |   `foo.bar`    |    `foo//bar`    |
-|          ` `           |     Not Supported     |   `foo bar`    |  Not Supported   |
+|     Символ MQTT     |  Символы NATS  | Topic (MQTT) | Subject (NATS) |
+| :-----------------: | :------------: | :----------: | :------------: |
+| `/` между уровнями  |      `.`       |   `foo/bar`  |   `foo.bar`    |
+| `/` как первый уровень |     `/.`    |  `/foo/bar`  |  `/.foo.bar`   |
+| `/` как последний уровень | `./`     |  `foo/bar/`  |  `foo.bar./`   |
+| `/` рядом с другим  |     `./`       |  `foo//bar`  |  `foo./.bar`   |
+| `/` рядом с другим  |     `/.`       | `//foo/bar`  | `/./.foo.bar`  |
+| `.`                | `//` (см. примечание ниже) | `foo.bar` | `foo//bar` |
+| пробел             | Не поддерживается | `foo bar` | Не поддерживается |
 
-_Note: Prior to NATS Server v2.10.0, the character `.` was not supported. At version v2.10.0 and above, the character `.` will be translated to `//`._
+_Примечание: до NATS Server v2.10.0 символ `.` не поддерживался. Начиная с v2.10.0 и выше, символ `.` будет переводиться в `//`._
 
-As indicated above, if an MQTT topic contains the character ` ` (or `.` prior to v2.10.0), NATS will reject it, causing the connection to be closed for published messages, and returning a failure code in the SUBACK packet for a subscriptions.
+Как указано выше, если MQTT topic содержит символ ` ` (или `.` до v2.10.0), NATS его отвергнет: для опубликованных сообщений соединение будет закрыто, а для подписок будет возвращен код ошибки в пакете SUBACK.
 
-### MQTT Wildcards
+### MQTT wildcards
 
-As in NATS, MQTT wildcards represent either multi or single levels. As in NATS, they are allowed only for subscriptions, not for published messages.
+Как и в NATS, MQTT wildcards означают либо несколько уровней, либо один уровень. Как и в NATS, они допустимы только для подписок, но не для опубликованных сообщений.
 
-| MQTT Wildcard | NATS Wildcard |
+| Wildcard MQTT | Wildcard NATS |
 | :-----------: | :-----------: |
 |      `#`      |      `>`      |
 |      `+`      |      `*`      |
 
-The wildcard `#` matches any number of levels within a topic, which means that a subscription on `foo/#` would receive messages on `foo/bar`, or `foo/bar/baz`, but also on `foo`. This is not the case in NATS where a subscription on `foo.>` can receive messages on `foo/bar` or `foo/bar/baz`, but not on `foo`. To solve this, NATS Server will create two subscriptions, one on `foo.>` and one on `foo`. If the MQTT subscription is simply on `#`, then a single NATS subscription on `>` is enough.
+Wildcard `#` соответствует любому количеству уровней в topic, то есть подписка на `foo/#` будет получать сообщения на `foo/bar` или `foo/bar/baz`, но также и на `foo`. В NATS это не так: подписка на `foo.>` получает `foo/bar` или `foo/bar/baz`, но не `foo`. Чтобы решить это, сервер NATS создаст две подписки: одну на `foo.>` и одну на `foo`. Если MQTT‑подписка просто на `#`, то достаточно одной NATS‑подписки на `>`.
 
-The wildcard `+` matches a single level, which means `foo/+` can receive message on `foo/bar` or `foo/baz`, but not on `foo/bar/baz` nor `foo`. This is the same with NATS subscriptions using the wildcard `*`. Therefore `foo/+` would translate to `foo.*`.
+Wildcard `+` соответствует одному уровню, то есть `foo/+` получает сообщения на `foo/bar` или `foo/baz`, но не на `foo/bar/baz` и не на `foo`. То же самое в NATS с wildcard `*`. Поэтому `foo/+` переводится в `foo.*`.
 
-## Communication Between MQTT and NATS
+## Взаимодействие между MQTT и NATS
 
-When an MQTT client creates a subscription on a topic, the NATS server creates the similar NATS subscription \(with conversion from MQTT topic to NATS subject\) so that the interest is registered in the cluster and known to any NATS publishers.
+Когда MQTT‑клиент создает подписку на topic, сервер NATS создает соответствующую NATS‑подписку (с конвертацией MQTT topic в NATS subject), чтобы интерес был зарегистрирован в кластере и известен любым NATS‑издателям.
 
-That is, say an MQTT client connects to server "A" and creates a subscription of `foo/bar`, server "A" creates a subscription on `foo.bar`, which interest is propagated as any other NATS subscription. A publisher connecting anywhere in the cluster and publishing on `foo.bar` would cause server "A" to deliver a QoS 0 message to the MQTT subscription.
+То есть, если MQTT‑клиент подключается к серверу "A" и создает подписку `foo/bar`, сервер "A" создает подписку на `foo.bar`, и этот интерес распространяется как любая другая подписка NATS. Издатель, подключенный в любом месте кластера и публикующий в `foo.bar`, приведет к доставке QoS 0‑сообщения в MQTT‑подписку.
 
-This works the same way for MQTT publishers. When the server receives an MQTT publish message, it is converted to the NATS subject and published, which means that any matching NATS subscription will receive the MQTT message.
+То же самое работает для MQTT‑издателей. Когда сервер получает MQTT publish‑сообщение, оно конвертируется в NATS subject и публикуется, а значит любая подходящая NATS‑подписка получит MQTT‑сообщение.
 
-If the MQTT subscription is QoS1 and an MQTT publisher publishes an MQTT QoS1 message on the same or any other server in the cluster, the message will be persisted in the cluster and routed and delivered as QoS 1 to the MQTT subscription.
+Если MQTT‑подписка QoS1 и MQTT‑издатель публикует MQTT QoS1‑сообщение на том же или любом другом сервере в кластере, сообщение будет персистентно сохранено в кластере, маршрутизировано и доставлено как QoS1 в MQTT‑подписку.
 
-## QoS 1 and 2 Redeliveries
+## Повторные доставки QoS 1 и 2
 
-When the server delivers a QoS 1 or 2 message to a QoS 1 or 2 subscription, it will keep the message until it receives the PUBACK for the corresponding packet identifier. If it does not receive it within the "ack_wait" interval, that message will be resent.
+Когда сервер доставляет сообщение QoS 1 или 2 в подписку QoS 1 или 2, он сохраняет сообщение до получения PUBACK для соответствующего идентификатора пакета. Если PUBACK не приходит в течение интервала `ack_wait`, сообщение будет отправлено повторно.
 
 ## Max Ack Pending
 
-This is the amount of QoS 1 or 2 messages the server can send to a subscription without receiving any PUBACK for those messages. The maximum value is 65535.
+Это количество QoS 1 или 2 сообщений, которые сервер может отправить подписке, не получив PUBACK на них. Максимум — 65535.
 
-The total of subscriptions' `max_ack_pending` on a given session cannot exceed 65535. Attempting to create a subscription that would bring the total above the limit would result in the server returning a failure code in the SUBACK for this subscription.
+Суммарный `max_ack_pending` всех подписок в одной сессии не может превышать 65535. Попытка создать подписку, которая превысит лимит, приведет к возврату кода ошибки в SUBACK для этой подписки.
 
-Due to how the NATS server handles the MQTT "`#`" wildcard, each subscription ending with "`#`" will use 2 times the `max_ack_pending` value.
+Из‑за того, как сервер NATS обрабатывает wildcard MQTT `"#"`, каждая подписка, заканчивающаяся на `"#"`, будет использовать в 2 раза больше значения `max_ack_pending`.
 
-## Sessions
+## Сессии
 
-NATS Server will persist all sessions, even if they are created with the "clean session" flag, meaning that sessions only last for the duration of the network connection between the client and the server.
+Сервер NATS сохраняет все сессии, даже если они созданы с флагом "clean session", то есть сессии живут только в течение сетевого соединения между клиентом и сервером.
 
-A session is identified by a client identifier. If two connections try to use the same client identifier, the server, per specification, will close the existing connection and accept the new one.
+Сессия идентифицируется клиентским идентификатором. Если два соединения используют один и тот же client identifier, сервер, согласно спецификации, закроет существующее соединение и примет новое.
 
-If the user incorrectly starts two applications that use the same client identifier, this would result in a very quick flapping if the MQTT client has a reconnect feature and quickly reconnects.
+Если пользователь ошибочно запускает два приложения с одним и тем же client identifier, это приведет к очень быстрому «флаппингу», если MQTT‑клиент умеет быстро переподключаться.
 
-To prevent this, the NATS server will accept the new session and will delay the closing of the old connection to reduce the flapping rate.
+Чтобы предотвратить это, сервер NATS примет новую сессию и задержит закрытие старого соединения, уменьшая скорость флаппинга.
 
-Detection of the concurrent use of sessions also works in cluster mode.
+Обнаружение параллельного использования сессий также работает в режиме кластера.
 
-## Retained Messages
+## Retained‑сообщения
 
-When a server receives an MQTT publish packet with the RETAIN flag set \(regardless of its QoS\), it stores the application message and its QoS, so that it can be delivered to future subscribers whose subscriptions match its topic name.
+Когда сервер получает MQTT publish‑пакет с установленным флагом RETAIN (независимо от QoS), он сохраняет сообщение приложения и его QoS, чтобы позже доставить его будущим подписчикам, чьи подписки совпадают с именем topic.
 
-When a new subscription is established, the last retained message, if any, on each matching topic name will be sent to the subscriber.
+При создании новой подписки последнее retained‑сообщение (если есть) по каждому совпадающему topic будет отправлено подписчику.
 
-A PUBLISH Packet with a RETAIN flag set to 1 and a payload containing zero bytes will be processed as normal and sent to clients with a subscription matching the topic name. Additionally any existing retained message with the same topic name will be removed and any future subscribers for the topic will not receive a retained message.
+PUBLISH‑пакет с флагом RETAIN = 1 и payload нулевой длины будет обработан как обычно и отправлен клиентам с подпиской на соответствующий topic. Дополнительно любое существующее retained‑сообщение с тем же topic будет удалено, и будущие подписчики не получат retained‑сообщение.
 
-## Clustering
+## Кластеризация
 
-NATS supports MQTT in a NATS cluster. The replication factor is automatically set based on the size of the cluster.
+NATS поддерживает MQTT в кластере NATS. Коэффициент репликации автоматически устанавливается на основе размера кластера.
 
-### Connections with Same Client ID
+### Подключения с одинаковым Client ID
 
-If a client is connected to a server "A" in the cluster and another client connects to a server "B" and uses the same client identifier, server "A" will close its client connection upon discovering the use of an active client identifier.
+Если клиент подключен к серверу "A" в кластере, а другой клиент подключается к серверу "B" и использует тот же client identifier, сервер "A" закроет клиентское соединение после обнаружения активного client identifier.
 
-Users should avoid this situation as this is not as easy and immediate as if the two applications are connected to the same server.
+Пользователям следует избегать этой ситуации, так как это не так просто и не так быстро, как если бы оба приложения были подключены к одному серверу.
 
-There may be cases where the server will reject the new connection if there is no safe way to close the existing connection, such as when it is in the middle of processing some MQTT packets.
+В некоторых случаях сервер может отклонить новое подключение, если нет безопасного способа закрыть существующее соединение, например, когда сервер находится в процессе обработки MQTT‑пакетов.
 
-### Retained Messages
+### Retained‑сообщения
 
-Retained messages are stored in the cluster and available to any server in the cluster. However, this is not immediate and if a producer connects to a server and produces a retained message and another connection connects to another server and starts a matching subscription, it may not receive the retained message if the server it connects to has not yet been made aware of this retained message.
+Retained‑сообщения хранятся в кластере и доступны на любом сервере кластера. Однако это не мгновенно: если продюсер подключается к серверу и публикует retained‑сообщение, а другое соединение подключается к другому серверу и начинает подписку, оно может не получить retained‑сообщение, если сервер, к которому оно подключено, еще не узнал о нем.
 
-In other words, retained messages in clustering mode is best-effort, and applications that rely on the presence of a retained message should connect on the server that produced them.
+Иными словами, retained‑сообщения в режиме кластера — best‑effort, и приложения, которые зависят от наличия retained‑сообщения, должны подключаться к серверу, который их публикует.
 
-## Limitations
+## Ограничения
 
-- NATS messages published to MQTT subscriptions are always delivered as QoS 0 messages.
-- MQTT published messages on topic names containing "````" or "`.\`" characters will cause the connection to be closed. Presence of those characters in MQTT subscriptions will result in error code in the SUBACK packet.
-- MQTT wildcard `#` may cause the NATS server to create two subscriptions.
-- MQTT concurrent sessions may result in the new connection to be evicted instead of the existing one.
-- MQTT retained messages in clustering mode is best effort.
+- Сообщения NATS, публикуемые в MQTT‑подписки, всегда доставляются как QoS 0.
+- MQTT‑сообщения, публикуемые на topic, содержащие символы "````" или "`.`", приведут к закрытию соединения. Наличие этих символов в MQTT‑подписках приведет к коду ошибки в SUBACK.
+- MQTT wildcard `#` может привести к тому, что сервер NATS создаст две подписки.
+- Параллельные MQTT‑сессии могут приводить к тому, что будет вытеснено новое подключение вместо существующего.
+- Retained‑сообщения MQTT в режиме кластера — best‑effort.
 
-## See Also
+## См. также
 
-[Replace your MQTT Broker with NATS Server](https://nats.io/blog/replace-your-mqtt-broker-with-nats/)
+[Замените MQTT‑брокер на NATS Server](https://nats.io/blog/replace-your-mqtt-broker-with-nats/)

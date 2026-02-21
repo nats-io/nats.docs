@@ -1,10 +1,10 @@
-# Listen for Connection Events
+# Прослушивание событий подключения
 
-While the connection status is interesting, it is perhaps more interesting to know when the status changes. Most, if not all, of the NATS client libraries provide a way to listen for events related to the connection and its status.
+Хотя статус соединения интересен, ещё важнее знать, когда он меняется. Большинство, если не все, клиентские библиотеки NATS предоставляют способ прослушивать события, связанные с соединением и его состоянием.
 
-The actual API for these listeners is language dependent, but the following examples show a few of the more common use cases. See the API documentation for the client library you are using for more specific instructions.
+Фактический API этих слушателей зависит от языка, но следующие примеры показывают несколько наиболее распространённых вариантов использования. Смотрите документацию API вашей клиентской библиотеки для более точных инструкций.
 
-Connection events may include the connection being closed, disconnected or reconnected. Reconnecting involves a disconnect and connect, but depending on the library implementation may also include multiple disconnects as the client tries to find a server, or the server is rebooted.
+События соединения могут включать закрытие, отключение или переподключение. Переподключение включает отключение и подключение, но в зависимости от реализации библиотеки может включать несколько отключений, пока клиент пытается найти сервер или сервер перезагружается.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -223,9 +223,9 @@ natsOptions_Destroy(opts);
 {% endtab %}
 {% endtabs %}
 
-## Listen for New Servers
+## Прослушивание новых серверов
 
-When working with a cluster, servers may be added or changed. Some of the clients allow you to listen for this notification:
+При работе с кластером серверы могут добавляться или изменяться. Некоторые клиенты позволяют подписаться на такое уведомление:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -361,9 +361,9 @@ natsOptions_Destroy(opts);
 {% endtab %}
 {% endtabs %}
 
-## Listen for Errors
+## Прослушивание ошибок
 
-The client library may separate server-to-client errors from events. Many server events are not handled by application code and result in the connection being closed. Listening for the errors can be very useful for debugging problems.
+Клиентская библиотека может разделять ошибки от сервера к клиенту и события. Многие серверные события не обрабатываются кодом приложения и приводят к закрытию соединения. Прослушивание ошибок может быть очень полезным для отладки проблем.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -527,4 +527,3 @@ natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
-

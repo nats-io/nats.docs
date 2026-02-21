@@ -1,8 +1,8 @@
 # nats bench
 
-NATS is fast and lightweight, and places a priority on performance. The `nats` CLI tool can, amongst many other things, be used for running benchmarks and measuring performance of your target NATS service infrastructure. In this tutorial, you learn how to benchmark and tune NATS on your systems and environment.
+NATS быстрый и легковесный, с приоритетом на производительность. CLI‑инструмент `nats` можно использовать, среди прочего, для запуска бенчмарков и измерения производительности вашей инфраструктуры NATS. В этом руководстве вы узнаете, как бенчмаркать и настраивать NATS в ваших системах и среде.
 
-Note: the numbers below are just examples and were obtained using a MacBook Pro M4 (November 2024) running version 2.12.1 of `nats-server`:
+Примечание: числа ниже — лишь примеры и получены на MacBook Pro M4 (ноябрь 2024) с `nats-server` версии 2.12.1:
 ```
  Model Name:	MacBook Pro
   Model Identifier:	Mac16,1
@@ -14,18 +14,18 @@ Note: the numbers below are just examples and were obtained using a MacBook Pro 
   OS Loader Version:	13822.1.2
 ```
 
-## Prerequisites
+## Предварительные требования
 
-* [Install the NATS CLI Tool](./)
-* [Install the NATS server](../../../running-a-nats-service/installation.md)
+* [Установить NATS CLI](./)
+* [Установить NATS server](../../../running-a-nats-service/installation.md)
 
-## Start the NATS server with monitoring enabled
+## Запуск NATS server с включенным мониторингом
 
 ```bash
 nats-server -m 8222 -js
 ```
 
-Verify that the NATS server starts successfully, as well as the HTTP monitor:
+Убедитесь, что сервер NATS запустился успешно, а также запущен HTTP‑мониторинг:
 
 ```
 [[2932] 2025/10/28 12:29:02.879297 [INF] Starting nats-server
@@ -55,15 +55,15 @@ Verify that the NATS server starts successfully, as well as the HTTP monitor:
 [2932] 2025/10/28 12:29:02.881434 [INF] Server is ready
 ```
 
-## Run a publisher throughput test
+## Тест пропускной способности публикации
 
-Let's run a first test to see how fast a single publisher can publish one million 16 byte messages to the NATS server. This should yield very high numbers as there is no subscriber on the subject being used.
+Давайте сначала посмотрим, насколько быстро один publisher может опубликовать один миллион сообщений по 16 байт на сервер NATS. Здесь должны получиться очень высокие числа, так как на subject нет подписчика.
 
 ```bash
 nats bench pub foo --size 16 --msgs 1000000
 ```
 
-The output tells you the number of messages and the number of payload bytes that the client was able to publish per second:
+Вывод показывает количество сообщений и количество байт payload, которые клиент смог опубликовать в секунду:
 
 ```
 12:45:18 Starting Core NATS publisher benchmark [clients=1, msg-size=16 B, msgs=1,000,000, multi-subject=false, multi-subject-max=100,000, sleep=0s, subject=foo]
@@ -73,23 +73,23 @@ Finished      0s [==============================================================
 NATS Core NATS publisher stats: 14,786,683 msgs/sec ~ 226 MiB/sec ~ 0.07us
 ```
 
-## Run a publish/subscribe throughput test
+## Тест пропускной способности publish/subscribe
 
-While the measurement above is an interesting data point, it is purely an academic measurement as you will usually have one (or more) subscribers for the messages being published.
+Хотя измерение выше интересно, это чисто академическая метрика: обычно у вас будет один или несколько подписчиков на публикуемые сообщения.
 
-Let's look at throughput for a single publisher with a single subscriber. For this, we need to run two instances of `nats bench` at the same time (e.g. in two shell windows), one to subscribe and one to publish.
+Посмотрим на throughput для одного издателя и одного подписчика. Для этого нужно запустить два экземпляра `nats bench` одновременно (например, в двух окнах терминала): один для подписки, другой для публикации.
 
-First start the subscriber (it doesn't start measuring until it receives the first message from the publisher).
+Сначала запустите подписчика (он начнет измерение после получения первого сообщения от издателя):
 ```bash
 nats bench sub foo --size 16 --msgs 1000000
 ```
 
-Then start the publisher.
+Затем запустите издателя:
 ```bash
 nats bench pub foo --size 16 --msgs 1000000
 ```
 
-Publisher's output:
+Вывод издателя:
 ```
 13:15:53 Starting Core NATS publisher benchmark [clients=1, msg-size=16 B, msgs=1,000,000, multi-subject=false, multi-subject-max=100,000, sleep=0s, subject=foo]
 13:15:53 [1] Starting Core NATS publisher, publishing 1,000,000 messages
@@ -98,7 +98,7 @@ Finished      0s [==============================================================
 NATS Core NATS publisher stats: 4,925,767 msgs/sec ~ 75 MiB/sec ~ 0.20us
 ```
 
-Subscriber's output:
+Вывод подписчика:
 ```
 13:15:50 Starting Core NATS subscriber benchmark [clients=1, msg-size=16 B, msgs=1,000,000, multi-subject=false, subject=foo]
 13:15:50 [1] Starting Core NATS subscriber, expecting 1,000,000 messages
@@ -107,9 +107,9 @@ Finished      0s [============================================================] 
 NATS Core NATS subscriber stats: 4,928,153 msgs/sec ~ 75 MiB/sec ~ 0.20us
 ```
 
-We can also increase the size of the messages using `--size`, for example:
+Можно увеличить размер сообщений, используя `--size`, например:
 
-Publisher:
+Издатель:
 ```bash
 nats bench pub foo --size 16kb
 ```
@@ -121,7 +121,7 @@ Finished      0s [==============================================================
 NATS Core NATS publisher stats: 230,800 msgs/sec ~ 3.5 GiB/sec ~ 4.33us
 ```
 
-Subscriber:
+Подписчик:
 ```bash
 nats bench sub foo --size 16kb
 ```
@@ -133,24 +133,24 @@ Finished      0s [============================================================] 
 NATS Core NATS subscriber stats: 226,091 msgs/sec ~ 3.4 GiB/sec ~ 4.42us
 ```
 
-As expected, while the number of messages per second decreases with the larger messages, the throughput, however, increases massively.
+Как и ожидалось, хотя число сообщений в секунду уменьшается при больших сообщениях, общая пропускная способность, напротив, существенно растет.
 
-## Run a 1:N throughput test
+## Тест 1:N
 
-You can also measure performance with a message fan-out where multiple subscribers receive a copy of the message. You can do this using the `--client` flag, each client being a Go-routine, making it's own connection to the server and subscribing to the subject.
+Можно измерить производительность при fan‑out, когда несколько подписчиков получают копию сообщения. Для этого используйте флаг `--client`: каждый client — это goroutine, которая делает собственное соединение с сервером и подписывается на subject.
 
-When specifying multiple clients `nats bench` will also report aggregated statistics.
+При указании нескольких клиентов `nats bench` также выводит агрегированную статистику.
 
-For example for a fan-out of 4:
+Например, для fan‑out 4:
 ```bash
 nats bench sub foo --clients 4
 ```
-and
+и
 ```bash
 nats bench pub foo
 ```
 
-Publisher's output:
+Вывод издателя:
 
 ```
 13:34:26 Starting Core NATS publisher benchmark [clients=1, msg-size=128 B, msgs=100,000, multi-subject=false, multi-subject-max=100,000, sleep=0s, subject=foo]
@@ -160,7 +160,7 @@ Finished      0s [==============================================================
 NATS Core NATS publisher stats: 1,012,200 msgs/sec ~ 124 MiB/sec ~ 0.99us
 ```
 
-Subscribers' output:
+Вывод подписчиков:
 ```
 13:34:24 Starting Core NATS subscriber benchmark [clients=4, msg-size=128 B, msgs=100,000, multi-subject=false, subject=foo]
 13:34:24 [1] Starting Core NATS subscriber, expecting 100,000 messages
@@ -182,23 +182,23 @@ Finished      0s [============================================================] 
  avg latencies min 0.99us | avg 0.99us | max 1.00us | stddev 0.00us
 ```
 
-## Run a N:M throughput test
+## Тест N:M
 
-When more than 1 publisher client is specified, `nats bench` evenly distributes the total number of messages (`--msgs`) across the number of publishers (`--clients`).
+Когда указано более одного издателя, `nats bench` равномерно распределяет общее число сообщений (`--msgs`) между издателями (`--clients`).
 
-So let's increase the number of publishers and also increase the number of messages so the benchmark run lasts a little bit longer:
+Увеличим число издателей и число сообщений, чтобы бенчмарк длился чуть дольше:
 
-Subscriber:
+Подписчик:
 ```bash
 nats bench sub foo --clients 4 --msgs 1000000
 ```
 
-Publisher:
+Издатель:
 ```bash
 nats bench pub foo --clients 4 --msgs 1000000
 ```
 
-Publisher's output
+Вывод издателя:
 ```
 13:40:24 Starting Core NATS publisher benchmark [clients=4, msg-size=128 B, msgs=1,000,000, multi-subject=false, multi-subject-max=100,000, sleep=0s, subject=foo]
 13:40:24 [1] Starting Core NATS publisher, publishing 250,000 messages
@@ -220,7 +220,7 @@ Finished      0s [==============================================================
  avg latencies min 3.67us | avg 3.69us | max 3.70us | stddev 0.01us
 ```
 
-Subscriber's output:
+Вывод подписчика:
 ```
 13:40:18 Starting Core NATS subscriber benchmark [clients=4, msg-size=128 B, msgs=1,000,000, multi-subject=false, subject=foo]
 13:40:18 [1] Starting Core NATS subscriber, expecting 1,000,000 messages
@@ -241,17 +241,17 @@ Finished      0s [============================================================] 
  message rates min 1,080,821 | avg 1,080,842 | max 1,080,869 | stddev 18 msgs
  avg latencies min 0.93us | avg 0.93us | max 0.93us | stddev 0.00us
 ```
-## Run a request-reply latency test
 
-You can also test request/reply performance using `nats bench service`.
+## Тест задержки request‑reply
 
+Можно также протестировать производительность request/reply, используя `nats bench service`.
 
-In one shell start a nats bench to act as a server and let it run:
+В одном shell запустите `nats bench` как сервер и оставьте его работать:
 ```bash
 nats bench service serve foo
 ```
 
-And in another shell send some requests (each request is sent synchronously, one after the other):
+В другом shell отправьте несколько запросов (каждый запрос отправляется синхронно, один за другим):
 ```bash
 nats bench service request foo
 ```
@@ -264,14 +264,14 @@ Finished      5s [==============================================================
 NATS Core NATS service requester stats: 19,659 msgs/sec ~ 2.4 MiB/sec ~ 50.87us
 ```
 
-In this case, the average latency of request-reply between the two `nats bench` processes over NATS was 50.87 micro-seconds. However, since those requests are made synchronously, we can not measure throughput this way. We need to generate a lot more load by having more than one client making those synchronous requests at the same time, and we will also run more than one service instance (as you would in production) such that the requests are load-balanced between the service instances using the queue group functionality.
+В этом случае средняя задержка request‑reply между двумя процессами `nats bench` по NATS составила 50.87 микросекунд. Однако, поскольку запросы выполняются синхронно, throughput таким образом не измерить. Нужно создать большую нагрузку, запустив более одного клиента, делающего синхронные запросы параллельно, а также запустив более одной инстанции сервиса (как в продакшене), чтобы запросы балансировались между инстансами через queue group.
 
-Start the service instances and leave running:
+Запустите сервисы и оставьте их работать:
 ```bash
 nats bench service serve foo --size 16 --clients 2
 ```
 
-Clients making requests (since we are using a lot of clients to generate load, we will not show the progress bar while running the benchmark):
+Клиенты, делающие запросы (так как мы используем много клиентов для нагрузки, прогресс‑бар не показываем):
 ```bash
 nats bench service request foo --size 16 --clients 50 --no-progress
 ```
@@ -294,21 +294,21 @@ nats bench service request foo --size 16 --clients 50 --no-progress
  avg latencies min 365.62us | avg 373.93us | max 377.48us | stddev 2.43us
 ```
 
-## Run JetStream benchmarks
+## Бенчмарки JetStream
 
-You can measure JetStream performance using the `nats bench js` commands.
+Производительность JetStream можно измерять командами `nats bench js`.
 
-### Measure JetStream publication performance
+### Измерение производительности публикаций JetStream
 
-You can measure the performance of publishing (storing) messages into a stream using `nats bench js pub`, which offers 3 options:
-- `nats bench js pub sync` publishes the messages synchronously one after the other (so while it's good for measuring latency, it's not good to measure throughput).
-- `nats bench js pub async` publishes a batch of messages asynchronously, waits for all the publications' acknowledgements and moves on to the next batch (which is a good way to measure throughput).
-- `nats bench js pub batch` uses the atomic batch publish (while batching is currently implemented only to provide atomicity, it has the side effect of potentially helping throughout, especially for smaller messages).
-- 
+Можно измерять производительность публикации (сохранения) сообщений в поток через `nats bench js pub`, доступно 3 опции:
+- `nats bench js pub sync` публикует сообщения синхронно одно за другим (подходит для измерения задержки, но не throughput).
+- `nats bench js pub async` публикует батч сообщений асинхронно, ждет подтверждения всех публикаций и переходит к следующему батчу (хороший способ измерить throughput).
+- `nats bench js pub batch` использует атомарную batch‑публикацию (пока батчинг реализован только для атомарности, но может улучшать throughput, особенно для маленьких сообщений).
+-
 
-`nats bench js pub` will by default use a stream called `benchstream`, and `--create` will automatically create the stream if it doesn't exist yet. Also you can use `--purge` to clear the stream first. You can specify stream attributes like `--replicas 3` or `--storage memory`, or `--maxbytes` or operate on any existing stream with `--stream`.
+`nats bench js pub` по умолчанию использует поток `benchstream`, а `--create` автоматически создает поток, если его еще нет. Можно также использовать `--purge` для предварительной очистки потока. Вы можете задавать атрибуты потока, например `--replicas 3` или `--storage memory`, или работать с любым существующим потоком через `--stream`.
 
-For example, test latency of publishing to a memory stream:
+Например, измерим задержку публикации в память:
 ```bash
 nats bench js pub sync jsfoo --size 16 --create --storage memory
 ```
@@ -321,7 +321,7 @@ Publishing    2s [==============================================================
 NATS JetStream synchronous publisher stats: 35,734 msgs/sec ~ 558 KiB/sec ~ 27.98us
 ```
 
-Test throughput using batch publishing:
+Проверим throughput с batch‑публикацией:
 ```bash
 nats bench js pub batch jsfoo --size 16 --batch 1000 --purge --storage memory
 ```
@@ -335,7 +335,7 @@ Finished      0s [==============================================================
 NATS JetStream batched publisher stats: 627,430 msgs/sec ~ 9.6 MiB/sec ~ 1.59us
 ```
 
-Remove the stream and test to file storage (which is the default)
+Удалите поток и протестируйте файловое хранилище (по умолчанию):
 ```bash
 nats stream rm -f benchstream
 nats bench js pub async jsfoo --create
@@ -349,16 +349,17 @@ Finished      0s [==============================================================
 NATS JetStream asynchronous publisher stats: 403,828 msgs/sec ~ 49 MiB/sec ~ 2.48us
 ```
 
-You can even measure publish performance to an `--replicas 1` stream with asynchronous persistence using `--persistasync` which yields throughput similar to when using memory storage, as by default JetStream flushes disk writes synchronously, meaning that even if the `nats-server` process is killed suddenly no messages will be lost as the OS already has them in it's buffer and will flush them to disk (it can be also configured to not just flush but also sync after every write in which case no message will be lost even if the whole host goes down suddenly, at the expense of latency obviously)).
-### Measure JetStream consumption (replay) performance
+Можно даже измерить производительность публикации в поток с `--replicas 1` и асинхронной персистентностью через `--persistasync`, что дает throughput близкий к memory storage. По умолчанию JetStream синхронно flush‑ит записи на диск, поэтому даже если `nats-server` внезапно завершится, сообщения не потеряются — ОС уже держит их в буфере и сбросит на диск (можно настроить не только flush, но и sync после каждой записи, тогда сообщения не потеряются даже при падении хоста, но это увеличит latency).
 
-Once you have stored some messages on a stream you can measure the replay performance in multiple ways:
-- `nats bench js ordered` uses an ordered *ephemeral* consumer to receive the messages (so each client gets its own copy of the messages).
-- `nats bench js consume` uses the `Consume()` (callback) function on a *durable* consumer to receive the messages.
-- `nats bench js fetch` uses the `Fetch()` function on a *durable* consumer to receive messages in batches.
-- `nats bench js get` gets the messages directly by sequence number (either synchronously one by one or using 'batched gets') *without using a consumer*.
+### Измерение производительности потребления (replay) JetStream
 
-Starting with ordered consumer:
+После сохранения сообщений в поток можно измерить производительность воспроизведения несколькими способами:
+- `nats bench js ordered` использует ordered *ephemeral* consumer для получения сообщений (каждый client получает свою копию сообщений).
+- `nats bench js consume` использует функцию `Consume()` (callback) на *durable* consumer для получения сообщений.
+- `nats bench js fetch` использует функцию `Fetch()` на *durable* consumer для получения сообщений батчами.
+- `nats bench js get` получает сообщения напрямую по номеру последовательности (синхронно по одному или через «batched gets») *без использования consumer*.
+
+Начнем с ordered consumer:
 ```bash
 nats bench js ordered
 ```
@@ -370,7 +371,7 @@ Finished      0s [==============================================================
 NATS JetStream ordered ephemeral consumer stats: 1,201,540 msgs/sec ~ 147 MiB/sec ~ 0.83us
 ```
 
-Then using consume to distribute consumption of messages between multiple clients throught a durable consumer with explicit acknowledgements:
+Далее используем consume, чтобы распределить потребление сообщений между несколькими клиентами через durable consumer с явными подтверждениями:
 ```bash
 nats bench js consume --clients 4 --no-progress
 ```
@@ -391,7 +392,7 @@ nats bench js consume --clients 4 --no-progress
  avg latencies min 13.66us | avg 13.72us | max 13.76us | stddev 0.04us
 ```
 
-Using fetch with two clients to retrieve batches of 400 messages through a durable consumer and without explicit acknowledgements:
+Используем fetch с двумя клиентами для получения батчей по 400 сообщений через durable consumer и без явных подтверждений:
 ```bash
 nats bench js fetch --acks none --clients 2
 ```
@@ -411,7 +412,7 @@ Finished      0s [==============================================================
  avg latencies min 1.76us | avg 1.76us | max 1.76us | stddev 0.00us
 ```
 
-Measuring the latency of direct synchronous gets:
+Измерение задержки direct synchronous gets:
 ```bash
 nats bench js get sync
 ```
@@ -423,7 +424,7 @@ Finished      3s [==============================================================
 NATS JetStream synchronous getter stats: 33,244 msgs/sec ~ 4.1 MiB/sec ~ 30.08us
 ```
 
-And finally measuring throughput using batched gets with a fan out of 2:
+И наконец измерим throughput с batched gets при fan‑out 2:
 ```bash
 nats bench js get batch --clients 2
 ```
@@ -442,16 +443,16 @@ Finished      0s [==============================================================
  avg latencies min 1.96us | avg 1.98us | max 2.00us | stddev 0.02us
 ```
 
-### Measuring publication and consumption together
+### Измерение публикации и потребления одновременно
 
-While measuring publication and consumption to and from a stream separately yields interesting metrics, during normal operations most of the time the consumers are going to be on-line and consuming while the messages are being published to the stream. 
+Хотя измерения публикации и потребления по отдельности дают интересные метрики, в реальной работе consumers чаще всего онлайн и потребляют сообщения, пока они публикуются в поток.
 
-First purge the stream and start the consuming instance of `nats bench`, for example using an ordered consumer and 8 clients (so a fan out of 8):
+Сначала очистите поток и запустите `nats bench` для потребления, например ordered consumer с 8 клиентами (fan‑out 8):
 ```bash
 nats bench js ordered --purge --clients 8 --no-progress
 ```
 
-Then start publishing to the stream, for example using 8 clients doing asynchronous publications:
+Затем начните публиковать в поток, например 8 клиентов с асинхронной публикацией:
 ```bash
 nats bench js pub async jsfoo --clients 8 --no-progress
 ```
@@ -475,7 +476,7 @@ nats bench js pub async jsfoo --clients 8 --no-progress
  avg latencies min 30.04us | avg 30.67us | max 31.66us | stddev 0.60us 
 ```
 
-Consumer's output:
+Вывод consumer:
 ```
 15:23:02 Starting JetStream ordered ephemeral consumer benchmark [clients=8, msg-size=128 B, msgs=100,000, purge=true, sleep=0s, stream=benchstream]
 15:23:02 [1] Starting JetStream ordered ephemeral consumer, expecting 100,000 messages
@@ -495,11 +496,11 @@ Consumer's output:
  avg latencies min 8.96us | avg 9.07us | max 9.11us | stddev 0.05us
 ```
 
-### Measure KV performance
+### Измерение производительности KV
 
-`nats bench kv` can be used to measure Key Value performance using synchronous put and get operations.
+`nats bench kv` можно использовать для измерения производительности Key Value через синхронные операции put и get.
 
-First put some data in the KV:
+Сначала положим данные в KV:
 ```bash
 nats bench kv put
 ```
@@ -511,12 +512,13 @@ Putting       3s [==============================================================
 NATS JetStream KV putter stats: 30,067 msgs/sec ~ 3.7 MiB/sec ~ 33.26us
 ```
 
-Then simulate a bunch of clients doing gets on random keys:
+Затем имитируем множество клиентов, делающих get по случайным ключам:
 ```bash
 nats bench kv get --clients 16 --randomize 100000 --no-progress
 ```
 ```
 14:28:33 Starting JetStream KV getter benchmark [bucket=benchbucket, clients=16, msg-size=128 B, msgs=100,000, randomize=100,000, sleep=0s]
+14:28:33 [1] Starting JetStream KV getter, trying to get 6,250 messages
 14:28:33 [1] Starting JetStream KV getter, trying to get 6,250 messages
 14:28:33 [2] Starting JetStream KV getter, trying to get 6,250 messages
 ...
@@ -534,16 +536,16 @@ nats bench kv get --clients 16 --randomize 100000 --no-progress
  avg latencies min 151.98us | avg 153.61us | max 155.08us | stddev 0.96us
 ```
 
-### Play around with the knobs
+### Поиграйте с настройками
 
-Don't be afraid to test different JetStream storage and replication options (assuming you have access to a JetStream enabled cluster of servers if you want to go beyond `--replicas 1`), and of course the number of publishing/subscribing clients, and the batch and message sizes.
+Не бойтесь тестировать разные варианты хранения и репликации JetStream (при условии, что у вас есть кластер JetStream‑серверов, если хотите выйти за пределы `--replicas 1`), а также количество клиентов‑издателей/подписчиков и размеры batch/сообщений.
 
-You can also use `nats bench` as a tool to generate traffic at a steady rate by using the `--sleep` flag to introduce a delay between the publication of each message (or batch of messages). You can also use that same flag to simulate processing time when consuming messages.
+Вы также можете использовать `nats bench` для генерации трафика с постоянной скоростью, применяя флаг `--sleep`, чтобы добавить задержку между публикацией каждого сообщения (или batch‑сообщений). Этот же флаг можно использовать, чтобы имитировать время обработки при потреблении сообщений.
 
-Note: If you change the attributes of a stream between runs you will have to delete the stream (e.g. run `nats stream rm benchstream`)
+Примечание: если вы меняете атрибуты потока между запусками, поток нужно удалить (например, `nats stream rm benchstream`).
 
-### Leave no trace: clean up the resources when you are finished
+### Не оставляйте следов: очищайте ресурсы после завершения
 
-Once you have finished benchmarking streams, remember that if you have stored many messages in the stream (which is very easy and fast to do) your stream may end up using a certain amount of resources on the nats-server(s) infrastructure (i.e. memory and files) that you may want to reclaim.
+После бенчмарков потоков помните, что если вы сохранили много сообщений в потоке (что делается очень быстро), поток может занять заметные ресурсы на инфраструктуре nats-server (память и файлы), которые вы можете захотеть освободить.
 
-You can instruct use the `--purge` bench command flag to tell `nats` to purge the stream of messages before starting its benchmark, or purge the stream manually using `nats stream purge benchstream` or just delete it altogether using `nats stream rm benchstream`.
+Вы можете использовать флаг `--purge` команды `nats bench`, чтобы очищать поток перед бенчмарком, или очистить поток вручную через `nats stream purge benchstream`, либо полностью удалить его командой `nats stream rm benchstream`.

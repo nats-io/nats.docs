@@ -1,98 +1,102 @@
-# System Events
+# Системные события
 
-NATS servers leverage [Accounts](../securing\_nats/accounts.md) support and generate events such as:
+Серверы NATS используют поддержку [Accounts](../securing_nats/accounts.md) и генерируют события, такие как:
 
-* account connect/disconnect
-* authentication errors
-* server shutdown
-* server stat summary
+* подключение/отключение аккаунта
+* ошибки аутентификации
+* остановка сервера
+* сводка статистики сервера
 
-In addition the server supports a limited number of requests that can be used to query for account connections, server stat summaries, and pinging servers in the cluster.
+Кроме того, сервер поддерживает ограниченное число запросов, которыми можно получать список подключений аккаунтов, сводки статистики сервера и выполнять ping серверов в кластере.
 
-These events are enabled by configuring `system_account` and [subscribing/requesting](./#available-events-and-services) using a _system account_ user.
+Эти события включаются настройкой `system_account` и [подпиской/запросами](./#available-events-and-services) от пользователя _system account_.
 
-[Accounts](../securing\_nats/accounts.md) are used so that subscriptions from your applications, say `>`, do not receive system events and vice versa. Using accounts requires either:
+[Accounts](../securing_nats/accounts.md) используются, чтобы подписки приложений, например `>`, не получали системные события, и наоборот. Использование accounts требует одного из вариантов:
 
-* [Configuring authentication locally](./#local-configuration) and listing one of the accounts in `system_account`
-* Or by using decentralized authentication and authorization via [jwt](../securing\_nats/jwt/) as shown in this [Tutorial](sys\_accounts.md). In this case `system_account` contains the account public key.
+* [Локальная настройка аутентификации](./#local-configuration) и указание одного из аккаунтов в `system_account`
+* или децентрализованная аутентификация и авторизация через [jwt](../securing_nats/jwt/) как показано в этом [руководстве](sys_accounts.md). В этом случае `system_account` содержит публичный ключ аккаунта.
 
-N.B. The default global account `$G` does not publish advisories.
+Примечание: глобальный аккаунт по умолчанию `$G` не публикует уведомления.
 
-## Available Events and Services
+<a id="available-events-and-services"></a>
+## Доступные события и сервисы
 
 ### System Account
 
-The system account publishes messages under well known subject patterns.
+System account публикует сообщения под хорошо известными шаблонами subject.
 
-Server initiated events:
+События, инициируемые сервером:
 
-* `$SYS.ACCOUNT.<id>.CONNECT` (client connects)
-* `$SYS.ACCOUNT.<id>.DISCONNECT` (client disconnects)
-* `$SYS.ACCOUNT.<id>.SERVER.CONNS` (connections for an account changed)
-* `$SYS.SERVER.<id>.CLIENT.AUTH.ERR` (authentication error)
-* `$SYS.SERVER.<id>.STATSZ` (stats summary)
+* `$SYS.ACCOUNT.<id>.CONNECT` (клиент подключается)
+* `$SYS.ACCOUNT.<id>.DISCONNECT` (клиент отключается)
+* `$SYS.ACCOUNT.<id>.SERVER.CONNS` (изменилось число соединений аккаунта)
+* `$SYS.SERVER.<id>.CLIENT.AUTH.ERR` (ошибка аутентификации)
+* `$SYS.SERVER.<id>.STATSZ` (сводка статистики)
 
-In addition other tools with system account privileges, can initiate requests (Examples can be found [here](sys\_accounts.md#system-services)):
+Кроме того, другие инструменты с привилегиями system account могут инициировать запросы (примеры см. [здесь](sys_accounts.md#system-services)):
 
-* `$SYS.REQ.SERVER.<id>.STATSZ` (request server stat summary)
-* `$SYS.REQ.SERVER.PING` (discover servers - will return multiple messages)
+* `$SYS.REQ.SERVER.<id>.STATSZ` (запрос сводки статистики сервера)
+* `$SYS.REQ.SERVER.PING` (обнаружение серверов — вернет несколько сообщений)
 
-[Monitoring endpoints](../monitoring.md) as listed in the table below are accessible as system services using the following subject pattern:
+[Эндпоинты мониторинга](../monitoring.md), перечисленные в таблице ниже, доступны как system services по следующему шаблону subject:
 
-* `$SYS.REQ.SERVER.<id>.<endpoint-name>` (request server monitoring endpoint corresponding to endpoint name.)
-* `$SYS.REQ.SERVER.PING.<endpoint-name>` (from all server, request server monitoring endpoint corresponding to endpoint name - will return multiple messages)
-
-| Endpoint                                                                  | Endpoint Name |
-| ------------------------------------------------------------------------- | ------------- |
-| [General Server Information](../monitoring.md#general-information)        | `VARZ`        |
-| [Connections](../monitoring.md#connection-information)                    | `CONNZ`       |
-| [Routing](../monitoring.md#route-information)                             | `ROUTEZ`      |
-| [Gateways](../monitoring.md#gateway-information)                          | `GATEWAYZ`    |
-| [Leaf Nodes](../monitoring.md#leaf-nodes-information)                     | `LEAFZ`       |
-| [Subscription Routing](../monitoring.md#subscription-routing-information) | `SUBSZ`       |
-| [JetStream](../monitoring.md#jetstream-information)                       | `JSZ`         |
-| [Accounts](../monitoring.md#account-information)                          | `ACCOUNTZ`    |
-| [Health](../../nats\_admin/monitoring/#health)                            | `HEALTHZ`     |
-
-* `"$SYS.REQ.ACCOUNT.<account-id>.<endpoint-name>`(from all server, request account specific monitoring endpoint corresponding to account id and endpoint name - will return multiple messages)
+* `$SYS.REQ.SERVER.<id>.<endpoint-name>` (запрос endpoint мониторинга сервера по имени endpoint).
+* `$SYS.REQ.SERVER.PING.<endpoint-name>` (со всех серверов, запрос endpoint мониторинга сервера по имени endpoint — вернет несколько сообщений)
 
 | Endpoint                                                                  | Endpoint Name |
 | ------------------------------------------------------------------------- | ------------- |
-| [Connections](../monitoring.md#connection-information)                    | `CONNZ`       |
-| [Leaf Nodes](../monitoring.md#leaf-nodes-information)                     | `LEAFZ`       |
-| [Subscription Routing](../monitoring.md#subscription-routing-information) | `SUBSZ`       |
-| [JetStream](../monitoring.md#jetstream-information)                       | `JSZ`         |
-| [Account](../monitoring.md#account-information)                           | `INFO`        |
+| [Общая информация о сервере](../monitoring.md#general-information)        | `VARZ`        |
+| [Соединения](../monitoring.md#connection-information)                    | `CONNZ`       |
+| [Маршрутизация](../monitoring.md#route-information)                      | `ROUTEZ`      |
+| [Gateways](../monitoring.md#gateway-information)                         | `GATEWAYZ`    |
+| [Leaf Nodes](../monitoring.md#leaf-nodes-information)                    | `LEAFZ`       |
+| [Маршрутизация подписок](../monitoring.md#subscription-routing-information) | `SUBSZ`    |
+| [JetStream](../monitoring.md#jetstream-information)                      | `JSZ`         |
+| [Accounts](../monitoring.md#account-information)                         | `ACCOUNTZ`    |
+| [Health](../../nats_admin/monitoring/#health)                            | `HEALTHZ`     |
 
-Servers like `nats-account-server` publish system account messages when a claim is updated, the nats-server listens for them, and updates its account information accordingly:
+* `"$SYS.REQ.ACCOUNT.<account-id>.<endpoint-name>` (со всех серверов, запрос специфического для аккаунта endpoint мониторинга по account id и имени endpoint — вернет несколько сообщений)
+
+| Endpoint                                                                  | Endpoint Name |
+| ------------------------------------------------------------------------- | ------------- |
+| [Соединения](../monitoring.md#connection-information)                    | `CONNZ`       |
+| [Leaf Nodes](../monitoring.md#leaf-nodes-information)                    | `LEAFZ`       |
+| [Маршрутизация подписок](../monitoring.md#subscription-routing-information) | `SUBSZ`    |
+| [JetStream](../monitoring.md#jetstream-information)                      | `JSZ`         |
+| [Account](../monitoring.md#account-information)                          | `INFO`        |
+
+Серверы вроде `nats-account-server` публикуют сообщения system account при обновлении claim, а `nats-server` слушает их и соответствующим образом обновляет информацию об аккаунте:
 
 * `$SYS.ACCOUNT.<id>.CLAIMS.UPDATE`
 
-With these few messages you can build useful monitoring tools:
+Этих нескольких сообщений достаточно, чтобы построить полезные инструменты мониторинга:
 
-* health/load of your servers
-* client connects/disconnects
-* account connections
-* authentication errors
+* состояние/нагрузка ваших серверов
+* подключение/отключение клиентов
+* подключения аккаунтов
+* ошибки аутентификации
 
-## Local Configuration
+<a id="local-configuration"></a>
+## Локальная конфигурация
 
-To make use of System events, just using accounts, your configuration can look like this:
+Чтобы использовать системные события, достаточно включить accounts; конфигурация может выглядеть так:
 
-```
+```text
 accounts: {
     USERS: {
         users: [
             {user: a, password: a}
         ]
-    },
-    SYS: { 
+    }
+
+    SYS: {
         users: [
             {user: admin, password: changeit}
-           ]
-    },
+        ]
+    }
 }
+
 system_account: SYS
 ```
 
-Please note that applications now have to authenticate such that a connection can be associated with an account. In this example username and password were chosen for simplicity of the demonstration. Subscribe to all system events like this `nats sub -s nats://admin:changeit@localhost:4222 ">"` and observe what happens when you do something like `nats pub -s "nats://a:a@localhost:4222" foo bar`. Examples on how to use system services can be found [here](sys\_accounts.md#system-services).
+Обратите внимание, что приложения теперь должны аутентифицироваться так, чтобы соединение могло быть сопоставлено с аккаунтом. В этом примере логин и пароль выбраны для простоты демонстрации. Подпишитесь на все системные события так: `nats sub -s nats://admin:changeit@localhost:4222 ">"` и наблюдайте, что происходит, когда вы, например, выполняете `nats pub -s "nats://a:a@localhost:4222" foo bar`. Примеры использования system services см. [здесь](sys_accounts.md#system-services).

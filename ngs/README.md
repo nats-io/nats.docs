@@ -1,32 +1,30 @@
-# Synadia's NGS
+# NGS от Synadia
 
-So now that you are using NATS in your application, you are going to need a NATS infrastructure for the instances of your applications to use.
+Теперь, когда вы используете NATS в своем приложении, вам понадобится инфраструктура NATS для экземпляров ваших приложений.
 
-The simplest thing to do is actually not to even bother with setting up, running and monitoring your own NATS service but rather to simply use [NGS](https://www.synadia.com/cloud?utm_source=nats_docs&utm_medium=nats), [Synadia](https://www.synadia.com?utm_source=nats_docs&utm_medium=nats)'s NATS as a Service offering.
+Самый простой путь — вообще не заниматься настройкой, запуском и мониторингом собственного NATS‑сервиса, а просто использовать [NGS](https://www.synadia.com/cloud?utm_source=nats_docs&utm_medium=nats) — предложение «NATS как сервис» от [Synadia](https://www.synadia.com?utm_source=nats_docs&utm_medium=nats).
 
-One way to explain what NGS is, is to draw an analogy to something everyone is familiar with: the Internet. NGS is the 'Internet' of NATS, the "InterNATS" if you want, and Synadia is an 'InterNATS Service Provider', meaning that NGS is a globally distributed super-cluster of nats server clusters that offers NATS connectivity and JetStream support.
+Один из способов объяснить, что такое NGS, — провести аналогию с Интернетом. NGS — это «Интернет» для NATS, если хотите — «InterNATS», а Synadia — «провайдер InterNATS‑сервиса». То есть NGS — это глобально распределенный супер‑кластер кластеров nats‑server, который предоставляет подключение NATS и поддержку JetStream.
 
-* Just like with an Internet connection where you can plug in your own router to extend Internet service to a private intranet, you can run your own  'Leaf Node `nats-server`` (or even a cluster of them) on your own VPC, network, servers, etc...  which will act as local servers and for your NATS client applications and connect you to the rest of your applications or leaf nodes over NGS.
+* Как и при подключении к Интернету, когда вы можете установить свой роутер, чтобы расширить доступ на частную интранет‑сеть, вы можете запустить собственный leaf‑node `nats-server` (или даже кластер) в своем VPC, сети, на серверах и т. п., который будет работать как локальный сервер для ваших NATS‑клиентов и подключать вас к остальным приложениям или leaf‑node через NGS.
 
+* При регистрации в NGS вы получаете «Account», который затем используется для создания/авторизации/отзыва учетных данных «Users» — этого достаточно, чтобы все ваши приложения безопасно подключались к NGS.
+  * Как и в VPN, у каждого аккаунта свое изолированное пространство имен subject, то есть по умолчанию публикации видны только пользователям вашего аккаунта (согласно их авторизациям).
+  * Вы, владелец ключа аккаунта, полностью и независимо управляете пользователями и их авторизациями.
+  * NGS никогда не хранит приватные ключи аккаунтов или пользователей, они есть только у вас (держите их в безопасности!).
+  * Как и в файрволах, вы точно контролируете, какие subject и сервисы импортировать или экспортировать другим аккаунтам.
+  * Как и в NAT, вы можете отображать имена subject для сообщений при их импорте в ваш аккаунт.
 
-* When you sign up for NGS service you get an 'Account' that you can then use to create/authorize/revoke 'Users' credentials that are all your applications need in order to connect to NGS securely.
-  * Just like with a VPN, each account has its own isolated subject name space, meaning that by default only of the users for your account can see their publications (according to their authorizations).
-  * You, the account key-holder, completely and independently control and manage your users and their authorizations
-  * NGS never ever stores any Account or User private keys, only _you_ have them (keep them safe!)
-  * Just like with Firewalls you precisely control which subjects and services you want to import or export with other accounts
-  * Just like with Network Address Translation you can map subject names for messages as they are imported into your account
+* Как глобальный ISP или телеком‑оператор, Synadia запускает и обслуживает NGS по всему миру: более десятка кластеров во всех регионах и у всех облачных провайдеров. Подключения клиентов автоматически направляются в ближайший кластер.
 
+## Создание аккаунта в NGS
 
-* Just like a global ISP or a global Telco, Synadia runs and maintains NGS globally, with over a dozen of clusters spanning all regions and cloud providers and providing a truly global service, client connections are automatically directed to the closest cluster.
+Начать можно с аккаунта разработчика — он *бесплатный* и не требует банковской карты:
 
-## Creating an Account on NGS
+* [Установите NSC и получите аккаунт NGS](https://www.synadia.com/cloud)
 
-You can start by creating a developer account which is *free* and doesn't even require a credit card:
+Далее следуйте инструкциям, чтобы получить аккаунт NGS, создать первого из сколь угодно большого числа пользователей и их авторизаций и раздать эти учетные данные вашим приложениям.
 
-* [Install NSC and get an NGS account](https://www.synadia.com/cloud)
+## Подключение к NGS
 
-You can then follow the instructions to obtain your NGS account, and create the first of any number of users and user authorizations you want and distribute those user credentials to use with your applications.
-
-## Connecting to NGS
-
-Your isolated applications can connect directly to NGS, or if you have more than one process running in the same location they would connect to NGS through a Leaf Node nats server that you would deploy locally and that would act as a 'local router' and proxy for the local applications to NGS. Those client applications (and the Leaf Node nats servers if used) only need to use "nats://connect.ngs.global" or "tls://connect.ngs.global" as the connection URL and the user's credential file which contains both the private key and the JTW to the user.
+Изолированные приложения могут подключаться к NGS напрямую. Если у вас несколько процессов в одной локации, они могут подключаться к NGS через локально развернутый leaf‑node nats‑server, который будет выступать «локальным роутером» и прокси для приложений к NGS. Эти клиентские приложения (и leaf‑node nats‑server, если используется) должны использовать `nats://connect.ngs.global` или `tls://connect.ngs.global` в качестве URL подключения и файл учетных данных пользователя, содержащий приватный ключ и JWT пользователя.

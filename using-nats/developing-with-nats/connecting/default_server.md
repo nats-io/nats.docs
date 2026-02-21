@@ -1,6 +1,6 @@
-# Connecting to the Default Server
+# Подключение к серверу по умолчанию
 
-Some libraries also provide a special way to connect to a _default_ url, which is generally `nats://localhost:4222`:
+Некоторые библиотеки предоставляют специальный способ подключения к _default_ URL, который обычно равен `nats://localhost:4222`:
 
 {% tabs %}
 {% tab title="Go" %}

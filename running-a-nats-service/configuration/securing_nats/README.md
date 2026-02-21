@@ -1,7 +1,7 @@
-# Securing NATS
+# Защита NATS
 
-The NATS server provides several forms of security:
+Сервер NATS предоставляет несколько форм безопасности:
 
-* Connections can be [_encrypted_ with TLS](/running-a-nats-service/configuration/securing_nats/tls.md)
-* Client connections can require [_authentication_](/running-a-nats-service/configuration/securing_nats/auth_intro)
-* Clients can require [_authorization_](authorization.md) for subjects they publish or subscribe to
+* Соединения могут быть [_зашифрованы_ с TLS](/running-a-nats-service/configuration/securing_nats/tls.md)
+* Клиентские подключения могут требовать [_аутентификации_](/running-a-nats-service/configuration/securing_nats/auth_intro)
+* Для subject, на которые клиенты публикуют или подписываются, может требоваться [_авторизация_](authorization.md)

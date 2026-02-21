@@ -1,21 +1,21 @@
-# Connecting to a Cluster
+# Подключение к кластеру
 
-When connecting to a cluster, there are a few things to think about.
+При подключении к кластеру есть несколько моментов, о которых стоит подумать:
 
-* Passing a URL for each cluster member \(semi-optional\)
-* The connection algorithm
-* The reconnect algorithm \(discussed later\)
-* Server provided URLs
+* Передача URL для каждого узла кластера (полу‑опционально)
+* Алгоритм подключения
+* Алгоритм переподключения (обсуждается позже)
+* URL, предоставляемые сервером
 
-When a client library first tries to connect it will use the list of URLs provided to the connection options or function. These URLs are usually checked in random order as to not have every client connect to the same server. The first successful connection is used. Randomization can be [explicitly disabled](../reconnect/random.md).
+Когда клиентская библиотека впервые пытается подключиться, она использует список URL, переданный в опциях подключения или функции. Эти URL обычно проверяются в случайном порядке, чтобы не было так, что каждый клиент подключается к одному и тому же серверу. Используется первое успешное соединение. Рандомизацию можно [явно отключить](../reconnect/random.md).
 
-After a client connects to the server, the server may provide a list of URLs for additional known servers. This allows a client to connect to one server and still have other servers available during reconnect.
+После подключения клиента сервер может предоставить список URL дополнительных известных серверов. Это позволяет клиенту подключиться к одному серверу и всё равно иметь доступ к другим серверам при переподключении.
 
-To ensure the initial connection, your code should include a list of reasonable _front line_ or _seed_ servers. Those servers may know about other members of the cluster, and may tell the client about those members. But you don't have to configure the client to pass every valid member of the cluster in the connect method.
+Чтобы обеспечить начальное подключение, ваш код должен включать список разумных _front line_ или _seed_ серверов. Эти серверы могут знать о других членах кластера и могут сообщить клиенту об этих членах. Но нет необходимости настраивать клиента так, чтобы он передавал каждый действительный узел кластера в методе подключения.
 
-By providing the ability to pass multiple connect options, NATS can handle the possibility of a machine going down or being unavailable to a client. By adding the ability of the server to feed clients a list of known servers as part of the client-server protocol the mesh created by a cluster can grow and change organically while the clients are running.
+Предоставляя возможность передавать несколько опций подключения, NATS может учитывать возможность падения машины или недоступности для клиента. Добавляя возможность серверу сообщать клиентам список известных серверов в рамках клиент‑серверного протокола, сеть, создаваемая кластером, может органично расти и изменяться во время работы клиентов.
 
-_Note, failure behavior is library dependent, please check the documentation for your client library on information about what happens if the connect fails._
+_Примечание: поведение при сбоях зависит от библиотеки, пожалуйста, смотрите документацию вашей клиентской библиотеки о том, что происходит при неудачном подключении._
 
 {% tabs %}
 {% tab title="Go" %}
@@ -122,4 +122,3 @@ natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
-

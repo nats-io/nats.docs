@@ -1,132 +1,124 @@
-# Headers
+# Заголовки
 
-Message headers are used in a variety of JetStream contexts, such de-duplication, auto-purging of messages, metadata from republished messages, and more.
+Заголовки сообщений используются в разных контекстах JetStream, таких как дедупликация, авто‑очистка сообщений, метаданные перепубликованных сообщений и др.
 
-`Nats-` is a reserved namespace. Please use a different prefix for your own headers. This list may not be complete. Additional headers may be used for API internal messages or messages used for monitoring and control.  
+`Nats-` — зарезервированное пространство имен. Пожалуйста, используйте другой префикс для своих заголовков. Этот список может быть неполным. Дополнительные заголовки могут использоваться для внутренних сообщений API или сообщений мониторинга и управления.
 
 ## Publish
 
-Headers that can be set by a client when a message being published. These headers are recognized by the server.
+Заголовки, которые клиент может установить при публикации сообщения. Эти заголовки распознаются сервером.
 
 | Name                                  | Description                                                                                                                                                                                                       | Example                                | Version |
 |:----------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------|
-| `Nats-Msg-Id`                         | Client-defined unique identifier for a message that will be used by the server apply de-duplication within the configured `Duplicate Window`.                                                                     | `9f01ccf0-8c34-4789-8688-231a2538a98b` | 2.2.0   |
-| `Nats-Expected-Stream`                | Used to assert the published message is received by some expected stream.                                                                                                                                         | `my-stream`                            | 2.2.0   |
-| `Nats-Expected-Last-Msg-Id`           | Used to apply optimistic concurrency control at the stream-level. The value is the last expected `Nats-Msg-Id` and the server will reject a publish if the current ID does not match.                             | `9f01ccf0-8c34-4789-8688-231a2538a98b` | 2.2.0   |
-| `Nats-Expected-Last-Sequence`         | Used to apply optimistic concurrency control at the stream-level. The value is the last expected sequence and the server will reject a publish if the current sequence does not match.                            | `328`                                  | 2.2.0   |
-| `Nats-Expected-Last-Subject-Sequence` | Used to apply optimistic concurrency control at the subject-level. The value is the last expected sequence and the server will reject a publish if the current sequence does not match for the message's subject. | `38`                                   | 2.3.1   |
-| `Nats-Expected-Last-Subject-Sequence-Subject` | A subject which may include wildcards. Used with `Nats-Expected-Last-Subject-Sequence`. Server will enforce last sequence against the given subject rather than the one being published.                          | `events.orders.1.>`                                                                                                                                               | 2.11.0  |
-| `Nats-Rollup`                         | Used to apply a purge of all prior messages in a stream or at the subject-level. The `rollup message` will stay in the stream. Requires the allow rollups to be set on the stream.       | `all` purges the full stream, `sub` purges the subject on which this messages was sent. Wildcards subjects are not allowed and will result in undefined behavior.   | 2.6.2   |
-| `Nats-TTL`   |   Used to set a per message TTL. Requires the per message ttl flag to be set on the stream.   | `1h`, `10s` (go duration string format)  | 2.11   |
+| `Nats-Msg-Id`                         | Уникальный идентификатор сообщения, заданный клиентом, который сервер использует для дедупликации в пределах настроенного `Duplicate Window`.                                                                     | `9f01ccf0-8c34-4789-8688-231a2538a98b` | 2.2.0   |
+| `Nats-Expected-Stream`                | Используется, чтобы проверить, что опубликованное сообщение попало в ожидаемый поток.                                                                                                                            | `my-stream`                            | 2.2.0   |
+| `Nats-Expected-Last-Msg-Id`           | Используется для оптимистичного контроля конкурентности на уровне потока. Значение — последний ожидаемый `Nats-Msg-Id`; сервер отклонит публикацию, если текущий ID не совпадает.                                  | `9f01ccf0-8c34-4789-8688-231a2538a98b` | 2.2.0   |
+| `Nats-Expected-Last-Sequence`         | Используется для оптимистичного контроля конкурентности на уровне потока. Значение — последняя ожидаемая последовательность; сервер отклонит публикацию, если текущая последовательность не совпадает.             | `328`                                  | 2.2.0   |
+| `Nats-Expected-Last-Subject-Sequence` | Используется для оптимистичного контроля конкурентности на уровне subject. Значение — последняя ожидаемая последовательность; сервер отклонит публикацию, если последовательность не совпадает для subject сообщения. | `38`                                   | 2.3.1   |
+| `Nats-Expected-Last-Subject-Sequence-Subject` | Subject (может содержать wildcards). Используется с `Nats-Expected-Last-Subject-Sequence`. Сервер будет проверять последовательность по указанному subject, а не по публикуемому.                                   | `events.orders.1.>`                                                                 | 2.11.0  |
+| `Nats-Rollup`                         | Используется для очистки всех предыдущих сообщений в потоке или на уровне subject. Сообщение‑rollup останется в потоке. Требует включенного allow rollups в потоке.                                              | `all` очищает весь поток, `sub` очищает subject, на который отправлено сообщение. Wildcards в subjects не допускаются и приводят к неопределенному поведению. | 2.6.2   |
+| `Nats-TTL`   |   Используется для задания TTL на сообщение. Требует включенного per‑message TTL для потока.   | `1h`, `10s` (формат длительности Go)  | 2.11   |
 
-## RePublish or direct get
+## RePublish или direct get
 
-When messages are being re-published (must be configured in stream settings) from a stream or retrieved with a direct get operation from stream these headers are being set.
+Когда сообщения перепубликуются (нужно включить в настройках потока) из потока или извлекаются через direct get, устанавливаются следующие заголовки.
 
-Do not set these headers on client published messages.
+Не задавайте эти заголовки в клиентских публикациях.
 
 | Name                 | Description                                                                                                            | Example                       | Version |
 | :------------------- | :--------------------------------------------------------------------------------------------------------------------- | :---------------------------- | :------ |
-| `Nats-Stream`        | Name of the stream the message was republished from.                                                                   | `Nats-Stream: my-stream`      | 2.8.3   |
-| `Nats-Subject`       | The original subject of the message.                                                                                   | `events.mouse_clicked`        | 2.8.3   |
-| `Nats-Sequence`      | The original sequence of the message.                                                                                  | `193`                         | 2.8.3   |
-| `Nats-Last-Sequence` | The last sequence of the message having the same subject, otherwise zero if this is the first message for the subject. | `190`                         | 2.8.3   |
-| `Nats-Time-Stamp`    | The original timestamp of the message.                                                                                 | `2023-08-23T19:53:05.762416Z` | 2.10.0  |
-| `Nats-Num-Pending`    | Number of messages pending in the multi/batched get response. or details see:  [ADR-31](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-31.md)                                                                                                  | `5` | 2.10.0  |
-| `Nats-UpTo-Sequence`    | On the last messages of multi/batched get response. The `up-to-seq` value of the original request. Helps the client to continue incomplete batch requests. For details see:  [ADR-31](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-31.md)                                                                                |  | 2.11.0  |
-
+| `Nats-Stream`        | Имя потока, из которого сообщение было перепубликовано.                                                                | `Nats-Stream: my-stream`      | 2.8.3   |
+| `Nats-Subject`       | Исходный subject сообщения.                                                                                            | `events.mouse_clicked`        | 2.8.3   |
+| `Nats-Sequence`      | Исходная последовательность сообщения.                                                                                 | `193`                         | 2.8.3   |
+| `Nats-Last-Sequence` | Последняя последовательность сообщения с тем же subject, или ноль, если это первое сообщение для subject.             | `190`                         | 2.8.3   |
+| `Nats-Time-Stamp`    | Исходная временная метка сообщения.                                                                                    | `2023-08-23T19:53:05.762416Z` | 2.10.0  |
+| `Nats-Num-Pending`   | Число сообщений, ожидающих в ответе multi/batched get. Подробнее: [ADR-31](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-31.md)                                                | `5` | 2.10.0  |
+| `Nats-UpTo-Sequence` | В последнем сообщении multi/batched get ответа. Значение `up-to-seq` исходного запроса. Помогает клиенту продолжить незавершенные batch‑запросы. Подробнее: [ADR-31](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-31.md) |  | 2.11.0  |
 
 ## Sources
 
-Headers that are implicitly added to messages sourced from other streams.
+Заголовки, которые неявно добавляются к сообщениям, полученным из других потоков.
 
-The format of the header content may change in the future. Please parse conservatively and assume that additional fields may be added or that older nats-server version have fewer fields.
+Формат содержимого заголовка может измениться в будущем. Парсите консервативно и учитывайте, что могут появиться дополнительные поля, а в старых версиях nats-server полей может быть меньше.
 
 | Name                 | Description                                                                                                                                           | Example     | Version |
 | :------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------- | :---------- | :------ |
-| `Nats-Stream-Source` | Contains space delimited:<br> - Origin stream name (disambiguated with domain hash if cross domain sourced)<br> - The original sequence number<br> - The list of subject filters<br> - The list of destination transforms<br> - The original subject<br>  | `ORDERS:vSF0ECo6 17 foo.* bar.$1 foo.abc` | 2.2.0   |
+| `Nats-Stream-Source` | Содержит, разделенные пробелами:<br> - имя исходного потока (с хешем домена при источнике из другого домена)<br> - исходный номер последовательности<br> - список фильтров subjects<br> - список преобразований назначения<br> - исходный subject<br>  | `ORDERS:vSF0ECo6 17 foo.* bar.$1 foo.abc` | 2.2.0   |
 
 ## Tracing
 
-When tracing is activated every subsystem that touches a message will produce Trace Events. These Events are aggregated per server and published to a destination subject.
+При включенном tracing каждый подсистемный компонент, касающийся сообщения, будет создавать Trace Events. Эти события агрегируются на сервере и публикуются в целевой subject.
 
-Note that two variants exist. `traceparent` as per the trace context standard and ad hoc tracing through `Nats-Trace-Dest`.
+Существуют два варианта: `traceparent` по стандарту trace context и ad hoc tracing через `Nats-Trace-Dest`.
 
-Introduced in version 2.11 - see [ADR-41](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-41.md)
+Введено в версии 2.11 — см. [ADR-41](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-41.md)
 
 | Name            | Description                          | Example | Version |
 | :-------------- | :----------------------------------- | :------ | :------ |
-| `traceparent` | Triggers tracing as per the [https://www.w3.org/TR/trace-context/](https://www.w3.org/TR/trace-context/) standard. Requires the `msg-trace` section to be configured on the account level. | N/A | 2.11   |
-| `Nats-Trace-Dest` |  The subject that will receive the Trace messages  | trace.receiver.all | 2.11   |
-| `Nats-Trace-Only` | Optional. Defaults to `false`. Set to `true` to skip message delivery. If true only traces will be produced, but the messages is not sent to a subscribing client or stored in JetStream.   | `true` | 2.11   |
-| `Accept-Encoding` | Optional. Enables compression of the payload of the trace messages.  | `gzip`, `snappy` | 2.11   |
-| `Nats-Trace-Hop` | Internal. **Do not set**. Set by the server to count hops.  | `<hop count>` | 2.11   |
-| `Nats-Trace-Origin-Account` | Internal. **Do not set**. Set by the server when an account boundary is crossed  | `<account name>` | 2.11   |
-
-
-
-
+| `traceparent` | Включает tracing согласно стандарту [https://www.w3.org/TR/trace-context/](https://www.w3.org/TR/trace-context/). Требует настройки секции `msg-trace` на уровне аккаунта. | N/A | 2.11   |
+| `Nats-Trace-Dest` |  Subject, который будет получать trace‑сообщения.  | trace.receiver.all | 2.11   |
+| `Nats-Trace-Only` | Опционально. По умолчанию `false`. Установите `true`, чтобы пропустить доставку сообщения. В этом случае будут создаваться только trace‑сообщения, а сообщение не будет отправлено подписчику или сохранено в JetStream. | `true` | 2.11   |
+| `Accept-Encoding` | Опционально. Включает сжатие payload trace‑сообщений.  | `gzip`, `snappy` | 2.11   |
+| `Nats-Trace-Hop` | Внутренний. **Не задавать**. Устанавливается сервером для подсчета хопов.  | `<hop count>` | 2.11   |
+| `Nats-Trace-Origin-Account` | Внутренний. **Не задавать**. Устанавливается сервером при пересечении границы аккаунта.  | `<account name>` | 2.11   |
 
 ## Scheduler
 
-Message scheduling in streams. Needs to be enabled on the stream with "allow schedules" flag.
+Планирование сообщений в потоках. Требует включения флага "allow schedules" в потоке.
 
-Introduced in version 2.11 - see [ADR-51](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-51.md)
-
-| Name            | Description                          | Example | Version |
-| :-------------- | :----------------------------------- | :------ | :------ |
-| `Nats-Schedule` | When the message will be sent to the target subject. Several formats are suppported: A timestamp for sending a messages once. Crontab format for repeated messages and simple alias for common crontab formats.| `0 30 14 * * *`, `@hourly`, `daily`, `@at 2009-11-10T23:00:00Z` (RFC3339 format)   | 2.11   |
-| `Nats-Schedule-TTL` | Optional. The TTL to be set on the final message on the target subject. | `1h`, `10s` (valid go duration string) | 2.11  |
-| `Nats-Schedule-Target` | The target subject the final message will be sent to. Note that this must be distinct from the scheduling subject the message arrived in. | `orders`  | 2.11  |
-| `Nats-Schedule-Source` | Optional. Instructs the schedule to read the last message on the given subject and publish it. If the Subject is empty, nothing is published, wildcards are not supported. | `orders.customer_acme`  | 2.11  |
-| `Nats-Schedule-Time-Zone` | Optional. The time zone used for the Cron schedule. If not specified, the Cron schedule will be in UTC. Not allowed to be used if the schedule is not a Cron schedule. | `CET`  | 2.11  |
-
-The final scheduled message will contain the following headers.
+Введено в версии 2.11 — см. [ADR-51](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-51.md)
 
 | Name            | Description                          | Example | Version |
 | :-------------- | :----------------------------------- | :------ | :------ |
-| `Nats-Scheduler` | The subject holding the schedule | `orders.schedule.1234`  | 2.11   |
-| `Nats-Schedule-Next` | Timestamp for next invocation for cron schedule messages or purge for delayed messages | `2009-11-10T23:00:00Z` | 2.11  |
-| `Nats-TTL` | The TTL value when Nats-Schedule-TTL was set | `1h`, `10s`  | 2.11  |
+| `Nats-Schedule` | Когда сообщение будет отправлено в целевой subject. Поддерживаются форматы: timestamp для одноразовой отправки, crontab для повторяющихся сообщений и короткие алиасы для типичных crontab‑форматов. | `0 30 14 * * *`, `@hourly`, `daily`, `@at 2009-11-10T23:00:00Z` (формат RFC3339)   | 2.11   |
+| `Nats-Schedule-TTL` | Опционально. TTL для финального сообщения в целевом subject. | `1h`, `10s` (валидный формат длительности Go) | 2.11  |
+| `Nats-Schedule-Target` | Целевой subject, в который будет отправлено финальное сообщение. Он должен отличаться от scheduling subject, в который пришло сообщение. | `orders`  | 2.11  |
+| `Nats-Schedule-Source` | Опционально. Указывает scheduler прочитать последнее сообщение по заданному subject и опубликовать его. Если Subject пуст, ничего не публикуется; wildcards не поддерживаются. | `orders.customer_acme`  | 2.11  |
+| `Nats-Schedule-Time-Zone` | Опционально. Временная зона для Cron‑расписания. Если не указано, Cron будет в UTC. Нельзя использовать, если расписание не является Cron. | `CET`  | 2.11  |
+
+Финальное запланированное сообщение будет содержать следующие заголовки:
+
+| Name            | Description                          | Example | Version |
+| :-------------- | :----------------------------------- | :------ | :------ |
+| `Nats-Scheduler` | Subject, который держит расписание | `orders.schedule.1234`  | 2.11   |
+| `Nats-Schedule-Next` | Timestamp следующего запуска для cron‑сообщений или момент purge для отложенных сообщений | `2009-11-10T23:00:00Z` | 2.11  |
+| `Nats-TTL` | Значение TTL, когда был задан `Nats-Schedule-TTL` | `1h`, `10s`  | 2.11  |
 
 ##
 
-
 ## Batch send
 
-Introduced in version 2.12 with optimizations in 2.14 - see [ADR-50](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-50.md)
+Введено в версии 2.12 с оптимизациями в 2.14 — см. [ADR-50](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-50.md)
 
-Atomic batch sends will use the following headers. Batches are atomic on send only, but a client may reconstruct a batch using the headers below.
-
-| Name            | Description                          | Example | Version |
-| :-------------- | :----------------------------------- | :------ | :------ |
-| `Nats-Batch-Id` | Unique identifier for the batch. | `<uuid>` (<=64 characters)  | 2.12   |
-| `Nats-Batch-Sequence` | Monotonously increasing id, starting with `1` | `1`, `2` | 2.12   |
-| `Nats-Batch-Commit` | Only on last message. `1` commit the batch including this message. `eob` commit the batch excluding this message. Any other value will terminate the batch. | `1`, `eob`   | 2.12   |
-
-
-## Internal 
-
-Headers used internally by API clients and the server. Should not be set by user. 
-  
-This is list is not exhaustive. Headers used in error replies may not be documented.
+Атомарные batch‑отправки используют следующие заголовки. Batch атомарен только на отправке, но клиент может восстановить batch по заголовкам ниже.
 
 | Name            | Description                          | Example | Version |
 | :-------------- | :----------------------------------- | :------ | :------ |
-| `Nats-Required-Api-Level` | Optional. The required API level for the JetStream request. Servers from version 2.11 will return an error if larger than the support API level.  | `2` (Integer value) | 2.11  |
-| `Nats-Request-Info` |  When messages cross account boundaries a header with origin information (account, user etc) may be added. |  | 2.2.0  |
-| `Nats-Marker-Reason` |  When messages are removed from a KV where subject delete markers are supported, a delete marker will be placed. And notifications are sent to interested watchers. The message payload is empty and the removal reason is indicated through this header. See [ADR-48](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-48.md)  | `MaxAge`, `Remove`, `Purge` | 2.12  |
-| `Nats-Incr` | Used in KV stores to atomically increment counter. Any valid integer (including 0) starting with a sign..  See [ADR-49](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-49.md)  | `+1`, `+42`, `-1`, `+0`  | 2.12  |
-| `Nats-Counter-Sources` | Tracking `Nats-Incr` when messages are sourced. For details see: [ADR-49](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-49.md)  |  | 2.12  |
+| `Nats-Batch-Id` | Уникальный идентификатор batch. | `<uuid>` (<=64 символов)  | 2.12   |
+| `Nats-Batch-Sequence` | Монотонно возрастающий идентификатор, начиная с `1` | `1`, `2` | 2.12   |
+| `Nats-Batch-Commit` | Только в последнем сообщении. `1` коммитит batch включая это сообщение. `eob` коммитит batch, исключая это сообщение. Любое другое значение прерывает batch. | `1`, `eob`   | 2.12   |
 
+## Internal
+
+Заголовки, используемые внутренними API‑клиентами и сервером. Пользователю задавать не следует.
+
+Этот список не исчерпывающий. Заголовки, используемые в ответах с ошибками, могут быть не документированы.
+
+| Name            | Description                          | Example | Version |
+| :-------------- | :----------------------------------- | :------ | :------ |
+| `Nats-Required-Api-Level` | Опционально. Требуемый уровень API для запроса JetStream. Серверы начиная с версии 2.11 вернут ошибку, если значение выше поддерживаемого уровня API. | `2` (целое число) | 2.11  |
+| `Nats-Request-Info` |  При пересечении границ аккаунтов может добавляться заголовок с информацией об источнике (аккаунт, пользователь и т. д.). |  | 2.2.0  |
+| `Nats-Marker-Reason` |  Когда сообщения удаляются из KV, где поддерживаются delete markers, устанавливается маркер удаления и отправляются уведомления наблюдателям. Payload сообщения пустой, а причина удаления указывается в этом заголовке. См. [ADR-48](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-48.md)  | `MaxAge`, `Remove`, `Purge` | 2.12  |
+| `Nats-Incr` | Используется в KV stores для атомарного инкремента счетчика. Любое целое число (включая 0) со знаком. См. [ADR-49](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-49.md)  | `+1`, `+42`, `-1`, `+0`  | 2.12  |
+| `Nats-Counter-Sources` | Отслеживание `Nats-Incr` при источнике сообщений. Подробнее см.: [ADR-49](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-49.md)  |  | 2.12  |
 
 Nats-Counter-Sources
 
 ## Mirror
 
-Headers used for internal flow-control messages for a mirror. 
+Заголовки, используемые для внутренних сообщений контроля потока для зеркала.
 
-This is for information only and may change without notice. 
+Только для информации и может меняться без уведомления.
 
 | Name                    | Description | Example | Version |
 | :---------------------- | :---------- | :------ | :------ |

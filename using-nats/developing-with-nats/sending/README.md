@@ -1,8 +1,8 @@
-# Sending Messages
+# Отправка сообщений
 
-NATS sends and receives messages using a protocol that includes a target subject, an optional reply subject and an array of bytes. Some libraries may provide helpers to convert other data formats to and from bytes, but the NATS server will treat all messages as opaque byte arrays.
+NATS отправляет и получает сообщения с использованием протокола, который включает целевой subject, необязательный reply subject и массив байт. Некоторые библиотеки могут предоставлять вспомогательные функции для преобразования других форматов данных в байты и обратно, но сервер NATS рассматривает все сообщения как непрозрачные массивы байт.
 
-All of the NATS clients are designed to make sending a message simple. For example, to send the string “All is Well” to the “updates” subject as a UTF-8 string of bytes you would do:
+Все клиенты NATS спроектированы так, чтобы отправка сообщения была простой. Например, чтобы отправить строку «All is Well» в subject «updates» как строку байт UTF‑8, можно сделать так:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -66,4 +66,3 @@ end
 ```
 {% endtab %}
 {% endtabs %}
-

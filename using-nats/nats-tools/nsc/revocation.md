@@ -1,14 +1,14 @@
-# Revocation
+# Отзыв
 
-NATS supports two types of revocations. Both of these are stored in the Account JWT, so that the nats-server can see the revocations and apply them.
+NATS поддерживает два типа отзывов. Оба хранятся в JWT аккаунта, чтобы nats-server мог видеть отзыв и применять его.
 
-Users are revoked by public key and time. Access to an export, called an activation, can be revoked for a specific account at a specific time. The use of time here can be confusing, but is designed to support the primary uses of revocation.
+Пользователи отзываются по публичному ключу и времени. Доступ к экспорту, называемый activation, может быть отозван для конкретного аккаунта в определенный момент времени. Использование времени может быть запутанным, но оно рассчитано на основные сценарии отзыва.
 
-When a user or activation is revoked at time T, it means that any user JWT or activation token created before that time is invalid. If a new user JWT or new activation token is created after T it can be used. This allows an account owner to revoke a user and renew their access at the same time.
+Когда пользователь или activation отзывается в момент T, это означает, что любой user JWT или activation token, созданный до этого времени, недействителен. Если новый user JWT или новый activation token создан после T, его можно использовать. Это позволяет владельцу аккаунта отозвать пользователя и одновременно обновить его доступ.
 
-Let's look at an example. Suppose you created a user JWT with access to the subject "billing". Later you decide you don't want that user to have access to "billing". Revoke the user, say at noon on May 1st 2019, and create a new user JWT without access to "billing". The user can no longer log in with the old JWT because it is revoked, but they can log in with the new JWT because it was created after noon May 1st 2019.
+Рассмотрим пример. Допустим, вы создали user JWT с доступом к subject "billing". Позже вы решаете, что пользователь не должен иметь доступ к "billing". Отзовите пользователя, например на полдень 1 мая 2019, и создайте новый user JWT без доступа к "billing". Пользователь больше не сможет войти со старым JWT, потому что он отозван, но сможет войти с новым JWT, потому что он создан после полудня 1 мая 2019.
 
-`nsc` provides a number of commands to create, remove or list revocations:
+`nsc` предоставляет команды для создания, удаления или просмотра отзывов:
 
 ```bash
 nsc revocations -h
@@ -37,14 +37,14 @@ Global Flags:
 Use "nsc revocations [command] --help" for more information about a command.
 ```
 
-Both add commands take the flag `--at` which defaults to 0, for now, which can be used to set the unix timestamp as described above. By default revocations are at the current time, but you can set them in the past for situations where you know when a problem occurred and was fixed.
+Обе команды добавления принимают флаг `--at`, который по умолчанию равен 0 и может использоваться для задания unix timestamp, как описано выше. По умолчанию отзывы выставляются на текущее время, но вы можете установить время в прошлом, если знаете, когда произошла проблема и была устранена.
 
-Deleting a revocation is permanent and can allow an old activation or user JWT to be valid again. Therefore delete should only be used if you are sure the tokens in question have expired.
+Удаление отзыва необратимо и может снова сделать действительными старые activation или user JWT. Поэтому удаление следует использовать только если вы уверены, что соответствующие токены истекли.
 
-### Pushing the changes to the nats servers
+### Публикация изменений на nats servers
 
-If your nats servers are configured to use the built-in NATS resolver, remember that you need to 'push' any account changes you may have done (locally) using `nsc revocations` to the servers for those changes to take effect.
+Если ваши nats servers настроены на использование встроенного NATS resolver, не забудьте «пушить» любые изменения аккаунта, сделанные локально с помощью `nsc revocations`, чтобы они вступили в силу на серверах.
 
-i.e. `nsc push -i` or `nsc push -a B -u nats://localhost`
+Например: `nsc push -i` или `nsc push -a B -u nats://localhost`
 
-If there are any clients currently connected with as a user that gets added to the revocations, their connections will be immediately terminated as soon as you 'push' your revocations to a nats server.
+Если есть клиенты, подключенные от имени пользователя, которого вы добавили в отзывы, их соединения будут немедленно завершены после того, как вы «пушите» отзывы на nats server.

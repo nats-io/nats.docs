@@ -1,8 +1,8 @@
-# Sending Structured Data
+# Отправка структурированных данных
 
-Some client libraries provide helpers to send structured data while others depend on the application to perform any encoding and decoding and just take byte arrays for sending. The following example shows how to send JSON but this could easily be altered to send a protocol buffer, YAML or some other format. JSON is a text format so we also have to encode the string in most languages to bytes. We are using UTF-8, the JSON standard encoding.
+Некоторые клиентские библиотеки предоставляют вспомогательные функции для отправки структурированных данных, тогда как другие ожидают, что приложение само выполнит кодирование и декодирование и просто принимает массивы байт для отправки. Следующий пример показывает, как отправить JSON, но его легко изменить для отправки Protocol Buffers, YAML или другого формата. JSON — текстовый формат, поэтому в большинстве языков также нужно кодировать строку в байты. Мы используем UTF‑8 — стандартную кодировку JSON.
 
-Take a simple _stock ticker_ that sends the symbol and price of each stock:
+Возьмём простой _stock ticker_, который отправляет символ и цену каждой акции:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -139,4 +139,3 @@ end
 ```
 {% endtab %}
 {% endtabs %}
-

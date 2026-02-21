@@ -1,15 +1,15 @@
-# Managing Streams and consumers
+# Управление streams и consumers
 
-Streams and durable consumers can be defined administratively outside the application (typically using the NATS CLI Tool) in which case the application only needs to know about the well-known names of the durable consumers it wants to use. But you can also manage streams and consumers programmatically.
+Streams и durable consumers можно определять административно вне приложения (обычно через NATS CLI), в этом случае приложению нужно знать только известные имена durable consumers, которые оно хочет использовать. Но streams и consumers можно также управлять программно.
 
-Common stream management operations are:
+Типичные операции управления streams:
 
-* Add a stream. Adding a stream is an idempotent function, which means that if a stream does not exist, it will be created, and if a stream already exists, then the add operation will succeed only if the existing stream matches exactly the attributes specified in the 'add' call.
-* Delete a stream.
-* Purge a stream (delete all the messages stored in the stream)
-* Get or remove a specific message from a stream by sequence number
-* Add or update (or delete) a consumer
-* Get info and statistics on streams/consumers/account. Get/remove/get information on individual messages stored in a stream.
+* Добавить stream. Добавление stream — идемпотентная операция, то есть если stream не существует, он будет создан, а если уже существует, операция добавления завершится успешно только если существующий stream точно соответствует атрибутам, указанным в вызове add.
+* Удалить stream.
+* Purge stream (удалить все сообщения, сохранённые в stream)
+* Получить или удалить конкретное сообщение из stream по номеру последовательности
+* Добавить или обновить (или удалить) consumer
+* Получить информацию и статистику по streams/consumers/account. Получить/удалить/получить информацию по отдельным сообщениям, сохранённым в stream.
 
 {% tabs %}
 {% tab title="Go" %}

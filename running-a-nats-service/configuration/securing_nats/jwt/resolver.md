@@ -1,110 +1,116 @@
-# Account lookup using Resolver
+# Поиск аккаунта через Resolver
 
-The `resolver` configuration option is used in conjunction with [NATS JWT Authentication](./) and [nsc](../../../../using-nats/nats-tools/nsc/). The `resolver` option specifies a URL where the nats-server can retrieve an account JWT. There are 3 resolver implementations:
+Параметр конфигурации `resolver` используется совместно с [JWT‑аутентификацией NATS](./) и [nsc](../../../../using-nats/nats-tools/nsc/). Опция `resolver` задает URL, по которому `nats-server` может получить JWT аккаунта. Есть 3 реализации resolver:
 
-* [NATS Based Resolver](resolver.md#nats-based-resolver) which is the preferred option and should be your default selection
-* [`MEMORY`](resolver.md#memory) if you want to statically define the accounts in the server configuration
-* [`URL`](resolver.md#url-Resolver) if you want to build your own account service, typically in order to have some integration of NATS security with some external security system.
+* [NATS Based Resolver](resolver.md#nats-based-resolver) — предпочтительный вариант и рекомендуемый выбор по умолчанию.
+* [`MEMORY`](resolver.md#memory) — если вы хотите статически задать аккаунты в конфигурации сервера.
+* [`URL`](resolver.md#url-resolver) — если вы хотите построить собственный сервис аккаунтов, обычно для интеграции безопасности NATS с внешней системой.
 
-> If the operator JWT specified in `operator` contains an account resolver URL, `resolver` only needs to be specified in order to overwrite that default.
+> Если в operator JWT, заданном в `operator`, уже указан URL resolver для аккаунтов, `resolver` нужно задавать только чтобы переопределить значение по умолчанию.
 
+<a id="nats-based-resolver"></a>
 ## NATS Based Resolver
 
-The NATS based resolver is the preferred and easiest way to enable account lookup for the nats servers. It is built-in into `nats-server` and stores the account JWTs in a local (not shared) directory that the server has access to (i.e. you can't have more than one `nats-server`s using the same directory. All the servers in the cluster or super-cluster must be configured to use it, and they implement an 'eventually consistent' mechanism via NATS and the system account to synchronize (or lookup) the account data between themselves.
+NATS‑based resolver — предпочтительный и самый простой способ включить поиск аккаунтов для серверов NATS. Он встроен в `nats-server` и хранит JWT аккаунтов в локальном (не разделяемом) каталоге, к которому имеет доступ сервер (то есть нельзя использовать один и тот же каталог для нескольких `nats-server`). Все серверы в кластере или супер‑кластере должны быть настроены на его использование, и они реализуют механизм «eventually consistent» через NATS и системный аккаунт для синхронизации (или поиска) данных аккаунтов между собой.
 
-In order to avoid having to store all account JWT on every `nats-server` (i.e. if you have a _lot_ of accounts), this resolver has two sub types `full` and `cache`.
+Чтобы не хранить все JWT аккаунтов на каждом `nats-server` (например, если аккаунтов _очень_ много), у этого resolver есть два подтипа: `full` и `cache`.
 
-In this mode of operation administrators typically use the [`nsc`](../../../../using-nats/nats-tools/nsc/) CLI tool to create/manage the JWTs locally, and use `nsc push` to push new JWTs to the nats-servers' built-in resolvers, `nsc pull` to refresh their local copy of account JWTs, and `nsc revocations` to revoke them.
+В этом режиме администраторы обычно используют CLI‑инструмент [`nsc`](../../../../using-nats/nats-tools/nsc/) для локального создания/управления JWT и выполняют `nsc push`, чтобы отправлять новые JWT во встроенные resolver сервера, `nsc pull`, чтобы обновлять локальные копии JWT аккаунтов, и `nsc revocations`, чтобы отзывать их.
 
 ### Full
 
-The Full resolver means that the `nats-server` stores all JWTs and exchanges them in an eventually consistent way with other resolvers of the same type.
+Full resolver означает, что `nats-server` хранит все JWT и обменивается ими с другими resolver того же типа в режиме eventual consistency.
 
 ```yaml
 resolver: {
     type: full
-    # Directory in which account jwt will be stored
+    # Каталог, в котором будут храниться jwt аккаунтов
     dir: './jwt'
-    # In order to support jwt deletion, set to true
-    # If the resolver type is full delete will rename the jwt.
-    # This is to allow manual restoration in case of inadvertent deletion.
-    # To restore a jwt, remove the added suffix .delete and restart or send a reload signal.
-    # To free up storage you must manually delete files with the suffix .delete.
+    # Для поддержки удаления jwt установите true
+    # Если тип resolver — full, удаление переименует jwt.
+    # Это позволяет вручную восстановить на случай случайного удаления.
+    # Чтобы восстановить jwt, удалите добавленный суффикс .delete и перезапустите
+    # или отправьте сигнал перезагрузки.
+    # Чтобы освободить место, удалите файлы с суффиксом .delete вручную.
     allow_delete: false
-    # Interval at which a nats-server with a nats based account resolver will compare
-    # it's state with one random nats based account resolver in the cluster and if needed,
-    # exchange jwt and converge on the same set of jwt.
+    # Интервал, с которым nats-server с nats‑based account resolver будет сравнивать
+    # свое состояние с одним случайным nats‑based account resolver в кластере и при необходимости
+    # обмениваться jwt и сходиться к одному набору jwt.
     interval: "2m"
-    # limit on the number of jwt stored, will reject new jwt once limit is hit.
+    # Ограничение на число хранимых jwt; новые jwt будут отклоняться после достижения лимита.
     limit: 1000
 }
 ```
- 
-This resolver type also supports `resolver_preload`. When present, JWTs are listed and stored in the resolver. There, they may be subject to updates. Restarts of the `nats-server` will hold on to these more recent versions.
 
-Not every server in a cluster needs to be set to `full`. You need enough to still serve your workload adequately, while some servers are offline.
- 
+Этот тип resolver также поддерживает `resolver_preload`. Когда он задан, JWT перечисляются и сохраняются в resolver. Там они могут обновляться. Перезапуски `nats-server` будут сохранять эти более новые версии.
+
+Не каждому серверу в кластере нужно быть настроенным как `full`. Должно быть достаточно таких серверов, чтобы обслуживать нагрузку, даже если часть узлов офлайн.
+
+<a id="cache"></a>
 ### Cache
 
-The Cache resolver means that the `nats-server` only stores a subset of the JWTs and evicts others based on an LRU scheme. 
-The cache relies on (a) `full` NATS-based resolver(s) to retrieve accounts not present in the cache. A cache resolver does NOT accept account push messages from nsc and therefore is not suitable for stand-alone operation without a full resolver present. 
+Cache resolver означает, что `nats-server` хранит только подмножество JWT и вытесняет другие по схеме LRU.
+Cache опирается на один или несколько `full` NATS‑based resolver, чтобы получать аккаунты, отсутствующие в кэше. Cache resolver НЕ принимает push‑сообщения аккаунтов от `nsc`, поэтому не подходит для самостоятельной работы без наличия full‑resolver.
 
 ```yaml
 resolver: {
     type: cache
-    # Directory in which account jwt will be store
+    # Каталог, в котором будут храниться jwt аккаунтов
     dir: "./"
-    # limit on the number of jwt stored, will evict old jwt once limit is hit.
+    # Ограничение на число хранимых jwt; старые jwt будут вытесняться после достижения лимита.
     limit: 1000
-    # How long to hold on to a jwt before discarding it. 
+    # Сколько времени держать jwt перед удалением.
     ttl: "2m"
 }
 ```
 
-### NATS-Based Resolver - Integration
+<a id="nats-based-resolver---integration"></a>
+### NATS‑Based Resolver — интеграция
 
-The NATS-based resolver utilizes the system account for lookup and upload of account JWTs. If your application requires tighter integration you can make use of these subjects for tighter integration.
+NATS‑based resolver использует системный аккаунт для поиска и загрузки JWT аккаунтов. Если требуется более тесная интеграция, можно использовать эти subject для собственных интеграций.
 
-To upload or update any generated account JWT without [`nsc`](../../../../using-nats/nats-tools/nsc/), send it as a request to `$SYS.REQ.CLAIMS.UPDATE`. Each participating `full` NATS-based account resolver will respond with a message detailing success or failure.
+Чтобы загрузить или обновить любой сгенерированный JWT аккаунта без [`nsc`](../../../../using-nats/nats-tools/nsc/), отправьте его как запрос на `$SYS.REQ.CLAIMS.UPDATE`. Каждый участвующий `full` NATS‑based account resolver ответит сообщением об успехе или ошибке.
 
-To serve a requested account JWT yourself and essentially implement an account server, subscribe to `$SYS.REQ.ACCOUNT.*.CLAIMS.LOOKUP` and respond with the account JWT corresponding to the requested account id (wildcard).
+Чтобы обслуживать запрошенный JWT аккаунта самостоятельно и фактически реализовать account server, подпишитесь на `$SYS.REQ.ACCOUNT.*.CLAIMS.LOOKUP` и отвечайте JWT аккаунта, соответствующим запрошенному id аккаунта (wildcard).
 
-### Migrating account data
+<a id="migrating-account-data"></a>
+### Миграция данных аккаунтов
 
-To migrate account data when you change from using the standalone (REST) account server to the built-in NATS account resolver (or between NATS environments, or account servers) you can use `nsc`:
+Чтобы мигрировать данные аккаунтов при переходе со standalone (REST) account server на встроенный NATS account resolver (или между средами NATS или account server), можно использовать `nsc`:
 
-1. Run `nsc pull` to make sure you have a copy of all the account data in the server in your local machine
-2. Reconfigure your servers to use the nats resolver instead of the URL resolver
-3. Modify the 'account server URL' setting in your operator to the nats URL from the old REST URL: i.e. just copy the nats URLs from the operator's 'service URLs' setting into the account server URLs. `nsc edit operator --account-jwt-server-url <nats://...>`
-4. do `nsc push -A` to push your account data to the nats-servers using the built-in nats account resolver
+1. Выполните `nsc pull`, чтобы убедиться, что у вас есть копия всех данных аккаунтов с сервера на локальной машине.
+2. Переконфигурируйте серверы, чтобы использовать nats resolver вместо URL resolver.
+3. Измените параметр "account server URL" в операторе на nats URL из старого REST URL: то есть просто скопируйте nats URL из параметра "service URLs" оператора в account server URL. `nsc edit operator --account-jwt-server-url <nats://...>`
+4. Выполните `nsc push -A`, чтобы отправить данные аккаунтов на nats‑servers с использованием встроенного nats account resolver.
 
-You can also pass the account server URLs directly as a flag to the `nsc pull` and `nsc push` commands.
+Также можно передавать account server URL напрямую флагом командам `nsc pull` и `nsc push`.
 
+<a id="memory"></a>
 ## MEMORY
 
-The `MEMORY` resolver is statically configured in the server's configuration file. You would use this mode if you would rather manage the account resolving 'by hand' through the `nat-server`s' configuration files. The memory resolver makes use of the `resolver_preload` directive, which specifies a map of public keys to account JWTs:
+Resolver `MEMORY` статически настраивается в конфигурационном файле сервера. Этот режим используется, если вы предпочитаете управлять разрешением аккаунтов «вручную» через конфиги `nats-server`. Memory resolver использует директиву `resolver_preload`, которая задает map публичных ключей на JWT аккаунтов:
 
 ```yaml
 resolver: MEMORY
 resolver_preload: {
 ACSU3Q6LTLBVLGAQUONAGXJHVNWGSKKAUA7IY5TB4Z7PLEKSR5O6JTGR: eyJ0eXAiOiJqd3QiLCJhbGciOiJlZDI1NTE5In0.eyJqdGkiOiJPRFhJSVI2Wlg1Q1AzMlFJTFczWFBENEtTSDYzUFNNSEZHUkpaT05DR1RLVVBISlRLQ0JBIiwiaWF0IjoxNTU2NjU1Njk0LCJpc3MiOiJPRFdaSjJLQVBGNzZXT1dNUENKRjZCWTRRSVBMVFVJWTRKSUJMVTRLM1lERzNHSElXQlZXQkhVWiIsIm5hbWUiOiJBIiwic3ViIjoiQUNTVTNRNkxUTEJWTEdBUVVPTkFHWEpIVk5XR1NLS0FVQTdJWTVUQjRaN1BMRUtTUjVPNkpUR1IiLCJ0eXBlIjoiYWNjb3VudCIsIm5hdHMiOnsibGltaXRzIjp7InN1YnMiOi0xLCJjb25uIjotMSwibGVhZiI6LTEsImltcG9ydHMiOi0xLCJleHBvcnRzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJ3aWxkY2FyZHMiOnRydWV9fX0._WW5C1triCh8a4jhyBxEZZP8RJ17pINS8qLzz-01o6zbz1uZfTOJGvwSTS6Yv2_849B9iUXSd-8kp1iMXHdoBA
-}
 ```
 
-The `MEMORY` resolver is recommended when the server has a small number of accounts that don't change very often.
+Resolver `MEMORY` рекомендуется, когда на сервере небольшое число аккаунтов, которые нечасто меняются.
 
-For more information on how to configure a memory resolver, see [this tutorial](mem\_resolver.md).
+Подробнее о настройке memory resolver — в [этом руководстве](mem_resolver.md).
 
+<a id="url-resolver"></a>
 ## URL Resolver
 
-**NOTE:** The [standalone NATS Account JWT Server](https://nats-io.gitbook.io/legacy-nats-docs/nats-account-server) is now _legacy_, please use the [NATS Based Resolver](resolver.md#nats-based-resolver) instead. However, the URL resolver option is still available in case you want to implement your own version of an account resolver
+**ПРИМЕЧАНИЕ:** [Standalone NATS Account JWT Server](https://nats-io.gitbook.io/legacy-nats-docs/nats-account-server) теперь считается _legacy_; используйте [NATS Based Resolver](resolver.md#nats-based-resolver). Однако опция URL resolver все еще доступна, если вы хотите реализовать собственную версию account resolver.
 
-The `URL` resolver specifies a URL where the server can append an account public key to retrieve that account's JWT. Convention for standalone NATS Account JWT Servers is to serve JWTs at: `http://localhost:9090/jwt/v1/accounts/`. For such a configuration, you would specify the resolver as follows:
+`URL` resolver задает URL, к которому сервер может дописывать публичный ключ аккаунта, чтобы получить JWT этого аккаунта. Соглашение для standalone NATS Account JWT Server — отдавать JWT по адресу: `http://localhost:9090/jwt/v1/accounts/`. Для такой конфигурации resolver задается так:
 
 ```yaml
 resolver: URL(http://localhost:9090/jwt/v1/accounts/)
 ```
 
-> Note that if you are not using a nats-account-server, the URL can be anything as long as by appending the public key for an account, the requested JWT is returned.
+> Обратите внимание: если вы не используете nats-account-server, URL может быть любым, при условии что при добавлении публичного ключа аккаунта возвращается соответствующий JWT.
 
-If the server used requires client authentication, or you want to specify which CA is trusted for the lookup of account information, specify `resolver_tls`. This [`tls` configuration map](../tls.md) lets you further restrict TLS to the resolver.
+Если используемый сервер требует клиентскую аутентификацию или вы хотите указать, какому CA доверять при поиске информации об аккаунте, задайте `resolver_tls`. Эта [карта конфигурации `tls`](../tls.md) позволяет дополнительно ограничить TLS для resolver.

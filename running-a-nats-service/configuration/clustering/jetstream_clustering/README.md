@@ -1,57 +1,57 @@
-# JetStream Clustering
+# Кластеризация JetStream
 
-Clustering in JetStream is required for a highly available and scalable system. Behind clustering is RAFT. There's no need to understand RAFT in depth to use clustering, but knowing a little explains some of the requirements behind setting up JetStream clusters.
+Кластеризация в JetStream необходима для высокой доступности и масштабируемости. В основе кластеризации — RAFT. Глубоко понимать RAFT для использования кластеризации не нужно, но базовые знания объясняют часть требований к настройке кластеров JetStream.
 
 ## RAFT
 
-JetStream uses a NATS optimized RAFT algorithm for clustering. Typically RAFT generates a lot of traffic, but the NATS server optimizes this by combining the data plane for replicating messages with the messages RAFT would normally use to ensure consensus. Each server participating requires an unique `server_name` (only applies within the same domain).
+JetStream использует оптимизированный для NATS алгоритм RAFT для кластеризации. Обычно RAFT генерирует много трафика, но сервер NATS оптимизирует это, объединяя плоскость данных для репликации сообщений с сообщениями RAFT, которые обычно используются для обеспечения консенсуса. Каждый сервер‑участник должен иметь уникальное `server_name` (применимо только внутри одного домена).
 
-### RAFT Groups
+### Группы RAFT
 
-The RAFT groups include API handlers, streams, consumers, and an internal algorithm designates which servers handle which streams and consumers.
+Группы RAFT включают обработчики API, streams, consumers, а внутренний алгоритм определяет, какие серверы обрабатывают какие потоки и consumers.
 
-The RAFT algorithm has a few requirements:
+Алгоритм RAFT имеет несколько требований:
 
-* A log to persist state
-* A quorum for consensus
+* Лог для персистентного хранения состояния
+* Кворум для консенсуса
 
-### The Quorum
+### Кворум
 
-In order to ensure data consistency across complete restarts, a quorum of servers is required. A quorum is ½ cluster size + 1. This is the minimum number of nodes to ensure at least one node has the most recent data and state after a catastrophic failure. So for a cluster size of 3, you’ll need at least two JetStream enabled NATS servers available to store new messages. For a cluster size of 5, you’ll need at least 3 NATS servers, and so forth.
+Чтобы обеспечить консистентность данных после полных перезапусков, требуется кворум серверов. Кворум — это ½ размера кластера + 1. Это минимальное число узлов, гарантирующее, что хотя бы один узел имеет самые свежие данные и состояние после катастрофического отказа. Так, для кластера из 3 узлов нужны как минимум два NATS‑сервера с включенным JetStream, доступные для хранения новых сообщений. Для кластера из 5 — как минимум 3 сервера и так далее.
 
-### RAFT Groups
+### Группы RAFT
 
-**Meta Group** - all servers join the Meta Group and the JetStream API is managed by this group. A leader is elected and this owns the API and takes care of server placement.
+**Meta Group** — все серверы входят в Meta Group, и JetStream API управляется этой группой. Выбирается лидер, который владеет API и занимается размещением серверов.
 
 ![Meta Group](../../../../.gitbook/assets/meta-group.png)
 
-**Stream Group** - each Stream creates a RAFT group, this group synchronizes state and data between its members. The elected leader handles ACKs and so forth, if there is no leader the stream will not accept messages.
+**Stream Group** — каждый Stream создает RAFT‑группу, эта группа синхронизирует состояние и данные между участниками. Выбранный лидер обрабатывает ACK’и и т. п. Если лидера нет, поток не принимает сообщения.
 
 ![Stream Groups](../../../../.gitbook/assets/stream-groups.png)
 
-**Consumer Group** - each Consumer creates a RAFT group, this group synchronizes consumer state between its members. The group will live on the machines where the Stream Group is and handle consumption ACKs etc. Each Consumer will have their own group.
+**Consumer Group** — каждый Consumer создает RAFT‑группу, которая синхронизирует состояние consumer’а между участниками. Группа будет жить на тех же машинах, что и Stream Group, и обрабатывать ACK’и потребления и т. п. У каждого Consumer — своя группа.
 
 ![Consumer Groups](../../../../.gitbook/assets/consumer-groups.png)
 
-### Cluster Size
+### Размер кластера
 
-Generally, we recommend 3 or 5 JetStream enabled servers in a NATS cluster. This balances scalability with a tolerance for failure. For example, if 5 servers are JetStream enabled you would want two servers in one “zone”, two servers in another, and the remaining server in a third. This means you can lose any one “zone” at any time and continue operating.
+В общем случае мы рекомендуем 3 или 5 серверов с включенным JetStream в кластере NATS. Это балансирует масштабируемость и устойчивость к отказам. Например, если 5 серверов имеют JetStream, разумно держать два сервера в одной «зоне», два — в другой, а оставшийся — в третьей. Это означает, что вы можете потерять любую одну «зону» в любой момент и продолжать работу.
 
-### Mixing JetStream enabled servers with standard NATS servers
+### Смешивание серверов с JetStream и обычных NATS‑серверов
 
-This is possible and even recommended in some cases. By mixing server types you can dedicate certain machines optimized for storage for Jetstream and others optimized solely for compute for standard NATS servers, reducing operational expense. With the right configuration, the standard servers would handle non-persistent NATS traffic and the JetStream enabled servers would handle JetStream traffic.
+Это возможно и в некоторых случаях даже рекомендуется. Смешивая типы серверов, можно выделить машины, оптимизированные под хранение, для JetStream, и машины, оптимизированные под вычисления, для обычных NATS‑серверов, снижая операционные расходы. При правильной конфигурации обычные серверы будут обрабатывать неперсистентный трафик NATS, а серверы с JetStream — трафик JetStream.
 
-## Configuration
+## Конфигурация
 
-To configure JetStream clusters, just configure clusters as you normally would by specifying a cluster block in the configuration. Any JetStream enabled servers in the list of clusters will automatically chatter and set themselves up. Unlike core NATS clustering though, each JetStream node **must specify** a server name and cluster name.
+Чтобы настроить кластер JetStream, настраивайте кластер как обычно, задав блок cluster в конфигурации. Любые серверы с включенным JetStream в списке кластеров автоматически начнут «общаться» и настроятся. В отличие от core NATS кластеризации, каждый узел JetStream **должен указать** имя сервера и имя кластера.
 
-Below are explicitly listed server configuration for a three-node cluster across three machines, `n1-c1`, `n2-c1`, and `n3-c1`.
+Ниже приведены явные конфигурации серверов для кластера из трех узлов на трех машинах: `n1-c1`, `n2-c1` и `n3-c1`.
 
-### Server password configuration
+### Конфигурация пароля сервера
 
-A user and password under the [system account ($SYS)](../../sys\_accounts/#system-account) should be configured. The following configuration uses a [bcrypted password](../../securing\_nats/auth\_intro/username\_password.md): `a very long s3cr3t! password`.
+Нужно настроить пользователя и пароль под [системным аккаунтом ($SYS)](../../sys_accounts/#system-account). В следующей конфигурации используется [bcrypt‑пароль](../../securing_nats/auth_intro/username_password.md): `a very long s3cr3t! password`.
 
-### Server 1 (host\_a)
+### Сервер 1 (host_a)
 
 ```
 server_name=n1-c1
@@ -81,7 +81,7 @@ cluster {
 }
 ```
 
-### Server 2 (host\_b)
+### Сервер 2 (host_b)
 
 ```
 server_name=n2-c1
@@ -111,7 +111,7 @@ cluster {
 }
 ```
 
-### Server 3 (host\_c)
+### Сервер 3 (host_c)
 
 ```
 server_name=n3-c1
@@ -141,4 +141,4 @@ cluster {
 }
 ```
 
-Add nodes as necessary. Choose a data directory that makes sense for your environment, ideally a fast SSD, and launch each server. After two servers are running you'll be ready to use JetStream.
+Добавляйте узлы по мере необходимости. Выберите каталог данных, подходящий под вашу среду (в идеале быстрый SSD), и запустите каждый сервер. После запуска двух серверов вы будете готовы использовать JetStream.

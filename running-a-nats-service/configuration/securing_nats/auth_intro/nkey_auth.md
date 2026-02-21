@@ -1,16 +1,16 @@
 # NKeys
 
-NKeys are a new, highly secure public-key signature system based on [Ed25519](https://ed25519.cr.yp.to/).
+NKeys — это новая высокозащищенная система подписей на основе публичных ключей, основанная на [Ed25519](https://ed25519.cr.yp.to/).
 
-With NKeys the server can verify identities without ever storing or ever seeing private keys. The authentication system works by requiring a connecting client to provide its public key and digitally sign a challenge with its private key. The server generates a random challenge with every connection request, making it immune to playback attacks. The generated signature is validated against the provided public key, thus proving the identity of the client. If the public key is known to the server, authentication succeeds.
+С NKeys сервер может проверять личности, не храня и даже не видя приватные ключи. Система аутентификации требует, чтобы подключающийся клиент предоставил свой публичный ключ и цифровой подписью подтвердил challenge своим приватным ключом. Сервер генерирует случайный challenge при каждом запросе подключения, что делает его устойчивым к атакам повторного воспроизведения. Сгенерированная подпись проверяется по предоставленному публичному ключу, тем самым доказывая личность клиента. Если публичный ключ известен серверу, аутентификация успешна.
 
-> NKey is an excellent replacement for token authentication because a connecting client will have to prove it controls the private key for the authorized public key.
+> NKey — отличная замена token‑аутентификации, потому что подключающийся клиент должен доказать, что он контролирует приватный ключ для авторизованного публичного ключа.
 
-To generate nkeys, you'll need the [`nk` tool](../../../../using-nats/nats-tools/nk.md).
+Чтобы генерировать nkeys, нужен инструмент [`nk`](../../../../using-nats/nats-tools/nk.md).
 
-## Generating NKeys and Configuring the Server
+## Генерация NKeys и настройка сервера
 
-To generate a _User_ NKEY:
+Чтобы сгенерировать _User_ NKEY:
 
 ```shell
 nk -gen user -pubout
@@ -20,11 +20,11 @@ SUACSSL3UAHUDXKFSNVUZRF5UHPMWZ6BFDTJ7M6USDXIEDNPPQYYYCU3VY
 UDXU4RCSJNZOIQHZNWXHXORDPRTGNJAHAHFRGZNEEJCPQTT2M7NLCNF4
 ```
 
-The first output line starts with the letter `S` for _Seed_. The second letter, `U` stands for _User_. Seeds are private keys; you should treat them as secrets and guard them with care.
+Первая строка вывода начинается с буквы `S` (Seed). Вторая буква `U` означает _User_. Seeds — это приватные ключи; храните их как секреты и берегите.
 
-The second line starts with the letter `U` for _User_ and is a public key which can be safely shared.
+Вторая строка начинается с буквы `U` (User) и является публичным ключом, который можно безопасно распространять.
 
-To use nkey authentication, add a user, and set the `nkey` property to the public key of the user you want to authenticate:
+Чтобы использовать nkey‑аутентификацию, добавьте пользователя и установите свойство `nkey` в публичный ключ пользователя, которого хотите аутентифицировать:
 
 ```text
 authorization: {
@@ -34,11 +34,11 @@ authorization: {
 }
 ```
 
-Note that the user section sets the `nkey` property \(user/password/token properties are not needed\). Add `permission` sections as required.
+Обратите внимание: в секции пользователя задается свойство `nkey` (параметры user/password/token не нужны). Добавляйте разделы `permission` по мере необходимости.
 
-## Client Configuration
+## Конфигурация клиента
 
-Now that you have a user nkey, let's configure a [client](../../../../using-nats/developing-with-nats/connecting/security/nkey.md) to use it for authentication. As an example, here are the connect options for the node client:
+Теперь, когда у вас есть пользовательский nkey, настроим [клиент](../../../../using-nats/developing-with-nats/connecting/security/nkey.md) на его использование для аутентификации. Пример опций подключения для node‑клиента:
 
 ```javascript
 const NATS = require('nats');
@@ -59,5 +59,4 @@ const nc = NATS.connect({
 ...
 ```
 
-The client provides a function that it uses to parse the seed \(the private key\) and sign the connection challenge.
-
+Клиент предоставляет функцию, которая использует seed (приватный ключ) для подписи challenge подключения.

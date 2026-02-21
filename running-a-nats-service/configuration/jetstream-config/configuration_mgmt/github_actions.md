@@ -1,15 +1,15 @@
 # GitHub Actions
 
-We have a pack of GitHub Actions that let you manage an already running JetStream Server, useful for managing releases or standing up test infrastructure.
+У нас есть набор GitHub Actions, которые позволяют управлять уже запущенным JetStream‑сервером. Это удобно для управления релизами или разворачивания тестовой инфраструктуры.
 
-Full details and examples are in the [jetstream-gh-actions](https://github.com/nats-io/jetstream-gh-action) repository, here's an example.
+Полные детали и примеры — в репозитории [jetstream-gh-actions](https://github.com/nats-io/jetstream-gh-action). Ниже пример.
 
 ```yaml
 on: push
 name: orders
 jobs:
 
-  # First we delete the ORDERS stream and consumer if they already exist
+  # Сначала удаляем stream и consumer ORDERS, если они уже существуют
   clean_orders:
     runs-on: ubuntu-latest
     steps:
@@ -20,8 +20,8 @@ jobs:
           stream: ORDERS
           server: js.example.net
 
-  # Now we create the Stream and Consumers using the same configuration files the 
-  # nats CLI utility would use as shown above
+  # Теперь создаем Stream и Consumers, используя те же конфигурационные файлы,
+  # что и утилита nats CLI, как показано выше
   create_orders:
     runs-on: ubuntu-latest
     needs: clean_orders
@@ -39,8 +39,8 @@ jobs:
           stream: ORDERS
           server: js.example.net
 
-  # We publish a message to a specific Subject, perhaps some consumer is 
-  # waiting there for it to kick off tests
+  # Публикуем сообщение в конкретный subject — возможно, какой‑то consumer
+  # ждет его, чтобы запустить тесты
   publish_message:
     runs-on: ubuntu-latest
     needs: create_orders
@@ -53,4 +53,3 @@ jobs:
           message: Published new deployment via "${{ github.event_name }}" in "${{ github.repository }}"
           server: js.example.net
 ```
-

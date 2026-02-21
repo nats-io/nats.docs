@@ -1,8 +1,8 @@
-# Authenticating with an NKey
+# Аутентификация с NKey
 
-The 2.0 version of NATS server introduces a new challenge response authentication option. This challenge response is based on a wrapper we call [NKeys](../../../../running-a-nats-service/configuration/securing_nats/auth_intro/nkey_auth.md). The server can use these keys in several ways for authentication. The simplest is for the server to be configured with a list of known public keys and for the clients to respond to the challenge by signing it with its private key. \(A printable private NKey is referred to as seed\). This challenge-response ensures security by ensuring that the client has the private key, but also protects the private key from the server, which never has access to it!
+Версия 2.0 сервера NATS вводит новый вариант аутентификации по схеме challenge-response. Эта схема основана на обёртке, которую мы называем [NKeys](../../../../running-a-nats-service/configuration/securing_nats/auth_intro/nkey_auth.md). Сервер может использовать эти ключи для аутентификации разными способами. Самый простой — настроить сервер списком известных публичных ключей, а клиенты отвечают на challenge, подписывая его своим приватным ключом. (Печатная форма приватного NKey называется seed.) Эта схема challenge-response обеспечивает безопасность, подтверждая, что клиент владеет приватным ключом, и одновременно защищает приватный ключ от сервера, который никогда его не получает.
 
-Handling challenge response may require more than just a setting in the connection options, depending on the client library.
+Обработка challenge-response может требовать большего, чем просто настройка опций подключения, в зависимости от клиентской библиотеки.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -145,4 +145,3 @@ natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
-

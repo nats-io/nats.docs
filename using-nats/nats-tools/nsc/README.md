@@ -1,30 +1,30 @@
 # nsc
 
-NATS account configurations are built using the `nsc` tool. The NSC tool allows you to:
+Конфигурации аккаунтов NATS создаются с помощью инструмента `nsc`. Он позволяет:
 
-* Create and edit Operators, Accounts, Users
-* Manage publish and subscribe permissions for Users
-* Define Service and Stream exports from an account
-* Reference Service and Streams from another account 
-* Generate Activation tokens that grants access to a private service or stream
-* Generate User credential files
-* Describe Operators, Accounts, Users, and Activations
-* Push and pull account JWTs to an account JWTs server
+* Создавать и редактировать Operators, Accounts, Users
+* Управлять правами публикации и подписки для пользователей
+* Определять экспорт сервисов и потоков из аккаунта
+* Ссылаться на сервисы и потоки из другого аккаунта
+* Генерировать activation‑токены для доступа к приватному сервису или потоку
+* Генерировать файлы учетных данных пользователя
+* Описывать Operators, Accounts, Users и Activations
+* Пушить и получать account JWT в/из сервера account JWT
 
-## Installation
+## Установка
 
-Installing `nsc` is easy:
+Установить `nsc` просто:
 
 ```shell
 curl -L https://raw.githubusercontent.com/nats-io/nsc/master/install.py | python
 ```
-> Additional ways of installing nsc are described at [nsc's github repository](https://github.com/nats-io/nsc#install)
+> Дополнительные способы установки nsc описаны в [репозитории nsc на GitHub](https://github.com/nats-io/nsc#install)
 
-The script will download the latest version of `nsc` and install it into your system.
+Скрипт скачает последнюю версию `nsc` и установит ее в систему.
 
-In case NSC is not initialized already do `nsc init`
+Если NSC еще не инициализирован, выполните `nsc init`.
 
-Output of `tree -L 2 nsc/`
+Вывод `tree -L 2 nsc/`:
 ```text
 nsc/
 ├── accounts
@@ -36,26 +36,25 @@ nsc/
 5 directories, 1 file
 ```
 
-**IMPORTANT**: `nsc` version 2.2.0 has been released. This version of nsc only supports `nats-server` v2.2.0 and `nats-account-server` v1.0.0. For more information please refer to the [nsc 2.2.0 release notes](https://github.com/nats-io/nsc/releases/tag/2.2.0).
+**ВАЖНО**: выпущен `nsc` версии 2.2.0. Эта версия поддерживает только `nats-server` v2.2.0 и `nats-account-server` v1.0.0. Подробнее см. [release notes nsc 2.2.0](https://github.com/nats-io/nsc/releases/tag/2.2.0).
 
-## Tutorials
+## Руководства
 
-You can find various task-oriented tutorials to working with the tool here:
+Различные руководства по задачам доступны здесь:
 
-* [Basic Usage](basics.md)
-* [Configuring Account Streams Import/Export](streams.md)
-* [Configuring Account Services Import/Export](services.md)
+* [Основы](basics.md)
+* [Настройка импорта/экспорта потоков аккаунта](streams.md)
+* [Настройка импорта/экспорта сервисов аккаунта](services.md)
 * [Signing Keys](signing_keys.md)
-* [Revoking Users or Activations](revocation.md)
-* [Working with Managed Operators](managed.md)
+* [Отзыв пользователей или activation‑токенов](revocation.md)
+* [Работа с управляемыми операторами](managed.md)
 
-## Tool Documentation
+## Документация по инструменту
 
-For more specific browsing of the tool syntax, check out the `nsc` tool documentation. It can be found within the tool itself:
+Для более подробного изучения синтаксиса инструмента смотрите документацию `nsc`. Она доступна внутри инструмента:
 
 ```shell
 nsc help
 ```
 
-Or an online version [here](https://nats-io.github.io/nsc).
-
+Или онлайн‑версия [здесь](https://nats-io.github.io/nsc).

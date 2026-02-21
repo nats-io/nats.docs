@@ -1,25 +1,25 @@
-# Leaf Nodes
+# Leaf Nodes (листовые узлы)
 
-A _Leaf Node_ extends an existing NATS system of any size, optionally bridging both operator and security domains. A leafnode server will transparently route messages as needed from local clients to one or more remote NATS system(s) and vice versa. The leaf node authenticates and authorizes clients using a local policy. Messages are allowed to flow to the cluster or into the leaf node based on leaf node connection permissions of either.
+_Leaf Node_ расширяет существующую систему NATS любого размера, при необходимости связывая как операторские, так и домены безопасности. Leaf‑node сервер прозрачно маршрутизирует сообщения между локальными клиентами и одним или несколькими удаленными NATS‑системами, и наоборот. Leaf‑node аутентифицирует и авторизует клиентов по локальной политике. Сообщения могут идти в кластер или в leaf‑node в зависимости от разрешений подключения leaf‑node с любой стороны.
 
-Leaf nodes are useful in IoT and edge scenarios and when the local server traffic should be low RTT and local unless routed to the super cluster. NATS' queue semantics are honored across leaf connections by serving local queue consumers first.
+Leaf‑nodes полезны в IoT и edge‑сценариях, а также когда локальный трафик должен иметь низкий RTT и оставаться локальным, если только не нужно маршрутизировать в супер‑кластер. Семантика очередей NATS соблюдается через leaf‑подключения за счет обслуживания локальных queue‑consumers в первую очередь.
 
-- Clients to leaf nodes authenticate locally (or just connect if authentication is not required)
-- Traffic between the leaf node and the cluster assumes the restrictions of the user configuration used to create the leaf connection.
-  - Subjects that the user is allowed to publish are exported to the cluster.
-  - Subjects the user is allowed to subscribe to, are imported into the leaf node.
+- Клиенты leaf‑nodes аутентифицируются локально (или просто подключаются, если аутентификация не требуется)
+- Трафик между leaf‑node и кластером подчиняется ограничениям конфигурации пользователя, используемого для создания leaf‑подключения.
+  - Subject, в которые пользователю разрешено публиковать, экспортируются в кластер.
+  - Subject, на которые пользователю разрешено подписываться, импортируются в leaf‑node.
 
-Unlike [cluster](../clustering/) or [gateway](../gateways/) nodes, leaf nodes do not need to be reachable themselves and can be used to explicitly configure any acyclic graph topologies.
+В отличие от узлов [cluster](../clustering/) или [gateway](../gateways/), leaf‑nodes не обязаны быть достижимыми сами по себе и могут использоваться для явной настройки любых ациклических топологий графа.
 
-If a leaf node connects to a cluster, it is recommended to configure it with knowledge of **all** _seed servers_ and have **each** _seed server_ accept connections from leaf nodes. Should the remote cluster's configuration change, the discovery protocol will gossip peers capable of accepting leaf connections. A leaf node can have multiple remotes, each connecting to a different cluster. Each URL in a remote needs to point to the same cluster. If one node in a cluster is configured as leaf node, **all** nodes need to. Likewise, if one server in a cluster accepts leaf node connections, **all** servers need to.
+Если leaf‑node подключается к кластеру, рекомендуется настроить его с знанием **всех** _seed‑серверов_ и чтобы **каждый** _seed‑сервер_ принимал подключения leaf‑nodes. Если конфигурация удаленного кластера меняется, протокол обнаружения будет распространять (gossip) peers, способных принимать leaf‑подключения. Leaf‑node может иметь несколько remote‑подключений, каждое — к разному кластеру. Каждый URL в remote должен указывать на один и тот же кластер. Если один узел кластера настроен как leaf‑node, то **все** узлы должны быть так настроены. Аналогично, если один сервер в кластере принимает leaf‑подключения, **все** серверы должны принимать их.
 
-> Leaf Nodes are an important component as a way to bridge traffic between local NATS servers you control and servers that are managed by a third-party. [Synadia's NGS](https://www.synadia.com/cloud) allows accounts to use leaf nodes, but gain accessibility to the global network to inexpensively connect geographically distributed servers or small clusters.
+> Leaf Nodes — важный компонент, позволяющий мостить трафик между локальными серверами NATS, которыми вы управляете, и серверами, управляемыми третьей стороной. [NGS от Synadia](https://www.synadia.com/cloud) позволяет аккаунтам использовать leaf‑nodes и получать доступ к глобальной сети, чтобы недорого соединять географически распределенные серверы или небольшие кластеры.
 
-[LeafNode Configuration Options](leafnode_conf.md)
+[Опции конфигурации LeafNode](leafnode_conf.md)
 
-## LeafNode Configuration Tutorial
+## Руководство по конфигурации LeafNode
 
-The main server is just a standard NATS server. Clients to the main cluster are just using token authentication, but any kind of authentication can be used. The server allows leaf node connections at port 7422 (default port):
+Основной сервер — это обычный NATS‑сервер. Клиенты основного кластера используют токен‑аутентификацию, но может использоваться любой вид аутентификации. Сервер принимает leaf‑подключения на порту 7422 (порт по умолчанию):
 
 ```
 leafnodes {
@@ -35,13 +35,13 @@ accounts: {
 }
 ```
 
-Start the server:
+Запустите сервер:
 
 ```bash
 nats-server -c /tmp/server.conf
 ```
 
-Output extract
+Фрагмент вывода
 
 ```text
 ...
@@ -49,13 +49,13 @@ Output extract
 ...
 ```
 
-We create a replier on the server to listen for requests on 'q', which it will aptly respond with '42':
+Создаем ответчик на сервере, который будет слушать запросы на `q` и отвечать `42`:
 
 ```bash
 nats reply -s nats://appuser:s3cr3t@localhost q 42
 ```
 
-The leaf node, allows local clients to connect to through port 4111, and doesn't require any kind of authentication. The configuration specifies where the remote cluster is located, and specifies how to connect to it (just a simple token in this case):
+Leaf‑node позволяет локальным клиентам подключаться через порт 4111 и не требует аутентификации. Конфигурация задает, где находится удаленный кластер и как к нему подключаться (в этом случае — простой токен):
 
 ```
 listen: "127.0.0.1:4111"
@@ -68,7 +68,7 @@ leafnodes {
 }
 ```
 
-In the case where the remote leaf connection is connecting with `tls`:
+В случае, когда удаленное leaf‑подключение идет по `tls`:
 
 ```
 listen: "127.0.0.1:4111"
@@ -81,15 +81,15 @@ leafnodes {
 }
 ```
 
-Note the leaf node configuration lists a number of `remotes`. The `url` specifies the port on the server where leaf node connections are allowed.
+Обратите внимание: конфигурация leaf‑node содержит несколько `remotes`. Поле `url` указывает порт на сервере, где разрешены leaf‑подключения.
 
-Start the leaf node server:
+Запустите leaf‑node сервер:
 
 ```bash
 nats-server -c /tmp/leaf.conf
 ```
 
-Output extract
+Фрагмент вывода
 
 ```text
 ....
@@ -98,7 +98,7 @@ Output extract
 [3704] 2019/12/09 09:55:31.549404 [INF] Connected leafnode to "localhost"
 ```
 
-Connect a client to the leaf server and make a request to 'q':
+Подключите клиента к leaf‑серверу и сделайте запрос `q`:
 
 ```bash
 nats req -s nats://127.0.0.1:4111 q ""
@@ -109,11 +109,11 @@ Published [q] : ''
 Received  [_INBOX.Ua82OJamRdWof5FBoiKaRm.gZhJP6RU] : '42'
 ```
 
-## Leaf Node Example Using a Remote Global Service
+## Пример Leaf Node с использованием удаленного глобального сервиса
 
-In this example, we connect a leaf node to Synadia's [NGS](https://www.synadia.com/cloud). Leaf nodes are supported on free developer and paid accounts. To use NGS, ensure that you've signed up and have an account loaded on your local system. It takes less than 30 seconds to grab yourself a free account to follow along if you don't have one already!
+В этом примере мы подключаем leaf‑node к [NGS](https://www.synadia.com/cloud) от Synadia. Leaf‑nodes поддерживаются на бесплатных аккаунтах разработчика и платных аккаунтах. Чтобы использовать NGS, убедитесь, что вы зарегистрировались и у вас есть аккаунт, загруженный в локальную систему. Если аккаунта нет, это займет менее 30 секунд, чтобы завести бесплатный и продолжить!
 
-The `nsc` tool can operate with many accounts and operators, so it's essential to make sure you're working with the right operator and account. You can set the account using the `nsc` tool like below. The `DELETE_ME` account is used as an example, which is registered with NGS as a free account.
+Инструмент `nsc` может работать с множеством аккаунтов и операторов, поэтому важно убедиться, что вы работаете с правильным оператором и аккаунтом. Аккаунт можно задать через `nsc`, как показано ниже. В примере используется аккаунт `DELETE_ME`, зарегистрированный в NGS как бесплатный.
 
 ```bash
 ❯ nsc env -a DELETE_ME
@@ -144,7 +144,7 @@ The `nsc` tool can operate with many accounts and operators, so it's essential t
 +---------------------------+----------------------------------------------------------+
 ```
 
-The `nsc` tool is aware of the account, so let's proceed to create a user for our example.
+Инструмент `nsc` знает об аккаунте, поэтому продолжим и создадим пользователя для примера.
 
 ```bash
 nsc add user leaftestuser
@@ -156,7 +156,7 @@ nsc add user leaftestuser
 [ OK ] added user "leaftestuser" to account "leaftest"
 ```
 
-Let's craft a leaf node connection much like we did earlier:
+Сконфигурируем leaf‑подключение, как делали ранее:
 
 ```
 leafnodes {
@@ -169,9 +169,9 @@ leafnodes {
 }
 ```
 
-The default port for leaf nodes is 7422, so we don't have to specify it.
+Порт по умолчанию для leaf‑nodes — 7422, поэтому его указывать не нужно.
 
-Let's start the leaf server:
+Запустим leaf‑сервер:
 
 ```bash
 nats-server -c /tmp/ngs_leaf.conf
@@ -184,13 +184,13 @@ nats-server -c /tmp/ngs_leaf.conf
 [4985] 2023/03/03 10:55:51.918781 [INF] Connected leafnode to "connect.ngs.global"
 ```
 
-Again, let's connect a replier, but this time to Synadia's NGS. NSC connects specifying the credentials file:
+Снова подключим ответчик, но на этот раз к NGS Synadia. NSC подключается, указывая файл учетных данных:
 
 ```bash
 nsc reply q 42
 ```
 
-And now let's make the request from the local host:
+И теперь отправим запрос с локального хоста:
 
 ```bash
 nats-req q ""
@@ -201,14 +201,14 @@ Published [q] : ''
 Received  [_INBOX.hgG0zVcVcyr4G5KBwOuyJw.uUYkEyKr] : '42'
 ```
 
-## Leaf Authorization
+## Авторизация Leaf
 
-In some cases you may want to restrict what messages can be exported from the leaf node or imported from the leaf connection. You can specify restrictions by limiting what the leaf connection client can publish and subscribe to. See [NATS Authorization](../securing_nats/authorization.md) for how you can do this.
+В некоторых случаях вы можете захотеть ограничить, какие сообщения можно экспортировать из leaf‑node или импортировать через leaf‑подключение. Можно задать ограничения, ограничив то, на какие subject может публиковать и на какие подписываться клиент leaf‑подключения. См. [NATS Authorization](../securing_nats/authorization.md) как это сделать.
 
-## TLS-first Handshake
+## TLS‑first Handshake
 
-_As of NATS v2.10.0_
+_Начиная с NATS v2.10.0_
 
-Leafnode connections follow the model where when a TCP connection is created to the server, the server will immediately send an [INFO protocol message](../../../reference/nats-protocol/nats-protocol/README.md#info) in clear text. This INFO protocol provides metadata, including whether the server requires a secure connection.
+Leaf‑подключения следуют модели, где при создании TCP‑соединения сервер немедленно отправляет [INFO‑сообщение протокола](../../../reference/nats-protocol/nats-protocol/README.md#info) в открытом виде. Это INFO‑сообщение содержит метаданные, включая требование защищенного соединения.
 
-Some environments prefer not to want a server that is configured to accept TLS connections for leafnodes having any traffic sent in clear text. It was possible to by-pass this using a websocket connection. However, if websocket is not desired, the accepting and remote servers can be [configured](./leafnode_conf.md#tls-block) to perform a TLS handshake before sending the INFO protocol message.
+Некоторые среды предпочитают, чтобы сервер, настроенный принимать TLS‑подключения для leaf‑nodes, не отправлял никакой трафик в открытом виде. Ранее это можно было обойти, используя websocket‑подключение. Однако если websocket не желателен, принимающий и удаленный серверы можно [настроить](./leafnode_conf.md#tls-block) так, чтобы выполнять TLS‑рукопожатие до отправки INFO‑сообщения протокола.

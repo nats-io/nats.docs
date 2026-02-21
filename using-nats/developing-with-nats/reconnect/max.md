@@ -1,6 +1,6 @@
-# Set the Number of Reconnect Attempts
+# Настройка числа попыток переподключения
 
-Applications can set the maximum reconnect attempts per server. This includes the server provided to the client's connect call, as well as the server the client discovered through another server. Once reconnect to a server fails the specified amount of times in a row, it will be removed from the connect list. After a successful reconnect to a server, the client will reset that server's failed reconnect attempt count. If a server was removed from the connect list, it can be rediscovered on connect. This effectively resets the connect attempt count as well. If the client runs out of servers to reconnect, it will close the connection and [raise an error](events.md).
+Приложения могут задавать максимальное число попыток переподключения на сервер. Это включает сервер, указанный в connect вызове клиента, а также серверы, которые клиент обнаружил через другой сервер. Когда переподключение к серверу не удаётся указанное число раз подряд, он удаляется из списка подключения. После успешного переподключения к серверу клиент сбрасывает счётчик неудачных попыток для этого сервера. Если сервер был удалён из списка подключения, он может быть снова обнаружен при подключении, что фактически также сбрасывает счётчик попыток. Если у клиента заканчиваются серверы для переподключения, он закрывает соединение и [генерирует ошибку](events.md).
 
 {% tabs %}
 {% tab title="Go" %}
@@ -102,4 +102,3 @@ natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
-

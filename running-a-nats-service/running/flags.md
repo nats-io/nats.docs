@@ -1,103 +1,102 @@
-# Flags
+# Флаги
 
-The NATS server has many flags to customize its behavior without having to write a configuration file.
+Сервер NATS имеет множество флагов для настройки поведения без необходимости писать конфигурационный файл.
 
-The configuration flags revolve around:
+Флаги конфигурации относятся к:
 
-* Server Options
-* Logging
-* Authorization
-* TLS Security
-* Clustering
-* Information
+* Опции сервера
+* Логи
+* Авторизация
+* Безопасность TLS
+* Кластеризация
+* Информация
 
-## Server Options
+## Опции сервера
 
-| Flag                  | Description                                                                            |
-| --------------------- | -------------------------------------------------------------------------------------- |
-| `-a`, `--addr`, `--net` | Host address to bind to (default: `0.0.0.0` - all interfaces).                       |
-| `-p`, `--port`        | NATS client port (default: 4222).                                                      |
-| `-n`, `--name`, `--server_name` | Server name (default auto).                                                   |
-| `-P`, `--pid`         | File to store the process ID (PID).                                                    |
-| `-m`, `--http_port`   | HTTP port for monitoring dashboard (exclusive of `--https_port`).                      |
-| `-ms`, `--https_port` | HTTPS port monitoring for monitoring dashboard (exclusive of `--http_port`).           |
-| `-c`, `--config`      | Path to NATS server configuration file.                                                |
-| `-sl`, `--signal`     | Send a signal to nats-server process. See [process signaling](../nats_admin/signals.md). |
-| `--client_advertise`  | Client HostPort to advertise to other servers.                                         |
-| `-t`                  | Test configuration and exit                                                            |
-| `--ports_file_dir     | Creates a ports file in the specified directory (<executable_name>_<pid>.ports).       |
+| Флаг                  | Описание                                                                            |
+| --------------------- | ----------------------------------------------------------------------------------- |
+| `-a`, `--addr`, `--net` | Адрес хоста для привязки (по умолчанию: `0.0.0.0` — все интерфейсы).               |
+| `-p`, `--port`        | Порт NATS для клиентов (по умолчанию: 4222).                                       |
+| `-n`, `--name`, `--server_name` | Имя сервера (по умолчанию авто).                                          |
+| `-P`, `--pid`         | Файл для хранения PID процесса.                                                    |
+| `-m`, `--http_port`   | HTTP‑порт для панели мониторинга (взаимоисключающ. с `--https_port`).              |
+| `-ms`, `--https_port` | HTTPS‑порт для панели мониторинга (взаимоисключающ. с `--http_port`).              |
+| `-c`, `--config`      | Путь к конфигурационному файлу сервера NATS.                                       |
+| `-sl`, `--signal`     | Отправить сигнал процессу nats-server. См. [сигналы процесса](../nats_admin/signals.md). |
+| `--client_advertise`  | Client HostPort, объявляемый другим серверам.                                      |
+| `-t`                  | Проверить конфигурацию и выйти.                                                    |
+| `--ports_file_dir`    | Создает файл портов в указанной директории (<executable_name>_<pid>.ports).        |
 
-## JetStream Options
+## Опции JetStream
 
-| Flag                 | Description                     |
-| -------------------- | ------------------------------- |
-| `-js`, `--jetstream` | Enable JetStream functionality. |
-| `-sd`, `--store_dir` | Set the storage directory.      |
+| Флаг                 | Описание                     |
+| -------------------- | ---------------------------- |
+| `-js`, `--jetstream` | Включить функциональность JetStream. |
+| `-sd`, `--store_dir` | Задать каталог хранения.     |
 
-## Authentication Options
+## Опции аутентификации
 
-The following options control straightforward authentication:
+Следующие опции управляют простой аутентификацией:
 
-| Flag     | Description                                                                              |
-| -------- | ---------------------------------------------------------------------------------------- |
-| `--user` | Required _username_ for connections (exclusive of `--auth`).                             |
-| `--pass` | Required _password_ for connections (exclusive of `--auth`).                             |
-| `--auth` | Required _authorization token_ for connections (exclusive of `--user` and `--password`). |
+| Флаг     | Описание                                                                              |
+| -------- | ------------------------------------------------------------------------------------ |
+| `--user` | Требуемое _имя пользователя_ для подключений (взаимоисключ. с `--auth`).             |
+| `--pass` | Требуемый _пароль_ для подключений (взаимоисключ. с `--auth`).                        |
+| `--auth` | Требуемый _токен авторизации_ для подключений (взаимоисключ. с `--user` и `--password`). |
 
-See [token authentication](../configuration/securing_nats/auth_intro/tokens.md), and [username/password](../configuration/securing_nats/auth_intro/username_password.md) for more information.
+См. [аутентификацию по токену](../configuration/securing_nats/auth_intro/tokens.md) и [имя пользователя/пароль](../configuration/securing_nats/auth_intro/username_password.md) для подробностей.
 
-## Logging Options
+## Опции логирования
 
-The following flags are available on the server to configure logging:
+Доступны следующие флаги для настройки логирования:
 
-| Flag                    | Description                                                   |
-| ----------------------- | ------------------------------------------------------------- |
-| `-l`, `--log`           | File to redirect log output                                   |
-| `-T`, `--logtime`       | Specify `-T=false` to disable timestamping log entries        |
-| `-s`, `--syslog`        | Log to syslog or windows event log                            |
-| `-r`, `--remote_syslog` | The syslog server address, like `udp://localhost:514`         |
-| `-D`, `--debug`         | Enable debugging output                                       |
-| `-V`, `--trace`         | Enable protocol trace log messages                            |
-| `-VV`                   | Verbose trace (traces system account as well)                 |
-| `-DV`                   | Enable both debug and protocol trace messages                 |
-| `-DVV`                  | Debug and verbose trace (traces system account as well)       |
-| `--max_traced_msg_len`  | Maximum printable length for traced messages. 0 for unlimited |
-| `--max_traced_msg_len`   | Maximum printable length for traced messages (default: unlimited) |
+| Флаг                    | Описание                                                           |
+| ----------------------- | ------------------------------------------------------------------- |
+| `-l`, `--log`           | Файл для перенаправления вывода логов                               |
+| `-T`, `--logtime`       | Укажите `-T=false`, чтобы отключить временные метки в логах         |
+| `-s`, `--syslog`        | Логирование в syslog или журнал событий Windows                     |
+| `-r`, `--remote_syslog` | Адрес syslog‑сервера, например `udp://localhost:514`                |
+| `-D`, `--debug`         | Включить отладочный вывод                                           |
+| `-V`, `--trace`         | Включить протокольную трассировку                                   |
+| `-VV`                   | Подробная трассировка (включая системный аккаунт)                   |
+| `-DV`                   | Включить и отладку, и протокольную трассировку                      |
+| `-DVV`                  | Отладка и подробная трассировка (включая системный аккаунт)         |
+| `--max_traced_msg_len`  | Максимальная печатаемая длина трассируемых сообщений. 0 — без ограничений |
+| `--max_traced_msg_len`  | Максимальная печатаемая длина трассируемых сообщений (по умолчанию: без ограничений) |
 
-You can read more about [logging configuration here](../configuration/logging.md).
+Подробнее о [настройке логирования](../configuration/logging.md).
 
-## TLS Options
+## Опции TLS
 
-| Flag          | Description                                |
-| ------------- | ------------------------------------------ |
-| `--tls`       | Enable TLS, do not verify clients          |
-| `--tlscert`   | Server certificate file                    |
-| `--tlskey`    | Private key for server certificate         |
-| `--tlsverify` | Enable client TLS certificate verification |
-| `--tlscacert` | Client certificate CA for verification     |
+| Флаг          | Описание                                 |
+| ------------- | ---------------------------------------- |
+| `--tls`       | Включить TLS, не проверять клиентов       |
+| `--tlscert`   | Файл сертификата сервера                  |
+| `--tlskey`    | Приватный ключ сертификата сервера        |
+| `--tlsverify` | Включить проверку TLS‑сертификата клиента |
+| `--tlscacert` | CA сертификат клиента для проверки        |
 
-You can read more about [tls configuration here](/running-a-nats-service/configuration/securing_nats/tls.md).
+Подробнее о [настройке TLS](/running-a-nats-service/configuration/securing_nats/tls.md).
 
-## Cluster Options
+## Опции кластера
 
-The following flags are available on the server to configure clustering:
+Доступны следующие флаги для настройки кластеризации:
 
-| Flag                  | Description                                                 |
-| --------------------- | ----------------------------------------------------------- |
-| `--routes`            | Comma-separated list of cluster URLs to solicit and connect |
-| `--cluster`           | Cluster URL for clustering requests                         |
-| `--no_advertise`      | Do not advertise known cluster information to clients       |
-| `--cluster_advertise` | Cluster URL to advertise to other servers                   |
-| `--connect_retries`   | For implicit routes, number of connect retries              |
-| `--cluster_listen`    | Cluster url from which members can solicit routes           |
+| Флаг                  | Описание                                                 |
+| --------------------- | -------------------------------------------------------- |
+| `--routes`            | Список URL кластеров через запятую для запросов и подключения |
+| `--cluster`           | URL кластера для кластерных запросов                     |
+| `--no_advertise`      | Не объявлять известную информацию о кластере клиентам    |
+| `--cluster_advertise` | URL кластера, объявляемый другим серверам                |
+| `--connect_retries`   | Для неявных маршрутов: количество попыток подключения    |
+| `--cluster_listen`    | URL кластера, с которого участники могут запрашивать маршруты |
 
+Подробнее о [конфигурации кластеризации](/running-a-nats-service/configuration/clustering/README.md).
 
-You can read more about [clustering configuration here](/running-a-nats-service/configuration/clustering/README.md).
+## Общие опции
 
-## Common Options
-
-| Flag              | Description       |
-| ----------------- | ----------------- |
-| `-h`, `--help`    | Show this message |
-| `-v`, `--version` | Show version      |
-| `--help_tls`      | TLS help          |
+| Флаг              | Описание           |
+| ----------------- | ------------------ |
+| `-h`, `--help`    | Показать справку   |
+| `-v`, `--version` | Показать версию    |
+| `--help_tls`      | Справка по TLS     |

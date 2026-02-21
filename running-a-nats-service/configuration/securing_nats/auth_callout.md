@@ -1,54 +1,54 @@
 # Auth Callout
 
-_As of NATS v2.10.0_
+_Начиная с NATS v2.10.0_
 
-Auth Callout is an opt-in extension for delegating client authentication and authorization to an application-defined NATS service.
+Auth Callout — это опциональное расширение для делегирования аутентификации и авторизации клиентов в пользовательский NATS‑сервис.
 
-The motivation for this extension is to support applications using an alternate identity and access management (IAM) backend as the source of truth for managing users/applications/machines credentials and permissions. This could be services that implement standard protocols such as LDAP, SAML, and OAuth, an ad-hoc database, or even a file on disk.
+Мотивация — поддержать приложения, которые используют альтернативный backend управления идентификацией и доступом (IAM) как источник истины для управления учетными данными и правами пользователей/приложений/машин. Это могут быть сервисы, реализующие стандартные протоколы вроде LDAP, SAML и OAuth, ad‑hoc база данных или даже файл на диске.
 
 <figure><img src="../../../.gitbook/assets/auth-callout-light.png" alt=""><figcaption><p>Auth Callout</p></figcaption></figure>
 
-Both centralized and decentralized authentication models are supported with slightly different considerations and semantics.
+Поддерживаются как централизованная, так и децентрализованная модели аутентификации, с немного разными требованиями и семантикой.
 
-There are three phases to leveraging auth callout:
+Есть три этапа использования auth callout:
 
-* service implementation
-* migration considerations
-* setup and configuration
-
-{% hint style="info" %}
-Note, the setup and configuration is deliberately _last_ since enabling the configuration before deploying a service could cause issues for existing systems.
-{% endhint %}
-
-## Centralized Auth
-
-Centralized auth refers to all authentication and authorization mechanisms that are server config file-based.
-
-### Service implementation
-
-Refer to the [end-to-end example](https://natsbyexample.com/examples/auth/callout/cli) to get oriented with a basic service implementation.
-
-There are three key data structures:
-
-* [authorization request claims](auth\_callout.md#authorization-request-claims)
-* [authorization response claims](auth\_callout.md#authorization-response-claims)
-* [user claims](auth\_callout.md#user-claims)
+* реализация сервиса
+* вопросы миграции
+* настройка и конфигурация
 
 {% hint style="info" %}
-Language support for these structures currently exists for Go in the [nats-io/jwt](https://pkg.go.dev/github.com/nats-io/jwt/v2) package.
+Обратите внимание: настройка и конфигурация намеренно идут _последними_, потому что включение конфигурации до разворачивания сервиса может вызвать проблемы в существующих системах.
 {% endhint %}
 
-### Migration considerations
+## Централизованная аутентификация
 
-In this context, migration refers to the considerations and steps required to enable auth callout for an existing system without causing interruption.
+Централизованная аутентификация относится ко всем механизмам аутентификации и авторизации, основанным на конфигурации сервера.
 
-In the centralized model, existing users defined in the config file will be ignored. The auth service will need to handle authenticating all users as well as assigning the target account and permissions. This includes the system account user(s) and an implicit "no auth" user.
+### Реализация сервиса
 
-As a result, prior to enabling auth callout, existing users and permissions must be ported to the target backend. Once the service is deployed, the `auth_callout` configuration can be enabled at which point client authentication will be delegated to the auth service. Assuming the credentials are the same, clients should not experience interruption on reconnect.
+См. [end‑to‑end пример](https://natsbyexample.com/examples/auth/callout/cli), чтобы понять базовую реализацию сервиса.
 
-### Setup and configuration
+Есть три ключевые структуры данных:
 
-For centralized auth callout, configuration is declared in the `auth_callout` block under the top-level `authorization` block.
+* [authorization request claims](auth_callout.md#authorization-request-claims)
+* [authorization response claims](auth_callout.md#authorization-response-claims)
+* [user claims](auth_callout.md#user-claims)
+
+{% hint style="info" %}
+Поддержка этих структур на данный момент есть для Go в пакете [nats-io/jwt](https://pkg.go.dev/github.com/nats-io/jwt/v2).
+{% endhint %}
+
+### Вопросы миграции
+
+В этом контексте миграция — это соображения и шаги, необходимые для включения auth callout в существующей системе без прерываний.
+
+В централизованной модели существующие пользователи, определенные в конфиге, будут игнорироваться. Auth‑сервис должен будет аутентифицировать всех пользователей и назначать целевой аккаунт и permissions. Это включает пользователей системного аккаунта и неявного пользователя "no auth".
+
+В результате, до включения auth callout, существующих пользователей и права нужно перенести в целевой backend. После развертывания сервиса можно включить `auth_callout` — и аутентификация клиентов будет делегирована auth‑сервису. При условии, что учетные данные те же, клиенты не должны испытывать прерываний при переподключении.
+
+### Настройка и конфигурация
+
+Для централизованного auth callout конфигурация задается в блоке `auth_callout` внутри верхнеуровневого блока `authorization`.
 
 ```
 authorization {
@@ -58,16 +58,16 @@ authorization {
 }
 ```
 
-The available properties in the `auth_callout` block include:
+Доступные свойства блока `auth_callout`:
 
-| Property     | Description                                                                                                       |
-| ------------ | ----------------------------------------------------------------------------------------------------------------- |
-| `issuer`     | The public key of the designated NKey used for signing authorization payloads.                                    |
-| `auth_users` | The list of user names or nkeys under `account` that are designated auth callout users.                                    |
-| `account`    | The account containing the users that are designated _auth callout_ users. Defaults to the global account (`$G`). |
-| `xkey`       | Optional. The public key of a designated XKey (x25519) used for encrypting authorization payloads.                |
+| Свойство     | Описание                                                                                                       |
+| ------------ | ------------------------------------------------------------------------------------------------------------- |
+| `issuer`     | Публичный ключ выделенного NKey, используемого для подписи payload’ов авторизации.                            |
+| `auth_users` | Список имен пользователей или nkeys под `account`, которые являются auth callout users.                      |
+| `account`    | Аккаунт, содержащий пользователей, назначенных _auth callout_ users. По умолчанию глобальный аккаунт (`$G`). |
+| `xkey`       | Опционально. Публичный ключ выделенного XKey (x25519) для шифрования payload’ов авторизации.                |
 
-To generate the account issuer NKey, the [nsc](https://github.com/nats-io/nsc) tool can be used.
+Для генерации account issuer NKey можно использовать инструмент [nsc](https://github.com/nats-io/nsc).
 
 ```
 $ nsc generate nkey --account
@@ -76,7 +76,7 @@ ABJHLOVMPA4CI6R5KLNGOB4GSLNIY7IOUPAJC4YFNDLQVIOBYQGUWVLA
 ```
 
 {% hint style="info" %}
-☝️ Be sure to generate your own keypair! Don't use this in production.
+☝️ Обязательно генерируйте собственную пару ключей! Не используйте это в продакшне.
 {% endhint %}
 
 ```
@@ -89,13 +89,13 @@ authorization {
 }
 ```
 
-This minimum configuration would use the implicit default account `$G`.
+Эта минимальная конфигурация использует неявный аккаунт по умолчанию `$G`.
 
-#### Multiple accounts
+#### Несколько аккаунтов
 
-If an existing system using multiple accounts is being migrated to auth callout, then the existing `accounts` configuration should remain with the `users` property removed (since it will no longer be used after being ported).
+Если существующая система с несколькими аккаунтами мигрирует на auth callout, то текущая конфигурация `accounts` должна быть сохранена, но свойство `users` удалено (так как оно больше не будет использоваться после переноса).
 
-For new setups, it is recommended to use explicit accounts, such as the following configuration having the `AUTH` account for auth callout, `APP` (could be more) for application account (instead of relying on the `$G` account), and `SYS` for the system account.
+Для новых установок рекомендуется явно использовать аккаунты, например следующую конфигурацию с аккаунтом `AUTH` для auth callout, `APP` (может быть больше) для приложений (вместо `$G`) и `SYS` для системного аккаунта.
 
 ```
 accounts {
@@ -116,11 +116,11 @@ authorization {
 }
 ```
 
-#### Encryption
+#### Шифрование
 
-The `xkey` property enables encrypting the request payloads. This is recommended as a security best practice, but not required.
+Свойство `xkey` включает шифрование payload’ов запросов. Это рекомендуется как best practice, но не обязательно.
 
-To generate an XKey, `nsc` can be used again.
+Чтобы сгенерировать XKey, можно снова использовать `nsc`.
 
 ```
 $ nsc generate nkey --curve
@@ -129,10 +129,10 @@ XAMHJVPKHHPYZQQM2IVWXKJH36KDDZZMSJ32QKSQBUODFX4I4HARO4GL
 ```
 
 {% hint style="info" %}
-☝️ Again, don't use this and be sure to generate your own and keep the seed secret!
+☝️ Снова: не используйте это и обязательно генерируйте свои ключи и держите seed в секрете!
 {% endhint %}
 
-Incorporating the `xkey`, we have the following config:
+С учетом `xkey` конфигурация будет такой:
 
 ```
 accounts {
@@ -154,39 +154,39 @@ authorization {
 }
 ```
 
-## Decentralized Auth
+## Децентрализованная аутентификация
 
-Coming soon!
+Скоро!
 
-## Reference
+## Справка
 
-### Encryption
+### Шифрование
 
-When encryption is enabled, the server will generate a one-time use XKey keypair per client connection/reconnect. The public key is included in the authorization request claims which enables the auth callout service to encrypt the authorization response payload when sending it back to the NATS server.
+Когда шифрование включено, сервер будет генерировать одноразовую пару ключей XKey на каждое подключение/переподключение клиента. Публичный ключ включается в authorization request claims, что позволяет сервису auth callout шифровать payload ответа при отправке обратно на сервер NATS.
 
 {% hint style="info" %}
-The one-time use keypair prevents replay attacks since the public key will be thrown away after the first response was received by the server or the timeout was reached.
+Одноразовая пара ключей предотвращает атаки повторного воспроизведения, так как публичный ключ выбрасывается после получения первого ответа сервером или по истечении таймаута.
 {% endhint %}
 
-Once the authorization request is prepared, it is encoded and encrypted using the configured `xkey` public key. Once encrypted, the message is published for the auth service to receive.
+После подготовки запроса авторизации он кодируется и шифруется с использованием публичного ключа `xkey` из конфигурации. После шифрования сообщение публикуется, чтобы auth‑сервис мог его получить.
 
-The auth service is expected to have the private key to decrypt the authorization request before using the claims data. When preparing the response, the server-provided one-time public xkey will be used to encrypt the response before sending back to the server.
+Auth‑сервис должен иметь приватный ключ для расшифровки запроса перед использованием данных claims. При подготовке ответа предоставленный сервером одноразовый публичный xkey будет использоваться для шифрования ответа перед отправкой обратно на сервер.
 
-### Schema
+### Схема
 
 #### Authorization request claims
 
-The claims is a standard JWT structure with a nested object named `nats` containing the following top-level fields:
+Claims — это стандартная структура JWT с вложенным объектом `nats`, содержащим следующие верхнеуровневые поля:
 
-* `server_id` - An object describing the NATS server, include the `id` field needed to be used in the authorization response.
-* `user_nkey` - A user public NKey generated by the NATS server which is used as the _subject_ of the authorization response.
-* `client_info` - An object describing the client attempting to connect.
-* `connect_opts` - An object containing the data sent by client in the `CONNECT` message.
-* `client_tls` - An object containing any client certificates, if applicable.
+* `server_id` — объект, описывающий NATS‑сервер, включая поле `id`, которое нужно использовать в authorization response.
+* `user_nkey` — публичный NKey пользователя, генерируемый сервером NATS и используемый как _subject_ authorization response.
+* `client_info` — объект, описывающий клиента, пытающегося подключиться.
+* `connect_opts` — объект, содержащий данные, отправленные клиентом в сообщении `CONNECT`.
+* `client_tls` — объект, содержащий клиентские сертификаты (если применимо).
 
 <details>
 
-<summary>Full JSON schema</summary>
+<summary>Полная JSON‑схема</summary>
 
 ```
 {
@@ -258,139 +258,32 @@ The claims is a standard JWT structure with a nested object named `nats` contain
           "type": "string"
         },
         "client_info": {
-          "properties": {
-            "host": {
-              "type": "string"
-            },
-            "id": {
-              "type": "integer"
-            },
-            "user": {
-              "type": "string"
-            },
-            "name": {
-              "type": "string"
-            },
-            "tags": {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            "name_tag": {
-              "type": "string"
-            },
-            "kind": {
-              "type": "string"
-            },
-            "type": {
-              "type": "string"
-            },
-            "mqtt_id": {
-              "type": "string"
-            },
-            "nonce": {
-              "type": "string"
-            }
-          },
-          "additionalProperties": false,
           "type": "object"
         },
         "connect_opts": {
-          "properties": {
-            "jwt": {
-              "type": "string"
-            },
-            "nkey": {
-              "type": "string"
-            },
-            "sig": {
-              "type": "string"
-            },
-            "auth_token": {
-              "type": "string"
-            },
-            "user": {
-              "type": "string"
-            },
-            "pass": {
-              "type": "string"
-            },
-            "name": {
-              "type": "string"
-            },
-            "lang": {
-              "type": "string"
-            },
-            "version": {
-              "type": "string"
-            },
-            "protocol": {
-              "type": "integer"
-            }
-          },
-          "additionalProperties": false,
-          "type": "object",
-          "required": [
-            "protocol"
-          ]
-        },
-        "client_tls": {
-          "properties": {
-            "version": {
-              "type": "string"
-            },
-            "cipher": {
-              "type": "string"
-            },
-            "certs": {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            "verified_chains": {
-              "items": {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              "type": "array"
-            }
-          },
-          "additionalProperties": false,
           "type": "object"
         },
-        "request_nonce": {
-          "type": "string"
-        },
-        "tags": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "type": {
-          "type": "string"
-        },
-        "version": {
-          "type": "integer"
+        "client_tls": {
+          "type": "object"
         }
       },
       "additionalProperties": false,
       "type": "object",
       "required": [
         "server_id",
-        "user_nkey",
-        "client_info",
-        "connect_opts"
+        "user_nkey"
       ]
     }
   },
   "additionalProperties": false,
   "type": "object",
   "required": [
+    "aud",
+    "exp",
+    "jti",
+    "iat",
+    "iss",
+    "sub",
     "nats"
   ]
 }
@@ -400,15 +293,15 @@ The claims is a standard JWT structure with a nested object named `nats` contain
 
 #### Authorization response claims
 
-The claims is a standard JWT structure with a nested object named `nats` containing the following top-level fields:
+Claims — стандартная структура JWT с вложенным объектом `nats`, содержащим следующие ключевые поля верхнего уровня:
 
-* `jwt` - The encoded [user claims](auth\_callout.md#user-claims) JWT which will be used by the NATS server for the duration of the client connection.
-* `error` - An error message sent back to the NATS server if authorization failed. This will be included log output.
-* `issuer_account` - The public Nkey of the issuing account. If set, this indicates the claim was issued by a signing key.
+* `jwt` — закодированный JWT [user claims](auth_callout.md#user-claims), который будет использоваться сервером NATS на протяжении клиентского соединения.
+* `error` — сообщение об ошибке, отправляемое серверу NATS при неуспешной авторизации. Оно будет включено в логи.
+* `issuer_account` — публичный Nkey аккаунта‑эмитента. Если задано, это означает, что claim был выпущен signing key.
 
 <details>
 
-<summary>Full JSON schema</summary>
+<summary>Полная JSON‑схема</summary>
 
 ```
 {
@@ -479,13 +372,13 @@ The claims is a standard JWT structure with a nested object named `nats` contain
 
 #### User claims
 
-The claims is a standard JWT structure with a nested object named `nats` containing the following, notable, top-level fields:
+Claims — стандартная структура JWT с вложенным объектом `nats`, содержащим следующие заметные поля верхнего уровня:
 
-* `issuer_account` - The public Nkey of the issuing account. If set, this indicates the claim was issued by a signing key.
+* `issuer_account` — публичный Nkey аккаунта‑эмитента. Если задано, это означает, что claim был выпущен signing key.
 
 <details>
 
-<summary>Full JSON schema</summary>
+<summary>Полная JSON‑схема</summary>
 
 ```
 {

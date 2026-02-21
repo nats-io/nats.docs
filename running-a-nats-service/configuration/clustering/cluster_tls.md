@@ -1,25 +1,25 @@
-# TLS Authentication in clusters
+# TLS‑аутентификация в кластерах
 
-When setting up clusters, all servers in the cluster, if using TLS, will both verify the connecting endpoints and the server responses. So certificates are checked in [both directions](/running-a-nats-service/configuration/securing_nats/tls.md#wrong-key-usage). Certificates can be configured only for the server's cluster identity, keeping client and server certificates separate from cluster formation.
+При настройке кластеров все серверы в кластере, если используется TLS, будут проверять как подключающиеся endpoints, так и ответы серверов. Поэтому сертификаты проверяются [в обоих направлениях](/running-a-nats-service/configuration/securing_nats/tls.md#wrong-key-usage). Сертификаты можно настроить только для кластерной идентичности сервера, отделяя клиентские и серверные сертификаты от формирования кластера.
 
-TLS Mutual Authentication _is the only way_ of securing routes.
+Взаимная TLS‑аутентификация _— единственный способ_ защитить маршруты.
 
 ```
 cluster {
   listen: 127.0.0.1:4244
 
   tls {
-    # Route cert
+    # Сертификат route
     cert_file: "./configs/certs/srva-cert.pem"
-    # Private key
+    # Приватный ключ
     key_file:  "./configs/certs/srva-key.pem"
-    # Optional certificate authority verifying connected routes
-    # Required when we have self-signed CA, etc.
+    # Необязательный CA, проверяющий подключающиеся маршруты
+    # Требуется, когда используется самоподписанный CA и т. п.
     ca_file:   "./configs/certs/ca.pem"
   }
-  # Routes are actively solicited and connected to from this server.
-  # Other servers can connect to us if they supply the correct credentials
-  # in their routes definitions from above.
+  # Маршруты активно запрашиваются и подключаются с этого сервера.
+  # Другие серверы могут подключаться к нам, если предоставят правильные учетные данные
+  # в их определениях routes выше.
   routes = [
     nats://127.0.0.1:4246
   ]

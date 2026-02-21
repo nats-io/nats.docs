@@ -1,8 +1,8 @@
-# Using Source
+# Использование исходников
 
-One of the design goals of JetStream was to be native to core NATS, so even though we will most certainly add in syntactic sugar to clients to make them more appealing, for this tech preview we will be using plain old NATS.
+Одной из целей дизайна JetStream было быть «родным» для Core NATS, поэтому, хотя мы почти наверняка добавим синтаксический сахар в клиенты, чтобы сделать их более удобными, для этого tech preview мы будем использовать обычный NATS.
 
-You will need a copy of the nats-server source locally and will need to be in the jetstream branch.
+Вам понадобится локальная копия исходников nats-server и нужно находиться в ветке jetstream.
 
 ```shell
 git clone https://github.com/nats-io/nats-server.git
@@ -12,7 +12,7 @@ go build
 ls -l nats-server
 ```
 
-Starting the server you can use the `-js` flag. This will setup the server to reasonably use memory and disk. This is a sample run on my machine. JetStream will default to 1TB of disk and 75% of available memory for now.
+Запуская сервер, можно использовать флаг `-js`. Это настроит сервер на разумное использование памяти и диска. Ниже — пример запуска на моей машине. Сейчас JetStream по умолчанию использует 1 ТБ диска и 75% доступной памяти.
 
 ```shell
 nats-server -js
@@ -31,7 +31,7 @@ nats-server -js
 [16928] 2019/12/04 19:16:29.597742 [INF] Server is ready
 ```
 
-You can override the storage directory if you want.
+При необходимости можно переопределить каталог хранения.
 
 ```shell
 nats-server -js -sd /tmp/test
@@ -50,7 +50,7 @@ nats-server -js -sd /tmp/test
 [16943] 2019/12/04 19:20:00.874877 [INF] Server is ready
 ```
 
-These options can also be set in your configuration file:
+Эти опции также можно задать в конфигурационном файле:
 
 ```text
 // enables jetstream, an empty block will enable and use defaults
@@ -65,4 +65,3 @@ jetstream {
     max_file_store: 10737418240
 }
 ```
-

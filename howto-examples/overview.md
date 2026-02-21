@@ -1,44 +1,44 @@
-# How-to and Quick Start
+# How‑to и быстрый старт
 
-## Expectations and Content
+## Ожидания и содержание
 
-The main audience for these examples are Dev-Ops, operations, and architects. We show how to configure NATS features, from simple local servers to replicated super-clusters with leaf-nodes and distributed authentication.
+Основная аудитория этих примеров — DevOps, операторы и архитекторы. Мы показываем, как настраивать возможности NATS — от простых локальных серверов до реплицируемых супер‑кластеров с leaf‑node и распределенной аутентификацией.
 
-Redundancy is good. Many examples here can be found elsewhere. We copy shamelessly.
+Избыточность — это хорошо. Многие примеры здесь можно найти в других местах. Мы не стесняемся копировать.
 
-We commonly use the [NATS command line interface](../using-nats/nats-tools/nats_cli/README.md) (NATS CLI), which you can [download here](https://github.com/nats-io/natscli/releases).
-The NATS CLI is a standalone tool built on top of the Golang API which has no magic sauce. Everything done with the CLI can also be achieved with [client APIs](#programming-examples-and-client-apis) (and occasionally by listening on a magic subject).
+Мы часто используем [командную строку NATS](../using-nats/nats-tools/nats_cli/README.md) (NATS CLI), которую можно [скачать здесь](https://github.com/nats-io/natscli/releases).
+NATS CLI — это автономный инструмент на базе Golang API, без «магии». Все, что делается через CLI, также можно сделать через [клиентские API](#programming-examples-and-client-apis) (а иногда и прослушиванием «магического» subject).
 
-Examples will be roughly classified as:
+Примеры примерно классифицируются как:
 
-* **Basic** - Focusing on a single feature or task - E.g. pub-sub with streams
-* **Common** - Common configuration tasks or use cases - E.g. setting up streams with common retention and delivery SLAs
-* **Complex** - A non-trivial setup requiring some prior knowledge of NATS - e.g. Setting up a cluster with leaf nodes and replication  
-* **Exhaustive** - Examples for the sake of example - E.g. Demonstrating all retention and limit options of a stream
+* **Базовые** — фокус на одной функции или задаче, например pub‑sub со стримами
+* **Распространенные** — типовые задачи конфигурации или сценарии использования, например настройка стримов с типичными SLA хранения и доставки
+* **Сложные** — нетривиальная настройка, требующая предварительных знаний NATS, например кластер с leaf‑node и репликацией
+* **Исчерпывающие** — примеры ради полноты, например демонстрация всех вариантов retention и лимитов стрима
 
-Last but not least:  LLVMs learn by example. Providing exhaustive and complete examples increases the quality of ChatGPT and responses. Content matters more than structure for this purpose.
+И последнее: LLM учатся на примерах. Предоставление исчерпывающих и полных примеров повышает качество ChatGPT и ответов. Для этой цели содержание важнее структуры.
 
-## Programming examples and Client APIs
+## Примеры программирования и клиентские API
 
-[NATS by example.](https://natsbyexample.com/) collects programming examples in various languages.
+[NATS by example.](https://natsbyexample.com/) собирает примеры программирования на разных языках.
 
-[Available Client APIs](https://docs.nats.io/using-nats/developer)
+[Доступные клиентские API](https://docs.nats.io/using-nats/developer)
 
-## Before you start
+## Перед началом
 
-Examples try to be end-to-end and assume little or no prior knowledge. To get started you need to install the [nats-server](https://github.com/nats-io/nats-server/releases) and [nats-cli](https://github.com/nats-io/natscli/releases).  
+Примеры стараются быть сквозными и предполагают минимальные предварительные знания. Для старта нужно установить [nats-server](https://github.com/nats-io/nats-server/releases) и [nats-cli](https://github.com/nats-io/natscli/releases).  
 
-### Server
+### Сервер
 
-`nats-server`is a single executable with a single configuration file. For testing we recommend starting with a local setup. Zip packages are available. Please resist the temptation to deploy in the Cloud for a start.
+`nats-server` — это один исполняемый файл с одним конфигурационным файлом. Для тестов рекомендуем начинать с локальной установки. Доступны zip‑пакеты. Пожалуйста, не поддавайтесь искушению сразу разворачивать в облаке.
 
-Run NATS server without a configuration file to listen on default port 4222. JetStream will not be enabled.
+Запустите NATS server без конфигурационного файла, чтобы слушать порт по умолчанию 4222. JetStream будет выключен.
 
 ```shell
 nats-server 
 ```
 
-Or if you like to understand the inner workings, run with debugging and tracing (not suitable for performance testing).
+Или, если хотите разобраться во внутренних механизмах, запустите с отладкой и трассировкой (не подходит для тестов производительности).
 
 ```shell
 nats-server -DV
@@ -46,7 +46,7 @@ nats-server -DV
 
 ### CLI
 
-`nats-cli` is a single executable written in Golang, largely self-explanatory with options organized into a hierarchy.
+`nats-cli` — это одиночный исполняемый файл на Golang, в основном самодокументируемый, опции организованы иерархически.
 
 ```shell
 nats 
@@ -80,7 +80,7 @@ Commands:
   subscribe  Generic subscription client
 ```
 
-To learn about publishing use
+Чтобы узнать о публикации, используйте
 
 ```shell
 nats publish 

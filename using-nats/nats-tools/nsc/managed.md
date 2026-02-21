@@ -1,54 +1,53 @@
-# Managed Operators
+# Управляемые операторы
 
-You can use `nsc` to administer multiple operators. Operators can be thought of as the owners of nats-servers, and fall into two categories: local and managed. The key difference is that managed operators are ones which you don't have the nkey for. An example of a managed operator is Synadia's [NGS](https://www.synadia.com/cloud?utm_source=nats_docs&utm_medium=nats).
+Вы можете использовать `nsc` для администрирования нескольких операторов. Операторы — это владельцы nats-servers и делятся на две категории: локальные и управляемые. Ключевое различие в том, что управляемые операторы — это те, для которых у вас нет nkey. Пример управляемого оператора — Synadia [NGS](https://www.synadia.com/cloud?utm_source=nats_docs&utm_medium=nats).
 
-Accounts, as represented by their JWTs, are signed by the operator. Some operators may use local copies of JWTs (i.e. using the memory resolver), but most should use the NATS account resolver built-in to 'nats-server' to manage their JWTs. Synadia uses a custom server for their JWTs that works similarly to the open-sourced account server.
+Аккаунты, представленные своими JWT, подписываются оператором. Некоторые операторы используют локальные копии JWT (например, через memory resolver), но большинство используют встроенный в `nats-server` NATS account resolver для управления JWT. Synadia использует кастомный сервер для своих JWT, который работает аналогично открытому account server.
 
-There are a few special commands when dealing with server based operators:
+Есть несколько специальных команд при работе с серверными операторами:
 
-* Account JWTs can be pushed to the server using `nsc push`
-* Account JWTs can be pulled from a server using `nsc pull`
+* Account JWT можно отправить на сервер через `nsc push`
+* Account JWT можно получить с сервера через `nsc pull`
 
-For managed operators this push/pull behavior is built into `nsc`. Each time you edit your account JWT `nsc` will push the change to a managed operator's server and pull the signed response. If this fails the JWT on disk may not match the value on the server. You can always push or pull the account again without editing it. Note - push only works if the operator JWT was configured with an account server URL.
+Для управляемых операторов это push/pull поведение встроено в `nsc`. Каждый раз, когда вы редактируете account JWT, `nsc` отправляет изменения на сервер управляемого оператора и получает подписанный ответ. Если это не удается, JWT на диске может не совпадать со значением на сервере. Вы можете всегда повторно сделать push или pull аккаунта без редактирования. Примечание: push работает только если JWT оператора был настроен с URL account server.
 
-The managed operator will not only sign your account JWT with its key, but may also edit the JWT to include limits to constrain your access to their NATS servers. Some operators may also add demonstration or standard imports. Generally you can remove these, although the operator gets the final call on all Account edits. As with any deployment, the managed operator doesn't track user JWTs.
+Управляемый оператор не только подписывает ваш account JWT своим ключом, но и может редактировать JWT, добавляя лимиты, чтобы ограничить ваш доступ к своим NATS servers. Некоторые операторы также добавляют демонстрационные или стандартные импорты. Обычно их можно удалить, хотя финальное решение по правкам аккаунта остается за оператором. Как и в любом развертывании, управляемый оператор не отслеживает user JWT.
 
-To start using a managed operator you need to tell `nsc` about it. There are a couple ways to do this. First you can manually tell `nsc` to download the operator JWT using the `add operator` command:
+Чтобы начать использовать управляемого оператора, нужно сообщить `nsc` о нем. Это можно сделать несколькими способами. Во‑первых, можно вручную сказать `nsc` скачать JWT оператора через команду `add operator`:
 
 ```bash
 nsc add operator -i
 ```
 
-The operator JWT (or details) should be provided to you by the operator. The second way to add a managed operator is with the `init` command:
+JWT оператора (или детали) должен предоставить оператор. Второй способ — команда `init`:
 
 ```bash
 nsc init -o synadia -n MyFirstAccount
 ```
 
-You can use the name of an existing operator, or a well known one \(currently only "synadia"\).
+Можно использовать имя существующего оператора или хорошо известного (сейчас только "synadia").
 
-Once you add a managed operator you can add accounts to it normally, with the caveat that new accounts are pushed and pulled as described above.
+После добавления управляемого оператора вы можете добавлять аккаунты как обычно, с той оговоркой, что новые аккаунты автоматически push/pull‑ятся, как описано выше.
 
-## Defining "Well Known Operators"
+## Определение «хорошо известных операторов»
 
-To define a well known operator, you would tell `nsc` about an operator that you want people in your environment to use by name with a simple environment variable of the form `nsc_<operator name>_operator` the value of this environment variable should be the URL for getting the operator JWT. For example:
+Чтобы определить хорошо известного оператора, вы сообщаете `nsc` об операторе, которого хотите использовать в своей среде по имени, задав переменную окружения вида `nsc_<operator name>_operator`. Значение этой переменной — URL для получения JWT оператора. Например:
 
 ```bash
 export nsc_zoom_operator=https://account-server-host/jwt/v1/operator
 ```
 
-will tell `nsc` that there is a well known operator named zoom with its JWT at `https://account-server-host/jwt/v1/operator`. With this definition you can now use the `-u` flag with the name "zoom" to add the operator to an `nsc` store directory.
+Это скажет `nsc`, что есть хорошо известный оператор с именем zoom и его JWT доступен по `https://account-server-host/jwt/v1/operator`. С таким определением вы можете использовать флаг `-u` с именем "zoom", чтобы добавить оператора в директорию `nsc` store.
 
-The operator JWT should have its account JWT server property set to point to the appropriate URL. For our example this would be:
+JWT оператора должен иметь свойство account JWT server, указывающее на соответствующий URL. В нашем примере это:
 
 ```bash
 nsc edit operator -u https://account-server-host/jwt/v1
 ```
 
-You can also set one or more service urls. These allow the `nsc tool` actions like pub and sub to work. For example:
+Можно также задать один или несколько service url. Они позволяют работать с действиями `nsc tool`, такими как pub и sub. Например:
 
 ```bash
 nsc edit operator -n nats://localhost:4222
 nsc tool pub hello world
 ```
-

@@ -1,55 +1,55 @@
-# Welcome
+# Добро пожаловать
 
-## The official [NATS](https://nats.io/) documentation
+## Официальная документация [NATS](https://nats.io/)
 
-NATS is a simple, secure and high performance open source data layer for cloud native applications, IoT messaging, and microservices architectures.
+NATS — это простой, безопасный и высокопроизводительный open source слой данных для cloud native приложений, IoT‑сообщений и архитектур микросервисов.
 
-We feel that it should be the backbone of your communication between services. It doesn't matter what language, protocol, or platform you are using; NATS is the best way to connect your services.
+Мы считаем, что он должен быть основой коммуникации между вашими сервисами. Неважно, какой язык, протокол или платформу вы используете; NATS — лучший способ связать ваши сервисы.
 
-### 10,000 foot view
+### Кратко о главном
 
-* Publish and subscribe to messages at millions of messages per second. At most once delivery.
-* Supports fan-in/out delivery patterns
-* Request/reply
-* Every major language is supported
-* Persistence via JetStream
-  * at least once delivery or **exactly once** delivery
-  * work queues
-  * stream processing
-  * data replication
-  * data retention
-  * data deduplication
-  * Higher order data structures
-    * Key/Value with watchers, versioning, and TTL
-    * Object storage with versioning
-* Security
+* Публикация и подписка на сообщения со скоростью миллионов сообщений в секунду. Доставка «не более одного раза».
+* Поддержка шаблонов fan-in/fan-out
+* Запрос/ответ
+* Поддерживаются все основные языки
+* Персистентность через JetStream
+  * доставка «как минимум один раз» или **ровно один раз**
+  * рабочие очереди
+  * обработка потоков
+  * репликация данных
+  * хранение данных
+  * дедупликация данных
+  * Структуры данных более высокого уровня
+    * Key/Value с наблюдателями, версионированием и TTL
+    * Объектное хранилище с версионированием
+* Безопасность
   * TLS
-  * JWT-based zero trust security
-* Clustering
-  * High availability
-  * Fault tolerance
-  * Auto-discovery
-* Protocols supported
+  * zero trust безопасность на основе JWT
+* Кластеризация
+  * Высокая доступность
+  * Отказоустойчивость
+  * Автообнаружение
+* Поддерживаемые протоколы
   * TCP
   * MQTT
   * WebSockets
 
-All of this in a single binary that is easy to deploy and manage. No external dependencies, just drop it in and add a configuration file to point to other NATS servers and you are ready to go. In fact, you can even embed NATS in your application (for Go users)!
+Все это — в одном бинарном файле, который легко развернуть и поддерживать. Никаких внешних зависимостей: просто установите его и добавьте конфигурационный файл, указывающий другие серверы NATS, и все готово. Более того, вы даже можете встроить NATS в свое приложение (для пользователей Go)!
 
-## Guided tour
+## Короткий путеводитель
 
-1. In general we recommend trying to solve your problems first using [Core NATS](nats-concepts/core-nats/).
-2. If you need to share state between services, take a look at the [KV](nats-concepts/jetstream/key-value-store/) or [Object Store](nats-concepts/jetstream/object-store/obj_store.md) in JetStream.
-3. When you need lower level access to persistence streams, move on to using [JetStream](nats-concepts/jetstream/) directly for more advanced messaging patterns.
-4. Learn about [deployment strategies](nats-concepts/adaptive_edge_deployment.md)
-5. Secure your deployments with [zero trust security](running-a-nats-service/configuration/securing_nats/jwt/)
+1. В целом рекомендуем сначала попытаться решить задачу, используя [Core NATS](nats-concepts/core-nats/).
+2. Если нужно разделять состояние между сервисами, посмотрите на [KV](nats-concepts/jetstream/key-value-store/) или [Object Store](nats-concepts/jetstream/object-store/obj_store.md) в JetStream.
+3. Когда нужен более низкоуровневый доступ к потокам персистентности, переходите на прямое использование [JetStream](nats-concepts/jetstream/) для более продвинутых шаблонов обмена сообщениями.
+4. Изучите [стратегии развертывания](nats-concepts/adaptive_edge_deployment.md)
+5. Обеспечьте безопасность развертываний с помощью [zero trust](running-a-nats-service/configuration/securing_nats/jwt/)
 
-## Contribute
+## Вклад
 
-NATS is Open Source as is this documentation. Please [let us know](mailto:info@nats.io) if you have updates and/or suggestions for these docs. You can also create a Pull Request using the `Edit on GitHub` link on each page.
+NATS — это Open Source, как и эта документация. Пожалуйста, [сообщите нам](mailto:info@nats.io), если у вас есть правки и/или предложения по этим материалам. Вы также можете создать Pull Request, используя ссылку `Edit on GitHub` на каждой странице.
 
-## Additional questions?
+## Дополнительные вопросы?
 
-Feel free to chat with us on Slack [slack.nats.io](https://slack.nats.io).
+Присоединяйтесь к чату в Slack: [slack.nats.io](https://slack.nats.io).
 
-Thank you from the entire NATS Team of Maintainers for your interest in NATS!
+Спасибо от всей команды сопровождающих NATS за интерес к NATS!

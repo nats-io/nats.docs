@@ -1,8 +1,8 @@
-# Avoiding the Thundering Herd
+# Избегание «thundering herd»
 
-When a server goes down, there is a possible anti-pattern called the _Thundering Herd_ where all of the clients try to reconnect immediately, thus creating a denial of service attack. In order to prevent this, most NATS client libraries randomize the servers they attempt to connect to. This setting has no effect if only a single server is used, but in the case of a cluster, randomization, or shuffling, will ensure that no one server bears the brunt of the client reconnect attempts.
+Когда сервер падает, возможен анти‑паттерн _Thundering Herd_, при котором все клиенты пытаются переподключиться немедленно, создавая отказ в обслуживании. Чтобы этого избежать, большинство клиентских библиотек NATS рандомизируют серверы, к которым они пытаются подключиться. Эта настройка не влияет на случай одного сервера, но при кластере рандомизация или перемешивание гарантирует, что ни один сервер не будет принимать на себя основную нагрузку попыток переподключения.
 
-However, if you want to disable the randomization process for connect and reconnect, so that servers are always checked in the same order, you can do that in most libraries with a connection option:
+Однако если вы хотите отключить рандомизацию при подключении и переподключении, чтобы серверы всегда проверялись в одном порядке, вы можете сделать это в большинстве библиотек через опцию соединения:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -113,4 +113,3 @@ natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
-

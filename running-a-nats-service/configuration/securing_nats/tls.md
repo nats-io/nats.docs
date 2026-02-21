@@ -1,25 +1,25 @@
-# Enabling TLS
+# Включение TLS
 
-The NATS server uses modern TLS semantics to encrypt client, route, and monitoring connections. [Check here for pitfalls.](#problems-with-self-signed-certificates) 
+Сервер NATS использует современные семантики TLS для шифрования клиентских, маршрутных и мониторинговых соединений. [Проверьте здесь подводные камни.](#problems-with-self-signed-certificates) 
 
-Server configuration revolves around a `tls` map, which has the following properties:
+Конфигурация сервера строится вокруг карты `tls`, которая имеет следующие свойства:
 
-| Property | Description |  |  |
+| Свойство | Описание |  |  |
 | :--- | :--- | :--- | :--- |
-| `cert_file` | TLS certificate file. |  |  |
-| `key_file` | TLS certificate key file. |  |  |
-| `ca_file` | TLS [certificate authority file](tls.md#certificate-authorities). When not present, default to the system trust store. |  |  |
-| `cipher_suites` | When set, only the specified TLS cipher suites will be allowed. Values must match the golang version used to build the server. |  |  |
-| `curve_preferences` | List of TLS cipher curves to use in order. |  |  |
-| `insecure` | Skip certificate verification. This only applies to outgoing connections, NOT incoming client connections. **NOT Recommended** |  |  |
-| `min_version` | Minimum TLS version. Default is `"1.2"`. |  |  |
-| `timeout` | TLS handshake [timeout](tls.md#tls-timeout) in fractional seconds. Default set to `2` seconds. |  |  |
-| `verify` | If `true`, require and [verify](auth_intro/tls_mutual_auth.md#validating-a-client-certificate) client certificates. To support use by Browser, this option does not apply to monitoring. |  |  |
-| `verify_and_map` | If `true`, require and verify client certificates and [map](auth_intro/tls_mutual_auth.md#mapping-client-certificates-to-a-user) certificate values for authentication purposes. Does not apply to monitoring either. |  |  |
-| `verify_cert_and_check_known_urls` | Only settable in a non client context where `verify: true` is the default \([cluster](../clustering/)/[gateway](../gateways/)\). The incoming connections certificate's `X509v3 Subject Alternative Name` `DNS` entries will be matched against all urls in the configuration context that contains this tls map. If a match is found, the connection is accepted and rejected otherwise. Meaning for gateways we will match all DNS entries in the certificate against all gateway urls. For cluster, we will match against all route urls. As a consequence of this, dynamic cluster growth may require config changes in other clusters where this flag is true. DNS name checking is performed according to [rfc6125](https://tools.ietf.org/html/rfc6125#section-6.4.1). Only the full wildcard `*` is supported for the left most label. This would be one way to keep cluster growth flexible. |  |  |
-| `pinned_certs` | List of hex-encoded SHA256 of DER encoded public key fingerprints. When present, during the TLS handshake, the provided certificate's fingerprint is required to be present in the list or the connection is closed. This sequence of commands generates an entry for a provided certificate: \`openssl x509 -noout -pubkey -in  | openssl pkey -pubin -outform DER | openssl dgst -sha256\`. |
+| `cert_file` | Файл TLS‑сертификата. |  |  |
+| `key_file` | Файл ключа TLS‑сертификата. |  |  |
+| `ca_file` | Файл [центра сертификации](tls.md#certificate-authorities) TLS. Если отсутствует, используется системное хранилище доверия. |  |  |
+| `cipher_suites` | Если задано, разрешены только указанные TLS cipher suites. Значения должны соответствовать версии golang, использованной для сборки сервера. |  |  |
+| `curve_preferences` | Список TLS‑кривых шифрования в порядке использования. |  |  |
+| `insecure` | Пропускать проверку сертификата. Применяется только к исходящим соединениям, НЕ к входящим клиентским. **НЕ рекомендуется** |  |  |
+| `min_version` | Минимальная версия TLS. По умолчанию `"1.2"`. |  |  |
+| `timeout` | [Таймаут](tls.md#tls-timeout) TLS‑рукопожатия в дробных секундах. По умолчанию `2` секунды. |  |  |
+| `verify` | Если `true`, требовать и [проверять](auth_intro/tls_mutual_auth.md#validating-a-client-certificate) клиентские сертификаты. Чтобы поддержать использование браузером, эта опция не применяется к мониторингу. |  |  |
+| `verify_and_map` | Если `true`, требовать и проверять клиентские сертификаты и [маппить](auth_intro/tls_mutual_auth.md#mapping-client-certificates-to-a-user) значения сертификата для аутентификации. Также не применяется к мониторингу. |  |  |
+| `verify_cert_and_check_known_urls` | Настраивается только в контексте не‑клиентских подключений, где `verify: true` по умолчанию ([cluster](../clustering/)/[gateway](../gateways/)). `DNS`‑записи `X509v3 Subject Alternative Name` входящего сертификата будут сопоставлены со всеми URL в контексте конфигурации, где находится эта `tls`‑карта. Если найдено совпадение, соединение принимается, иначе отклоняется. Для gateways мы сопоставляем все DNS‑записи сертификата со всеми gateway URL. Для кластера — со всеми route URL. В результате динамический рост кластера может потребовать изменений конфигурации в других кластерах, где этот флаг `true`. Проверка DNS‑имен выполняется по [rfc6125](https://tools.ietf.org/html/rfc6125#section-6.4.1). Поддерживается только полный wildcard `*` для самого левого лейбла. Это один из способов сохранить гибкость роста кластера. |  |  |
+| `pinned_certs` | Список hex‑кодированных SHA256 отпечатков публичного ключа в DER. При наличии во время TLS‑рукопожатия отпечаток предъявленного сертификата должен быть в списке, иначе соединение закрывается. Последовательность команд для получения записи: `openssl x509 -noout -pubkey -in <cert> | openssl pkey -pubin -outform DER | openssl dgst -sha256`. |
 
-The simplest configuration:
+Самая простая конфигурация:
 
 ```text
 tls: {
@@ -28,7 +28,7 @@ tls: {
 }
 ```
 
-Or by using [server options](../../running/flags.md#tls-options):
+Или с помощью [опций сервера](../../running/flags.md#tls-options):
 
 ```shell
 nats-server --tls --tlscert=./server-cert.pem --tlskey=./server-key.pem
@@ -42,7 +42,7 @@ nats-server --tls --tlscert=./server-cert.pem --tlskey=./server-key.pem
 [21417] 2019/05/16 11:21:19.801787 [INF] Server is ready
 ```
 
-Notice that the log indicates that the client connections will be required to use TLS. If you run the server in Debug mode with `-D` or `-DV`, the logs will show the cipher suite selection for each connected client:
+Обратите внимание: лог показывает, что клиентские соединения обязаны использовать TLS. Если запустить сервер в Debug‑режиме с `-D` или `-DV`, логи покажут выбор cipher suite для каждого подключенного клиента:
 
 ```text
 [22242] 2019/05/16 11:22:20.216322 [DBG] 127.0.0.1:51383 - cid:1 - Client connection created
@@ -51,19 +51,19 @@ Notice that the log indicates that the client connections will be required to us
 [22242] 2019/05/16 11:22:20.367291 [DBG] 127.0.0.1:51383 - cid:1 - TLS version 1.2, cipher suite TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 ```
 
-When a `tls` section is specified at the root of the configuration, it also affects the monitoring port if `https_port` option is specified. Other sections such as `cluster` can specify a `tls` block.
+Когда секция `tls` задана на корне конфигурации, она также влияет на порт мониторинга, если задана опция `https_port`. Другие секции, такие как `cluster`, могут задавать свой `tls` блок.
 
-## TLS-first Handshake
+## TLS‑first Handshake
 
-_As of NATS v2.10.4_
+_Начиная с NATS v2.10.4_
 
-Client connections follow the model where, when a TCP connection is created to the server, the server will immediately send an [INFO protocol message](../../../reference/nats-protocol/nats-protocol/README.md#info) in clear text. This INFO protocol provides metadata, including whether the server requires a secure connection.
+Клиентские подключения следуют модели, при которой при создании TCP‑соединения сервер немедленно отправляет [INFO‑сообщение протокола](../../../reference/nats-protocol/nats-protocol/README.md#info) в открытом виде. Это INFO‑сообщение содержит метаданные, включая требование защищенного соединения.
 
-Some environments prefer having clients' TLS connections be initiated right away, that is, not having any traffic sent in clear text. It was possible to by-pass this using a websocket connection. However, if a websocket connection is not desired, the server can be configured to perform a TLS handshake before sending the INFO protocol message.
+Некоторые среды предпочитают, чтобы TLS‑соединение клиентов инициировалось сразу, то есть без передачи трафика в открытом виде. Ранее это можно было обойти через websocket‑подключение. Однако если websocket не желателен, сервер можно настроить на выполнение TLS‑рукопожатия до отправки INFO‑сообщения протокола.
 
-Only clients that implement an equivalent option would be able to connect if the server runs with this option enabled.
+Подключиться смогут только клиенты, которые реализуют эквивалентную опцию.
 
-The configuration would look something like this:
+Конфигурация будет выглядеть примерно так:
 
 ```text
 tls: {
@@ -73,11 +73,11 @@ tls: {
 }
 ```
 
-However, the parameter can be set to `auto` or a [Golang time duration](https://pkg.go.dev/time#ParseDuration) (e.g. `250ms`) to fallback to the original behavior. This is intended for deployments where it is known that not all clients have been upgraded to a client library providing the TLS-first handshake option.
+Однако параметр можно установить в `auto` или в [Golang time duration](https://pkg.go.dev/time#ParseDuration) (например `250ms`), чтобы откатиться к исходному поведению. Это рассчитано на развертывания, где известно, что не все клиенты обновлены до библиотек с поддержкой TLS‑first handshake.
 
-After the delay has elapsed without receiving the TLS handshake from the client, the server reverts to sending the INFO protocol so that older clients can connect. Clients that do connect with the "TLS first" option will be marked as such in the monitoring's `Connz` page/result. It will allow the administrator to keep track of applications still needing to upgrade.
+После истечения задержки без TLS‑рукопожатия от клиента сервер возвращается к отправке INFO‑сообщения, чтобы старые клиенты могли подключиться. Клиенты, которые подключаются с опцией "TLS first", будут помечены в результатах мониторинга `Connz`. Это позволит администратору отслеживать приложения, которые еще требуют обновления.
 
-The configuration would be similar to:
+Конфигурация будет такой:
 
 ```text
 tls: {
@@ -87,9 +87,9 @@ tls: {
 }
 ```
 
-With the above value, the fallback delay used by the server is 50 milliseconds.
+При таком значении задержка отката по умолчанию — 50 миллисекунд.
 
-The duration can be explicitly set, say 300 milliseconds:
+Длительность можно задать явно, например 300 миллисекунд:
 
 ```text
 tls {
@@ -100,90 +100,95 @@ tls {
 }
 ```
 
-It is understood that any configuration other than "true" will result in the server sending the INFO protocol after the elapsed amount of time without the client initiating the TLS handshake. Therefore, for administrators who do not want any data transmitted in plain text, the value must be set to "true" only. It will require applications to be updated to a library that provides the option, which may or may not be readily available.
+Понимайте, что любая конфигурация, отличная от `true`, приводит к тому, что сервер отправит INFO‑сообщение после истечения времени без TLS‑рукопожатия со стороны клиента. Поэтому, если администраторы не хотят передачи данных в открытом виде, значение должно быть только `true`. Это потребует обновления приложений до библиотек, поддерживающих эту опцию, что может быть не всегда доступно.
 
-## TLS Timeout
+<a id="tls-timeout"></a>
+## Таймаут TLS
 
-The `timeout` setting enables you to control the amount of time that a client is allowed to upgrade its connection to tls. If your clients are experiencing disconnects during TLS handshake, you'll want to increase the value, however, if you do be aware that an extended `timeout` exposes your server to attacks where a client doesn't upgrade to TLS and thus consumes resources. Conversely, if you reduce the TLS `timeout` too much, you are likely to experience handshake errors.
+Настройка `timeout` позволяет управлять временем, которое дается клиенту на апгрейд соединения до TLS. Если клиенты отключаются во время TLS‑рукопожатия, стоит увеличить значение. Однако имейте в виду: большой `timeout` делает сервер уязвимым к атакам, где клиент не переходит на TLS и потребляет ресурсы. С другой стороны, если слишком уменьшить TLS‑`timeout`, вы вероятно увидите ошибки рукопожатия.
 
 ```text
 tls: {
   cert_file: "./server-cert.pem"
   key_file: "./server-key.pem"
-  # clients will fail to connect (value is too low)
+  # клиенты не смогут подключиться (значение слишком низкое)
   timeout: 0.0001
 }
 ```
 
-## Certificate Authorities
+<a id="certificate-authorities"></a>
+## Центры сертификации
 
-The `ca_file` file should contain one or more Certificate Authorities in PEM format, in a bundle. This is a common format.
+Файл `ca_file` должен содержать один или несколько CA в формате PEM, в виде bundle. Это распространенный формат.
 
-When a certificate is issued, it is often accompanied by a copy of the intermediate certificate used to issue it. This is useful for validating that certificate. It is not necessarily a good choice as the only CA suitable for use in verifying other certificates a server may see.
+Когда сертификат выпускается, он часто сопровождается копией intermediate‑сертификата, использованного для выпуска. Это полезно для валидации этого сертификата, но не обязательно хороший выбор в качестве единственного CA для проверки других сертификатов, которые может видеть сервер.
 
-Do consider though that organizations issuing certificates will change the intermediate they use. For instance, a CA might issue intermediates in pairs, with an active and a standby, and reserve the right to switch to the standby without notice. You probably would want to trust _both_ of those for the `ca_file` directive, to be prepared for such a day, and then after the first CA has been compromised you can remove it. This way the roll from one CA to another will not break your NATS server deployment.
+Стоит учитывать, что организации‑эмитенты сертификатов меняют используемые intermediate. Например, CA может выпускать intermediate парами — активный и резервный — и иметь право переключаться на резервный без уведомления. Вы, скорее всего, захотите доверять _обоим_ для директивы `ca_file`, чтобы подготовиться к такому дню, а после компрометации первого CA — удалить его. Так переход от одного CA к другому не сломает развертывание NATS.
 
-## Self Signed Certificates for Testing
+<a id="self-signed-certificates-for-testing"></a>
+## Самоподписанные сертификаты для тестирования
 
-Explaining [Public key infrastructure](https://en.wikipedia.org/wiki/Public_key_infrastructure), [Certificate Authorities \(CA\)](https://en.wikipedia.org/wiki/Certificate_authority) and [x509](https://tools.ietf.org/html/rfc5280) [certificates](https://en.wikipedia.org/wiki/Public_key_certificate) fall well outside the scope of this document. So does an explanation on how to obtain a properly trusted certificates.
+Объяснение [публичной инфраструктуры ключей](https://en.wikipedia.org/wiki/Public_key_infrastructure), [центров сертификации (CA)](https://en.wikipedia.org/wiki/Certificate_authority) и [x509](https://tools.ietf.org/html/rfc5280) [сертификатов](https://en.wikipedia.org/wiki/Public_key_certificate) выходит за рамки этого документа. Также как и объяснение, как получить корректно доверенные сертификаты.
 
-If anybody outside your organization needs to connect, get certs from a public certificate authority. Think carefully about revocation and cycling times, as well as automation, when picking a CA. If arbitrary applications inside your organization need to connect, use a cert from your in-house CA. If only resources inside a specific environment need to connect, that environment might have its own dedicated automatic CA, eg in Kubernetes clusters, so use that.
+Если к вам должны подключаться внешние по отношению к организации пользователи — получайте сертификаты у публичного CA. При выборе CA внимательно подумайте о ревокации, сроках ротации и автоматизации. Если подключаться должны произвольные приложения внутри вашей организации — используйте сертификат от внутреннего CA. Если подключаться должны только ресурсы внутри конкретной среды, у нее может быть собственный автоматический CA (например, в Kubernetes‑кластерах) — используйте его.
 
-**Only** for **testing** purposes does it make sense to generate self-signed certificates, even your own CA. This is a **short** guide on how to do just that and what to watch out for.
+**Только** для **тестирования** имеет смысл генерировать самоподписанные сертификаты, включая собственный CA. Ниже — **краткое** руководство, как это сделать и на что обратить внимание.
 
-> **DO NOT USE these certificates in production!!!**
+> **НЕ ИСПОЛЬЗУЙТЕ эти сертификаты в продакшне!!!**
 
-### Problems With Self Signed Certificates
+<a id="problems-with-self-signed-certificates"></a>
+### Проблемы с самоподписанными сертификатами
 
-The issues and pitfalls listed here are not limited to self-signed certificates. You will most likely encounter them first in DEV environments when using those.
+Проблемы и подводные камни здесь не ограничиваются самоподписанными сертификатами. Скорее всего, вы столкнетесь с ними в DEV‑окружениях при использовании таких сертификатов.
 
-#### Client advertise not matching TLS names
+#### Client advertise не совпадает с TLS‑именами
 
-NATS cluster advertises `host:port` of all nodes in a cluster to the connecting client. When connecting to a server via TLS the server name (or IP) is validated against the certificate presented by the server.
+Кластер NATS объявляет `host:port` всех узлов кластера подключающемуся клиенту. При подключении по TLS имя сервера (или IP) проверяется по сертификату, представленному сервером.
 
-When using TLS, it is important to control the hostname that clients will use when discovering the server. By default, the cluster will advertise an IP address, which may result in a failed TLS hostname verification with an IP SANs error.
+При использовании TLS важно контролировать hostname, который клиенты будут использовать при обнаружении сервера. По умолчанию кластер объявляет IP‑адрес, что может привести к ошибке проверки TLS hostname из‑за IP SANs.
 
-Set `avertise` or `cluster_advertise` in the cluster section to advertise verifiable server names. See [cluster_config.md](../clustering/cluster_config.md)
+Задайте `advertise` или `cluster_advertise` в разделе cluster, чтобы объявлять проверяемые имена серверов. См. [cluster_config.md](../clustering/cluster_config.md)
 
-#### Missing in Relevant Trust Stores
+#### Отсутствие в нужных хранилищах доверия
 
-As they should, these are **not trusted** by the system your server or clients are running on.
+Как и должно быть, такие сертификаты **не доверены** системой, на которой работают ваш сервер или клиенты.
 
-One option is to specify the CA in every client you are using. In case you make use of `verify`, `verify_and_map` or `verify_cert_and_check_known_urls` you need to specify `ca_file` in the server. If you are having a more complex setup involving cluster, gateways or leaf nodes, `ca_file` needs to be present in `tls` maps used to connect to the server with self-signed certificates. While this works for server and libraries from the NATS ecosystem, you will experience issues when connecting with other tools such as your Browser.
+Один вариант — указать CA в каждом клиенте, который вы используете. Если вы используете `verify`, `verify_and_map` или `verify_cert_and_check_known_urls`, нужно указать `ca_file` на сервере. Если у вас более сложная конфигурация с cluster, gateways или leaf nodes, `ca_file` должен присутствовать в `tls`‑картах, используемых для подключения к серверу с самоподписанными сертификатами. Это работает для серверов и библиотек из экосистемы NATS, но вы столкнетесь с проблемами при подключении другими инструментами, например браузером.
 
-Another option is to configure your system's trust store to include self-signed certificate\(s\). Which trust store needs to be configured depends on what you are testing.
+Другой вариант — настроить системное хранилище доверия, чтобы включить самоподписанный сертификат(ы). Какое именно хранилище нужно настроить, зависит от того, что вы тестируете.
 
-* This may be your OS for server and certain clients.
-* The runtime environment for other clients like Java, Python or Node.js.
-* Your browser for monitoring endpoints and websockets.
+* Это может быть ОС для сервера и некоторых клиентов.
+* Runtime‑окружение для других клиентов, таких как Java, Python или Node.js.
+* Ваш браузер для мониторинговых endpoint и websockets.
 
-Please check your system's documentation on how to trust a particular self-signed certificate.
+Проверьте документацию вашей системы о том, как доверять конкретному самоподписанному сертификату.
 
-#### Missing Subject Alternative Name
+<a id="missing-subject-alternative-name"></a>
+#### Отсутствие Subject Alternative Name
 
-Another common problem is failed [identity validation](https://tools.ietf.org/html/rfc6125). The IP or DNS name to connect to needs to match a [Subject Alternative Name \(SAN\)](https://tools.ietf.org/html/rfc4985) inside the certificate. Meaning, if a client/browser/server connect via tls to `127.0.0.1`, the server needs to present a certificate with a SAN containing the IP `127.0.0.1` or the connection will be closed with a handshake error.
+Еще одна частая проблема — проваленная [проверка идентичности](https://tools.ietf.org/html/rfc6125). IP или DNS‑имя для подключения должно совпадать с [Subject Alternative Name (SAN)](https://tools.ietf.org/html/rfc4985) внутри сертификата. То есть, если клиент/браузер/сервер подключается по TLS к `127.0.0.1`, сервер должен предъявить сертификат с SAN, содержащим IP `127.0.0.1`, иначе соединение будет закрыто с ошибкой рукопожатия.
 
-When `verify_cert_and_check_known_urls` is specified, [Subject Alternative Name \(SAN\)](https://tools.ietf.org/html/rfc4985) `DNS` records are necessary. In order to successfully connect there must be an overlap between the `DNS` records provided as part of the certificate and the urls configured. If you dynamically grow your cluster and use a new certificate, this route or gateway the server connects to will have to be reconfigured to include an url for the new server. Only then can the new server connect. If the `DNS` record is a wildcard, matching according to [rfc6125](https://tools.ietf.org/html/rfc6125#section-6.4.1) will be performed. Using certificates with a wildcard [Subject Alternative Name \(SAN\)](https://tools.ietf.org/html/rfc4985) and configuration with url\(s\) that would match are a way to keep the flexibility of dynamic cluster growth without configuration changes in other clusters.
+Когда указано `verify_cert_and_check_known_urls`, необходимы `DNS` записи [Subject Alternative Name (SAN)](https://tools.ietf.org/html/rfc4985). Для успешного подключения должен быть перекрестный набор `DNS` записей в сертификате и URL в конфигурации. Если вы динамически расширяете кластер и используете новый сертификат, то route или gateway, к которым подключается сервер, должны быть переконфигурированы, чтобы включить URL нового сервера. Только тогда новый сервер сможет подключиться. Если `DNS` запись — wildcard, сопоставление выполняется согласно [rfc6125](https://tools.ietf.org/html/rfc6125#section-6.4.1). Сертификаты с wildcard SAN и конфигурация с URL, которые будут совпадать, — способ сохранить гибкость динамического роста кластера без изменений конфигурации в других кластерах.
 
-#### Wrong Key Usage
+#### Неверное назначение ключа
 
-When generating your certificate you need to make sure to include the right purpose for which you want to use the certificate. This is encoded in [key usage](https://tools.ietf.org/html/rfc5280#section-4.2.1.3) and [extended key usage](https://tools.ietf.org/html/rfc5280#section-4.2.1.12). The necessary values for key usage depend on the ciphers used. `Digital Signature` and `Key Encipherment` are an interoperable choice.
+При генерации сертификата нужно убедиться, что включено правильное назначение, для которого будет использоваться сертификат. Это закодировано в [key usage](https://tools.ietf.org/html/rfc5280#section-4.2.1.3) и [extended key usage](https://tools.ietf.org/html/rfc5280#section-4.2.1.12). Необходимые значения key usage зависят от используемых cipher’ов. `Digital Signature` и `Key Encipherment` — совместимый выбор.
 
-With respect to NATS the relevant values for extended key usage are:
+Для NATS важны следующие значения extended key usage:
 
-* `TLS WWW server authentication` - To authenticate as server for incoming connections. A NATS server will need a certificate containing this.
-* `TLS WWW client authentication` - To authenticate as client for outgoing connections. Only needed when connecting to a server where `verify`, `verify_and_map` or `verify_cert_and_check_known_urls` are specified. In these cases, a NATS client will need a certificate with this value.
-  * [Leaf node](../leafnodes/) connections can be configured with `verify` as well. Then the connecting NATS server will have to present a certificate with this value too. Certificates containing both values are an option.
-  * [Cluster](../clustering/) connections always have `verify` enabled. Which server acts as client and server comes down to timing and therefore can't be individually configured. Certificates containing both values are a must.
-  * [Gateway](../gateways/) connections always have `verify` enabled. Unlike cluster outgoing connections can specify a separate cert. Certificates containing both values are an option that reduce configuration.
+* `TLS WWW server authentication` — для аутентификации в роли сервера для входящих соединений. Сервер NATS должен иметь сертификат с этим значением.
+* `TLS WWW client authentication` — для аутентификации в роли клиента для исходящих соединений. Нужен только при подключении к серверу, где указаны `verify`, `verify_and_map` или `verify_cert_and_check_known_urls`. В этих случаях клиент NATS должен иметь сертификат с этим значением.
+  * [Leaf node](../leafnodes/) подключения также могут быть настроены с `verify`. Тогда подключающийся сервер NATS тоже должен предъявить сертификат с этим значением. Сертификаты с обоими значениями — вариант.
+  * [Cluster](../clustering/) подключения всегда имеют `verify` включенным. Какой сервер выступает клиентом и сервером зависит от времени, поэтому нельзя настроить отдельно. Сертификаты с обоими значениями обязательны.
+  * [Gateway](../gateways/) подключения всегда имеют `verify` включенным. В отличие от cluster, исходящие соединения могут задавать отдельный сертификат. Сертификаты с обоими значениями — вариант, уменьшающий конфигурацию.
 
-Note that it's common practice for non-web protocols to use the `TLS WWW` authentication fields, as a matter of history those have become embedded as generic options.
+Обратите внимание: это распространенная практика для не‑web протоколов — использовать поля `TLS WWW` аутентификации. Исторически они стали общими опциями.
 
-### Creating Self Signed Certificates for Testing
+### Создание самоподписанных сертификатов для тестирования
 
-The simplest way to generate a CA as well as client and server certificates is [mkcert](https://github.com/FiloSottile/mkcert). This zero config tool generates and installs the CA into your **local** system trust store\(s\) and makes providing SAN straight forward. Check its [documentation](https://github.com/FiloSottile/mkcert/blob/master/README.md) for installation and your system's trust store. Here is a simple example:
+Самый простой способ сгенерировать CA, а также клиентские и серверные сертификаты — [mkcert](https://github.com/FiloSottile/mkcert). Этот инструмент без настройки генерирует и устанавливает CA в **локальные** хранилища доверия и упрощает работу с SAN. См. его [документацию](https://github.com/FiloSottile/mkcert/blob/master/README.md) по установке и хранилищам доверия. Простой пример:
 
-Generate a CA as well as a certificate, valid for server authentication by `localhost` and the IP `::1`\(`-cert-file` and `-key-file` overwrite default file names\). Then start a NATS server using the generated certificate.
+Сгенерировать CA и сертификат, валидный для серверной аутентификации по `localhost` и IP `::1` (опции `-cert-file` и `-key-file` переопределяют имена файлов по умолчанию). Затем запустить NATS сервер с этим сертификатом.
 
 ```bash
 mkcert -install
@@ -191,46 +196,46 @@ mkcert -cert-file server-cert.pem -key-file server-key.pem localhost ::1
 nats-server --tls --tlscert=server-cert.pem --tlskey=server-key.pem -ms 8222
 ```
 
-Now you should be able to access the monitoring endpoint `https://localhost:8222` with your browser.
-`https://127.0.0.1:8222` however should result in an error as `127.0.0.1` is not listed as SAN. You will not be able to establish a connection from another computer either. For that to work you have to provide appropriate DNS and/or IP [SAN\(s\)](tls.md#missing-subject-alternative-name)
+Теперь вы должны иметь доступ к endpoint мониторинга `https://localhost:8222` в браузере.
+`https://127.0.0.1:8222` при этом даст ошибку, так как `127.0.0.1` не указан в SAN. Вы также не сможете установить соединение с другого компьютера. Для этого нужно добавить соответствующие DNS и/или IP [SAN](tls.md#missing-subject-alternative-name).
 
-To generate certificates that work with `verify` and [`cluster`](../clustering/)/[`gateway`](../gateways/)/[`leaf_nodes`](../leafnodes/) provide the `-client` option. It will cause the appropriate key usage for client authentication to be added. This example also adds a SAN email for usage as user name in `verify_and_map`.
+Чтобы сгенерировать сертификаты, работающие с `verify` и [`cluster`](../clustering/)/[`gateway`](../gateways/)/[`leaf_nodes`](../leafnodes/), используйте опцию `-client`. Это добавит необходимые key usage для клиентской аутентификации. В этом примере также добавляется SAN‑email для использования в качестве имени пользователя при `verify_and_map`.
 
 ```bash
 mkcert -client -cert-file client-cert.pem -key-file client-key.pem localhost ::1 email@localhost
 ```
 
-> Please note:
+> Обратите внимание:
 >
-> * That client refers to connecting process, not necessarily a NATS client.
-> * `mkcert -client` will generate a certificate with key usage suitable for client **and** server authentication.
+> * client относится к процессу подключения, не обязательно к NATS‑клиенту.
+> * `mkcert -client` сгенерирует сертификат с key usage, подходящим для клиентской **и** серверной аутентификации.
 
-Examples in this document make use of the certificates generated so far. To simplify examples using the CA certificate, copy `rootCA.pem` into the same folder where the certificates were generated. To obtain the CA certificate's location use this command:
+Примеры в этом документе используют сертификаты, сгенерированные выше. Чтобы упростить примеры с использованием CA‑сертификата, скопируйте `rootCA.pem` в ту же папку, где были сгенерированы сертификаты. Чтобы узнать расположение CA‑сертификата, используйте команду:
 
 ```bash
 mkcert -CAROOT
 ```
 
-Once you are done testing, remove the CA from your **local** system trust store\(s\).
+После завершения тестирования удалите CA из **локальных** хранилищ доверия.
 
 ```text
 mkcert -uninstall
 ```
 
-Alternatively, you can also use [openssl](https://www.openssl.org/) to [generate certificates](https://www.digitalocean.com/community/tutorials/openssl-essentials-working-with-ssl-certificates-private-keys-and-csrs). This tool allows a lot more customization of the generated certificates. It is **more complex** and does **not manage** installation into the system trust store\(s\).
+В качестве альтернативы можно использовать [openssl](https://www.openssl.org/) для [генерации сертификатов](https://www.digitalocean.com/community/tutorials/openssl-essentials-working-with-ssl-certificates-private-keys-and-csrs). Этот инструмент позволяет значительно больше настроек, но он **сложнее** и **не управляет** установкой в системные хранилища доверия.
 
-However, for inspecting certificates it is quite handy. To inspect the certificates from the above example execute these commands:
+Однако для инспекции сертификатов он очень удобен. Чтобы просмотреть сертификаты из примера выше, выполните команды:
 
 ```bash
 openssl x509 -noout -text -in server-cert.pem
 openssl x509 -noout -text -in client-cert.pem
 ```
 
-## TLS-Terminating Reverse Proxies
+## TLS‑terminating reverse proxies
 
-Using a [TLS-terminating reverse proxy](https://en.wikipedia.org/wiki/TLS_termination_proxy) with NATS requires some specific configuration on the server.
-In a typical proxy scenario, the client to proxy communication is secured and the proxy to server is insecure. This causes a "mismatch" because the server appears to be insecure
-but the client is told to connect securely. To fix this, the server must be configured as "tls available". This is done via an empty `tls` block and the `allow_non_tls` flag.
+Использование [TLS‑terminating reverse proxy](https://en.wikipedia.org/wiki/TLS_termination_proxy) с NATS требует специфичной конфигурации сервера.
+В типичном сценарии прокси связь клиент‑прокси защищена, а прокси‑сервер — нет. Это вызывает "несоответствие", потому что сервер выглядит небезопасным,
+но клиенту говорят подключаться безопасно. Чтобы исправить это, сервер нужно настроить как "tls available". Это делается пустым блоком `tls` и флагом `allow_non_tls`.
 
 ```
 tls {}
@@ -238,9 +243,9 @@ allow_non_tls: true
 ```
 
 
-Once this is configured, your client can connect to the proxy with normal (language specific) tls configuration. Please make sure you are using the appropriate version of your language specific client.
+После этого клиент может подключаться к прокси с обычной (языко‑специфичной) TLS‑конфигурацией. Убедитесь, что вы используете подходящую версию вашего клиентского драйвера.
 
-| Client | Version |
+| Клиент | Версия |
 | --- | --- |
 | nats.go | v1.31.0 |
 | nats.js | 2024.1.2 |
@@ -252,13 +257,8 @@ Once this is configured, your client can connect to the proxy with normal (langu
 
 ### nats.js
 
-See: <https://github.com/nats-io/nats.js/issues/369>
+См.: <https://github.com/nats-io/nats.js/issues/369>
 
 ### nats.rs
 
-See: <https://github.com/nats-io/nats.rs/blob/main/async-nats/src/connector.rs>
-
-### nats.net (v1)
-
-See: <https://github.com/nats-io/nats.net.v1/tree/main/src/Samples/TlsVariationsExample>
-
+См.: <https://github.com/nats-io/nats.rs/blob/main/async-nats/src/connector.rs>

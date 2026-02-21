@@ -1,12 +1,12 @@
-# Key Value Store
+# Хранилище ключ-значение
 
-As the Key Value Store is built on top of the JetStream persistence layer you obtain a KeyValueManager object from your JetStream [context](context.md).
+Поскольку Key Value Store построен поверх слоя персистентности JetStream, объект KeyValueManager вы получаете из JetStream [context](context.md).
 
-The key must be in the same format as a NATS subject, i.e. it can be a dot separated list of tokens (which means that you can then use wildcards to match hierarchies of keys when watching a bucket), and can only contain [valid characters](../../../nats-concepts/subjects.md#characters-allowed-for-subject-names). The value can be any byte array.
+Ключ должен быть в том же формате, что и subject в NATS, то есть это может быть список токенов, разделённых точками (что позволяет использовать wildcard для сопоставления иерархий ключей при наблюдении за bucket), и он может содержать только [допустимые символы](../../../nats-concepts/subjects.md#characters-allowed-for-subject-names). Значение может быть любым массивом байт.
 
-### Creating, and deleting KV buckets
+### Создание и удаление KV buckets
 
-You can create as many independent key/value store instance, called 'buckets', as you need. Buckets are typically created, purged or deleted administratively (e.g. using the `nats` CLI tool), but this can also be done using one of the following KeyValueManager calls:
+Можно создавать столько независимых экземпляров key/value store, называемых «buckets», сколько нужно. Buckets обычно создаются, очищаются (purge) или удаляются административно (например, с помощью CLI `nats`), но это также можно сделать одним из следующих вызовов KeyValueManager:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -143,9 +143,9 @@ NATS_EXTERN void 	kvStore_Destroy (kvStore *kv)
 
 {% endtabs %}
 
-### Getting
+### Получение
 
-You can do a get to get the current value on a key, or ask to get a specific revision of the value.
+Вы можете выполнить get, чтобы получить текущее значение по ключу, или запросить конкретную ревизию значения.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -219,9 +219,9 @@ NATS_EXTERN natsStatus 	kvStore_GetRevision (kvEntry **new_entry, kvStore *kv, c
 
 {% endtabs %}
 
-### Putting
+### Запись
 
-The key is always a string, you can simply use Put to store a byte array, or the convenience `PutString` to put a string. For 'compare and set' functionality you can use `Create` and `Update`.
+Ключ всегда строка, можно просто использовать Put для сохранения массива байт или удобный `PutString` для записи строки. Для функциональности «compare and set» используйте `Create` и `Update`.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -364,9 +364,9 @@ NATS_EXTERN natsStatus 	kvStore_UpdateString (uint64_t *rev, kvStore *kv, const 
 
 {% endtabs %}
 
-### Deleting
+### Удаление
 
-You can delete a specific key, or purge the whole key/value bucket.
+Можно удалить конкретный ключ или выполнить purge всего key/value bucket.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -448,9 +448,9 @@ NATS_EXTERN natsStatus 	kvStore_PurgeDeletes (kvStore *kv, kvPurgeOptions *opts)
 
 {% endtabs %}
 
-### Getting all the keys
+### Получение всех ключей
 
-You can get the list of all the keys currently having a value associated using `Keys()`
+Можно получить список всех ключей, у которых сейчас есть значение, используя `Keys()`.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -474,7 +474,8 @@ List<String> keys() throws IOException, JetStreamApiException, InterruptedExcept
 {% endtab %}
 {% tab title="JavaScript" %}
 ```javascript
-async keys(k = ">"): Promise<QueuedIterator<string>>
+async keys(k = ">"):
+Promise<QueuedIterator<string>>
 ```
 {% endtab %}
 
@@ -504,9 +505,9 @@ NATS_EXTERN void 	kvKeysList_Destroy (kvKeysList *list)
 
 {% endtabs %}
 
-### Getting the history for a key
+### Получение истории ключа
 
-The JetStream key/value store has a feature you don't usually find in key/value stores: the ability to keep a history of the values associated with a key (rather than just the current value). The depth of the history is specified when the key/value bucket is created, and the default is a history depth of 1 (i.e. no history). The maximum history size is 64, if you need more your use case will be better implemented using the Stream functionality directly (where you can set the max number of messages per subject to any value you want) rather than the KV abstraction.
+KV store JetStream имеет функцию, которая обычно не встречается в key/value store: возможность хранить историю значений, связанных с ключом (а не только текущее значение). Глубина истории задаётся при создании key/value bucket, значение по умолчанию — глубина истории 1 (то есть без истории). Максимальная глубина истории — 64; если нужно больше, лучше использовать функциональность Stream напрямую (где можно задать max сообщений на subject) вместо абстракции KV.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -560,9 +561,9 @@ NATS_EXTERN void 	kvEntryList_Destroy (kvEntryList *list)
 
 {% endtabs %}
 
-### Watching for changes
+### Наблюдение за изменениями
 
-Watching a key/value bucket is like subscribing to updates: you provide a callback and you can watch all of the keys in the bucket or specify which specific key(s) you want to be kept updated about.
+Наблюдение за key/value bucket похоже на подписку на обновления: вы задаёте callback и можете наблюдать все ключи в bucket или указать конкретные ключи, за которыми нужно следить.
 
 {% tabs %}
 {% tab title="Go" %}

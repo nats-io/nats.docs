@@ -1,31 +1,31 @@
-# Building Services
+# Построение сервисов
 
-Recently we have agreed upon an [initial specification](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-32.md) for a services protocol so that we can add first-class services support to NATS clients and support this in our tooling. This services protocol is an agreement between clients and tooling and doesn't require any special functionality from the NATS server or JetStream.
+Недавно мы согласовали [начальную спецификацию](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-32.md) протокола сервисов, чтобы добавить поддержку сервисов первого класса в клиенты NATS и поддержать это в инструментах. Этот протокол сервисов — соглашение между клиентами и инструментами и не требует специальной функциональности от сервера NATS или JetStream.
 
-To check if the NATS client in your favorite language supports the new services API, make sure you check the docs and GitHub repository for that client. The services API is relatively new and not all clients may support it yet.
+Чтобы проверить, поддерживает ли клиент NATS на вашем любимом языке новый API сервисов, обязательно посмотрите документацию и репозиторий GitHub этого клиента. API сервисов относительно новый, и не все клиенты могут поддерживать его на данный момент.
 
-To see the services API in action in different languages, take a look at the [NATS By Example](https://natsbyexample.com/examples/services/intro/go) samples.
+Чтобы увидеть API сервисов в действии на разных языках, посмотрите примеры [NATS By Example](https://natsbyexample.com/examples/services/intro/go).
 
-## Concepts
+## Концепции
 
-There are a few high level concepts in the services API worth understanding before you start developing your own services.
+Есть несколько высокоуровневых концепций API сервисов, которые важно понимать перед началом разработки собственных сервисов.
 
 ### Service
 
-The service is the highest level abstraction and refers to a group of logically related functionality. Services are required to have names and versions that conform to the [semver](https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string) rules. Services are discoverable within a NATS system.
+Service — абстракция верхнего уровня и относится к группе логически связанных функций. Сервисы должны иметь имя и версию, соответствующие правилам [semver](https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string). Сервисы доступны для обнаружения в системе NATS.
 
 ### Endpoint
 
-A service endpoint is the entity with which clients interact. You can think of an endpoint as a single operation within a service. All services must have at least 1 endpoint.
+Endpoint сервиса — сущность, с которой взаимодействуют клиенты. Можно думать об endpoint как об одной операции внутри сервиса. Все сервисы должны иметь как минимум один endpoint.
 
 ### Group
 
-A group is a collection of endpoints. These are optional and can provide a logical association between endpoints as well as an optional common subject prefix for all endpoints.
+Group — коллекция endpoints. Это опционально и может предоставлять логическую связь между endpoints, а также опциональный общий префикс subject для всех endpoints.
 
-## Service Operations
+## Операции сервисов
 
-The services API supports 3 operations for discoverability and observability. While the NATS client will take care of responding on these subjects, it is still the developer's responsibility to respond to requests made the service's actual endpoints.
+API сервисов поддерживает 3 операции для обнаружения и наблюдаемости. Хотя клиент NATS берёт на себя ответы на этих subject, ответственность разработчика — отвечать на запросы, направленные на реальные endpoints сервиса.
 
-* `PING` - Requests made on the `$SRV.PING.>` subject gather replies from running services. This facilitates service listing by tooling.
-* `STATS` - Requests made on the `$SRV.STATS.>` subject query statistics from services. Available stats include total requests, total errors, and total processing time.
-* `INFO` - Requests made on the `$SRV.INFO.>` subject obtain the service definition and metadata, including groups, endpoints, etc.
+* `PING` — запросы на subject `$SRV.PING.>` собирают ответы от работающих сервисов. Это облегчает список сервисов для инструментов.
+* `STATS` — запросы на subject `$SRV.STATS.>` запрашивают статистику сервисов. Доступная статистика включает общее число запросов, общее число ошибок и общее время обработки.
+* `INFO` — запросы на subject `$SRV.INFO.>` получают определение сервиса и метаданные, включая группы, endpoints и т. д.

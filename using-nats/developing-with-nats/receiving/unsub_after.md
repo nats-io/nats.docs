@@ -1,12 +1,12 @@
-# Unsubscribing After N Messages
+# Автоотписка после N сообщений
 
-NATS provides a special form of unsubscribe that is configured with a message count and takes effect when that many messages are sent to a subscriber. This mechanism is very useful if only a single message is expected.
+NATS предоставляет специальную форму отписки, которая настраивается количеством сообщений и срабатывает, когда подписчику отправлено указанное число сообщений. Этот механизм очень полезен, если ожидается только одно сообщение.
 
-The message count you provide is the total message count for a subscriber. So if you unsubscribe with a count of 1, the server will stop sending messages to that subscription after it has received one message. If the subscriber has already received one or more messages, the unsubscribe will be immediate. This action based on history can be confusing if you try to auto-unsubscribe on a long running subscription, but is logical for a new one.
+Количество сообщений, которое вы задаёте, — это общее число сообщений для подписчика. Поэтому если вы настроили автоотписку с числом 1, сервер прекратит отправку сообщений этой подписке после получения одного сообщения. Если подписчик уже получил одно или больше сообщений, отписка произойдёт немедленно. Это поведение, основанное на истории, может сбивать с толку, если вы пытаетесь автоотписаться на долгоживущей подписке, но оно логично для новой.
 
-Auto-unsubscribe is based on the total messages sent to a subscriber, not just the new ones. Most of the client libraries also track the max message count after an auto-unsubscribe request. On reconnect, this enables clients to resend the unsubscribe with an updated total.
+Автоотписка основана на общем числе сообщений, отправленных подписчику, а не только новых. Большинство клиентских библиотек также отслеживает максимальное число сообщений после запроса автоотписки. При переподключении это позволяет клиентам повторно отправить отписку с обновлённым общим числом.
 
-The following example shows unsubscribe after a single message:
+Следующий пример показывает автоотписку после одного сообщения:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -195,4 +195,3 @@ natsConnection_Destroy(conn);
 ```
 {% endtab %}
 {% endtabs %}
-

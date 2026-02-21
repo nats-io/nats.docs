@@ -1,8 +1,8 @@
-# Structured Data
+# Структурированные данные
 
-Client libraries may provide tools to help receive structured data, like JSON. The core traffic to the NATS server will always be opaque byte arrays. The server does not process message payloads in any form. For libraries that don't provide helpers, you can always encode and decode data before sending the associated bytes to the NATS client.
+Клиентские библиотеки могут предоставлять инструменты для получения структурированных данных, например JSON. Базовый трафик к серверу NATS всегда является непрозрачными массивами байт. Сервер не обрабатывает payload сообщений в каком-либо виде. Для библиотек, которые не предоставляют вспомогательных функций, вы всегда можете кодировать и декодировать данные до отправки соответствующих байтов в клиент NATS.
 
-For example, to receive JSON you could do:
+Например, чтобы получать JSON, можно сделать так:
 
 {% tabs %}
 {% tab title="Go" %}
@@ -242,4 +242,3 @@ end
 ```
 {% endtab %}
 {% endtabs %}
-

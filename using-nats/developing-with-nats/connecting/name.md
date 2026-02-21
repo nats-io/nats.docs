@@ -1,6 +1,6 @@
-# Connection Name
+# Имя подключения
 
-Connections can be assigned a name which will appear in some of the server monitoring data. This name is not required, but is **highly recommended** as a friendly connection name will help in monitoring, error reporting, debugging, and testing.
+Подключениям можно назначать имя, которое будет отображаться в части данных мониторинга сервера. Имя не обязательно, но **настоятельно рекомендуется**, поскольку понятное имя подключения помогает при мониторинге, отчётах об ошибках, отладке и тестировании.
 
 {% tabs %}
 {% tab title="Go" %}
@@ -97,4 +97,3 @@ natsOptions_Destroy(opts);
 ```
 {% endtab %}
 {% endtabs %}
-

@@ -1,13 +1,13 @@
-# NATS connectivity
+# Подключения NATS
 
-NATS supports several kinds of connectivity _directly_ to the NATS servers.
+NATS поддерживает несколько видов подключений _напрямую_ к серверам NATS.
 
-* Plain NATS connections
-* TLS encrypted NATS connections
-* [WebSocket](https://github.com/nats-io/nats.ws) NATS connections
-* [MQTT](/running-a-nats-service/configuration/mqtt/) client connections
+* Обычные NATS‑подключения
+* NATS‑подключения с TLS‑шифрованием
+* [WebSocket](https://github.com/nats-io/nats.ws) NATS‑подключения
+* Подключения клиентов [MQTT](/running-a-nats-service/configuration/mqtt/)
 
-There is also a number of adapters available to bridge traffic to and from other messaging systems
+Также доступен ряд адаптеров для мостов трафика в другие системы обмена сообщениями и обратно.
 
 * [Kafka Bridge](https://github.com/nats-io/nats-kafka)
-* [JMS](https://github.com/nats-io/nats-jms-bridge) which can also be used to bridge MQ and RabbitMQ, since they both offer a JMS interface
+* [JMS](https://github.com/nats-io/nats-jms-bridge), который также можно использовать для интеграции с MQ и RabbitMQ, так как оба предоставляют интерфейс JMS
