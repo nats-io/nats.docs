@@ -291,7 +291,7 @@ nsc describe account
 Finally the user JWT:
 
 ```bash
-nsc describe user
+nsc describe user MyUser
 ```
 ```text
 +---------------------------------------------------------------------------------+
