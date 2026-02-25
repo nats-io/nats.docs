@@ -23,7 +23,7 @@
 * [Is there a message size limitation in NATS?](faq.md#is-there-a-message-size-limitation-in-nats)
 * [Does NATS impose any limits on the # of subjects?](faq.md#does-nats-impose-any-limits-on-the-of-subjects)
 * [Does NATS guarantee message delivery?](faq.md#does-nats-guarantee-message-delivery)
-* [Does NATS support replay/redelivery of historical data?](faq.md#does-nats-support-replayredelivery-of-historical-data)
+* [Does NATS support replay/redelivery of historical data?](faq.md#does-nats-support-replay-redelivery-of-historical-data)
 * [How do I gracefully shut down an asynchronous subscriber?](faq.md#how-do-i-gracefully-shut-down-an-asynchronous-subscriber)
 * [How do I create subjects?](faq.md#how-do-i-create-subjects)
 * [How many clients can connect simultaneously?](faq.md#how-many-clients-can-connect-simultaneously)
