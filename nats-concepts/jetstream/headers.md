@@ -63,34 +63,27 @@ Introduced in version 2.11 - see [ADR-41](https://github.com/nats-io/nats-archit
 | `Nats-Trace-Hop` | Internal. **Do not set**. Set by the server to count hops.  | `<hop count>` | 2.11   |
 | `Nats-Trace-Origin-Account` | Internal. **Do not set**. Set by the server when an account boundary is crossed  | `<account name>` | 2.11   |
 
-
-
-
-
 ## Scheduler
 
 Message scheduling in streams. Needs to be enabled on the stream with "allow schedules" flag.
 
-Introduced in version 2.11 - see [ADR-51](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-51.md)
+Introduced in version 2.12 with extensions in 2.14 - see [ADR-51](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-51.md)
 
-| Name            | Description                          | Example | Version |
-| :-------------- | :----------------------------------- | :------ | :------ |
-| `Nats-Schedule` | When the message will be sent to the target subject. Several formats are suppported: A timestamp for sending a messages once. Crontab format for repeated messages and simple alias for common crontab formats.| `0 30 14 * * *`, `@hourly`, `daily`, `@at 2009-11-10T23:00:00Z` (RFC3339 format)   | 2.11   |
-| `Nats-Schedule-TTL` | Optional. The TTL to be set on the final message on the target subject. | `1h`, `10s` (valid go duration string) | 2.11  |
-| `Nats-Schedule-Target` | The target subject the final message will be sent to. Note that this must be distinct from the scheduling subject the message arrived in. | `orders`  | 2.11  |
-| `Nats-Schedule-Source` | Optional. Instructs the schedule to read the last message on the given subject and publish it. If the Subject is empty, nothing is published, wildcards are not supported. | `orders.customer_acme`  | 2.11  |
-| `Nats-Schedule-Time-Zone` | Optional. The time zone used for the Cron schedule. If not specified, the Cron schedule will be in UTC. Not allowed to be used if the schedule is not a Cron schedule. | `CET`  | 2.11  |
+| Name                      | Description                                                                                                                                                                                                                | Example                                                                                        | Version                          |
+|:--------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------|:---------------------------------|
+| `Nats-Schedule`           | When the message will be sent to the target subject. Several formats are suppported: A timestamp for sending a messages once. Crontab format for repeated messages and simple alias for common crontab formats.            | `0 30 14 * * *`, `@hourly`, `@daily`, `@every 5m`, `@at 2009-11-10T23:00:00Z` (RFC3339 format) | 2.12 (repeating schedules: 2.14) |
+| `Nats-Schedule-TTL`       | Optional. The TTL to be set on the final message on the target subject.                                                                                                                                                    | `1h`, `10s` (valid go duration string)                                                         | 2.12                             |
+| `Nats-Schedule-Target`    | The target subject the final message will be sent to. Note that this must be distinct from the scheduling subject the message arrived in.                                                                                  | `orders`                                                                                       | 2.12                             |
+| `Nats-Schedule-Source`    | Optional. Instructs the schedule to read the last message on the given subject and publish it. If the Subject is empty, the schedule message's content is the same as the schedule's content. Wildcards are not supported. | `orders.customer_acme`                                                                         | 2.14                             |
+| `Nats-Schedule-Time-Zone` | Optional. The time zone used for the Cron schedule. If not specified, the Cron schedule will be in UTC. Not allowed to be used if the schedule is not a Cron schedule.                                                     | `CET`                                                                                          | 2.14                             |
 
 The final scheduled message will contain the following headers.
 
-| Name            | Description                          | Example | Version |
-| :-------------- | :----------------------------------- | :------ | :------ |
-| `Nats-Scheduler` | The subject holding the schedule | `orders.schedule.1234`  | 2.11   |
-| `Nats-Schedule-Next` | Timestamp for next invocation for cron schedule messages or purge for delayed messages | `2009-11-10T23:00:00Z` | 2.11  |
-| `Nats-TTL` | The TTL value when Nats-Schedule-TTL was set | `1h`, `10s`  | 2.11  |
-
-##
-
+| Name                 | Description                                                                              | Example                         | Version |
+|:---------------------|:-----------------------------------------------------------------------------------------|:--------------------------------|:--------|
+| `Nats-Scheduler`     | The subject holding the schedule                                                         | `orders.schedule.1234`          | 2.12    |
+| `Nats-Schedule-Next` | Timestamp for next invocation for cron schedule messages or `purge` for delayed messages | `2009-11-10T23:00:00Z`, `purge` | 2.12    |
+| `Nats-TTL`           | The TTL value when `Nats-Schedule-TTL` was set                                           | `1h`, `10s`                     | 2.12    |
 
 ## Batch send
 
@@ -98,11 +91,11 @@ Introduced in version 2.12 with optimizations in 2.14 - see [ADR-50](https://git
 
 Atomic batch sends will use the following headers. Batches are atomic on send only, but a client may reconstruct a batch using the headers below.
 
-| Name            | Description                          | Example | Version |
-| :-------------- | :----------------------------------- | :------ | :------ |
-| `Nats-Batch-Id` | Unique identifier for the batch. | `<uuid>` (<=64 characters)  | 2.12   |
-| `Nats-Batch-Sequence` | Monotonously increasing id, starting with `1` | `1`, `2` | 2.12   |
-| `Nats-Batch-Commit` | Only on last message. `1` commit the batch including this message. `eob` commit the batch excluding this message. Any other value will terminate the batch. | `1`, `eob`   | 2.12   |
+| Name                  | Description                                                                                                                                                 | Example                    | Version            |
+|:----------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------|:-------------------|
+| `Nats-Batch-Id`       | Unique identifier for the batch.                                                                                                                            | `<uuid>` (<=64 characters) | 2.12               |
+| `Nats-Batch-Sequence` | Monotonously increasing id, starting with `1`                                                                                                               | `1`, `2`                   | 2.12               |
+| `Nats-Batch-Commit`   | Only on last message. `1` commit the batch including this message. `eob` commit the batch excluding this message. Any other value will terminate the batch. | `1`, `eob`                 | 2.12 (`eob`: 2.14) |
 
 
 ## Internal 
@@ -111,16 +104,13 @@ Headers used internally by API clients and the server. Should not be set by user
   
 This is list is not exhaustive. Headers used in error replies may not be documented.
 
-| Name            | Description                          | Example | Version |
-| :-------------- | :----------------------------------- | :------ | :------ |
-| `Nats-Required-Api-Level` | Optional. The required API level for the JetStream request. Servers from version 2.11 will return an error if larger than the support API level.  | `2` (Integer value) | 2.11  |
-| `Nats-Request-Info` |  When messages cross account boundaries a header with origin information (account, user etc) may be added. |  | 2.2.0  |
-| `Nats-Marker-Reason` |  When messages are removed from a KV where subject delete markers are supported, a delete marker will be placed. And notifications are sent to interested watchers. The message payload is empty and the removal reason is indicated through this header. See [ADR-48](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-48.md)  | `MaxAge`, `Remove`, `Purge` | 2.12  |
-| `Nats-Incr` | Used in KV stores to atomically increment counter. Any valid integer (including 0) starting with a sign..  See [ADR-49](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-49.md)  | `+1`, `+42`, `-1`, `+0`  | 2.12  |
-| `Nats-Counter-Sources` | Tracking `Nats-Incr` when messages are sourced. For details see: [ADR-49](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-49.md)  |  | 2.12  |
-
-
-Nats-Counter-Sources
+| Name                      | Description                                                                                                                                                                                                                                                                                                                                            | Example                     | Version |
+|:--------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------|:--------|
+| `Nats-Required-Api-Level` | Optional. The required API level for the JetStream request. Servers from version 2.11 will return an error if larger than the support API level.                                                                                                                                                                                                       | `2` (Integer value)         | 2.12    |
+| `Nats-Request-Info`       | When messages cross account boundaries a header with origin information (account, user etc) may be added.                                                                                                                                                                                                                                              |                             | 2.2.0   |
+| `Nats-Marker-Reason`      | When messages are removed from a KV where subject delete markers are supported, a delete marker will be placed. And notifications are sent to interested watchers. The message payload is empty and the removal reason is indicated through this header. See [ADR-48](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-48.md) | `MaxAge`, `Remove`, `Purge` | 2.11    |
+| `Nats-Incr`               | Used in KV stores to atomically increment counter. Any valid integer (including 0) starting with a sign..  See [ADR-49](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-49.md)                                                                                                                                               | `+1`, `+42`, `-1`, `+0`     | 2.12    |
+| `Nats-Counter-Sources`    | Tracking `Nats-Incr` when messages are sourced. For details see: [ADR-49](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-49.md)                                                                                                                                                                                             |                             | 2.12    |
 
 ## Mirror
 
