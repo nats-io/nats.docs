@@ -4,7 +4,7 @@ NATS client applications use a PING/PONG protocol to check that there is a worki
 
 ![](../../../.gitbook/assets/pingpong.svg)
 
-The connection will be closed as stale when the client reaches a number of pings which recieved no pong in response, which is configured by specifying the maximum pings outstanding on the client connection settings.
+The connection will be closed as stale when the client reaches a number of pings which received no pong in response, which is configured by specifying the maximum pings outstanding on the client connection settings.
 
 The ping interval and the maximum pings outstanding work together to specify how quickly the client connection will be notified of a problem. This will also help when there is a remote network partition where the operating system does not detect a socket error. Upon connection close, the client will attempt to reconnect. When it knows about other servers, these will be tried next.
 

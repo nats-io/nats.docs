@@ -176,7 +176,7 @@ The Store interface was updated:
 
 - Added error `ErrAlreadyExists` that `CreateChannel()` should return if channel already exists.
 - `RecoveredState` has now `Channels` (instead of `Subs`) and is a map of `*RecoveredChannel` keyed by channel name.
-- `RecoveredChannel` has a pointer to a `Channel` (formely `ChannelStore`) and an array of pointers to `RecoveredSubscription` objects.
+- `RecoveredChannel` has a pointer to a `Channel` (formerly `ChannelStore`) and an array of pointers to `RecoveredSubscription` objects.
 - `RecoveredSubscription` replaces `RecoveredSubState`.
 - `Client` no longer stores a `UserData` field.
 - `Channel` (formerly `ChannelStore`) no longer stores a `UserData` field.
