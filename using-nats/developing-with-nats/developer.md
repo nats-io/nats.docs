@@ -20,7 +20,7 @@ Not all libraries have their own documentation, depending on the language commun
 
 There are many other NATS client libraries and examples contributed and maintained by the community and available on GitHub, such as:
 
-* [Kotlin](https://github.com/nats-io/kotlin-nats-examples)
+* [Kotlin Multiplatform client](https://github.com/n-hass/nats.kt), and Java client in [Kotlin examples](https://github.com/nats-io/kotlin-nats-examples)
 * [Dart](https://github.com/dgofman/nats_client), [Dart](https://github.com/chartchuo/dart-nats) and [Dart](https://github.com/c16a/nats-dart)
 * [Tcl](https://github.com/Kazmirchuk/nats-tcl)
 * [Crystal](https://github.com/jgaskins/nats)
