@@ -2685,7 +2685,7 @@ As in the client protocol, the NATS protocol operation names are case insensitiv
 <h2 id="rs"><a name="rs" class="plugin-anchor" href="#rs"><i class="fa fa-link" aria-hidden="true"></i></a><a name="SUB"></a>RS+</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
 <p><code>RS+</code> initiates a subscription to a subject on on a given account, optionally with a distributed queue group name and weighting factor.
-Note that queue subscriptions will use RS+ for increases and descreases to queue weight except when the weighting factor is 0.</p>
+Note that queue subscriptions will use RS+ for increases and decreases to queue weight except when the weighting factor is 0.</p>
 <h4 id="syntax"><a name="syntax" class="plugin-anchor" href="#syntax"><i class="fa fa-link" aria-hidden="true"></i></a>Syntax</h4>
 <p><strong>Subscription</strong>: <code>RS+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>account</span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>subject</span><span class="token punctuation">&gt;</span></span>\r\n</code></p>
 <p><strong>Queue Subscription</strong>: <code>RS+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>account</span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>subject</span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>queue</span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>weight</span><span class="token punctuation">&gt;</span></span>\r\n</code></p>
@@ -2698,7 +2698,7 @@ Note that queue subscriptions will use RS+ for increases and descreases to queue
 </ul>
 <h2 id="rs-"><a name="rs-" class="plugin-anchor" href="#rs-"><i class="fa fa-link" aria-hidden="true"></i></a><a name="UNSUB"></a>RS-</h2>
 <h4 id="description"><a name="description" class="plugin-anchor" href="#description"><i class="fa fa-link" aria-hidden="true"></i></a>Description</h4>
-<p><code>RS-</code> unsubcribes from the specified subject on the given account. It is sent by a server when it no longer has interest in a given subject.</p>
+<p><code>RS-</code> unsubscribes from the specified subject on the given account. It is sent by a server when it no longer has interest in a given subject.</p>
 <h4 id="syntax"><a name="syntax" class="plugin-anchor" href="#syntax"><i class="fa fa-link" aria-hidden="true"></i></a>Syntax</h4>
 <p><strong>Subscription</strong>: <code>RS- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>account</span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>subject</span><span class="token punctuation">&gt;</span></span>\r\n</code></p>
 <p>where:</p>
