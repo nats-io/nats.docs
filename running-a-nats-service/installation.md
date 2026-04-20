@@ -13,18 +13,15 @@ See also [installing the NATS client](clients.md#installing-the-nats-cli-tool)
 
 ## Supported operating systems and architectures
 
-The following table indicates the current supported NATS server build combinations for operating systems and architectures.
+The NATS server officially supports the following platforms:
 
-| Operating System | Architectures                                  | Status       |
-| ---------------- | ---------------------------------------------- | ------------ |
-| Darwin (macOS)   | amd64, arm64                                   | Stable       |
-| Linux            | amd64, 386, arm6, arm7, arm64, mips64le, s390x | Stable       |
-| Windows          | amd64, 386, arm6, arm7, arm64                  | Stable       |
-| FreeBSD          | amd64                                          | Stable       |
-| NetBSD           | -                                              | Experimental |
-| IBM z/OS         | -                                              | Experimental |
+| Operating System | Architectures | Status |
+|------------------|---------------|--------|
+| Linux            | amd64, arm64  | Stable |
+| Darwin (macOS)   | arm64         | Stable |
+| Windows          | amd64, arm64  | Stable |
 
-_Note, not all installation methods below have distributions for all OS and architecture combinations._
+We build additional [OS/architecture combinations](https://github.com/nats-io/nats-server/releases) that are available on a best-effort, community-support basis.  
 
 ## Hardware requirements
 
