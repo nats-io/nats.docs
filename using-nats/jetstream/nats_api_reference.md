@@ -69,7 +69,7 @@ The API uses JSON for inputs and outputs, all the responses are typed using a `t
 | `$JS.API.STREAM.UPDATE.*` | `api.JSApiStreamUpdateT` | Updates an existing Stream with new config | `api.StreamConfig` | `api.JSApiStreamUpdateResponse` |
 | `$JS.API.STREAM.INFO.*` | `api.JSApiStreamInfoT` | Information about config and state of a Stream | empty payload, Stream name in subject | `api.JSApiStreamInfoResponse` |
 | `$JS.API.STREAM.DELETE.*` | `api.JSApiStreamDeleteT` | Deletes a Stream and all its data | empty payload, Stream name in subject | `api.JSApiStreamDeleteResponse` |
-| `$JS.API.STREAM.PURGE.*` | `api.JSApiStreamPurgeT` | Purges all of the data in a Stream, leaves the Stream | empty payload, Stream name in subject | `api.JSApiStreamPurgeResponse` |
+| `$JS.API.STREAM.PURGE.*` | `api.JSApiStreamPurgeT` | Purges data in a Stream while leaving the Stream | `api.JSApiStreamPurgeRequest` or empty payload, Stream name in subject | `api.JSApiStreamPurgeResponse` |
 | `$JS.API.STREAM.MSG.DELETE.*` | `api.JSApiMsgDeleteT` | Deletes a specific message in the Stream by sequence, useful for GDPR compliance | `api.JSApiMsgDeleteRequest` | `api.JSApiMsgDeleteResponse` |
 | `$JS.API.STREAM.MSG.GET.*` | `api.JSApiMsgGetT` | Retrieves a specific message from the stream | `api.JSApiMsgGetRequest` | `api.JSApiMsgGetResponse` |
 | `$JS.API.STREAM.SNAPSHOT.*` | `api.JSApiStreamSnapshotT` | Initiates a streaming backup of a streams data | `api.JSApiStreamSnapshotRequest` | `api.JSApiStreamSnapshotResponse` |
