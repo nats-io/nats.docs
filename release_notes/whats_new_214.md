@@ -93,7 +93,7 @@ In 2.14, this condition is recognized and gives the relevant servers room to cat
 
 The same consideration as mentioned above under the upgrade considerations holds here as well. The `Invalid JetStream request` log line may be observed during a downgrade. Additionally, stream sourcing or mirroring might temporarily be unable to function until all servers are downgraded to the 2.12 version.
 
-If you’ve started using stream sourcing or mirroring on WorkQueue or Interest streams since after the upgrade, this will still seem to function but will operate under the less reliable ephemeral consumer mode. Additionally, any durable consumers created using the new configuration of `AckFlowControl` will be marked as “offline” and will not be usable until upgraded back to 2.14.
+If you’ve started using stream sourcing or mirroring on WorkQueue or Interest streams after upgrading, this will still seem to function but will operate under the less reliable ephemeral consumer mode. Additionally, any durable consumers created using the new configuration of `AckFlowControl` will be marked as “offline” and will not be usable until upgraded back to 2.14.
 
 #### Feature flags
 
