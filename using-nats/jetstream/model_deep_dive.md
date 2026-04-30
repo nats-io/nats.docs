@@ -59,13 +59,14 @@ The default window to track duplicates in is 2 minutes, this can be set on the c
 
 Streams support acknowledging receiving a message, if you send a `Request()` to a subject covered by the configuration of the Stream the service will reply to you once it stored the message. If you just publish, it will not. A Stream can be set to disable Acknowledgements by setting `NoAck` to `true` in it's configuration.
 
-Consumers have 3 acknowledgement modes:
+Consumers have 4 acknowledgement modes:
 
-| Mode          | Description                                                                                                                                             |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `AckExplicit` | This requires every message to be specifically acknowledged, it's the only supported option for pull-based Consumers                                    |
-| `AckAll`      | In this mode if you acknowledge message `100` it will also acknowledge message `1`-`99`, this is good for processing batches and to reduce ack overhead |
-| `AckNone`     | No acknowledgements are supported                                                                                                                       |
+| Mode             | Description                                                                                                                                             |
+|------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `AckExplicit`    | This requires every message to be specifically acknowledged, it's the only supported option for pull-based Consumers                                    |
+| `AckAll`         | In this mode if you acknowledge message `100` it will also acknowledge message `1`-`99`, this is good for processing batches and to reduce ack overhead |
+| `AckNone`        | No acknowledgements are supported                                                                                                                       |
+| `AckFlowControl` | (2.14) Messages are acknowledged based on flow control. Primarily used for stream sourcing/mirroring using a durable consumer                           |
 
 To understand how Consumers track messages we will start with a clean `ORDERS` Stream and `DISPATCH` Consumer.
 
