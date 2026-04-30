@@ -74,6 +74,7 @@ Introduced in version 2.12 with extensions in 2.14 - see [ADR-51](https://github
 | `Nats-Schedule`           | When the message will be sent to the target subject. Several formats are suppported: A timestamp for sending a messages once. Crontab format for repeated messages and simple alias for common crontab formats.            | `0 30 14 * * *`, `@hourly`, `@daily`, `@every 5m`, `@at 2009-11-10T23:00:00Z` (RFC3339 format) | 2.12 (repeating schedules: 2.14) |
 | `Nats-Schedule-TTL`       | Optional. The TTL to be set on the final message on the target subject.                                                                                                                                                    | `1h`, `10s` (valid go duration string)                                                         | 2.12                             |
 | `Nats-Schedule-Target`    | The target subject the final message will be sent to. Note that this must be distinct from the scheduling subject the message arrived in.                                                                                  | `orders`                                                                                       | 2.12                             |
+| `Nats-Schedule-Rollup`    | Optional. The rollup to be set on the final message on the target subject.                                                                                                                                                 | `all`, `sub`                                                                                   | 2.14                             |
 | `Nats-Schedule-Source`    | Optional. Instructs the schedule to read the last message on the given subject and publish it. If the Subject is empty, the schedule message's content is the same as the schedule's content. Wildcards are not supported. | `orders.customer_acme`                                                                         | 2.14                             |
 | `Nats-Schedule-Time-Zone` | Optional. The time zone used for the Cron schedule. If not specified, the Cron schedule will be in UTC. Not allowed to be used if the schedule is not a Cron schedule.                                                     | `CET`                                                                                          | 2.14                             |
 
@@ -84,17 +85,19 @@ The final scheduled message will contain the following headers.
 | `Nats-Scheduler`     | The subject holding the schedule                                                         | `orders.schedule.1234`          | 2.12    |
 | `Nats-Schedule-Next` | Timestamp for next invocation for cron schedule messages or `purge` for delayed messages | `2009-11-10T23:00:00Z`, `purge` | 2.12    |
 | `Nats-TTL`           | The TTL value when `Nats-Schedule-TTL` was set                                           | `1h`, `10s`                     | 2.12    |
+| `Nats-Rollup`        | The rollup value when `Nats-Schedule-Rollup` was set                                     | `all`, `sub`                    | 2.14    |
 
-## Batch send
+
+## Atomic batch publish
 
 Introduced in version 2.12 with optimizations in 2.14 - see [ADR-50](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-50.md)
 
-Atomic batch sends will use the following headers. Batches are atomic on send only, but a client may reconstruct a batch using the headers below.
+Atomic batch publish will use the following headers. A client may reconstruct a batch using the headers below.
 
 | Name                  | Description                                                                                                                                                 | Example                    | Version            |
 |:----------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------|:-------------------|
 | `Nats-Batch-Id`       | Unique identifier for the batch.                                                                                                                            | `<uuid>` (<=64 characters) | 2.12               |
-| `Nats-Batch-Sequence` | Monotonously increasing id, starting with `1`                                                                                                               | `1`, `2`                   | 2.12               |
+| `Nats-Batch-Sequence` | Monotonically increasing sequence number, starting at `1`                                                                                                   | `1`, `2`                   | 2.12               |
 | `Nats-Batch-Commit`   | Only on last message. `1` commit the batch including this message. `eob` commit the batch excluding this message. Any other value will terminate the batch. | `1`, `eob`                 | 2.12 (`eob`: 2.14) |
 
 

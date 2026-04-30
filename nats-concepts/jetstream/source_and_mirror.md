@@ -60,24 +60,35 @@ A mirror can source its messages from **exactly one stream** and a clients can n
 * Sources and Mirror try to be be efficient in replicating messages and are lenient towards the source/mirror origin being unreachable (event for extended periods of time), e.g. when using leaf nodes, which are connected intermittently. For sake of efficiency the recovery interval in case of a disconnect is 10-20s.
 * Mirror and source agreements do not create a visible consumer in the origin stream.
 
-### WorkQueue retention
+### WorkQueue/Interest retention
 
-Source and mirror works with origin stream with workqueue retention in a limited context. The source/mirror will act as a consumer removing messages from the origin stream.
-
-The implementation is not resilient when connecting over intermittent leaf node connections though. Within a cluster where the target stream (with the source/mirror agreement) it will generally work well.
-
-{% hint style="warning" %}
-Source and mirror for workqueue based streams is only partially supported. It is not resilient against connection loss over leaf nodes.
-
-The consumer pulling message from a remote stream is not durable and other clients may be able to consume and remove messages from the workqueue while leaf connection is down.
+{% hint style="info" %}
+Stream sourcing and mirroring for WorkQueue or Interest streams are supported since version 2.14.
 {% endhint %}
 
-{% hint style="warning" %}
-If you try to create additional (conflicting) consumers on the origin workqueue stream the behavior becomes undefined. A workqueue allows only one consumer per subject. If the source/mirror connection is active local clients trying to create additional consumers will fail. In reverse a source/mirror cannot be created when there is already a local consumer for the same subjects.
-{% endhint %}
-
-### Interest base retention
+When using stream sourcing/mirroring on a WorkQueue or Interest stream, the consumer used is automatically 'upgraded' to
+a durable consumer. This consumer is visible to the user and can be monitored or paused to temporarily stop the
+sourcing from the sourced-side.
 
 {% hint style="warning" %}
-Source and mirror for interest based streams is not supported. Jetstream does not forbid this configuration but the behavior is undefined and may change in the future.
+On versions prior to 2.14, sourcing from a WorkQueue/Interest stream is not supported. JetStream does not forbid this configuration, but the behavior is undefined.
 {% endhint %}
+
+### "Bring your own" sourcing consumer
+
+Starting in version 2.14, you can "bring your own" sourcing consumer. This pre-created consumer can then be used for
+stream sourcing/mirroring, instead of the server automatically creating it based on the stream configuration. Useful for
+more flexible consumer configuration, as well as additional monitoring or operational capabilities, or generally when
+you're not in control of "the other side" and are required to do this from a security point of view.
+
+The following options are used to "bring your own" sourcing consumer:
+
+* `Name` - Name of the origin stream to source messages from.
+* `Consumer.Name` - The consumer name used for sourcing.
+* `Consumer.DeliverSubject` - The consumer deliver subject that messages are delivered to.
+
+Other options like `StartSeq`, `StartTime`, `FilterSubject`, etc. are not supported when using this approach. Instead,
+these settings should be configured directly on the consumer.
+
+This consumer is required to have `AckFlowControl` as its ack policy, meaning the sourced-side will only receive
+acknowledgements until after the sourcing-side has persisted the messages.
