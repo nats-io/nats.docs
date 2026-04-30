@@ -38,7 +38,7 @@ This guide is tailored for existing NATS users upgrading from NATS version v2.12
 
 * **Domain-aware acknowledgement and flow control subjects:** The server now supports both v1 and v2 of the consumer acknowledgement and flow control subjects. More information is available in [ADR-15](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-15.md#jsack).  
 
-* **Transparent header:** The `traceparent` header is no longer modified by the message tracing.  
+* **Traceparent header:** The `traceparent` header is no longer modified by the message tracing.  
 
 * **Asynchronous stream state snapshots for replicated streams:** Allows stream state snapshots to be taken and written without pausing stream processing, improving tail latencies. This is particularly impactful in cases where the stream has a large number of interior deletes.
 
