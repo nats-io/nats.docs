@@ -1,5 +1,8 @@
 # Monitoring
 
+## Commercial Options
+If you want a "batteries-included" approach to high-cardinality NATS monitoring and observability, including JetStream streams and consumers, try the standalone [Synadia Insights](https://www.synadia.com/insights).
+
 ## Server Metrics
 
 JetStream has a /[jsz ](../../configuration/monitoring.md#jetstream-information)HTTP endpoint and advisories available.
