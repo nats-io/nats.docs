@@ -56,7 +56,7 @@ Introduced in version 2.11 - see [ADR-41](https://github.com/nats-io/nats-archit
 
 | Name            | Description                          | Example | Version |
 | :-------------- | :----------------------------------- | :------ | :------ |
-| `traceparent` | Triggers tracing as per the [https://www.w3.org/TR/trace-context/](https://www.w3.org/TR/trace-context/) standard. Requires the `msg-trace` section to be configured on the account level. | N/A | 2.11   |
+| `traceparent` | Triggers tracing as per the [https://www.w3.org/TR/trace-context/](https://www.w3.org/TR/trace-context/) standard. Requires tracing destination and sampling rate to be configured in the `msg_trace` section on the account level. See [Tracing open telemetry style](../../running-a-nats-service/configuration/README.md) | trace-ID-1234 | 2.11   |
 | `Nats-Trace-Dest` |  The subject that will receive the Trace messages  | trace.receiver.all | 2.11   |
 | `Nats-Trace-Only` | Optional. Defaults to `false`. Set to `true` to skip message delivery. If true only traces will be produced, but the messages is not sent to a subscribing client or stored in JetStream.   | `true` | 2.11   |
 | `Accept-Encoding` | Optional. Enables compression of the payload of the trace messages.  | `gzip`, `snappy` | 2.11   |
