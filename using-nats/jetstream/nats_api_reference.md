@@ -89,7 +89,7 @@ The API uses JSON for inputs and outputs, all the responses are typed using a `t
 | `$JS.FC.<stream>.>` | N/A | Consumer to subscriber flow control replies for `PUSH` consumer. Also used for sourcing and mirroring, which are implemented as `PUSH` consumers. If this subject is not forwarded, the consumer my stall under high load.| empty payload |  N/A |
 | `$JSC.R.<uid>` | N/A | Reply subject used by source and mirror consumer create request | Consumer info |  N/A |
 | `$JS.S.<uid>` | N/A | Default delivery subject for sourced streams. Can be overwritten by the `deliver` attribute in the source configuration. | Message data |  N/A |
-| `$JS.M.<uid>` | N/A | Default delivery subject for mirroed streams. Can be overwritten by the `deliver` attribute in the source configuration. | Message data |  N/A |
+| `$JS.M.<uid>` | N/A | Default delivery subject for mirrored streams. Can be overwritten by the `deliver` attribute in the source configuration. | Message data |  N/A |
 | `$JS.ACK.<stream>.>` | N/A | Acknowledgments for `PULL` consumers. When this subject is not forwarded, `PULL` consumers in acknowledgment modes `all` or `explicit` will fail. | empty payload |  reply subject |
 
 

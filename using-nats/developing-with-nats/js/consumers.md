@@ -813,7 +813,7 @@ public class NatsJsPushSubQueueDurable {
     static class JsQueueSubscriber implements Runnable {
         int id;
         int thisReceived;
-        List<String> datas;
+        List<String> data;
 
         ExampleArgs exArgs;
         JetStream js;
@@ -823,7 +823,7 @@ public class NatsJsPushSubQueueDurable {
         public JsQueueSubscriber(int id, ExampleArgs exArgs, JetStream js, JetStreamSubscription sub, AtomicInteger allReceived) {
             this.id = id;
             thisReceived = 0;
-            datas = new ArrayList<>();
+            data = new ArrayList<>();
             this.exArgs = exArgs;
             this.js = js;
             this.sub = sub;
@@ -843,7 +843,7 @@ public class NatsJsPushSubQueueDurable {
                         thisReceived++;
                         allReceived.incrementAndGet();
                         String data = new String(msg.getData(), StandardCharsets.US_ASCII);
-                        datas.add(data);
+                        data.add(data);
                         System.out.printf("QS # %d message # %d %s\n", id, thisReceived, data);
                         msg.ack();
 
@@ -962,7 +962,7 @@ if __name__ == '__main__':
 {% tab title="C#" %}
 ```csharp
 // NATS .NET doesn't publicly support push consumers and treats all consumers
-// as just consumers. The mecahnics of the consuming messages are abstracted
+// as just consumers. The mechanics of the consuming messages are abstracted
 // away from the applications and are handled by the library.
 ```
 {% endtab %}
@@ -1418,8 +1418,8 @@ When the consumer is set to require explicit acknowledgements the client applica
 
 Applications can:
 
-- Acknowledge the successfull processing of a message (`Ack()`).
-- Acknowledge the successfull processing of a message and request an acknowledgement of the reception of the acknowledgement by the consumer (`AckSync()`).
+- Acknowledge the successful processing of a message (`Ack()`).
+- Acknowledge the successful processing of a message and request an acknowledgement of the reception of the acknowledgement by the consumer (`AckSync()`).
 - Indicate that the processing is still in progress and more time is needed (`inProgress()`).
 - Negatively acknowledge a message, indicating that the client application is currently (temporarily) unable to process the message and that the consumer should attempt to re-deliver it (`Nak()`).
 - Terminate a message (typically, because there is a problem with the data inside the message such that the client application is never going to be able to process it), indicating that the consumer should not attempt to re-deliver the message (`Term()`).

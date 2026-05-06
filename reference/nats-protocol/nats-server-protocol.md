@@ -119,7 +119,7 @@ where:
 
 ### Description
 
-`RS-` unsubcribes from the specified subject on the given account. It is sent by a server when it no longer has interest in a given subject.
+`RS-` unsubscribes from the specified subject on the given account. It is sent by a server when it no longer has interest in a given subject.
 
 ### Syntax
 

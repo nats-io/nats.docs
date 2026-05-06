@@ -2602,7 +2602,7 @@ digraph nats_pub_sub {
 <li>If possible, receivers should be able to ask for missing messages by id</li>
 </ul>
 <p>With NATS you can embed sequence ids in the message or include them as a token in the subject. For example, a sender can send messages to <code>updates.1</code>, <code>updates.2</code>, etc... and the subscribers can listen to <code>updates.*</code> and parse the subject to determine the sequence id.
-Placing a sequence token into the subject may be desireable if the payload is unknown or embedding additional data such as a sequence number in the payload is not possible.</p>
+Placing a sequence token into the subject may be desirable if the payload is unknown or embedding additional data such as a sequence number in the payload is not possible.</p>
 
                                 
                                 </section>
