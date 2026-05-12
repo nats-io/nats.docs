@@ -107,11 +107,15 @@ gateway {
 }
 ```
 
-### TLS Entry
+### TLS Entry - Certificate rotation
 
-In addition to the normal TLS configuration advice, bear in mind that TLS keys and certificates for multiple clusters, or servers in different locations, rarely rotate at the exact same time and that Certificate Authorities do roll between multiple Intermediate certificates.
+In addition to the normal TLS configuration advice, bear in mind that TLS keys and certificates for multiple clusters, or servers in different locations, rarely rotate at the exact same time and that Certificate Authorities do roll between multiple Intermediate certificates. Make sure that the ca_file contains both old and new root or intermediate CAs.
 
 If using a certificate bundle which accompanied the issuance of a certificate then the CA in that bundle will typically be for just that certificate. Using _only_ that CA as the CA for gateway authentication is ill-advised. You should ensure that you allow for rolling between Certificate Authorities, even if only between multiple CAs from the same organization entity, and use a separate certificate bundle for _verification_ of peers. This way when DC-B rolls before DC-A, it will not be cut off from your supercluster.
+
+To apply changes the server configuration needs to be reloaded. [Configuration reloading](https://docs.nats.io/running-a-nats-service/configuration#configuration-reloading)
+
+
 
 ### Gateway behind Load Balancer
 

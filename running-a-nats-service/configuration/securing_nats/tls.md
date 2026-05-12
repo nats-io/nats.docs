@@ -53,6 +53,13 @@ Notice that the log indicates that the client connections will be required to us
 
 When a `tls` section is specified at the root of the configuration, it also affects the monitoring port if `https_port` option is specified. Other sections such as `cluster` can specify a `tls` block.
 
+
+## Certificate rotation
+Bear in mind that TLS keys and certificates for multiple clusters, or servers in different locations, rarely rotate at the exact same time and that Certificate Authorities do roll between multiple Intermediate certificates. Make sure that the ca_file contains both old and new root or intermediate CAs.
+
+To apply changes the server configuration needs to be reloaded. [Configuration reloading](https://docs.nats.io/running-a-nats-service/configuration#configuration-reloading)
+
+
 ## TLS-first Handshake
 
 _As of NATS v2.10.4_
