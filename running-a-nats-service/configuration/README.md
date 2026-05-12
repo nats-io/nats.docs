@@ -375,11 +375,11 @@ jetstream {
 A JetStream section may also appear in accounts. JetStream is disabled by default. The minimal configuration will enable JetStream.
 ```text
 accounts {
-  A {}
-    jetstream {
-    }
-  } 
-
+  A {
+      jetstream {
+      }
+    } 
+}
 ```
 
 | Property                  | Description                                                                                                                                                                               | Default                 | Version |
@@ -393,6 +393,27 @@ accounts {
 | `store_max_stream_bytes`                     | Maximum size limit to which a disk stream can be set. Usually combined with `max_bytes_required`  | no limit  | 2.8.0  |
 | `memory_max_stream_bytes`                     |  Maximum size limit to which a memory stream can be set. Usually combined with `max_bytes_required`  | no limit  | 2.8.0  |
 | `cluster_traffic`                     |  `system` or `owner` Configures the account in which stream replication and RAFT traffic is sent. By default (and in all versions prior to 2.11.0) all cluster traffic was handled in the system account. When set to `owner`, such RAFT and replication traffic will be in the account where the stream was created. | `system`  | 2.11.0  |
+
+
+### Tracing open telemetry style 
+Enables tracing for messages marked with the `traceparent` header. 
+See also: [Tracing](../../nats-concepts/jetstream/headers.md)
+
+```text
+accounts {
+  A {
+      msg_trace {
+        dest: "trace-ot.accountA.samples"
+        sampling: 5
+      }
+    } 
+}
+```
+
+| Property                  | Description                                                                                                                                                                               | Default                 | Version |
+| :------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------- | :------ |
+| `dest`                     |  The tracing subject on which OT compliant messages will be sent. Tracing is disabled by default. | <empty>> | 2.2.0  |
+| `sampling`                     |  A value between 0 and 100 | no limit or server limit | 2.2.0  |
 
 
 ### JetStream TPM encryption
