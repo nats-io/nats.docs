@@ -20,8 +20,8 @@ nats stream add --config stream_with_sources.json
   "duplicate_window": 120000000000,
   "sources": [
     {
-      "name": "SOURCE1_ORIGIN",
-    },
+      "name": "SOURCE1_ORIGIN"
+    }
   ],
   "deny_delete": false,
   "sealed": false,
