@@ -57,7 +57,7 @@ When a `tls` section is specified at the root of the configuration, it also affe
 ## Certificate rotation
 Bear in mind that TLS keys and certificates for multiple clusters, or servers in different locations, rarely rotate at the exact same time and that Certificate Authorities do roll between multiple Intermediate certificates. Make sure that the ca_file contains both old and new root or intermediate CAs.
 
-To apply changes the server configuration needs to be reloaded. [Configuration reloading](https://docs.nats.io/running-a-nats-service/configuration#configuration-reloading)
+To apply changes to certificate files (even when only changing the content of thos files) the server configuration needs to be reloaded. [Configuration reloading](https://docs.nats.io/running-a-nats-service/configuration#configuration-reloading)
 
 
 ## TLS-first Handshake
