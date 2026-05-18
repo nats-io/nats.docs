@@ -250,9 +250,9 @@ Examples:
 
 ## Partitioning with random numbers
 
-A simple means of distributing load can be partitioning into random buckets. Use the `random(<n>)` function to create a random number between `0` and `n-1` (module n).
+A simple means of distributing load can be partitioned into random buckets. Use the `random(<n>)` function to create a random number between `0` and `n-1` (module n).
 
-For more details on partitioning see below in `Deterministic subject token partitioning`
+For more details on partitioning, see below in `Deterministic subject token partitioning.`
 
 ```
 nats server mapping "neworders.create" "neworders.{{random(15)}}.create" neworders.create
