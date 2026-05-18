@@ -18,6 +18,7 @@ Server configuration revolves around a `tls` map, which has the following proper
 | `verify_and_map` | If `true`, require and verify client certificates and [map](auth_intro/tls_mutual_auth.md#mapping-client-certificates-to-a-user) certificate values for authentication purposes. Does not apply to monitoring either. |  |  |
 | `verify_cert_and_check_known_urls` | Only settable in a non client context where `verify: true` is the default \([cluster](../clustering/)/[gateway](../gateways/)\). The incoming connections certificate's `X509v3 Subject Alternative Name` `DNS` entries will be matched against all urls in the configuration context that contains this tls map. If a match is found, the connection is accepted and rejected otherwise. Meaning for gateways we will match all DNS entries in the certificate against all gateway urls. For cluster, we will match against all route urls. As a consequence of this, dynamic cluster growth may require config changes in other clusters where this flag is true. DNS name checking is performed according to [rfc6125](https://tools.ietf.org/html/rfc6125#section-6.4.1). Only the full wildcard `*` is supported for the left most label. This would be one way to keep cluster growth flexible. |  |  |
 | `pinned_certs` | List of hex-encoded SHA256 of DER encoded public key fingerprints. When present, during the TLS handshake, the provided certificate's fingerprint is required to be present in the list or the connection is closed. This sequence of commands generates an entry for a provided certificate: \`openssl x509 -noout -pubkey -in  | openssl pkey -pubin -outform DER | openssl dgst -sha256\`. |
+| `connection_rate_limit` | Limit on the number of new TLS client connections accepted per second on the client listener. See [TLS Connection Rate Limit](tls.md#tls-connection-rate-limit). Default `0` disables the limit. |  |  |
 
 The simplest configuration:
 
@@ -121,6 +122,22 @@ tls: {
   timeout: 0.0001
 }
 ```
+
+## TLS Connection Rate Limit
+
+_As of NATS v2.7.0_
+
+TLS handshakes are expensive, and a burst of reconnecting clients can keep the server busy negotiating new sessions instead of serving traffic. The `connection_rate_limit` setting caps the number of new TLS client connections the server will accept in any one second window. Connections above the cap are closed and the client receives the error `Connection throttling is active. Please try again later.`. The count of rejected connections is logged once per second so it is visible to operators.
+
+```text
+tls: {
+  cert_file: "./server-cert.pem"
+  key_file: "./server-key.pem"
+  connection_rate_limit: 1000
+}
+```
+
+The limit is a single counter for the whole server, not per-client or per-account. It only applies to the client listener, so cluster, gateway, leaf node, websocket and MQTT listeners are not affected by it. A value of `0`, the default, disables the limit.
 
 ## Certificate Authorities
 
