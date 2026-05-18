@@ -247,6 +247,19 @@ Examples:
 * Split every 2 characters from the left: `nats server mapping "*" "{{slicefromleft(1,2)}}" 1234567` returns `12.34.56.7`.
 * Split every 2 characters from the right: `nats server mapping "*" "{{slicefromright(1,2)}}" 1234567` returns `1.23.45.67`.
 
+
+## Partitioning with random numbers
+
+A simple means of distributing load can be partitioning into random buckets. Use the `random(<n>)` function to create a random number between `0` and `n-1` (module n).
+
+For more details on partitioning see below in `Deterministic subject token partitioning`
+
+```
+nats server mapping "neworders.create" "neworders.{{random(15)}}.create" neworders.create
+> neworders.7.create
+```
+
+
 ## Deterministic subject token partitioning
 
 Deterministic token partitioning allows you to use subject-based addressing to deterministically divide (partition) a flow of messages where one or more of the subject tokens is mapped into a partition key. Deterministically means, the same tokens are always mapped into the same key. The mapping will appear random and may not be `fair` for a small number of subjects.
@@ -257,6 +270,16 @@ For example: new customer orders are published on `neworders.<customer id>`, you
 nats server mapping "neworders.*" "neworders.{{wildcard(1)}}.{{partition(3,1)}}" neworders.customerid1
 > neworders.customerid1.0
 ```
+
+There are 2 variants of the partition function with 1 or more parameters.
+
+| Variant /Example         | Explanation              | Equivalent to | 
+| --------------------- | ----------------------- |
+| `partition(<buckets>)`      |    Create a hash from the complete subject (concatenated tokens)|  `partition(<buckets>,1,2,..,n)` for a subject with n tokens | 
+| `partition(<buckets>,<token position>, ... `      |    Create a hash from a list of tokens specified by position in the subject |  N/A | 
+
+
+
 
 {% hint style="info" %}
 Note that multiple token positions can be specified to form a kind of _composite partition key_. For example, a subject with the form `foo.*.*` can have a partition transform of `foo.{{wildcard(1)}}.{{wildcard(2)}}.{{partition(5,1,2)}}` which will result in five partitions in the form `foo.*.*.<n>`, but using the hash of the two wildcard tokens when computing the partition number.
