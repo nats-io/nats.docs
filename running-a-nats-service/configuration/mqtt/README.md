@@ -53,6 +53,18 @@ The wildcard `#` matches any number of levels within a topic, which means that a
 
 The wildcard `+` matches a single level, which means `foo/+` can receive message on `foo/bar` or `foo/baz`, but not on `foo/bar/baz` nor `foo`. This is the same with NATS subscriptions using the wildcard `*`. Therefore `foo/+` would translate to `foo.*`.
 
+
+### NATS Wilcards in MQTT Topics
+
+MQTT treats `*` and `>` as ordinary literal characters. The NATS Server does not escape these characters during MQTT topic to NATS subject conversion. If either character becomes a complete NATS subject token after `/` is  converted to `.`, NATS interprets it using normal NATS wildcard rules.
+
+| Topic \(MQTT\)    | Subject \(NATS\)       | Behavior |
+| :---------------: | :--------------------: | :------: |
+|    `foo*/bar`     |       `foo*.bar`       | literal  |
+|    `foo>/bar`     |       `foo>.bar`       | literal  |
+|   `foo/*/bar`     |       `foo.*.bar`      | wildcard |
+|     `foo/>`       |        `foo.>`         | wildcard |
+
 ## Communication Between MQTT and NATS
 
 When an MQTT client creates a subscription on a topic, the NATS server creates the similar NATS subscription \(with conversion from MQTT topic to NATS subject\) so that the interest is registered in the cluster and known to any NATS publishers.
