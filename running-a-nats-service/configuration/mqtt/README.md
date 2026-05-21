@@ -65,6 +65,11 @@ MQTT treats `*` and `>` as ordinary literal characters. The NATS Server does not
 |   `foo/*/bar`     |       `foo.*.bar`      | wildcard |
 |     `foo/>`       |        `foo.>`         | wildcard |
 
+
+### MQTT topics and NATS permissions
+
+MQTT topics are converted to NATS subjects before authorization checks are applied. Permission entries for MQTT users should therefore be written as NATS literal or wildcard subjects.
+
 ## Communication Between MQTT and NATS
 
 When an MQTT client creates a subscription on a topic, the NATS server creates the similar NATS subscription \(with conversion from MQTT topic to NATS subject\) so that the interest is registered in the cluster and known to any NATS publishers.
