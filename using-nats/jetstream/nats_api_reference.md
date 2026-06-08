@@ -86,6 +86,8 @@ The API uses JSON for inputs and outputs, all the responses are typed using a `t
 | `$JS.API.CONSUMER.NAMES.<stream>`            | `api.JSApiConsumerNamesT` | Paged list of known consumer names for a given stream | `api.JSApiConsumerNamesRequest` | `api.JSApiConsumerNamesResponse` |
 | `$JS.API.CONSUMER.INFO.<stream>.<consumer>`           | `api.JSApiConsumerInfoT` | Information about a specific consumer by name | empty payload | `api.JSApiConsumerInfoResponse` |
 | `$JS.API.CONSUMER.DELETE.<stream>.<consumer>` | `api.JSApiConsumerDeleteT` | Deletes a Consumer                                                             | empty payload | `api.JSApiConsumerDeleteResponse` |
+| `$JS.API.CONSUMER.RESET.<stream>.<consumer>` | `api.JSApiConsumerResetT` | Resets a consumer to a specific sequence number or timestamp. Or to the original starting point of the consumer if the payload was empty. The effective reset floor will never be earlier than the one set when the consumer was created.   | `api.JSApiConsumerResetResponse` |
+| `$JS.API.CONSUMER.PAUSE.<stream>.<consumer>` | `api.JSApiConsumerPauseT` | Pauses or resumes a consumer. If payload is nil the consumer will be resumed. If payload is set it will contain the timestamp until which the consumers will be paused.   | empty payload | `api.JSApiConsumerPauseResponse` |
 | `$JS.FC.<stream>.>` | N/A | Consumer to subscriber flow control replies for `PUSH` consumer. Also used for sourcing and mirroring, which are implemented as `PUSH` consumers. If this subject is not forwarded, the consumer my stall under high load.| empty payload |  N/A |
 | `$JSC.R.<uid>` | N/A | Reply subject used by source and mirror consumer create request | Consumer info |  N/A |
 | `$JS.S.<uid>` | N/A | Default delivery subject for sourced streams. Can be overwritten by the `deliver` attribute in the source configuration. | Message data |  N/A |
@@ -93,7 +95,7 @@ The API uses JSON for inputs and outputs, all the responses are typed using a `t
 | `$JS.ACK.<stream>.>` | N/A | Acknowledgments for `PULL` consumers. When this subject is not forwarded, `PULL` consumers in acknowledgment modes `all` or `explicit` will fail. | empty payload |  reply subject |
 
 
-### Stream Source and Mirror
+### Stream Source and Mirror - Classic variant
 
 Sourcing and mirroring streams use 3 inbound and 2 outbound subjects to establish and control the data flow. When setting permissions or creating export/import agreements all 5 subjects may need to be considered.
 
@@ -107,7 +109,7 @@ Notes:
 | `$JS.API.CONSUMER.CREATE.<stream>.>`  and/or  `$JS.API.CONSUMER.CREATE.<stream>`     | outbound | Create an ephemeral consumer to deliver pending messages. Note that this subject may be prefixed with a JetStream domain  `$JS.<domain>.API.CONSUMER.CREATE.<stream>.<consumer>`. <br>The consumer create comes in 2 flavors depending on the number of filter subjects:<br>* `$JS.API.CONSUMER.CREATE.<stream>` - When there is no filter or there are multiple filters.<br> * `$JS.API.CONSUMER.CREATE.<stream>.<consumer>.<filter subject>` - When there is exactly one filter subject                              | service request with `$JSC.R.<uid>` as reply subject |
 |`$JS.FC.<stream>.>`  | outbound | Flow control messages. Will on slow routes or when the target cannot keep up with the message flow.   | service request with `$JSC.R.<uid>` as reply subject |
 |`$JSC.R.<uid>`           | inbound | Reply to consumer creation request  | reply message to service request |
-|`$JS.S.<uid>` (source) OR `$JS.M.<uid>` (mirror) OR `<custom deliver subject>`          | inbound | Message data and heartbeats  | message stream|
+|`$JS.S.<uid>` (source) OR `$JS.M.<uid>` (mirror) OR `<custom delivery subject>`          | inbound | Message data and heartbeats  | message stream|
 
 #### Heartbeats and Retries
 The stream from which data is sourced/mirrored MAY NOT be reachable. It may not have been created yet OR the route may be down. This does not prevent the source/mirror agreement from being created.
@@ -118,6 +120,35 @@ The stream from which data is sourced/mirrored MAY NOT be reachable. It may not 
 #### Constraints and Limitations
 * Do not delete and recreate the original stream! Please flush/purge the stream instead. The target stream remembers the last sequence id to be delivered. A delete will reset the sequence ID.
 * `$JS.FC.<stream>.>` - The flow control subject is NOT prefixed with a JetStream domain. This creates a limitation where identically named streams in different domains cannot be reliably sourced/mirrored into the same account. Please create unique stream names to avoid this limitation.
+
+### Stream Source and Mirror - With consumers
+**This feature is available from server version 2.14**
+
+Sourcing and mirroring streams can now make use of explicitly configured consumers. The consumer created in the origin stream (from which messages are beign sourced/mirrored) must be of type ``flow_control``.  This now supports workqueue and interest based stream. 
+
+It is strongly recommended to make best use of this feature by pre-creating consumers. There are some situation where such consumers will be auto-created for backwards compatibility. Please avoid relying on this feature.
+
+Sourcing and mirroring streams use 2 inbound and 2 outbound subjects to establish and control the data flow. When setting permissions or creating export/import agreements all 4 subjects may need to be considered.
+
+| Subject                               | Direction | Description   | Reply | 
+|:--------------------------------------| :--- |:--------------------------------------------------------------------------------| :--- | 
+| `$JS.API.CONSUMER.RESET.<stream>.<consumer>`  | outbound | Reset the consumer to the desired state (last message seen +1). Note that this subject may be prefixed with a JetStream domain  `$JS.<domain>.API.CONSUMER.CREATE.<stream>.<consumer>`. |   `$JSC.R.<uid>` as reply subject |
+|`$JSC.R.<uid>`           | inbound | Reply to consumer reset request  | N/A |
+|`<custom delivery subject>`          | inbound | Message data and heartbeats  | flow control and acks|
+|`$JS.FC.<stream>.<stream>.<uid>`  | outbound | Flow control messages. Will on acknowledge messages or slow down the consumer.   | N/A
+
+
+#### Heartbeats and Retries
+The stream from which data is sourced/mirrored MAY NOT be reachable. It may not have been created yet OR the route may be down. This does not prevent the source/mirror agreement from being created.
+* The target stream will try to reset a consumer every 10s to 60s. (This value may change in the future or may be configurable). Note that delivery may therefore only resume after a short delay.
+* For active consumers heartbeats are sent at a rate of 1/s.
+
+
+#### Constraints and Limitations
+* Do not delete and recreate the original stream! Please flush/purge the stream instead. The target stream remembers the last sequence id to be delivered. A delete will reset the sequence ID.
+* `$JS.FC.<stream>.<consumer>.*` - The flow control subject is NOT prefixed with a JetStream domain. This creates a limitation where identically named streams in different domains cannot be reliably sourced/mirrored into the same account. Please create unique stream names to avoid this limitation.
+
+
 
 ### ACLs
 
@@ -148,6 +179,8 @@ Consumer Admin
 $JS.API.CONSUMER.CREATE.<stream>
 $JS.API.CONSUMER.DURABLE.CREATE.<stream>.<consumer>
 $JS.API.CONSUMER.DELETE.<stream>.<consumer>
+$JS.API.CONSUMER.RESET.<stream>.<consumer>
+$JS.API.CONSUMER.PAUSE.<stream>.<consumer>
 $JS.API.CONSUMER.INFO.<stream>.<consumer>
 $JS.API.CONSUMER.LIST.<stream>
 $JS.API.CONSUMER.NAMES.<stream>
