@@ -11,9 +11,9 @@ An ephemeral consumer does not persist delivery progress and will automatically 
 
 ### Durable consumers
 
-Durable consumers are meant to be used by multiple instances of an application, either to distribute and scale out the processing, or to persist the position of the consumer over the stream between runs of an application.
+Durable consumers are meant to be used by multiple instances of an application, either to distribute and scale out the processing or to persist the position of the consumer over the stream between runs of an application.
 
-Durable consumers, as the name implies, are meant to last 'forever' and are typically created and deleted administratively rather than by the application code, which only need to specify the durable consumer's well-known name to use it.
+Durable consumers, as the name implies, are meant to last 'forever' and are typically created and deleted administratively rather than by the application code, which only needs to specify the durable consumer's well-known name to use it.
 
 You create a durable consumer using the `nats consumer add` CLI tool command, or programmatically by passing a durable name option to the subscription creation call.
 
