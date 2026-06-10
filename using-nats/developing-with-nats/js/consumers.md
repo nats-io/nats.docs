@@ -5,15 +5,15 @@ Consumers are how client applications get the messages stored in the streams. Yo
 Consumers can be 'durable' or 'ephemeral'.
 
 ## Durable versus ephemeral consumers
-Durable consumer persist message delivery progress on the server side. A durable consumer can be retrieved by name and shared between client instance for load balancing. It can be made highly available through replicas.
+Durable consumer persist message delivery progress on the server side. A durable consumer can be retrieved by name and shared between client instances for load balancing. It can be made highly available through replicas.
 
 An ephemeral consumer does not persist delivery progress and will automatically be deleted when there are no more client instances connected.
 
 ### Durable consumers
 
-Durable consumers are meant to be used by multiple instances of an application, either to distribute and scale out the processing, or to persist the position of the consumer over the stream between runs of an application.
+Durable consumers are meant to be used by multiple instances of an application, either to distribute and scale out the processing or to persist the position of the consumer over the stream between runs of an application.
 
-Durable consumers as the name implies are meant to last 'forever' and are typically created and deleted administratively rather than by the application code which only needs to specify the durable's well known name to use it.
+Durable consumers, as the name implies, are meant to last 'forever' and are typically created and deleted administratively rather than by the application code, which only needs to specify the durable consumer's well-known name to use it.
 
 You create a durable consumer using the `nats consumer add` CLI tool command, or programmatically by passing a durable name option to the subscription creation call.
 
@@ -21,12 +21,12 @@ You create a durable consumer using the `nats consumer add` CLI tool command, or
 
 Ephemeral consumers are meant to be used by a single instance of an application (e.g. to get its own replay of the messages in the stream).
 
-Ephemeral consumers are not meant to last 'forever', they are defined automatically at subscription time by the client library and disappear after the application disconnect.
+Ephemeral consumers are not meant to last 'forever', they are defined automatically at subscription time by the client library and disappear after the application disconnects.
 
-You (automatically) create an ephemeral consumer when you call the js.Subscribe function without specifying the Durable or Bind subscription options. Calling Drain on that subscription automatically deletes the underlying ephemeral consumer.
-You can also explicitly create an ephemeral consumer by not passing a durable name option to the jsm.AddConsumer call.
+You (automatically) create an ephemeral consumer when you call the `js.Subscribe()` function without specifying the Durable or Bind subscription options. Calling `Drain()` on that subscription automatically deletes the underlying ephemeral consumer.
+You can also explicitly create an ephemeral consumer by not passing a durable name option to the `jsm.AddConsumer()` call.
 
-Ephemeral consumers otherwise have the same control over message acknowledged and re-delivery as durable consumers.
+Ephemeral consumers otherwise have the same control over message acknowledgement and re-delivery as durable consumers.
 
 ## Push and Pull consumers
 
@@ -36,10 +36,10 @@ Clients implement two implementations of consumers identified as 'push' or 'pull
 Push consumers receive messages on a specific subject where message flow is controlled by the server. Load balancing is supported through NATS core queue groups. The messages from the stream are distributed automatically between the subscribing clients to the push consumers.
 
 ### Pull consumers
-Pull consumers request messages explicitly from the server in batches, giving the client full control over dispatching, flow control, pending (unacknowledged) messages and load balancing. Pull consuming client make `fetch()` calls in a dispatch loop.
+Pull consumers request messages explicitly from the server in batches, giving the client full control over dispatching, flow control, pending (unacknowledged) messages and load balancing. Pull consuming clients make `fetch()` calls in a dispatch loop.
 
 {% hint style="info" %}We recommend using pull consumers for new projects. In particular when scalability, detailed flow control or error handling are a design focus.
-Most client API have been updated to provide convenient interfaces for consuming messages through callback handler or iterators without the need to manage message retrieval.
+Most client APIs have been updated to provide convenient interfaces for consuming messages through callback handlers or iterators without the need to manage message retrieval.
 {% endhint %}
 
 `fetch()` calls can be immediate or have a defined timeout, allowing for either controlled (1 by 1) consumption or `realtime` delivery with minimal polling overhead.  
@@ -58,7 +58,7 @@ func ExampleJetStream() {
         log.Fatal(err)
     }
 
-	// Use the JetStream context to produce and consumer messages
+	// Use the JetStream context to produce and consume messages
 	// that have been persisted.
 	js, err := nc.JetStream(nats.PublishAsyncMaxPending(256))
 	if err != nil {
@@ -604,7 +604,7 @@ func ExampleJetStream() {
 		log.Fatal(err)
 	}
 
-	// Use the JetStream context to produce and consumer messages
+	// Use the JetStream context to produce and consume messages
 	// that have been persisted.
 	js, err := nc.JetStream(nats.PublishAsyncMaxPending(256))
 	if err != nil {
@@ -657,7 +657,7 @@ func ExampleJetStream() {
 		msg.Ack()
 	}, nats.ManualAck())
 
-	// Subscriber to consume messages synchronously.
+	// Subscribe to consume messages synchronously.
 	sub, _ := js.SubscribeSync("foo")
 	msg, _ := sub.NextMsg(2 * time.Second)
 	msg.Ack()
@@ -962,7 +962,7 @@ if __name__ == '__main__':
 {% tab title="C#" %}
 ```csharp
 // NATS .NET doesn't publicly support push consumers and treats all consumers
-// as just consumers. The mecahnics of the consuming messages are abstracted
+// as just consumers. The mechanics of the consuming messages are abstracted
 // away from the applications and are handled by the library.
 ```
 {% endtab %}
@@ -1073,7 +1073,7 @@ int main(int argc, char **argv)
             cfg.SubjectsLen = 1;
             // Make it a memory stream.
             cfg.Storage = js_MemoryStorage;
-            // Add the stream,
+            // Add the stream.
             s = js_AddStream(&si, js, &cfg, NULL, &jerr);
         }
         if (s == NATS_OK)
@@ -1201,7 +1201,7 @@ int main(int argc, char **argv)
 
 
 ## Ordered Consumers
-Ordered consumers are a convenient form of ephemeral push consumer for applications, that want to efficiently consume a stream for data inspection or analysis.
+Ordered consumers are a convenient form of ephemeral push consumer for applications that want to efficiently consume a stream for data inspection or analysis.
 
 The API consumer is guaranteed delivery of messages in sequence and without gaps. 
 * Always ephemeral - minimal overhead for the server
@@ -1220,7 +1220,7 @@ func ExampleJetStream() {
 		log.Fatal(err)
 	}
 
-	// Use the JetStream context to produce and consumer messages
+	// Use the JetStream context to produce and consume messages
 	// that have been persisted.
 	js, err := nc.JetStream(nats.PublishAsyncMaxPending(256))
 	if err != nil {
@@ -1318,7 +1318,7 @@ import { connect, consumerOpts } from "../../src/mod.ts";
 const nc = await connect();
 const js = nc.jetstream();
 
-// note the consumer is not a durable - so when after the
+// note the consumer is not durable - so after the
 // subscription ends, the server will auto destroy the
 // consumer
 const opts = consumerOpts();
@@ -1414,7 +1414,7 @@ JetStream consumers can ensure not just the reliability of message delivery but 
 
 Consumers have an [Acknowledgement Policy](/nats-concepts/jetstream/consumers.md#ackpolicy) specifying the level of reliability required. In increasing order of reliability the available policies are: 'none' for no application level acknowledgements, 'all' where acknowledging a specific message also implicitly acknowledges all previous messages in the stream, and 'explicit' where each message must be individually acknowledged.
 
-When the consumer is set to require explicit acknowledgements the client applications are able to use more than one kind of [acknowledgement](/using-nats/developing-with-nats/anatomy.md#consumer-acknowledgements) to indicate successful (or not) reception and processing of the messages being received from the consumer.
+When the consumer is set to require explicit acknowledgements, client applications are able to use more than one kind of [acknowledgement](/using-nats/developing-with-nats/anatomy.md#consumer-acknowledgements) to indicate successful (or not) reception and processing of the messages being received from the consumer.
 
 Applications can:
 
@@ -1424,21 +1424,21 @@ Applications can:
 - Negatively acknowledge a message, indicating that the client application is currently (temporarily) unable to process the message and that the consumer should attempt to re-deliver it (`Nak()`).
 - Terminate a message (typically, because there is a problem with the data inside the message such that the client application is never going to be able to process it), indicating that the consumer should not attempt to re-deliver the message (`Term()`).
 
-After a message is sent from the consumer to a subscribing client application by the server an 'AckWait' timer is started. This timer is deleted when either a positive (`Ack()`) or a termination (`Term()`) acknowledgement is received from the client application. The timer gets reset upon reception of an in-progress (`inProgress()`) acknowledgement.
+After a message is sent from the consumer to a subscribing client application by the server, an 'AckWait' timer is started. This timer is deleted when either a positive (`Ack()`) or a termination (`Term()`) acknowledgement is received from the client application. The timer gets reset upon reception of an in-progress (`inProgress()`) acknowledgement.
 
 If at the end of a period of time no acknowledgement has been received from the client application, the server will attempt to re-deliver the message. If there is more than one client application instance subscribing to the consumer, there is no guarantee that the re-delivery would be to any particular client instance.
 
 You can control the timing of re-deliveries using either the single `AckWait` duration attribute of the consumer, or as a sequence of durations in the `BackOff` attribute (which overrides `AckWait`).
 
-You can also control the timing of re-deliveries when messages are negatively acknowledged with `Nak()`, by passing a `nakDelay()` option (or using `NakWithDelay()`), otherwise the re-delivery attempt will happen right after the reception of the Nak by the server.
+You can also control the timing of re-deliveries when messages are negatively acknowledged with `Nak()`, by passing a `nakDelay()` option (or using `NakWithDelay()`), otherwise the re-delivery attempt will happen right after the reception of the `Nak()` by the server.
 
 ### "Dead Letter Queues" type functionality
 
 You can set a maximum number of delivery attempts using the consumer's `MaxDeliver` setting.
 
-Whenever a message reaches its maximum number of delivery attempts an advisory message is published on the `$JS.EVENT.ADVISORY.CONSUMER.MAX_DELIVERIES.<STREAM>.<CONSUMER>` subject. The advisory message's payload (use `nats schema info io.nats.jetstream.advisory.v1.max_deliver` for specific information) contains a `stream_seq` field that contains the sequence number of the message in the stream.
+Whenever a message reaches its maximum number of delivery attempts, an advisory message is published on the `$JS.EVENT.ADVISORY.CONSUMER.MAX_DELIVERIES.<STREAM>.<CONSUMER>` subject. The advisory message's payload (use `nats schema info io.nats.jetstream.advisory.v1.max_deliver` for specific information) contains a `stream_seq` field that contains the sequence number of the message in the stream.
 
-Similarly, whenever a client application terminates delivery attempts for the message using `AckTerm` an advisory message is published on the `$JS.EVENT.ADVISORY.CONSUMER.MSG_TERMINATED.<STREAM>.<CONSUMER>` subject, and its payload (see `nats schema info io.nats.jetstream.advisory.v1.terminated`) contains a `stream_seq` field.
+Similarly, whenever a client application terminates delivery attempts for the message using `AckTerm`, an advisory message is published on the `$JS.EVENT.ADVISORY.CONSUMER.MSG_TERMINATED.<STREAM>.<CONSUMER>` subject, and its payload (see `nats schema info io.nats.jetstream.advisory.v1.terminated`) contains a `stream_seq` field.
 
 You can leverage those advisory messages to implement "Dead Letter Queue" (DLQ) types of functionalities. For example:
 
