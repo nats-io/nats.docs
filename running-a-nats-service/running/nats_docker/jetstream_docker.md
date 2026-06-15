@@ -45,5 +45,5 @@ nats -s localhost:4222 stream list
 ### Related and useful:
  * Official [Docker image for the NATS server on GitHub](https://github.com/nats-io/nats-docker) and [issues](https://github.com/nats-io/nats-docker/issues)
  * [`nats` images on DockerHub](https://hub.docker.com/_/nats)
- * [`nats` CLI tool](/using-nats/nats-tools/nats\_cli/) and [`nats bench`](/using-nats/nats-tools/nats\_cli/natsbench)
- * [`Administer JetStream`](/nats\_admin/jetstream\_admin/)
+ * [`nats` CLI tool](/using-nats/nats-tools/nats\_cli/) and [`nats bench`](/using-nats/nats-tools/nats\_cli/natsbench.md)
+ * [`Administer JetStream`](/running-a-nats-service/nats\_admin/jetstream\_admin/)
