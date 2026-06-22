@@ -32,7 +32,7 @@ stream for data inspection or analysis.
 
 ## Persistence - Durable / Ephemeral
 In addition to the choice of being push or pull, a consumer can also be **ephemeral** or **durable**. A consumer
-is considered _durable_ when an explicit name is set on the `Durable` field when creating the consumer, or when `InactiveThreshold` is set.
+is considered _durable_ when an explicit name is set on the `Durable` field when creating the consumer; otherwise it is ephemeral. Setting `InactiveThreshold` does **not** make a consumer durable. `InactiveThreshold` only controls automatic cleanup of an inactive consumer and applies to both durable and ephemeral consumers (prior to 2.9 it applied to ephemeral consumers only). Note also that the `Name` field is distinct from `Durable`: setting `Name` without `Durable` creates a named consumer that the server still treats as ephemeral.
 
 Durables and ephemeral have the same message delivery semantics but an ephemeral consumer will not have persisted state or fault tolerance (server
 memory only) and will be automatically _cleaned up_ (deleted) after a period of inactivity, when no subscriptions are bound to the consumer.
