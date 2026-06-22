@@ -46,6 +46,15 @@ The format of the header content may change in the future. Please parse conserva
 | :------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------- | :---------- | :------ |
 | `Nats-Stream-Source` | Contains space delimited:<br> - Origin stream name (disambiguated with domain hash if cross domain sourced)<br> - The original sequence number<br> - The list of subject filters<br> - The list of destination transforms<br> - The original subject<br>  | `ORDERS:vSF0ECo6 17 foo.* bar.$1 foo.abc` | 2.2.0   |
 
+
+## Key-Value-Store
+
+The KV-store API adds marker headers for some delete and purge operations.
+
+| Name                 | Description                                                                                                                                           | Example     | Version |
+| :------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------- | :---------- | :------ |
+| `KV-Operation` | Marks a delete or a purge. Neither has immediate functional impact on the stream. The delete marker marks the key as delete even if the version history is kept intact. The purge MUST be combined with `Nats-Rollup` to actually purge the subject.  <br> Since `2.14` `PURGE` can also be combined with `Nats-TTL` to auto delete the purge marker and bypass the need for KV `nats kv compact` | `DEL` or `PURGE`| 2.2.0   |
+
 ## Tracing
 
 When tracing is activated every subsystem that touches a message will produce Trace Events. These Events are aggregated per server and published to a destination subject.
@@ -99,6 +108,16 @@ Atomic batch publish will use the following headers. A client may reconstruct a 
 | `Nats-Batch-Id`       | Unique identifier for the batch.                                                                                                                            | `<uuid>` (<=64 characters) | 2.12               |
 | `Nats-Batch-Sequence` | Monotonically increasing sequence number, starting at `1`                                                                                                   | `1`, `2`                   | 2.12               |
 | `Nats-Batch-Commit`   | Only on last message. `1` commit the batch including this message. `eob` commit the batch excluding this message. Any other value will terminate the batch. | `1`, `eob`                 | 2.12 (`eob`: 2.14) |
+
+## Fast-ingest batch publishing
+
+Introduced in version 2.14 - see [ADR-50](https://github.com/nats-io/nats-architecture-and-design/blob/main/adr/ADR-50.md)
+
+Note that fast-ingest is mentioned for completeness sake. Unlike atomic batches, fast-ingest is not controlled by headers, but rather by reply-subject format (ending with `.$FI`). All common headers can be combined with fast-ingest (e.g. de-duplication - see [](#publish) ), but it MUST NOT be combined with atomic batch publish. 
+
+| Name                  | Description                                                                                                                                                 | Example                    | Version            |
+|:----------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------|:-------------------|
+| N/A       | N/A                                           |N/A    | 2.14               |
 
 
 ## Internal 
