@@ -83,6 +83,13 @@ end
 ```
 {% endtab %}
 
+{% tab title="Rust" %}
+```rust
+let client = async_nats::connect("demo.nats.io").await?;
+println!("max payload: {:?}", client.max_payload());
+```
+{% endtab %}
+
 {% tab title="C" %}
 ```c
 natsConnection      *conn    = NULL;
