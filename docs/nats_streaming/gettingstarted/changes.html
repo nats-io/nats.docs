@@ -2631,7 +2631,7 @@ that there is backward/forward compatibility between this and previous releases.
 <ul>
 <li>Added error <code>ErrAlreadyExists</code> that <code>CreateChannel()</code> should return if channel already exists.</li>
 <li><code>RecoveredState</code> has now <code>Channels</code> (instead of <code>Subs</code>) and is a map of <code>*RecoveredChannel</code> keyed by channel name.</li>
-<li><code>RecoveredChannel</code> has a pointer to a <code>Channel</code> (formely <code>ChannelStore</code>) and an array of pointers to <code>RecoveredSubscription</code> objects.</li>
+<li><code>RecoveredChannel</code> has a pointer to a <code>Channel</code> (formerly <code>ChannelStore</code>) and an array of pointers to <code>RecoveredSubscription</code> objects.</li>
 <li><code>RecoveredSubscription</code> replaces <code>RecoveredSubState</code>.</li>
 <li><code>Client</code> no longer stores a <code>UserData</code> field.</li>
 <li><code>Channel</code> (formerly <code>ChannelStore</code>) no longer stores a <code>UserData</code> field.</li>
