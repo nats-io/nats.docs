@@ -1,6 +1,6 @@
 # Configuration
 
-While the NATS server has many flags that allow for simple testing of features from command line. The standard way of configuring the NATS server product is through a configuration file. 
+While the NATS server has many flags that allow for simple testing of features from command line, the standard way of configuring the NATS server product is through a configuration file. 
 We use a simple configuration format that combines the best of traditional formats and newer styles such as JSON and YAML.
 
 ```shell
