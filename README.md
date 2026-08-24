@@ -1,5 +1,8 @@
 # Welcome
 
+> [!IMPORTANT]
+> This repository has been superseded by [nats.docs.v2](https://github.com/nats-io/nats.docs.v2). Please direct all new contributions there.
+
 ## The official [NATS](https://nats.io/) documentation
 
 NATS is a simple, secure and high performance open source data layer for cloud native applications, IoT messaging, and microservices architectures.
