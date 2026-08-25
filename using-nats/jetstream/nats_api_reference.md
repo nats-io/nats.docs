@@ -27,10 +27,10 @@ Received  [_INBOX.lcWgjX2WgJLxqepU0K9pNf.mpBW9tHK] : {
 ```
 
 ```shell
-nats req '$JS.STREAM.INFO.ORDERS' ''
+nats req '$JS.API.STREAM.INFO.ORDERS' ''
 ```
 ```text
-Published 6 bytes to $JS.STREAM.INFO.ORDERS
+Published 6 bytes to $JS.API.STREAM.INFO.ORDERS
 Received  [_INBOX.fwqdpoWtG8XFXHKfqhQDVA.vBecyWmF] : '{
   "type": "io.nats.jetstream.api.v1.stream_info_response",
   "config": {
