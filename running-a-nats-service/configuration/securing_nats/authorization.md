@@ -46,6 +46,69 @@ When `allow_responses` is set to `true`, it defaults to the equivalent of `{ max
 
 ## Examples
 
+### JetStream
+
+Clients that want to work with JetStream will need to configure permissions that match the [JetStream ACLs](/reference/reference-protocols/nats_api_reference#acls). For example:
+
+```
+authorization: {
+  users = [
+    {
+      user: subscriber
+        password: secret
+          permissions: {
+            publish: {
+              allow: [
+                "$JS.API.CONSUMER.INFO.stream-name.consumer-name",
+                "$JS.ACK.stream-name.consumer-name.>",
+                "_INBOX.>"
+              ]
+            },
+            subscribe: {
+              allow: [
+                "_INBOX.>"
+              ]
+            },
+        }
+      }
+    }
+  ]
+}
+```
+
+### Helm chart configuration
+
+If using the [NATS Helm chart](https://github.com/nats-io/k8s), the `accounts` section needs to be merged into the overall configuration.
+
+```yaml
+config:
+  cluster:
+    enabled: true
+    replicas: 3
+  jetstream:
+    enabled: true
+    fileStore:
+      pvc:
+        size: 128Gi
+  nats:
+    tls:
+      enabled: true
+      secretName: tls-secret
+  merge:
+    accounts:
+      file-api:
+        jetstream: enabled
+        users:
+        - nkey: U*******************************************************
+          permissions:
+            publish:
+              allow: ">"
+            subscribe:
+              allow:
+                - "subject1.>"
+                - "subject2.>"
+```
+
 ### Variables
 
 Here is an example authorization configuration that uses _variables_ which defines four users, three of whom are assigned explicit permissions.
