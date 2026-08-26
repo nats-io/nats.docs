@@ -10,7 +10,7 @@ Enable JetStream by specifying the `-js` flag when starting the NATS server.
 
 ## Configuration File
 
-You can also enable JetStream through a configuration file. By default, the JetStream subsytem will store data in the /tmp directory. Here's a minimal file that will store data in a local "nats" directory, suitable for development and local testing.
+You can also enable JetStream through a configuration file. By default, the JetStream subsystem will store data in the /tmp directory. Here's a minimal file that will store data in a local "nats" directory, suitable for development and local testing.
 
 `$ nats-server -c js.conf`
 

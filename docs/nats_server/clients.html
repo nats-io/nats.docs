@@ -2610,7 +2610,7 @@ Listening on [&gt;]
 [29785] 2019/05/16 08:46:13.467206 [TRC] 127.0.0.1:49805 - cid:1 - -&gt;&gt; [PONG]
 </code></pre><p>If you had created a subscriber, you should notice output on the subscriber telling you that it disconnected, and reconnected. The server output above is more interesting. You can see the subscriber send a <code>CONNECT</code> protocol message and a <code>PING</code> which was responded to by the server with a <code>PONG</code>.</p>
 <blockquote>
-<p>You  can learn more about the <a href="../nats_protocol/nats-protocol.html">NATS protocol here</a>, but more intersting than the protocol description is <a href="../nats_protocol/nats-protocol-demo.html">an interactive demo</a>.</p>
+<p>You  can learn more about the <a href="../nats_protocol/nats-protocol.html">NATS protocol here</a>, but more interesting than the protocol description is <a href="../nats_protocol/nats-protocol-demo.html">an interactive demo</a>.</p>
 </blockquote>
 <p>On a third terminal, publish your first message:</p>
 <pre class="language-"><code>&gt; nats-pub hello world

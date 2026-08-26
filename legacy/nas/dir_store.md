@@ -76,7 +76,7 @@ nsc push -A
 successfully pushed all accounts [A,B]
 ```
 
-Note that if the account server is not configured on the operator or there is a need to override temporarily, the `-u` option is availble on the `nsc push` command.
+Note that if the account server is not configured on the operator or there is a need to override temporarily, the `-u` option is available on the `nsc push` command.
 
 ```text
 > nsc push -u http://localhost:9090/jwt/v1/ -A

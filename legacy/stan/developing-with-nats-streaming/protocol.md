@@ -135,7 +135,7 @@ The `SubscriptionResponse` message is the response from the `SubscriptionRequest
 
 **Description**
 
-The `UnsubscribeRequest` closes or unsubcribes the subscription from the specified subject. The inbox specified is the `inbox` returned from the NATS Streaming Server in the `SubscriptionResponse`. Depending on which subject this request is sent, the action will result in close \(if sent to subject `subCloseRequests`\) or unsubscribe \(if sent to subject `unsubRequests`\)
+The `UnsubscribeRequest` closes or unsubscribes the subscription from the specified subject. The inbox specified is the `inbox` returned from the NATS Streaming Server in the `SubscriptionResponse`. Depending on which subject this request is sent, the action will result in close \(if sent to subject `subCloseRequests`\) or unsubscribe \(if sent to subject `unsubRequests`\)
 
 **Message Structure**
 

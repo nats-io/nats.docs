@@ -48,7 +48,7 @@ nats-top [-s server] [-m monitor] [-n num_connections] [-d delay_in_secs] [-sort
 
 ## Options
 
-Optional arguments inclde the following:
+Optional arguments include the following:
 
 | Option | Description |
 | :--- | :--- |

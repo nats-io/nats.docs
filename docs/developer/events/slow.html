@@ -2830,7 +2830,7 @@ nc<span class="token punctuation">,</span> err <span class="token operator">:=</
 
        <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>msgs<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">3</span><span class="token punctuation">:</span>
          <span class="token comment"># Head of line blocking on other messages caused</span>
-	 <span class="token comment"># by single message proccesing taking long...</span>
+	 <span class="token comment"># by single message processing taking long...</span>
          <span class="token keyword">await</span> asyncio<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
 
    <span class="token keyword">await</span> nc<span class="token punctuation">.</span>subscribe<span class="token punctuation">(</span><span class="token string">&quot;updates&quot;</span><span class="token punctuation">,</span> cb<span class="token operator">=</span>cb<span class="token punctuation">,</span> pending_msgs_limit<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span>
