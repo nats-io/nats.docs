@@ -14,6 +14,21 @@ To get started with NKeys, you’ll need the `nk` tool from [https://github.com/
 go install github.com/nats-io/nkeys/nk@latest
 ```
 
+## NKey types
+
+`nk -gen` supports multiple key types:
+
+| Type | Typical use |
+| :--- | :--- |
+| `user` | End-user/client identities used for NATS authentication. |
+| `account` | Account identities used in JWT-based security and account scoping. |
+| `operator` | Top-level operator identities used to sign account JWTs. |
+| `server` | Server identity keys used by `nats-server` internally (servers generate their own server key at startup). |
+| `cluster` | Advanced/internal ecosystem key type; most users do not need this for standard server/client auth setup. |
+| `curve` / `x25519` | Curve keys used for encryption use cases in the NATS ecosystem. |
+
+For most deployments, you will mainly work with `operator`, `account`, and `user` keys (or just `user` keys for basic NKey auth).
+
 ## Generating NKeys and Configuring the Server
 
 To generate a _User_ NKEY:
